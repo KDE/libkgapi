@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Google Contacts
+Comment=Access your Google Contacts from KDE
+Type=AkonadiResource
+Exec=akonadi_googlecontacts_resource
+X-Akonadi-MimeTypes=text/directory,
+X-Akonadi-Capabilities=Resource
+X-Akonadi-Identifier=akonadi_googlecontacts_resource
