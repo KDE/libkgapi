@@ -30,23 +30,65 @@
 #include <KDE/Akonadi/Collection>
 #include <KDE/Akonadi/Item>
 
+/**
+ * @brief An Akonadi resource for retrieving contacts from
+ * 	  Google Contacts service.
+ * 
+ * The resource is using asynchronous KJobs for retrieving, inserting,
+ * updating and removing contacts from remote address book.
+ * 
+ * As each Google account can have only one address book, one resource
+ * for each Google accounts has to be created if user wants to have 
+ * access to multiple addressbook accross multiple accounts.
+ */
 class ContactsResource: public Akonadi::ResourceBase,
 			public Akonadi::AgentBase::Observer
 {
   Q_OBJECT
   
   public:
+    /**
+     * @brief Creates new resource.
+     * 
+     * @param id Unique identificator of the resource assigned by Akonadi
+     */
     ContactsResource (const QString &id);
+    
     ~ContactsResource();
     
     using ResourceBase::synchronize;
     
   public Q_SLOTS:
+    /**
+     * @brief Opens configuration dialog
+     * 
+     * As of now, the AuthDialog is invoked without any
+     * other settings dialog informing about what's going
+     * on or allowing to revoke the tokens.
+     * 
+     * @todo Display a dialog with options to revoke tokens
+     * 	     or authenticate and with an information about
+     * 	     account to which the resource is authenticated
+     */
     virtual void configure (WId windowID);
     
   protected Q_SLOTS:
+    /**
+     * @brief Defined list of collections. 
+     */
     void retrieveCollections();
+    
+    /**
+     * @brief Retrieves all items from remote server.
+     * 
+     * @todo Don't fetch all items every time from remote server,
+     * 	     ask only for items updated since last synchronization.
+     */
     void retrieveItems(const Akonadi::Collection& collection);
+    
+    /**
+     * @brief Retrieves single contactJobFinished
+     */
     bool retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts);
 
     void itemRemoved(const Akonadi::Item& item);

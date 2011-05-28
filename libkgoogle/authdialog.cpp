@@ -48,76 +48,6 @@ void AuthDialog::setError(const QString& error)
 }
 
 
-/********************* Public implementation ***************/
-
-AuthDialog::AuthDialog(Akonadi::ResourceBase *parent, WId windowId): 
-  KDialog()
-{
-  KWindowSystem::setMainWindow(this, windowId);
-  
-  m_widget = new QWidget(this);
-  setMainWidget(m_widget);
-  
-  m_vbox = new QVBoxLayout(m_widget);
-  m_widget->setLayout(m_vbox);
-
-  m_label = new QLabel(m_widget);
-  m_label->setText(tr("<b>Authorizing token. This should take just a moment...</b>"));
-  m_label->setWordWrap(true);
-  m_label->setAlignment(Qt::AlignCenter);
-  m_label->setVisible(false);
-  m_vbox->addWidget(m_label);
-  
-  m_progressbar = new QProgressBar (m_widget);
-  m_progressbar->setMinimum(0);
-  m_progressbar->setMaximum(100);
-  m_progressbar->setValue(0);
-  m_vbox->addWidget(m_progressbar);
-  
-  m_webiew = new KWebView(m_widget, true);
-  m_vbox->addWidget(m_webiew);
-  connect (m_webiew, SIGNAL(loadProgress(int)),
-	   m_progressbar, SLOT(setValue(int)));
-  connect (m_webiew, SIGNAL(urlChanged(QUrl)),
-	   this, SLOT (webviewUrlChanged(QUrl)));
-  connect (m_webiew, SIGNAL (loadFinished(bool)),
-	   this, SLOT (webviewFinished()));
-  
-  m_hbox = new QHBoxLayout(m_widget);
-  m_vbox->addLayout(m_hbox);
-  
-  setButtons(KDialog::Cancel);  
-  
-  Q_UNUSED (parent);
-}
-
-AuthDialog::~AuthDialog()
-{
-  delete m_label;
-  delete m_progressbar;
-  delete m_webiew;
-  delete m_hbox;
-  delete m_vbox;
-  delete m_widget;
-}
-
-void AuthDialog::setScopes(const QStringList& scopes)
-{
-  m_scopes << scopes;
-}
-
-void AuthDialog::auth(const QString& clientId, const QString& clientSecret)
-{
-  m_clientId = clientId;
-  m_clientSecret = clientSecret;
-  
-  m_webiew->setUrl(QUrl("https://accounts.google.com/o/oauth2/auth?"
-			"client_id="+clientId+"&"
-			"redirect_uri=urn:ietf:wg:oauth:2.0:oob&"
-			"scope="+m_scopes.join(" ")+"&"
-			"response_type=code"));
-}
-
 void AuthDialog::webviewUrlChanged(const QUrl &url) 
 {
   QString token, verifier;
@@ -194,4 +124,74 @@ void AuthDialog::networkRequestFinished(QNetworkReply* reply)
   
   emit finished();
   accept();
+}
+
+/********************* Public implementation ***************/
+
+AuthDialog::AuthDialog(Akonadi::ResourceBase *parent, WId windowId): 
+  KDialog()
+{
+  KWindowSystem::setMainWindow(this, windowId);
+  
+  m_widget = new QWidget(this);
+  setMainWidget(m_widget);
+  
+  m_vbox = new QVBoxLayout(m_widget);
+  m_widget->setLayout(m_vbox);
+
+  m_label = new QLabel(m_widget);
+  m_label->setText(tr("<b>Authorizing token. This should take just a moment...</b>"));
+  m_label->setWordWrap(true);
+  m_label->setAlignment(Qt::AlignCenter);
+  m_label->setVisible(false);
+  m_vbox->addWidget(m_label);
+  
+  m_progressbar = new QProgressBar (m_widget);
+  m_progressbar->setMinimum(0);
+  m_progressbar->setMaximum(100);
+  m_progressbar->setValue(0);
+  m_vbox->addWidget(m_progressbar);
+  
+  m_webiew = new KWebView(m_widget, true);
+  m_vbox->addWidget(m_webiew);
+  connect (m_webiew, SIGNAL(loadProgress(int)),
+	   m_progressbar, SLOT(setValue(int)));
+  connect (m_webiew, SIGNAL(urlChanged(QUrl)),
+	   this, SLOT (webviewUrlChanged(QUrl)));
+  connect (m_webiew, SIGNAL (loadFinished(bool)),
+	   this, SLOT (webviewFinished()));
+  
+  m_hbox = new QHBoxLayout(m_widget);
+  m_vbox->addLayout(m_hbox);
+  
+  setButtons(KDialog::Cancel);  
+  
+  Q_UNUSED (parent);
+}
+
+AuthDialog::~AuthDialog()
+{
+  delete m_label;
+  delete m_progressbar;
+  delete m_webiew;
+  delete m_hbox;
+  delete m_vbox;
+  delete m_widget;
+}
+
+void AuthDialog::setScopes(const QStringList& scopes)
+{
+  m_scopes << scopes;
+}
+
+void AuthDialog::auth(const QString& clientId, const QString& clientSecret)
+{
+  m_clientId = clientId;
+  m_clientSecret = clientSecret;
+  
+  m_webiew->setUrl(QUrl("https://accounts.google.com/o/oauth2/auth?"
+			"client_id="+clientId+"&"
+			"redirect_uri=urn:ietf:wg:oauth:2.0:oob&"
+			"scope="+m_scopes.join(" ")+"&"
+			"response_type=code"));
 }

@@ -34,20 +34,87 @@
 #include <KDE/KPushButton>
 #include <kdemacros.h>
 
+/**
+ * @brief Dialog for authentication with Google services.
+ * 
+ * The dialog opens Google login page in embedded webivew, 
+ * asking user to login and confirm access of this application 
+ * to some services.
+ * After that the webview is hidden and the dialog exchanges some tokens
+ * for access and refresh tokens. 
+ * The access token is then used for authenticating any request on Google
+ * services, the refresh token is used to refresh expired access token.
+ */
 class KDE_EXPORT AuthDialog: public KDialog
 {
   Q_OBJECT
   public:
+    /**
+     * @brief Creates the dialog
+     * 
+     * @param parent Parent resource 
+     * @param windowId ID of window 
+     **/
     AuthDialog(Akonadi::ResourceBase *parent, WId windowId);
     virtual ~AuthDialog();
 
+    /**
+     * @brief Sets scopes which to obtain authentication for.
+     * 
+     * See http://code.google.com/apis/gdata/faq.html#AuthScopes for
+     * list of available scopes.
+     * 
+     * @param List of scope URLs
+     * */
     void setScopes (const QStringList &scopes);
+    
+    /**
+     * @brief Starts the authentication process.
+     * 
+     * @param m_clientId ID of this application as assigned by Google
+     * @param m_clientSecret Secret token for this application as assigned
+     * 			     by Google
+     */
     void auth (const QString &m_clientId, const QString &m_clientSecret);
     
+    /**
+     * @brief Returns retrieved access token.
+     * 
+     * Access token is a persitent token which must be present
+     * in every request on Google API. Through this token, the 
+     * remote server can grant access to requested data.
+     * 
+     * There is no point in calling this method before \finished()
+     * is emitted or the dialog is \accepted().
+     * 
+     * @return Authorized access token
+     */
     QString accessToken() { return m_accessToken; }
+
+    /**
+     * @brief Returns retrieved refresh token.
+     * 
+     * The access token has limited validity. When the access token
+     * expires, every authenticated service will return Error 401 
+     * Unauthorized.
+     * By sending the refresh token a new pair of access and refresh token
+     * will be received.
+     *
+     * There is no point in calling this method before \finished()
+     * is emitted or the dialog is \accepted().
+     * 
+     * @return Refresh token 
+     */
     QString refreshToken() { return m_refreshToken; }
     
   signals:
+    /**
+     * @brief This signal is emitted when access token and refresh token 
+     * 	      were successfully retrieved.
+     * 
+     * When running the dialog synchronously via \KDialog::exec() the dialog
+     * also emits \KDialog::accepted()
+     */
     void finished();
     
   private slots:

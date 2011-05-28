@@ -75,9 +75,6 @@ class ContactListJob: public KJob
     
     QList<KABC::Addressee> *m_contacts;
     
-  signals:
-    void result();
-    
 };
 
 #endif // CONTACTLISTJOB_H

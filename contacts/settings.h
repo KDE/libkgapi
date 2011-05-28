@@ -24,6 +24,13 @@
 
 #include <Qt/qwindowdefs.h>
 
+/**
+ * @brief Settings object
+ * 
+ * Provides read-only access to application clientId and
+ * clientSecret and read-write access to accessToken and 
+ * refreshToken.
+ */
 class Settings: public SettingsBase
 {
   Q_OBJECT
