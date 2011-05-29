@@ -70,7 +70,7 @@ void ContactListJob::requestContacts(const QUrl &url)
   qDebug() << "Requesting" << requestUrl.toString();
   
   request.setUrl(requestUrl);
-  request.setRawHeader("Authorization", "OAuth "+Settings::self()->accessToken().toLatin1());
+  request.setRawHeader("Authorization", "OAuth "+m_accessToken.toLatin1());
   
   m_nam->get(request);
 }
