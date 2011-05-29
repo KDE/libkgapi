@@ -13,7 +13,6 @@ libKGoogle
  
 Contacts resource
 -----------------
-  - retrieving only contacts that changed since last synchronization
   - fetching photos
   - modifying contacts
   - creating contacts

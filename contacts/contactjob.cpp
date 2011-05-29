@@ -98,7 +98,15 @@ KABC::Addressee ContactJob::xmlEntryToKABC(QDomElement entry)
     
     /* Google contact ID */
     if (e.tagName() == "id") {
-      addr.setProductId(e.text());
+      addr.setUid(e.text());
+    }
+    
+    /* If the contact was deleted, we don't need more info about it.
+     * Just store our own flag, which will be then parsed by the resource
+     * itself. */
+    if (e.tagName() == "gd:deleted") {
+      addr.insertCustom("google_contacts", "x-removed", "1");
+      break;
     }
     
     /* Name */
@@ -133,7 +141,6 @@ KABC::Addressee ContactJob::xmlEntryToKABC(QDomElement entry)
       QString protocol = e.attribute("protocol");
       protocol = protocol.mid(protocol.lastIndexOf("#")+1);
       
-      addr.set  
       addr.insertCustom("KADDRESSBOOK", "X-messaging/"+protocol, e.attribute("address"));
       continue;
     }

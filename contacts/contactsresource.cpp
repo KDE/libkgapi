@@ -190,7 +190,8 @@ void ContactsResource::initialItemFetchJobFinished(KJob* job)
       //m_existingContacts.insert(item.remoteId(), item.attribute<TimeStampAttribute>()->timeStamp());
   }
     
-  ContactListJob *clJob = new ContactListJob(Settings::self()->accessToken());
+  ContactListJob *clJob = new ContactListJob(Settings::self()->accessToken(),
+					     Settings::self()->lastSync());
   m_currentJobs << clJob;
   connect (clJob, SIGNAL(result(KJob*)),
 	   this, SLOT(contactListJobFinished(KJob*)));
@@ -231,21 +232,33 @@ void ContactsResource::contactListJobFinished(KJob* job)
     return;
   }
   
-  qDebug() << "Contacts received, totally" << clJob->contacts()->count() << "contacts fetched";
-  
   QList<KABC::Addressee> *addresses = clJob->contacts();
   QList<Item> contacts;
+  QList<Item> removed;
   
   for (int i = 0; i < addresses->length(); i++) {
-      Item contact;
-      contact.setMimeType(KABC::Addressee::mimeType());
-      contact.setPayload<KABC::Addressee>(addresses->at(i));
-      contacts << contact;
+      Item item;
+      KABC::Addressee contact = addresses->at(i);
+
+      item.setRemoteId(contact.uid());
+      
+      if (contact.custom("google_contacts", "x-removed")=="1") {
+	removed << item;
+      } else {
+	item.setMimeType(KABC::Addressee::mimeType());
+	item.setPayload<KABC::Addressee>(addresses->at(i));
+	contacts << item;
+      }
   }
+  
+  itemsRetrievedIncremental(contacts, removed);
+  
+  /* Store the time of this sync. Next time we will only ask for items
+   * that changed or were removed since sync */
+  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%S"));
   
   emit percent(100);
   emit status(Idle, "Collections synchronized");
-  itemsRetrieved(contacts);  
   resetState();
 }
 

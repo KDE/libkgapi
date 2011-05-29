@@ -10,5 +10,7 @@
     </entry>
     <entry name="RefreshToken" type="String">
     </entry>
+    <entry name="LastSync" type="String">
+    </entry>
   </group>
 </kcfg>

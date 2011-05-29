@@ -32,9 +32,10 @@
 #include "contactlistjob.h"
 #include "settings.h"
 
-ContactListJob::ContactListJob(const QString& accessToken):
+ContactListJob::ContactListJob(const QString& accessToken, const QString &lastSync):
   m_nam(new QNetworkAccessManager),
   m_accessToken(accessToken),
+  m_lastSync(lastSync),
   m_contacts(new QList<KABC::Addressee>)
 {
   connect (m_nam, SIGNAL (finished(QNetworkReply*)),
@@ -53,12 +54,18 @@ void ContactListJob::requestContacts(const QUrl &url)
   QNetworkRequest request;  
   QUrl requestUrl("https://www.google.com/m8/feeds/contacts/default/full");
   
-  /* Google refuses to send data from request google.com/m8/feeds/contacts/user@domain.com/full,
-   * but google.com/m8/feeods/contacts/default/full is OK */
+  /* Google refuses to send data for request to www.google.com/m8/feeds/contacts/user@domain.com/full,
+   * but www.google.com/m8/feeods/contacts/default/full is OK */
   QList<QPair<QString,QString> > qItems = url.queryItems();
   QPair<QString,QString> pair;
   foreach (pair, qItems)
     requestUrl.addQueryItem(pair.first, pair.second);
+
+  if (!requestUrl.hasQueryItem("updated-min") && !m_lastSync.isEmpty())
+    requestUrl.addQueryItem("updated-min", m_lastSync);
+  
+  if (!requestUrl.hasQueryItem("showdeleted") && !m_lastSync.isEmpty())
+    requestUrl.addQueryItem("showdeleted", "true");
   
   qDebug() << "Requesting" << requestUrl.toString();
   

@@ -45,8 +45,12 @@ class ContactListJob: public KJob
      * @brief Creates a new job that will fetch all contacts from users address book.
      * 
      * @param accessToken Access token for Google's Contacts Data API
+     * @param lastSync Timestamp of last synchronization. We will ask only for items that
+     * 		       were changed or removed since the \lastSync.
+     * 		       When empty, all items will be fetched.
      */
-    ContactListJob(const QString &accessToken);
+    ContactListJob(const QString &accessToken,
+		   const QString &lastSync = QString());
 
     virtual ~ContactListJob();
     
@@ -72,6 +76,7 @@ class ContactListJob: public KJob
     
     QNetworkAccessManager *m_nam;
     QString m_accessToken;
+    QString m_lastSync;
     
     QList<KABC::Addressee> *m_contacts;
     
