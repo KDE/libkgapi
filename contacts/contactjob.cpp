@@ -96,9 +96,9 @@ KABC::Addressee ContactJob::xmlEntryToKABC(QDomElement entry)
   for (QDomNode n = entry.firstChild(); !n.isNull(); n = n.nextSibling()) {
     QDomElement e = n.toElement();
     
-    /* Google contact ID */
+    /* Google contact ID. Store only the ID, not the entire URL */
     if (e.tagName() == "id") {
-      addr.setUid(e.text());
+      addr.setUid(e.text().mid(e.text().lastIndexOf("/")+1);
     }
     
     /* If the contact was deleted, we don't need more info about it.
