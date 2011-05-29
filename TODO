@@ -1,0 +1,43 @@
+
+TODO
+=======
+
+Feel free to implement any of the tasks below. If you start working
+on something, please let me know so that you or someone else would
+not waist effort and time on reinventing wheel.
+
+libKGoogle
+----------
+  - create common API for creating request on Google API
+  - create common API for parsing Google's replies
+ 
+Contacts resource
+-----------------
+  - retrieving only contacts that changed since last synchronization
+  - fetching photos
+  - modifying contacts
+  - creating contacts
+  - removing contacts
+
+Calendar resource
+-----------------
+  - retrieving events
+  - modifying events
+  - creating events
+  - removing events
+
+
+Task list resource (To-do)
+------------------
+  This actually depends on how much are tasks and calendar events separated
+  in Google and in Akonadi. I haven't looked on this yet, as there's still a
+  long way to this point.
+
+  - retrieving tasks
+  - modifying tasks
+  - creating tasks
+  - removing tasks
+
+
+In some distant future, when Akregator is ported to Akonadi too, I'd
+like to have support for Google Feeds
