@@ -148,7 +148,7 @@ KABC::Addressee ContactJob::xmlEntryToKABC(QDomElement entry)
     /* Phone numbers */
     if (e.tagName() == "gd:phoneNumber") {
       QString rel = e.attribute("rel");
-      rel = rel.mid(rel.lastIndexOf("#"));
+      rel = rel.mid(rel.lastIndexOf("#")+1);
       
       KABC::PhoneNumber phoneNumber;
       phoneNumber.setNumber(e.text());
@@ -168,16 +168,16 @@ KABC::Addressee ContactJob::xmlEntryToKABC(QDomElement entry)
     }
     
     /* Addresses */
-    if (e.tagName() == "postalAddress") {
+    if (e.tagName() == "gd:postalAddress") {
       QString rel = e.attribute("rel");
-      rel = rel.mid(rel.lastIndexOf("#"));
+      rel = rel.mid(rel.lastIndexOf("#")+1);
       
       KABC::Address address;
       /* TODO: Try to parse the address and store the parts properly
        * by setStreet(), setCountry(), setLocality(), setRegion(),
        * setPostOfficeBox() and setPostalCode()
        */
-      address.setStreet(e.text());
+      address.setLabel(e.text());
       
       if (rel == "work")
 	address.setType(KABC::Address::Work);
@@ -189,7 +189,7 @@ KABC::Addressee ContactJob::xmlEntryToKABC(QDomElement entry)
     }
     
     /* TODO: Expand supported items.
-     * http://code.google.com/apis/gdata/docs/2.0/elements.html#gdPhoneNumber
+     * http://code.google.com/apis/gdata/docs/2.0/elements.html
      * http://api.kde.org/4.x-api/kdepimlibs-apidocs/kabc/html/classKABC_1_1Addressee.html
      */
   }
