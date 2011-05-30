@@ -31,6 +31,7 @@
 
 #include "contactsresource.h"
 #include "contactjob.h"
+#include "contactdeletejob.h"
 #include "contactlistjob.h"
 #include "settings.h"
 #include "timestampattribute.h"
@@ -169,7 +170,7 @@ void ContactsResource::retrieveCollections()
   contacts.setName(i18n("Google Contacts"));
   contacts.setParentCollection(Akonadi::Collection::root());
   contacts.setContentMimeTypes(QStringList() << KABC::Addressee::mimeType());
-  contacts.setRights(Collection::ReadOnly);
+  contacts.setRights(Collection::CanDeleteItem);
   
   collectionsRetrieved(Collection::List() << contacts);
 }
@@ -307,16 +308,32 @@ void ContactsResource::changeJobFinished(KJob* job)
 
 void ContactsResource::itemRemoved(const Akonadi::Item& item)
 {
-  /* TODO: Implement me! */
+  QString uid = item.remoteId();
   
-  Q_UNUSED (item);
+  emit status(Running, i18n("Removing contact"));
+  
+  ContactDeleteJob *dJob = new ContactDeleteJob(uid, Settings::self()->accessToken());
+  dJob->setProperty("Item", QVariant::fromValue(item));
+  connect (dJob, SIGNAL(finished(KJob*)),
+	   this, SLOT(removeJobFinished(KJob*)));
+  dJob->start();
+  m_currentJobs.append(dJob);
 }
 
 void ContactsResource::removeJobFinished(KJob* job)
 {
-  /* TODO: Implement me! */
+  m_currentJobs.removeAll(job);
   
-  Q_UNUSED (job);
+  if (job->error()) {
+    qDebug() << job->errorString();
+    cancelTask(job->errorString());
+    resetState();
+    return;
+  }
+
+  Akonadi::Item item = dynamic_cast<ContactDeleteJob*>(job)->property("Item").value<Item>();
+  changeCommitted(item);
+  resetState();
 }
 
 AKONADI_RESOURCE_MAIN (ContactsResource)

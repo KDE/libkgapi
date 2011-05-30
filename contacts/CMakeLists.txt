@@ -30,6 +30,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 set(contactsresource_SRCS 
     contactsresource.cpp
     contactjob.cpp
+    contactdeletejob.cpp
     contactlistjob.cpp 
     timestampattribute.cpp
     settings.cpp
