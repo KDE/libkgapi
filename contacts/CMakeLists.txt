@@ -1,4 +1,5 @@
 project(googlecontactsresource)
+set(CONTACT_RESOURCE_VERSION 0.1)
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -56,7 +57,7 @@ target_link_libraries(akonadi_googlecontacts_resource
 		      ${QT_QTDBUS_LIBRARY}
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
-		      ${CMAKE_CURRENT_BINARY_DIR}/../lib/libakonadi_kgoogle.so
+		      ${CMAKE_CURRENT_BINARY_DIR}/../lib/libkgoogle.so
 )
 
 install(TARGETS akonadi_googlecontacts_resource ${INSTALL_TARGETS_DEFAULT_ARGS})
