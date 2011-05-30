@@ -109,6 +109,14 @@ KABC::Addressee ContactJob::xmlEntryToKABC(QDomElement entry)
       break;
     }
     
+    /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture 
+     * itself. */
+    if (e.tagName() == "link" && e.attribute("rel") == "http://schemas.google.com/contacts/2008/rel#photo") {
+      KABC::Picture pic;
+      pic.setType(e.attribute("type")); /* Mime type */
+      pic.setUrl(e.attribute("href"));	/* URL */
+    }
+    
     /* Name */
     if (e.tagName() == "title") {
       addr.setNameFromString(e.text());
@@ -195,4 +203,76 @@ KABC::Addressee ContactJob::xmlEntryToKABC(QDomElement entry)
   }
   
   return addr;
+}
+
+QByteArray ContactJob::KABCToXmlEntry(KABC::Addressee addressee)
+{
+  QByteArray output;
+  
+  output.append("<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:gd='http://schemas.google.com/g/2005'>"
+		"<atom:category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/contact/2008#contact' />");
+
+  /* Name */
+  output.append("<gd:name>");
+  if (!addressee.givenName().isEmpty())
+    output.append("<gd:givenName>").append(addressee.givenName().toLatin1()).append("</gd:givenName>");
+  if (!addressee.familyName().isEmpty())
+    output.append("<gd:familyName>").append(addressee.familyName().toLatin1()).append("</gd:familyName>");
+  if (!addressee.assembledName().isEmpty())
+    output.append("<gd:fullName>").append(addressee.assembledName().toLatin1()).append("</gd:fullName>");
+  output.append("</gd:name>");
+  
+  /* Notes */
+  if (!addressee.note().isEmpty())
+    output.append("<atom:content type='text'>").append(addressee.note().toLatin1()).append("</atom:content>");
+  
+  /* Emails */
+  if (addressee.emails().length()) {
+    foreach (const QString &email, addressee.emails()) {
+      output.append("<gd:email rel='http://schemas.google.com/g/2005#home' address='").append(email.toLatin1()).append("' />");
+    }
+  }
+  
+  /* Phone numbers */
+  if (addressee.phoneNumbers().length()) {
+    foreach (const KABC::PhoneNumber &number, addressee.phoneNumbers()) {
+      output.append("<gd:phoneNumber rel='http://schemas.google.com/g/2005#")
+			.append(number.typeLabel().toLower().toLatin1())
+			.append("'>")
+		    .append(number.number().toLatin1())
+		    .append("</gd:phoneNumber>");
+    }
+  }
+  
+  if (addressee.addresses().length()) {
+    foreach (const KABC::Address &address, addressee.addresses()) {
+      output.append("<gd:structuredPostalAddress rel='http://schemas.google.com/g/2005#")
+	      .append(address.typeLabel().toLower().toLatin1())
+	      .append("'>");
+      
+      if (!address.locality().isEmpty())
+	output.append("<gd:city>").append(address.locality().toLatin1()).append("</gd:city>");
+      if (!address.street().isEmpty())
+	output.append("<gd:street>").append(address.street().toLatin1()).append("</gd:street>");
+      if (!address.region().isEmpty())
+	output.append("<gd:region>").append(address.region().toLatin1()).append("</gd:region>");
+      if (!address.postalCode().isEmpty())
+	output.append("<gd:postcode>").append(address.postalCode().toLatin1()).append("</gd:postcode>");
+      if (!address.country().isEmpty())
+	output.append("<gd:country>").append(address.country().toLatin1()).append("</gd:country>");
+      if (!address.formattedAddress().isEmpty())
+	output.append("<gd:formattedAddress>").append(address.formattedAddress().toLatin1()).append("</gd:formattedAddress>");
+      
+      output.append("</gd:structuredPostalAddress>");
+    }
+  }
+  
+  /* TODO: Expand supported items.
+   * http://code.google.com/apis/gdata/docs/2.0/elements.html
+   * http://api.kde.org/4.x-api/kdepimlibs-apidocs/kabc/html/classKABC_1_1Addressee.html
+   */
+  
+  output.append("</atom:entry>");
+  
+  return output;
 }

@@ -71,6 +71,14 @@ class ContactJob: public KJob
      */
     static KABC::Addressee xmlEntryToKABC (QDomElement entry);
     
+    /**
+     * @brief Converts KABC::Addressee to Atom/XML format that can be
+     * 	      send directly to Google
+     * @param addressee Adressee object to convert
+     * @return XML representation of the \addressee
+     */
+    static QByteArray KABCToXmlEntry (KABC::Addressee addressee);
+    
   private Q_SLOTS:
     /**
      * @private

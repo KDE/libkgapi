@@ -31,6 +31,7 @@
 
 #include "contactsresource.h"
 #include "contactjob.h"
+#include "contactcreatejob.h"
 #include "contactdeletejob.h"
 #include "contactlistjob.h"
 #include "settings.h"
@@ -170,8 +171,9 @@ void ContactsResource::retrieveCollections()
   contacts.setName(i18n("Google Contacts"));
   contacts.setParentCollection(Akonadi::Collection::root());
   contacts.setContentMimeTypes(QStringList() << KABC::Addressee::mimeType());
-  contacts.setRights(Collection::CanDeleteItem);
-  
+  contacts.setRights(Collection::CanDeleteItem |
+		     Collection::CanCreateItem);
+
   collectionsRetrieved(Collection::List() << contacts);
 }
 
@@ -278,17 +280,38 @@ void ContactsResource::updateLocalContacts()
 
 void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
 {
-  /* TODO: Implement me! */
+  if (!item.hasPayload<KABC::Addressee>())
+    return;
 
-  Q_UNUSED (item);  
-  Q_UNUSED (collection);
+  status(Running, "Creating contact...");
+  
+  KABC::Addressee addressee = item.payload<KABC::Addressee>();
+  ContactCreateJob *ccJob = new ContactCreateJob (addressee, Settings::self()->accessToken());
+  ccJob->setProperty("Item", QVariant::fromValue(item));
+  connect (ccJob, SIGNAL(finished(KJob*)),
+	   this, SLOT(addJobFinished(KJob*)));
+  ccJob->start();
 }
 
 void ContactsResource::addJobFinished(KJob* job)
 {
-  /* TODO: Implement me! */
+  if (job->error()) {
+    qDebug() << job->errorString();
+    cancelTask(job->errorString());
+    return;
+  }
 
-  Q_UNUSED (job);  
+  KABC::Addressee contact = dynamic_cast<ContactCreateJob*>(job)->newAddressee();
+  Akonadi::Item newItem;
+  
+  newItem.setRemoteId(contact.uid());
+  newItem.setMimeType(KABC::Addressee::mimeType());
+  newItem.setPayload<KABC::Addressee>(contact);
+
+  changeCommitted(newItem);
+  
+  status(Idle, "Contact created");
+  resetState();
 }
 
 void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
