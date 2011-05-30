@@ -210,9 +210,6 @@ QByteArray ContactJob::KABCToXmlEntry(KABC::Addressee addressee)
 {
   QByteArray output;
   
-  output.append("<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:gd='http://schemas.google.com/g/2005'>"
-		"<atom:category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/contact/2008#contact' />");
-
   /* Name */
   output.append("<gd:name>");
   if (!addressee.givenName().isEmpty())
@@ -272,8 +269,6 @@ QByteArray ContactJob::KABCToXmlEntry(KABC::Addressee addressee)
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
    * http://api.kde.org/4.x-api/kdepimlibs-apidocs/kabc/html/classKABC_1_1Addressee.html
    */
-  
-  output.append("</atom:entry>");
   
   return output;
 }

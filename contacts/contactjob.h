@@ -73,9 +73,12 @@ class ContactJob: public KJob
     
     /**
      * @brief Converts KABC::Addressee to Atom/XML format that can be
-     * 	      send directly to Google
+     * 	      send directly to Google.
      * @param addressee Adressee object to convert
-     * @return XML representation of the \addressee
+     * @return XML representation of the \addressee. The XML code does not contain
+     * 	       headers, only the contact data itself. The headers may vary accross requests
+     * 	       (creating vs. modifying contact), therefor it's up to the specific job to prepend
+     * 	       and append proper header and footer elements.
      */
     static QByteArray KABCToXmlEntry (KABC::Addressee addressee);
     
