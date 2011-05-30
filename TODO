@@ -14,7 +14,7 @@ libKGoogle
 Contacts resource
 -----------------
   - fetching photos
-  - modifying contacts
+  - extend list of supported values in ContactJob::xmlEntryToKABC() and ContactJob::KABCToXmlEntry()
 
 Calendar resource
 -----------------

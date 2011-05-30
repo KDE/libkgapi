@@ -31,6 +31,7 @@ set(contactsresource_SRCS
     contactsresource.cpp
     contactjob.cpp
     contactcreatejob.cpp 
+    contactchangejob.cpp 
     contactdeletejob.cpp
     contactlistjob.cpp 
     timestampattribute.cpp

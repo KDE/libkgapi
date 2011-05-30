@@ -32,6 +32,7 @@
 #include "contactsresource.h"
 #include "contactjob.h"
 #include "contactcreatejob.h"
+#include "contactchangejob.h"
 #include "contactdeletejob.h"
 #include "contactlistjob.h"
 #include "settings.h"
@@ -172,7 +173,8 @@ void ContactsResource::retrieveCollections()
   contacts.setParentCollection(Akonadi::Collection::root());
   contacts.setContentMimeTypes(QStringList() << KABC::Addressee::mimeType());
   contacts.setRights(Collection::CanDeleteItem |
-		     Collection::CanCreateItem);
+		     Collection::CanCreateItem |
+		     Collection::CanChangeItem);
 
   collectionsRetrieved(Collection::List() << contacts);
 }
@@ -231,6 +233,7 @@ void ContactsResource::contactListJobFinished(KJob* job)
   m_currentJobs.clear();
 
   if (clJob->error()) {
+    qDebug() << clJob->errorText();
     cancelTask(clJob->errorText());
     return;
   }
@@ -318,17 +321,42 @@ void ContactsResource::addJobFinished(KJob* job)
 
 void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
-  /* TODO: Implement me! */
-
-  Q_UNUSED (item);  
+  if (!item.hasPayload<KABC::Addressee>())
+    return;
+  
+  status(Running, "Updating contact...");
+  
+  KABC::Addressee addressee = item.payload<KABC::Addressee>();
+  ContactChangeJob *ccJob = new ContactChangeJob(addressee, item.remoteId(), Settings::self()->accessToken());
+  ccJob->setProperty("Item", QVariant::fromValue(item));
+  connect (ccJob, SIGNAL(finished(KJob*)),
+	   this, SLOT(changeJobFinished(KJob*)));
+  ccJob->start();
+  
   Q_UNUSED (partIdentifiers);
 }
 
 void ContactsResource::changeJobFinished(KJob* job)
 {
-  /* TODO: Implement me! */
+  if (job->error()) {
+    qDebug() << job->errorString();
+    cancelTask(job->errorString());
+  }
+  
+  ContactChangeJob *ccJob = dynamic_cast<ContactChangeJob*>(job);
+  
+  KABC::Addressee contact = ccJob->newAddressee();
+  Akonadi::Item oldItem = ccJob->property("Item").value<Item>();
+  Akonadi::Item newItem;
 
-  Q_UNUSED (job);  
+  newItem.setRemoteId(oldItem.remoteId());
+  newItem.setMimeType(KABC::Addressee::mimeType());
+  newItem.setPayload<KABC::Addressee>(contact);
+  
+  changeCommitted(newItem);
+  
+  status(Idle, "Contact changed");
+  resetState();
 }
 
 void ContactsResource::itemRemoved(const Akonadi::Item& item)
