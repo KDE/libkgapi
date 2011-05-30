@@ -46,6 +46,7 @@ void ContactJob::start()
   
   req.setUrl("https://www.google.com/m8/feeds/contacts/default/full/"+m_contactId+"?oauth_token="+m_accessToken);
   req.setRawHeader("Authorization", "OAuth "+m_accessToken.toLatin1());
+  req.setRawHeader("GData-Version", "3.0");  
   
   nam->get(req);
 }

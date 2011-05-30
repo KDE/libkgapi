@@ -291,6 +291,8 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
   connect (ccJob, SIGNAL(finished(KJob*)),
 	   this, SLOT(addJobFinished(KJob*)));
   ccJob->start();
+  
+  Q_UNUSED (collection);
 }
 
 void ContactsResource::addJobFinished(KJob* job)

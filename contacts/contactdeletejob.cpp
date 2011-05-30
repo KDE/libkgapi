@@ -41,6 +41,7 @@ void ContactDeleteJob::start()
 	   nam, SLOT(deleteLater()));
   request.setUrl("https://www.google.com/m8/feeds/contacts/default/full/"+m_uid);
   request.setRawHeader("Authorization", "OAuth "+m_accessToken.toLatin1());
+  request.setRawHeader("GData-Version", "3.0");  
   request.setRawHeader("If-Match", "*");
 
   nam->deleteResource(request);

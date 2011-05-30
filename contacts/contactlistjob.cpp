@@ -71,6 +71,7 @@ void ContactListJob::requestContacts(const QUrl &url)
   
   request.setUrl(requestUrl);
   request.setRawHeader("Authorization", "OAuth "+m_accessToken.toLatin1());
+  request.setRawHeader("GData-Version", "3.0");  
   
   m_nam->get(request);
 }
