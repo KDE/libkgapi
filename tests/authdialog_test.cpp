@@ -1,4 +1,3 @@
-#include "authdialog_test.h"
 #include "libkgoogle/authdialog.h"
 
 #include <KDE/KApplication>
@@ -9,22 +8,6 @@
 #include <QtCore/QDebug>
 #include <QtCore/QString>
 
-
-AuthDialog *dialog;
-
-void Auth::authorized()
-{
-  QString access_token = dialog->accessToken();
-  QString refresh_token = dialog->refreshToken();
-  
-  qDebug() << "Access token:" << access_token;
-  qDebug() << "Refresh token:" << refresh_token;
-    
-  dialog->close();
-  delete dialog;
-}
-
-
 int main (int argc, char **argv)
 {
     KAboutData about(argv[0], 0,
@@ -33,14 +16,10 @@ int main (int argc, char **argv)
     
     KApplication app;
     
-    Auth *auth = new Auth();
-   
-    dialog = new AuthDialog(0, 0);
-    QObject::connect (dialog, SIGNAL(finished()),
-		      auth, SLOT (authorized()));
-    dialog->setScopes(QStringList() << "https://www.google.com/calendar/feeds");
-    dialog->show();
-    dialog->auth();
+    AuthDialog dialog(0, 0);
+    dialog.setScopes(QStringList() << "https://www.google.com/calendar/feeds");
+    dialog.auth("554041944266.apps.googleusercontent.com", "mdT1DjzohxN3npUUzkENT0gO");
+    dialog.exec();
     
     return app.exec();
 }

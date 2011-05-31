@@ -30,6 +30,6 @@ if (NOT DEFINED WITHOUT_CONTACTS)
   add_subdirectory(contacts)
 endif (NOT DEFINED WITHOUT_CONTACTS)
 
-if (WITH_TESTS)
+if (DEFINED WITH_TESTS)
   add_subdirectory(tests)
-endif (WITH_TESTS)
+endif (DEFINED WITH_TESTS)
