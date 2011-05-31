@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Google Calendar
+Comment=Access your Google Calendars from KDE
+Type=AkonadiResource
+Exec=akonadi_googlecalendar_resource
+X-Akonadi-MimeTypes=text/calendar,
+X-Akonadi-Capabilities=Resource
+X-Akonadi-Identifier=akonadi_googlecalendar_resource
