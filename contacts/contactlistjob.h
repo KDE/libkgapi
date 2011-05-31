@@ -22,7 +22,6 @@
 
 #include <KDE/KABC/Addressee>
 #include <KDE/KJob>
-#include <QtKOAuth/QtKOAuth>
 
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
