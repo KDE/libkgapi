@@ -28,6 +28,8 @@
 #include <QtXml/QDomNode>
 #include <QtXml/QDomNodeList>
 
+#include <qjson/parser.h>
+
 #include "contactjob.h"
 #include "contactlistjob.h"
 #include "settings.h"
@@ -52,7 +54,7 @@ void ContactListJob::requestContacts(const QUrl &url)
 {
   
   QNetworkRequest request;  
-  QUrl requestUrl("https://www.google.com/m8/feeds/contacts/default/full");
+  QUrl requestUrl("https://www.google.com/m8/feeds/contacts/default/full?alt=json");
   
   /* Google refuses to send data for request to www.google.com/m8/feeds/contacts/user@domain.com/full,
    * but www.google.com/m8/feeods/contacts/default/full is OK */
@@ -78,7 +80,7 @@ void ContactListJob::requestContacts(const QUrl &url)
 
 void ContactListJob::start()
 {
-  requestContacts (QUrl("https://www.google.com/m8/feeds/contacts/default/full"));
+  requestContacts (QUrl("https://www.google.com/m8/feeds/contacts/default/full?alt=json"));
 }
 
 void ContactListJob::contactListRetrieved(QNetworkReply *reply)
@@ -96,56 +98,43 @@ void ContactListJob::contactListRetrieved(QNetworkReply *reply)
     return;
   }
   
-  QDomDocument doc;
-  doc.setContent(reply->readAll());
-  
-  QDomElement root = doc.documentElement();
-  if (root.tagName() != "feed") {
-     qDebug() << "Invalid feed format (root tag is " << root.tagName() << ")";
-     setError(1);
-     setErrorText("Invalid feed format");
-     emitResult();
-     return;
-  }
+  QJson::Parser parser;
+  bool ok;
+  QVariantMap data = parser.parse(reply->readAll(), &ok).toMap();
      
-  QDomNode n = root.firstChild();
-  while (!n.isNull()) {
-    QDomElement e = n.toElement();
-    if (!e.isNull()) {
-   
-      /* Get URL of next batch of contacts */
-      if ((e.tagName() == "link") && (e.attribute("rel") == "next")) {
-	nextUrl = e.attribute("href");
-      }
-      
-      /* Total number of contacts to be downloaded */
-      if (e.tagName() == "openSearch:totalResults") {
-	resultsCnt = e.text().toInt();
-      }
-      
-      /* Index of first item in this batch */
-      if (e.tagName() == "openSearch:startIndex") {
-	startIndex = e.text().toInt();
-      }
-      
-      /* Items per batch */
-      if (e.tagName() == "openSearch:itemsPerPage") {
-	itemsPerPage = e.text().toInt();
-      }
-      
-      /* Contact entry */
-      if (e.tagName() == "entry") {
-	KABC::Addressee contact = ContactJob::xmlEntryToKABC(e); 
-      
-	m_contacts->append(contact);
-      }
-    }
-    
-    n = n.nextSibling();    
+  if (!ok) {
+      setError(1);
+      setErrorText("Failed to parse server response.");
+      emitResult();
+      return;
   }
   
-  if (resultsCnt > 0)
-    emitPercent(((startIndex - 1)*itemsPerPage / resultsCnt)*100, 100);
+  QVariantMap feed = data["feed"].toMap();
+  QVariantList links = feed["link"].toList();
+  
+  foreach (const QVariant &link, links) {
+    if (link.toMap()["rel"].toString() == "next") {
+      nextUrl = link.toMap()["href"].toString();
+      break;
+    }
+  }
+  
+  itemsPerPage = feed["openSearch$itemsPerPage"].toMap()["$t"].toInt();
+  startIndex = feed["openSearch$startIndex"].toMap()["$t"].toInt();
+  resultsCnt = feed["openSearch$totalResults"].toMap()["$t"].toInt();
+  
+  QVariantList entries = feed["entry"].toList();
+  foreach (const QVariant &ent, entries) {
+   
+      QVariantMap entry = ent.toMap();
+    
+      KABC::Addressee contact = ContactJob::JSONToKABC (entry);
+      
+      m_contacts->append(contact);
+  }
+   
+  
+  emitPercent(startIndex, resultsCnt);
 
   if (!nextUrl.isEmpty()) {
     qDebug() << "Done. Requesting next batch of contacts (" << startIndex+itemsPerPage << " to " << startIndex+2*itemsPerPage << ")";

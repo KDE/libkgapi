@@ -82,6 +82,23 @@ class ContactJob: public KJob
      */
     static QByteArray KABCToXmlEntry (KABC::Addressee addressee);
     
+    /**
+     * @brief Converts the JSON data (structured in QVariantMap) to KABC::Addressee
+     * 
+     * @param entry An JSON data structured in QVariantMap representing data from
+     * 		    Google Calendar
+     * @return Returns intialized KABC::Addressee object.
+     */
+    static KABC::Addressee JSONToKABC (QVariantMap entry);
+    
+    /**
+     * @brief Converts KABC::Addressee to JSON format that can be
+     * 	      send directly to Google.
+     * @param addressee Adressee object to convert
+     * @return JSON representation of the \addressee.
+     */
+    static QVariantMap KABCToJson (KABC::Addressee addressee);    
+    
   private Q_SLOTS:
     /**
      * @private

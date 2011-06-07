@@ -26,6 +26,8 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
+#include <qjson/parser.h>
+
 #include "contactjob.h"
 
 ContactJob::ContactJob(const QString &contactId, const QString &accessToken):
@@ -44,7 +46,7 @@ void ContactJob::start()
   connect(nam, SIGNAL(finished(QNetworkReply*)),
 	  nam, SLOT(deleteLater()));
   
-  req.setUrl("https://www.google.com/m8/feeds/contacts/default/full/"+m_contactId+"?oauth_token="+m_accessToken);
+  req.setUrl("https://www.google.com/m8/feeds/contacts/default/full/"+m_contactId+"?alt=json&oauth_token="+m_accessToken);
   req.setRawHeader("Authorization", "OAuth "+m_accessToken.toLatin1());
   req.setRawHeader("GData-Version", "3.0");  
   
@@ -60,31 +62,19 @@ void ContactJob::contactRetrieved(QNetworkReply *reply)
      emitResult();
      return;
    }
-   
-  QDomDocument doc;
-  doc.setContent(reply->readAll());
+
+  QJson::Parser parser;
+  bool ok;
   
-  QDomElement root = doc.documentElement();
-  if (root.tagName() != "feed") {
-     qDebug() << "Invalid feed format (root tag is " << root.tagName() << ")";
+  QVariantMap data = parser.parse(reply->readAll(), &ok).toMap();
+  if (!ok) {
      setError(1);
      setErrorText("Invalid feed format");
      emitResult();
      return;
   }
      
-  QDomNode n = root.firstChild();
-  while (!n.isNull()) {
-    QDomElement e = n.toElement();
-    if (!e.isNull()) {
-   
-      /* Contact entry */
-      if (e.tagName() == "entry") {
-	m_contact = ContactJob::xmlEntryToKABC(e); 
-      }
-    }
-    n = n.nextSibling();    
-  }
+  m_contact = ContactJob::JSONToKABC(data["entry"].toMap());
   
   setError(0);
   emitResult();
@@ -264,6 +254,181 @@ QByteArray ContactJob::KABCToXmlEntry(KABC::Addressee addressee)
       output.append("</gd:structuredPostalAddress>");
     }
   }
+  
+  /* TODO: Expand supported items.
+   * http://code.google.com/apis/gdata/docs/2.0/elements.html
+   * http://api.kde.org/4.x-api/kdepimlibs-apidocs/kabc/html/classKABC_1_1Addressee.html
+   */
+  
+  return output;
+}
+
+
+KABC::Addressee ContactJob::JSONToKABC(QVariantMap entry)
+{
+  KABC::Addressee addr;
+  
+  /* Google contact ID. Store only the ID, not the entire URL */
+  QString uid = entry["id"].toMap()["$t"].toString();
+  addr.setUid( uid.mid(uid.lastIndexOf("/")+1) );
+  
+  /* Google ETAG. This can be used to identify if the item was changed remotly */
+  addr.insertCustom("google_contacts", "x-etag", entry["gd$etag"].toString());
+  
+  /* If the contact was deleted, we don't need more info about it.
+   * Just store our own flag, which will be then parsed by the resource
+   * itself. */
+  if (entry["gd:deleted"].isValid())
+      addr.insertCustom("google_contacts", "x-removed", "1");
+    
+  /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture 
+   * itself. */
+  QVariantList links = entry["link"].toList();
+  foreach (const QVariant &link, links) {
+    if (link.toMap()["type"] == "image/*") {
+      KABC::Picture pic;
+      pic.setType(link.toMap()["type"].toString());
+      pic.setUrl(link.toMap()["href"].toString());
+      addr.setPhoto(pic);
+    }
+  }
+   
+  /* Name */
+  addr.setNameFromString(entry["title"].toMap()["$t"].toString());
+   
+  /* Note */
+  addr.setNote(entry["content"].toString());
+
+  /* Organization (work) */
+  QVariantMap organization = entry["gd$organization"].toMap();
+  addr.setOrganization(organization["gd$orgName"].toString());
+  addr.setTitle(organization["gd$title"].toString());
+    
+  /* Emails */
+  QVariantList emails = entry["gd$email"].toList();
+  foreach (const QVariant &em, emails) {
+    QVariantMap email = em.toMap();
+    addr.insertEmail(email["address"].toString(), 
+		     email["primary"].toBool());
+  }
+    
+  /* IMs */
+  QVariantList ims = entry["gd$im"].toList();
+  foreach (const QVariant &im, ims) {
+    QString protocol = im.toMap()["protocol"].toString();
+    protocol = protocol.mid(protocol.lastIndexOf("#")+1);
+    addr.insertCustom("KADDRESSBOOK", "X-messaging/"+protocol, 
+		      im.toMap()["address"].toString());
+  }
+
+  /* Phone numbers */
+  QVariantList phones = entry["gd$phoneNumber"].toList();
+  foreach (const QVariant &phone, phones) {
+    QString type = phone.toMap()["rel"].toString();
+    type = type.mid(type.lastIndexOf("#")+1);
+    
+    KABC::PhoneNumber phoneNumber;
+    phoneNumber.setNumber(phone.toMap()["$t"].toString());
+    
+    if ((phone.toMap()["primary"].toBool()) ||
+        (type == "main"))
+      phoneNumber.setType(KABC::PhoneNumber::Pref);
+    else if (type == "home")
+      phoneNumber.setType(KABC::PhoneNumber::Home);
+    else if (type == "work")
+      phoneNumber.setType(KABC::PhoneNumber::Work);
+    else if (type == "fax")
+      phoneNumber.setType(KABC::PhoneNumber::Fax);
+    else if (type == "mobile")
+      phoneNumber.setType(KABC::PhoneNumber::Cell);
+    else if (type == "car")
+      phoneNumber.setType(KABC::PhoneNumber::Car);
+    else if (type == "isdn")
+      phoneNumber.setType(KABC::PhoneNumber::Isdn);
+    else if (type == "pager")
+      phoneNumber.setType(KABC::PhoneNumber::Pager);
+      /* The following KABC values have no match in Google API:
+	 Msg, Voice, Video, Bbs, Modem and Pcs. */
+
+    addr.insertPhoneNumber(phoneNumber);    
+  }
+    
+  /* Addresses */
+  QVariantList addresses = entry["gd$postalAddress"].toList();
+  foreach (const QVariant &a, addresses) {
+    QVariantMap address = a.toMap();
+    QString rel = address["rel"].toString();
+    rel = rel.mid(rel.lastIndexOf("#")+1);
+    
+    KABC::Address adr;
+    adr.setLabel(address["$t"].toString());
+      
+    if (rel == "work")
+      adr.setType(KABC::Address::Work);
+    else if (rel == "home")
+      adr.setType(KABC::Address::Home);
+
+    addr.insertAddress(adr);
+  }
+    
+  /* TODO: Expand supported items.
+   * http://code.google.com/apis/gdata/docs/2.0/elements.html
+   * http://api.kde.org/4.x-api/kdepimlibs-apidocs/kabc/html/classKABC_1_1Addressee.html
+   */
+  
+  return addr;
+}
+
+QVariantMap ContactJob::KABCToJson(KABC::Addressee addressee)
+{
+  QVariantMap output;
+  QVariantMap item;
+  
+  /* Name */
+  QVariantMap name;
+  name["gd$givenName"] = addressee.givenName();
+  name["gd$familyName"] = addressee.familyName();
+  name["gd$fullName"] = addressee.assembledName();
+  output["gd$name"] = name;
+  
+  /* Notes */
+  output["content"] = addressee.note();
+  
+  /* Emails */
+  QVariantList emails;
+  foreach (const QString &email, addressee.emails()) {
+    QVariantMap em;
+    /* FIXME: Is there a way to tell which type the email is? */
+    em["rel"] = "http://schemas.google.com/g/2005#home";
+    em["address"] = email;
+    emails.append(em);
+  }
+  output["gd$email"] = emails;
+
+  /* Phone numbers */
+  QVariantList phones;
+  foreach (const KABC::PhoneNumber &number, addressee.phoneNumbers()) {
+    QVariantMap phone;
+    phone["rel"] = "http://schemas.google.com/g/2005#" + number.typeLabel().toLower();
+    phone["$t"] = number.number();
+    phones.append(phone);
+  }
+  output["gd$phoneNumber"] = phones;
+
+  /* Addresses */
+  QVariantList addresses;
+  foreach (const KABC::Address &address, addressee.addresses()) {
+    QVariantMap addr;
+    addr["rel"] = "http://schemas.google.com/g/2005#" + address.typeLabel().toLower();
+    addr["gd$city"] = address.locality();
+    addr["gd$street"] = address.street();
+    addr["gd$region"] = address.region();
+    addr["gd$postcode"] = address.postalCode();
+    addr["gd$country"] = address.country();
+    addr["gd$formattedAddress"] = address.formattedAddress();
+    addresses.append(addr);
+  }
+  output["gd$structuredPostalAddress"] = addresses;
   
   /* TODO: Expand supported items.
    * http://code.google.com/apis/gdata/docs/2.0/elements.html

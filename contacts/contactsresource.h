@@ -72,6 +72,7 @@ class ContactsResource: public Akonadi::ResourceBase,
      */
     virtual void configure (WId windowID);
     
+    
   protected Q_SLOTS:
     /**
      * @brief Defined list of collections. 
@@ -94,6 +95,8 @@ class ContactsResource: public Akonadi::ResourceBase,
     void itemRemoved(const Akonadi::Item& item);
     void itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection);
     void itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers);
+    
+    void emitPercent(KJob *job, ulong progress) { emit percent(progress); Q_UNUSED (job) }
     
   protected:
     void aboutToQuit();

@@ -105,7 +105,7 @@ void ContactsResource::slotAbortRequested()
 
 void ContactsResource::configure(WId windowId)
 {
-  const QPointer<AuthDialog> authDialog(new AuthDialog(this, windowId));
+  AuthDialog *authDialog = new AuthDialog(this, windowId);
   authDialog->setScopes(QStringList() << "https://www.google.com/m8/feeds/");
   authDialog->auth(Settings::self()->clientId(),
 		   Settings::self()->clientSecret());
@@ -200,6 +200,9 @@ void ContactsResource::initialItemFetchJobFinished(KJob* job)
   m_currentJobs << clJob;
   connect (clJob, SIGNAL(result(KJob*)),
 	   this, SLOT(contactListJobFinished(KJob*)));
+  connect (clJob, SIGNAL(percent(KJob*,ulong)),
+	   this, SLOT(emitPercent(KJob*,ulong)));
+	      
   emit status(Running, i18n("Retrieving list of contacts"));
   emit percent(2);
   clJob->start();  
