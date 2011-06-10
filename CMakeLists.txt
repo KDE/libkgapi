@@ -12,6 +12,7 @@ macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http:
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 include_directories(
+	  ${QT_INCLUDE_DIR}
 	  ${CMAKE_SOURCE_DIR}
 	  ${CMAKE_SOURCE_DIR}/libkgoogle
 	  ${CMAKE_BINARY_DIR}
