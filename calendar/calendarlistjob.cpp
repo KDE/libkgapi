@@ -29,6 +29,12 @@ CalendarListJob::CalendarListJob(const QString& accessToken):
 {
 }
 
+CalendarListJob::~CalendarListJob()
+{
+  qDeleteAll(m_calendars);
+}
+
+
 void CalendarListJob::start()
 {
   requestData(QUrl("https://www.google.com/calendar/feeds/default/allcalendars/full?alt=jsonc"));
@@ -72,11 +78,20 @@ void CalendarListJob::requestFinished(QNetworkReply *reply)
   bool ok;
  
   QVariantMap data = parser.parse(reply->readAll(), &ok).toMap()["data"].toMap();
+  QVariantList items = data["items"].toList();
 
-  foreach (QVariant cal, data["items"].toList()) {
-    QString id = cal.toMap()["id"].toString();
+  foreach (const QVariant &c, items) {
+    QVariantMap cal = c.toMap();
+    Calendar *calendar = new Calendar();
+    QString id = cal["id"].toString();
+    
     id.remove("http://www.google.com/calendar/feeds/default/calendars/"); // Remove the URL prefix
-    m_calendars.insert(id, cal.toMap()["title"].toString());
+    
+    calendar->setId(id);
+    calendar->setTitle(cal["title"].toString());
+    calendar->setColor(cal["color"].toString());
+    
+    m_calendars << calendar;
   }
   
   emitResult();

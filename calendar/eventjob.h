@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    Akonadi Google - Calendar Resource
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,46 +17,30 @@
 */
 
 
-#ifndef CALENDARLISTJOB_H
-#define CALENDARLISTJOB_H
+#ifndef INCIDENCEJOB_H
+#define INCIDENCEJOB_H
 
 #include <KDE/KJob>
+#include <KDE/KCalCore/Event>
 
-#include <QtCore/QMap>
 #include <QtNetwork/QNetworkReply>
 
-#include "calendar.h"
-
-/**
- * @brief KJob for fetching list of calendars.
- * 
- * The calendars are available via \calendars() function
- * as list of pair calendarId - calendar name.
- */
-class CalendarListJob : public KJob
+class EventJob : public KJob
 {
+
   Q_OBJECT
   public:
-    /**
-     * @brief Create a new job.
-     * 
-     * @param accessToken Access token for authorizing requests
-     */
-    CalendarListJob(const QString &accessToken);
+    EventJob(const QString &accessToken,
+	     const QString &calendarId,
+	     const QString &eventId);
     
-    ~CalendarListJob();
-
-    /**
-     * @brief Starts the job
-     */
     void start();
     
-    /**
-     * @brief Returns list of fetched calendars
-     * 
-     * @return List of calendars
-     */
-    QList<Calendar*> calendars() { return m_calendars; };
+    KCalCore::Event* getEvent() { return m_event; }
+    
+    static KCalCore::Event* JSONToKCal(QVariantMap jsonData);
+    
+    static QVariantMap KCalToJSON(KCalCore::Event event);
     
   private Q_SLOTS:
     void requestData(const QUrl &url);
@@ -64,8 +48,10 @@ class CalendarListJob : public KJob
     
   private:
     QString m_accessToken;
-    QList<Calendar*> m_calendars;
-
+    QString m_calendarId;
+    QString m_eventId;
+    
+    KCalCore::Event* m_event;
 };
 
-#endif // CALENDARLISTJOB_H
+#endif // INCIDENCEJOB_H

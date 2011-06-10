@@ -14,5 +14,10 @@
     </entry>
     <entry name="CalendarId" type="String">
     </entry>
+    <entry name="CalendarName" type="String">
+      <default>Google Calendar</default>
+    </entry>
+    <entry name="CalendarColor" type="String">
+    </entry>
   </group>
 </kcfg>

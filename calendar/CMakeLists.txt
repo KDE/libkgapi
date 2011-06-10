@@ -6,6 +6,7 @@ set(COMMONS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../common )
 set(COMMONS_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/../common )
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}
+		     ${QT_INCLUDE_DIR}
 		     ${COMMONS_SOURCE_DIR}
 )
 
@@ -29,6 +30,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 set(calendarresource_SRCS
     calendarresource.cpp
     calendarlistjob.cpp
+    calendar.cpp
+    eventlistjob.cpp
+    eventjob.cpp
     settings.cpp
     settingsdialog.cpp 
 )
@@ -44,7 +48,7 @@ kde4_add_executable(akonadi_googlecalendar_resource RUN_UNINSTALLED ${calendarre
 
 target_link_libraries(akonadi_googlecalendar_resource
 		      ${KDEPIMLIBS_AKONADI_LIBS}
-		      ${KDEPIMLIBS_KABC_LIBS}
+		      ${KDEPIMLIBS_KCALCORE_LIBS}
 		      ${KDEPIMLIBS_KMIME_LIBS}
 		      ${QT_QTCORE_LIBRARY}
 		      ${QT_QTGUI_LIBRARY}

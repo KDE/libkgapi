@@ -16,14 +16,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <Akonadi/Collection>
 #include <Akonadi/ChangeRecorder>
 #include <Akonadi/ItemFetchScope>
+#include <Akonadi/ItemFetchJob>
+#include <Akonadi/EntityDisplayAttribute>
+
+#include <KDE/KCalCore/Event>
+#include <KDE/KCalCore/Calendar>
+#include <KDE/KLocalizedString>
 
 #include <QtCore/QPointer>
 
 #include "calendarresource.h"
+#include "eventlistjob.h"
+#include "eventjob.h"
 #include "settingsdialog.h"
 #include "settings.h"
+
+using namespace Akonadi;
 
 CalendarResource::CalendarResource(const QString &id): 
   ResourceBase(id)
@@ -45,11 +56,11 @@ CalendarResource::CalendarResource(const QString &id):
       !Settings::self()->refreshToken().isEmpty()) {
     synchronize();
   }
+  
 }
 
 CalendarResource::~CalendarResource()
 {
-
 }
 
 void CalendarResource::abort()
@@ -92,25 +103,134 @@ void CalendarResource::configure(WId windowId)
 
 void CalendarResource::retrieveCollections()
 {
+  Akonadi::EntityDisplayAttribute *attr = new Akonadi::EntityDisplayAttribute();
+  attr->setDisplayName(Settings::self()->calendarName());
+  
+  Collection calendar;
+  calendar.setRemoteId(Settings::self()->calendarId());
+  calendar.setName(Settings::self()->calendarName());
+  calendar.setParentCollection(Akonadi::Collection::root());
+  calendar.setContentMimeTypes(QStringList() << "text/calendar" );
+  calendar.setRights(Collection::ReadOnly);
+  calendar.addAttribute(attr);
 
+  collectionsRetrieved(Collection::List() << calendar);
 }
 
 void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
 {
-  /* TODO :Implement me */
-  
-  Q_UNUSED (collection)
+  emit status(Running, i18n("Preparing to synchronize calendar"));
+  ItemFetchJob *fetchJob = new ItemFetchJob(collection);
+  fetchJob->fetchScope().fetchFullPayload(false);
+  m_currentJobs << fetchJob;
+  connect (fetchJob, SIGNAL(result(KJob*)),
+	   this, SLOT(initialItemFetchJobFinished(KJob*)));
+  fetchJob->start();
 }
+
+void CalendarResource::initialItemFetchJobFinished(KJob* job)
+{
+  ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
+  m_currentJobs.removeAll (job);
+  
+  if (fetchJob->error()) {
+    cancelTask("Failed to fetch initial data.");
+    return;
+  }
+  
+  EventListJob *elJob = new EventListJob(Settings::self()->accessToken(),
+					 Settings::self()->lastSync(),
+					 Settings::self()->calendarId());
+  m_currentJobs << elJob;
+  connect (elJob, SIGNAL(result(KJob*)),
+	   this, SLOT(eventListJobFinished(KJob*)));
+  emit status(Running, i18n("Retrieving events"));
+  emit percent(2);
+  elJob->start();  
+}
+
+void CalendarResource::eventListJobFinished(KJob* job)
+{
+  Q_ASSERT( m_currentJobs.indexOf(job) != -1 );
+
+  EventListJob *elJob = dynamic_cast<EventListJob*>(job);
+  m_currentJobs.clear();
+
+  if (elJob->error()) {
+    qDebug() << elJob->errorText();
+    cancelTask(elJob->errorText());
+    return;
+  }
+  
+  QList<KCalCore::Event*> events = elJob->events();
+  QList<Item> new_items;
+  QList<Item> removed;
+  
+  for (int i = 0; i < events.length(); i++) {
+      Item item;
+      KCalCore::Event* event = events.at(i);
+
+      item.setRemoteId(event->uid());
+      if (event->customProperty("google_calendar", "x-removed") == "1") {
+	removed << item;
+      } else {
+	item.setMimeType(event->mimeType());
+	item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr) event->clone());
+	new_items << item;
+      }
+  }
+  
+  itemsRetrievedIncremental(new_items, removed);
+  
+  /* Store the time of this sync. Next time we will only ask for items
+   * that changed or were removed since sync */
+  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%S"));
+  
+  emit percent(100);
+  emit status(Idle, "Collections synchronized");
+  resetState();
+}
+
+
 
 bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts)
 {
-  /* TODO: Implement me */
+  EventJob *eJob = new EventJob(Settings::self()->accessToken(),
+				Settings::self()->calendarId(),
+				item.remoteId());
+  m_currentJobs << eJob;
+  eJob->setProperty("Item", QVariant::fromValue(item));
+  connect(eJob, SIGNAL(result(KJob*)),
+	  this, SLOT(eventJobFinished(KJob*)));
+    
+  emit status(Running, "Fetching event");
+  eJob->start();
   
-  Q_UNUSED(item)
-  Q_UNUSED(parts)
+  return true;
   
-  return false;
+  Q_UNUSED (parts);
 }
+
+void CalendarResource::eventJobFinished(KJob* job)
+{
+  EventJob *eJob = dynamic_cast<EventJob*>(job);
+  m_currentJobs.removeAll(job);
+  
+  if (eJob->error()) {
+    cancelTask("Failed to fetch event: " + eJob->errorText());
+    return;
+  }
+  
+  Item item;
+  KCalCore::Event *event = eJob->getEvent();
+  item.setMimeType(event->mimeType());
+  item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr) event->clone());
+  
+  emit status(Idle, "Event fetched");
+  itemRetrieved(item);
+  resetState(); 
+}
+
 
 void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
 {

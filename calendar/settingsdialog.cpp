@@ -16,10 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QtCore/QMap>
-#include <QtCore/QMapIterator>
+#include <Qt/qpixmap.h>
+#include <Qt/qicon.h>
+#include <Qt/qcolor.h>
 
 #include <KDE/KMessageBox>
+#include <KDE/KWindowSystem>
 
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
@@ -32,6 +34,8 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
   KDialog(parent),
   m_windowId (windowId)
 {
+  KWindowSystem::setMainWindow(this, windowId);
+  
   m_mainWidget = new QWidget();
   
   m_ui = new Ui::SettingsDialog();
@@ -47,7 +51,12 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
   connect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
 	  this, SLOT(calendarChanged(int)));
   
-  m_calendarId = Settings::self()->calendarId();
+  if (!Settings::self()->calendarId().isEmpty()) {
+    m_calendar = new Calendar();
+    m_calendar->setId(Settings::self()->calendarId());
+    m_calendar->setTitle(Settings::self()->calendarName());
+    m_calendar->setColor(Settings::self()->calendarColor());
+  }
   
   if (Settings::self()->accessToken().isEmpty() ||
       Settings::self()->refreshToken().isEmpty()) {
@@ -64,6 +73,7 @@ SettingsDialog::~SettingsDialog()
   
   delete m_ui;
   delete m_mainWidget;
+  delete m_calendar;
 }
 
 void SettingsDialog::setAuthenticated(bool authenticated)
@@ -103,19 +113,32 @@ void SettingsDialog::calendarListRetrieved(KJob* job)
 	       this, SLOT(calendarChanged(int)));
 
     m_ui->comboBox->clear();
-    QMapIterator<QString,QString> iter(clJob->calendars());
-    while (iter.hasNext()) {
-      iter.next();
-      m_ui->comboBox->addItem(iter.value(), iter.key());
+    foreach (Calendar *calendar, clJob->calendars()) {
+      int index;
+      
+      QPixmap pixmap(12, 12);
+      QColor color(calendar->color());
+      pixmap.fill(color);
+      QIcon icon(pixmap);
+      
+      m_ui->comboBox->addItem(icon, calendar->title());
+      index = m_ui->comboBox->count()-1;
+      m_ui->comboBox->setItemData(index, calendar->id(), Calendar::CalendarIdRole);
+      m_ui->comboBox->setItemData(index, qVariantFromValue(calendar->clone()), Calendar::CalendarRole);
     }
-    
-    if (!m_calendarId.isEmpty()) {
-      int index = m_ui->comboBox->findData(m_calendarId);
+
+  if (m_calendar) {
+      int index = m_ui->comboBox->findData(m_calendar->id(), Calendar::CalendarIdRole);
       m_ui->comboBox->setCurrentIndex(index);
+    } else {
+      int index = m_ui->comboBox->currentIndex();
+      setCalendar(m_ui->comboBox->itemData(index, Calendar::CalendarRole).value<Calendar*>());
     }
-     
+
     connect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
 	    this, SLOT(calendarChanged(int)));
+    
+    
   }
   
   m_ui->refreshListButton->setText("Refresh list");
@@ -124,8 +147,7 @@ void SettingsDialog::calendarListRetrieved(KJob* job)
 
 void SettingsDialog::calendarChanged(int index)
 {
-  m_calendarId = m_ui->comboBox->itemData(index).toString();
-  Settings::self()->setCalendarId(m_calendarId);
+  setCalendar(m_ui->comboBox->itemData(index, Calendar::CalendarRole).value<Calendar*>());
 }
 
 
@@ -153,8 +175,28 @@ void SettingsDialog::revokeTokens()
   Settings::self()->accessToken().clear();
   Settings::self()->refreshToken().clear();
   Settings::self()->calendarId().clear();
+  Settings::self()->calendarColor().clear();
+  Settings::self()->calendarName().clear();
   
   Settings::self()->writeConfig();
   
   setAuthenticated(false);
+}
+
+void SettingsDialog::setCalendar(Calendar* calendar)
+{
+  if (m_calendar)
+    delete m_calendar;
+  
+  m_calendar = calendar;
+   
+  if (m_calendar) {
+    Settings::self()->setCalendarId(m_calendar->id());
+    Settings::self()->setCalendarColor(m_calendar->color());
+    Settings::self()->setCalendarName(m_calendar->title());
+  } else {
+    Settings::self()->calendarId().clear();
+    Settings::self()->calendarColor().clear();
+    Settings::self()->calendarName().clear();
+  }
 }

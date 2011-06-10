@@ -17,47 +17,45 @@
 */
 
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef INCIDENCELISTJOB_H
+#define INCIDENCELISTJOB_H
 
-#include <KDE/KDialog>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkAccessManager>
+
 #include <KDE/KJob>
-#include <Akonadi/ResourceBase>
+#include <KDE/KCalCore/Event>
 
-#include "calendar.h"
 
-namespace Ui {
-  class SettingsDialog;
-};
-
-class SettingsDialog : public KDialog
+class EventListJob : public KJob
 {
+
   Q_OBJECT
   public:
-    SettingsDialog(WId windowId, QWidget *parent = 0);
-    ~SettingsDialog();
-
+    EventListJob(const QString &accessToken,
+		 const QString &lastSync,
+		 const QString &calendarId);
+    
+    ~EventListJob();
+    
+    void start();
+    
+    QList<KCalCore::Event*> events() { return m_events; }
+    
   private Q_SLOTS:
-    void refreshCalendarList();
-    void calendarListRetrieved(KJob *job);
-    void calendarChanged(int index);
+    void requestData(const QUrl &url);
+    void requestFinished(QNetworkReply *reply);
     
-    void revokeTokens();
-    void authenticate();
-    
-    void setAuthenticated(bool authenticated);
     
   private:
-    void setCalendar(Calendar *calendar);
-    
-    Ui::SettingsDialog *m_ui;
-    QWidget *m_mainWidget;    
-    
     QString m_accessToken;
-    QString m_refreshToken;
-    Calendar *m_calendar;
+    QString m_lastSync;
+    QString m_calendarId;
+
+    QNetworkAccessManager *m_nam;   
     
-    WId m_windowId;
+    QList<KCalCore::Event*> m_events;
+    
 };
 
-#endif // SETTINGSDIALOG_H
+#endif // INCIDENCELISTJOB_H

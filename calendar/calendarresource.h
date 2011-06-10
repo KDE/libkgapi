@@ -28,6 +28,7 @@
 class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::Observer
 {
 
+  Q_OBJECT
   public:
     CalendarResource(const QString &id);
     ~CalendarResource();
@@ -47,6 +48,11 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void slotAbortRequested();
     void resetState();
     void abort();
+    
+    void initialItemFetchJobFinished(KJob* job);
+    void eventListJobFinished(KJob* job);
+    void eventJobFinished(KJob* job);
+
     
   private:
     QList<KJob*> m_currentJobs;

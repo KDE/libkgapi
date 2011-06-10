@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Google Calendar
+Name="Google Calendar"
 Comment=Access your Google Calendars from KDE
 Type=AkonadiResource
 Exec=akonadi_googlecalendar_resource
