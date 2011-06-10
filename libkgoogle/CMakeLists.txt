@@ -15,7 +15,6 @@ kde4_add_library(kgoogle SHARED ${libkgoogle_SRCS})
 set_target_properties(kgoogle PROPERTIES VERSION ${KGOOGLE_VERSION} SOVERSION ${KGOOGLE_VERSION_MAJOR} )
 
 target_link_libraries(kgoogle
-		      ${QT_QTDBUS_LIBRARY}
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
 		      ${QJSON_LIBRARIES}
