@@ -28,14 +28,13 @@ endif (XSLTPROC_EXECUTABLE)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
-set(contactsresource_SRCS 
+set(contactsresource_SRCS
     contactsresource.cpp
     contactjob.cpp
     contactcreatejob.cpp 
     contactchangejob.cpp 
     contactdeletejob.cpp
     contactlistjob.cpp 
-    timestampattribute.cpp
     settings.cpp
 )
 

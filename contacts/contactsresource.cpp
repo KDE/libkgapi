@@ -36,7 +36,6 @@
 #include "contactdeletejob.h"
 #include "contactlistjob.h"
 #include "settings.h"
-#include "timestampattribute.h"
 #include "libkgoogle/authdialog.h"
 
 using namespace Akonadi;
@@ -44,7 +43,6 @@ using namespace Akonadi;
 ContactsResource::ContactsResource(const QString &id): 
   ResourceBase(id)
 {
-  AttributeFactory::registerAttribute<TimeStampAttribute>();
   setObjectName(QLatin1String("GoogleContactsResource"));
   setNeedsNetwork(true);
   
@@ -129,7 +127,6 @@ void ContactsResource::retrieveItems(const Akonadi::Collection& collection)
       m_idle = false;
       emit status(Running, i18n("Preparing sync of contacts"));
       ItemFetchJob *fetchJob = new ItemFetchJob(collection);
-      //fetchJob->fetchScope().fetchAttribute<TimeStampAttribute>();
       fetchJob->fetchScope().fetchFullPayload(false);
       m_currentJobs << fetchJob;
       connect (fetchJob, SIGNAL(result(KJob*)),
@@ -189,12 +186,6 @@ void ContactsResource::initialItemFetchJobFinished(KJob* job)
     return;
   }
   
-  foreach (const Item &item, fetchJob->items()) {
-    Q_UNUSED (item)
-    //if (item.hasAttribute<TimeStampAttribute>())
-      //m_existingContacts.insert(item.remoteId(), item.attribute<TimeStampAttribute>()->timeStamp());
-  }
-    
   ContactListJob *clJob = new ContactListJob(Settings::self()->accessToken(),
 					     Settings::self()->lastSync());
   m_currentJobs << clJob;
