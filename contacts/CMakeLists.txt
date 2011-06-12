@@ -3,7 +3,7 @@ set(CONTACT_RESOURCE_VERSION 0.1)
 
 cmake_minimum_required(VERSION 2.8)
 
-add_definitions(-DRESOURCE_VERSION=\\"${RESOURCE_VERSION}\\")
+add_definitions(-DRESOURCE_VERSION="\\"${CONTACT_RESOURCE_VERSION}\\"")
 if (XSLTPROC_EXECUTABLE)
   macro(kcfg_generate_dbus_interface _kcfg _name)
     add_custom_command(
