@@ -2,14 +2,6 @@ project(googlecalendarresource)
 
 cmake_minimum_required(VERSION 2.8)
 
-set(COMMONS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../common )
-set(COMMONS_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/../common )
-
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}
-		     ${QT_INCLUDE_DIR}
-		     ${COMMONS_SOURCE_DIR}
-)
-
 add_definitions(-DRESOURCE_VERSION=\\"${RESOURCE_VERSION}\\")
 if (XSLTPROC_EXECUTABLE)
   macro(kcfg_generate_dbus_interface _kcfg _name)
