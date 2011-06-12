@@ -32,7 +32,6 @@
 #include <KDE/KCalCore/ICalFormat>
 
 #include "eventjob.h"
-#include </home/data/build/sources/kdepim/kdepim-runtime/resources/kcal/kcalresource.h>
 
 EventJob::EventJob(const QString& accessToken, const QString& calendarId, const QString& eventId):
   m_accessToken(accessToken),
