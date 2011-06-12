@@ -21,4 +21,4 @@ include_directories(
 set(authdialog_testSRCS authdialog_test.cpp)
 kde4_add_executable(authdialog_test ${authdialog_testSRCS} ${authdialog_testMOCS})
 target_link_libraries(authdialog_test ${QT_QTCORE_LIBRARY} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} 
-		      ${KDE4_KDEWEBKIT_LIBS} ${CMAKE_CURRENT_BINARY_DIR}/../lib/libkgoogle.so)
+		      ${KDE4_KDEWEBKIT_LIBS} kgoogle)
