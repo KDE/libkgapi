@@ -1,5 +1,11 @@
 CHANGELOG
 
-0.1 * Released 31-May-2011
+0.2 * Released June 10, 2011
+----------------------------
+  - read-only support for calendars
+  - Contacts resource now using JSON to fetch data
+
+0.1 * Released May 21, 2011
 --------------------------
   - initial support for contacts fetching, creating, modifying and removing
+
