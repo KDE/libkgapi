@@ -26,6 +26,8 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 
+#include "contact.h"
+
 /**
  * @brief A KDE Job class for fetching list of contacts using
  * 	  Google's Contacts Data API.
@@ -65,7 +67,7 @@ class ContactListJob: public KJob
      * 
      * @return Returns list of KABC::Addressee objects, for each contact 
      */
-    QList<KABC::Addressee>* contacts() { return m_contacts; }
+    QList<Contact::Contact*>* contacts() { return m_contacts; }
     
   private Q_SLOTS:
     void contactListRetrieved(QNetworkReply *reply);
@@ -77,7 +79,7 @@ class ContactListJob: public KJob
     QString m_accessToken;
     QString m_lastSync;
     
-    QList<KABC::Addressee> *m_contacts;
+    QList<Contact::Contact*> *m_contacts;
     
 };
 

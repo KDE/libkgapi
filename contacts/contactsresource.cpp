@@ -29,6 +29,7 @@
 #include <KDE/Akonadi/ChangeRecorder>
 #include <KDE/KABC/Addressee>
 
+#include "contact.h"
 #include "contactsresource.h"
 #include "contactjob.h"
 #include "contactcreatejob.h"
@@ -39,6 +40,7 @@
 #include "libkgoogle/authdialog.h"
 
 using namespace Akonadi;
+using namespace Contact;
 
 ContactsResource::ContactsResource(const QString &id): 
   ResourceBase(id)
@@ -210,12 +212,18 @@ void ContactsResource::contactJobFinished(KJob* job)
   }
   
   Item item;
-  KABC::Addressee contact = cJob->contact();
+  Contact::Contact *contact = cJob->contact();
+  
   item.setMimeType(KABC::Addressee::mimeType());
-  item.setPayload<KABC::Addressee>(contact);
+  item.setPayload<KABC::Addressee>(*contact->toKABC());
+  item.setRemoteId(contact->etag());
+
+  if (contact->deleted())
+    itemsRetrievedIncremental(Item::List(), Item::List() << item);  
+  else
+    itemRetrieved(item);
   
   emit status(Idle, "Contact fetched");
-  itemRetrieved(item);
   resetState(); 
 }
 
@@ -232,21 +240,21 @@ void ContactsResource::contactListJobFinished(KJob* job)
     return;
   }
   
-  QList<KABC::Addressee> *addresses = clJob->contacts();
+  QList<Contact::Contact*> *addresses = clJob->contacts();
   QList<Item> contacts;
   QList<Item> removed;
   
   for (int i = 0; i < addresses->length(); i++) {
       Item item;
-      KABC::Addressee contact = addresses->at(i);
+      Contact::Contact *contact = addresses->at(i);
 
-      item.setRemoteId(contact.uid());
+      item.setRemoteId(contact->etag());
       
-      if (contact.custom("google_contacts", "x-removed")=="1") {
+      if (contact->deleted()) {
 	removed << item;
       } else {
 	item.setMimeType(KABC::Addressee::mimeType());
-	item.setPayload<KABC::Addressee>(addresses->at(i));
+	item.setPayload<KABC::Addressee>(*contact->toKABC());
 	contacts << item;
       }
   }
@@ -300,12 +308,12 @@ void ContactsResource::addJobFinished(KJob* job)
     return;
   }
 
-  KABC::Addressee contact = dynamic_cast<ContactCreateJob*>(job)->newAddressee();
+  Contact::Contact *contact = dynamic_cast<ContactCreateJob*>(job)->newContact();
   Akonadi::Item newItem;
   
-  newItem.setRemoteId(contact.uid());
+  newItem.setRemoteId(contact->etag());
   newItem.setMimeType(KABC::Addressee::mimeType());
-  newItem.setPayload<KABC::Addressee>(contact);
+  newItem.setPayload<KABC::Addressee>(*contact->toKABC());
 
   changeCommitted(newItem);
   
@@ -339,13 +347,13 @@ void ContactsResource::changeJobFinished(KJob* job)
   
   ContactChangeJob *ccJob = dynamic_cast<ContactChangeJob*>(job);
   
-  KABC::Addressee contact = ccJob->newAddressee();
+  Contact::Contact *contact = ccJob->newContact();
   Akonadi::Item oldItem = ccJob->property("Item").value<Item>();
   Akonadi::Item newItem;
 
-  newItem.setRemoteId(oldItem.remoteId());
+  newItem.setRemoteId(contact->etag());
   newItem.setMimeType(KABC::Addressee::mimeType());
-  newItem.setPayload<KABC::Addressee>(contact);
+  newItem.setPayload<KABC::Addressee>(*contact->toKABC());
   
   changeCommitted(newItem);
   

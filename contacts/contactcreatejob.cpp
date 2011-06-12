@@ -25,6 +25,7 @@
 #include "contactcreatejob.h"
 #include "contactjob.h"
 
+using namespace Contact;
 
 ContactCreateJob::ContactCreateJob(KABC::Addressee addressee, const QString& accessToken):
   m_accessToken(accessToken),
@@ -36,6 +37,8 @@ void ContactCreateJob::start()
   QNetworkAccessManager *nam = new QNetworkAccessManager();
   QNetworkRequest request;
   QByteArray data;
+  Contact::Contact *contact = new Contact::Contact();
+  contact->fromKABC(&m_addressee);
   
   connect(nam, SIGNAL(finished(QNetworkReply*)),
 	  this, SLOT(requestFinished(QNetworkReply*)));
@@ -47,7 +50,7 @@ void ContactCreateJob::start()
   request.setRawHeader("GData-Version", "3.0");
   request.setRawHeader("Content-type", "application/atom+xml");
   
-  data = ContactJob::KABCToXmlEntry(m_addressee);
+  data = contact->toXML();
   data.prepend("<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:gd='http://schemas.google.com/g/2005'>"
 	       "<atom:category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/contact/2008#contact' />");
   data.append("</atom:entry>");
@@ -60,6 +63,8 @@ void ContactCreateJob::start()
 
 void ContactCreateJob::requestFinished(QNetworkReply *reply)
 {
+  m_contact = new Contact::Contact();
+  
   if (reply->error() != QNetworkReply::NoError) {
     setError(1);
     setErrorText("Error creating contact. Server replied: " + reply->errorString());
@@ -72,7 +77,7 @@ void ContactCreateJob::requestFinished(QNetworkReply *reply)
 
   QDomNode entry = doc.documentElement().elementsByTagName("entry").at(0);
   
-  m_outputAddressee = ContactJob::xmlEntryToKABC(entry.toElement());
+  m_contact->fromXML(entry.toElement());
   
   emitResult();
 }

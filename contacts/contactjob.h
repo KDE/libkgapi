@@ -21,11 +21,10 @@
 #define CONTACTJOB_H
 
 #include <KDE/KJob>
-#include <KDE/KABC/Addressee>
 
 #include <QtNetwork/QNetworkReply>
 
-#include <QtXml/QDomElement>
+#include "contact.h"
 
 /**
  * @brief A KDE Job for fetching individual contacts from
@@ -60,45 +59,8 @@ class ContactJob: public KJob
      * 
      * @return Fetched contact
      * */
-    KABC::Addressee contact() const { return m_contact; }
-    
-    /**
-     * @brief Converts the XML \entry to KABC::Addressee object.
-     * 
-     * @param entry A XML entry &lt;entry&gt; representing a contact as returned
-     * 		    by Google API.
-     * @return Returns intialized KABC::Addressee object.
-     */
-    static KABC::Addressee xmlEntryToKABC (QDomElement entry);
-    
-    /**
-     * @brief Converts KABC::Addressee to Atom/XML format that can be
-     * 	      send directly to Google.
-     * @param addressee Adressee object to convert
-     * @return XML representation of the \addressee. The XML code does not contain
-     * 	       headers, only the contact data itself. The headers may vary accross requests
-     * 	       (creating vs. modifying contact), therefor it's up to the specific job to prepend
-     * 	       and append proper header and footer elements.
-     */
-    static QByteArray KABCToXmlEntry (KABC::Addressee addressee);
-    
-    /**
-     * @brief Converts the JSON data (structured in QVariantMap) to KABC::Addressee
-     * 
-     * @param entry An JSON data structured in QVariantMap representing data from
-     * 		    Google Calendar
-     * @return Returns intialized KABC::Addressee object.
-     */
-    static KABC::Addressee JSONToKABC (QVariantMap entry);
-    
-    /**
-     * @brief Converts KABC::Addressee to JSON format that can be
-     * 	      send directly to Google.
-     * @param addressee Adressee object to convert
-     * @return JSON representation of the \addressee.
-     */
-    static QVariantMap KABCToJson (KABC::Addressee addressee);    
-    
+    Contact::Contact* contact() const { return m_contact; }
+
   private Q_SLOTS:
     /**
      * @private
@@ -113,7 +75,7 @@ class ContactJob: public KJob
   private:
     QString m_contactId;
     QString m_accessToken;
-    KABC::Addressee m_contact;
+    Contact::Contact *m_contact;
   
 };
 

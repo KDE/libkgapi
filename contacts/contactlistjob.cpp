@@ -32,13 +32,16 @@
 
 #include "contactjob.h"
 #include "contactlistjob.h"
+#include "contact.h"
 #include "settings.h"
+
+using namespace Contact;
 
 ContactListJob::ContactListJob(const QString& accessToken, const QString &lastSync):
   m_nam(new QNetworkAccessManager),
   m_accessToken(accessToken),
   m_lastSync(lastSync),
-  m_contacts(new QList<KABC::Addressee>)
+  m_contacts(new QList<Contact::Contact*>)
 {
   connect (m_nam, SIGNAL (finished(QNetworkReply*)),
 	   this, SLOT(contactListRetrieved(QNetworkReply*)));
@@ -91,9 +94,8 @@ void ContactListJob::contactListRetrieved(QNetworkReply *reply)
   int itemsPerPage;
 
   if (reply->error() != QNetworkReply::NoError) {
-    qDebug() << "Contact list reqeust failed. Server replied:" << reply->errorString();
-    setError(1);
-    setErrorText("Contact list request failed. Server replied: "+reply->errorString());
+    setError(reply->error());
+    setErrorText(reply->errorString());
     emitResult();
     return;
   }
@@ -127,8 +129,9 @@ void ContactListJob::contactListRetrieved(QNetworkReply *reply)
   foreach (const QVariant &ent, entries) {
    
       QVariantMap entry = ent.toMap();
-    
-      KABC::Addressee contact = ContactJob::JSONToKABC (entry);
+      
+      Contact::Contact *contact = new Contact::Contact();
+      contact->fromJSON (entry);
       
       m_contacts->append(contact);
   }

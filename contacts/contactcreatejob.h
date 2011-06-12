@@ -25,6 +25,8 @@
 
 #include <QtNetwork/QNetworkReply>
 
+#include "contact.h"
+
 class ContactCreateJob : public KJob
 {
   Q_OBJECT
@@ -33,7 +35,7 @@ class ContactCreateJob : public KJob
     
     void start();
     
-    KABC::Addressee newAddressee() { return m_addressee; } 
+    Contact::Contact* newContact() { return m_contact; } 
     
   private Q_SLOTS:
     void requestFinished(QNetworkReply*);
@@ -41,7 +43,7 @@ class ContactCreateJob : public KJob
   private:
     QString m_accessToken;
     KABC::Addressee m_addressee;
-    KABC::Addressee m_outputAddressee;
+    Contact::Contact *m_contact;
 };
 
 #endif // CONTACTCREATEJOB_H

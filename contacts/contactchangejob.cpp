@@ -27,6 +27,8 @@
 #include "contactjob.h"
 #include "contactchangejob.h"
 
+using namespace Contact;
+
 ContactChangeJob::ContactChangeJob(KABC::Addressee addressee, const QString& contactId, const QString& accessToken):
   m_addressee(addressee),
   m_contactId(contactId),
@@ -39,6 +41,8 @@ void ContactChangeJob::start()
   QNetworkAccessManager *nam = new QNetworkAccessManager();
   QNetworkRequest request;
   QByteArray data;
+  Contact::Contact *contact = new Contact::Contact();
+  contact->fromKABC(&m_addressee);
   
   connect(nam, SIGNAL(finished(QNetworkReply*)),
 	  this, SLOT(requestFinished(QNetworkReply*)));
@@ -57,7 +61,7 @@ void ContactChangeJob::start()
 		   "<updated>"+ KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ")+"</updated>"
 		   "<category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/contact/2008#contact' />"
 		   "<title type='text'>"+m_addressee.formattedName()+"</title>";
-  data = ContactJob::KABCToXmlEntry(m_addressee);
+  data = contact->toXML();
   data.prepend(header.toLatin1());
   data.append("</atom:entry>");
   
@@ -77,7 +81,8 @@ void ContactChangeJob::requestFinished(QNetworkReply *reply)
   doc.setContent(reply->readAll());
   
   QDomElement el = doc.documentElement().elementsByTagName("entry").at(0).toElement();
-  m_newAddressee = ContactJob::xmlEntryToKABC(el);
+  m_contact = new Contact::Contact();
+  m_contact->fromXML(el);
   
   setError(0);
   emitResult();

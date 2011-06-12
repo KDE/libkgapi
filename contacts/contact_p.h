@@ -1,5 +1,5 @@
 /*
-    Akonadi Google - Contacts Resource
+    Akonadi Google - Contacts resource
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,36 +16,41 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef CONTACT_P_H
+#define CONTACT_P_H
 
-#ifndef CONTACTCHANGEJOB_H
-#define CONTACTCHANGEJOB_H
+#include <QtCore/QSharedData>
+#include <QtCore/QString>
+#include <QtCore/QUrl>
 
-#include <QtNetwork/QNetworkReply>
+#include <KDE/KABC/Address>
+#include <KDE/KABC/PhoneNumber>
 
-#include <KDE/KJob>
-#include <KDE/KABC/Addressee>
-
-#include "contact.h"
-
-class ContactChangeJob : public KJob
+namespace Contact {
+  
+class ContactPrivate : public QSharedData
 {
 
-  Q_OBJECT
   public:
-    ContactChangeJob(KABC::Addressee addressee, const QString &contactId, const QString &accessToken);
+    ContactPrivate() { };
+    ContactPrivate(const ContactPrivate &other);
+    ~ContactPrivate() { };
+   
+    bool deleted;
+    QUrl photoUrl;
+    QString id;
+    QString etag;
     
-    void start();
-    
-    Contact::Contact* newContact() { return m_contact; }
-    
-  private Q_SLOTS:
-    void requestFinished(QNetworkReply*);
-    
-  private:
-    KABC::Addressee m_addressee;
-    Contact::Contact *m_contact;
-    QString m_contactId;
-    QString m_accessToken;  
+    QString name;
+    QString notes;
+    QString job;
+    QString jobTitle;
+    Email::List emails;
+    IM::List ims;
+    PhoneNumber::List phoneNumbers;
+    Address::List addresses;
 };
 
-#endif // CONTACTCHANGEJOB_H
+};
+
+#endif /* CONTACT_P_H */
