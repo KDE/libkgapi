@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION  2.8)
 
+if(POLICY CMP0017)
+  cmake_policy(SET CMP0017 NEW)
+endif()
+
+
 find_package(Qt4 4.7.0 REQUIRED) 
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)

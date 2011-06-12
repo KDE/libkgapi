@@ -3,15 +3,7 @@ set(CONTACT_RESOURCE_VERSION 0.1)
 
 cmake_minimum_required(VERSION 2.8)
 
-set(COMMONS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../common )
-set(COMMONS_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/../common )
-
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}
-		     ${COMMONS_SOURCE_DIR}
-)
-
-
-add_definitions(-DRESOURCE_VERSION=\\"${RESOURCE_VERSION}\\")
+add_definitions(-DRESOURCE_VERSION="\\"${CONTACT_RESOURCE_VERSION}\\"")
 if (XSLTPROC_EXECUTABLE)
   macro(kcfg_generate_dbus_interface _kcfg _name)
     add_custom_command(
@@ -55,7 +47,7 @@ target_link_libraries(akonadi_googlecontacts_resource
 		      ${QT_QTDBUS_LIBRARY}
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
-		      ${CMAKE_CURRENT_BINARY_DIR}/../lib/libkgoogle.so
+		      kgoogle
 )
 
 install(TARGETS akonadi_googlecontacts_resource ${INSTALL_TARGETS_DEFAULT_ARGS})
