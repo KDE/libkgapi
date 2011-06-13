@@ -17,7 +17,10 @@ set_target_properties(kgoogle PROPERTIES VERSION ${KGOOGLE_VERSION} SOVERSION ${
 target_link_libraries(kgoogle
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
+		      ${KDE4_KDEUI_LIBS}
 		      ${QJSON_LIBRARIES}
+		      ${QT_QTWEBKIT_LIBRARY}
+		      ${QT_QTNETWORK_LIBRARY}
 )
 
 install(TARGETS kgoogle ${INSTALL_TARGETS_DEFAULT_ARGS})
