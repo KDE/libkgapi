@@ -25,8 +25,6 @@
 #include "contactcreatejob.h"
 #include "contactjob.h"
 
-using namespace Contact;
-
 ContactCreateJob::ContactCreateJob(KABC::Addressee addressee, const QString& accessToken):
   m_accessToken(accessToken),
   m_addressee(addressee)

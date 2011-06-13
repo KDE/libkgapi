@@ -27,8 +27,6 @@
 #include "contactjob.h"
 #include "contactchangejob.h"
 
-using namespace Contact;
-
 ContactChangeJob::ContactChangeJob(KABC::Addressee addressee, const QString& contactId, const QString& accessToken):
   m_addressee(addressee),
   m_contactId(contactId),

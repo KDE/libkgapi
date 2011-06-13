@@ -40,7 +40,7 @@
 #include "libkgoogle/authdialog.h"
 
 using namespace Akonadi;
-using namespace Contact;
+//using namespace Contact;
 
 ContactsResource::ContactsResource(const QString &id): 
   ResourceBase(id)

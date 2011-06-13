@@ -35,8 +35,6 @@
 #include "contact.h"
 #include "settings.h"
 
-using namespace Contact;
-
 ContactListJob::ContactListJob(const QString& accessToken, const QString &lastSync):
   m_nam(new QNetworkAccessManager),
   m_accessToken(accessToken),

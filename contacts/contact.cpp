@@ -28,11 +28,9 @@
 
 #define SCHEME_URL "http://schemas.google.com/g/2005#"
 
-using namespace Contact;
-
 /*************************** PRIVATE DATA ******************************/
 
-ContactPrivate::ContactPrivate(const ContactPrivate &other):
+Contact::ContactPrivate::ContactPrivate(const ContactPrivate &other):
       QSharedData(other),
       deleted(other.deleted),
       photoUrl(other.photoUrl),
@@ -155,7 +153,7 @@ void Contact::Contact::addEmail(const Email& email)
   d->emails << email;
 }
 
-Email::List Contact::Contact::emails()
+Contact::Email::List Contact::Contact::emails()
 {
   return d->emails;
 }
@@ -165,7 +163,7 @@ void Contact::Contact::addIM(const IM& im)
   d->ims << im;
 }
 
-IM::List Contact::Contact::IMs()
+Contact::IM::List Contact::Contact::IMs()
 {
   return d->ims;
 }
@@ -181,7 +179,7 @@ void Contact::Contact::addPhoneNumber(const KABC::PhoneNumber &phoneNumber)
 			     phoneNumber.type()));
 }
 
-PhoneNumber::List Contact::Contact::phoneNumbers()
+Contact::PhoneNumber::List Contact::Contact::phoneNumbers()
 {
   return d->phoneNumbers;
 }
@@ -197,7 +195,7 @@ void Contact::Contact::addAddress(const KABC::Address& address)
 		     address.type()));
 }
 
-Address::List Contact::Contact::addresses()
+Contact::Address::List Contact::Contact::addresses()
 {
   return d->addresses;
 }
@@ -546,27 +544,27 @@ KABC::Addressee* Contact::Contact::toKABC()
 
 /********************************** EMAIL ****************************/
 
-Email::Email(const QString address, const bool primary):
+Contact::Email::Email(const QString address, const bool primary):
   m_address(address),
   m_primary(primary)
 { }
 
-void Email::setAddress(const QString& address)
+void Contact::Email::setAddress(const QString& address)
 {
   m_address = address;
 }
 
-QString Email::address()
+QString Contact::Email::address()
 {
   return m_address;
 }
 
-void Email::setPrimary(const bool primary)
+void Contact::Email::setPrimary(const bool primary)
 {
   m_primary = primary;
 }
 
-bool Email::primary()
+bool Contact::Email::primary()
 {
   return m_primary;
 }
@@ -576,53 +574,53 @@ bool Email::primary()
 
 /******************************* IM *******************************/
 
-IM::IM(const QString& address, const QString& scheme):
+Contact::IM::IM(const QString& address, const QString& scheme):
   m_address(address),
   m_scheme(scheme)
 {
   m_protocol = schemeToProtocol(scheme);
 }
 
-IM::IM(const QString& address, const IM::IMProtocol protocol):
+Contact::IM::IM(const QString& address, const IM::IMProtocol protocol):
   m_address(address),
   m_protocol(protocol)
 {
   m_scheme = protocolToScheme(protocol);
 }
 
-void IM::setAddress(const QString& address)
+void Contact::IM::setAddress(const QString& address)
 {
   m_address = address;
 }
 
-QString IM::address()
+QString Contact::IM::address()
 {
   return m_address;
 }
 
-void IM::setScheme(const QString& scheme)
+void Contact::IM::setScheme(const QString& scheme)
 {
   m_scheme = scheme;
   m_protocol = schemeToProtocol(scheme);
 }
 
-QString IM::scheme()
+QString Contact::IM::scheme()
 {
   return m_scheme;
 }
 
-void IM::setProtocol(const IM::IMProtocol protocol)
+void Contact::IM::setProtocol(const IM::IMProtocol protocol)
 {
   m_protocol = protocol;
   m_scheme = protocolToScheme(protocol);
 }
 
-IM::IMProtocol IM::protocol()
+Contact::IM::IMProtocol Contact::IM::protocol()
 {
   return m_protocol;
 }
 
-QString IM::protocolToScheme(const IM::IMProtocol protocol)
+QString Contact::IM::protocolToScheme(const IM::IMProtocol protocol)
 {
   QString protoName;
   
@@ -658,10 +656,11 @@ QString IM::protocolToScheme(const IM::IMProtocol protocol)
   return SCHEME_URL + protoName;
 }
 
-IM::IMProtocol IM::schemeToProtocol(const QString& scheme)
+Contact::IM::IMProtocol Contact::IM::schemeToProtocol(const QString& scheme)
 {
+  using namespace Contact;
   QString protoName = scheme.mid(scheme.lastIndexOf("#")+1);
-  
+
   if (protoName == "JABBER")
     return IM::Jabber;
   if (protoName == "ICQ")
@@ -687,20 +686,20 @@ IM::IMProtocol IM::schemeToProtocol(const QString& scheme)
 
 /********************************* ADDRESS **************************************/
 
-Address::Address(const QString& address, const QString& scheme, const bool primary)
+Contact::Address::Address(const QString& address, const QString& scheme, const bool primary)
 {
   setLabel(address);
   setType(schemeToType(scheme, primary));
 }
 
-Address::Address(const QString& address, const KABC::Address::Type type)
+Contact::Address::Address(const QString& address, const KABC::Address::Type type)
 {
   setLabel(address);
   setType(type);
 }
 
 
-QString Address::typeToScheme(const KABC::Address::Type type, bool* primary)
+QString Contact::Address::typeToScheme(const KABC::Address::Type type, bool* primary)
 {
   QString typeName;
   
@@ -718,7 +717,7 @@ QString Address::typeToScheme(const KABC::Address::Type type, bool* primary)
 }
 
 
-KABC::Address::Type Address::schemeToType(const QString scheme, const bool primary)
+KABC::Address::Type Contact::Address::schemeToType(const QString scheme, const bool primary)
 {
   QString typeName = scheme.mid(scheme.lastIndexOf("#")+1);
   KABC::Address::Type type;
@@ -739,19 +738,19 @@ KABC::Address::Type Address::schemeToType(const QString scheme, const bool prima
 
 /********************************** PHONE NUMBER **********************************/
 
-PhoneNumber::PhoneNumber(const QString& number, const QString& scheme, const bool primary)
+Contact::PhoneNumber::PhoneNumber(const QString& number, const QString& scheme, const bool primary)
 {
   setNumber(number);
   setType(schemeToType(scheme, primary));
 }
 
-PhoneNumber::PhoneNumber(const QString& number, const KABC::PhoneNumber::Type type)
+Contact::PhoneNumber::PhoneNumber(const QString& number, const KABC::PhoneNumber::Type type)
 {
   setNumber(number);
   setType(type);
 }
 
-QString PhoneNumber::typeToScheme(const KABC::PhoneNumber::Type type, bool *primary)
+QString Contact::PhoneNumber::typeToScheme(const KABC::PhoneNumber::Type type, bool *primary)
 {
   QString typeName;
   
@@ -788,7 +787,7 @@ QString PhoneNumber::typeToScheme(const KABC::PhoneNumber::Type type, bool *prim
   return SCHEME_URL + typeName;
 }
 
-KABC::PhoneNumber::Type PhoneNumber::schemeToType(const QString& scheme, const bool primary)
+KABC::PhoneNumber::Type Contact::PhoneNumber::schemeToType(const QString& scheme, const bool primary)
 {
   QString typeName = scheme.mid(scheme.lastIndexOf("#")+1);
   KABC::PhoneNumber::Type type;

@@ -27,8 +27,6 @@
 
 #include "contactjob.h"
 
-using namespace Contact;
-
 ContactJob::ContactJob(const QString &contactId, const QString &accessToken):
   m_contactId(contactId),
   m_accessToken(accessToken)
