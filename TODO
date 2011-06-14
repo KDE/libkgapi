@@ -13,15 +13,14 @@ libKGoogle
  
 Contacts resource
 -----------------
-  - fetching photos
   - extend list of supported values in ContactJob::xmlEntryToKABC() and ContactJob::KABCToXmlEntry()
 
 Calendar resource
 -----------------
-  - retrieving events
   - modifying events
   - creating events
   - removing events
+  - take timezones in account
 
 
 Task list resource (To-do)
