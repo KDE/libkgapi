@@ -47,8 +47,10 @@ target_link_libraries(akonadi_googlecalendar_resource
 		      ${QT_QTCORE_LIBRARY}
 		      ${QT_QTGUI_LIBRARY}
 		      ${QT_QTDBUS_LIBRARY}
+		      ${QT_QTNETWORK_LIBRARY}
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
+		      ${QJSON_LIBRARIES}
 		      kgoogle
 )
 
