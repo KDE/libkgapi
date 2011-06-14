@@ -122,7 +122,9 @@ class ContactsResource: public Akonadi::ResourceBase,
     QList<QString> m_pendingContacts;
     
     int m_contactsCnt;
-    int m_photosCnt;
+
+    int m_itemsCnt;
+    int m_itemsFinished;
     
     bool m_idle;
     QList< QPointer<KJob> > m_currentJobs;

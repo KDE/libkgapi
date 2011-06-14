@@ -28,6 +28,7 @@ set(contactsresource_SRCS
     contactchangejob.cpp 
     contactdeletejob.cpp
     contactlistjob.cpp 
+    photojob.cpp
     settings.cpp
 )
 

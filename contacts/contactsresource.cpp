@@ -27,7 +27,9 @@
 #include <KDE/Akonadi/ItemFetchJob>
 #include <KDE/Akonadi/ItemFetchScope>
 #include <KDE/Akonadi/ChangeRecorder>
+
 #include <KDE/KABC/Addressee>
+#include <KDE/KABC/Picture>
 
 #include "contact.h"
 #include "contactsresource.h"
@@ -36,6 +38,7 @@
 #include "contactchangejob.h"
 #include "contactdeletejob.h"
 #include "contactlistjob.h"
+#include "photojob.h"
 #include "settings.h"
 #include "libkgoogle/authdialog.h"
 
@@ -82,8 +85,9 @@ void ContactsResource::abort()
 void ContactsResource::resetState()
 {
   m_idle = true;
-  m_photosCnt = 0;
   m_contactsCnt = 0;
+  m_itemsCnt = 0;
+  m_itemsFinished = 0;
   
   m_currentJobs.clear();
   m_existingContacts.clear();
@@ -232,7 +236,7 @@ void ContactsResource::contactListJobFinished(KJob* job)
   Q_ASSERT( m_currentJobs.indexOf(job) != -1 );
 
   ContactListJob * const clJob = dynamic_cast<ContactListJob*>(job);
-  m_currentJobs.clear();
+  m_currentJobs.removeAll(job);
 
   if (clJob->error()) {
     qDebug() << clJob->errorText();
@@ -241,10 +245,15 @@ void ContactsResource::contactListJobFinished(KJob* job)
   }
   
   QList<Contact::Contact*> *addresses = clJob->contacts();
-  QList<Item> contacts;
-  QList<Item> removed;
+  Item::List contacts;
+  Item::List removed;
   
-  for (int i = 0; i < addresses->length(); i++) {
+  emit percent(0);
+  emit status(Running, "Fetching contacts photos");
+  
+  m_itemsCnt = addresses->length();
+  m_itemsFinished = 0;
+  for (int i = 0; i < m_itemsCnt; i++) {
       Item item;
       Contact::Contact *contact = addresses->at(i);
 
@@ -252,15 +261,24 @@ void ContactsResource::contactListJobFinished(KJob* job)
       
       if (contact->deleted()) {
 	removed << item;
+	m_itemsFinished++;
+	emit percent(((float)m_itemsFinished/(float)m_itemsCnt) * 100);
       } else {
-	item.setMimeType(KABC::Addressee::mimeType());
-	item.setPayload<KABC::Addressee>(*contact->toKABC());
-	contacts << item;
+	PhotoJob *pJob = new PhotoJob(Settings::self()->accessToken(),
+				      contact->photoUrl());
+	pJob->setProperty("contact", QVariant::fromValue((Contact::Contact::Ptr)contact));
+	connect(pJob, SIGNAL(finished(KJob*)),
+		this, SLOT(photoJobFinished(KJob*)));
+
+	m_currentJobs.append(pJob);
+
+	pJob->start();
       }
   }
   
-  itemsRetrievedIncremental(contacts, removed);
+  itemsRetrievedIncremental(Item::List(), removed);
   
+
   /* Store the time of this sync. Next time we will only ask for items
    * that changed or were removed since sync */
   Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%S"));
@@ -273,9 +291,21 @@ void ContactsResource::contactListJobFinished(KJob* job)
 
 void ContactsResource::photoJobFinished(KJob* job)
 {
-  /* TODO: Implement me! */
+  PhotoJob *pJob = dynamic_cast<PhotoJob*>(job);
+  m_currentJobs.removeAll(job);
   
-  Q_UNUSED (job);
+  Item item;
+  Contact::Contact::Ptr contact = pJob->property("contact").value<Contact::Contact::Ptr>();
+  KABC::Addressee addressee = *contact->toKABC();
+  addressee.setPhoto(KABC::Picture(pJob->photo()));
+  item.setRemoteId(contact->etag());
+  item.setMimeType(KABC::Addressee::mimeType());
+  item.setPayload<KABC::Addressee>(addressee);
+  
+  itemsRetrievedIncremental(Item::List() << item, Item::List());
+  
+  m_itemsFinished++;
+  emit percent(((float)m_itemsFinished/(float)m_itemsCnt) * 100);  
 }
 
 void ContactsResource::updateLocalContacts()
