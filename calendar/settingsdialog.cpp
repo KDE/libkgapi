@@ -106,8 +106,8 @@ void SettingsDialog::calendarListRetrieved(KJob* job)
   
   if (clJob->error()) {
     KMessageBox::error(this, 
-      i18n("Failed to refresh list of calendars. Server replied:\n")+clJob->errorString(),
-      i18n("Failed to refresh list of calendars"), 0);
+      i18n("Failed to refresh the list of calendars. The remote server replied:\n")+clJob->errorString(),
+      i18n("Failed to refresh the list of calendars"), 0);
   } else {
     disconnect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
 	       this, SLOT(calendarChanged(int)));
