@@ -216,6 +216,9 @@ KCalCore::Event* EventJob::JSONToKCal(QVariantMap jsonData)
     } else  if (recurrence.left(5) == "DTEND") {
       int start = recurrence.lastIndexOf(":")+1;
       event->setDtEnd(KDateTime::fromString(recurrence.mid(start, 15), "%Y%m%dT%H%M%S"));
+      /* Minus one day: Google says that all-day event is from 2011-05-20 to 2011-05-21, but
+       * KDE says that all-day event is from 2011-05-20 to 2011-05-20. */
+      event->setDtEnd(event->dtEnd().addDays(-1));
     } else if (recurrence.left(5) == "RRULE") {
       KCalCore::ICalFormat format;
       KCalCore::RecurrenceRule *recurrenceRule = event->recurrence()->defaultRRule(true);
