@@ -35,7 +35,7 @@
       </size>
      </property>
      <property name="title">
-      <string>Authentization</string>
+      <string>Authentication</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
