@@ -226,6 +226,13 @@ class PhoneNumber : public KABC::PhoneNumber
     PhoneNumber(const QString &number, const KABC::PhoneNumber::Type type);
     
     /**
+     * @brief Overloaded parent constructor
+     * 
+     * @param phoneNumber Phone number 
+     */
+    PhoneNumber(const KABC::PhoneNumber &phoneNumber);
+    
+    /**
      * @brief Static function for conversion from KABC::PhoneNumber::Type
      * 	      to GData Scheme URL
      * @param type Phone number type
@@ -255,14 +262,46 @@ class Address : public KABC::Address
     typedef QList< Address > List;
     
     /**
+     * @brief Construct a new address from given values.
+     * 
+     * @param street Street
+     * @param pobox P.O. BOX
+     * @param locality City
+     * @param region Region
+     * @param postalCode Postal Code
+     * @param country Country name
+     * @param type Address type
+     */
+    Address(const QString &street = QString(), const QString &pobox = QString(), const QString &locality = QString(),
+	    const QString &region = QString(), const QString &postalCode = QString(), const QString &country = QString(),
+	    const KABC::Address::Type type = KABC::Address::Home);
+    
+    /**
      * @brief Construct a new address with #address of type 
      * 	      specified by #scheme
      * 
-     * @param address Address
+     * @param address QVariantMap of structured address
      * @param scheme GData Scheme URL
      * @param primary Wheter the adress is primary or not
      */
-    Address(const QString &address, const QString &scheme, const bool primary = false);
+    Address(const QVariantMap &address, const QString &scheme, const bool primary = false);
+    
+    /**
+     * @brief Construct a new address with #address of type 
+     * 	      specified by #scheme
+     * 
+     * @param address XML with structured address
+     * @param scheme GData Scheme URL
+     * @param primary Wheter the adress is primary or not
+     */    
+    Address(const QDomElement &address, const QString &scheme, const bool primary = false);
+    
+    /**
+     * @brief Overloaded parent constructor
+     * 
+     * @param address Address
+     */
+    Address(const KABC::Address &address);
     
     /**
      * @brief Comfortible overloaded constructor of an Address

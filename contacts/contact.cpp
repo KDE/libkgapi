@@ -19,6 +19,7 @@
 #include <QtCore/QString>
 #include <QtCore/QUrl>
 #include <QtCore/QVariantMap>
+#include <QtCore/QDebug>
 
 #include <KABC/Address>
 #include <KABC/PhoneNumber>
@@ -175,8 +176,7 @@ void Contact::Contact::addPhoneNumber(const PhoneNumber &phoneNumber)
 
 void Contact::Contact::addPhoneNumber(const KABC::PhoneNumber &phoneNumber)
 {
-  addPhoneNumber(PhoneNumber(phoneNumber.number(),
-			     phoneNumber.type()));
+  addPhoneNumber(PhoneNumber(phoneNumber));
 }
 
 Contact::PhoneNumber::List Contact::Contact::phoneNumbers()
@@ -191,8 +191,7 @@ void Contact::Contact::addAddress(const Address &address)
 
 void Contact::Contact::addAddress(const KABC::Address& address)
 {
-  addAddress(Address(address.formattedAddress(),
-		     address.type()));
+  addAddress(Address(address));
 }
 
 Contact::Address::List Contact::Contact::addresses()
@@ -255,15 +254,15 @@ void Contact::Contact::fromJSON(const QVariantMap& jsonData)
   foreach (const QVariant &p, phones) {
     QVariantMap phone = p.toMap();
     addPhoneNumber(PhoneNumber(phone["$t"].toString(),
-				        phone["rel"].toString(),
-				        phone["primary"].toBool()));
+			       phone["rel"].toString(),
+			       phone["primary"].toBool()));
   }
     
   /* Addresses */
-  QVariantList addresses = jsonData["gd$postalAddress"].toList();
+  QVariantList addresses = jsonData["gd$structuredPostalAddress"].toList();
   foreach (const QVariant &a, addresses) {
     QVariantMap address = a.toMap();
-    addAddress(Address(address["$t"].toString(),
+    addAddress(Address(address,
 		       address["rel"].toString()));
   }
     
@@ -416,12 +415,14 @@ void Contact::Contact::fromXML(const QDomElement& xmlData)
     }
     
     /* Addresses */
-    if (e.tagName() == "gd:postalAddress") {
-      addAddress(Address(e.text(),
+    /* FIXME */
+    if (e.tagName() == "gd:structuredPostalAddress") {
+      addAddress(Address(e.toElement(),
 			 e.attribute("rel"),
 			 (e.attribute("primary") == "true")));
       continue;
     }
+    
     
     /* TODO: Expand supported items.
      * http://code.google.com/apis/gdata/docs/2.0/elements.html
@@ -686,15 +687,58 @@ Contact::IM::IMProtocol Contact::IM::schemeToProtocol(const QString& scheme)
 
 /********************************* ADDRESS **************************************/
 
-Contact::Address::Address(const QString& address, const QString& scheme, const bool primary)
+Contact::Address::Address(const QString& street, const QString& pobox, const QString& locality, 
+			  const QString& region, const QString& postalCode, const QString& country,
+			  const KABC::Address::Type type)
 {
-  setLabel(address);
+  setStreet(street);
+  setPostOfficeBox(pobox);
+  setLocality(locality);
+  setRegion(region);
+  setPostalCode(postalCode);
+  setCountry(country);
+  setType(type);
+}
+
+
+Contact::Address::Address(const QVariantMap& address, const QString& scheme, const bool primary)
+{
+  setStreet(address["gd$street"].toMap()["$t"].toString());
+  setCountry(address["gd$country"].toMap()["$t"].toString());
+  setLocality(address["gd$city"].toMap()["$t"].toString());
+  setPostalCode(address["gd$postcode"].toMap()["$t"].toString());
+  setRegion(address["gd$region"].toMap()["$t"].toString());
+  setPostOfficeBox(address["gd$pobox"].toMap()["$t"].toString());
+  
   setType(schemeToType(scheme, primary));
 }
 
+Contact::Address::Address(const QDomElement& address, const QString& scheme, const bool primary)
+{
+  QDomNode em = address.elementsByTagName("gd:street").at(0);
+  setStreet(em.toElement().text());
+  em = address.elementsByTagName("gd:country").at(0);
+  setCountry(em.toElement().text());
+  em = address.elementsByTagName("gd:city").at(0);
+  setLocality(em.toElement().text());
+  em = address.elementsByTagName("gd:postcode").at(0);
+  setPostalCode(em.toElement().text());
+  em = address.elementsByTagName("gd:region").at(0);
+  setRegion(em.toElement().text());
+  em = address.elementsByTagName("gd:pobox").at(0);
+  setPostOfficeBox(em.toElement().text());
+
+  setType(schemeToType(scheme, primary));
+}
+
+Contact::Address::Address(const KABC::Address& address):
+  KABC::Address(address)
+{ }
+
+
 Contact::Address::Address(const QString& address, const KABC::Address::Type type)
 {
-  setLabel(address);
+  setExtended(address);
   setType(type);
 }
 
@@ -749,6 +793,10 @@ Contact::PhoneNumber::PhoneNumber(const QString& number, const KABC::PhoneNumber
   setNumber(number);
   setType(type);
 }
+
+Contact::PhoneNumber::PhoneNumber(const KABC::PhoneNumber &phoneNumber):
+  KABC::PhoneNumber(phoneNumber)
+{ }  
 
 QString Contact::PhoneNumber::typeToScheme(const KABC::PhoneNumber::Type type, bool *primary)
 {

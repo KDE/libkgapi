@@ -63,8 +63,6 @@ void ContactChangeJob::start()
   data.prepend(header.toLatin1());
   data.append("</atom:entry>");
   
-  qDebug() << data;
-  
   nam->put(request, data);
 }
 
