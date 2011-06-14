@@ -127,7 +127,7 @@ void ContactsResource::retrieveItems(const Akonadi::Collection& collection)
 {
     if (collection.remoteId() == "googleContacts") {
       m_idle = false;
-      emit status(Running, i18n("Preparing sync of contacts"));
+      emit status(Running, i18n("Preparing synchronization of contacts"));
       ItemFetchJob *fetchJob = new ItemFetchJob(collection);
       fetchJob->fetchScope().fetchFullPayload(false);
       m_currentJobs << fetchJob;
