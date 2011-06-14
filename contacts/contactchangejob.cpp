@@ -58,10 +58,12 @@ void ContactChangeJob::start()
 		   "<id>http://www.google.com/m8/feeds/contacts/default/base/" + m_contactId + "</id>"
 		   "<updated>"+ KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ")+"</updated>"
 		   "<category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/contact/2008#contact' />"
-		   "<title type='text'>"+m_addressee.formattedName()+"</title>";
+		   "<title type='text'>"+contact->name()+"</title>";
   data = contact->toXML();
   data.prepend(header.toLatin1());
   data.append("</atom:entry>");
+  
+  qDebug() << data;
   
   nam->put(request, data);
 }
@@ -69,7 +71,7 @@ void ContactChangeJob::start()
 void ContactChangeJob::requestFinished(QNetworkReply *reply)
 {
   if (reply->error() != QNetworkReply::NoError) {
-    setError(1);
+    setError(reply->error());
     setErrorText("Failed to update contact. Server replied: " + reply->errorString());
     emitResult();
     return;
@@ -79,8 +81,7 @@ void ContactChangeJob::requestFinished(QNetworkReply *reply)
   doc.setContent(reply->readAll());
   
   QDomElement el = doc.documentElement().elementsByTagName("entry").at(0).toElement();
-  m_contact = new Contact::Contact();
-  m_contact->fromXML(el);
+  m_contact.fromXML(el);
   
   setError(0);
   emitResult();

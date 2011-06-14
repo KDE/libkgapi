@@ -36,14 +36,14 @@ class ContactChangeJob : public KJob
     
     void start();
     
-    Contact::Contact* newContact() { return m_contact; }
+    Contact::Contact newContact() { return m_contact; }
     
   private Q_SLOTS:
     void requestFinished(QNetworkReply*);
     
   private:
     KABC::Addressee m_addressee;
-    Contact::Contact *m_contact;
+    Contact::Contact m_contact;
     QString m_contactId;
     QString m_accessToken;  
 };

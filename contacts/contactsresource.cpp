@@ -220,7 +220,8 @@ void ContactsResource::contactJobFinished(KJob* job)
   
   item.setMimeType(KABC::Addressee::mimeType());
   item.setPayload<KABC::Addressee>(*contact->toKABC());
-  item.setRemoteId(contact->etag());
+  item.setRemoteId(contact->id());
+  item.setRemoteRevision(contact->etag());
 
   if (contact->deleted())
     itemsRetrievedIncremental(Item::List(), Item::List() << item);  
@@ -298,7 +299,8 @@ void ContactsResource::photoJobFinished(KJob* job)
   Contact::Contact::Ptr contact = pJob->property("contact").value<Contact::Contact::Ptr>();
   KABC::Addressee addressee = *contact->toKABC();
   addressee.setPhoto(KABC::Picture(pJob->photo()));
-  item.setRemoteId(contact->etag());
+  item.setRemoteId(contact->id());
+  item.setRemoteRevision(contact->etag());
   item.setMimeType(KABC::Addressee::mimeType());
   item.setPayload<KABC::Addressee>(addressee);
   
@@ -341,7 +343,8 @@ void ContactsResource::addJobFinished(KJob* job)
   Contact::Contact *contact = dynamic_cast<ContactCreateJob*>(job)->newContact();
   Akonadi::Item newItem;
   
-  newItem.setRemoteId(contact->etag());
+  newItem.setRemoteId(contact->id());
+  newItem.setRemoteRevision(contact->etag());
   newItem.setMimeType(KABC::Addressee::mimeType());
   newItem.setPayload<KABC::Addressee>(*contact->toKABC());
 
@@ -377,13 +380,14 @@ void ContactsResource::changeJobFinished(KJob* job)
   
   ContactChangeJob *ccJob = dynamic_cast<ContactChangeJob*>(job);
   
-  Contact::Contact *contact = ccJob->newContact();
+  Contact::Contact contact = ccJob->newContact();
   Akonadi::Item oldItem = ccJob->property("Item").value<Item>();
   Akonadi::Item newItem;
 
-  newItem.setRemoteId(contact->etag());
+  newItem.setRemoteId(contact.id());
+  newItem.setRemoteRevision(contact.etag());
   newItem.setMimeType(KABC::Addressee::mimeType());
-  newItem.setPayload<KABC::Addressee>(*contact->toKABC());
+  newItem.setPayload<KABC::Addressee>(*contact.toKABC());
   
   changeCommitted(newItem);
   
@@ -393,11 +397,10 @@ void ContactsResource::changeJobFinished(KJob* job)
 
 void ContactsResource::itemRemoved(const Akonadi::Item& item)
 {
-  QString uid = item.remoteId();
-  
   emit status(Running, i18n("Removing contact"));
   
-  ContactDeleteJob *dJob = new ContactDeleteJob(uid, Settings::self()->accessToken());
+  ContactDeleteJob *dJob = new ContactDeleteJob(item.remoteId(), 
+						Settings::self()->accessToken());
   dJob->setProperty("Item", QVariant::fromValue(item));
   connect (dJob, SIGNAL(finished(KJob*)),
 	   this, SLOT(removeJobFinished(KJob*)));

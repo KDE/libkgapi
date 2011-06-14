@@ -53,7 +53,7 @@ Contact::ContactPrivate::ContactPrivate(const ContactPrivate &other):
 
 Contact::Contact::Contact()
 {
-  d = new ContactPrivate();
+  d = new ContactPrivate;
 }
 
 Contact::Contact::Contact(const Contact &other):
@@ -437,7 +437,7 @@ QByteArray Contact::Contact::toXML()
  KABC::Addressee addressee;
   
   /* Name */
-  addressee.setName(name());
+  addressee.setNameFromString(name());
   output.append("<gd:name>");
   if (!addressee.givenName().isEmpty())
     output.append("<gd:givenName>").append(addressee.givenName().toLatin1()).append("</gd:givenName>");
@@ -501,7 +501,7 @@ void Contact::Contact::fromKABC(const KABC::Addressee* addressee)
   setDeleted(addressee->custom("KADDRESSBOOK", "deleted") == "true");
   setPhotoUrl(addressee->photo().url());
   
-  setName(addressee->name());
+  setName(addressee->assembledName());
   setNotes(addressee->note());
   setJob(addressee->organization());
   setJobTitle(addressee->title());
