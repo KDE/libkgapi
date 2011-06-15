@@ -191,15 +191,14 @@ KCalCore::Event* EventJob::JSONToKCal(QVariantMap jsonData)
       dtEnd = dtEnd.addDays(-1); /* Google says one-day all-day event = 2011-05-20 to 2011-05-21, 
 			          * KDE says one-day all-day event = 2011-05-20 to 2011-05-20 */
     } else {
-      if (when["start"].toString().right(1) == "Z") /* 2011-05-20T12:00:00.000Z */
-	dtStart = KDateTime::fromString(when["start"].toString().left(19), "%Y-%m-%dT%H:%M:%S");
-      else if (when["start"].toString().contains("+")) /* 2011-05-20T12:00;00.000+02:00 */
-	dtStart = KDateTime::fromString(when["start"].toString().left(29), "%Y-%m-%dT%H:%M:%S%:s%:z");
-	
-      if (when["end"].toString().right(1) == "Z") /* 2011-05-20T12:00:00.000Z */
-	dtEnd = KDateTime::fromString(when["end"].toString().left(19), "%Y-%m-%dT%H:%M:%S");
-      else if (when["end"].toString().contains("+")) /* 2011-05-20T12:00;00.000+02:00 */
-	dtEnd = KDateTime::fromString(when["end"].toString().left(29), "%Y-%m-%dT%H:%M:%S%:s%:z");
+      dtStart = KDateTime::fromString(when["start"].toString(), KDateTime::RFC3339Date);
+      dtEnd = KDateTime::fromString(when["end"].toString(), KDateTime::RFC3339Date);
+      
+      if (!dtStart.isLocalZone())
+	dtStart = dtStart.toLocalZone();
+      
+      if (!dtEnd.isLocalZone())
+	dtEnd = dtEnd.toLocalZone();
     }
     
     event->setDtStart(dtStart);
