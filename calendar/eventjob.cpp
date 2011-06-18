@@ -271,11 +271,128 @@ KCalCore::Event* EventJob::JSONToKCal(QVariantMap jsonData)
 
 QVariantMap EventJob::KCalToJSON(KCalCore::Event event)
 {
-  /* TODO: Implement me! */
+  QVariantMap output;
   
-  Q_UNUSED(event)
+  /* ID */
+  output["id"] = event.uid();
   
-  return QVariantMap();
+  /* Can edit? */
+  output["canEdit"] = event.isReadOnly();
+   
+  /* Summary */
+  output["title"] = event.summary();
+  
+  /* Description */
+  output["details"] = event.description();
+  
+  /* Created */
+  output["created"] = event.created().toString(KDateTime::RFC3339Date);
+  
+  /* Last updated */
+  output["updated"] = event.lastModified().toString(KDateTime::RFC3339Date);
+  
+  /* Status */
+  if (event.status() == KCalCore::Incidence::StatusConfirmed)
+    output["status"] = "confirmed";
+  else if (event.status() == KCalCore::Incidence::StatusCanceled)
+    output["status"] = "canceled";
+  else if (event.status() == KCalCore::Incidence::StatusTentative)
+    output["status"] = "tentative";
+
+  /* Transparency */
+  if (event.transparency() == KCalCore::Event::Transparent)
+    output["transparency"] = "transparent";
+  else
+    output["transparency"] = "opaque";
+  
+  /* Location */
+  output["location"] = event.location();
+  
+  /* Attendees */
+  QVariantList attendees;
+  foreach (const KCalCore::Attendee::Ptr attendee, event.attendees()) {
+    QVariantMap att;
+    
+    att["displayName"] = attendee->name();
+    att["email"] = attendee->email();
+    
+    if (attendee->status() == KCalCore::Attendee::Accepted)
+      att["status"] = "accepted";
+    else if (attendee->status() == KCalCore::Attendee::None)
+      att["status"] = "invited";
+    else if (attendee->status() == KCalCore::Attendee::Declined)
+      att["status"] = "declined";
+    else if (attendee->status() == KCalCore::Attendee::Tentative)
+      att["status"] == "tentative";
+    
+    if (attendee->role() == KCalCore::Attendee::ReqParticipant)
+      att["type"] = "required";
+    else if (attendee->role() == KCalCore::Attendee::OptParticipant)
+      att["type"] = "optional";
+    /* No further roles supported by Google */
+
+    attendees.append(att);
+  }
+  
+  /* Organizer. Google expects organizator as one of attendees. */
+  QVariantMap organizer;
+  organizer["displayName"] = event.organizer()->name();
+  organizer["email"] = event.organizer()->email();
+  organizer["rel"] = "organizer";
+  attendees.append(organizer);
+  
+  output["attendees"] = attendees;
+
+  /* Start, end */
+  QVariantList whens;
+  QVariantMap when;
+  if (event.allDay()) {
+    when["start"] = event.dtStart().toString("%Y-%m-%d");
+    when["end"] = event.dtEnd().addDays(1).toString("%Y-%m-%d");
+  } else {
+    when["start"] = event.dtStart().toString(KDateTime::RFC3339Date);
+    when["end"] = event.dtEnd().toString(KDateTime::RFC3339Date);
+  }
+  whens.append(when);
+  output["when"] = whens;
+  
+  /* Recurrence */
+  KCalCore::ICalFormat format;
+  QString recStr;
+  recStr = "DTSTART;VALUE=DATE:" + event.recurrence()->startDate().toString(Qt::LocalDate) + "\r\n" +
+	   "DTEND;VALUE=DATE:" + event.recurrence()->endDate().toString(Qt::LocalDate);
+  foreach (KCalCore::RecurrenceRule *rrule, event.recurrence()->rRules())
+    recStr += "\r\nRRULE:" + format.toString(rrule);
+  if (event.recurrence()->rRules().length() > 0) {
+    output["recurrence"] = recStr;
+    output.remove("when"); /* Can't have 'recurrence' and 'when' together */
+  }
+  
+  /* Reminders */
+  QVariantList alarms;
+  foreach (KCalCore::Alarm::Ptr a, event.alarms()) {
+    QVariantMap alarm;
+    if (a->type() == KCalCore::Alarm::Display)
+      alarm["method"] = "alert";
+    else if (a->type() == KCalCore::Alarm::Email)
+      alarm["method"] = "email";
+    
+    if (a->startOffset().asSeconds() < 0)
+      alarm["minutes"] = a->startOffset().asSeconds()/(-60);
+    else
+      alarm["absoluteTime"] = a->time().toString(KDateTime::RFCDate);
+    
+    alarms.append(alarm);
+  }
+  output["reminders"] = alarms;
+  
+  
+  /* TODO: Implement support for additional features:
+   * http://code.google.com/apis/gdata/docs/2.0/elements.html
+   */
+  
+  
+  return output;
 }
 
 

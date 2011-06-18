@@ -30,6 +30,7 @@
 
 #include "calendarresource.h"
 #include "eventlistjob.h"
+#include "eventcreatejob.h"
 #include "eventjob.h"
 #include "settingsdialog.h"
 #include "settings.h"
@@ -111,7 +112,10 @@ void CalendarResource::retrieveCollections()
   calendar.setName(Settings::self()->calendarName());
   calendar.setParentCollection(Akonadi::Collection::root());
   calendar.setContentMimeTypes(QStringList() << "text/calendar" );
-  calendar.setRights(Collection::ReadOnly);
+  calendar.setRights(Collection::ReadOnly |
+		     Collection::CanChangeItem |
+		     Collection::CanCreateItem |
+		     Collection::CanDeleteItem);
   calendar.addAttribute(attr);
 
   collectionsRetrieved(Collection::List() << calendar);
@@ -234,11 +238,45 @@ void CalendarResource::eventJobFinished(KJob* job)
 
 void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
 {
-  /* TODO: Implement me */
+  if (!item.hasPayload<KCalCore::Event::Ptr>())
+    return;
+
+  status(Running, "Creating event...");
   
-  Q_UNUSED(item);
-  Q_UNUSED(collection)
+  KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
+  EventCreateJob *ecJob = new EventCreateJob((KCalCore::Event*)event->clone(), 
+					     Settings::self()->calendarId(),
+					     Settings::self()->accessToken());
+  ecJob->setProperty("Item", QVariant::fromValue(item));
+  connect (ecJob, SIGNAL(finished(KJob*)),
+	   this, SLOT(addJobFinished(KJob*)));
+  ecJob->start();
+
+  Q_UNUSED (collection)
 }
+
+void CalendarResource::addJobFinished(KJob* job)
+{
+  if (job->error()) {
+    qDebug() << job->errorString();
+    cancelTask(job->errorString());
+    return;
+  }
+
+  KCalCore::Event* event = dynamic_cast<EventCreateJob*>(job)->newEvent();
+  Akonadi::Item newItem;
+  
+  newItem.setRemoteId(event->uid());
+  newItem.setRemoteRevision(event->uid());
+  newItem.setMimeType(event->mimeType());
+  newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)event->clone());
+
+  changeCommitted(newItem);
+  
+  status(Idle, "Event created");
+  resetState();  
+}
+
 
 void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
