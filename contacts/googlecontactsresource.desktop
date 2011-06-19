@@ -2,11 +2,13 @@
 Name=Google Contacts
 Name[cs]=Kontakty Google
 Name[nds]=Google-Kontakten
+Name[nl]=Google contactpersonen
 Name[pt]=Contactos do Google
 Name[sv]=Google-kontakter
 Name[uk]=Контакти Google
 Name[x-test]=xxGoogle Contactsxx
 Comment=Access your Google Contacts from KDE
+Comment[nl]=Heb toegang tot uw Google contactpersonen vanuit KDE 
 Comment[pt]=Aceda aos seus contactos da Google a partir do KDE
 Comment[sv]=Kom åt dina Google-kontakter från KDE
 Comment[uk]=Доступ до ваших записів контактів Google з KDE

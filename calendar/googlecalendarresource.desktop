@@ -1,10 +1,12 @@
 [Desktop Entry]
 Name=Google Calendars
+Name[nl]=Google agenda's
 Name[pt]=Calendários do Google
 Name[sv]=Google-kalendrar
 Name[uk]=Календарі Google
 Name[x-test]=xxGoogle Calendarsxx
 Comment=Access your Google Calendars from KDE
+Comment[nl]=Heb toegang tot uw Google agenda's vanuit KDE 
 Comment[pt]=Aceda aos seus calendários da Google a partir do KDE
 Comment[sv]=Kom åt dina Google-kalendrar från KDE
 Comment[uk]=Доступ до ваших календарів Google з KDE
