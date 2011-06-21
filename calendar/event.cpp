@@ -344,6 +344,24 @@ QVariantMap Event::Event::toJSON()
     when["start"] = dtStart().toString(KDateTime::RFC3339Date);
     when["end"] = dtEnd().toString(KDateTime::RFC3339Date);
   }
+
+  /* Reminders (subpart of "WHEN") */
+  QVariantList als;
+  foreach (KCalCore::Alarm::Ptr a, alarms()) {
+    QVariantMap alarm;
+    if (a->type() == KCalCore::Alarm::Display)
+      alarm["method"] = "alert";
+    else if (a->type() == KCalCore::Alarm::Email)
+      alarm["method"] = "email";
+    
+    if (a->startOffset().asSeconds() < 0)
+      alarm["minutes"] = a->startOffset().asSeconds()/(-60);
+    else
+      alarm["absoluteTime"] = a->time().toString(KDateTime::RFCDate);
+    
+    als.append(alarm);
+  }
+  when["reminders"] = als;
   whens.append(when);
   output["when"] = whens;
   
@@ -364,27 +382,10 @@ QVariantMap Event::Event::toJSON()
     recStr += "\r\n" + format.toString(rrule);
   if (recurrence()->rRules().length() > 0) {
     output["recurrence"] = recStr;
-    output.remove("when"); /* Can't have 'recurrence' and 'when' together */
+    output["when"].toMap().remove("start"); /* Can't have 'recurrence' and 'when' together */
+    output["when"].toMap().remove("end"); /* Can't have 'recurrence' and 'when' together */
   }
   
-  /* Reminders */
-  QVariantList als;
-  foreach (KCalCore::Alarm::Ptr a, alarms()) {
-    QVariantMap alarm;
-    if (a->type() == KCalCore::Alarm::Display)
-      alarm["method"] = "alert";
-    else if (a->type() == KCalCore::Alarm::Email)
-      alarm["method"] = "email";
-    
-    if (a->startOffset().asSeconds() < 0)
-      alarm["minutes"] = a->startOffset().asSeconds()/(-60);
-    else
-      alarm["absoluteTime"] = a->time().toString(KDateTime::RFCDate);
-    
-    als.append(alarm);
-  }
-  output["reminders"] = als;
- 
   
   /* TODO: Implement support for additional features:
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
