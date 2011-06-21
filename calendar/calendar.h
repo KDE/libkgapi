@@ -34,9 +34,6 @@
 class Calendar: public QObject
 {
   Q_OBJECT
-  Q_PROPERTY (QString title READ title WRITE setTitle)
-  Q_PROPERTY (QString id READ id WRITE setId)
-  Q_PROPERTY (QString color READ color WRITE setColor)
   Q_ENUMS(CalendarRoles)
   public:
     /**

@@ -1,4 +1,4 @@
-/*
+ /*
     Akonadi Google - Calendar Resource
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
@@ -32,6 +32,7 @@
 #include "eventlistjob.h"
 #include "eventcreatejob.h"
 #include "eventjob.h"
+#include "event.h"
 #include "settingsdialog.h"
 #include "settings.h"
 
@@ -166,20 +167,20 @@ void CalendarResource::eventListJobFinished(KJob* job)
     return;
   }
   
-  QList<KCalCore::Event*> events = elJob->events();
+  Event::Event::List events = elJob->events();
   QList<Item> new_items;
   QList<Item> removed;
   
   for (int i = 0; i < events.length(); i++) {
       Item item;
-      KCalCore::Event* event = events.at(i);
+      Event::Event event = events.at(i);
 
-      item.setRemoteId(event->uid());
-      if (event->customProperty("google_calendar", "x-removed") == "1") {
+      item.setRemoteId(event.uid());
+      if (event.deleted()) {
 	removed << item;
       } else {
-	item.setMimeType(event->mimeType());
-	item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr) event->clone());
+	item.setMimeType(event.mimeType());
+	item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr) event.clone());
 	new_items << item;
       }
   }
@@ -226,7 +227,7 @@ void CalendarResource::eventJobFinished(KJob* job)
   }
   
   Item item;
-  KCalCore::Event *event = eJob->getEvent();
+  Event::Event* event = eJob->getEvent();
   item.setMimeType(event->mimeType());
   item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr) event->clone());
   
@@ -244,7 +245,8 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
   status(Running, "Creating event...");
   
   KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
-  EventCreateJob *ecJob = new EventCreateJob((KCalCore::Event*)event->clone(), 
+  Event::Event *d_event = new Event::Event(event.data());
+  EventCreateJob *ecJob = new EventCreateJob(d_event,
 					     Settings::self()->calendarId(),
 					     Settings::self()->accessToken());
   ecJob->setProperty("Item", QVariant::fromValue(item));
@@ -263,7 +265,10 @@ void CalendarResource::addJobFinished(KJob* job)
     return;
   }
 
-  KCalCore::Event* event = dynamic_cast<EventCreateJob*>(job)->newEvent();
+  EventCreateJob *ecJob = dynamic_cast<EventCreateJob*>(job);
+
+  KCalCore::Event* event = ecJob->newEvent();
+  Akonadi::Item oldItem = ecJob->property("Item").value<Akonadi::Item>();
   Akonadi::Item newItem;
   
   newItem.setRemoteId(event->uid());

@@ -1,5 +1,5 @@
 /*
-    Akonadi Google - Calendar Resource
+    <one line to give the program's name and a brief idea of what it does.>
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,39 +16,30 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef EVENT_P_H_
+#define EVENT_P_H_
 
-#ifndef INCIDENCEJOB_H
-#define INCIDENCEJOB_H
+#include <QtCore/QSharedData>
 
-#include <KDE/KJob>
+#include <KDE/KCalCore/Attendee>
+#include <KDE/KCalCore/Person>
 
-#include <QtNetwork/QNetworkReply>
-
-#include "event.h"
-
-class EventJob : public KJob
+namespace Event {
+  
+class EventPrivate: public QSharedData
 {
-
-  Q_OBJECT
   public:
-    EventJob(const QString &accessToken,
-	     const QString &calendarId,
-	     const QString &eventId);
-    
-    void start();
-    
-    Event::Event* getEvent() { return m_event; }
-    
-  private Q_SLOTS:
-    void requestData(const QUrl &url);
-    void requestFinished(QNetworkReply*);
-    
-  private:
-    QString m_accessToken;
-    QString m_calendarId;
-    QString m_eventId;
-    
-    Event::Event* m_event;
+    EventPrivate() { };
+    EventPrivate(const EventPrivate &other);
+    ~EventPrivate() { };
+  
+    bool deleted;
+    QString id;
+    QString etag;
 };
+  
+  
+}; /* namespace Event */
 
-#endif // INCIDENCEJOB_H
+
+#endif /* EVENT_P_H_ */

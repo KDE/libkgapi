@@ -23,7 +23,7 @@
 #include "qjson/parser.h"
 
 #include "eventlistjob.h"
-#include "eventjob.h"
+#include "event.h"
 
 EventListJob::EventListJob(const QString &accessToken, const QString &lastSync, const QString &calendarId):
   m_accessToken(accessToken),
@@ -100,11 +100,12 @@ void EventListJob::requestFinished(QNetworkReply* reply)
   totalResults = data["totalResults"].toInt();
   nextLink = data["nextLink"].toUrl();
   
-  QVariantList events = data["items"].toList();
+  QVariantList eventsList = data["items"].toList();
   
-  foreach (const QVariant &inc, events) {
-    KCalCore::Event *event = EventJob::JSONToKCal(inc.toMap());
-    m_events << event;    
+  foreach (const QVariant &inc, eventsList) {
+    Event::Event event;
+    event.fromJSON(inc.toMap());
+    m_events.append(event);
   }
   
   emitPercent(startIndex, totalResults);    

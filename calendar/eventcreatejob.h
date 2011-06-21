@@ -21,22 +21,23 @@
 #define EVENTCREATEJOB_H
 
 #include <KJob>
-#include <KCalCore/Event>
 
 #include <QtNetwork/QNetworkReply>
+
+#include "event.h"
 
 class EventCreateJob : public KJob
 {
 
   Q_OBJECT
   public:
-    EventCreateJob(KCalCore::Event *event,
+    EventCreateJob(Event::Event *event,
 		   const QString &calendarId,
 		   const QString &accessToken);
   
     void start();
     
-    KCalCore::Event* newEvent() { return m_newEvent; }
+    Event::Event* newEvent() { return m_newEvent; }
     
   private Q_SLOTS:
     void requestData(const QUrl &url);
@@ -45,8 +46,8 @@ class EventCreateJob : public KJob
   private:
     QString m_accessToken;
     QString m_calendarId;
-    KCalCore::Event *m_event;
-    KCalCore::Event *m_newEvent;
+    Event::Event *m_event;
+    Event::Event *m_newEvent;
 };
 
 #endif // EVENTCREATEJOB_H

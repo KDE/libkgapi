@@ -26,11 +26,12 @@
 #include <qjson/serializer.h>
 #include <qjson/parser.h>
 
-EventCreateJob::EventCreateJob(KCalCore::Event* event, const QString &calendarId, const QString& accessToken):
+EventCreateJob::EventCreateJob(Event::Event* event, const QString &calendarId, const QString& accessToken):
   m_accessToken(accessToken),
   m_calendarId(calendarId),
   m_event(event)
 {
+  qDebug() << m_event;
 }
 
 void EventCreateJob::start()
@@ -54,10 +55,17 @@ void EventCreateJob::requestData(const QUrl& url)
   connect(nam, SIGNAL(finished(QNetworkReply*)),
 	  nam, SLOT(deleteLater()));
   
+  if (!m_event) {
+    setError(1);
+    setErrorText("No event to create");
+    emitResult();
+    return;
+  }
+  
   QJson::Serializer serializer;
   QByteArray data;
   QVariantMap jsonData;
-  jsonData["data"] = EventJob::KCalToJSON(*m_event);
+  jsonData["data"] = m_event->toJSON();
   data = serializer.serialize(jsonData);
   
   request.setUrl(requestUrl);
@@ -71,6 +79,7 @@ void EventCreateJob::requestData(const QUrl& url)
 void EventCreateJob::requestFinished(QNetworkReply *reply)
 {
   if (reply->error()) {
+    qDebug() << reply->readAll();
     setError(reply->error());
     setErrorText(reply->errorString());
     emitResult();
@@ -97,6 +106,7 @@ void EventCreateJob::requestFinished(QNetworkReply *reply)
     return;
   }
   
-  m_newEvent = EventJob::JSONToKCal(data);
+  m_newEvent = new Event::Event();
+  m_newEvent->fromJSON(data["data"].toMap());
   emitResult();
 }

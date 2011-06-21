@@ -24,8 +24,8 @@
 #include <QtNetwork/QNetworkAccessManager>
 
 #include <KDE/KJob>
-#include <KDE/KCalCore/Event>
 
+#include "event.h"
 
 class EventListJob : public KJob
 {
@@ -40,7 +40,7 @@ class EventListJob : public KJob
     
     void start();
     
-    QList<KCalCore::Event*> events() { return m_events; }
+    Event::Event::List events() { return m_events; }
     
   private Q_SLOTS:
     void requestData(const QUrl &url);
@@ -54,7 +54,7 @@ class EventListJob : public KJob
 
     QNetworkAccessManager *m_nam;   
     
-    QList<KCalCore::Event*> m_events;
+    Event::Event::List m_events;
     
 };
 
