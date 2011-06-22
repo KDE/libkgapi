@@ -83,7 +83,7 @@ void CalendarListJob::requestFinished(QNetworkReply *reply)
   foreach (const QVariant &c, items) {
     QVariantMap cal = c.toMap();
     Calendar *calendar = new Calendar();
-    QString id = cal["id"].toString();
+    QString id = cal["id"].toString().replace("%40", "@");
     
     id.remove("http://www.google.com/calendar/feeds/default/calendars/"); // Remove the URL prefix
     
