@@ -17,37 +17,24 @@
 */
 
 
-#ifndef EVENTCREATEJOB_H
-#define EVENTCREATEJOB_H
+#ifndef EVENTUPDATEJOB_H
+#define EVENTUPDATEJOB_H
 
-#include <KJob>
+#include "eventcreatejob.h"
 
-#include <QtNetwork/QNetworkReply>
-
-#include "event.h"
-
-class EventCreateJob : public KJob
+class EventUpdateJob : public EventCreateJob
 {
 
-  Q_OBJECT
   public:
-    EventCreateJob(Event::Event *event,
-		   const QString &calendarId,
-		   const QString &accessToken);
-  
+    EventUpdateJob(Event::Event* event, 
+		   const QString& calendarId, 
+		   const QString& accessToken);
     void start();
-    
-    Event::Event* newEvent() { return m_newEvent; }
     
   protected Q_SLOTS:
     void requestData(const QUrl &url);
     void requestFinished(QNetworkReply *reply);
     
-  protected:
-    QString m_accessToken;
-    QString m_calendarId;
-    Event::Event *m_event;
-    Event::Event *m_newEvent;
 };
 
-#endif // EVENTCREATEJOB_H
+#endif // EVENTUPDATEJOB_H

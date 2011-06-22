@@ -31,6 +31,7 @@
 #include "calendarresource.h"
 #include "eventlistjob.h"
 #include "eventcreatejob.h"
+#include "eventupdatejob.h"
 #include "eventjob.h"
 #include "event.h"
 #include "settingsdialog.h"
@@ -285,11 +286,47 @@ void CalendarResource::addJobFinished(KJob* job)
 
 void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
-  /* TODO: Implement me */
+  if (!item.hasPayload<KCalCore::Event::Ptr>())
+    return;
   
-  Q_UNUSED(item);
+  status(Running, "Updating evnet...");
+  
+  KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
+  Event::Event *d_event = new Event::Event(event.data());
+  EventUpdateJob *upJob = new EventUpdateJob(d_event,
+					     Settings::self()->calendarId(),
+					     Settings::self()->accessToken());
+  upJob->setProperty("Item", QVariant::fromValue(item));
+  connect(upJob, SIGNAL(finished(KJob*)),
+	  this, SLOT(updateJobFinished(KJob*)));
+  upJob->start();
+  
   Q_UNUSED(partIdentifiers)
 }
+
+void CalendarResource::updateJobFinished(KJob* job)
+{
+  if (job->error()) {
+    qDebug() << job->errorString();
+    cancelTask(job->errorString());
+    return;
+  }
+  
+  EventUpdateJob *upJob = dynamic_cast<EventUpdateJob*>(job);
+  
+  KCalCore::Event *event = upJob->newEvent();
+  Akonadi::Item newItem;
+  newItem.setRemoteId(event->uid());
+  newItem.setRemoteRevision(event->uid());
+  newItem.setMimeType(event->mimeType());
+  newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)event->clone());
+  
+  changeCommitted(newItem);
+  
+  status(Idle, "Event updated");
+  resetState();
+}
+
 
 void CalendarResource::itemRemoved(const Akonadi::Item& item)
 {
