@@ -111,10 +111,10 @@ void Event::Event::fromJSON(QVariantMap jsonData)
   setDescription(jsonData["details"].toString());
   
   /* Created */
-  setCreated(KDateTime::fromString(jsonData["created"].toString(), "%Y-%m-%dT%H:%M:%S%:SZ"));
+  setCreated(KDateTime::fromString(jsonData["created"].toString(), KDateTime::RFC3339Date));
   
   /* Last updated */
-  setLastModified(KDateTime::fromString(jsonData["updated"].toString(), "%Y-%m-%dT%H:%M:%S%:SZ"));
+  setLastModified(KDateTime::fromString(jsonData["updated"].toString(), KDateTime::RFC3339Date));
   
   /* Status */
   if (jsonData["status"].toString() == "confirmed")
