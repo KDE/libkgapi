@@ -32,6 +32,7 @@
 #include "eventlistjob.h"
 #include "eventcreatejob.h"
 #include "eventupdatejob.h"
+#include "eventdeletejob.h"
 #include "eventjob.h"
 #include "event.h"
 #include "settingsdialog.h"
@@ -127,7 +128,7 @@ void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
 {
   emit status(Running, i18n("Preparing to synchronize calendar"));
   ItemFetchJob *fetchJob = new ItemFetchJob(collection);
-  fetchJob->fetchScope().fetchFullPayload(false);
+  fetchJob->fetchScope().fetchFullPayload(true);
   m_currentJobs << fetchJob;
   connect (fetchJob, SIGNAL(result(KJob*)),
 	   this, SLOT(initialItemFetchJobFinished(KJob*)));
@@ -144,6 +145,7 @@ void CalendarResource::initialItemFetchJobFinished(KJob* job)
     return;
   }
   
+
   EventListJob *elJob = new EventListJob(Settings::self()->accessToken(),
 					 Settings::self()->lastSync(),
 					 Settings::self()->calendarId());
@@ -167,6 +169,7 @@ void CalendarResource::eventListJobFinished(KJob* job)
     cancelTask(elJob->errorText());
     return;
   }
+  Akonadi::Collection collection;
   
   Event::Event::List events = elJob->events();
   QList<Item> new_items;
@@ -185,8 +188,11 @@ void CalendarResource::eventListJobFinished(KJob* job)
 	new_items << item;
       }
   }
-  
-  itemsRetrievedIncremental(new_items, removed);
+
+  if (Settings::self()->lastSync().isEmpty())
+    itemsRetrieved(new_items);
+  else
+    itemsRetrievedIncremental(new_items, removed);
   
   /* Store the time of this sync. Next time we will only ask for items
    * that changed or were removed since sync */
@@ -276,6 +282,7 @@ void CalendarResource::addJobFinished(KJob* job)
   newItem.setRemoteRevision(event->uid());
   newItem.setMimeType(event->mimeType());
   newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)event->clone());
+  qDebug() << "Resource: Added event " << event->uid();
 
   changeCommitted(newItem);
   
@@ -330,9 +337,37 @@ void CalendarResource::updateJobFinished(KJob* job)
 
 void CalendarResource::itemRemoved(const Akonadi::Item& item)
 {
-  /* TODO: Implement me */
-  
-  Q_UNUSED(item);
+  if (!item.hasPayload<KCalCore::Event::Ptr>())
+    return;
+    
+   qDebug() << "Removing item";
+  status(Running, "Removing event...");
+    
+  EventDeleteJob *edJob = new EventDeleteJob(item.remoteId(),
+					     Settings::self()->calendarId(),
+					     Settings::self()->accessToken());
+  edJob->setProperty("Item", QVariant::fromValue(item));
+  connect(edJob, SIGNAL(finished(KJob*)),
+	  this, SLOT(deleteJobFinished(KJob*)));
+  edJob->start();
 }
+
+void CalendarResource::deleteJobFinished(KJob* job)
+{
+  if (job->error()) {
+    qDebug() << job->errorText();
+    cancelTask(job->errorText());
+    return;
+  }
+  
+  EventDeleteJob *edJob = dynamic_cast<EventDeleteJob*>(job);
+  Akonadi::Item item = edJob->property("Item").value<Akonadi::Item>();
+  
+  changeCommitted(item);
+  
+  status(Idle, "Event removed");
+  resetState();
+}
+
 
 AKONADI_RESOURCE_MAIN (CalendarResource)

@@ -30,6 +30,7 @@ set(calendarresource_SRCS
     eventjob.cpp
     eventcreatejob.cpp
     eventupdatejob.cpp
+    eventdeletejob.cpp
     settings.cpp
     settingsdialog.cpp 
 )

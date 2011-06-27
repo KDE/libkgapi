@@ -54,6 +54,7 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void eventJobFinished(KJob* job);
     void addJobFinished(KJob *job);
     void updateJobFinished(KJob *job);
+    void deleteJobFinished(KJob *job);
 
     
   private:
