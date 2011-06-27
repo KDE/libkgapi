@@ -53,12 +53,12 @@ void EventListJob::requestData(const QUrl& url)
   QUrl requestUrl = url_str;
   
   /* Fetch only items created, edited or removed since last sync */
-  if (!m_lastSync.isEmpty() && !requestUrl.hasQueryItem("updated-min"))
-    requestUrl.addQueryItem("updated-min", m_lastSync);
+  if (!m_lastSync.isEmpty() && !requestUrl.hasQueryItem("start-min"))
+    requestUrl.addQueryItem("start-min", m_lastSync);
   
   /* Include deleted items. */
-  if (!requestUrl.hasQueryItem("show-deleted"))
-    requestUrl.addQueryItem("show-deleted", "true");
+  if (!requestUrl.hasQueryItem("showdeleted"))
+    requestUrl.addQueryItem("showdeleted", "true");
 
   if (!requestUrl.hasQueryItem("alt"))
     requestUrl.addQueryItem("alt","jsonc");
