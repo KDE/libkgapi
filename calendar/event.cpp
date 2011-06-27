@@ -119,9 +119,10 @@ void Event::Event::fromJSON(QVariantMap jsonData)
   /* Status */
   if (jsonData["status"].toString() == "confirmed")
     setStatus(KCalCore::Incidence::StatusConfirmed);
-  else if (jsonData["status"].toString() == "canceled")
+  else if (jsonData["status"].toString() == "canceled") {
     setStatus(KCalCore::Incidence::StatusCanceled);
-  else if (jsonData["status"].toString() == "tentative")
+    setDeleted(true);
+  } else if (jsonData["status"].toString() == "tentative")
     setStatus(KCalCore::Incidence::StatusTentative);
   else
     setStatus(KCalCore::Incidence::StatusNone);
