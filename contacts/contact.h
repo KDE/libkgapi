@@ -519,6 +519,20 @@ class Contact : public QObject
     QString jobTitle();
     
     /**
+     * @brief Sets contact's birthday
+     * 
+     * @param birthday Birthday in format YYYY-MM-DD
+     */
+    void setBirthday(const QString &birthday);
+    
+    /**
+     * @brief Returns contact's brithday
+     * 
+     * @return Contact's birthday in format YYYY-MM-DD
+     */
+    QString birthday();
+    
+    /**
      * @brief Adds contact's email
      * 
      * @param email QPair of QString-bool, speciying address and wheter

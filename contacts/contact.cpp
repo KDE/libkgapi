@@ -149,6 +149,16 @@ QString Contact::Contact::jobTitle()
   return d->jobTitle;
 }
 
+void Contact::Contact::setBirthday(const QString& birthday)
+{
+  d->birthday = birthday;
+}
+
+QString Contact::Contact::birthday()
+{
+  return d->birthday;
+}
+
 void Contact::Contact::addEmail(const Email& email)
 {
   d->emails << email;
@@ -266,6 +276,11 @@ void Contact::Contact::fromJSON(const QVariantMap& jsonData)
 		       address["rel"].toString()));
   }
     
+  /* Birthday */
+  QVariantMap bDay = jsonData["gContact$birthday"].toMap();
+  if (!bDay.isEmpty())
+    setBirthday(bDay["when"].toString());
+    
   /* TODO: Expand supported items.
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
    * http://api.kde.org/4.x-api/kdepimlibs-apidocs/kabc/html/classKABC_1_1Addressee.html
@@ -334,6 +349,12 @@ QVariantMap Contact::Contact::toJSON()
     addresses.append(addr);
   }
   output["gd$structuredPostalAddress"] = addresses;
+  
+  if (!birthday().isEmpty()) {
+    QVariantMap bDay;
+    bDay["when"] = birthday();
+    output["gContact$birthday"] = bDay;
+  }
   
   /* TODO: Expand supported items.
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
@@ -423,6 +444,10 @@ void Contact::Contact::fromXML(const QDomElement& xmlData)
       continue;
     }
     
+    /* Birthday */
+    if (e.tagName() == "gContact:birthday") {
+      setBirthday(e.attribute("when"));
+    }
     
     /* TODO: Expand supported items.
      * http://code.google.com/apis/gdata/docs/2.0/elements.html
@@ -487,6 +512,9 @@ QByteArray Contact::Contact::toXML()
     output.append("</gd:structuredPostalAddress>");
   }
   
+  /* Birthday */
+  output.append("<gContact:birthday when=\"").append(birthday().toLatin1()).append("\"/>");
+  
   /* TODO: Expand supported items.
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
    * http://api.kde.org/4.x-api/kdepimlibs-apidocs/kabc/html/classKABC_1_1Addressee.html
@@ -506,6 +534,7 @@ void Contact::Contact::fromKABC(const KABC::Addressee* addressee)
   setNotes(addressee->note());
   setJob(addressee->organization());
   setJobTitle(addressee->title());
+  setBirthday(addressee->birthday().toString("yyyy-MM-dd"));
   foreach (QString email, addressee->emails())
     addEmail(Email(email));
   /* TODO: Fetch IM */
@@ -528,6 +557,7 @@ KABC::Addressee* Contact::Contact::toKABC()
   addressee->setNote(notes());
   addressee->setOrganization(job());
   addressee->setTitle(jobTitle());
+  addressee->setBirthday(QDateTime::fromString(birthday(), "yyyy-MM-dd"));
   foreach (Email email, emails())
     addressee->insertEmail(email.address(), email.primary());
   /* TODO: Set IM */
@@ -535,6 +565,8 @@ KABC::Addressee* Contact::Contact::toKABC()
     addressee->insertPhoneNumber(number);
   foreach (const Address &address, addresses())
     addressee->insertAddress(address);
+  
+  
   
   return addressee;
 }

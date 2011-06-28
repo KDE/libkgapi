@@ -45,6 +45,8 @@ class ContactPrivate : public QSharedData
     QString notes;
     QString job;
     QString jobTitle;
+    QString birthday;
+    
     Email::List emails;
     IM::List ims;
     PhoneNumber::List phoneNumbers;
