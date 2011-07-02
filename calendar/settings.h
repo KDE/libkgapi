@@ -22,7 +22,7 @@
 
 #include "settingsbase.h"
 
-#include <Qt/qwindowdefs.h>
+#include <qwindowdefs.h>
 
 /**
  * @brief Settings object

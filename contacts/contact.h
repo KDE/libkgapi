@@ -608,7 +608,7 @@ class Contact : public QObject
     QSharedDataPointer<ContactPrivate> d;
 };
 
-}; /* Namespace Contact */
+} /* Namespace Contact */
 
 Q_DECLARE_METATYPE (Contact::Contact::Ptr)
 

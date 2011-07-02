@@ -58,6 +58,7 @@ Contact::Contact::Contact()
 }
 
 Contact::Contact::Contact(const Contact &other):
+  QObject(0),
   d(other.d)
 { }
 

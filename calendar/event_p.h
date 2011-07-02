@@ -39,7 +39,7 @@ class EventPrivate: public QSharedData
 };
   
   
-}; /* namespace Event */
+} /* namespace Event */
 
 
 #endif /* EVENT_P_H_ */

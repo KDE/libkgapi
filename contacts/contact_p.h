@@ -53,6 +53,6 @@ class ContactPrivate : public QSharedData
     Address::List addresses;
 };
 
-};
+}
 
 #endif /* CONTACT_P_H */

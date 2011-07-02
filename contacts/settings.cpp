@@ -36,7 +36,7 @@ class SettingsHelper {
     Settings *q;
 };
 
-K_GLOBAL_STATIC(SettingsHelper, s_globalSettings);
+K_GLOBAL_STATIC(SettingsHelper, s_globalSettings)
 
 Settings::Settings()
 {

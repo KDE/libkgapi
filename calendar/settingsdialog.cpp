@@ -16,9 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <Qt/qpixmap.h>
-#include <Qt/qicon.h>
-#include <Qt/qcolor.h>
+#include <qpixmap.h>
+#include <qicon.h>
+#include <qcolor.h>
 
 #include <KDE/KMessageBox>
 #include <KDE/KWindowSystem>

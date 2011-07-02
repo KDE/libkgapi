@@ -119,7 +119,7 @@ class Event : public KCalCore::Event
   
 };
 
-}; /* Namespace Event */
+} /* Namespace Event */
   
 Q_DECLARE_METATYPE(Event::Event::Ptr)
 Q_DECLARE_METATYPE(Event::Event::List)

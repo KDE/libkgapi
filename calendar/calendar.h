@@ -54,7 +54,7 @@ class Calendar: public QObject
 	     const QString &id = QString(), 
 	     const QString &color = QString());
 
-    Q_DISABLE_COPY(Calendar);   
+    Q_DISABLE_COPY(Calendar)
     
     ~Calendar() {};
    
