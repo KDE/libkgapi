@@ -111,6 +111,8 @@ class Event : public KCalCore::Event
      * data compatible with GData protocol.
      */
     QVariantMap toJSON();
+
+    Event& operator=( const Event& other );
     
   private:
     QSharedDataPointer<EventPrivate> d;

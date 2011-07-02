@@ -395,7 +395,11 @@ QVariantMap Event::Event::toJSON()
   return output;
 }
 
-
+Event::Event& Event::Event::operator=( const Event& other )
+{
+  d = other.d;
+  return *this;
+}
 
 
 
