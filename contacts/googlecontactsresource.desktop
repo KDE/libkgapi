@@ -1,7 +1,10 @@
 [Desktop Entry]
 Name=Google Contacts
 Name[cs]=Kontakty Google
+Name[de]=Google-Kontakte
+Name[et]=Google Kontaktid
 Name[it]=Contatti di Google
+Name[km]=ទំនាក់ទំនង​ហ្គូហ្គល
 Name[nds]=Google-Kontakten
 Name[nl]=Google contactpersonen
 Name[pt]=Contactos do Google
@@ -10,7 +13,9 @@ Name[sv]=Google-kontakter
 Name[uk]=Контакти Google
 Name[x-test]=xxGoogle Contactsxx
 Comment=Access your Google Contacts from KDE
+Comment[et]=Oma Google'i kontaktide kasutamine otse KDE-st
 Comment[it]=Accedi ai tuoi contatti di Google da KDE
+Comment[km]=ចូល​ដំណើរការ​ទំនាក់ទំនង​ហ្គូហ្គល​របស់​អ្នក​ពី KDE
 Comment[nl]=Heb toegang tot uw Google contactpersonen vanuit KDE 
 Comment[pt]=Aceda aos seus contactos da Google a partir do KDE
 Comment[pt_BR]=Acesse seus contatos da Google a partir do KDE
