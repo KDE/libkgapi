@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Google Calendars
 Name[de]=Google-Kalender
+Name[es]=Calendarios de Google
 Name[et]=Google Kalendrid
 Name[it]=Calendari di Google
 Name[km]=ប្រតិទិន​ហ្គូហ្គល
@@ -11,6 +12,7 @@ Name[sv]=Google-kalendrar
 Name[uk]=Календарі Google
 Name[x-test]=xxGoogle Calendarsxx
 Comment=Access your Google Calendars from KDE
+Comment[es]=Acceda a sus calendarios de Google desde KDE
 Comment[et]=Oma Google'i kalendrite kasutamine otse KDE-st
 Comment[it]=Accedi ai tuoi calendari di Google da KDE
 Comment[km]=ចូល​ដំណើរការ​ប្រតិទិន​ហ្គូហ្គល​របស់​អ្នក​ពី KDE

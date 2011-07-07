@@ -2,6 +2,7 @@
 Name=Google Contacts
 Name[cs]=Kontakty Google
 Name[de]=Google-Kontakte
+Name[es]=Contactos de Google
 Name[et]=Google Kontaktid
 Name[it]=Contatti di Google
 Name[km]=ទំនាក់ទំនង​ហ្គូហ្គល
@@ -13,6 +14,7 @@ Name[sv]=Google-kontakter
 Name[uk]=Контакти Google
 Name[x-test]=xxGoogle Contactsxx
 Comment=Access your Google Contacts from KDE
+Comment[es]=Acceda a sus contactos de Google desde KDE
 Comment[et]=Oma Google'i kontaktide kasutamine otse KDE-st
 Comment[it]=Accedi ai tuoi contatti di Google da KDE
 Comment[km]=ចូល​ដំណើរការ​ទំនាក់ទំនង​ហ្គូហ្គល​របស់​អ្នក​ពី KDE
