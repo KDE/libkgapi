@@ -38,3 +38,4 @@ endif (NOT DEFINED WITHOUT_CONTACTS)
 if (DEFINED WITH_TESTS)
   add_subdirectory(tests)
 endif (DEFINED WITH_TESTS)
+
