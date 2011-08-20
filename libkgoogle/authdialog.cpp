@@ -19,7 +19,6 @@
 
 #include "authdialog.h"
 
-#include <KDE/KDebug>
 #include <KDE/KWindowSystem>
 #include <KDE/KLocalizedString>
 
@@ -35,6 +34,7 @@
 #include <QtNetwork/QNetworkReply>
 
 #include <qjson/parser.h>
+
 
 /****************** Private implementation *****************/
 
@@ -122,16 +122,20 @@ void AuthDialog::networkRequestFinished(QNetworkReply* reply)
   m_accessToken = access_token;
   m_refreshToken = refresh_token;
   
-  emit finished();
+  emit finished(m_accessToken, m_refreshToken);
   accept();
+  
+  qDebug() << "Received new tokens";
 }
 
 /********************* Public implementation ***************/
 
-AuthDialog::AuthDialog(Akonadi::ResourceBase *parent, WId windowId): 
+AuthDialog::AuthDialog(WId windowId): 
   KDialog()
 {
   KWindowSystem::setMainWindow(this, windowId);
+  
+  setModal(true);
   
   m_widget = new QWidget(this);
   setMainWidget(m_widget);
@@ -165,8 +169,6 @@ AuthDialog::AuthDialog(Akonadi::ResourceBase *parent, WId windowId):
   m_vbox->addLayout(m_hbox);
   
   setButtons(KDialog::Cancel);  
-  
-  Q_UNUSED (parent);
 }
 
 AuthDialog::~AuthDialog()

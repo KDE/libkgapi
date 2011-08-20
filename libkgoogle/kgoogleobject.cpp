@@ -1,5 +1,5 @@
 /*
-    Akonadi Google - Contacts resource
+    libKGoogle - KGoogleObject
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,43 +16,37 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CONTACT_P_H
-#define CONTACT_P_H
 
-#include <QtCore/QSharedData>
-#include <QtCore/QString>
-#include <QtCore/QUrl>
+#include "kgoogleobject.h"
 
-#include <KDE/KABC/Address>
-#include <KDE/KABC/PhoneNumber>
+using namespace KGoogle;
 
-namespace Contact {
-  
-class ContactPrivate : public QSharedData
-{
-
-  public:
-    ContactPrivate() { };
-    ContactPrivate(const ContactPrivate &other);
-    ~ContactPrivate() { };
-   
-    bool deleted;
-    QUrl photoUrl;
-    QString id;
-    QString etag;
-    
-    QString name;
-    QString notes;
-    QString job;
-    QString jobTitle;
-    QString birthday;
-    
-    Email::List emails;
-    IM::List ims;
-    PhoneNumber::List phoneNumbers;
-    Address::List addresses;
-};
+KGoogleObject::KGoogleObject()
+{ 
 
 }
 
-#endif /* CONTACT_P_H */
+KGoogleObject::~KGoogleObject()
+{
+
+}
+
+void KGoogleObject::setId(const QString& id)
+{
+  m_id = id;
+}
+
+QString KGoogleObject::id()
+{
+  return m_id;
+}
+
+void KGoogleObject::setEtag(const QString& etag)
+{
+  m_etag = etag;
+}
+
+QString KGoogleObject::etag()
+{
+  return m_etag;
+}

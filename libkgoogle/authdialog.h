@@ -52,10 +52,9 @@ class KDE_EXPORT AuthDialog: public KDialog
     /**
      * @brief Creates the dialog
      * 
-     * @param parent Parent resource 
      * @param windowId ID of window 
      **/
-    AuthDialog(Akonadi::ResourceBase *parent, WId windowId);
+    AuthDialog(WId windowId);
     virtual ~AuthDialog();
 
     /**
@@ -114,8 +113,11 @@ class KDE_EXPORT AuthDialog: public KDialog
      * 
      * When running the dialog synchronously via \KDialog::exec() the dialog
      * also emits \KDialog::accepted()
+     * 
+     * @param accessToken Received access token
+     * @param refreshtoken Received refresh token
      */
-    void finished();
+    void finished(QString accessToken, QString refreshToken);
     
   private slots:
     void webviewUrlChanged(const QUrl &url);

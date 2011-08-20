@@ -5,7 +5,7 @@ if(POLICY CMP0017)
 endif()
 
 find_package(Qt4 4.7.0 REQUIRED) 
-find_package(KDE4 4.6.40 REQUIRED)
+find_package(KDE4 4.7.0 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
 find_package(KdepimLibs 4.5.63 REQUIRED)
@@ -27,14 +27,5 @@ include_directories(
 
 add_subdirectory(libkgoogle)
 
-if (NOT DEFINED WITHOUT_CALENDAR)
-  add_subdirectory(calendar)
-endif (NOT DEFINED WITHOUT_CALENDAR)
-
-if (NOT DEFINED WITHOUT_CONTACTS)
-  add_subdirectory(contacts)
-endif (NOT DEFINED WITHOUT_CONTACTS)
-
-if (DEFINED WITH_TESTS)
-  add_subdirectory(tests)
-endif (DEFINED WITH_TESTS)
+macro_optional_add_subdirectory(calendar)
+macro_optional_add_subdirectory(contacts)

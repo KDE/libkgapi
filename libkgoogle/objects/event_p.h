@@ -1,5 +1,5 @@
 /*
-    Akonadi Google - Calendar Resource
+    libKGoogle - KGoogleObject - EventData
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,11 +16,31 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef EVENT_P_H_
+#define EVENT_P_H_
 
-#include "calendar.h"
+#include <qshareddata.h>
+#include <qstring.h>
 
-Calendar::Calendar(const QString& title, const QString& id, const QString& color):
-  m_title(title),
-  m_id(id),
-  m_color(color)
-{}
+namespace KGoogle {
+  
+  namespace Object {
+  
+    class EventData: public QSharedData
+    {
+      public:
+	EventData() { };
+	EventData(const EventData &other);
+	~EventData() { };
+      
+	bool deleted;
+	QString id;
+	QString etag;
+    };
+
+  } // namespace Object
+  
+} // namespace KGoogle
+
+
+#endif /* EVENT_P_H_ */
