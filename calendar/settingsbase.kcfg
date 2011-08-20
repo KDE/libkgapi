@@ -6,10 +6,6 @@
 			  http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile/>
   <group name="General">
-    <entry name="AccessToken" type="String">
-    </entry>
-    <entry name="RefreshToken" type="String">
-    </entry>
     <entry name="LastSync" type="String">
     </entry>
     <entry name="CalendarId" type="String">

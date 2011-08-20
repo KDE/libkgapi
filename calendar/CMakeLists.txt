@@ -23,19 +23,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(calendarresource_SRCS
     calendarresource.cpp
-    calendarlistjob.cpp
-    calendar.cpp
-    event.cpp
-    eventlistjob.cpp
-    eventjob.cpp
-    eventcreatejob.cpp
-    eventupdatejob.cpp
-    eventdeletejob.cpp
     settings.cpp
     settingsdialog.cpp 
 )
 
-install(FILES googlecalendarresource.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akonadi/agents" )
 kde4_add_ui_files(calendarresource_SRCS settingsdialog.ui)
 kde4_add_kcfg_files(calendarresource_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/settingsbase.kcfgc)
 kcfg_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/settingsbase.kcfg org.kde.Akonadi.GoogleCalendar.Settings)
@@ -59,3 +50,4 @@ target_link_libraries(akonadi_googlecalendar_resource
 )
 
 install(TARGETS akonadi_googlecalendar_resource ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(FILES googlecalendarresource.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akonadi/agents" )

@@ -27,14 +27,31 @@
 #include "ui_settingsdialog.h"
 #include "settings.h"
 
-#include "calendarlistjob.h"
-#include "libkgoogle/authdialog.h"
+#include "libkgoogle/kgoogleaccessmanager.h"
+#include "libkgoogle/kgooglerequest.h"
+#include "libkgoogle/kgooglereply.h"
+#include "libkgoogle/kgoogleauth.h"
+#include "libkgoogle/objects/calendar.h"
+#include "libkgoogle/services/calendar.h"
 
-SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
+using namespace KGoogle;
+
+SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* parent):
   KDialog(parent),
-  m_windowId (windowId)
+  m_calendar(0),
+  m_windowId (windowId),
+  m_googleAuth(googleAuth)
 {
+  qRegisterMetaType<KGoogle::Service::Calendar>("Calendar");
+  
   KWindowSystem::setMainWindow(this, windowId);
+  
+  connect(m_googleAuth, SIGNAL(tokensRecevied(QString,QString)),
+	  this, SLOT(authenticated(QString,QString)));
+  
+  m_gam = new KGoogleAccessManager(m_googleAuth);
+  connect (m_gam, SIGNAL (replyReceived(KGoogleReply*)),
+	   this, SLOT (replyReceived(KGoogleReply*)));
   
   m_mainWidget = new QWidget();
   
@@ -52,14 +69,13 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
 	  this, SLOT(calendarChanged(int)));
   
   if (!Settings::self()->calendarId().isEmpty()) {
-    m_calendar = new Calendar();
+    m_calendar = new Object::Calendar();
     m_calendar->setId(Settings::self()->calendarId());
     m_calendar->setTitle(Settings::self()->calendarName());
     m_calendar->setColor(Settings::self()->calendarColor());
   }
   
-  if (Settings::self()->accessToken().isEmpty() ||
-      Settings::self()->refreshToken().isEmpty()) {
+  if (m_googleAuth->accessToken().isEmpty()) {
     setAuthenticated(false);
   } else {
     setAuthenticated(true);
@@ -73,7 +89,9 @@ SettingsDialog::~SettingsDialog()
   
   delete m_ui;
   delete m_mainWidget;
-  delete m_calendar;
+  
+  if (m_calendar)
+    delete m_calendar;
 }
 
 void SettingsDialog::setAuthenticated(bool authenticated)
@@ -90,100 +108,99 @@ void SettingsDialog::setAuthenticated(bool authenticated)
 
 void SettingsDialog::refreshCalendarList()
 {
-  CalendarListJob *clJob = new CalendarListJob(Settings::self()->accessToken());
-  connect (clJob, SIGNAL(finished(KJob*)),
-	   this, SLOT(calendarListRetrieved(KJob*)));
-
-  m_ui->refreshListButton->setText("Refreshing list...");
-  m_ui->calendarGroupBox->setEnabled(false);
-  
-  clJob->start();
+  QString url = Service::Calendar::fetchAllUrl().arg("default")
+					        .arg("allcalendars");
+  KGoogleRequest *request = new KGoogleRequest(QUrl(url),
+					       KGoogleRequest::FetchAll,
+					       "Calendar");
+  m_gam->sendRequest(request);
 }
 
-void SettingsDialog::calendarListRetrieved(KJob* job)
+
+void SettingsDialog::authenticated(QString accessToken, QString refreshToken)
 {
-  CalendarListJob *clJob = dynamic_cast<CalendarListJob*>(job);
-  
-  if (clJob->error()) {
-    KMessageBox::error(this, 
-      i18n("Failed to refresh the list of calendars. The remote server replied:\n")+clJob->errorString(),
-      i18n("Failed to refresh the list of calendars"), 0);
+  if (!accessToken.isEmpty() && !refreshToken.isEmpty()) {
+    setAuthenticated(true);
+    refreshCalendarList();
   } else {
-    disconnect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
-	       this, SLOT(calendarChanged(int)));
+    setAuthenticated(false);
+  }
+}
 
-    m_ui->comboBox->clear();
-    foreach (Calendar *calendar, clJob->calendars()) {
-      int index;
-      
-      QPixmap pixmap(12, 12);
-      QColor color(calendar->color());
-      pixmap.fill(color);
-      QIcon icon(pixmap);
-      
-      m_ui->comboBox->addItem(icon, calendar->title());
-      index = m_ui->comboBox->count()-1;
-      m_ui->comboBox->setItemData(index, calendar->id(), Calendar::CalendarIdRole);
-      m_ui->comboBox->setItemData(index, qVariantFromValue(calendar->clone()), Calendar::CalendarRole);
-    }
 
-  if (m_calendar) {
-      int index = m_ui->comboBox->findData(m_calendar->id(), Calendar::CalendarIdRole);
-      m_ui->comboBox->setCurrentIndex(index);
-    } else {
-      int index = m_ui->comboBox->currentIndex();
-      setCalendar(m_ui->comboBox->itemData(index, Calendar::CalendarRole).value<Calendar*>());
-    }
-
-    connect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
-	    this, SLOT(calendarChanged(int)));
-    
-    
+void SettingsDialog::replyReceived(KGoogleReply* reply)
+{
+  if (reply->error() != KGoogle::KGoogleReply::OK) {
+    qDebug() << reply->readAll();
+    KMessageBox::error(this, 
+      i18n("Failed to refresh the list of calendars."),
+      i18n("Failed to refresh the list of calendars"), 0);
+    return;
   }
   
+  disconnect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
+	   this, SLOT(calendarChanged(int)));
+
+
+  m_ui->comboBox->clear();
+  
+  QList<KGoogleObject*> replyData = reply->replyData();
+  
+  foreach (KGoogleObject* data, replyData) {
+    Object::Calendar* calendar = static_cast<Object::Calendar*>(data);
+  
+    QPixmap pixmap(12, 12);
+    QColor color(calendar->color());
+    pixmap.fill(color);
+    QIcon icon(pixmap);
+    QVariant varCal;
+    varCal.setValue(calendar);
+    
+    m_ui->comboBox->addItem(icon, calendar->title());
+    int index = m_ui->comboBox->count()-1;
+    m_ui->comboBox->setItemData(index, calendar->id(), 1001);
+    m_ui->comboBox->setItemData(index, varCal, 1001);
+  }
+
+  if (m_calendar) {
+    int index = m_ui->comboBox->findData(m_calendar->id(), 1001);
+    m_ui->comboBox->setCurrentIndex(index);
+  } else {
+    int index = m_ui->comboBox->currentIndex();
+    setCalendar(m_ui->comboBox->itemData(index, 1001).value<Object::Calendar*>());
+  }
+
+  connect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
+	  this, SLOT(calendarChanged(int)));
+    
   m_ui->refreshListButton->setText("Refresh list");
   m_ui->calendarGroupBox->setEnabled(true);
 }
 
 void SettingsDialog::calendarChanged(int index)
 {
-  setCalendar(m_ui->comboBox->itemData(index, Calendar::CalendarRole).value<Calendar*>());
+  setCalendar(m_ui->comboBox->itemData(index, 1001).value<Object::Calendar*>());
 }
 
 
 void SettingsDialog::authenticate()
 {
-  AuthDialog *authDialog = new AuthDialog(0, m_windowId);
-  authDialog->setScopes(QStringList() << "https://www.google.com/calendar/feeds/");      
-  authDialog->auth(Settings::self()->clientId(),
-		   Settings::self()->clientSecret());
-  if (authDialog->exec() == KDialog::Accepted) {
-    Settings::self()->setAccessToken(authDialog->accessToken());
-    Settings::self()->setRefreshToken(authDialog->refreshToken());
-    Settings::self()->writeConfig();
-    setAuthenticated(true);
-    refreshCalendarList();      
-  } else {
-    setAuthenticated(false);
-  }
-    
-  delete authDialog;
+  m_googleAuth->requestToken(0);
 }
 
 void SettingsDialog::revokeTokens()
 {
-  Settings::self()->accessToken().clear();
-  Settings::self()->refreshToken().clear();
+  m_googleAuth->revokeTokens();
+  
   Settings::self()->calendarId().clear();
   Settings::self()->calendarColor().clear();
   Settings::self()->calendarName().clear();
-  
   Settings::self()->writeConfig();
   
   setAuthenticated(false);
 }
 
-void SettingsDialog::setCalendar(Calendar* calendar)
+void SettingsDialog::setCalendar(Object::Calendar* calendar)
 {
   if (m_calendar)
     delete m_calendar;

@@ -25,6 +25,14 @@
 
 #include <KDE/KJob>
 
+namespace KGoogle {
+  class KGoogleAccessManager;
+  class KGoogleAuth;
+  class KGoogleReply;
+}
+
+using namespace KGoogle;
+
 class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::Observer
 {
 
@@ -35,31 +43,37 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
 
     void configure(WId windowId);
     
+    
+  public Q_SLOTS:
+    void retrieveCollections();
+    void retrieveItems(const Akonadi::Collection& collection);
+    bool retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts);
+    
     void itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection);
     void itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers);
     void itemRemoved(const Akonadi::Item& item);
 
   protected:
-    void retrieveCollections();
-    void retrieveItems(const Akonadi::Collection& collection);
-    bool retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts);
+    void aboutToQuit();  
     
   private Q_SLOTS:
     void slotAbortRequested();
-    void resetState();
-    void abort();
+   
+    void replyReceived(KGoogleReply *reply);    
     
-    void initialItemFetchJobFinished(KJob* job);
-    void eventListJobFinished(KJob* job);
-    void eventJobFinished(KJob* job);
-    void addJobFinished(KJob *job);
-    void updateJobFinished(KJob *job);
-    void deleteJobFinished(KJob *job);
+    void initialItemFetchJobFinished(KJob *job);
+    void eventListReceived(KGoogleReply *reply);
+    void eventReceived(KGoogleReply *reply);
+    void eventCreated(KGoogleReply *reply);
+    void eventUpdated(KGoogleReply *reply);
+    void eventRemoved(KGoogleReply *reply);
 
     
   private:
-    QList<KJob*> m_currentJobs;
-
+    void abort();
+    
+    KGoogleAccessManager *m_gam;
+    KGoogleAuth *m_auth;
 };
 
 #endif // CALENDARRESOURCE_H

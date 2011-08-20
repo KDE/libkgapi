@@ -24,22 +24,34 @@
 #include <KDE/KJob>
 #include <Akonadi/ResourceBase>
 
-#include "calendar.h"
-
 namespace Ui {
   class SettingsDialog;
 }
+
+namespace KGoogle {
+  class KGoogleAuth;
+  class KGoogleReply;
+  class KGoogleAccessManager;
+  
+  namespace Object {
+    class Calendar;
+  }
+}
+
+using namespace KGoogle;
 
 class SettingsDialog : public KDialog
 {
   Q_OBJECT
   public:
-    SettingsDialog(WId windowId, QWidget *parent = 0);
+    SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget *parent = 0);
     ~SettingsDialog();
 
   private Q_SLOTS:
     void refreshCalendarList();
-    void calendarListRetrieved(KJob *job);
+    
+    void replyReceived(KGoogleReply *reply);
+    
     void calendarChanged(int index);
     
     void revokeTokens();
@@ -47,17 +59,20 @@ class SettingsDialog : public KDialog
     
     void setAuthenticated(bool authenticated);
     
+    void authenticated(QString accessToken, QString refreshToken);
+    
   private:
-    void setCalendar(Calendar *calendar);
+    void setCalendar(Object::Calendar *calendar);
     
     Ui::SettingsDialog *m_ui;
     QWidget *m_mainWidget;    
     
-    QString m_accessToken;
-    QString m_refreshToken;
-    Calendar *m_calendar;
+    Object::Calendar *m_calendar;
     
     WId m_windowId;
+    
+    KGoogleAccessManager *m_gam;
+    KGoogleAuth *m_googleAuth;
 };
 
 #endif // SETTINGSDIALOG_H

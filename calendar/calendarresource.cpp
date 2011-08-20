@@ -16,93 +16,141 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <Akonadi/Collection>
-#include <Akonadi/ChangeRecorder>
-#include <Akonadi/ItemFetchScope>
-#include <Akonadi/ItemFetchJob>
-#include <Akonadi/EntityDisplayAttribute>
-
-#include <KDE/KCalCore/Event>
-#include <KDE/KCalCore/Calendar>
-#include <KDE/KLocalizedString>
-
-#include <QtCore/QPointer>
-
 #include "calendarresource.h"
-#include "eventlistjob.h"
-#include "eventcreatejob.h"
-#include "eventupdatejob.h"
-#include "eventdeletejob.h"
-#include "eventjob.h"
-#include "event.h"
-#include "settingsdialog.h"
 #include "settings.h"
+#include "settingsdialog.h"
+
+#include "libkgoogle/kgoogleaccessmanager.h"
+#include "libkgoogle/kgoogleauth.h"
+#include "libkgoogle/kgooglerequest.h"
+#include "libkgoogle/kgooglereply.h"
+#include "libkgoogle/objects/event.h"
+#include "libkgoogle/services/calendar.h"
+
+#include <qdebug.h>
+#include <qstringlist.h>
+
+#include <klocalizedstring.h>
+#include <kdialog.h>
+#include <akonadi/attribute.h>
+#include <akonadi/attributefactory.h>
+#include <akonadi/entitydisplayattribute.h>
+#include <akonadi/item.h>
+#include <akonadi/itemfetchjob.h>
+#include <akonadi/itemfetchscope.h>
+#include <akonadi/changerecorder.h>
+
+#include <kcalcore/event.h>
+#include <kcalcore/calendar.h>
 
 using namespace Akonadi;
+using namespace KGoogle;
 
 CalendarResource::CalendarResource(const QString &id): 
   ResourceBase(id)
 {
-  setObjectName(QLatin1String("GoogleCalendarResource"));
-  setNeedsNetwork(true);
+  qRegisterMetaType<KGoogle::Service::Calendar>("Calendar");
+  
+  m_auth = new KGoogleAuth(Settings::self()->clientId(),
+			   Settings::self()->clientSecret(),
+			   Service::Calendar::scopeUrl());
+  m_gam = new KGoogleAccessManager(m_auth);
+  
+  connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
+	  this, SLOT(replyReceived(KGoogleReply*)));
   
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
   
-  resetState();
-  
+
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
-  
-  /* If the resource is ready then sync it */
-  if (!Settings::self()->calendarId().isEmpty() &&
-      !Settings::self()->accessToken().isEmpty() &&
-      !Settings::self()->refreshToken().isEmpty()) {
-    synchronize();
-  }
-  
+
+  synchronize();  
 }
 
 CalendarResource::~CalendarResource()
+{ 
+  
+}
+
+void CalendarResource::aboutToQuit()
 {
+  slotAbortRequested();
 }
 
 void CalendarResource::abort()
 {
-  resetState();
   cancelTask();
-}
-
-
-void CalendarResource::resetState()
-{
-  m_currentJobs.clear();
 }
 
 void CalendarResource::slotAbortRequested()
 {
-  foreach (const QPointer<KJob> &job, m_currentJobs) {
-    if (job) {
-      job->kill(KJob::Quietly);
-    }
-  }
-    
-  
+  abort();
 }
-
 
 void CalendarResource::configure(WId windowId)
 {
-  SettingsDialog *settingsDialog = new SettingsDialog(windowId);
+  SettingsDialog *settingsDialog = new SettingsDialog(windowId, m_auth);
   if (settingsDialog->exec() == KDialog::Accepted) {
     emit configurationDialogAccepted();
+    synchronize();  
   } else {
     emit configurationDialogRejected();
   }
   
   delete settingsDialog;
   
-  synchronize();  
+
+}
+
+void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
+{
+  emit status(Running, i18n("Preparing to synchronize calendar"));
+  ItemFetchJob *fetchJob = new ItemFetchJob(collection);
+  fetchJob->fetchScope().fetchFullPayload(false);
+  connect (fetchJob, SIGNAL(result(KJob*)),
+	   this, SLOT(initialItemFetchJobFinished(KJob*)));
+  fetchJob->start();
+}
+
+bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts)
+{
+  Q_UNUSED (parts);
+  
+  QString url = Service::Calendar::fetchUrl().arg(Settings::self()->calendarId())
+					     .arg("private")
+					     .arg(item.remoteId());
+  KGoogleRequest *request;
+  
+  request = new KGoogleRequest(QUrl(url),
+			       KGoogle::KGoogleRequest::Fetch,
+			       "Calendar");
+  request->setProperty("Item", QVariant::fromValue(item));
+  m_gam->sendRequest(request);
+        
+  emit status(Running, "Fetching event");
+ 
+  return true;
+}
+
+void CalendarResource::initialItemFetchJobFinished(KJob* job)
+{
+  ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
+  
+  if (fetchJob->error()) {
+    cancelTask("Failed to fetch initial data.");
+    return;
+  }
+
+  QString url = Service::Calendar::fetchAllUrl().arg(Settings::self()->calendarId())
+						.arg("private");
+  KGoogleRequest *request = new KGoogleRequest(QUrl(url),
+					       KGoogleRequest::FetchAll,
+					       "Calendar");
+  m_gam->sendRequest(request);
+  	      
+  emit status(Running, i18n("Retrieving list of events"));
 }
 
 void CalendarResource::retrieveCollections()
@@ -124,250 +172,240 @@ void CalendarResource::retrieveCollections()
   collectionsRetrieved(Collection::List() << calendar);
 }
 
-void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
+void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
 {
-  emit status(Running, i18n("Preparing to synchronize calendar"));
-  ItemFetchJob *fetchJob = new ItemFetchJob(collection);
-  fetchJob->fetchScope().fetchFullPayload(true);
-  m_currentJobs << fetchJob;
-  connect (fetchJob, SIGNAL(result(KJob*)),
-	   this, SLOT(initialItemFetchJobFinished(KJob*)));
-  fetchJob->start();
+ if (!item.hasPayload<KCalCore::Event::Ptr>())
+    return;
+
+  status(Running, "Creating event...");
+  
+  KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
+  Object::Event kevent(*event.data());
+ 
+  Service::Calendar service;
+  QString url = Service::Calendar::createUrl().arg(Settings::self()->calendarId())
+					      .arg("private");
+  QByteArray data = service.objectToJSON(static_cast<KGoogleObject*>(&kevent));
+
+  KGoogleRequest *request;
+  request = new KGoogleRequest(QUrl(url),
+			       KGoogleRequest::Create,
+			       "Calendar");
+  request->setRequestData(data, "application/json");
+  request->setProperty("Item", QVariant::fromValue(item));
+  
+  m_gam->sendRequest(request);
+  
+  Q_UNUSED (collection);  
 }
 
-void CalendarResource::initialItemFetchJobFinished(KJob* job)
+void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
-  ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
-  m_currentJobs.removeAll (job);
-  
-  if (fetchJob->error()) {
-    cancelTask("Failed to fetch initial data.");
+ if (!item.hasPayload<KCalCore::Event::Ptr>())
     return;
-  }
   
-
-  EventListJob *elJob = new EventListJob(Settings::self()->accessToken(),
-					 Settings::self()->lastSync(),
-					 Settings::self()->calendarId());
-  m_currentJobs << elJob;
-  connect (elJob, SIGNAL(result(KJob*)),
-	   this, SLOT(eventListJobFinished(KJob*)));
-  emit status(Running, i18n("Retrieving events"));
-  emit percent(2);
-  elJob->start();  
+  status(Running, "Updating event...");
+  
+  KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
+  Object::Event kevent(*event.data());
+ 
+  QString url = Service::Calendar::updateUrl().arg(Settings::self()->calendarId())
+					      .arg("private")
+					      .arg(item.remoteId());
+  Service::Calendar service;
+  QByteArray data = service.objectToJSON(dynamic_cast<KGoogleObject*>(&kevent));
+  
+  KGoogleRequest *request;
+  request = new KGoogleRequest(QUrl(url),
+			       KGoogleRequest::Update,
+			       "Calendar");
+  request->setRequestData(data, "application/json");
+  request->setProperty("Item", QVariant::fromValue(item));
+  
+  m_gam->sendRequest(request);
+  
+  Q_UNUSED (partIdentifiers);  
 }
 
-void CalendarResource::eventListJobFinished(KJob* job)
+void CalendarResource::itemRemoved(const Akonadi::Item& item)
 {
-  Q_ASSERT( m_currentJobs.indexOf(job) != -1 );
+  emit status(Running, i18n("Removing event"));
+  
+  QString url = Service::Calendar::removeUrl().arg(Settings::self()->calendarId())
+					      .arg("private")
+					      .arg(item.remoteId());
+ 
+  KGoogleRequest *request;
+  request = new KGoogleRequest(QUrl(url),
+			       KGoogleRequest::Remove,
+			       "Calendar");
+  request->setProperty("Item", QVariant::fromValue(item));
 
-  EventListJob *elJob = dynamic_cast<EventListJob*>(job);
-  m_currentJobs.clear();
+  m_gam->sendRequest(request);
+}
 
-  if (elJob->error()) {
-    qDebug() << elJob->errorText();
-    cancelTask(elJob->errorText());
+void CalendarResource::replyReceived(KGoogleReply* reply)
+{
+  qDebug() << "reply received, " << reply->replyData().count() << " items fetched";
+  
+  switch (reply->requestType()) {
+    case KGoogleRequest::FetchAll:
+      eventListReceived(reply);
+      break;
+      
+    case KGoogleRequest::Fetch:
+      eventReceived(reply);
+      break;
+      
+    case KGoogleRequest::Create:
+      eventCreated(reply);
+      break;
+      
+    case KGoogleRequest::Update:
+      eventUpdated(reply);
+      break;
+      
+    case KGoogleRequest::Remove:
+      eventRemoved(reply);
+      break;
+  }
+}
+
+void CalendarResource::eventListReceived(KGoogleReply* reply)
+{
+  if (reply->error() != KGoogle::KGoogleReply::OK) {
+    cancelTask("Failed to retrieve events");
     return;
   }
-  Akonadi::Collection collection;
-  
-  Event::Event::List events = elJob->events();
-  QList<Item> new_items;
-  QList<Item> removed;
-  
-  for (int i = 0; i < events.length(); i++) {
-      Item item;
-      Event::Event event = events.at(i);
 
-      item.setRemoteId(event.uid());
-      if (event.deleted()) {
-	removed << item;
-      } else {
-	item.setMimeType(event.mimeType());
-	item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr) event.clone());
-	new_items << item;
-      }
+  Item::List events;
+  Item::List removed;
+  Item::List changed;
+  
+  QList<KGoogleObject *> allData = reply->replyData();
+  foreach (KGoogleObject* replyData, allData) {
+    Item item;
+    Object::Event *event = static_cast<Object::Event*>(replyData);
+
+    item.setRemoteId(event->id());
+    item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)dynamic_cast<KCalCore::Event*>(event)->clone());
+    item.setMimeType(event->mimeType());
+    
+    if (event->deleted()) {
+      removed << item;
+    } else {
+      changed << item;
+    }
   }
-
+  
   if (Settings::self()->lastSync().isEmpty())
-    itemsRetrieved(new_items);
+    itemsRetrieved(changed);
   else
-    itemsRetrievedIncremental(new_items, removed);
-  
+    itemsRetrievedIncremental(changed, removed);
+
   /* Store the time of this sync. Next time we will only ask for items
    * that changed or were removed since sync */
   Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%S"));
   
   emit percent(100);
   emit status(Idle, "Collections synchronized");
-  resetState();
 }
 
-
-
-bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts)
+void CalendarResource::eventReceived(KGoogleReply* reply)
 {
-  EventJob *eJob = new EventJob(Settings::self()->accessToken(),
-				Settings::self()->calendarId(),
-				item.remoteId());
-  m_currentJobs << eJob;
-  eJob->setProperty("Item", QVariant::fromValue(item));
-  connect(eJob, SIGNAL(result(KJob*)),
-	  this, SLOT(eventJobFinished(KJob*)));
-    
-  emit status(Running, "Fetching event");
-  eJob->start();
-  
-  return true;
-  
-  Q_UNUSED (parts);
-}
-
-void CalendarResource::eventJobFinished(KJob* job)
-{
-  EventJob *eJob = dynamic_cast<EventJob*>(job);
-  m_currentJobs.removeAll(job);
-  
-  if (eJob->error()) {
-    cancelTask("Failed to fetch event: " + eJob->errorText());
+  if (reply->error() != KGoogle::KGoogleReply::OK) {
+    cancelTask("Failed to fetch event");
     return;
   }
+  
+  QList<KGoogleObject*> data = reply->replyData();
+  if (data.length() != 1) {
+    kWarning() << "Server send " << data.length() << "items, which is not OK";
+    cancelTask("Failed to create a contact");
+    return;
+  }     
+  Object::Event *event = static_cast<Object::Event*>(data.first());
   
   Item item;
-  Event::Event* event = eJob->getEvent();
   item.setMimeType(event->mimeType());
-  item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr) event->clone());
+  item.setRemoteId(event->id());
+  item.setRemoteRevision(event->etag());
+  item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)dynamic_cast<KCalCore::Event*>(event)->clone());
+
+  if (event->deleted())
+    itemsRetrievedIncremental(Item::List(), Item::List() << item);  
+  else
+    itemRetrieved(item);
   
   emit status(Idle, "Event fetched");
-  itemRetrieved(item);
-  resetState(); 
 }
 
 
-void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
+void CalendarResource::eventCreated(KGoogleReply* reply)
 {
-  if (!item.hasPayload<KCalCore::Event::Ptr>())
-    return;
-
-  status(Running, "Creating event...");
-  
-  KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
-  Event::Event *d_event = new Event::Event(event.data());
-  EventCreateJob *ecJob = new EventCreateJob(d_event,
-					     Settings::self()->calendarId(),
-					     Settings::self()->accessToken());
-  ecJob->setProperty("Item", QVariant::fromValue(item));
-  connect (ecJob, SIGNAL(finished(KJob*)),
-	   this, SLOT(addJobFinished(KJob*)));
-  ecJob->start();
-
-  Q_UNUSED (collection)
-}
-
-void CalendarResource::addJobFinished(KJob* job)
-{
-  if (job->error()) {
-    qDebug() << job->errorString();
-    cancelTask(job->errorString());
+  if (reply->error() != KGoogle::KGoogleReply::Created) {
+    cancelTask("Failed to create an event");
     return;
   }
-
-  EventCreateJob *ecJob = dynamic_cast<EventCreateJob*>(job);
-
-  KCalCore::Event* event = ecJob->newEvent();
-  Akonadi::Item oldItem = ecJob->property("Item").value<Akonadi::Item>();
-  Akonadi::Item newItem;
   
-  newItem.setRemoteId(event->uid());
-  newItem.setRemoteRevision(event->uid());
+  QList<KGoogleObject*> data = reply->replyData();
+  if (data.length() != 1) {
+    kWarning() << "Server send " << data.length() << "items, which is not OK";
+    cancelTask("Failed to create a contact");
+    return;
+  }     
+  Object::Event *event = static_cast<Object::Event*>(data.first());
+  
+  Item newItem;
+  newItem.setRemoteId(event->id());
+  newItem.setRemoteRevision(event->etag());
   newItem.setMimeType(event->mimeType());
-  newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)event->clone());
-  qDebug() << "Resource: Added event " << event->uid();
+  newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)dynamic_cast<KCalCore::Event*>(event)->clone());
 
   changeCommitted(newItem);
   
   status(Idle, "Event created");
-  resetState();  
 }
 
-
-void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
+void CalendarResource::eventUpdated(KGoogleReply* reply)
 {
-  if (!item.hasPayload<KCalCore::Event::Ptr>())
-    return;
-  
-  status(Running, "Updating evnet...");
-  
-  KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
-  Event::Event *d_event = new Event::Event(event.data());
-  EventUpdateJob *upJob = new EventUpdateJob(d_event,
-					     Settings::self()->calendarId(),
-					     Settings::self()->accessToken());
-  upJob->setProperty("Item", QVariant::fromValue(item));
-  connect(upJob, SIGNAL(finished(KJob*)),
-	  this, SLOT(updateJobFinished(KJob*)));
-  upJob->start();
-  
-  Q_UNUSED(partIdentifiers)
-}
-
-void CalendarResource::updateJobFinished(KJob* job)
-{
-  if (job->error()) {
-    qDebug() << job->errorString();
-    cancelTask(job->errorString());
-    return;
+  if (reply->error() != KGoogle::KGoogleReply::OK) {
+    cancelTask("Failed to update event");
   }
   
-  EventUpdateJob *upJob = dynamic_cast<EventUpdateJob*>(job);
+  QList<KGoogleObject*> data = reply->replyData();
+  if (data.length() != 1) {
+    kWarning() << "Server send " << data.length() << "items, which is not OK";
+    cancelTask("Failed to create a contact");
+    return;
+  }     
+  Object::Event *event = static_cast<Object::Event*>(data.first());
   
-  KCalCore::Event *event = upJob->newEvent();
-  Akonadi::Item newItem;
-  newItem.setRemoteId(event->uid());
-  newItem.setRemoteRevision(event->uid());
+  Item oldItem = reply->request()->property("Item").value<Item>();
+  Item newItem;
+
+  newItem.setRemoteId(event->id());
+  newItem.setRemoteRevision(event->etag());
   newItem.setMimeType(event->mimeType());
-  newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)event->clone());
+  newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)dynamic_cast<KCalCore::Event*>(event)->clone());
   
   changeCommitted(newItem);
   
-  status(Idle, "Event updated");
-  resetState();
+  status(Idle, "Event changed");
 }
 
-
-void CalendarResource::itemRemoved(const Akonadi::Item& item)
+void CalendarResource::eventRemoved(KGoogleReply* reply)
 {
-  if (!item.hasPayload<KCalCore::Event::Ptr>())
-    return;
-    
-   qDebug() << "Removing item";
-  status(Running, "Removing event...");
-    
-  EventDeleteJob *edJob = new EventDeleteJob(item.remoteId(),
-					     Settings::self()->calendarId(),
-					     Settings::self()->accessToken());
-  edJob->setProperty("Item", QVariant::fromValue(item));
-  connect(edJob, SIGNAL(finished(KJob*)),
-	  this, SLOT(deleteJobFinished(KJob*)));
-  edJob->start();
-}
-
-void CalendarResource::deleteJobFinished(KJob* job)
-{
-  if (job->error()) {
-    qDebug() << job->errorText();
-    cancelTask(job->errorText());
+  if (reply->error() != KGoogle::KGoogleReply::OK) {
+    cancelTask("Failed to remove event");
     return;
   }
-  
-  EventDeleteJob *edJob = dynamic_cast<EventDeleteJob*>(job);
-  Akonadi::Item item = edJob->property("Item").value<Akonadi::Item>();
+
+  Item item = reply->request()->property("Item").value<Item>();
   
   changeCommitted(item);
-  
-  status(Idle, "Event removed");
-  resetState();
-}
 
+  status(Idle, "Event removed");
+}
 
 AKONADI_RESOURCE_MAIN (CalendarResource)
