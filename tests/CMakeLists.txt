@@ -1,24 +1,26 @@
 project (tests)
 cmake_minimum_required(VERSION 2.8)
 
-set(CMAKE_MODULE_PATH ../cmake/modules ${CMAKE_MODULE_PATH})
+if(POLICY CMP0017)
+  cmake_policy(SET CMP0017 NEW)
+endif()
 
-# search packages used by KDE
-find_package (KDE4 REQUIRED)
-include(KDE4Defaults)
+find_package(Qt4 4.7.0 REQUIRED) 
+
+add_definitions(${QT_DEFINITIONS})
 
 include_directories(
-    ${KDE4_INCLUDES}
-    ${QCA2_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
-    ${CMAKE_CURRENT_SOURCE_DIR}/../contacts
-    ${CMAKE_CURRENT_BINARY_DIR}/../contacts
+    ${CMAKE_CURRENT_SOURCE_DIR}/libkgoogle
 )
 
-########### AuthDialog Test ###############
+########### Test Contacts ###############
 
-set(authdialog_testSRCS authdialog_test.cpp)
-kde4_add_executable(authdialog_test ${authdialog_testSRCS} ${authdialog_testMOCS})
-target_link_libraries(authdialog_test ${QT_QTCORE_LIBRARY} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} 
-		      ${KDE4_KDEWEBKIT_LIBS} kgoogle)
+set(test_contacts_SRCS 
+    testcontacts.cpp)
+kde4_add_executable(test_contacts ${test_contacts_SRCS})
+
+target_link_libraries(test_contacts
+		      ${QT_QTCORE_LIBRARY} 
+		      ${QT_QTTEST_LIBRARY}
+		      kgoogle)
