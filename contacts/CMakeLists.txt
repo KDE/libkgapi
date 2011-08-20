@@ -21,18 +21,12 @@ endif (XSLTPROC_EXECUTABLE)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(contactsresource_SRCS
-    contact.cpp
     contactsresource.cpp
-    contactjob.cpp
-    contactcreatejob.cpp 
-    contactchangejob.cpp 
-    contactdeletejob.cpp
-    contactlistjob.cpp 
     photojob.cpp
     settings.cpp
+    settingsdialog.cpp
 )
 
-install(FILES googlecontactsresource.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akonadi/agents" )
 kde4_add_ui_files(contactsresource_SRCS settingsdialog.ui)
 kde4_add_kcfg_files(contactsresource_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/settingsbase.kcfgc)
 kcfg_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/settingsbase.kcfg org.kde.Akonadi.GoogleContacts.Settings)
@@ -46,12 +40,9 @@ target_link_libraries(akonadi_googlecontacts_resource
 		      ${KDEPIMLIBS_KABC_LIBS}
 		      ${QT_QTCORE_LIBRARY}
 		      ${QT_QTDBUS_LIBRARY}
-		      ${QT_QTNETWORK_LIBRARY}
-		      ${QT_QTXML_LIBRARY}
-		      ${QJSON_LIBRARIES}
 		      ${KDE4_KDECORE_LIBS}
-		      ${KDE4_KDEWEBKIT_LIBS}
 		      kgoogle
 )
 
 install(TARGETS akonadi_googlecontacts_resource ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(FILES googlecontactsresource.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akonadi/agents" )

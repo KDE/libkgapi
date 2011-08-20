@@ -58,7 +58,7 @@ void PhotoJob::photoRetrieved(QNetworkReply* reply)
     emitResult();
     return;
   }
-  
+   
   QByteArray data = reply->readAll();
   m_photo.loadFromData(data, (const char*)reply->header(QNetworkRequest::ContentTypeHeader).data());
   

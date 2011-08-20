@@ -30,6 +30,14 @@
 #include <KDE/Akonadi/Collection>
 #include <KDE/Akonadi/Item>
 
+namespace KGoogle {
+  class KGoogleAccessManager;
+  class KGoogleAuth;
+  class KGoogleReply;
+};
+
+using namespace KGoogle;
+
 /**
  * @brief An Akonadi resource for retrieving contacts from
  * 	  Google Contacts service.
@@ -104,30 +112,23 @@ class ContactsResource: public Akonadi::ResourceBase,
   private Q_SLOTS:
     void slotAbortRequested();
     void initialItemFetchJobFinished(KJob *job);
-    void contactJobFinished(KJob *job);
-    void contactListJobFinished(KJob *job);
     void photoJobFinished(KJob *job);
     
-    void addJobFinished(KJob *job);
-    void changeJobFinished(KJob *job);
-    void removeJobFinished(KJob *job);
+    void replyReceived(KGoogleReply *reply);
 
+    void contactReceived(KGoogleReply *reply);
+    void contactListReceived(KGoogleReply *reply);
+    void contactUpdated(KGoogleReply *reply);
+    void contactCreated(KGoogleReply *reply);
+    void contactRemoved(KGoogleReply *reply);
+    
   private:
     void abort();
-    void resetState();
     
     void updateLocalContacts();
-    
-    QMap<QString,KDateTime> m_existingContacts;
-    QList<QString> m_pendingContacts;
-    
-    int m_contactsCnt;
-
-    int m_itemsCnt;
-    int m_itemsFinished;
-    
-    bool m_idle;
-    QList< QPointer<KJob> > m_currentJobs;
+     
+    KGoogle::KGoogleAccessManager *m_gam;
+    KGoogle::KGoogleAuth *m_auth;
 };
 
 #endif // CONTACTSRESOURCE_H

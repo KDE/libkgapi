@@ -1,5 +1,5 @@
 /*
-    Akonadi Google - Contacts Resource
+    Akonadi Google - Calendar Resource
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,35 +17,43 @@
 */
 
 
-#ifndef CONTACTCHANGEJOB_H
-#define CONTACTCHANGEJOB_H
+#ifndef SETTINGSDIALOG_H
+#define SETTINGSDIALOG_H
 
-#include <QtNetwork/QNetworkReply>
+#include <KDE/KDialog>
 
-#include <KDE/KJob>
-#include <KDE/KABC/Addressee>
+namespace Ui {
+  class SettingsDialog;
+}
 
-#include "contact.h"
+namespace KGoogle {
+  class KGoogleAuth;
+}
 
-class ContactChangeJob : public KJob
+using namespace KGoogle;
+
+class SettingsDialog : public KDialog
 {
-
   Q_OBJECT
   public:
-    ContactChangeJob(KABC::Addressee addressee, const QString &contactId, const QString &accessToken);
-    
-    void start();
-    
-    Contact::Contact newContact() { return m_contact; }
-    
+    SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget *parent = 0);
+    ~SettingsDialog();
+
   private Q_SLOTS:
-    void requestFinished(QNetworkReply*);
+    void revokeTokens();
+    void authenticate();
+    
+    void setAuthenticated(bool authenticated);
+    
+    void authenticated(QString accessToken, QString refreshToken);
     
   private:
-    KABC::Addressee m_addressee;
-    Contact::Contact m_contact;
-    QString m_contactId;
-    QString m_accessToken;  
+    Ui::SettingsDialog *m_ui;
+    QWidget *m_mainWidget;    
+    
+    WId m_windowId;
+
+    KGoogleAuth *m_googleAuth;
 };
 
-#endif // CONTACTCHANGEJOB_H
+#endif // SETTINGSDIALOG_H

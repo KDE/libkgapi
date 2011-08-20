@@ -14,7 +14,11 @@
    <item>
     <widget class="QLabel" name="authenticateLabel">
      <property name="text">
-      <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;In order to access Google services you need to authenticate. Click the &lt;i&gt;Authenticate&lt;/i&gt; button and follow instructions in the dialog.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In order to access Google Contacts service you need to authenticate. Click the &lt;span style=&quot; font-style:italic;&quot;&gt;Authenticate&lt;/span&gt; button and follow instructions in the dialog.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -27,7 +31,11 @@
    <item>
     <widget class="QLabel" name="revokeAccessLabel">
      <property name="text">
-      <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Use the &lt;i&gt;Revoke Access&lt;/i&gt; button to make Akonadi forget any authentication with Google services.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Use the &lt;span style=&quot; font-style:italic;&quot;&gt;Revoke Access&lt;/span&gt; button to make Akonadi forget any authentication with Google Contacts service.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
