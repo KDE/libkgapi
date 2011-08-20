@@ -1,6 +1,6 @@
 project(googlecalendarresource)
 
-set(CALENDAR_RESOURCE_VERSION 0.1)
+set(CALENDAR_RESOURCE_VERSION 0.2)
 
 cmake_minimum_required(VERSION 2.8)
 
