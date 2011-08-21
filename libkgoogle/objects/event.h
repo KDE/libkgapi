@@ -23,10 +23,33 @@
 #include "kgoogleobject.h"
 #include "libkgoogle_export.h"
 
-#include <kcalcore/event.h>
 #include <qmetatype.h>
 #include <qshareddata.h>
 #include <qlist.h>
+#include <kcalcore/event.h>
+
+
+#ifdef WITH_KCAL
+#include <kcal/event.h>
+#include <kcal/person.h>
+#include <kcal/attendee.h>
+#include <kcal/alarm.h>
+#include <boost/shared_ptr.hpp>
+typedef boost::shared_ptr<KCal::Event> EventPtr;
+typedef KCal::Attendee* AttendeePtr;
+typedef KCal::Person* PersonPtr;
+typedef KCal::Alarm* AlarmPtr;
+#else
+#include <kcalcore/event.h>
+#include <kcalcore/person.h>
+#include <kcalcore/attendee.h>
+#include <kcalcore/alarm.h>
+typedef KCalCore::Event::Ptr EventPtr;
+typedef KCalCore::Attendee::Ptr AttendeePtr;
+typedef KCalCore::Person::Ptr PersonPtr;
+typedef KCalCore::Alarm::Ptr AlarmPtr;
+#endif
+
 
 namespace KGoogle {
       
@@ -34,7 +57,11 @@ namespace KGoogle {
     
     class EventData;
 
+#ifdef WITH_KCAL
+    class LIBKGOOGLE_EXPORT Event: public KGoogleObject, public KCal::Event
+#else
     class LIBKGOOGLE_EXPORT Event: public KGoogleObject, public KCalCore::Event
+#endif
     {
       public:
 	typedef QList<Event> List;
@@ -42,7 +69,11 @@ namespace KGoogle {
 	
 	Event();
 	Event(const Event& other);
+#ifdef WITH_KCAL
+	Event(const KCal::Event &event);
+#else
 	Event(const KCalCore::Event &event);
+#endif
 	
 	~Event();
 	

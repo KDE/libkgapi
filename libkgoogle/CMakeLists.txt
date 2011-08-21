@@ -50,12 +50,12 @@ target_link_libraries(kgoogle
 		      ${KDE4_KDEWEBKIT_LIBS}
 		      ${KDE4_KDEUI_LIBS}
 		      ${KDEPIMLIBS_KABC_LIBS}
-		      ${KDEPIMLIBS_KCALCORE_LIBS}
 		      ${KDEPIMLIBS_KMIME_LIBS}
 		      ${QJSON_LIBRARIES}
 		      ${QT_QTCORE_LIBRARY}
 		      ${QT_QTWEBKIT_LIBRARY}
 		      ${QT_QTNETWORK_LIBRARY}
+		      ${KCALENDAR_LIBRARIES}
 )
 
 install(TARGETS kgoogle ${INSTALL_TARGETS_DEFAULT_ARGS})

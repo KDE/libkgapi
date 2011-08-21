@@ -25,7 +25,12 @@
 #include <qdebug.h>
 
 using namespace KGoogle;
+
+#ifdef WITH_KCAL
+using namespace KCal;
+#else
 using namespace KCalCore;
+#endif
 
 Object::EventData::EventData(const Object::EventData &other):
     QSharedData(other),
@@ -42,12 +47,21 @@ Object::Event::Event()
 
 Object::Event::Event(const Object::Event &other):
   KGoogleObject(other),
+#ifdef WITH_KCAL
+  KCal::Event(other),
+#else
   KCalCore::Event(other),
+#endif
   d(other.d)
 { }
 
-Object::Event::Event(const KCalCore::Event &event): 
+#ifdef WITH_KCAL
+Object::Event::Event(const KCal::Event &event): 
+  KCal::Event(event),
+#else
+Object::Event::Event(const KCalCore::Event &event):
   KCalCore::Event(event),
+#endif
   d(new EventData)
 { }
 

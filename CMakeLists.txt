@@ -21,6 +21,15 @@ macro_display_feature_log()
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
+
+option(USE_KCAL "Use deprecated KCal API instead of KCalCore API. Provides backwards compatibility for KDE PIM 4.4" TRUE)
+if (USE_KCAL)
+  set(KCALENDAR_LIBRARIES ${KDEPIMLIBS_KCAL_LIBS})
+  add_definitions(-DWITH_KCAL)
+else (USE_KCAL)
+  set(KCALENDAR_LIBRARIES ${KDEPIMLIBS_KCALCORE_LIBS})
+endif (USE_KCAL)
+
 include_directories(
 	  ${QT_INCLUDE_DIR}
 	  ${CMAKE_SOURCE_DIR}

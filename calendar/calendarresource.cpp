@@ -40,11 +40,22 @@
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
 
+#ifdef WITH_KCAL
+#include <kcal/event.h>
+#include <kcal/calendar.h>
+#else
 #include <kcalcore/event.h>
 #include <kcalcore/calendar.h>
+#endif
 
 using namespace Akonadi;
 using namespace KGoogle;
+
+#ifdef WITH_KCAL
+using namespace KCal;
+#else
+using namespace KCalCore;
+#endif
 
 CalendarResource::CalendarResource(const QString &id): 
   ResourceBase(id)
@@ -174,13 +185,13 @@ void CalendarResource::retrieveCollections()
 
 void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
 {
- if (!item.hasPayload<KCalCore::Event::Ptr>())
+ if (!item.hasPayload<EventPtr>())
     return;
 
   status(Running, "Creating event...");
   
-  KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
-  Object::Event kevent(*event.data());
+  EventPtr event = item.payload<EventPtr>();
+  Object::Event kevent(*event);
  
   Service::Calendar service;
   QString url = Service::Calendar::createUrl().arg(Settings::self()->calendarId())
@@ -201,13 +212,13 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
 
 void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
- if (!item.hasPayload<KCalCore::Event::Ptr>())
+ if (!item.hasPayload<EventPtr>())
     return;
   
   status(Running, "Updating event...");
   
-  KCalCore::Event::Ptr event = item.payload<KCalCore::Event::Ptr>();
-  Object::Event kevent(*event.data());
+  EventPtr event = item.payload<EventPtr>();
+  Object::Event kevent(*event);
  
   QString url = Service::Calendar::updateUrl().arg(Settings::self()->calendarId())
 					      .arg("private")
@@ -288,8 +299,8 @@ void CalendarResource::eventListReceived(KGoogleReply* reply)
     Object::Event *event = static_cast<Object::Event*>(replyData);
 
     item.setRemoteId(event->id());
-    item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)dynamic_cast<KCalCore::Event*>(event)->clone());
-    item.setMimeType(event->mimeType());
+    item.setPayload<EventPtr>(EventPtr(event));
+    item.setMimeType("application/x-vnd.akonadi.calendar.event");
     
     if (event->deleted()) {
       removed << item;
@@ -327,10 +338,10 @@ void CalendarResource::eventReceived(KGoogleReply* reply)
   Object::Event *event = static_cast<Object::Event*>(data.first());
   
   Item item;
-  item.setMimeType(event->mimeType());
+  item.setMimeType("application/x-vnd.akonadi.calendar.event");
   item.setRemoteId(event->id());
   item.setRemoteRevision(event->etag());
-  item.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)dynamic_cast<KCalCore::Event*>(event)->clone());
+  item.setPayload<EventPtr>(EventPtr(event));
 
   if (event->deleted())
     itemsRetrievedIncremental(Item::List(), Item::List() << item);  
@@ -359,8 +370,8 @@ void CalendarResource::eventCreated(KGoogleReply* reply)
   Item newItem;
   newItem.setRemoteId(event->id());
   newItem.setRemoteRevision(event->etag());
-  newItem.setMimeType(event->mimeType());
-  newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)dynamic_cast<KCalCore::Event*>(event)->clone());
+  newItem.setMimeType("application/x-vnd.akonadi.calendar.event");
+  newItem.setPayload<EventPtr>(EventPtr(event));
 
   changeCommitted(newItem);
   
@@ -386,8 +397,8 @@ void CalendarResource::eventUpdated(KGoogleReply* reply)
 
   newItem.setRemoteId(event->id());
   newItem.setRemoteRevision(event->etag());
-  newItem.setMimeType(event->mimeType());
-  newItem.setPayload<KCalCore::Event::Ptr>((KCalCore::Event::Ptr)dynamic_cast<KCalCore::Event*>(event)->clone());
+  newItem.setMimeType("application/x-vnd.akonadi.calendar.event");
+  newItem.setPayload<EventPtr>(EventPtr(event));
   
   changeCommitted(newItem);
   
