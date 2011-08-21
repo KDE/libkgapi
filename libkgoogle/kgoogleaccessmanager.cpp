@@ -137,7 +137,7 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
     case KGoogleRequest::Create:
     case KGoogleRequest::Update: {
       if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
-	
+
 	replyData.append(service->JSONToObject(rawData));
 	
       } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {

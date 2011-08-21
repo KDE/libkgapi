@@ -340,9 +340,7 @@ void ContactsResource::contactReceived(KGoogleReply* reply)
   }     
   Object::Contact *contact = static_cast<Object::Contact*>(data.first());
   
-  Item item;
-  item.setMimeType(KABC::Addressee::mimeType());
-  item.setPayload<KABC::Addressee>(*contact->toKABC());
+  Item item = reply->request()->property("Item").value<Item>();
   item.setRemoteId(contact->id());
   item.setRemoteRevision(contact->etag());
 
@@ -369,13 +367,11 @@ void ContactsResource::contactCreated(KGoogleReply* reply)
   }    
   Object::Contact *contact = (Object::Contact*) data.first();
     
-  Item newItem;
-  newItem.setRemoteId(contact->id());
-  newItem.setRemoteRevision(contact->etag());
-  newItem.setMimeType(KABC::Addressee::mimeType());
-  newItem.setPayload<KABC::Addressee>(*contact->toKABC());
-
-  changeCommitted(newItem);
+  Item item = reply->request()->property("Item").value<Item>();
+  item.setRemoteId(contact->id());
+  item.setRemoteRevision(contact->etag());
+ 
+  changeCommitted(item);
   
   status(Idle, "Contact created");
 }
@@ -394,15 +390,11 @@ void ContactsResource::contactUpdated(KGoogleReply* reply)
   }  
   Object::Contact *contact = static_cast<Object::Contact*>(data.first());
   
-  Item oldItem = reply->request()->property("Item").value<Item>();
-  Item newItem;
-
-  newItem.setRemoteId(contact->id());
-  newItem.setRemoteRevision(contact->etag());
-  newItem.setMimeType(KABC::Addressee::mimeType());
-  newItem.setPayload<KABC::Addressee>(*(contact->toKABC()));
+  Item item = reply->request()->property("Item").value<Item>();
+  item.setRemoteId(contact->id());
+  item.setRemoteRevision(contact->etag());
   
-  changeCommitted(newItem);
+  changeCommitted(item);
   
   status(Idle, "Contact changed");
 }

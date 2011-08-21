@@ -27,7 +27,6 @@
 #include "libkgoogle/objects/event.h"
 #include "libkgoogle/services/calendar.h"
 
-#include <qdebug.h>
 #include <qstringlist.h>
 
 #include <klocalizedstring.h>
@@ -257,8 +256,6 @@ void CalendarResource::itemRemoved(const Akonadi::Item& item)
 
 void CalendarResource::replyReceived(KGoogleReply* reply)
 {
-  qDebug() << "reply received, " << reply->replyData().count() << " items fetched";
-  
   switch (reply->requestType()) {
     case KGoogleRequest::FetchAll:
       eventListReceived(reply);
@@ -366,14 +363,12 @@ void CalendarResource::eventCreated(KGoogleReply* reply)
     return;
   }     
   Object::Event *event = static_cast<Object::Event*>(data.first());
-  
-  Item newItem;
-  newItem.setRemoteId(event->id());
-  newItem.setRemoteRevision(event->etag());
-  newItem.setMimeType("application/x-vnd.akonadi.calendar.event");
-  newItem.setPayload<EventPtr>(EventPtr(event));
 
-  changeCommitted(newItem);
+  Item item = reply->request()->property("Item").value<Item>();
+  item.setRemoteId(event->id());
+  item.setRemoteRevision(event->etag());
+
+  changeCommitted(item);
   
   status(Idle, "Event created");
 }
@@ -392,13 +387,9 @@ void CalendarResource::eventUpdated(KGoogleReply* reply)
   }     
   Object::Event *event = static_cast<Object::Event*>(data.first());
   
-  Item oldItem = reply->request()->property("Item").value<Item>();
-  Item newItem;
-
+  Item newItem(reply->request()->property("Item").value<Item>());
   newItem.setRemoteId(event->id());
   newItem.setRemoteRevision(event->etag());
-  newItem.setMimeType("application/x-vnd.akonadi.calendar.event");
-  newItem.setPayload<EventPtr>(EventPtr(event));
   
   changeCommitted(newItem);
   
@@ -412,8 +403,7 @@ void CalendarResource::eventRemoved(KGoogleReply* reply)
     return;
   }
 
-  Item item = reply->request()->property("Item").value<Item>();
-  
+  Item item = reply->request()->property("Item").value<Item>();  
   changeCommitted(item);
 
   status(Idle, "Event removed");

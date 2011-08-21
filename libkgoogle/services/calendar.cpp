@@ -57,14 +57,15 @@ KGoogleObject* Service::Calendar::JSONToObject(const QByteArray& jsonData)
   QJson::Parser parser;
   
   QVariantMap object = parser.parse(jsonData).toMap();
+  QVariantMap data = object["data"].toMap();
   
   if (object["kind"] == "calendar#calendar")
-    return JSONToCalendar(object);
+    return JSONToCalendar(data);
   else if (object["kind"] == "calendar#event")
-    return JSONToEvent(object);
+    return JSONToEvent(data);
   else {
     /* FIXME: This is a very very wild assumption */
-    return JSONToEvent(object);
+    return JSONToEvent(data);
   }
 
 }

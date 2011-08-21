@@ -248,9 +248,18 @@ KGoogleObject* Addressbook::XMLToObject(const QByteArray& xmlData)
   QByteArray xmlDoc;
   /* Document without <xml> header is not valid and Qt won't parse it */
   if (!xmlData.contains("<?xml"))
-    xmlDoc.append("<?xml version='1.0' encoding='UTF-8'?>").append(xmlData);
-  QDomDocument doc(xmlDoc);
-  QDomNodeList data = doc.childNodes();  
+    xmlDoc.append("<?xml version='1.0' encoding='UTF-8'?>");
+  xmlDoc.append(xmlData);
+  
+  QDomDocument doc;
+  doc.setContent(xmlDoc);
+  QDomNodeList entry = doc.elementsByTagName("entry");
+  QDomNodeList data;
+  if (entry.length() > 0) {
+    data = entry.at(0).childNodes();
+  } else {
+    return 0;
+  }
   
   for (int i = 0; i < data.count(); i++) {
     QDomNode n = data.at(i);
