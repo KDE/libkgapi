@@ -8,13 +8,19 @@ find_package(Qt4 4.7.0 REQUIRED)
 find_package(KDE4 4.7.0 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
+
 find_package(KdepimLibs 4.5.63 REQUIRED)
+
 find_program(XSLTPROC_EXECUTABLE xsltproc)
 macro_log_feature(XSLTPROC_EXECUTABLE "xsltproc" "The command line XSLT processor from libxslt" "http://xmlsoft.org/XSLT/" TRUE)
-find_package(QJSON)
+
+find_package(QJSON REQUIRED)
 macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http://qjson.sourceforge.net/" TRUE)
 
+macro_display_feature_log()
+
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+
 include_directories(
 	  ${QT_INCLUDE_DIR}
 	  ${CMAKE_SOURCE_DIR}
