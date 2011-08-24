@@ -70,7 +70,12 @@ ContactsResource::ContactsResource(const QString &id):
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
 
-  synchronize();  
+  if (m_auth->accessToken().isEmpty()) {
+    setOnline(false);
+  } else {
+    setOnline(true);
+    synchronize();
+  }
 }
 
 ContactsResource::~ContactsResource()
@@ -99,7 +104,12 @@ void ContactsResource::configure(WId windowId)
   dlg->exec();
 
   emit configurationDialogAccepted();
-  synchronize();
+  if (!m_auth->accessToken().isEmpty()) {
+    setOnline(true);
+    synchronize();
+  } else {
+    setOnline(false);
+  }
 
   delete dlg;
 }
