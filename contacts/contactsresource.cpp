@@ -96,13 +96,11 @@ void ContactsResource::slotAbortRequested()
 void ContactsResource::configure(WId windowId)
 {
   SettingsDialog *dlg = new SettingsDialog(windowId, m_auth);
-  if (dlg->exec() == KDialog::Accepted) {
-    emit configurationDialogAccepted();
-    synchronize();
-  } else {
-    emit configurationDialogRejected();
-  }
-  
+  dlg->exec();
+
+  emit configurationDialogAccepted();
+  synchronize();
+
   delete dlg;
 }
 

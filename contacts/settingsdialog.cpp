@@ -33,6 +33,8 @@ SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* p
   m_googleAuth(googleAuth)
 {
   KWindowSystem::setMainWindow(this, windowId);
+
+  this->setButtons (Close);
   
   connect(m_googleAuth, SIGNAL(tokensRecevied(QString,QString)),
 	  this, SLOT(authenticated(QString,QString)));
