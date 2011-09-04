@@ -17,8 +17,6 @@ macro_log_feature(XSLTPROC_EXECUTABLE "xsltproc" "The command line XSLT processo
 find_package(QJSON REQUIRED)
 macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http://qjson.sourceforge.net/" TRUE)
 
-macro_display_feature_log()
-
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
 
@@ -26,6 +24,9 @@ option(USE_KCAL "Use deprecated KCal API instead of KCalCore API. Provides backw
 if (USE_KCAL)
   set(KCALENDAR_LIBRARIES ${KDEPIMLIBS_KCAL_LIBS})
   add_definitions(-DWITH_KCAL)
+
+  find_package(Boost REQUIRED)
+  macro_log_feature(Boost_FOUND "Boost" "Free peer-reviewed portable C++ source libraries" TRUE)
 else (USE_KCAL)
   set(KCALENDAR_LIBRARIES ${KDEPIMLIBS_KCALCORE_LIBS})
 endif (USE_KCAL)
@@ -44,3 +45,5 @@ add_subdirectory(libkgoogle)
 
 macro_optional_add_subdirectory(calendar)
 macro_optional_add_subdirectory(contacts)
+
+macro_display_feature_log()
