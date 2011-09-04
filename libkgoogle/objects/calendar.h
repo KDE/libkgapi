@@ -34,6 +34,9 @@ namespace KGoogle {
 
     class CalendarData;    
     
+    /**
+     * Represents a calendar.
+     */
     class LIBKGOOGLE_EXPORT Calendar: public KGoogleObject
     {
       
@@ -47,26 +50,83 @@ namespace KGoogle {
 
 	~Calendar();
     
+	/**
+	 * Returns calendar title (name).
+	 */
 	QString title();
+	
+	/**
+	 * Sets a calendar title (name).
+	 */
 	void setTitle(const QString &title);
     
+	/**
+	 * Returns color of the remote calendar. 
+	 */
 	QString color();
+	
+	/**
+	 * Sets color of the remote calendar.
+	 */
 	void setColor(const QString &color);
 
+	/**
+	 * Returns detailed description of the calendar.
+	 */
 	QString details();
+	
+	/**
+	 * Sets detailed description of a calenar.
+	 */
 	void setDetails(const QString &details);
 
+	/**
+	 * Returns timezone of the calendar.
+	 */
 	QString timezone();
+	
+	/**
+	 * Sets timezone of the calendar.
+	 */
 	void setTimezone(const QString &timezone);
 
+	/**
+	 * Returns wheter calendar is editable or read-only.
+	 */
 	bool editable();
+	
+	/**
+	 * Sets calendar to read-only or editable.
+	 */
 	void setEditable(const bool editable);
 
+	/**
+	 * Returns date and time when the calendar was created
+	 * on the remote server.
+	 */
 	KDateTime created();
+	
+	/**
+	 * Sets date and time when the calendar was created on
+	 * the remote server.
+	 */
 	void setCreated(const KDateTime &created);
      
-	void setUpdated(const KDateTime &updated);
+	/**
+	 * Returns date and time when the calendar was last
+	 * updated on the remote server. 
+	 * 
+	 * This value does not reflect last update of calendar content,
+	 * but just it's properties.
+	 */
 	KDateTime updated();
+
+	/**
+	 * Sets date and time when the calendar properties were last
+	 * updated on the remote server. This does not include updated
+	 * of calendar content.
+	 */
+	void setUpdated(const KDateTime &updated);
 
       protected:
 	QExplicitlySharedDataPointer<CalendarData> d;

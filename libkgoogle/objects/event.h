@@ -57,6 +57,9 @@ namespace KGoogle {
     
     class EventData;
 
+    /**
+     * Information about an Event.
+     */
 #ifdef WITH_KCAL
     class LIBKGOOGLE_EXPORT Event: public KGoogleObject, public KCal::Event
 #else
@@ -67,6 +70,9 @@ namespace KGoogle {
 	typedef QList<Event> List;
 	typedef QSharedPointer<Event> Ptr;
 	
+	/**
+	 * Constructs a new event.
+	 */
 	Event();
 	Event(const Event& other);
 #ifdef WITH_KCAL
@@ -77,9 +83,19 @@ namespace KGoogle {
 	
 	~Event();
 	
+	/**
+	 * Tags event as deleted on the remote server.
+	 */
 	void setDeleted(const bool deleted);
+	
+	/**
+	 * Returns wheter the event was removed on the remote server.
+	 */
 	bool deleted();
 
+	/**
+	 * Compares one event to another
+	 */
 	Event& operator=( const Event& other );
 	
       private:

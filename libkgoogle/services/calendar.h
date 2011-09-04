@@ -31,29 +31,95 @@ namespace KGoogle {
  
   namespace Service {
     
+    /**
+     * Represents Google Calendar service.
+     */
     class LIBKGOOGLE_EXPORT Calendar: public KGoogleService
     {
       public:
 	~Calendar() { }
 
+	/**
+	 * Implementation of KGoogleService::JSONToObject().
+	 */
 	KGoogleObject* JSONToObject(const QByteArray& jsonData);
+	
+	/**
+	 * Implementation of KGoogleService::objectToJSON().
+	 */
 	QByteArray objectToJSON(KGoogleObject* object);
+	
+	/**
+	 * Implementation of KGoogleService::parseJSONFeed().
+	 */
 	QList< KGoogleObject* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
 	
+	/**
+	 * Implementation of KGoogleService::XMLToObject().
+	 */
 	KGoogleObject* XMLToObject(const QByteArray& xmlData);
+	
+	/**
+	 * Implementation of KGoogleService::objecttoXML().
+	 */
 	QByteArray objectToXML(KGoogleObject* object);
+	
+	/**
+	 * Implementation of KGoogleService::parseXMLFeed().
+	 */
 	QList< KGoogleObject* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
 
+	/**
+	 * Implementation of KGoogleService::protocolVersion().
+	 */
 	const QString protocolVersion();
 	
+	/**
+	 * Returns URL for KGoogleRequest::FetchAll requests.
+	 */
 	static QString fetchAllUrl();
+	
+	/**
+	 * Returns URL for KGoogleRequests::Fetch requests.
+	 */
 	static QString fetchUrl();
+	
+	/**
+	 * Returns URL for KGoogleRequest::Create requests.
+	 */
 	static QString createUrl();
+	
+	/**
+	 * Returns URL for KGoogleRequests::Update requests.
+	 */
 	static QString updateUrl();
+	
+	/**
+	 * Returns URL for KGoogleRequests::Remove requests.
+	 */
 	static QString removeUrl();
+	
+	/**
+	 * Returns service scope URL
+	 */
 	static QString scopeUrl();
 	
+	/**
+	 * Returns wheter service supports reading data in JSON format.
+	 * 
+	 * @param urlParam Returns value of "alt" query. Usually is 
+	 * "json" or "jsonc". When service does not support reading JSON
+	 * data, the value remains unchanged.
+	 */
 	static bool supportsJSONRead(QString* urlParam);
+	
+	/**
+	 * Returns wheter service supports writing data in JSON format.
+	 * 
+	 * @param urlParam Returns value of "alt" query. Usually is
+	 * "json" or "jsonc". When service does not support writing JSON
+	 * data, the value remains unchanged.
+	 */
 	static bool supportsJSONWrite(QString* urlParam);
 	
       private:

@@ -33,27 +33,98 @@ namespace KGoogle {
 
 namespace KGoogle {
   
+  /**
+   * Represents a request to be send to a Google service.
+   */
   class LIBKGOOGLE_EXPORT KGoogleRequest: public QNetworkRequest
   {
 
     public:
-      enum RequestType { FetchAll, Fetch, Create, Update, Remove };
-      
+      enum RequestType { 
+	FetchAll, 
+	Fetch, 
+	Create, 
+	Update, 
+	Remove
+      };
+	
+      /**
+       * Constructs an empty request
+       */
       KGoogleRequest() { };
+      
+      /**
+       * Constructs a new request
+       * 
+       * @param url Url to send the request to.
+       * @param requestType Type of request
+       * @param serviceName Name of service this request belongs to.
+       */
       KGoogleRequest(const QUrl &url, const RequestType requestType, const QString &serviceName);
 
+      /**
+       * Sets type of this request.
+       */
       void setRequestType(const RequestType requestType);
+      
+      /**
+       * Returns type of this request.
+       */
       RequestType requestType();
       
+      /**
+       * Sets name of a service.
+       * 
+       * @see KGoogleService
+       */
       bool setServiceName(const QString &serviceName);
+      
+      /**
+       * Returns name of service this requests belongs to
+       */
       QString serviceName();
       
-      void setRequestData(const QByteArray &object, const QString &contentType);
+      /**
+       * Sets raw request data and it's type.
+       * 
+       * Data can represent single or multiple objects serialized 
+       * in XML or JSON format. Note, that not all services accept
+       * both, XML and JSON data, some services (like Google Calendar)
+       * support JSON for read and XML for write access.
+       * 
+       * @param data Raw data to be send to remote service.
+       * @param contentType Type of the data. Should be "application/xml"
+       * or "application/json".
+       */
+      void setRequestData(const QByteArray &data, const QString &contentType);
+      
+      /**
+       * Returns raw data assigned to the request.
+       * 
+       * @param contentType pointer to a QString [default:NULL].
+       */
       QByteArray requestData(QString *contentType = 0);
+      
+      /**
+       * Returns mime type of the data 
+       */
       QString contentType();
       
-      
+      /**
+       * Set a value of an objects property.
+       * 
+       * This mimics functionality of QObject::setProperty(). It 
+       * allows user to store additional informations as object's
+       * properties.
+       * 
+       * @param name Name of a property.
+       * @param value Value of a property.
+       */
       void setProperty(const QString &name, const QVariant &value);
+      
+      /**
+       * Returns value of a property assigned by setProperty()
+       */
       QVariant property(const QString &name);
       
     private:

@@ -34,42 +34,62 @@ class QNetworkReply;
 
 namespace KGoogle {
 
+  /**
+   * KGoogleAuth provides API for authentication against Google services.
+   */
   class LIBKGOOGLE_EXPORT KGoogleAuth: public QObject
   {
 
     Q_OBJECT
 
     public:
+      /**
+       * Constructs a new KGoogleObject.
+       * 
+       * @param clientId ClientID assigned by Google.
+       * @param clientSecret Client secret ID assigned by Google
+       * @param scope Service scope URL.
+       */
       KGoogleAuth(const QString &clientId, const QString &clientSecret, const QString &scope);
       ~KGoogleAuth();
     
       
     public Q_SLOTS:
       /**
-       * @brief Request new tokens from Google. This will popup AuthDialog. When tokens
+       * Request new tokens from Google. 
+       * 
+       * This will popup AuthDialog. When tokens
        * are received the tokensReceived() signal will be emitted and the dialog is closed.
        */
       void requestToken(const WId windowId);
       
-	/**
-       * @brief Refresh current tokens.
+      /**
+       * Refresh current tokens.
        */
       void refreshToken();
     
       /**
-       * @brief Remove all tokens from wallet
+       * Remove all tokens from wallet
        */
       void revokeTokens();
     
       /**
-       * @brief Returns current access token. 
+       * Returns current access token. 
+       * 
        * When no access token is available, an empty string is returned. This usually means
        * that user needs to call requestToken() to get the tokens.
        */
       QString accessToken();
         
     signals:
+      /**
+       * Emitted when an error occurs during authentication.
+       */
       void error(QString errorString);
+      
+      /**
+       * New tokens were received.
+       */
       void tokensRecevied(QString accessToken, QString refreshToken);
     
     private Q_SLOTS:

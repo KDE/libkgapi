@@ -25,22 +25,42 @@
 #include "libkgoogle_export.h"
 
 namespace KGoogle {
-  
+
+  /**
+   * Base class for Google objects.
+   * 
+   * Google object represents data received
+   * from a Google service.
+   */
   class LIBKGOOGLE_EXPORT KGoogleObject
   {
     public:
       KGoogleObject();
       virtual ~KGoogleObject();
 
+      /**
+       * Sets ID of this object.
+       */
       void setId (const QString &id);
+      
+      /**
+       * Returns ID of this object.
+       */
       QString id();
       
+      /**
+       * Sets etag of this object.
+       * 
+       * Etag represents a revision of an object.
+       * When object is changed on the remote side
+       * is given a new etag.
+       */
       void setEtag (const QString &etag);
+      
+      /**
+       * Returns tag of this object.
+       */
       QString etag();
-      
-      
-      //virtual bool operator== (const KGoogleObject &other);
-      //virtual KGoogleObject & operator= (const KGoogleObject &other);
       
     private:
       QString m_id;

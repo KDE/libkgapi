@@ -37,18 +37,40 @@ namespace KGoogle {
 
 namespace KGoogle {
 
+  /**
+   * KGoogleAccessManager allows application to send
+   * requests to Google services.
+   */
   class LIBKGOOGLE_EXPORT KGoogleAccessManager: public QObject
   {
 
     Q_OBJECT
 
     public:
+      /**
+       * Constructs a new access manager 
+       */
       KGoogleAccessManager(KGoogleAuth *auth);
-      ~KGoogleAccessManager();
+      
+      virtual ~KGoogleAccessManager();
       
     public Q_SLOTS:
+      /**
+       * Sends p0 request to a Google service.
+       * 
+       * @param request A request to be send
+       */
       void sendRequest(KGoogleRequest *request);
       
+    Q_SIGNALS:
+      /**
+       * A reply was received.
+       * 
+       * This signal is emitted when a reply from
+       * a Google service was received.
+       */
+      void replyReceived(KGoogleReply *reply);
+
     private Q_SLOTS:
       void nam_replyReceived(QNetworkReply *reply);
       void nam_sendRequest(KGoogleRequest *request);
@@ -56,9 +78,6 @@ namespace KGoogle {
       void newTokensReceived();
       void submitCache();
       
-    Q_SIGNALS:
-      void replyReceived(KGoogleReply *reply);
-
     private:
       KGoogleAuth *m_auth;
       QNetworkAccessManager *m_nam;

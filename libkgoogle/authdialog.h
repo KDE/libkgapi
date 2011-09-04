@@ -35,7 +35,7 @@
 #include <kdemacros.h>
 
 /**
- * @brief Dialog for authentication with Google services.
+ * Dialog for authentication with Google services.
  * 
  * The dialog opens Google login page in embedded webivew, 
  * asking user to login and confirm access of this application 
@@ -50,7 +50,7 @@ class KDE_EXPORT AuthDialog: public KDialog
   Q_OBJECT
   public:
     /**
-     * @brief Creates the dialog
+     * Creates the dialog
      * 
      * @param windowId ID of window 
      **/
@@ -58,7 +58,7 @@ class KDE_EXPORT AuthDialog: public KDialog
     virtual ~AuthDialog();
 
     /**
-     * @brief Sets scopes which to obtain authentication for.
+     * Sets scopes which to obtain authentication for.
      * 
      * See http://code.google.com/apis/gdata/faq.html#AuthScopes for
      * list of available scopes.
@@ -68,7 +68,7 @@ class KDE_EXPORT AuthDialog: public KDialog
     void setScopes (const QStringList &scopes);
     
     /**
-     * @brief Starts the authentication process.
+     * Starts the authentication process.
      * 
      * @param m_clientId ID of this application as assigned by Google
      * @param m_clientSecret Secret token for this application as assigned
@@ -77,7 +77,7 @@ class KDE_EXPORT AuthDialog: public KDialog
     void auth (const QString &m_clientId, const QString &m_clientSecret);
     
     /**
-     * @brief Returns retrieved access token.
+     * Returns retrieved access token.
      * 
      * Access token is a persitent token which must be present
      * in every request on Google API. Through this token, the 
@@ -91,7 +91,7 @@ class KDE_EXPORT AuthDialog: public KDialog
     QString accessToken() { return m_accessToken; }
 
     /**
-     * @brief Returns retrieved refresh token.
+     * Returns retrieved refresh token.
      * 
      * The access token has limited validity. When the access token
      * expires, every authenticated service will return Error 401 
@@ -108,8 +108,7 @@ class KDE_EXPORT AuthDialog: public KDialog
     
   signals:
     /**
-     * @brief This signal is emitted when access token and refresh token 
-     * 	      were successfully retrieved.
+     * This signal is emitted when access token and refresh token were successfully retrieved.
      * 
      * When running the dialog synchronously via \KDialog::exec() the dialog
      * also emits \KDialog::accepted()
