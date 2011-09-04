@@ -88,3 +88,8 @@ QVariant KGoogleRequest::property(const QString& name)
 {
   return m_properties.value(name);
 }
+
+bool KGoogleRequest::hasProperty(const QString& name)
+{
+  return m_properties.contains(name);
+}

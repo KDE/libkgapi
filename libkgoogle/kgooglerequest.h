@@ -127,6 +127,11 @@ namespace KGoogle {
        */
       QVariant property(const QString &name);
       
+      /**
+       * Returns wheter request has a property %p name.
+       */
+      bool hasProperty(const QString &name);
+      
     private:
       RequestType m_requestType;
       QString m_serviceName;
