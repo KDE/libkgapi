@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Google Tasks
+Comment=Access your Google Tasks from KDE
+Type=AkonadiResource
+Exec=akonadi_googletasks_resource
+X-Akonadi-MimeTypes=text/calendar,application/x-vnd.akonadi.calendar.todo
+X-Akonadi-Capabilities=Resource
+X-Akonadi-Identifier=akonadi_googletasks_resource

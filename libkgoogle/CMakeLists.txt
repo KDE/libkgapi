@@ -19,8 +19,11 @@ set(libkgoogle_SRCS
     objects/calendar.cpp
     objects/contact.cpp
     objects/event.cpp
+    objects/task.cpp
+    objects/tasklist.cpp
     services/addressbook.cpp
     services/calendar.cpp
+    services/tasks.cpp
 )
 
 set(libkgoogle_HDRS
@@ -34,12 +37,15 @@ set(libkgoogle_HDRS
 
 set(services_HDRS
     services/addressbook.h
-    services/calendar.h)
+    services/calendar.h
+    services/tasks.h)
 
 set(objects_HDRS
     objects/calendar.h
     objects/contact.h
-    objects/event.h)
+    objects/event.h
+    objects/task.h
+    objects/tasklist.h)
 
 kde4_add_library(kgoogle SHARED ${libkgoogle_SRCS})
 

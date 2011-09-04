@@ -46,5 +46,6 @@ add_subdirectory(libkgoogle)
 
 macro_optional_add_subdirectory(calendar)
 macro_optional_add_subdirectory(contacts)
+macro_optional_add_subdirectory(tasks)
 
 macro_display_feature_log()
