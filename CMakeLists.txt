@@ -20,7 +20,7 @@ macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http:
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
 
-option(USE_KCAL "Use deprecated KCal API instead of KCalCore API. Provides backwards compatibility for KDE PIM 4.4" TRUE)
+option(USE_KCAL "Use deprecated KCal API instead of KCalCore API. Provides backwards compatibility for KDE PIM 4.4" FALSE)
 if (USE_KCAL)
   set(KCALENDAR_LIBRARIES ${KDEPIMLIBS_KCAL_LIBS})
   add_definitions(-DWITH_KCAL)
