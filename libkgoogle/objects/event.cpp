@@ -79,6 +79,18 @@ bool Object::Event::deleted()
   return d->deleted;
 }
 
+void Object::Event::setId(const QString& id)
+{
+  setUid(id);
+}
+
+QString Object::Event::id()
+{
+  return uid();
+}
+
+
+
 Object::Event& Object::Event::operator=( const Object::Event& other )
 {
   d = other.d;

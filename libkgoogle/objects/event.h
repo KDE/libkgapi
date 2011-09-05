@@ -92,6 +92,16 @@ namespace KGoogle {
 	 * Returns wheter the event was removed on the remote server.
 	 */
 	bool deleted();
+	
+	/**
+	 * A standard-named method for KCalCore::Event::setUid()
+	 */
+	void setId(const QString &id);
+	
+	/**
+	 * A standard-named method for KCalCore::Event::uid()
+	 */
+	QString id();
 
 	/**
 	 * Compares one event to another
