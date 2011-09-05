@@ -1,4 +1,4 @@
- /*
+/*
     Akonadi Google - Tasks Resource
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
@@ -76,7 +76,7 @@ TasksResource::TasksResource(const QString &id):
   
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
-
+  
   synchronize();  
 }
 
@@ -179,6 +179,9 @@ void TasksResource::retrieveCollections()
   taskList.addAttribute(attr);
 
   collectionsRetrieved(Collection::List() << taskList);
+
+  /* Use user-friendly name in resource configuration dialog */  
+  setAgentName(i18n("Google Tasks - %1", Settings::self()->taskListName()));
 }
 
 void TasksResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)

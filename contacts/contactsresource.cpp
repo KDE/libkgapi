@@ -154,6 +154,10 @@ bool ContactsResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
 
 void ContactsResource::retrieveCollections()
 {
+  
+  EntityDisplayAttribute* displayAttribute = new EntityDisplayAttribute();
+  displayAttribute->setDisplayName(i18n("Google Contacts"));
+
   Collection contacts;
   contacts.setRemoteId("googleContacts");
   contacts.setName(i18n("Google Contacts"));
@@ -162,8 +166,12 @@ void ContactsResource::retrieveCollections()
   contacts.setRights(Collection::CanDeleteItem |
 		     Collection::CanCreateItem |
 		     Collection::CanChangeItem);
+  contacts.addAttribute(displayAttribute);
 
   collectionsRetrieved(Collection::List() << contacts);
+  
+  /* Use user-friendly name in resource configuration dialog */
+  setAgentName(i18n("Google Contacts"));    
 }
 
 void ContactsResource::initialItemFetchJobFinished(KJob* job)

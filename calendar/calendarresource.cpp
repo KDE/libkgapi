@@ -179,6 +179,9 @@ void CalendarResource::retrieveCollections()
 		     Collection::CanDeleteItem);
   calendar.addAttribute(attr);
 
+  /* Use user-friendly name in resource configuration dialog */
+  setAgentName(i18n("Google Calendar - %1", Settings::self()->calendarName()));  
+  
   collectionsRetrieved(Collection::List() << calendar);
 }
 
