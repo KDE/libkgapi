@@ -39,6 +39,7 @@
 #include <akonadi/itemfetchjob.h>
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
+#include <akonadi/cachepolicy.h>
 
 #include <kabc/addressee.h>
 #include <kabc/picture.h>
@@ -167,6 +168,14 @@ void ContactsResource::retrieveCollections()
 		     Collection::CanCreateItem |
 		     Collection::CanChangeItem);
   contacts.addAttribute(displayAttribute);
+  
+  if (Settings::self()->refreshAddressbook()) {
+    Akonadi::CachePolicy policy;
+    policy.setInheritFromParent(true);
+    policy.setIntervalCheckTime(Settings::self()->refreshInterval());
+    policy.setSyncOnDemand(true);
+    contacts.setCachePolicy(policy);
+  }
 
   collectionsRetrieved(Collection::List() << contacts);
   

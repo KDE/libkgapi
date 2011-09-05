@@ -63,6 +63,12 @@ SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* p
 	  this, SLOT(refreshTasksList()));
   connect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
 	  this, SLOT(taskListChanged(int)));
+  connect(m_ui->refreshTaskListComboBox, SIGNAL(clicked(bool)),
+	  m_ui->refreshIntervalSpinBox, SLOT(setEnabled(bool)));
+  
+  m_ui->refreshTaskListComboBox->setChecked(Settings::self()->refreshTaskList());
+  m_ui->refreshIntervalSpinBox->setEnabled(m_ui->refreshTaskListComboBox->isChecked());
+  m_ui->refreshIntervalSpinBox->setValue(Settings::self()->refreshInterval());
   
   if (!Settings::self()->taskListId().isEmpty()) {
     m_taskList = new Object::TaskList();
@@ -80,6 +86,8 @@ SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* p
 
 SettingsDialog::~SettingsDialog()
 {
+  Settings::self()->setRefreshTaskList(m_ui->refreshTaskListComboBox->isChecked());
+  Settings::self()->setRefreshInterval(m_ui->refreshIntervalSpinBox->value());
   Settings::self()->writeConfig();  
   
   delete m_ui;

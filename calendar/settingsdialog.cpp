@@ -67,6 +67,12 @@ SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* p
 	  this, SLOT(refreshCalendarList()));
   connect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
 	  this, SLOT(calendarChanged(int)));
+  connect(m_ui->refreshCalendarCheckbox, SIGNAL(clicked(bool)),
+	  m_ui->refreshIntervalSpinBox, SLOT(setEnabled(bool)));
+  
+  m_ui->refreshCalendarCheckbox->setChecked(Settings::self()->refreshCalendar());
+  m_ui->refreshIntervalSpinBox->setEnabled(m_ui->refreshCalendarCheckbox->isChecked());
+  m_ui->refreshIntervalSpinBox->setValue(Settings::self()->refreshInterval());
   
   if (!Settings::self()->calendarId().isEmpty()) {
     m_calendar = new Object::Calendar();
@@ -85,6 +91,8 @@ SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* p
 
 SettingsDialog::~SettingsDialog()
 {
+  Settings::self()->setRefreshCalendar(m_ui->refreshCalendarCheckbox->isChecked());
+  Settings::self()->setRefreshInterval(m_ui->refreshIntervalSpinBox->value());
   Settings::self()->writeConfig();  
   
   delete m_ui;

@@ -15,5 +15,11 @@
     </entry>
     <entry name="CalendarColor" type="String">
     </entry>
+    <entry name="RefreshInterval" type="Int">
+      <default>30</default>
+    </entry>
+    <entry name="RefreshCalendar" type="Bool">
+      <default>true</default>
+    </entry>
   </group>
 </kcfg>

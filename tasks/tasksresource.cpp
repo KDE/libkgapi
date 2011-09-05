@@ -39,6 +39,7 @@
 #include <akonadi/itemfetchjob.h>
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
+#include <akonadi/cachepolicy.h>
 
 #ifdef WITH_KCAL
 #include <kcal/todo.h>
@@ -177,6 +178,14 @@ void TasksResource::retrieveCollections()
 		     Collection::CanCreateItem |
 		     Collection::CanDeleteItem);
   taskList.addAttribute(attr);
+  
+  if (Settings::self()->refreshTaskList()) {
+    Akonadi::CachePolicy policy;
+    policy.setInheritFromParent(true);
+    policy.setIntervalCheckTime(Settings::self()->refreshInterval());
+    policy.setSyncOnDemand(true);
+    taskList.setCachePolicy(policy);
+  }
 
   collectionsRetrieved(Collection::List() << taskList);
 

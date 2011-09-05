@@ -38,6 +38,7 @@
 #include <akonadi/itemfetchjob.h>
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
+#include <akonadi/cachepolicy.h>
 
 #ifdef WITH_KCAL
 #include <kcal/event.h>
@@ -72,7 +73,6 @@ CalendarResource::CalendarResource(const QString &id):
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
   
-
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
 
@@ -154,7 +154,8 @@ void CalendarResource::initialItemFetchJobFinished(KJob* job)
   }
 
   QString url = Service::Calendar::fetchAllUrl().arg(Settings::self()->calendarId())
-						.arg("private");
+						.arg("private")
+						.append("&showdeleted=true");
   KGoogleRequest *request = new KGoogleRequest(QUrl(url),
 					       KGoogleRequest::FetchAll,
 					       "Calendar");
@@ -178,6 +179,14 @@ void CalendarResource::retrieveCollections()
 		     Collection::CanCreateItem |
 		     Collection::CanDeleteItem);
   calendar.addAttribute(attr);
+  
+  if (Settings::self()->refreshCalendar()) {
+    Akonadi::CachePolicy policy;
+    policy.setInheritFromParent(true);
+    policy.setIntervalCheckTime(Settings::self()->refreshInterval());
+    policy.setSyncOnDemand(true);
+    calendar.setCachePolicy(policy);
+  }
 
   /* Use user-friendly name in resource configuration dialog */
   setAgentName(i18n("Google Calendar - %1", Settings::self()->calendarName()));  

@@ -48,6 +48,12 @@ SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* p
 	  this, SLOT(revokeTokens()));
   connect(m_ui->authenticateButton, SIGNAL(clicked(bool)),
 	  this, SLOT(authenticate()));
+  connect(m_ui->refreshAddressbookCheckBox, SIGNAL(clicked(bool)),
+	  m_ui->refreshIntervalSpinBox, SLOT(setEnabled(bool)));
+  
+  m_ui->refreshAddressbookCheckBox->setChecked(Settings::self()->refreshAddressbook());
+  m_ui->refreshIntervalSpinBox->setEnabled(m_ui->refreshAddressbookCheckBox->isChecked());
+  m_ui->refreshIntervalSpinBox->setValue(Settings::self()->refreshInterval());
   
   if (m_googleAuth->accessToken().isEmpty()) {
     setAuthenticated(false);
@@ -58,6 +64,8 @@ SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* p
 
 SettingsDialog::~SettingsDialog()
 {
+  Settings::self()->setRefreshAddressbook(m_ui->refreshAddressbookCheckBox->isChecked());
+  Settings::self()->setRefreshInterval(m_ui->refreshIntervalSpinBox->value());
   Settings::self()->writeConfig();  
   
   delete m_ui;
