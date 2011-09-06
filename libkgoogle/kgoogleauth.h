@@ -96,6 +96,8 @@ namespace KGoogle {
       void refreshTokenFinished(QNetworkReply *reply);
     
       void setTokens(const QString &accessToken, const QString &refreshToken);
+      
+      void walletOpened(const bool success);
 
     private:
       QString m_accessToken;

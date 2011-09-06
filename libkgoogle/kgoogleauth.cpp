@@ -37,17 +37,9 @@ KGoogleAuth::KGoogleAuth(const QString &clientId, const QString &clientSecret, c
   m_clientSecret(clientSecret),
   m_scope(scope)
 {
-  m_kwallet = Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Synchronous);
-  
-  if (!m_kwallet->hasFolder("Akonadi Google"))
-    m_kwallet->createFolder("Akonadi Google");
-  
-  m_kwallet->setFolder("Akonadi Google");
-
-  QMap<QString,QString> tokens;
-  m_kwallet->readMap(scope, tokens);
-  m_accessToken = tokens["accessToken"];
-  m_refreshToken = tokens["refreshToken"];
+  m_kwallet = Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Asynchronous);
+  connect(m_kwallet, SIGNAL(walletOpened(bool)),
+	  this, SLOT(walletOpened(bool)));
 }
 
 
@@ -144,5 +136,21 @@ void KGoogleAuth::refreshTokenFinished(QNetworkReply* reply)
   
   /* Refresh token does not change */
   setTokens(tokens["access_token"].toString(), m_refreshToken);
+}
+
+void KGoogleAuth::walletOpened(const bool success)
+{
+  if (success) {
+    if (!m_kwallet->hasFolder("Akonadi Google"))
+      m_kwallet->createFolder("Akonadi Google");
+  
+    m_kwallet->setFolder("Akonadi Google");
+
+    QMap<QString,QString> tokens;
+    if (m_kwallet->readMap(m_scope, tokens) == 0)
+      setTokens(tokens["accessToken"], tokens["refreshToken"]);
+  } else {
+    emit error("Failed to open wallet.");
+  }
 }
 
