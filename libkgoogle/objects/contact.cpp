@@ -31,7 +31,7 @@
 
 using namespace KGoogle::Object;
 
-#define SCHEME_URL KGoogle::Service::Addressbook::scopeUrl()
+#define SCHEME_URL "http://schemas.google.com/g/2005#"
 
 /*************************** PRIVATE DATA ******************************/
 

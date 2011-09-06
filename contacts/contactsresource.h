@@ -30,11 +30,16 @@
 #include <KDE/Akonadi/Collection>
 #include <KDE/Akonadi/Item>
 
+#include "objects/contact.h"
+
 namespace KGoogle {
   class KGoogleAccessManager;
   class KGoogleAuth;
   class KGoogleReply;
 };
+
+class QNetworkAccessManager;
+class QNetworkReply;
 
 using namespace KGoogle;
 
@@ -112,7 +117,7 @@ class ContactsResource: public Akonadi::ResourceBase,
   private Q_SLOTS:
     void slotAbortRequested();
     void initialItemFetchJobFinished(KJob *job);
-    void photoJobFinished(KJob *job);
+    void photoRequestFinished(QNetworkReply *reply);
     
     void replyReceived(KGoogleReply *reply);
 
@@ -125,10 +130,13 @@ class ContactsResource: public Akonadi::ResourceBase,
   private:
     void abort();
     
-    void updateLocalContacts();
-     
+    void updatePhoto(Akonadi::Item *item);
+    void fetchPhoto(Akonadi::Item *item, const QString &photoUrl);
+    
     KGoogle::KGoogleAccessManager *m_gam;
     KGoogle::KGoogleAuth *m_auth;
+    
+    QNetworkAccessManager *m_photoNam;
 };
 
 #endif // CONTACTSRESOURCE_H

@@ -440,14 +440,14 @@ QString Addressbook::scopeUrl()
 QString Addressbook::fetchAllUrl()
 {
   // %1 = user (default or user@gmail.com)
-  return "https://www.google.com/m8/feeds/contacts/%1/full?alt=json";
+  return "https://www.google.com/m8/feeds/contacts/%1/full";
 }
 
 QString Addressbook::fetchUrl()
 {
     // %1 = user (default or user@gmail.com)
     // %2 = contact ID
-  return "https://www.google.com/m8/feeds/contacts/%1/full/%2?alt=json"; 
+  return "https://www.google.com/m8/feeds/contacts/%1/full/%2"; 
 }
 
 QString Addressbook::createUrl()

@@ -19,7 +19,6 @@
 #include "contactsresource.h"
 #include "settingsdialog.h"
 #include "settings.h"
-#include "photojob.h"
 
 #include "libkgoogle/kgoogleaccessmanager.h"
 #include "libkgoogle/kgoogleauth.h"
@@ -29,6 +28,10 @@
 #include "libkgoogle/services/addressbook.h"
 
 #include <qstringlist.h>
+#include <qnetworkaccessmanager.h>
+#include <qnetworkreply.h>
+#include <qnetworkrequest.h>
+#include <qbuffer.h>
 #include <kdebug.h>
 
 #include <klocalizedstring.h>
@@ -62,11 +65,14 @@ ContactsResource::ContactsResource(const QString &id):
 			   Service::Addressbook::scopeUrl());
   m_gam = new KGoogleAccessManager(m_auth);
   
+  m_photoNam = new QNetworkAccessManager();
+  
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
-  
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
+  connect(m_photoNam, SIGNAL(finished(QNetworkReply*)),
+	  this, SLOT(photoRequestFinished(QNetworkReply*)));
   
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
@@ -81,6 +87,7 @@ ContactsResource::ContactsResource(const QString &id):
 
 ContactsResource::~ContactsResource()
 {
+  delete m_photoNam;
   delete m_gam;
   delete m_auth;
 }
@@ -138,16 +145,20 @@ bool ContactsResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
   Q_UNUSED (parts);
   
   if (item.mimeType() == "text/directory") {
-    QString url = Service::Addressbook::fetchUrl().arg("default").arg(item.remoteId());
+    QUrl url(Service::Addressbook::fetchUrl().arg("default").arg(item.remoteId()));
+    url.addQueryItem("alt", "json");
+    if (!Settings::self()->lastSync().isEmpty())
+      url.addQueryItem("updated-min", Settings::self()->lastSync());
+
 
     KGoogleRequest *request;
-    request = new KGoogleRequest(QUrl(url),
+    request = new KGoogleRequest(url,
 				 KGoogle::KGoogleRequest::Fetch,
 				 "Addressbook");
     
     request->setProperty("Item", QVariant::fromValue(item));
     m_gam->sendRequest(request);
-        
+    
     emit status(Running, "Fetching contact");
   }
   
@@ -193,11 +204,12 @@ void ContactsResource::initialItemFetchJobFinished(KJob* job)
     return;
   }
 
-  QString url = Service::Addressbook::fetchAllUrl().arg("default");
+  QUrl url(Service::Addressbook::fetchAllUrl().arg("default"));
+  url.addQueryItem("alt", "json");
   if (!Settings::self()->lastSync().isEmpty())
-    url.append("?updated-min="+Settings::self()->lastSync());
+    url.addQueryItem("updated-min", Settings::self()->lastSync());
 
-  KGoogleRequest *request = new KGoogleRequest(QUrl(url),
+  KGoogleRequest *request = new KGoogleRequest(url,
 					       KGoogleRequest::FetchAll,
 					       "Addressbook");
   m_gam->sendRequest(request);
@@ -233,7 +245,7 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
   request->setProperty("Item", QVariant::fromValue(item));
   
   m_gam->sendRequest(request);
-  
+
   Q_UNUSED (collection);
 }
 
@@ -264,6 +276,8 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 			       "Addressbook");
   request->setRequestData(data, "application/atom+xml");
   request->setProperty("Item", QVariant::fromValue(item));
+  
+  qDebug() << data;
   
   m_gam->sendRequest(request);
   
@@ -325,19 +339,17 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
   foreach (KGoogleObject* object, allData) {
     Item item;
     Object::Contact *contact = static_cast<Object::Contact*>(object);
+    KABC::Addressee *addressee = contact->toKABC();
     
     item.setRemoteId(contact->id());
     
     if (contact->deleted()) {
       removed << item;
     } else {
-	PhotoJob *pJob = new PhotoJob(m_auth->accessToken(),
-				      contact->photoUrl());
-	pJob->setProperty("contact", QVariant::fromValue((Object::Contact::Ptr)contact));
-	connect(pJob, SIGNAL(finished(KJob*)),
-		this, SLOT(photoJobFinished(KJob*)));
-
-	pJob->start();
+      item.setRemoteRevision(contact->etag());
+      item.setMimeType(addressee->mimeType());
+      item.setPayload<KABC::Addressee>(*addressee);
+      fetchPhoto(&item, contact->photoUrl().toString());
     }
   }
 
@@ -369,11 +381,15 @@ void ContactsResource::contactReceived(KGoogleReply* reply)
   Item item = reply->request()->property("Item").value<Item>();
   item.setRemoteId(contact->id());
   item.setRemoteRevision(contact->etag());
-
+  
   if (contact->deleted())
     itemsRetrievedIncremental(Item::List(), Item::List() << item);  
-  else
-    itemRetrieved(item);
+  else {
+    KABC::Addressee *addressee = contact->toKABC();
+    item.setPayload<KABC::Addressee>(*addressee);
+    item.setMimeType(addressee->mimeType());
+    fetchPhoto(&item, contact->photoUrl().toString());  
+  }
   
   emit status(Idle, "Contact fetched");
 }
@@ -397,7 +413,9 @@ void ContactsResource::contactCreated(KGoogleReply* reply)
   item.setRemoteId(contact->id());
   item.setRemoteRevision(contact->etag());
  
-  changeCommitted(item);
+  updatePhoto(&item);
+  
+  changeCommitted(item);  
   
   status(Idle, "Contact created");
 }
@@ -419,6 +437,8 @@ void ContactsResource::contactUpdated(KGoogleReply* reply)
   Item item = reply->request()->property("Item").value<Item>();
   item.setRemoteId(contact->id());
   item.setRemoteRevision(contact->etag());
+
+  updatePhoto(&item);
   
   changeCommitted(item);
   
@@ -439,26 +459,60 @@ void ContactsResource::contactRemoved(KGoogleReply* reply)
   status(Idle, "Contact removed");
 }
 
-void ContactsResource::photoJobFinished(KJob* job)
+void ContactsResource::photoRequestFinished(QNetworkReply* reply)
 {
-  PhotoJob *pJob = dynamic_cast<PhotoJob*>(job);
+  /* We care only about retrieving a contact's photo. */
+  if (reply->operation() == QNetworkAccessManager::GetOperation) {
+    QImage image;
+    image.loadFromData(reply->readAll(), "JPG");
+
+    Item item = reply->request().attribute(QNetworkRequest::User, QVariant()).value<Item>();
+
+    KABC::Addressee addressee = item.payload<KABC::Addressee>();
+    addressee.setPhoto(KABC::Picture(image));
+    item.setPayload<KABC::Addressee>(addressee);
   
-  Item item;
-  Object::Contact::Ptr contact = pJob->property("contact").value<Object::Contact::Ptr>();
-  KABC::Addressee addressee = *contact->toKABC();
-  addressee.setPhoto(KABC::Picture(pJob->photo()));
-  item.setRemoteId(contact->id());
-  item.setRemoteRevision(contact->etag());
-  item.setMimeType(KABC::Addressee::mimeType());
-  item.setPayload<KABC::Addressee>(addressee);
-  
-  itemsRetrievedIncremental(Item::List() << item, Item::List());
+    itemsRetrievedIncremental(Item::List() << item, Item::List());    
+  }
 }
 
-void ContactsResource::updateLocalContacts()
+void ContactsResource::fetchPhoto(Akonadi::Item *item, const QString &photoUrl)
 {
-  /* TODO: Implement me! */
+  QString photoId = photoUrl.mid(photoUrl.lastIndexOf("/")+1);
+
+  QNetworkRequest request;
+  request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+photoId));
+  request.setRawHeader("Authorization", "OAuth "+m_auth->accessToken().toLatin1());
+  request.setRawHeader("GData-Version", "3.0");  
+	
+  request.setAttribute(QNetworkRequest::User, QVariant::fromValue(Item(*item)));
+  m_photoNam->get(request);
 }
+
+
+void ContactsResource::updatePhoto(Item* item)
+{
+  KABC::Addressee addressee = item->payload<KABC::Addressee>();
+  QNetworkRequest request;
+  request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+item->remoteId()));
+  request.setRawHeader("Authorization", "OAuth "+m_auth->accessToken().toLatin1());
+  request.setRawHeader("GData-Version", "3.0");  
+  request.setRawHeader("If-Match", "*");
+
+  if (!addressee.photo().isEmpty()) {
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "Image/*");
+
+    QImage image = addressee.photo().data();
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    image.save(&buffer, "JPG", 100);
+    
+    m_photoNam->put(request, ba);
+  } else {
+    m_photoNam->deleteResource(request);
+  }
+}
+
 
 
 AKONADI_RESOURCE_MAIN (ContactsResource)
