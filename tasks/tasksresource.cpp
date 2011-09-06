@@ -85,7 +85,8 @@ TasksResource::TasksResource(const QString &id):
 
 TasksResource::~TasksResource()
 { 
-  
+  delete m_gam;
+  delete m_auth;  
 }
 
 void TasksResource::aboutToQuit()

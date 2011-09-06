@@ -81,7 +81,8 @@ CalendarResource::CalendarResource(const QString &id):
 
 CalendarResource::~CalendarResource()
 { 
-  
+  delete m_gam;
+  delete m_auth;  
 }
 
 void CalendarResource::aboutToQuit()

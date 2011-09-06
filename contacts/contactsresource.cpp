@@ -81,7 +81,8 @@ ContactsResource::ContactsResource(const QString &id):
 
 ContactsResource::~ContactsResource()
 {
-  
+  delete m_gam;
+  delete m_auth;
 }
 
 void ContactsResource::aboutToQuit()
