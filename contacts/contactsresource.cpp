@@ -268,7 +268,6 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
   data.prepend("<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:gd='http://schemas.google.com/g/2005'>"
 	       "<atom:category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/contact/2008#contact'/>");
   data.append("</atom:entry>");
-  
 
   KGoogleRequest *request;  
   request = new KGoogleRequest(QUrl(url),
@@ -276,8 +275,6 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 			       "Addressbook");
   request->setRequestData(data, "application/atom+xml");
   request->setProperty("Item", QVariant::fromValue(item));
-  
-  qDebug() << data;
   
   m_gam->sendRequest(request);
   
