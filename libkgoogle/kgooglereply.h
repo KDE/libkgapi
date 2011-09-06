@@ -37,6 +37,7 @@ namespace KGoogle {
     public:
       enum ErrorCode { OK = 200,		/// Request succesfully executed.
 		       Created = 201,		/// Create request successfuly executed.
+		       NoContent = 204,		/// Tasks API returns 204 when task is sucessfully removed.
 		       TemporarilyMoved = 302,	/// The object is located on a different URL provided in reply.
 		       NotModified = 304,	/// Request was successfull, but no data were updated.
 		       BadRequest = 400,	/// Invalid (malformed) request.

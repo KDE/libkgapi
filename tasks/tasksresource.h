@@ -58,8 +58,9 @@ class TasksResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::O
     
   private Q_SLOTS:
     void slotAbortRequested();
-   
-    void replyReceived(KGoogleReply *reply);    
+    void gamError(QString error, int code);
+
+    void replyReceived(KGoogleReply *reply);  
     
     void initialItemFetchJobFinished(KJob *job);
     void taskListReceived(KGoogleReply *reply);

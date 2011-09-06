@@ -68,6 +68,8 @@ TasksResource::TasksResource(const QString &id):
   
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
+  connect(m_gam, SIGNAL(error(QString,int)),
+	  this, SLOT(gamError(QString,int)));
   
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
@@ -101,6 +103,15 @@ void TasksResource::slotAbortRequested()
   abort();
 }
 
+void TasksResource::gamError(QString error, int code)
+{
+  emit status(Broken, error);
+  cancelTask();
+  
+  Q_UNUSED(code)
+}
+
+
 void TasksResource::configure(WId windowId)
 {
   SettingsDialog *settingsDialog = new SettingsDialog(windowId, m_auth);
@@ -129,7 +140,7 @@ bool TasksResource::retrieveItem(const Akonadi::Item& item, const QSet< QByteArr
   Q_UNUSED (parts);
   
   QString url = Service::Tasks::fetchTaskUrl().arg(Settings::self()->taskListId())
-					      .arg(item.remoteId());
+					      .arg(item.remoteId()).append("showDeleted=true");
   KGoogleRequest *request;
   
   request = new KGoogleRequest(QUrl(url),
@@ -202,6 +213,10 @@ void TasksResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collecti
   
   TodoPtr todo = item.payload<TodoPtr>();
   Object::Task task(*todo);
+  
+  /* Unset incidence UID, so that the JSON data won't contain the "id" value. Google refuses
+   * to create a task when "id" is provided. */
+  task.setId("");
  
   Service::Tasks service;
   QString url = Service::Tasks::createTaskUrl().arg(Settings::self()->taskListId());
@@ -221,13 +236,15 @@ void TasksResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collecti
 
 void TasksResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
- if (!item.hasPayload<TodoPtr>())
+  if (!item.hasPayload<TodoPtr>())
     return;
   
   status(Running, "Updating task...");
   
   TodoPtr todo = item.payload<TodoPtr>();
   Object::Task task(*todo);
+ 
+  task.setId(item.remoteId());
  
   QString url = Service::Tasks::updateTaskUrl().arg(Settings::self()->taskListId())
 					       .arg(item.remoteId());
@@ -359,8 +376,10 @@ void TasksResource::taskReceived(KGoogleReply* reply)
 
 void TasksResource::taskCreated(KGoogleReply* reply)
 {
-  if (reply->error() != KGoogle::KGoogleReply::Created) {
-    cancelTask("Failed to create an task");
+  /* Tasks API returns "OK" instead of "Created" */
+  if (reply->error() != KGoogle::KGoogleReply::OK) {
+    qDebug() << "Failed to create a task, server replied " << reply->error();
+    cancelTask("Failed to create a task");
     return;
   }
   
@@ -371,10 +390,11 @@ void TasksResource::taskCreated(KGoogleReply* reply)
     return;
   }     
   Object::Task *task = static_cast<Object::Task*>(data.first());
-
+  
   Item item = reply->request()->property("Item").value<Item>();
   item.setRemoteId(task->id());
   item.setRemoteRevision(task->etag());
+  item.setPayload<TodoPtr>(TodoPtr(task));
 
   changeCommitted(item);
   
@@ -406,7 +426,7 @@ void TasksResource::taskUpdated(KGoogleReply* reply)
 
 void TasksResource::taskRemoved(KGoogleReply* reply)
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
+  if (reply->error() != KGoogle::KGoogleReply::NoContent) {
     cancelTask("Failed to remove task");
     return;
   }

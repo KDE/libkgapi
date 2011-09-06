@@ -70,6 +70,14 @@ namespace KGoogle {
        * a Google service was received.
        */
       void replyReceived(KGoogleReply *reply);
+      
+      /**
+       * An error occurred.
+       * 
+       * This signal is emitted whenever an error
+       * occurs.
+       */
+      void error(QString msg, int errorCode);
 
     private Q_SLOTS:
       void nam_replyReceived(QNetworkReply *reply);

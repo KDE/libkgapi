@@ -33,6 +33,7 @@
 #include <qglobal.h>
 
 #include <kdebug.h>
+#include <klocalizedstring.h>
 
 
 using namespace KGoogle;
@@ -69,12 +70,15 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
   QUrl new_request;  
   
   KGoogleRequest *request = reply->request().attribute(RequestAttribute).value<KGoogleRequest*>();
-  if (!request)
+  if (!request) {
+    emit error(i18n("No valid reply received"), 0);
     return;
+  }
   
   switch (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()) {
-    case KGoogleReply::OK:	/** << OK status (fetched, updated, removed) */
-    case KGoogleReply::Created: /** << OK status (created) */
+    case KGoogleReply::OK:		/** << OK status (fetched, updated, removed) */
+    case KGoogleReply::Created: 	/** << OK status (created) */
+    case KGoogleReply::NoContent:	/** << OK status (removed task using Tasks API) */
       break;
 
     case KGoogleReply::TemporarilyMoved:  /** << Temporarily moved - Google provides a new URL where to send the request */
@@ -84,6 +88,7 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
       
     case KGoogleReply::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
       kWarning() << "Bad request, Google replied '" << reply->readAll() << "'";
+      emit error(i18n("Bad request."), KGoogleReply::BadRequest);
       return;
     
     case KGoogleReply::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
@@ -93,13 +98,16 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
 	m_cache << request;
 	m_auth->refreshToken();
       }
+      /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
       return;
       
     default: /** Something went wrong, there's nothing we can do about it */
-      kWarning() << "Unknown error, Google replied '" << reply->readAll() << "'";
+      kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
+		 << ", Google replied '" << reply->readAll() << "'";
+      emit error(i18n("Unknown error"), reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
       return;
   }
-
+  
   QByteArray rawData = reply->readAll();
   QList<KGoogleObject*> replyData;
   
@@ -176,6 +184,7 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
   KGoogleService *service = static_cast<KGoogleService*>(QMetaType::construct(type));
   if (!service) {
     kWarning() << "Failed to resolve service " << request->serviceName();
+    emit error(i18n("Invalid request, service %1 is not registered.", request->serviceName()), 0);
     return;
   }
 
