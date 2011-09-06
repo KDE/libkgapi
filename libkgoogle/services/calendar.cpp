@@ -349,7 +349,7 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
        (when["end"].toString().length() == 10)) {
       object->setAllDay(true);
       dtStart = KDateTime::fromString(when["start"].toString(), "%Y-%m-%d");
-      dtEnd = KDateTime::fromString(when["end"].toString(), "%Y-%m-%d");
+      dtEnd = KDateTime::fromString(when["end"].toString(), "%Y-%m-%d").addDays(-1);
     } else {
       dtStart = KDateTime::fromString(when["start"].toString(), KDateTime::RFC3339Date);
       dtEnd = KDateTime::fromString(when["end"].toString(), KDateTime::RFC3339Date);
