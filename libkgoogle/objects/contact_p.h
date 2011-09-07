@@ -42,19 +42,7 @@ namespace KGoogle {
 	bool deleted;
 	QUrl photoUrl;
 	
-	QString name;
-	QString notes;
-	QString job;
-	QString jobTitle;
-	QString birthday;
-
-	KDateTime created;
 	KDateTime updated;
-
-	Email::List emails;
-	IM::List ims;
-	PhoneNumber::List phoneNumbers;
-	Address::List addresses;
     };
     
   } // namespace Service

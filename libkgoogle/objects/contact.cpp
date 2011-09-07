@@ -38,15 +38,7 @@ using namespace KGoogle::Object;
 ContactData::ContactData(const ContactData &other):
       QSharedData(other),
       deleted(other.deleted),
-      photoUrl(other.photoUrl),
-      name(other.name),
-      notes(other.notes),
-      job(other.job),
-      jobTitle(other.jobTitle),
-      emails(other.emails),
-      ims(other.ims),
-      phoneNumbers(other.phoneNumbers),
-      addresses(other.addresses)
+      photoUrl(other.photoUrl)
 { }
 
 /***************************** CONTACT ************************************/
@@ -58,6 +50,7 @@ Contact::Contact()
 
 Contact::Contact(const Contact &other):
   KGoogleObject(other),
+  KABC::Addressee(other),
   d(other.d)
 { }
 
@@ -89,61 +82,6 @@ QUrl Contact::photoUrl()
   return d->photoUrl;
 }
 
-void Contact::setName(const QString& name)
-{
-  d->name = name;
-}
-
-QString Contact::name()
-{
-  return d->name;
-}
-
-void Contact::setNotes(const QString& notes)
-{
-  d->notes = notes;
-}
-
-QString Contact::notes()
-{
-  return d->notes;
-}
-
-void Contact::setJob(const QString& job)
-{
-  d->job = job;
-}
-
-QString Contact::job()
-{
-  return d->job;
-}
-
-void Contact::setJobTitle(const QString &jobTitle)
-{
-  d->jobTitle = jobTitle;
-}
-
-QString Contact::jobTitle()
-{
-  return d->jobTitle;
-}
-
-void Contact::setBirthday(const QString& birthday)
-{
-  d->birthday = birthday;
-}
-
-void Contact::setCreated(const KDateTime& created)
-{
-  d->created = created;
-}
-
-KDateTime Contact::created()
-{
-  return d->created;
-}
-
 void Contact::setUpdated(const KDateTime& updated)
 {
   d->updated = updated;
@@ -154,345 +92,74 @@ KDateTime Contact::updated()
   return d->updated;
 }
 
-QString Contact::birthday()
+
+QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
 {
-  return d->birthday;
-}
-
-void Contact::addEmail(const Email& email)
-{
-  d->emails << email;
-}
-
-Email::List Contact::emails()
-{
-  return d->emails;
-}
-
-void Contact::addIM(const IM& im)
-{
-  d->ims << im;
-}
-
-IM::List Contact::IMs()
-{
-  return d->ims;
-}
-
-void Contact::addPhoneNumber(const PhoneNumber &phoneNumber)
-{
-  d->phoneNumbers << phoneNumber;
-}
-
-void Contact::addPhoneNumber(const KABC::PhoneNumber &phoneNumber)
-{
-  addPhoneNumber(PhoneNumber(phoneNumber));
-}
-
-PhoneNumber::List Contact::phoneNumbers()
-{
-  return d->phoneNumbers;
-}
-
-void Contact::addAddress(const Address &address)
-{
-  d->addresses << address;
-}
-
-void Contact::addAddress(const KABC::Address& address)
-{
-  addAddress(Address(address));
-}
-
-Address::List Contact::addresses()
-{
-  return d->addresses;
-}
-
-void Contact::fromKABC(const KABC::Addressee* addressee)
-{
-  setId(addressee->uid());
-  setEtag(addressee->custom("KADDRESSBOOK", "e-tag"));
-  setDeleted(addressee->custom("KADDRESSBOOK", "deleted") == "true");
-  setPhotoUrl(addressee->photo().url());
-  
-  setName(addressee->assembledName());
-  setNotes(addressee->note());
-  setJob(addressee->organization());
-  setJobTitle(addressee->title());
-  setBirthday(addressee->birthday().toString("yyyy-MM-dd"));
-  foreach (QString email, addressee->emails())
-    addEmail(Email(email));
-  /* TODO: Fetch IM */
-  foreach (KABC::PhoneNumber number, addressee->phoneNumbers())
-    addPhoneNumber(number);
-  foreach (KABC::Address address, addressee->addresses())
-    addAddress(address);
-}
-
-KABC::Addressee* Contact::toKABC()
-{
-  KABC::Addressee *addressee = new KABC::Addressee();
-  
-  addressee->setUid(id());
-  if (deleted())
-    addressee->insertCustom("KADDRESSBOOK", "deleted", QString(deleted()));
-  addressee->photo().setUrl(photoUrl().toString());
-  
-  addressee->setNameFromString(name());
-  addressee->setNote(notes());
-  addressee->setOrganization(job());
-  addressee->setTitle(jobTitle());
-  addressee->setBirthday(QDateTime::fromString(birthday(), "yyyy-MM-dd"));
-  foreach (Email email, emails())
-    addressee->insertEmail(email.address(), email.primary());
-  /* TODO: Set IM */
-  foreach (const PhoneNumber &number, phoneNumbers())
-    addressee->insertPhoneNumber(number);
-  foreach (const Address &address, addresses())
-    addressee->insertAddress(address);
-  
-  
-  
-  return addressee;
-}
-
-
-
-
-
-/********************************** EMAIL ****************************/
-
-Email::Email(const QString address, const bool primary):
-  m_address(address),
-  m_primary(primary)
-{ }
-
-bool Email::operator==(const Email& other)
-{
-  return ((m_primary == other.m_primary) &&
-	  (m_address == other.m_address));
-}
-
-
-void Email::setAddress(const QString& address)
-{
-  m_address = address;
-}
-
-QString Email::address()
-{
-  return m_address;
-}
-
-void Email::setPrimary(const bool primary)
-{
-  m_primary = primary;
-}
-
-bool Email::primary()
-{
-  return m_primary;
-}
-
-
-
-
-/******************************* IM *******************************/
-
-IM::IM(const QString& address, const QString& scheme):
-  m_address(address),
-  m_scheme(scheme)
-{
-  m_protocol = schemeToProtocol(scheme);
-}
-
-IM::IM(const QString& address, const IM::IMProtocol protocol):
-  m_address(address),
-  m_protocol(protocol)
-{
-  m_scheme = protocolToScheme(protocol);
-}
-
-bool IM::operator==(const IM& other)
-{
-  return ((m_address == other.m_address) &&
-	  (m_protocol == other.m_protocol) &&
-	  (m_scheme == other.m_scheme));
-}
-
-void IM::setAddress(const QString& address)
-{
-  m_address = address;
-}
-
-QString IM::address()
-{
-  return m_address;
-}
-
-void IM::setScheme(const QString& scheme)
-{
-  m_scheme = scheme;
-  m_protocol = schemeToProtocol(scheme);
-}
-
-QString IM::scheme()
-{
-  return m_scheme;
-}
-
-void IM::setProtocol(const IM::IMProtocol protocol)
-{
-  m_protocol = protocol;
-  m_scheme = protocolToScheme(protocol);
-}
-
-IM::IMProtocol IM::protocol()
-{
-  return m_protocol;
-}
-
-QString IM::protocolToScheme(const IM::IMProtocol protocol)
-{
-  QString protoName;
-  
   switch (protocol) {
     case Jabber:
-      protoName = "JABBER";
-      break;
+      return "JABBER";
     case ICQ:
-      protoName = "ICQ";
-      break;
+      return "ICQ";
     case GoogleTalk:
-      protoName = "GOOGLE_TALK";
-      break;
+      return "GOOGLE_TALK";
     case QQ:
-      protoName = "QQ";
-      break;
+      return "QQ";
     case Skype:
-      protoName = "SKYPE";
-      break;
+      return "SKYPE";
     case Yahoo:
-      protoName = "YAHOO";
-      break;
+      return "YAHOO";
     case MSN:
-      protoName = "MSN";
-      break;
+      return "MSN";
     case AIM:
-      protoName = "AIM";
-      break;
+      return "AIM";
     default:
-      protoName = "OTHER";
+      return "OTHER";
   }
-
-  return SCHEME_URL + protoName;
+  
+  return "OTHER";
 }
 
-IM::IMProtocol IM::schemeToProtocol(const QString& scheme)
+QString Contact::IMSchemeToProtocolName(const QString& scheme)
 {
-  QString protoName = scheme.mid(scheme.lastIndexOf("#")+1);
+  return scheme.mid(scheme.lastIndexOf("#")+1).toLower();
+}
 
-  if (protoName == "JABBER")
-    return IM::Jabber;
+QString Contact::IMProtocolNameToScheme(const QString& protocolName)
+{
+  QString proto;
+  if (protocolName.toUpper() == "XMPP")
+    proto = "JABBER";
+  else
+    proto = protocolName.toUpper();
+  
+  return SCHEME_URL + proto;
+}
+
+Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)
+{
+  QString protoName = scheme.mid(scheme.lastIndexOf("#")+1).toUpper();
+
+  if ((protoName == "JABBER") || (protoName == "XMPP"))
+    return Jabber;
   if (protoName == "ICQ")
-    return IM::ICQ;
+    return ICQ;
   if (protoName == "GOOGLE_TALK")
-    return IM::GoogleTalk;
+    return GoogleTalk;
   if (protoName == "QQ")
-    return IM::QQ;
+    return QQ;
   if (protoName == "SKYPE")
-    return IM::Skype;
+    return Skype;
   if (protoName == "YAHOO")
-    return IM::Yahoo;
+    return Yahoo;
   if (protoName == "MSN")
-    return IM::MSN;
+    return MSN;
   if (protoName == "AIM")
-    return IM::AIM;
+    return AIM;
   
-  return IM::Other;
+  return Other;
 }
 
-
-
-
-/********************************* ADDRESS **************************************/
-
-Address::Address(const QString& street, const QString& pobox, const QString& locality, 
-			  const QString& region, const QString& postalCode, const QString& country,
-			  const KABC::Address::Type type)
-{
-  setStreet(street);
-  setPostOfficeBox(pobox);
-  setLocality(locality);
-  setRegion(region);
-  setPostalCode(postalCode);
-  setCountry(country);
-  setType(type);
-}
-
-
-Address::Address(const QVariantMap& address, const QString& scheme, const bool primary)
-{
-  if (!address.contains("gd$city") && 
-      !address.contains("gd$country") &&
-      !address.contains("gd$postcode") &&
-      !address.contains("gd$region") &&
-      !address.contains("gd$pobox")) {
-    setExtended(address["gd$street"].toMap()["$t"].toString());
-  } else {
-    setStreet(address["gd$street"].toMap()["$t"].toString());
-    setCountry(address["gd$country"].toMap()["$t"].toString());
-    setLocality(address["gd$city"].toMap()["$t"].toString());
-    setPostalCode(address["gd$postcode"].toMap()["$t"].toString());
-    setRegion(address["gd$region"].toMap()["$t"].toString());
-    setPostOfficeBox(address["gd$pobox"].toMap()["$t"].toString());
-  }
-  
-  setType(schemeToType(scheme, primary));
-}
-
-Address::Address(const QDomElement& address, const QString& scheme, const bool primary)
-{
-  QDomNode em = address.elementsByTagName("gd:street").at(0);
-  setStreet(em.toElement().text());
-  em = address.elementsByTagName("gd:country").at(0);
-  setCountry(em.toElement().text());
-  em = address.elementsByTagName("gd:city").at(0);
-  setLocality(em.toElement().text());
-  em = address.elementsByTagName("gd:postcode").at(0);
-  setPostalCode(em.toElement().text());
-  em = address.elementsByTagName("gd:region").at(0);
-  setRegion(em.toElement().text());
-  em = address.elementsByTagName("gd:pobox").at(0);
-  setPostOfficeBox(em.toElement().text());
-
-  setType(schemeToType(scheme, primary));
-}
-
-Address::Address(const KABC::Address& address):
-  KABC::Address(address)
-{ }
-
-bool Address::operator==(const Address& other)
-{
-  return ((street() == other.street()) &&
-	  (country() == other.country()) &&
-	  (locality() == other.locality()) &&
-	  (postalCode() == other.postalCode()) &&
-	  (region() == other.region()) &&
-	  (postOfficeBox() == other.postOfficeBox()) &&
-	  (type() == other.type()));
-}
-
-
-Address::Address(const QString& address, const KABC::Address::Type type)
-{
-  setExtended(address);
-  setType(type);
-}
-
-QString Address::typeToScheme(const KABC::Address::Type type, bool* primary)
+QString Contact::addressTypeToScheme(const KABC::Address::Type type, bool *primary)
 {
   QString typeName;
   
@@ -509,8 +176,7 @@ QString Address::typeToScheme(const KABC::Address::Type type, bool* primary)
   return SCHEME_URL + typeName;
 }
 
-
-KABC::Address::Type Address::schemeToType(const QString scheme, const bool primary)
+KABC::Address::Type Contact::addressSchemeToType(const QString& scheme, const bool primary)
 {
   QString typeName = scheme.mid(scheme.lastIndexOf("#")+1);
   KABC::Address::Type type;
@@ -526,35 +192,7 @@ KABC::Address::Type Address::schemeToType(const QString scheme, const bool prima
   return type;
 }
 
-
-
-
-/********************************** PHONE NUMBER **********************************/
-
-PhoneNumber::PhoneNumber(const QString& number, const QString& scheme)
-{
-  setNumber(number);
-  setType(schemeToType(scheme));
-}
-
-PhoneNumber::PhoneNumber(const QString& number, const KABC::PhoneNumber::Type type)
-{
-  setNumber(number);
-  setType(type);
-}
-
-PhoneNumber::PhoneNumber(const KABC::PhoneNumber &phoneNumber):
-  KABC::PhoneNumber(phoneNumber)
-{ }  
-
-bool PhoneNumber::operator==(const PhoneNumber& other)
-{
-  return ((number() == other.number()) &&
-	  (type() == other.type()));
-}
-
-
-QString PhoneNumber::typeToScheme(const KABC::PhoneNumber::Type type)
+QString Contact::phoneTypeToScheme(const KABC::PhoneNumber::Type type)
 {
   QString typeName;
   
@@ -588,7 +226,7 @@ QString PhoneNumber::typeToScheme(const KABC::PhoneNumber::Type type)
   return SCHEME_URL + typeName;
 }
 
-KABC::PhoneNumber::Type PhoneNumber::schemeToType(const QString& scheme)
+KABC::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
 {
   QString typeName = scheme.mid(scheme.lastIndexOf("#")+1);
   KABC::PhoneNumber::Type type;

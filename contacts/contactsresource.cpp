@@ -225,17 +225,16 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
   status(Running, "Creating contact...");
   
   Service::Addressbook service;
-  Object::Contact contact;
   QString url = Service::Addressbook::createUrl().arg("default");
   QByteArray data;
   KGoogleRequest *request;
   
   KABC::Addressee addressee = item.payload<KABC::Addressee>();
-  contact.fromKABC(&addressee);
-  data = service.objectToXML(&contact);
+  Object::Contact *contact = static_cast<Object::Contact*>(&addressee);
+  data = service.objectToXML(contact);
   /* Add XML header and footer */
-  data.prepend("<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:gd='http://schemas.google.com/g/2005'>"
-	       "<atom:category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/contact/2008#contact'/>");
+  data.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gd=\"http://schemas.google.com/g/2005\" xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
+	       "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" term=\"http://schemas.google.com/contact/2008#contact\"/>");
   data.append("</atom:entry>");
   
   request = new KGoogleRequest(QUrl(url),
@@ -258,12 +257,10 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
   
   QString url = Service::Addressbook::updateUrl().arg("default").arg(item.remoteId());
   QByteArray data;
-  Object::Contact contact;
   Service::Addressbook service;
   KABC::Addressee addressee = item.payload<KABC::Addressee>();
-  
-  contact.fromKABC(&addressee);
-  data = service.objectToXML(&contact);
+  Object::Contact *contact = static_cast<Object::Contact*>(&addressee);
+  data = service.objectToXML(contact);
   /* Add XML header and footer */
   data.prepend("<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:gd='http://schemas.google.com/g/2005'>"
 	       "<atom:category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/contact/2008#contact'/>");
@@ -336,16 +333,14 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
   foreach (KGoogleObject* object, allData) {
     Item item;
     Object::Contact *contact = static_cast<Object::Contact*>(object);
-    KABC::Addressee *addressee = contact->toKABC();
-    
     item.setRemoteId(contact->id());
     
     if (contact->deleted()) {
       removed << item;
     } else {
       item.setRemoteRevision(contact->etag());
-      item.setMimeType(addressee->mimeType());
-      item.setPayload<KABC::Addressee>(*addressee);
+      item.setMimeType(contact->mimeType());
+      item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
       fetchPhoto(&item, contact->photoUrl().toString());
     }
   }
@@ -382,9 +377,8 @@ void ContactsResource::contactReceived(KGoogleReply* reply)
   if (contact->deleted())
     itemsRetrievedIncremental(Item::List(), Item::List() << item);  
   else {
-    KABC::Addressee *addressee = contact->toKABC();
-    item.setPayload<KABC::Addressee>(*addressee);
-    item.setMimeType(addressee->mimeType());
+    item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
+    item.setMimeType(contact->mimeType());
     fetchPhoto(&item, contact->photoUrl().toString());  
   }
   
