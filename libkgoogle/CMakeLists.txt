@@ -47,6 +47,8 @@ set(objects_HDRS
     objects/task.h
     objects/tasklist.h)
 
+add_subdirectory(cmake)
+
 kde4_add_library(kgoogle SHARED ${libkgoogle_SRCS})
 
 set_target_properties(kgoogle PROPERTIES VERSION ${KGOOGLE_VERSION} SOVERSION ${KGOOGLE_VERSION_MAJOR} )
@@ -63,6 +65,12 @@ target_link_libraries(kgoogle
 		      ${QT_QTNETWORK_LIBRARY}
 		      ${KCALENDAR_LIBRARIES}
 )
+
+if(NOT WIN32)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libkgoogle.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkgoogle.pc)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgoogle.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig )
+endif(NOT WIN32)
+
 
 install(TARGETS kgoogle ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES ${libkgoogle_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle)
