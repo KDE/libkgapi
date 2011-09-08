@@ -1,11 +1,13 @@
 [Desktop Entry]
 Name=Google Tasks
 Name[pt]=Tarefas do Google
+Name[pt_BR]=Google Tasks
 Name[sv]=Google-uppgifter
 Name[uk]=Завдання Google
 Name[x-test]=xxGoogle Tasksxx
 Comment=Access your Google Tasks from KDE
 Comment[pt]=Aceda às suas tarefas da Google a partir do KDE
+Comment[pt_BR]=Acesse seu Google Tasks a partir do KDE
 Comment[sv]=Kom åt dina Google-uppgifter från KDE
 Comment[uk]=Доступ до ваших записів завдань Google з KDE
 Comment[x-test]=xxAccess your Google Tasks from KDExx
