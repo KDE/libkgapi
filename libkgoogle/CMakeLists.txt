@@ -5,6 +5,14 @@ set(KGOOGLE_VERSION 0.2)
 
 cmake_minimum_required(VERSION 2.8)
 
+option(DEBUG_RAWDATA "Log raw data send and received from Google service (enables CMAKE_BUILD_TYPE=Debug)" FALSE)
+if (DEBUG_RAWDATA)
+  SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
+  add_definitions(-DDEBUG_RAWDATA)
+else (DEBUG_RAWDATA)
+  SET(CMAKE_BUILD_TYPE Release CACHE STRING"Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel.")
+endif (DEBUG_RAWDATA)
+
 add_definitions(-DLIBKGOOGLE_LIBRARY)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )

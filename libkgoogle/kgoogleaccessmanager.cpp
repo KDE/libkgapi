@@ -68,6 +68,11 @@ void KGoogleAccessManager::newTokensReceived()
 void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
 {
   QUrl new_request;  
+  QByteArray rawData = reply->readAll();
+  
+#ifdef DEBUG_RAWDATA
+  kDebug() << rawData;
+#endif
   
   KGoogleRequest *request = reply->request().attribute(RequestAttribute).value<KGoogleRequest*>();
   if (!request) {
@@ -108,7 +113,6 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
       return;
   }
   
-  QByteArray rawData = reply->readAll();
   QList<KGoogleObject*> replyData;
   
   int type = QMetaType::type(qPrintable(request->serviceName()));
@@ -179,6 +183,10 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
 void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
 {
   QNetworkRequest nr;
+  
+#ifdef DEBUG_RAWDATA
+  kDebug() << request->requestData();
+#endif
  
   int type = QMetaType::type(qPrintable(request->serviceName()));
   KGoogleService *service = static_cast<KGoogleService*>(QMetaType::construct(type));
