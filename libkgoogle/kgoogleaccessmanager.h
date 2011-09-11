@@ -23,9 +23,8 @@
 #include <qobject.h>
 #include <qurl.h>
 
-#include "kgooglerequest.h"
-#include "libkgoogle_export.h"
-#include <qmutex.h>
+#include <libkgoogle/kgooglerequest.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 class QNetworkAccessManager;
 class QNetworkReply;

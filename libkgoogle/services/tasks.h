@@ -17,11 +17,11 @@
 */
 
 
-#ifndef TASKS_H
-#define TASKS_H
+#ifndef SERVICE_TASKS_H
+#define SERVICE_TASKS_H
 
-#include "kgoogleservice.h"
-#include "libkgoogle_export.h"
+#include <libkgoogle/kgoogleservice.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
   
@@ -142,4 +142,4 @@ namespace KGoogle {
   } /* namespace Service */
 } /* namespace KGoogle */
 
-#endif // TASKS_H
+#endif // SERVICE_TASKS_H

@@ -22,7 +22,7 @@
 
 #include <qobject.h>
 
-#include "libkgoogle_export.h"
+#include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
 

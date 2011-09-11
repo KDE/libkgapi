@@ -20,12 +20,11 @@
 #ifndef KGOOGLEREQUEST_H
 #define KGOOGLEREQUEST_H
 
-#include "libkgoogle_export.h"
-
-#include <qobject.h>
+#include <qnetworkrequest.h>
 #include <qlist.h>
 #include <qurl.h>
-#include <qnetworkrequest.h>
+
+#include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
   class KGoogleObject;

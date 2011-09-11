@@ -20,18 +20,17 @@
 #ifndef AUTHDIALOG_H
 #define AUTHDIALOG_H
 
-#include <QtCore/QUrl>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QProgressBar>
-#include <QtGui/QLabel>
-#include <QtNetwork/QNetworkReply>
+#include <qurl.h>
+#include <qboxlayout.h>
+#include <qprogressbar.h>
+#include <qlabel.h>
+#include <qnetworkreply.h>
 
-#include <Akonadi/ResourceBase>
+#include <akonadi/resourcebase.h>
 
-#include <KDE/KDialog>
-#include <KDE/KWebView>
-#include <KDE/KPushButton>
+#include <kdialog.h>
+#include <kwebview.h>
+#include <kpushbutton.h>
 #include <kdemacros.h>
 
 /**

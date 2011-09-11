@@ -20,8 +20,8 @@
 #ifndef OBJECT_EVENT_H
 #define OBJECT_EVENT_H
 
-#include "kgoogleobject.h"
-#include "libkgoogle_export.h"
+#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 #include <qmetatype.h>
 #include <qshareddata.h>

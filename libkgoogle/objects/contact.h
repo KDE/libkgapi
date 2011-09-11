@@ -20,16 +20,16 @@
 #ifndef OBJECT_CONTACT_H
 #define OBJECT_CONTACT_H
 
-#include "kgoogleobject.h"
-#include "kabc/addressee.h"
-#include "libkgoogle_export.h"
+#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/libkgoogle_export.h>
+
+#include <kabc/addressee.h>
+#include <kdatetime.h>
 
 #include <qlist.h>
 #include <qmetatype.h>
 #include <qshareddata.h>
 #include <qdom.h>
-
-#include <kdatetime.h>
 
 namespace KGoogle {
   

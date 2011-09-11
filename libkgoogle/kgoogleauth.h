@@ -20,11 +20,11 @@
 #ifndef KGOOGLEAUTH_H
 #define KGOOGLEAUTH_H
 
-#include "libkgoogle_export.h"
-
 #include <qobject.h>
 #include <qwindowdefs.h>
 #include <qstringlist.h>
+
+#include <libkgoogle/libkgoogle_export.h>
 
 namespace KWallet {
   class Wallet;

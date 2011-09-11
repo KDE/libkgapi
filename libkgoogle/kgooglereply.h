@@ -22,10 +22,9 @@
 
 #include <qnetworkreply.h>
 
-#include "libkgoogle_export.h"
-
-#include "kgooglerequest.h"
-#include "kgoogleobject.h"
+#include <libkgoogle/kgooglerequest.h>
+#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
   

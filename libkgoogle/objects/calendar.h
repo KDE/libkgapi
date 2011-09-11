@@ -20,8 +20,8 @@
 #ifndef OBJECT_CALENDAR_H
 #define OBJECT_CALENDAR_H
 
-#include "kgoogleobject.h"
-#include "libkgoogle_export.h"
+#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 #include <qsharedpointer.h>
 #include <qmetatype.h>

@@ -20,10 +20,10 @@
 #ifndef SERVICE_CALENDAR_H
 #define SERVICE_CALENDAR_H
 
-#include "kgoogleservice.h"
-#include "qvariant.h"
+#include <libkgoogle/kgoogleservice.h>
+#include <libkgoogle/libkgoogle_export.h>
 
-#include "libkgoogle_export.h"
+#include "qvariant.h"
 
 namespace KGoogle {
   

@@ -20,8 +20,6 @@
 #ifndef KGOOGLESERVICE_H
 #define KGOOGLESERVICE_H
 
-#include "libkgoogle_export.h"
-
 #include <qobject.h>
 #include <qvariant.h>
 #include <qsharedpointer.h>
@@ -29,6 +27,8 @@
 #include <qurl.h>
 
 #include <kdatetime.h>
+
+#include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
 

@@ -17,11 +17,11 @@
 */
 
 
-#ifndef TASKLIST_H
-#define TASKLIST_H
+#ifndef OBJECT_TASKLIST_H
+#define OBJECT_TASKLIST_H
 
-#include "kgoogleobject.h"
-#include "libkgoogle_export.h"
+#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 #include <qmetatype.h>
 
@@ -51,4 +51,4 @@ Q_DECLARE_METATYPE(KGoogle::Object::TaskList)
 Q_DECLARE_METATYPE(KGoogle::Object::TaskList*)
 Q_DECLARE_METATYPE(KGoogle::Object::TaskList::List)
 
-#endif // TASKLIST_H
+#endif // OBJECT_TASKLIST_H

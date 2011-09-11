@@ -17,11 +17,11 @@
 */
 
 
-#ifndef TASK_H 
-#define TASK_H 
+#ifndef OBJECT_TASK_H 
+#define OBJECT_TASK_H 
 
-#include "kgoogleobject.h"
-#include "libkgoogle_export.h"
+#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 #ifdef WITH_KCAL
 #include <kcal/todo.h>
@@ -71,4 +71,4 @@ Q_DECLARE_METATYPE(KGoogle::Object::Task::Ptr)
 Q_DECLARE_METATYPE(KGoogle::Object::Task::List)
 
 
-#endif // TASK_H 
+#endif // OBJECT_TASK_H 

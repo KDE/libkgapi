@@ -20,9 +20,8 @@
 #ifndef SERVICE_ADDRESSBOOK_H
 #define SERVICE_ADDRESSBOOK_H
 
-#include "kgoogleservice.h"
-
-#include "libkgoogle_export.h"
+#include <libkgoogle/kgoogleservice.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 #include <qmetatype.h>
 
