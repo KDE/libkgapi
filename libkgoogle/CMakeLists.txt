@@ -10,7 +10,7 @@ if (DEBUG_RAWDATA)
   SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
   add_definitions(-DDEBUG_RAWDATA)
 else (DEBUG_RAWDATA)
-  SET(CMAKE_BUILD_TYPE Release CACHE STRING"Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel.")
+  SET(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel.")
 endif (DEBUG_RAWDATA)
 
 add_definitions(-DLIBKGOOGLE_LIBRARY)
