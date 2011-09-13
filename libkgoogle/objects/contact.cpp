@@ -57,6 +57,16 @@ Contact::Contact(const Contact &other):
 Contact::~Contact()
 { }
 
+void Contact::setId(const QString& id)
+{
+  setUid(id);
+}
+
+QString Contact::id()
+{
+  return uid();
+}
+
 void Contact::setDeleted(const bool deleted)
 {
   d->deleted = deleted;

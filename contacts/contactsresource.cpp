@@ -59,7 +59,7 @@ ContactsResource::ContactsResource(const QString &id):
   
   setObjectName(QLatin1String("GoogleContactsResource"));
   setNeedsNetwork(true);
-  
+
   m_auth = new KGoogleAuth(Settings::self()->clientId(),
 			   Settings::self()->clientSecret(),
 			   Service::Addressbook::scopeUrl());
@@ -149,7 +149,6 @@ bool ContactsResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
     url.addQueryItem("alt", "json");
     if (!Settings::self()->lastSync().isEmpty())
       url.addQueryItem("updated-min", Settings::self()->lastSync());
-
 
     KGoogleRequest *request;
     request = new KGoogleRequest(url,
@@ -326,8 +325,8 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
     return;
   }
 
-  Item::List contacts;
   Item::List removed;
+  Item::List changed;
   
   QList<KGoogleObject*> allData = reply->replyData();
   foreach (KGoogleObject* object, allData) {
@@ -341,16 +340,12 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
       item.setRemoteRevision(contact->etag());
       item.setMimeType(contact->mimeType());
       item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
-      fetchPhoto(&item, contact->photoUrl().toString());
+      fetchPhoto(&item, contact->photoUrl().toString(), (allData.last() == object));
     }
   }
 
   itemsRetrievedIncremental(Item::List(), removed);
 
-  /* Store the time of this sync. Next time we will only ask for items
-   * that changed or were removed since sync */
-  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%S"));
-  
   emit percent(100);
   emit status(Idle, "Collections synchronized");
 }
@@ -379,9 +374,10 @@ void ContactsResource::contactReceived(KGoogleReply* reply)
   else {
     item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
     item.setMimeType(contact->mimeType());
-    fetchPhoto(&item, contact->photoUrl().toString());  
+    fetchPhoto(&item, contact->photoUrl().toString(), false);  
   }
-  
+
+  emit percent(100);
   emit status(Idle, "Contact fetched");
 }
 
@@ -462,12 +458,19 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
     KABC::Addressee addressee = item.payload<KABC::Addressee>();
     addressee.setPhoto(KABC::Picture(image));
     item.setPayload<KABC::Addressee>(addressee);
-  
-    itemsRetrievedIncremental(Item::List() << item, Item::List());    
+    
+    if (Settings::self()->lastSync().isEmpty())
+      itemsRetrieved(Item::List() << item);
+    else
+      itemsRetrievedIncremental(Item::List() << item, Item::List());
+    
+    if (reply->request().attribute(QNetworkRequest::UserMax).toBool() == true) {
+      Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString(KDateTime::RFC3339Date));
+    }
   }
 }
 
-void ContactsResource::fetchPhoto(Akonadi::Item *item, const QString &photoUrl)
+void ContactsResource::fetchPhoto(Akonadi::Item *item, const QString &photoUrl, const bool isLastItem)
 {
   QString photoId = photoUrl.mid(photoUrl.lastIndexOf("/")+1);
 
@@ -476,7 +479,8 @@ void ContactsResource::fetchPhoto(Akonadi::Item *item, const QString &photoUrl)
   request.setRawHeader("Authorization", "OAuth "+m_auth->accessToken().toLatin1());
   request.setRawHeader("GData-Version", "3.0");  
 	
-  request.setAttribute(QNetworkRequest::User, QVariant::fromValue(Item(*item)));
+  request.setAttribute(QNetworkRequest::User, QVariant::fromValue(*item));
+  request.setAttribute(QNetworkRequest::UserMax, QVariant(isLastItem));
   m_photoNam->get(request);
 }
 

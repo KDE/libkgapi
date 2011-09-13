@@ -58,6 +58,16 @@ namespace KGoogle {
 	~Contact();
 
 	/**
+	 * A standard-named method for KABC::Addressee::setId()
+	 */
+	void setId(const QString &id);
+	
+	/**
+	 * A standard-named method for KABC::Addressee::id()
+	 */
+	QString id();
+	
+	/**
 	 * Tags contact as deleted on the remote server.
 	 */
 	void setDeleted(const bool deleted);
