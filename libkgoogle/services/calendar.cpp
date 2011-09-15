@@ -369,12 +369,14 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
   QStringList recrs = event["recurrence"].toString().split("\r\n");
   foreach (const QString &rec, recrs) {
     if (rec.left(7) == "DTSTART") {
-      /* Sometimes the date is YYYYMMDDTHHMMSS and sometimes there Z at the end of the date */
       int start = rec.lastIndexOf(":")+1;
-      object->setDtStart(KDateTime::fromString(rec.mid(start, 15), "%Y%m%dT%H%M%S"));
+      /* Convert YYYYMMDDTHHmmSS to YYYY-MM-DDTHH:mm:SS ( + optionally there can be timezone) */
+      QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
+      object->setDtStart(KDateTime::fromString(date, KDateTime::RFC3339Date));
     } else  if (rec.left(5) == "DTEND") {
       int start = rec.lastIndexOf(":")+1;
-      object->setDtEnd(KDateTime::fromString(rec.mid(start, 15), "%Y%m%dT%H%M%S"));
+      QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
+      object->setDtEnd(KDateTime::fromString(date, KDateTime::RFC3339Date));
     } else if (rec.left(5) == "RRULE") {
       ICalFormat format;
       RecurrenceRule *recurrenceRule = object->recurrence()->defaultRRule(true);
