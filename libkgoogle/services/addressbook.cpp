@@ -19,6 +19,7 @@
 
 #include "addressbook.h"
 #include "objects/contact.h"
+#include "kgoogleaccessmanager.h"
 
 #include <kurl.h>
 
@@ -47,7 +48,7 @@ KGoogleObject* Addressbook::JSONToObject(const QByteArray& jsonData)
   object->setEtag(data["gd$etag"].toString());
   
   /* Date and time when contact was updated on the remote server */
-  object->setUpdated(KDateTime::fromString(data["updated"].toMap()["$t"].toString(), KDateTime::RFC3339Date));
+  object->setUpdated(KGoogleAccessManager::RFC3339StringToDate(data["updated"].toMap()["$t"].toString()));
   
   /* If the contact was deleted, we don't need more info about it.
    * Just store our own flag, which will be then parsed by the resource

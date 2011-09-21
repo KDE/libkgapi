@@ -20,6 +20,7 @@
 #include "calendar.h"
 #include "objects/calendar.h"
 #include "objects/event.h"
+#include "kgoogleaccessmanager.h"
 
 #ifdef WITH_KCAL
 #include <kcal/event.h>
@@ -218,8 +219,8 @@ KGoogleObject* Service::Calendar::JSONToCalendar(const QVariantMap& calendar)
   object->setColor(calendar["color"].toString());
   object->setDetails(calendar["details"].toString());
   object->setEditable(calendar["editable"].toBool());
-  object->setCreated(KDateTime::fromString(calendar["created"].toString(), KDateTime::RFC3339Date));
-  object->setUpdated(KDateTime::fromString(calendar["updated"].toString(), KDateTime::RFC3339Date));
+  object->setCreated(KGoogleAccessManager::RFC3339StringToDate(calendar["created"].toString()));
+  object->setUpdated(KGoogleAccessManager::RFC3339StringToDate(calendar["created"].toString()));
  
   return dynamic_cast< KGoogleObject* >(object);
 }
@@ -275,10 +276,10 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
   object->setDescription(event["details"].toString());
   
   /* Created */
-  object->setCreated(KDateTime::fromString(event["created"].toString(), KDateTime::RFC3339Date));
+  object->setCreated(KGoogleAccessManager::RFC3339StringToDate(event["created"].toString(), KDateTime::RFC3339Date));
   
   /* Last updated */
-  object->setLastModified(KDateTime::fromString(event["updated"].toString(), KDateTime::RFC3339Date));
+  object->setLastModified(KGoogleAccessManager::RFC3339StringToDate(event["updated"].toString(), KDateTime::RFC3339Date));
   
   /* Status */
   if (event["status"].toString() == "confirmed") {
@@ -351,8 +352,8 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
       dtStart = KDateTime::fromString(when["start"].toString(), "%Y-%m-%d");
       dtEnd = KDateTime::fromString(when["end"].toString(), "%Y-%m-%d").addDays(-1);
     } else {
-      dtStart = KDateTime::fromString(when["start"].toString(), KDateTime::RFC3339Date);
-      dtEnd = KDateTime::fromString(when["end"].toString(), KDateTime::RFC3339Date);
+      dtStart = KGoogleAccessManager::RFC3339StringToDate(when["start"].toString());
+      dtEnd = KGoogleAccessManager::RFC3339StringToDate(when["end"].toString());
       
       if (!dtStart.isLocalZone())
 	dtStart = dtStart.toLocalZone();
@@ -372,11 +373,11 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
       int start = rec.lastIndexOf(":")+1;
       /* Convert YYYYMMDDTHHmmSS to YYYY-MM-DDTHH:mm:SS ( + optionally there can be timezone) */
       QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
-      object->setDtStart(KDateTime::fromString(date, KDateTime::RFC3339Date));
+      object->setDtStart(KGoogleAccessManager::RFC3339StringToDate(date));
     } else  if (rec.left(5) == "DTEND") {
       int start = rec.lastIndexOf(":")+1;
       QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
-      object->setDtEnd(KDateTime::fromString(date, KDateTime::RFC3339Date));
+      object->setDtEnd(KGoogleAccessManager::RFC3339StringToDate(date));
     } else if (rec.left(5) == "RRULE") {
       ICalFormat format;
       RecurrenceRule *recurrenceRule = object->recurrence()->defaultRRule(true);
@@ -446,10 +447,10 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
   data["details"] = object->description();
   
   /* Created */
-  data["created"] = object->created().toString(KDateTime::RFC3339Date);
+  data["created"] = KGoogleAccessManager::dateToRFC3339String(object->created());
   
   /* Last updated */
-  data["updated"] = object->lastModified().toString(KDateTime::RFC3339Date);
+  data["updated"] = KGoogleAccessManager::dateToRFC3339String(object->lastModified());
   
   /* Status */
   if (object->status() == Incidence::StatusConfirmed)
@@ -515,8 +516,8 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
     when["start"] = object->dtStart().toString("%Y-%m-%d");
     when["end"] = object->dtEnd().addDays(1).toString("%Y-%m-%d");
   } else {
-    when["start"] = object->dtStart().toString(KDateTime::RFC3339Date);
-    when["end"] = object->dtEnd().toString(KDateTime::RFC3339Date);
+    when["start"] = KGoogleAccessManager::dateToRFC3339String(object->dtStart());
+    when["end"] = KGoogleAccessManager::dateToRFC3339String(object->dtEnd());
   }
 
   /* Reminders (subpart of "WHEN") */

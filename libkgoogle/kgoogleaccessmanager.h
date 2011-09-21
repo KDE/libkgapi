@@ -23,6 +23,8 @@
 #include <qobject.h>
 #include <qurl.h>
 
+#include <kdatetime.h>
+
 #include <libkgoogle/kgooglerequest.h>
 #include <libkgoogle/libkgoogle_export.h>
 
@@ -52,6 +54,32 @@ namespace KGoogle {
       KGoogleAccessManager(KGoogleAuth *auth);
       
       virtual ~KGoogleAccessManager();
+      
+      /**
+       * Converts RFC3339 date and time to KDateTime object.
+       * 
+       * KDateTime::fromString() supportes RFC3339 date 
+       * since KDE 4.7.0. This function uses native implementation
+       * when available and provides custom implementation for
+       * backwards compatibilityt with older KDE versions.       
+       * 
+       * @param datetime String with date and time in RFC3339 format
+       * @return \p datetime converted to KDateTime object
+       */
+      static KDateTime RFC3339StringToDate(const QString &datetime);
+      
+      /**
+       * Converts KDateTime object do RFC3339 string.
+       * 
+       * KDateTime::toString() supportes RFC3339 date 
+       * since KDE 4.7.0. This function uses native implementation
+       * when available and provides custom implementation for
+       * backwards compatibilityt with older KDE versions.
+       * 
+       * @param datetime KDateTime object to be converted
+       * @return \p datetime converted to RFC3339 string
+       */
+      static QString dateToRFC3339String(const KDateTime &datetime);      
       
     public Q_SLOTS:
       /**

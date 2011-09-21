@@ -465,7 +465,7 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
       itemsRetrievedIncremental(Item::List() << item, Item::List());
     
     if (reply->request().attribute(QNetworkRequest::UserMax).toBool() == true) {
-      Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString(KDateTime::RFC3339Date));
+      Settings::self()->setLastSync(KGoogleAccessManager::dateToRFC3339String(KDateTime::currentUtcDateTime()));
     }
   }
 }

@@ -21,6 +21,7 @@
 #include "kgoogleobject.h"
 #include "objects/task.h"
 #include "objects/tasklist.h"
+#include "kgoogleaccessmanager.h"
 
 #include "qjson/parser.h"
 #include "qjson/serializer.h"
@@ -205,7 +206,7 @@ KGoogleObject* Tasks::JSONToTask(QVariantMap jsonData)
   object->setId(jsonData["id"].toString());
   object->setEtag(jsonData["etag"].toString());
   object->setSummary(jsonData["title"].toString());;
-  object->setLastModified(KDateTime::fromString(jsonData["updated"].toString(), KDateTime::RFC3339Date));
+  object->setLastModified(KGoogleAccessManager::RFC3339StringToDate(jsonData["updated"].toString()));
   object->setDescription(jsonData["notes"].toString());
   
   if (jsonData["status"].toString() == "needsAction")
@@ -215,10 +216,10 @@ KGoogleObject* Tasks::JSONToTask(QVariantMap jsonData)
   else 
     object->setStatus(Incidence::StatusNone);
   
-  object->setDtDue(KDateTime::fromString(jsonData["due"].toString(), KDateTime::RFC3339Date));
+  object->setDtDue(KGoogleAccessManager::RFC3339StringToDate(jsonData["due"].toString()));
   
   if (object->status() == Incidence::StatusCompleted)
-    object->setCompleted(KDateTime::fromString(jsonData["completed"].toString(), KDateTime::RFC3339Date));
+    object->setCompleted(KGoogleAccessManager::RFC3339StringToDate(jsonData["completed"].toString()));
   
   object->setDeleted(jsonData["deleted"].toBool());
   

@@ -5,7 +5,7 @@ if(POLICY CMP0017)
 endif()
 
 find_package(Qt4 4.7.0 REQUIRED) 
-find_package(KDE4 4.7.0 REQUIRED)
+find_package(KDE4 4.6.0 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
 
