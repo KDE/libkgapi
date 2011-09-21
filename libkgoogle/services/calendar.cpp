@@ -276,10 +276,10 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
   object->setDescription(event["details"].toString());
   
   /* Created */
-  object->setCreated(KGoogleAccessManager::RFC3339StringToDate(event["created"].toString(), KDateTime::RFC3339Date));
+  object->setCreated(KGoogleAccessManager::RFC3339StringToDate(event["created"].toString()));
   
   /* Last updated */
-  object->setLastModified(KGoogleAccessManager::RFC3339StringToDate(event["updated"].toString(), KDateTime::RFC3339Date));
+  object->setLastModified(KGoogleAccessManager::RFC3339StringToDate(event["updated"].toString()));
   
   /* Status */
   if (event["status"].toString() == "confirmed") {
