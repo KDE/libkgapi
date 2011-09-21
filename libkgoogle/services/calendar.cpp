@@ -373,10 +373,14 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
       int start = rec.lastIndexOf(":")+1;
       /* Convert YYYYMMDDTHHmmSS to YYYY-MM-DDTHH:mm:SS ( + optionally there can be timezone) */
       QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
+      if (date.length() == 19) 
+	date.append("Z");
       object->setDtStart(KGoogleAccessManager::RFC3339StringToDate(date));
     } else  if (rec.left(5) == "DTEND") {
       int start = rec.lastIndexOf(":")+1;
       QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
+      if (date.length() == 19) 
+	date.append("Z");
       object->setDtEnd(KGoogleAccessManager::RFC3339StringToDate(date));
     } else if (rec.left(5) == "RRULE") {
       ICalFormat format;
