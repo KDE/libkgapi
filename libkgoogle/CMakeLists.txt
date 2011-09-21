@@ -67,6 +67,7 @@ target_link_libraries(kgoogle
 		      ${KDE4_KDEUI_LIBS}
 		      ${KDEPIMLIBS_KABC_LIBS}
 		      ${KDEPIMLIBS_KMIME_LIBS}
+		      ${qjson_LIBRARIES}	# for Debian
 		      ${QJSON_LIBRARIES}
 		      ${QT_QTCORE_LIBRARY}
 		      ${QT_QTWEBKIT_LIBRARY}
