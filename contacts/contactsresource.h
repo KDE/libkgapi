@@ -116,6 +116,7 @@ class ContactsResource: public Akonadi::ResourceBase,
     
   private Q_SLOTS:
     void slotAbortRequested();
+    void tokensReceived();
     void initialItemFetchJobFinished(KJob *job);
     void photoRequestFinished(QNetworkReply *reply);
     

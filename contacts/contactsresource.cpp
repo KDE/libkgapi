@@ -59,10 +59,14 @@ ContactsResource::ContactsResource(const QString &id):
   
   setObjectName(QLatin1String("GoogleContactsResource"));
   setNeedsNetwork(true);
+  setOnline(false);  
 
   m_auth = new KGoogleAuth(Settings::self()->clientId(),
 			   Settings::self()->clientSecret(),
 			   Service::Addressbook::scopeUrl());
+  connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
+	  this, SLOT(tokensReceived()));
+  
   m_gam = new KGoogleAccessManager(m_auth);
   
   m_photoNam = new QNetworkAccessManager();
@@ -76,13 +80,6 @@ ContactsResource::ContactsResource(const QString &id):
   
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
-
-  if (m_auth->accessToken().isEmpty()) {
-    setOnline(false);
-  } else {
-    setOnline(true);
-    synchronize();
-  }
 }
 
 ContactsResource::~ContactsResource()
@@ -508,6 +505,15 @@ void ContactsResource::updatePhoto(Item* item)
   }
 }
 
+void ContactsResource::tokensReceived()
+{
+  if (m_auth->accessToken().isEmpty()) {
+    emit status(Broken, i18n("Failed to fetch tokens"));
+  } else {
+    setOnline(true);
+    synchronize();
+  }
+}
 
 
 AKONADI_RESOURCE_MAIN (ContactsResource)

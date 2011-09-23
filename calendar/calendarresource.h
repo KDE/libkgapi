@@ -58,6 +58,7 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     
   private Q_SLOTS:
     void slotAbortRequested();
+    void tokensReceived();
    
     void replyReceived(KGoogleReply *reply);    
     

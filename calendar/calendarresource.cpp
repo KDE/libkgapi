@@ -61,10 +61,16 @@ CalendarResource::CalendarResource(const QString &id):
   ResourceBase(id)
 {
   qRegisterMetaType<KGoogle::Service::Calendar>("Calendar");
+
+  setNeedsNetwork(true);
+  setOnline(false);
   
   m_auth = new KGoogleAuth(Settings::self()->clientId(),
 			   Settings::self()->clientSecret(),
 			   Service::Calendar::scopeUrl());
+  connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
+	  this, SLOT(tokensReceived()));
+  
   m_gam = new KGoogleAccessManager(m_auth);
   
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
@@ -75,8 +81,6 @@ CalendarResource::CalendarResource(const QString &id):
   
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
-
-  synchronize();  
 }
 
 CalendarResource::~CalendarResource()
@@ -421,5 +425,16 @@ void CalendarResource::eventRemoved(KGoogleReply* reply)
 
   status(Idle, "Event removed");
 }
+
+void CalendarResource::tokensReceived()
+{
+  if (m_auth->accessToken().isEmpty()) {
+    emit status(Broken, i18n("Failed to fetch tokens"));
+  } else {
+    setOnline(true);
+    synchronize();
+  }
+}
+
 
 AKONADI_RESOURCE_MAIN (CalendarResource)
