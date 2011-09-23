@@ -371,17 +371,26 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
   foreach (const QString &rec, recrs) {
     if (rec.left(7) == "DTSTART") {
       int start = rec.lastIndexOf(":")+1;
-      /* Convert YYYYMMDDTHHmmSS to YYYY-MM-DDTHH:mm:SS ( + optionally there can be timezone) */
-      QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
-      if (date.length() == 19) 
-	date.append("Z");
-      object->setDtStart(KGoogleAccessManager::RFC3339StringToDate(date));
+      if ((rec.length() - start) == 8) {
+	object->setDtStart(KDateTime::fromString(rec.mid(start, 8), "%Y%m%d"));
+	object->setAllDay(true);
+      } else {
+	/* Convert YYYYMMDDTHHmmSS to YYYY-MM-DDTHH:mm:SS ( + optionally there can be timezone) */
+	QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
+	if (date.length() == 19) 
+	  date.append("Z");
+	object->setDtStart(KGoogleAccessManager::RFC3339StringToDate(date));
+      }
     } else  if (rec.left(5) == "DTEND") {
       int start = rec.lastIndexOf(":")+1;
-      QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
-      if (date.length() == 19) 
-	date.append("Z");
-      object->setDtEnd(KGoogleAccessManager::RFC3339StringToDate(date));
+      if ((rec.length()) - start == 8) {
+	object->setDtStart(KDateTime::fromString(rec.mid(start, 8), "%Y%m%d").addDays(-1));
+      } else {
+	QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
+	if (date.length() == 19) 
+	  date.append("Z");
+	object->setDtEnd(KGoogleAccessManager::RFC3339StringToDate(date));
+      }
     } else if (rec.left(5) == "RRULE") {
       ICalFormat format;
       RecurrenceRule *recurrenceRule = object->recurrence()->defaultRRule(true);
@@ -512,19 +521,12 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
   atts.append(org);
   
   data["attendees"] = atts;
-
-  /* Start, end */
-  QVariantList whens;
+  
+    
+  /* Start, end, reminders */
   QVariantMap when;
-  if (object->allDay()) {
-    when["start"] = object->dtStart().toString("%Y-%m-%d");
-    when["end"] = object->dtEnd().addDays(1).toString("%Y-%m-%d");
-  } else {
-    when["start"] = KGoogleAccessManager::dateToRFC3339String(object->dtStart());
-    when["end"] = KGoogleAccessManager::dateToRFC3339String(object->dtEnd());
-  }
-
-  /* Reminders (subpart of "WHEN") */
+  
+  /* Reminders */
   QVariantList als;
   foreach (AlarmPtr a, object->alarms()) {
     QVariantMap alarm;
@@ -541,9 +543,7 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
     als.append(alarm);
   }
   when["reminders"] = als;
-  whens.append(when);
-  data["when"] = whens;
-  
+
   /* Recurrence */
   ICalFormat format;
   QString recStr;
@@ -561,9 +561,19 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
     recStr += "\r\n" + format.toString(rrule);
   if (object->recurrence()->rRules().length() > 0) {
     data["recurrence"] = recStr;
-    data["when"].toMap().remove("start"); /* Can't have 'recurrence' and 'when' together */
-    data["when"].toMap().remove("end"); /* Can't have 'recurrence' and 'when' together */
+  } else {
+    
+    /* When no recurrence is set, we can set dtStart and dtEnd */    
+    if (object->allDay()) {
+      when["start"] = object->dtStart().toString("%Y-%m-%d");
+      when["end"] = object->dtEnd().addDays(1).toString("%Y-%m-%d");
+    } else {
+      when["start"] = KGoogleAccessManager::dateToRFC3339String(object->dtStart());
+      when["end"] = KGoogleAccessManager::dateToRFC3339String(object->dtEnd());
+    }
   }
+  
+  data["when"] = when;
   
   
   /* TODO: Implement support for additional features:
