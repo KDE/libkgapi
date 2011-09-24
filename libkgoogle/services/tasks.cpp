@@ -89,16 +89,16 @@ QList< KGoogleObject* > Tasks::parseJSONFeed(const QByteArray& jsonFeed, FeedDat
 KGoogleObject* Tasks::JSONToObject(const QByteArray& jsonData)
 {
   QJson::Parser parser;
-  KGoogleObject *object;
-  
+  KGoogleObject *object = 0;
+
   QVariantMap data = parser.parse(jsonData).toMap();
-  
+
   if (data["kind"] == "tasks#taskList") {
     object = JSONToTaskList(data);
   } else if (data["kind"] == "tasks#task") {
     object = JSONToTask(data);
   }
-  
+
   return object;
 }
 
