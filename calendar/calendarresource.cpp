@@ -158,10 +158,13 @@ void CalendarResource::initialItemFetchJobFinished(KJob* job)
     return;
   }
 
-  QString url = Service::Calendar::fetchAllUrl().arg(Settings::self()->calendarId())
-						.arg("private")
-						.append("&showdeleted=true");
-  KGoogleRequest *request = new KGoogleRequest(QUrl(url),
+  QUrl url(Service::Calendar::fetchAllUrl().arg(Settings::self()->calendarId())
+					   .arg("private"));
+  if (!Settings::self()->lastSync().isEmpty()) {
+    url.addQueryItem("updated-min", Settings::self()->lastSync());
+  }
+
+  KGoogleRequest *request = new KGoogleRequest(url,
 					       KGoogleRequest::FetchAll,
 					       "Calendar");
   m_gam->sendRequest(request);
@@ -329,8 +332,10 @@ void CalendarResource::eventListReceived(KGoogleReply* reply)
     itemsRetrievedIncremental(changed, removed);
 
   /* Store the time of this sync. Next time we will only ask for items
-   * that changed or were removed since sync */
-  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%S"));
+   * that changed or were removed since sync
+   * The conversion to UTC is a workaround for Google having troubles to accept +XX:00 timezones
+   */
+  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
   
   emit percent(100);
   emit status(Idle, "Collections synchronized");
