@@ -72,6 +72,7 @@ target_link_libraries(kgoogle
 		      ${QT_QTCORE_LIBRARY}
 		      ${QT_QTWEBKIT_LIBRARY}
 		      ${QT_QTNETWORK_LIBRARY}
+		      ${QT_QTXML_LIBRARY}
 		      ${KCALENDAR_LIBRARIES}
 )
 
