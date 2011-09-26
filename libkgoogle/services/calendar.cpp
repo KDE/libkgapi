@@ -573,7 +573,7 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
     }
   }
   
-  data["when"] = when;
+  data["when"] = QVariantList() << when;
   
   
   /* TODO: Implement support for additional features:
