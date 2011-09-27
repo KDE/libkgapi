@@ -45,7 +45,8 @@ KGoogleAuth::KGoogleAuth(const QString &clientId, const QString &clientSecret, c
 
 KGoogleAuth::~KGoogleAuth()
 {
-  delete m_kwallet;
+  if (m_kwallet)
+    delete m_kwallet;
 }
 
 QString KGoogleAuth::accessToken()
@@ -107,7 +108,8 @@ void KGoogleAuth::setTokens(const QString &accessToken, const QString &refreshTo
   QMap<QString,QString> tokens;
   tokens["accessToken"] = m_accessToken;
   tokens["refreshToken"] = m_refreshToken;
-  m_kwallet->writeMap(m_scope, tokens);
+  if (m_kwallet)
+    m_kwallet->writeMap(m_scope, tokens);
   
   kDebug() << "emitting tokensRecevied() signal";
   
