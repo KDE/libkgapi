@@ -91,6 +91,7 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
       break;
 
     case KGoogleReply::TemporarilyMoved:  /** << Temporarily moved - Google provides a new URL where to send the request */
+      kDebug() << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
       request->setUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
       nam_sendRequest(request);
       break;
@@ -187,7 +188,9 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
 void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
 {
   QNetworkRequest nr;
-  
+
+  kDebug() << "Sending request to " << request->url();
+
 #ifdef DEBUG_RAWDATA
   kDebug() << request->requestData();
 #endif
