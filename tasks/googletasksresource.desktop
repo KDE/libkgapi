@@ -2,6 +2,7 @@
 Name=Google Tasks
 Name[da]=Google Tasks
 Name[es]=Tareas de Google
+Name[fr]=Google Tâches
 Name[it]=Attività di Google
 Name[pt]=Tarefas do Google
 Name[pt_BR]=Google Tasks
@@ -11,6 +12,7 @@ Name[x-test]=xxGoogle Tasksxx
 Comment=Access your Google Tasks from KDE
 Comment[da]=Tilgå dine Google Tasks fra KDE
 Comment[es]=Acceda a sus tareas de Google desde KDE
+Comment[fr]=Accédez à vos tâches Google depuis KDE
 Comment[it]=Accedi alle tue attività di Google da KDE
 Comment[pt]=Aceda às suas tarefas da Google a partir do KDE
 Comment[pt_BR]=Acesse seu Google Tasks a partir do KDE
