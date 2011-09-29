@@ -121,6 +121,7 @@ class ContactsResource: public Akonadi::ResourceBase,
     void photoRequestFinished(QNetworkReply *reply);
     
     void replyReceived(KGoogleReply *reply);
+    void commitItemsList();
 
     void contactReceived(KGoogleReply *reply);
     void contactListReceived(KGoogleReply *reply);
@@ -136,6 +137,9 @@ class ContactsResource: public Akonadi::ResourceBase,
     
     KGoogle::KGoogleAccessManager *m_gam;
     KGoogle::KGoogleAuth *m_auth;
+    
+    Akonadi::Item::List m_changedItems;
+    Akonadi::Item::List m_removedItems;
     
     QNetworkAccessManager *m_photoNam;
 };

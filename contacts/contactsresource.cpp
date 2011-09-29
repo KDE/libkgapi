@@ -73,6 +73,8 @@ ContactsResource::ContactsResource(const QString &id):
   
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
+  connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
+	  this, SLOT(commitItemsList()));
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
   connect(m_photoNam, SIGNAL(finished(QNetworkReply*)),
@@ -332,7 +334,7 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
     item.setRemoteId(contact->id());
     
     if (contact->deleted()) {
-      removed << item;
+      m_removedItems << item;
     } else {
       item.setRemoteRevision(contact->etag());
       item.setMimeType(contact->mimeType());
@@ -340,11 +342,6 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
       fetchPhoto(&item, contact->photoUrl().toString(), (allData.last() == object));
     }
   }
-
-  itemsRetrievedIncremental(Item::List(), removed);
-
-  emit percent(100);
-  emit status(Idle, "Collections synchronized");
 }
 
 void ContactsResource::contactReceived(KGoogleReply* reply)
@@ -455,15 +452,8 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
     KABC::Addressee addressee = item.payload<KABC::Addressee>();
     addressee.setPhoto(KABC::Picture(image));
     item.setPayload<KABC::Addressee>(addressee);
-    
-    if (Settings::self()->lastSync().isEmpty())
-      itemsRetrieved(Item::List() << item);
-    else
-      itemsRetrievedIncremental(Item::List() << item, Item::List());
-    
-    if (reply->request().attribute(QNetworkRequest::UserMax).toBool() == true) {
-      Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-    }
+
+    m_changedItems << item;
   }
 }
 
@@ -514,6 +504,23 @@ void ContactsResource::tokensReceived()
     synchronize();
   }
 }
+
+void ContactsResource::commitItemsList()
+{
+  emit percent(100);
+  emit status(Idle, "Collections synchronized");
+
+  if (Settings::self()->lastSync().isEmpty())
+    itemsRetrieved(m_changedItems);
+  else
+    itemsRetrievedIncremental(m_changedItems, m_removedItems);
+  
+  m_changedItems.clear();
+  m_removedItems.clear();
+
+  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
+}
+
 
 
 AKONADI_RESOURCE_MAIN (ContactsResource)
