@@ -351,17 +351,17 @@ QString KGoogleAccessManager::dateToRFC3339String(const KDateTime& datetime)
       msec /= 10, --digits;
     result += s.sprintf(".%0*d", digits, datetime.time().msec());
   }
-  if (datetime.timeSpec() == KDateTime::UTC)
+  if (datetime.timeType() == KDateTime::UTC)
     return result + QLatin1Char('Z');
-  if (datetime.timeSpec() == KDateTime::ClockTime)
+  if (datetime.timeType() == KDateTime::ClockTime)
     tz = KSystemTimeZones::local();
   tzcolon = ":";
   
   // Return the string with UTC offset ±hhmm appended
-  if (datetime.timeSpec() == KDateTime::OffsetFromUTC  ||  datetime.timeSpec() == KDateTime::TimeZone  ||  tz.isValid())
+  if (datetime.timeType() == KDateTime::OffsetFromUTC  ||  datetime.timeType() == KDateTime::TimeZone  ||  tz.isValid())
   {
-    if (datetime.timeSpec() == KDateTime::TimeZone)
-      offset = datetime.timeZone().currentOffset(datetime.dateTime().timeSpec());
+    if (datetime.timeType() == KDateTime::TimeZone)
+      offset = datetime.timeZone().currentOffset();
     else
       offset = tz.isValid() ? tz.offsetAtZoneTime(datetime.dateTime()) : datetime.utcOffset();
         if (offset < 0)
