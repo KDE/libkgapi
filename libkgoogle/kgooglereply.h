@@ -24,6 +24,7 @@
 
 #include <libkgoogle/kgooglerequest.h>
 #include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/kgoogleservice.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
@@ -106,6 +107,7 @@ namespace KGoogle {
       QString m_serviceName;
       QList<KGoogleObject*> m_replyData;
       KGoogleRequest *m_request;     
+      FeedData *m_feedData;
     
   };
   

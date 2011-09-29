@@ -93,10 +93,20 @@ namespace KGoogle {
       /**
        * A reply was received.
        * 
-       * This signal is emitted when a reply from
+       * This signal is emitted whenever a reply from
        * a Google service was received.
        */
       void replyReceived(KGoogleReply *reply);
+      
+      /**
+       * A request was finished.
+       * 
+       * This signal is emitted when last batch of data is received,
+       * for example when all pages of events feed are fetched.
+       * 
+       * @param request The related request.
+       */
+      void requestFinished(KGoogleRequest *request);
       
       /**
        * An error occurred.

@@ -75,6 +75,8 @@ CalendarResource::CalendarResource(const QString &id):
   
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
+  connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
+	  this, SLOT(commitItemsList()));
   
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
@@ -316,29 +318,19 @@ void CalendarResource::eventListReceived(KGoogleReply* reply)
     Object::Event *event = static_cast<Object::Event*>(replyData);
 
     item.setRemoteId(event->id());
+    item.setRemoteRevision(event->etag());
     item.setPayload<EventPtr>(EventPtr(event));
     item.setMimeType("application/x-vnd.akonadi.calendar.event");
     
     if (event->deleted()) {
-      removed << item;
+      m_removedItems << item;
     } else {
-      changed << item;
+      m_changedItems << item;
     }
   }
-  
-  if (Settings::self()->lastSync().isEmpty())
-    itemsRetrieved(changed);
-  else
-    itemsRetrievedIncremental(changed, removed);
 
-  /* Store the time of this sync. Next time we will only ask for items
-   * that changed or were removed since sync
-   * The conversion to UTC is a workaround for Google having troubles to accept +XX:00 timezones
-   */
-  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-  
-  emit percent(100);
-  emit status(Idle, "Collections synchronized");
+  /* Wait for requestFinished() signal and then commit all items at once in
+   * commitItemsList() */
 }
 
 void CalendarResource::eventReceived(KGoogleReply* reply)
@@ -439,6 +431,26 @@ void CalendarResource::tokensReceived()
     setOnline(true);
     synchronize();
   }
+}
+
+void CalendarResource::commitItemsList()
+{
+  if (Settings::self()->lastSync().isEmpty())
+    itemsRetrieved(m_changedItems);
+  else
+    itemsRetrievedIncremental(m_changedItems, m_removedItems);
+
+  /* Store the time of this sync. Next time we will only ask for items
+   * that changed or were removed since sync
+   * The conversion to UTC is a workaround for Google having troubles to accept +XX:00 timezones
+   */
+  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
+
+  emit percent(100);
+  emit status(Idle, "Collections synchronized");  
+
+  m_changedItems.clear();
+  m_removedItems.clear();
 }
 
 

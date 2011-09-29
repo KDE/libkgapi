@@ -180,6 +180,8 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
   if (new_request.isValid()) {
     request->setUrl(new_request);
     nam_sendRequest(request);
+  } else {
+    emit requestFinished(request);
   }
   
   delete service;  

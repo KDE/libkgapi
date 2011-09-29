@@ -23,7 +23,7 @@
 #include <Akonadi/AgentBase>
 #include <Akonadi/ResourceBase>
 
-#include <KDE/KJob>
+#include <akonadi/item.h>
 
 namespace KGoogle {
   class KGoogleAccessManager;
@@ -60,7 +60,8 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void slotAbortRequested();
     void tokensReceived();
    
-    void replyReceived(KGoogleReply *reply);    
+    void replyReceived(KGoogleReply *reply);
+    void commitItemsList();
     
     void initialItemFetchJobFinished(KJob *job);
     void eventListReceived(KGoogleReply *reply);
@@ -75,6 +76,9 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     
     KGoogleAccessManager *m_gam;
     KGoogleAuth *m_auth;
+    
+    Akonadi::Item::List m_changedItems;
+    Akonadi::Item::List m_removedItems;
 };
 
 #endif // CALENDARRESOURCE_H
