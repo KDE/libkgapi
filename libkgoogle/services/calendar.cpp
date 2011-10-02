@@ -527,7 +527,7 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
   QVariantMap when;
   
   /* Reminders */
-  QVariantList als;
+  QVariantList reminders;
   foreach (AlarmPtr a, object->alarms()) {
     QVariantMap alarm;
     if (a->type() == Alarm::Display)
@@ -540,9 +540,8 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
     else
       alarm["absoluteTime"] = a->time().toString(KDateTime::RFCDate);
     
-    als.append(alarm);
+    reminders.append(alarm);
   }
-  when["reminders"] = als;
 
   /* Recurrence */
   ICalFormat format;
@@ -559,10 +558,17 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
 	   "DTEND;" + end;
   foreach (RecurrenceRule *rrule, object->recurrence()->rRules())
     recStr += "\r\n" + format.toString(rrule);
+
   if (object->recurrence()->rRules().length() > 0) {
     data["recurrence"] = recStr;
+
+    /* For recurrent events, reminders must be set outside "gd:when"
+     * elements. */
+    if (reminders.length() > 0)
+      data["reminders"] = reminders;
+
   } else {
-    
+
     /* When no recurrence is set, we can set dtStart and dtEnd */    
     if (object->allDay()) {
       when["start"] = object->dtStart().toString("%Y-%m-%d");
@@ -571,11 +577,10 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
       when["start"] = KGoogleAccessManager::dateToRFC3339String(object->dtStart());
       when["end"] = KGoogleAccessManager::dateToRFC3339String(object->dtEnd());
     }
+    when["reminders"] = reminders;
+    data["when"] = QVariantList() << when;
   }
-  
-  data["when"] = QVariantList() << when;
-  
-  
+
   /* TODO: Implement support for additional features:
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
    */
