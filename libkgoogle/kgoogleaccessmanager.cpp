@@ -363,7 +363,7 @@ QString KGoogleAccessManager::dateToRFC3339String(const KDateTime& datetime)
   if (datetime.timeType() == KDateTime::OffsetFromUTC  ||  datetime.timeType() == KDateTime::TimeZone  ||  tz.isValid())
   {
     if (datetime.timeType() == KDateTime::TimeZone)
-      offset = datetime.timeZone().currentOffset();
+      offset = datetime.timeZone().offsetAtZoneTime(datetime.dateTime());
     else
       offset = tz.isValid() ? tz.offsetAtZoneTime(datetime.dateTime()) : datetime.utcOffset();
         if (offset < 0)
