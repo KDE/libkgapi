@@ -431,7 +431,15 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
     alarm->setEnabled(true);
     object->addAlarm(alarm);
   }
-  
+
+  /* Extended properties */
+  QVariantList extendedProperties = event["extendedProperties"].toList();
+  foreach (const QVariant &p, extendedProperties) {
+    QVariantMap property = p.toMap();
+    if (property["name"].toString() == "categories") {
+	object->setCategories(property["value"].toString());
+    }
+  }
   /* TODO: Implement support for additional features:
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
    */  
@@ -579,6 +587,15 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
     }
     when["reminders"] = reminders;
     data["when"] = QVariantList() << when;
+  }
+
+
+  /* Store categories */
+  if (!object->categories().isEmpty()) {
+    QVariantMap categories;
+    categories["name"] = "categories";
+    categories["value"] = object->categoriesStr();
+    data["extendedProperties"] = QVariantList() << categories;
   }
 
   /* TODO: Implement support for additional features:
