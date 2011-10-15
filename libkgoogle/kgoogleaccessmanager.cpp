@@ -51,7 +51,7 @@ KGoogleAccessManager::KGoogleAccessManager(KGoogle::KGoogleAuth *googleAuth):
 {
   connect(m_nam, SIGNAL(finished(QNetworkReply*)),
 	  this, SLOT(nam_replyReceived(QNetworkReply*)));
-  
+
   connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
 	  this, SLOT(newTokensReceived()));
 }
@@ -73,17 +73,17 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
 {
   QUrl new_request;  
   QByteArray rawData = reply->readAll();
-  
+
 #ifdef DEBUG_RAWDATA
   kDebug() << rawData;
 #endif
-  
+
   KGoogleRequest *request = reply->request().attribute(RequestAttribute).value<KGoogleRequest*>();
   if (!request) {
     emit error(i18n("No valid reply received"), 0);
     return;
   }
-  
+
   switch (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()) {
     case KGoogleReply::OK:		/** << OK status (fetched, updated, removed) */
     case KGoogleReply::Created: 	/** << OK status (created) */
@@ -94,13 +94,13 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
       kDebug() << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
       request->setUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
       nam_sendRequest(request);
-      break;
-      
+      return;
+
     case KGoogleReply::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
       kWarning() << "Bad request, Google replied '" << reply->readAll() << "'";
       emit error(i18n("Bad request."), KGoogleReply::BadRequest);
       return;
-    
+
     case KGoogleReply::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
       /* Lock the service, add request to cache and request new tokens. */
       if (!m_namLocked) {
@@ -110,19 +110,19 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
       }
       /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
       return;
-      
+
     default: /** Something went wrong, there's nothing we can do about it */
       kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
 		 << ", Google replied '" << reply->readAll() << "'";
       emit error(i18n("Unknown error"), reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
       return;
   }
-  
+
   QList<KGoogleObject*> replyData;
-  
+
   int type = QMetaType::type(qPrintable(request->serviceName()));
   KGoogleService *service = static_cast<KGoogleService*>(QMetaType::construct(type));
-  
+
   switch (request->requestType()) {
     /* For fetch-all request parse the XML/JSON reply and split it to individual
      * <entry>/entry blocks which then convert to QList of KGoogleObjects */
@@ -136,7 +136,7 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
       } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
 
 	replyData = service->parseXMLFeed(rawData, feedData);
-	
+
       }
 
       if (feedData->nextLink.isValid()) {
@@ -149,21 +149,21 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
 	break;
       }
     } break;
-      
+
     case KGoogleRequest::Fetch:
     case KGoogleRequest::Create:
     case KGoogleRequest::Update: {
       if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
 
 	replyData.append(service->JSONToObject(rawData));
-	
+
       } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
-	
+
 	replyData.append(service->XMLToObject(rawData));
 
       }
     } break;
-    
+
     case KGoogleRequest::Remove:
       break;
   }
@@ -173,9 +173,9 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
 					  request->serviceName(),
 					  replyData,
 					  request);
-  
+
   emit replyReceived(greply);
-  
+
   /* Re-send the request on a new URL */
   if (new_request.isValid()) {
     request->setUrl(new_request);
@@ -183,8 +183,8 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
   } else {
     emit requestFinished(request);
   }
-  
-  delete service;  
+
+  delete service;
 }
 
 void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
@@ -196,7 +196,7 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
 #ifdef DEBUG_RAWDATA
   kDebug() << request->requestData();
 #endif
- 
+
   int type = QMetaType::type(qPrintable(request->serviceName()));
   KGoogleService *service = static_cast<KGoogleService*>(QMetaType::construct(type));
   if (!service) {
@@ -209,29 +209,29 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
   nr.setRawHeader("GData-Version", service->protocolVersion().toLatin1());
   nr.setUrl(request->url());
   nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
-  
+
   delete service;
-  
+
   switch (request->requestType()) {
     case KGoogleRequest::FetchAll:
       m_nam->get(nr);
       break;
-    
+
     case KGoogleRequest::Fetch:
       m_nam->get(nr);
       break;
-    
+
     case KGoogleRequest::Create:
       nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
       m_nam->post(nr, request->requestData());
       break;
-    
+
     case KGoogleRequest::Update:
       nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
       nr.setRawHeader("If-Match", "*");
       m_nam->put(nr, request->requestData());
       break;
-    
+
     case KGoogleRequest::Remove:
       nr.setRawHeader("If-Match", "*");
       m_nam->deleteResource(nr);
@@ -251,7 +251,7 @@ void KGoogleAccessManager::sendRequest(KGoogleRequest *request)
 {
   /* Queue to cache */
   m_cache.append(request);
-  
+
   if (!m_namLocked)
     submitCache();
 }
@@ -320,7 +320,7 @@ KDateTime KGoogleAccessManager::RFC3339StringToDate(const QString& datetime)
     // Convert the time to UTC and check that it is 00:00:00.
     if ((hour*3600 + minute*60 + 60 - offset + 86400*5) % 86400)   // (max abs(offset) is 100 hours)
       return KDateTime();    // the time isn't the last second of the day
-  }    
+  }
 
   return KDateTime(d, t, KDateTime::Spec(spec, offset));
 #endif
@@ -336,7 +336,7 @@ QString KGoogleAccessManager::dateToRFC3339String(const KDateTime& datetime)
   QString s;
   QString result;
   const char *tzcolon = "";
-  KTimeZone tz;  
+  KTimeZone tz;
   char tzsign = '+';
   int offset = 0;
 
@@ -358,7 +358,7 @@ QString KGoogleAccessManager::dateToRFC3339String(const KDateTime& datetime)
   if (datetime.timeType() == KDateTime::ClockTime)
     tz = KSystemTimeZones::local();
   tzcolon = ":";
-  
+
   // Return the string with UTC offset ±hhmm appended
   if (datetime.timeType() == KDateTime::OffsetFromUTC  ||  datetime.timeType() == KDateTime::TimeZone  ||  tz.isValid())
   {
