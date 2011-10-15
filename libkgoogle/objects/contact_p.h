@@ -21,6 +21,7 @@
 
 #include "qshareddata.h"
 #include "qstring.h"
+#include "qstringlist.h"
 #include "qurl.h"
 
 #include "kabc/address.h"
@@ -28,9 +29,9 @@
 #include "kdatetime.h"
 
 namespace KGoogle {
-  
+
   namespace Object {
-  
+
     class ContactData : public QSharedData
     {
 
@@ -38,13 +39,15 @@ namespace KGoogle {
 	ContactData() { };
 	ContactData(const ContactData &other);
 	~ContactData() { };
-      
+
 	bool deleted;
 	QUrl photoUrl;
-	
+
+	QStringList groups;
+
 	KDateTime updated;
     };
-    
+
   } // namespace Service
 
 } // namespace KGoogle

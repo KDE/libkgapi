@@ -230,7 +230,17 @@ KGoogleObject* Addressbook::JSONToObject(const QByteArray& jsonData)
     QVariantMap field = u.toMap();
     object->insertCustom("GCALENDAR", field["key"].toString(), field["value"].toString());
   }
-  
+
+  /* Groups */
+  QVariantList groups = data["gContact$groupMembershipInfo"].toList();
+  QStringList groupsList;
+  foreach (const QVariant &g, groups) {
+    QVariantMap group = g.toMap();
+    if (group["deleted"].toBool() == false)
+	groupsList.append(group["href"].toString());
+  }
+  object->insertCustom("GCALENDAR", "groupMembershipInfo", groupsList.join(","));
+
   return dynamic_cast< KGoogleObject* >(object);
 }
 
@@ -291,7 +301,9 @@ KGoogleObject* Addressbook::XMLToObject(const QByteArray& xmlData)
   if (!xmlData.contains("<?xml"))
     xmlDoc.append("<?xml version='1.0' encoding='UTF-8'?>");
   xmlDoc.append(xmlData);
-  
+
+  QStringList groups;
+
   QDomDocument doc;
   doc.setContent(xmlDoc);
   QDomNodeList entry = doc.elementsByTagName("entry");
@@ -490,22 +502,29 @@ KGoogleObject* Addressbook::XMLToObject(const QByteArray& xmlData)
       contact->insertAddress(address);
       continue;
     }
-    
+
     /* Birthday */
     if (e.tagName() == "gContact:birthday") {
       contact->setBirthday(QDateTime::fromString(e.attribute("when"), "%Y-%m-%d"));
       continue;
     }
-    
+
     /* User-defined tags */
     if (e.tagName() == "gContact:userDefinedField") {
-      contact->insertCustom("GCALENDAR-USER", e.attribute("key", ""), e.attribute("value", ""));
+      contact->insertCustom("GCALENDAR", e.attribute("key", ""), e.attribute("value", ""));
       continue;
     }
 
+    if (e.tagName() == "gContact:groupMembershipInfo") {
+      if (e.hasAttribute("deleted") || e.attribute("deleted").toInt() == false) {
+	  groups.append(e.attribute("href"));
+      }
+    }
   }
 
-  return dynamic_cast< KGoogleObject* >(contact);  
+  contact->insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
+
+  return dynamic_cast< KGoogleObject* >(contact);
 }
 
 QByteArray Addressbook::objectToXML(KGoogleObject* object)
@@ -653,7 +672,13 @@ QByteArray Addressbook::objectToXML(KGoogleObject* object)
     QString birthday = contact->birthday().toString("%Y-%m-%d");
     output.append("<gContact:birthday when='").append(birthday.toLatin1()).append("'/>");
   }
-  
+
+  QStringList groups = contact->custom("GCALENDAR", "groupMembershipInfo").split(",");
+  foreach (const QString &group, groups) {
+    output.append(QString("<gContact:groupMembershipInfo deleted=\"false\" href=\"%1\" />").arg(group).toLatin1());
+  }
+  parsedCustoms << "GCALENDAR-groupMembershipInfo";
+
   /* User-defined fields */
   QStringList customs = contact->customs();
   QString defined_str("<gContact:userDefinedField key=\"%1\" value=\"%2\" />");
