@@ -41,6 +41,7 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 #include <kcalcore/alarm.h>
+#include <ksystemtimezone.h>
 
 using namespace KGoogle;
 
@@ -370,27 +371,15 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
   QStringList recrs = event["recurrence"].toString().split("\r\n");
   foreach (const QString &rec, recrs) {
     if (rec.left(7) == "DTSTART") {
-      int start = rec.lastIndexOf(":")+1;
-      if ((rec.length() - start) == 8) {
-	object->setDtStart(KDateTime::fromString(rec.mid(start, 8), "%Y%m%d"));
-	object->setAllDay(true);
-      } else {
-	/* Convert YYYYMMDDTHHmmSS to YYYY-MM-DDTHH:mm:SS ( + optionally there can be timezone) */
-	QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
-	if (date.length() == 19) 
-	  date.append("Z");
-	object->setDtStart(KGoogleAccessManager::RFC3339StringToDate(date));
-      }
+      bool allday;
+      KDateTime dt = parseRecurrenceDT(rec.mid(8), &allday);
+      object->setDtStart(dt);
+      object->setAllDay(allday);
     } else  if (rec.left(5) == "DTEND") {
-      int start = rec.lastIndexOf(":")+1;
-      if ((rec.length()) - start == 8) {
-	object->setDtStart(KDateTime::fromString(rec.mid(start, 8), "%Y%m%d").addDays(-1));
-      } else {
-	QString date = rec.mid(start, 4) + "-" + rec.mid(start + 4, 2) + "-" + rec.mid(start + 6, 5) + ":" + rec.mid(start + 11, 2) + ":" + rec.mid(start + 13);
-	if (date.length() == 19) 
-	  date.append("Z");
-	object->setDtEnd(KGoogleAccessManager::RFC3339StringToDate(date));
-      }
+      bool allday;
+      KDateTime dt = parseRecurrenceDT(rec.mid(6), &allday);
+      object->setDtEnd(dt);
+      object->setAllDay(allday);
     } else if (rec.left(5) == "RRULE") {
       ICalFormat format;
       RecurrenceRule *recurrenceRule = object->recurrence()->defaultRRule(true);
@@ -618,3 +607,40 @@ QList< KGoogleObject* > Service::Calendar::parseEventJSONFeed(const QVariantList
 
   return output;
 }
+
+KDateTime Service::Calendar::parseRecurrenceDT(const QString& dt, bool *allDay)
+{
+    KDateTime out;
+    KTimeZone tz;
+    QString s, tzid;
+    int p;
+
+    p = dt.indexOf(";");
+    s = dt.mid(p + 1);
+
+    if (s.startsWith("TZID=")) {
+	int i;
+
+	s.remove("TZID=");
+	i = s.indexOf(":");
+
+	tz = KSystemTimeZones::zone(s.left(i));
+	s = s.mid(i + 1);
+    } else {
+	tz = KSystemTimeZones::local();
+    }
+
+    if (s.length() == 8) {
+      out.fromString(s, KDateTime::ISODate);
+      if (allDay) 
+	  *allDay = true;
+    } else {
+      out = KDateTime::fromString(s, KDateTime::ISODate);
+      out.setTimeSpec(tz);
+      if (allDay)
+	  *allDay = false;
+    }
+
+    return out;
+}
+

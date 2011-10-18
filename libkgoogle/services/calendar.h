@@ -123,6 +123,8 @@ namespace KGoogle {
 	static bool supportsJSONWrite(QString* urlParam);
 	
       private:
+	KDateTime parseRecurrenceDT(const QString &dt, bool *allday);
+
 	KGoogleObject* JSONToCalendar(const QVariantMap& calendar);
 	QVariantMap calendarToJSON(KGoogleObject* calendar);
 	QList<KGoogleObject*> parseCalendarJSONFeed(const QVariantList& feed);
