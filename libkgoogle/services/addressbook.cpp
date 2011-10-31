@@ -674,8 +674,10 @@ QByteArray Addressbook::objectToXML(KGoogleObject* object)
   }
 
   QStringList groups = contact->custom("GCALENDAR", "groupMembershipInfo").split(",");
-  foreach (const QString &group, groups) {
-    output.append(QString("<gContact:groupMembershipInfo deleted=\"false\" href=\"%1\" />").arg(group).toLatin1());
+  if ((groups.length() > 0) && !groups.at(0).isEmpty()) {
+    foreach (const QString &group, groups) {
+      output.append(QString("<gContact:groupMembershipInfo deleted=\"false\" href=\"%1\" />").arg(group).toLatin1());
+    }
   }
   parsedCustoms << "GCALENDAR-groupMembershipInfo";
 
