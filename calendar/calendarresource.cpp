@@ -64,31 +64,32 @@ CalendarResource::CalendarResource(const QString &id):
 
   setNeedsNetwork(true);
   setOnline(false);
-  
+
   m_auth = new KGoogleAuth(Settings::self()->clientId(),
 			   Settings::self()->clientSecret(),
 			   Service::Calendar::scopeUrl());
   connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
 	  this, SLOT(tokensReceived()));
-  
+
   m_gam = new KGoogleAccessManager(m_auth);
-  
+  connect(m_gam, SIGNAL(error(QString,int)),
+	  this, SLOT(slotGAMError(QString,int)));
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
   connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
 	  this, SLOT(commitItemsList()));
-  
+
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
-  
+
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
 }
 
 CalendarResource::~CalendarResource()
-{ 
+{
   delete m_gam;
-  delete m_auth;  
+  delete m_auth;
 }
 
 void CalendarResource::aboutToQuit()
@@ -98,7 +99,7 @@ void CalendarResource::aboutToQuit()
 
 void CalendarResource::abort()
 {
-  cancelTask();
+  cancelTask(i18n("Aborted"));
 }
 
 void CalendarResource::slotAbortRequested()
@@ -106,18 +107,25 @@ void CalendarResource::slotAbortRequested()
   abort();
 }
 
+void CalendarResource::slotGAMError(const QString &msg, const int errorCode)
+{
+  cancelTask(msg);
+
+  Q_UNUSED(errorCode);
+}
+
+
 void CalendarResource::configure(WId windowId)
 {
   SettingsDialog *settingsDialog = new SettingsDialog(windowId, m_auth);
   if (settingsDialog->exec() == KDialog::Accepted) {
     emit configurationDialogAccepted();
-    synchronize();  
+    synchronize();
   } else {
     emit configurationDialogRejected();
   }
-  
+
   delete settingsDialog;
-  
 
 }
 
@@ -134,29 +142,29 @@ void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
 bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts)
 {
   Q_UNUSED (parts);
-  
+
   QString url = Service::Calendar::fetchUrl().arg(Settings::self()->calendarId())
 					     .arg("private")
 					     .arg(item.remoteId());
   KGoogleRequest *request;
-  
+
   request = new KGoogleRequest(QUrl(url),
 			       KGoogle::KGoogleRequest::Fetch,
 			       "Calendar");
   request->setProperty("Item", QVariant::fromValue(item));
   m_gam->sendRequest(request);
-        
-  emit status(Running, "Fetching event");
- 
+
+  emit status(Running, i18n("Fetching event"));
+
   return true;
 }
 
 void CalendarResource::initialItemFetchJobFinished(KJob* job)
 {
   ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
-  
+
   if (fetchJob->error()) {
-    cancelTask("Failed to fetch initial data.");
+    cancelTask(i18n("Failed to fetch initial data."));
     return;
   }
 
@@ -170,7 +178,7 @@ void CalendarResource::initialItemFetchJobFinished(KJob* job)
 					       KGoogleRequest::FetchAll,
 					       "Calendar");
   m_gam->sendRequest(request);
-  	      
+
   emit status(Running, i18n("Retrieving list of events"));
 }
 
@@ -178,7 +186,7 @@ void CalendarResource::retrieveCollections()
 {
   Akonadi::EntityDisplayAttribute *attr = new Akonadi::EntityDisplayAttribute();
   attr->setDisplayName(Settings::self()->calendarName());
-  
+
   Collection calendar;
   calendar.setRemoteId(Settings::self()->calendarId());
   calendar.setName(Settings::self()->calendarName());
@@ -189,7 +197,7 @@ void CalendarResource::retrieveCollections()
 		     Collection::CanCreateItem |
 		     Collection::CanDeleteItem);
   calendar.addAttribute(attr);
-  
+
   if (Settings::self()->refreshCalendar()) {
     Akonadi::CachePolicy policy;
     policy.setInheritFromParent(true);
@@ -200,20 +208,22 @@ void CalendarResource::retrieveCollections()
 
   /* Use user-friendly name in resource configuration dialog */
   setAgentName(i18n("Google Calendar - %1", Settings::self()->calendarName()));  
-  
+
   collectionsRetrieved(Collection::List() << calendar);
 }
 
 void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
 {
- if (!item.hasPayload<EventPtr>())
+  if (!item.hasPayload<EventPtr>()) {
+    cancelTask(i18n("Invalid Payload"));
     return;
+  }
 
-  status(Running, "Creating event...");
-  
+  status(Running, i18n("Creating event..."));
+
   EventPtr event = item.payload<EventPtr>();
   Object::Event kevent(*event);
- 
+
   Service::Calendar service;
   QString url = Service::Calendar::createUrl().arg(Settings::self()->calendarId())
 					      .arg("private");
@@ -225,48 +235,50 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
 			       "Calendar");
   request->setRequestData(data, "application/json");
   request->setProperty("Item", QVariant::fromValue(item));
-  
+
   m_gam->sendRequest(request);
-  
-  Q_UNUSED (collection);  
+
+  Q_UNUSED (collection);
 }
 
 void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
- if (!item.hasPayload<EventPtr>())
+  if (!item.hasPayload<EventPtr>()) {
+    cancelTask(i18n("Invalid Payload"));
     return;
-  
-  status(Running, "Updating event...");
-  
+  }
+
+  status(Running, i18n("Updating event..."));
+
   EventPtr event = item.payload<EventPtr>();
   Object::Event kevent(*event);
- 
+
   QString url = Service::Calendar::updateUrl().arg(Settings::self()->calendarId())
 					      .arg("private")
 					      .arg(item.remoteId());
   Service::Calendar service;
   QByteArray data = service.objectToJSON(dynamic_cast<KGoogleObject*>(&kevent));
-  
+
   KGoogleRequest *request;
   request = new KGoogleRequest(QUrl(url),
 			       KGoogleRequest::Update,
 			       "Calendar");
   request->setRequestData(data, "application/json");
   request->setProperty("Item", QVariant::fromValue(item));
-  
+
   m_gam->sendRequest(request);
-  
-  Q_UNUSED (partIdentifiers);  
+
+  Q_UNUSED (partIdentifiers);
 }
 
 void CalendarResource::itemRemoved(const Akonadi::Item& item)
 {
   emit status(Running, i18n("Removing event"));
-  
+
   QString url = Service::Calendar::removeUrl().arg(Settings::self()->calendarId())
 					      .arg("private")
 					      .arg(item.remoteId());
- 
+
   KGoogleRequest *request;
   request = new KGoogleRequest(QUrl(url),
 			       KGoogleRequest::Remove,
@@ -282,19 +294,19 @@ void CalendarResource::replyReceived(KGoogleReply* reply)
     case KGoogleRequest::FetchAll:
       eventListReceived(reply);
       break;
-      
+
     case KGoogleRequest::Fetch:
       eventReceived(reply);
       break;
-      
+
     case KGoogleRequest::Create:
       eventCreated(reply);
       break;
-      
+
     case KGoogleRequest::Update:
       eventUpdated(reply);
       break;
-      
+
     case KGoogleRequest::Remove:
       eventRemoved(reply);
       break;
@@ -304,14 +316,14 @@ void CalendarResource::replyReceived(KGoogleReply* reply)
 void CalendarResource::eventListReceived(KGoogleReply* reply)
 {
   if (reply->error() != KGoogle::KGoogleReply::OK) {
-    cancelTask("Failed to retrieve events");
+    cancelTask(i18n("Failed to retrieve events"));
     return;
   }
 
   Item::List events;
   Item::List removed;
   Item::List changed;
-  
+
   QList<KGoogleObject *> allData = reply->replyData();
   foreach (KGoogleObject* replyData, allData) {
     Item item;
@@ -321,7 +333,7 @@ void CalendarResource::eventListReceived(KGoogleReply* reply)
     item.setRemoteRevision(event->etag());
     item.setPayload<EventPtr>(EventPtr(event));
     item.setMimeType("application/x-vnd.akonadi.calendar.event");
-    
+
     if (event->deleted()) {
       m_removedItems << item;
     } else {
@@ -336,18 +348,18 @@ void CalendarResource::eventListReceived(KGoogleReply* reply)
 void CalendarResource::eventReceived(KGoogleReply* reply)
 {
   if (reply->error() != KGoogle::KGoogleReply::OK) {
-    cancelTask("Failed to fetch event");
+    cancelTask(i18n("Failed to fetch event"));
     return;
   }
-  
+
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask("Failed to create a contact");
+    cancelTask(i18n("Failed to create a contact"));
     return;
-  }     
+  }
   Object::Event *event = static_cast<Object::Event*>(data.first());
-  
+
   Item item;
   item.setMimeType("application/x-vnd.akonadi.calendar.event");
   item.setRemoteId(event->id());
@@ -358,24 +370,25 @@ void CalendarResource::eventReceived(KGoogleReply* reply)
     itemsRetrievedIncremental(Item::List(), Item::List() << item);  
   else
     itemRetrieved(item);
-  
-  emit status(Idle, "Event fetched");
+
+  emit status(Idle, i18n("Event fetched"));
+  taskDone();
 }
 
 
 void CalendarResource::eventCreated(KGoogleReply* reply)
 {
   if (reply->error() != KGoogle::KGoogleReply::Created) {
-    cancelTask("Failed to create an event");
+    cancelTask(i18n("Failed to create an event"));
     return;
   }
-  
+
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask("Failed to create a contact");
+    cancelTask(i18n("Failed to create a contact"));
     return;
-  }     
+  }
   Object::Event *event = static_cast<Object::Event*>(data.first());
 
   Item item = reply->request()->property("Item").value<Item>();
@@ -383,44 +396,47 @@ void CalendarResource::eventCreated(KGoogleReply* reply)
   item.setRemoteRevision(event->etag());
 
   changeCommitted(item);
-  
-  status(Idle, "Event created");
+
+  status(Idle, i18n("Event created"));
+  taskDone();
 }
 
 void CalendarResource::eventUpdated(KGoogleReply* reply)
 {
   if (reply->error() != KGoogle::KGoogleReply::OK) {
-    cancelTask("Failed to update event");
+    cancelTask(i18n("Failed to update event"));
   }
-  
+
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask("Failed to create a contact");
+    cancelTask(i18n("Failed to update a contact"));
     return;
-  }     
+  }
   Object::Event *event = static_cast<Object::Event*>(data.first());
-  
+
   Item newItem(reply->request()->property("Item").value<Item>());
   newItem.setRemoteId(event->id());
   newItem.setRemoteRevision(event->etag());
-  
+
   changeCommitted(newItem);
-  
-  status(Idle, "Event changed");
+
+  status(Idle, i18n("Event changed"));
+  taskDone();
 }
 
 void CalendarResource::eventRemoved(KGoogleReply* reply)
 {
   if (reply->error() != KGoogle::KGoogleReply::OK) {
-    cancelTask("Failed to remove event");
+    cancelTask(i18n("Failed to remove event"));
     return;
   }
 
   Item item = reply->request()->property("Item").value<Item>();  
   changeCommitted(item);
 
-  status(Idle, "Event removed");
+  status(Idle, i18n("Event removed"));
+  taskDone();
 }
 
 void CalendarResource::tokensReceived()
@@ -447,7 +463,8 @@ void CalendarResource::commitItemsList()
   Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
 
   emit percent(100);
-  emit status(Idle, "Collections synchronized");  
+  emit status(Idle, i18n("Collections synchronized"));
+  taskDone();
 
   m_changedItems.clear();
   m_removedItems.clear();

@@ -114,7 +114,7 @@ namespace KGoogle {
        * This signal is emitted whenever an error
        * occurs.
        */
-      void error(QString msg, int errorCode);
+      void error(const QString &msg, const int errorCode);
 
     private Q_SLOTS:
       void nam_replyReceived(QNetworkReply *reply);

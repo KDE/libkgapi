@@ -60,33 +60,33 @@ TasksResource::TasksResource(const QString &id):
   ResourceBase(id)
 {
   qRegisterMetaType<KGoogle::Service::Tasks>("Tasks");
-  
+
   m_auth = new KGoogleAuth(Settings::self()->clientId(),
 			   Settings::self()->clientSecret(),
 			   Service::Tasks::scopeUrl());
   m_gam = new KGoogleAccessManager(m_auth);
-  
+
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
   connect(m_gam, SIGNAL(error(QString,int)),
-	  this, SLOT(gamError(QString,int)));
-  
+	  this, SLOT(slotGAMError(QString,int)));
+
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
-  
+
   setObjectName(QLatin1String("GoogleTasksResource"));
   Settings::self()->setResourceId(identifier());
-  
+
   changeRecorder()->fetchCollection(true);
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
-  
-  synchronize();  
+
+  synchronize();
 }
 
 TasksResource::~TasksResource()
 { 
   delete m_gam;
-  delete m_auth;  
+  delete m_auth;
 }
 
 void TasksResource::aboutToQuit()
@@ -96,7 +96,7 @@ void TasksResource::aboutToQuit()
 
 void TasksResource::abort()
 {
-  cancelTask();
+  cancelTask(i18n("Aborted"));
 }
 
 void TasksResource::slotAbortRequested()
@@ -104,25 +104,23 @@ void TasksResource::slotAbortRequested()
   abort();
 }
 
-void TasksResource::gamError(QString error, int code)
+void TasksResource::slotGAMError(const QString &msg, const int errorCode)
 {
-  emit status(Broken, error);
-  cancelTask();
-  
-  Q_UNUSED(code)
-}
+  cancelTask(msg);
 
+  Q_UNUSED(errorCode);
+}
 
 void TasksResource::configure(WId windowId)
 {
   SettingsDialog *settingsDialog = new SettingsDialog(windowId, m_auth);
   if (settingsDialog->exec() == KDialog::Accepted) {
     emit configurationDialogAccepted();
-    synchronize();  
+    synchronize();
   } else {
     emit configurationDialogRejected();
   }
-  
+
   delete settingsDialog;
 }
 
@@ -139,38 +137,38 @@ void TasksResource::retrieveItems(const Akonadi::Collection& collection)
 bool TasksResource::retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts)
 {
   Q_UNUSED (parts);
-  
+
   QString url = Service::Tasks::fetchTaskUrl().arg(Settings::self()->taskListId())
 					      .arg(item.remoteId()).append("showDeleted=true");
   KGoogleRequest *request;
-  
+
   request = new KGoogleRequest(QUrl(url),
 			       KGoogle::KGoogleRequest::Fetch,
 			       "Tasks");
   request->setProperty("Item", QVariant::fromValue(item));
   m_gam->sendRequest(request);
-        
-  emit status(Running, "Fetching task");
- 
+
+  emit status(Running, i18n("Fetching task"));
+
   return true;
 }
 
 void TasksResource::initialItemFetchJobFinished(KJob* job)
 {
   ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
-  
+
   if (fetchJob->error()) {
-    cancelTask("Failed to fetch initial data.");
+    cancelTask(i18n("Failed to fetch initial data."));
     return;
   }
 
   QString url = Service::Tasks::fetchAllTasksUrl().arg(Settings::self()->taskListId());
-						  
+
   KGoogleRequest *request = new KGoogleRequest(QUrl(url),
 					       KGoogleRequest::FetchAll,
 					       "Tasks");
   m_gam->sendRequest(request);
-  	      
+
   emit status(Running, i18n("Retrieving list of tasks"));
 }
 
@@ -178,7 +176,7 @@ void TasksResource::retrieveCollections()
 {
   Akonadi::EntityDisplayAttribute *attr = new Akonadi::EntityDisplayAttribute();
   attr->setDisplayName(Settings::self()->taskListName());
-  
+
   Collection taskList;
   taskList.setRemoteId(Settings::self()->taskListId());
   taskList.setName(Settings::self()->taskListName());
@@ -190,7 +188,7 @@ void TasksResource::retrieveCollections()
 		     Collection::CanCreateItem |
 		     Collection::CanDeleteItem);
   taskList.addAttribute(attr);
-  
+
   if (Settings::self()->refreshTaskList()) {
     Akonadi::CachePolicy policy;
     policy.setInheritFromParent(true);
@@ -207,18 +205,20 @@ void TasksResource::retrieveCollections()
 
 void TasksResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
 {
- if (!item.hasPayload<TodoPtr>())
+  if (!item.hasPayload<TodoPtr>()) {
+    cancelTask(i18n("Invalid Playload"));
     return;
+  }
 
-  status(Running, "Creating task...");
-  
+  status(Running, i18n("Creating task..."));
+
   TodoPtr todo = item.payload<TodoPtr>();
   Object::Task task(*todo);
-  
+
   /* Unset incidence UID, so that the JSON data won't contain the "id" value. Google refuses
    * to create a task when "id" is provided. */
   task.setId("");
- 
+
   Service::Tasks service;
   QString url = Service::Tasks::createTaskUrl().arg(Settings::self()->taskListId());
   QByteArray data = service.objectToJSON(static_cast<KGoogleObject*>(&task));
@@ -229,48 +229,51 @@ void TasksResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collecti
 			       "Tasks");
   request->setRequestData(data, "application/json");
   request->setProperty("Item", QVariant::fromValue(item));
-  
+
   m_gam->sendRequest(request);
-  
-  Q_UNUSED (collection);  
+
+  Q_UNUSED (collection);
 }
 
 void TasksResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
-  if (!item.hasPayload<TodoPtr>())
+  if (!item.hasPayload<TodoPtr>()) {
+    cancelTask(i18n("Invalid Payload"));
     return;
-  
-  status(Running, "Updating task...");
-  
+  }
+
+  status(Running, i18n("Updating task..."));
+
   TodoPtr todo = item.payload<TodoPtr>();
   Object::Task task(*todo);
- 
+
   task.setId(item.remoteId());
- 
+
   QString url = Service::Tasks::updateTaskUrl().arg(Settings::self()->taskListId())
 					       .arg(item.remoteId());
   Service::Tasks service;
   QByteArray data = service.objectToJSON(dynamic_cast<KGoogleObject*>(&task));
-  
+
   KGoogleRequest *request;
   request = new KGoogleRequest(QUrl(url),
 			       KGoogleRequest::Update,
 			       "Tasks");
   request->setRequestData(data, "application/json");
   request->setProperty("Item", QVariant::fromValue(item));
-  
+
   m_gam->sendRequest(request);
-  
-  Q_UNUSED (partIdentifiers);  
+
+  emit status(Idle, i18n("Task updated"));
+  Q_UNUSED (partIdentifiers);
 }
 
 void TasksResource::itemRemoved(const Akonadi::Item& item)
 {
   emit status(Running, i18n("Removing task"));
-  
+
   QString url = Service::Tasks::removeTaskUrl().arg(Settings::self()->taskListId())
 					       .arg(item.remoteId());
- 
+
   KGoogleRequest *request;
   request = new KGoogleRequest(QUrl(url),
 			       KGoogleRequest::Remove,
@@ -286,19 +289,19 @@ void TasksResource::replyReceived(KGoogleReply* reply)
     case KGoogleRequest::FetchAll:
       taskListReceived(reply);
       break;
-      
+
     case KGoogleRequest::Fetch:
       taskReceived(reply);
       break;
-      
+
     case KGoogleRequest::Create:
       taskCreated(reply);
       break;
-      
+
     case KGoogleRequest::Update:
       taskUpdated(reply);
       break;
-      
+
     case KGoogleRequest::Remove:
       taskRemoved(reply);
       break;
@@ -308,14 +311,14 @@ void TasksResource::replyReceived(KGoogleReply* reply)
 void TasksResource::taskListReceived(KGoogleReply* reply)
 {
   if (reply->error() != KGoogle::KGoogleReply::OK) {
-    cancelTask("Failed to retrieve tasks");
+    cancelTask(i18n("Failed to retrieve tasks"));
     return;
   }
 
   Item::List tasks;
   Item::List removed;
   Item::List changed;
-  
+
   QList<KGoogleObject *> allData = reply->replyData();
   foreach (KGoogleObject* replyData, allData) {
     Item item;
@@ -324,14 +327,14 @@ void TasksResource::taskListReceived(KGoogleReply* reply)
     item.setRemoteId(task->id());
     item.setPayload<TodoPtr>(TodoPtr(task));
     item.setMimeType("application/x-vnd.akonadi.calendar.todo");
-    
+
     if (task->deleted()) {
       removed << item;
     } else {
       changed << item;
     }
   }
-  
+
   if (Settings::self()->lastSync().isEmpty())
     itemsRetrieved(changed);
   else
@@ -340,9 +343,10 @@ void TasksResource::taskListReceived(KGoogleReply* reply)
   /* Store the time of this sync. Next time we will only ask for items
    * that changed or were removed since sync */
   Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%S"));
-  
+
   emit percent(100);
-  emit status(Idle, "Collections synchronized");
+  emit status(Idle, i18n("Collections synchronized"));
+  taskDone();
 }
 
 void TasksResource::taskReceived(KGoogleReply* reply)
@@ -351,15 +355,15 @@ void TasksResource::taskReceived(KGoogleReply* reply)
     cancelTask("Failed to fetch task");
     return;
   }
-  
+
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask("Failed to create a task");
+    cancelTask(i18n("Failed to create a task"));
     return;
-  }     
+  }
   Object::Task *task = static_cast<Object::Task*>(data.first());
-  
+
   Item item;
   item.setMimeType("application/x-vnd.akonadi.calendar.todo");
   item.setRemoteId(task->id());
@@ -370,8 +374,9 @@ void TasksResource::taskReceived(KGoogleReply* reply)
     itemsRetrievedIncremental(Item::List(), Item::List() << item);  
   else
     itemRetrieved(item);
-  
-  emit status(Idle, "Task fetched");
+
+  emit status(Idle, i18n("Task fetched"));
+  taskDone();
 }
 
 
@@ -380,62 +385,66 @@ void TasksResource::taskCreated(KGoogleReply* reply)
   /* Tasks API returns "OK" instead of "Created" */
   if (reply->error() != KGoogle::KGoogleReply::OK) {
     qDebug() << "Failed to create a task, server replied " << reply->error();
-    cancelTask("Failed to create a task");
+    cancelTask(i18n("Failed to create a task"));
     return;
   }
-  
+
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask("Failed to create a task");
+    cancelTask(i18n("Failed to create a task"));
     return;
-  }     
+  }
   Object::Task *task = static_cast<Object::Task*>(data.first());
-  
+
   Item item = reply->request()->property("Item").value<Item>();
   item.setRemoteId(task->id());
   item.setRemoteRevision(task->etag());
   item.setPayload<TodoPtr>(TodoPtr(task));
 
   changeCommitted(item);
-  
-  status(Idle, "Task created");
+
+  status(Idle, i18n("Task created"));
+  taskDone();
 }
 
 void TasksResource::taskUpdated(KGoogleReply* reply)
 {
   if (reply->error() != KGoogle::KGoogleReply::OK) {
     cancelTask("Failed to update task");
+    return;
   }
-  
+
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask("Failed to create a task");
+    cancelTask(i18n("Failed to create a task"));
     return;
-  }     
-  
+  }
+
   Object::Task *task = static_cast<Object::Task*>(data.first());  
   Item item = reply->request()->property("Item").value<Item>();
   item.setRemoteId(task->id());
   item.setRemoteRevision(task->etag());
 
   changeCommitted(item);
-  
-  status(Idle, "Task updated");
+
+  status(Idle, i18n("Task updated"));
+  taskDone();
 }
 
 void TasksResource::taskRemoved(KGoogleReply* reply)
 {
   if (reply->error() != KGoogle::KGoogleReply::NoContent) {
-    cancelTask("Failed to remove task");
+    cancelTask(i18n("Failed to remove task"));
     return;
   }
 
   Item item = reply->request()->property("Item").value<Item>();  
   changeCommitted(item);
 
-  status(Idle, "Task removed");
+  status(Idle, i18n("Task removed"));
+  taskDone();
 }
 
 AKONADI_RESOURCE_MAIN (TasksResource)

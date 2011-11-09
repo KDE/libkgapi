@@ -42,27 +42,28 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     ~CalendarResource();
 
     void configure(WId windowId);
-    
-    
+
+
   public Q_SLOTS:
     void retrieveCollections();
     void retrieveItems(const Akonadi::Collection& collection);
     bool retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts);
-    
+
     void itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection);
     void itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers);
     void itemRemoved(const Akonadi::Item& item);
 
   protected:
     void aboutToQuit();  
-    
+
   private Q_SLOTS:
+    void slotGAMError(const QString &msg, const int errorCode);
     void slotAbortRequested();
     void tokensReceived();
-   
+
     void replyReceived(KGoogleReply *reply);
     void commitItemsList();
-    
+
     void initialItemFetchJobFinished(KJob *job);
     void eventListReceived(KGoogleReply *reply);
     void eventReceived(KGoogleReply *reply);
@@ -70,13 +71,12 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void eventUpdated(KGoogleReply *reply);
     void eventRemoved(KGoogleReply *reply);
 
-    
   private:
     void abort();
-    
+
     KGoogleAccessManager *m_gam;
     KGoogleAuth *m_auth;
-    
+
     Akonadi::Item::List m_changedItems;
     Akonadi::Item::List m_removedItems;
 };

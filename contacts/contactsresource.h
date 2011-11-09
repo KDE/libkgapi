@@ -58,7 +58,7 @@ class ContactsResource: public Akonadi::ResourceBase,
 			public Akonadi::AgentBase::Observer
 {
   Q_OBJECT
-  
+
   public:
     /**
      * @brief Creates new resource.
@@ -66,11 +66,11 @@ class ContactsResource: public Akonadi::ResourceBase,
      * @param id Unique identificator of the resource assigned by Akonadi
      */
     ContactsResource (const QString &id);
-    
+
     ~ContactsResource();
-    
+
     using ResourceBase::synchronize;
-    
+
   public Q_SLOTS:
     /**
      * @brief Opens configuration dialog
@@ -84,14 +84,14 @@ class ContactsResource: public Akonadi::ResourceBase,
      * 	     account to which the resource is authenticated
      */
     virtual void configure (WId windowID);
-    
-    
+
+
   protected Q_SLOTS:
     /**
-     * @brief Defined list of collections. 
+     * @brief Defined list of collections.
      */
     void retrieveCollections();
-    
+
     /**
      * @brief Retrieves all items from remote server.
      * 
@@ -99,7 +99,7 @@ class ContactsResource: public Akonadi::ResourceBase,
      * 	     ask only for items updated since last synchronization.
      */
     void retrieveItems(const Akonadi::Collection& collection);
-    
+
     /**
      * @brief Retrieves single contactJobFinished
      */
@@ -108,18 +108,19 @@ class ContactsResource: public Akonadi::ResourceBase,
     void itemRemoved(const Akonadi::Item& item);
     void itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection);
     void itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers);
-    
+
     void emitPercent(KJob *job, ulong progress) { emit percent(progress); Q_UNUSED (job) }
-    
+
   protected:
     void aboutToQuit();
-    
+
   private Q_SLOTS:
+    void slotGAMError(const QString &msg, const int errorCode);
     void slotAbortRequested();
     void tokensReceived();
     void initialItemFetchJobFinished(KJob *job);
     void photoRequestFinished(QNetworkReply *reply);
-    
+
     void replyReceived(KGoogleReply *reply);
     void commitItemsList();
 
@@ -128,19 +129,19 @@ class ContactsResource: public Akonadi::ResourceBase,
     void contactUpdated(KGoogleReply *reply);
     void contactCreated(KGoogleReply *reply);
     void contactRemoved(KGoogleReply *reply);
-    
+
   private:
     void abort();
-    
+
     void updatePhoto(Akonadi::Item *item);
     void fetchPhoto(Akonadi::Item *item, const QString &photoUrl, const bool isLastItem);
-    
+
     KGoogle::KGoogleAccessManager *m_gam;
     KGoogle::KGoogleAuth *m_auth;
-    
+
     Akonadi::Item::List m_changedItems;
     Akonadi::Item::List m_removedItems;
-    
+
     QNetworkAccessManager *m_photoNam;
 };
 

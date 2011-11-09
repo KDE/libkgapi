@@ -42,26 +42,26 @@ class TasksResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::O
     ~TasksResource();
 
     void configure(WId windowId);
-    
-    
+
+
   public Q_SLOTS:
     void retrieveCollections();
     void retrieveItems(const Akonadi::Collection& collection);
     bool retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts);
-    
+
     void itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection);
     void itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers);
     void itemRemoved(const Akonadi::Item& item);
 
   protected:
-    void aboutToQuit();  
-    
-  private Q_SLOTS:
-    void slotAbortRequested();
-    void gamError(QString error, int code);
+    void aboutToQuit();
 
-    void replyReceived(KGoogleReply *reply);  
-    
+  private Q_SLOTS:
+    void slotGAMError(const QString &msg, const int errorCode);
+    void slotAbortRequested();
+
+    void replyReceived(KGoogleReply *reply);
+
     void initialItemFetchJobFinished(KJob *job);
     void taskListReceived(KGoogleReply *reply);
     void taskReceived(KGoogleReply *reply);
@@ -71,7 +71,7 @@ class TasksResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::O
 
   private:
     void abort();
-    
+
     KGoogleAccessManager *m_gam;
     KGoogleAuth *m_auth;
 };
