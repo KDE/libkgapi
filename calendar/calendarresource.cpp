@@ -355,7 +355,7 @@ void CalendarResource::eventReceived(KGoogleReply* reply)
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask(i18n("Failed to create a contact"));
+    cancelTask(i18n("Failed to create an event"));
     return;
   }
   Object::Event *event = static_cast<Object::Event*>(data.first());
@@ -386,7 +386,7 @@ void CalendarResource::eventCreated(KGoogleReply* reply)
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask(i18n("Failed to create a contact"));
+    cancelTask(i18n("Failed to create an event"));
     return;
   }
   Object::Event *event = static_cast<Object::Event*>(data.first());
@@ -410,7 +410,7 @@ void CalendarResource::eventUpdated(KGoogleReply* reply)
   QList<KGoogleObject*> data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
-    cancelTask(i18n("Failed to update a contact"));
+    cancelTask(i18n("Failed to update an event"));
     return;
   }
   Object::Event *event = static_cast<Object::Event*>(data.first());
