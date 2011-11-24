@@ -36,6 +36,7 @@
 #include <akonadi/entitydisplayattribute.h>
 #include <akonadi/item.h>
 #include <akonadi/itemfetchjob.h>
+#include <akonadi/itemmodifyjob.h>
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
 #include <akonadi/cachepolicy.h>
@@ -394,8 +395,11 @@ void CalendarResource::eventCreated(KGoogleReply* reply)
   Item item = reply->request()->property("Item").value<Item>();
   item.setRemoteId(event->id());
   item.setRemoteRevision(event->etag());
-
   changeCommitted(item);
+
+  item.setPayload<EventPtr>(EventPtr(event));
+  Akonadi::ItemModifyJob *modifyJob = new Akonadi::ItemModifyJob(item);
+  connect (modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
 
   status(Idle, i18n("Event created"));
   taskDone();
@@ -418,7 +422,7 @@ void CalendarResource::eventUpdated(KGoogleReply* reply)
   Item newItem(reply->request()->property("Item").value<Item>());
   newItem.setRemoteId(event->id());
   newItem.setRemoteRevision(event->etag());
-
+  newItem.setPayload<EventPtr>(EventPtr(event));
   changeCommitted(newItem);
 
   status(Idle, i18n("Event changed"));

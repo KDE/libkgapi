@@ -40,6 +40,7 @@
 #include <akonadi/entitydisplayattribute.h>
 #include <akonadi/item.h>
 #include <akonadi/itemfetchjob.h>
+#include <akonadi/itemmodifyjob.h>
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
 #include <akonadi/cachepolicy.h>
@@ -409,6 +410,10 @@ void ContactsResource::contactCreated(KGoogleReply* reply)
   updatePhoto(&item);
 
   changeCommitted(item);
+
+  item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
+  ItemModifyJob *modifyJob = new ItemModifyJob(item);
+  connect(modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
 
   status(Idle, i18n("Contact created"));
   taskDone();
