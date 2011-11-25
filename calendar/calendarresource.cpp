@@ -192,7 +192,7 @@ void CalendarResource::retrieveCollections()
   calendar.setRemoteId(Settings::self()->calendarId());
   calendar.setName(Settings::self()->calendarName());
   calendar.setParentCollection(Akonadi::Collection::root());
-  calendar.setContentMimeTypes(QStringList() << "text/calendar" );
+  calendar.setContentMimeTypes(QStringList() << "application/x-vnd.akonadi.calendar.event" );
   calendar.setRights(Collection::ReadOnly |
 		     Collection::CanChangeItem |
 		     Collection::CanCreateItem |
