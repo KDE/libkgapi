@@ -705,7 +705,7 @@ QList< KGoogleObject* > Addressbook::parseXMLFeed(const QByteArray& xmlFeed, Fee
 
 QString Addressbook::scopeUrl()
 {
-  return "https://www.google.com/m8/feeds/"; 
+  return "https://www.google.com/m8/feeds";
 }
 
 QString Addressbook::fetchAllUrl()
