@@ -222,7 +222,7 @@ KGoogleObject* Addressbook::JSONToObject(const QByteArray& jsonData)
   /* Birthday */
   QVariantMap bDay = data["gContact$birthday"].toMap();
   if (!bDay.isEmpty())
-    object->setBirthday(QDateTime::fromString(bDay["when"].toString(), "%Y-%m-%d"));
+    object->setBirthday(QDateTime::fromString(bDay["when"].toString(), "yyyy-MM-dd"));
     
   /* User-defined fields */
   QVariantList userDefined = data["gContact$userDefinedField"].toList();
@@ -505,7 +505,7 @@ KGoogleObject* Addressbook::XMLToObject(const QByteArray& xmlData)
 
     /* Birthday */
     if (e.tagName() == "gContact:birthday") {
-      contact->setBirthday(QDateTime::fromString(e.attribute("when"), "%Y-%m-%d"));
+      contact->setBirthday(QDateTime::fromString(e.attribute("when"), "yyyy-MM-dd"));
       continue;
     }
 
@@ -669,7 +669,7 @@ QByteArray Addressbook::objectToXML(KGoogleObject* object)
   
   /* Birthday */
   if (!contact->birthday().isNull()) {
-    QString birthday = contact->birthday().toString("%Y-%m-%d");
+    QString birthday = contact->birthday().toString("yyyy-MM-dd");
     output.append("<gContact:birthday when='").append(birthday.toLatin1()).append("'/>");
   }
 
