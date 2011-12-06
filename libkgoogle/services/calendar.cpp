@@ -148,7 +148,7 @@ QString Service::Calendar::fetchAllUrl()
 {
   // %1 = user (default or user@gmail.com)
   // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc&v=2"; 
+  return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc"; 
 }
 
 QString Service::Calendar::fetchUrl()
@@ -156,14 +156,14 @@ QString Service::Calendar::fetchUrl()
   // %1 = user (default or user@gmail.com)
   // %2 = visibility (allcalendars for list of calendars, private for list of events)
   // %3 = event/calendar ID
-  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc&v=2";
+  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc";
 }
 
 QString Service::Calendar::createUrl()
 {
   // %1 = user (default or user@gmail.com)
   // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc&v=2";
+  return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc";
 }
 
 QString Service::Calendar::updateUrl()
@@ -171,7 +171,7 @@ QString Service::Calendar::updateUrl()
   // %1 = user (default or user@gmail.com)
   // %2 = visibility (allcalendars for list of calendars, private for list of events)
   // %3 = event/calendar ID
-  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc&v=2";
+  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc";
 }
 
  QString Service::Calendar::removeUrl() 
@@ -179,7 +179,7 @@ QString Service::Calendar::updateUrl()
   // %1 = user (default or user@gmail.com)
   // %2 = visibility (allcalendars for list of calendars, private for list of events)
   // %3 = event/calendar ID
-  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?v=2"; 
+  return "https://www.google.com/calendar/feeds/%1/%2/full/%3"; 
 }
 
 const QString Service::Calendar::protocolVersion()
