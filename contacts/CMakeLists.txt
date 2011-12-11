@@ -41,6 +41,7 @@ target_link_libraries(akonadi_googlecontacts_resource
 		      ${QT_QTDBUS_LIBRARY}
                       ${QT_QTNETWORK_LIBRARY}
 		      ${KDE4_KDECORE_LIBS}
+		      ${KDE4_KIO_LIBS}
 		      kgoogle
 )
 

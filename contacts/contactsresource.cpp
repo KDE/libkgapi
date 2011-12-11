@@ -70,7 +70,7 @@ ContactsResource::ContactsResource(const QString &id):
   
   m_gam = new KGoogleAccessManager(m_auth);
   
-  m_photoNam = new KIO::Integration::AccessManager();
+  m_photoNam = new KIO::Integration::AccessManager(this);
   
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
