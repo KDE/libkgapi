@@ -28,13 +28,13 @@
 #include "libkgoogle/services/addressbook.h"
 
 #include <qstringlist.h>
-#include <qnetworkaccessmanager.h>
 #include <qnetworkreply.h>
 #include <qnetworkrequest.h>
 #include <qbuffer.h>
 #include <kdebug.h>
 
 #include <klocalizedstring.h>
+#include <kio/accessmanager.h>
 #include <akonadi/attribute.h>
 #include <akonadi/attributefactory.h>
 #include <akonadi/entitydisplayattribute.h>
@@ -70,7 +70,7 @@ ContactsResource::ContactsResource(const QString &id):
   
   m_gam = new KGoogleAccessManager(m_auth);
   
-  m_photoNam = new QNetworkAccessManager();
+  m_photoNam = new KIO::Integration::AccessManager();
   
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));

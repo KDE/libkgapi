@@ -23,7 +23,6 @@
 #include "kgooglereply.h"
 #include "kgoogleservice.h"
 
-#include <qnetworkaccessmanager.h>
 #include <qnetworkreply.h>
 #include <qnetworkrequest.h>
 #include <qbytearray.h>
@@ -38,6 +37,7 @@
 #include <klocalizedstring.h>
 #include <kdeversion.h>
 #include <ksystemtimezone.h>
+#include <kio/accessmanager.h>
 
 
 using namespace KGoogle;
@@ -46,7 +46,7 @@ using namespace KGoogle;
 
 KGoogleAccessManager::KGoogleAccessManager(KGoogle::KGoogleAuth *googleAuth):
   m_auth(googleAuth),
-  m_nam(new QNetworkAccessManager),
+  m_nam(new KIO::Integration::AccessManager(this)),
   m_namLocked(false)
 {
   connect(m_nam, SIGNAL(finished(QNetworkReply*)),

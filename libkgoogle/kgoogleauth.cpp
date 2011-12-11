@@ -20,14 +20,14 @@
 #include "kgoogleauth.h"
 #include "authdialog.h"
 
-#include "kwallet.h"
-#include "kdebug.h"
+#include <kwallet.h>
+#include <kdebug.h>
+#include <kio/accessmanager.h>
 
-#include "qnetworkaccessmanager.h"
-#include "qnetworkreply.h"
-#include "qnetworkrequest.h"
+#include <qnetworkreply.h>
+#include <qnetworkrequest.h>
 
-#include "qjson/parser.h"
+#include <qjson/parser.h>
 
 using namespace KWallet;
 using namespace KGoogle;
@@ -76,7 +76,7 @@ void KGoogleAuth::revokeTokens()
 
 void KGoogleAuth::refreshToken()
 {
-  QNetworkAccessManager *nam = new QNetworkAccessManager();
+  QNetworkAccessManager *nam = new KIO::Integration::AccessManager(this);
   QNetworkRequest request;
   QByteArray data;
   
