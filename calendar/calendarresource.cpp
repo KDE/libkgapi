@@ -79,6 +79,8 @@ CalendarResource::CalendarResource(const QString &id):
 	  this, SLOT(replyReceived(KGoogleReply*)));
   connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
 	  this, SLOT(commitItemsList()));
+  connect(m_gam, SLOT(authError(QString)),
+          this, SLOT(authError(QString)));
 
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
@@ -113,6 +115,14 @@ void CalendarResource::slotGAMError(const QString &msg, const int errorCode)
   cancelTask(msg);
 
   Q_UNUSED(errorCode);
+}
+
+void CalendarResource::authError (const QString &error)
+{
+  cancelTask(error);
+
+  setOnline(false);
+  emit status(Broken, error);
 }
 
 

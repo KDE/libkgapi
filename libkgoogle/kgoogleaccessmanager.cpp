@@ -56,6 +56,8 @@ KGoogleAccessManager::KGoogleAccessManager(KGoogle::KGoogleAuth *googleAuth):
 
   connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
 	  this, SLOT(newTokensReceived()));
+  connect(m_auth, SIGNAL(error(QString)),
+          this, SIGNAL(authError(QString)));
 }
 
 KGoogleAccessManager::~KGoogleAccessManager()

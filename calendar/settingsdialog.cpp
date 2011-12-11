@@ -111,6 +111,7 @@ void SettingsDialog::setAuthenticated(bool authenticated)
   m_ui->revokeAuthLabel->setVisible(authenticated);
   
   m_ui->calendarGroupBox->setEnabled(authenticated);
+  m_ui->comboBox->setEnabled(authenticated);
 }
 
 

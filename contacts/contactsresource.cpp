@@ -67,7 +67,9 @@ ContactsResource::ContactsResource(const QString &id):
 			   Service::Addressbook::scopeUrl());
   connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
 	  this, SLOT(tokensReceived()));
-  
+  connect(m_gam, SIGNAL(authError(QString)),
+          this, SLOT(authError(QString)));
+
   m_gam = new KGoogleAccessManager(m_auth);
   
   m_photoNam = new KIO::Integration::AccessManager(this);
@@ -114,6 +116,14 @@ void ContactsResource::slotGAMError(const QString &msg, const int errorCode)
   cancelTask(msg);
 
   Q_UNUSED(errorCode);
+}
+
+void ContactsResource::slotAuthError(const QString &error)
+{
+  cancelTask(error);
+
+  setOnline(false);
+  emit status(Broken, error);
 }
 
 void ContactsResource::configure(WId windowId)

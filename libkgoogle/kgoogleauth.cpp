@@ -79,22 +79,31 @@ void KGoogleAuth::refreshToken()
   QNetworkAccessManager *nam = new KIO::Integration::AccessManager(this);
   QNetworkRequest request;
   QByteArray data;
-  
+
+  if (m_refreshToken.isEmpty()) {
+    emit error("Failed to refresh token. Please reauthenticate");
+    return;
+  }
+
   connect(nam, SIGNAL(finished(QNetworkReply*)),
 	  this, SLOT(refreshTokenFinished(QNetworkReply*)));
   connect(nam, SIGNAL(finished(QNetworkReply*)),
 	  nam, SLOT(deleteLater()));
   
-  kDebug() << "requesting token refresh";
-  
   request.setUrl(QUrl("https://accounts.google.com/o/oauth2/token"));
+  request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+  QUrl params;
+  params.addQueryItem("client_id", m_clientId);
+  params.addQueryItem("client_secret", m_clientSecret);
+  params.addQueryItem("refresh_token", m_refreshToken);
+  params.addQueryItem("grant_type", "refresh_token");
+
+#ifdef DEBUG_RAWDATA
+  kDebug() << "Requesting token refresh: " << params.encodedQuery();
+#endif
   
-  data = QString("client_id=" + m_clientId + "&" +
-	 "client_secret=" + m_clientSecret + "&" +
-	 "refresh_token=" + m_refreshToken + "&" +
-	 "grant_type=refresh_token").toLatin1();
-  
-  nam->post(request, data);
+  nam->post(request, params.encodedQuery());
   
 }
 
@@ -126,6 +135,10 @@ void KGoogleAuth::refreshTokenFinished(QNetworkReply* reply)
   
   QByteArray data = reply->readAll();
   QJson::Parser parser;
+  
+#ifdef DEBUG_RAWDATA
+  kDebug() << "Tokens refreshed: " << data;
+#endif
   
   /* Expected structure: 
    * {

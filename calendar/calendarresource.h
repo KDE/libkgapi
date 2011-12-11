@@ -58,6 +58,7 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
 
   private Q_SLOTS:
     void slotGAMError(const QString &msg, const int errorCode);
+    void authError(const QString &error);
     void slotAbortRequested();
     void tokensReceived();
 
