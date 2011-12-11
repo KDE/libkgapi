@@ -40,6 +40,8 @@
 #include <kio/accessmanager.h>
 
 
+int debugArea() { static int s_area = KDebug::registerArea("libkgoogle"); return s_area; }
+
 using namespace KGoogle;
 
 #define RequestAttribute QNetworkRequest::User
@@ -75,6 +77,11 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
   QByteArray rawData = reply->readAll();
 
 #ifdef DEBUG_RAWDATA
+  QStringList headers;
+  foreach (QString str, reply->rawHeaderList()) {
+    headers << str + ": " + reply->rawHeader(str.toLatin1());
+  }
+  kDebug() << headers;
   kDebug() << rawData;
 #endif
 
@@ -213,6 +220,14 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
   nr.setRawHeader("GData-Version", service->protocolVersion().toLatin1());
   nr.setUrl(request->url());
   nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
+
+#ifdef DEBUG_RAWDATA
+  QStringList headers;
+  foreach (QString str, nr.rawHeaderList()) {
+    headers << str + ": " + nr.rawHeader(str.toLatin1());
+  }
+  kDebug() << headers;
+#endif
 
   delete service;
 
