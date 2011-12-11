@@ -127,16 +127,20 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
     /* For fetch-all request parse the XML/JSON reply and split it to individual
      * <entry>/entry blocks which then convert to QList of KGoogleObjects */
     case KGoogleRequest::FetchAll: {
-      FeedData *feedData = new FeedData;
+      FeedData* feedData = new FeedData;
 
-      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
+      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
+          reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
 
 	replyData = service->parseJSONFeed(rawData, feedData);
 
-      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
+      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
+                 reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
 
-	replyData = service->parseXMLFeed(rawData, feedData);
+        replyData = service->parseXMLFeed(rawData, feedData);
 
+      } else {
+        kDebug() << "Unknown reply content type!";
       }
 
       if (feedData->nextLink.isValid()) {
@@ -153,11 +157,11 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
     case KGoogleRequest::Fetch:
     case KGoogleRequest::Create:
     case KGoogleRequest::Update: {
-      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
+      if (request->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
 
 	replyData.append(service->JSONToObject(rawData));
 
-      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
+      } else if (request->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
 
 	replyData.append(service->XMLToObject(rawData));
 
@@ -205,7 +209,7 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
     return;
   }
 
-  nr.setRawHeader("Authorization","OAuth " + m_auth->accessToken().toLatin1());
+  nr.setRawHeader("Authorization","Bearer " + m_auth->accessToken().toLatin1());
   nr.setRawHeader("GData-Version", service->protocolVersion().toLatin1());
   nr.setUrl(request->url());
   nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
