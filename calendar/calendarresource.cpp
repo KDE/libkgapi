@@ -79,7 +79,7 @@ CalendarResource::CalendarResource(const QString &id):
 	  this, SLOT(replyReceived(KGoogleReply*)));
   connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
 	  this, SLOT(commitItemsList()));
-  connect(m_gam, SLOT(authError(QString)),
+  connect(m_gam, SIGNAL(authError(QString)),
           this, SLOT(authError(QString)));
 
   connect(this, SIGNAL(abortRequested()),
