@@ -18,6 +18,7 @@ add_definitions(-DLIBKGOOGLE_LIBRARY)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(libkgoogle_SRCS
+    account.cpp
     authdialog.cpp
     kgoogleaccessmanager.cpp 
     kgoogleauth.cpp
@@ -36,6 +37,8 @@ set(libkgoogle_SRCS
 
 set(libkgoogle_HDRS
     libkgoogle_export.h
+    account.h
+    common.h
     kgoogleaccessmanager.h
     kgoogleauth.h
     kgoogleobject.h
