@@ -67,11 +67,12 @@ ContactsResource::ContactsResource(const QString &id):
 			   Service::Addressbook::scopeUrl());
   connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
 	  this, SLOT(tokensReceived()));
-  connect(m_gam, SIGNAL(authError(QString)),
-          this, SLOT(authError(QString)));
 
   m_gam = new KGoogleAccessManager(m_auth);
-  
+
+  connect(m_gam, SIGNAL(authError(QString)),
+          this, SLOT(slotAuthError(QString)));
+
   m_photoNam = new KIO::Integration::AccessManager(this);
   
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
