@@ -20,6 +20,9 @@
 #ifndef AUTHDIALOG_H
 #define AUTHDIALOG_H
 
+#include <libkgoogle/account.h>
+#include <libkgoogle/common.h>
+
 #include <qurl.h>
 #include <qboxlayout.h>
 #include <qprogressbar.h>
@@ -33,99 +36,72 @@
 #include <kpushbutton.h>
 #include <kdemacros.h>
 
+
 /**
  * Dialog for authentication with Google services.
- * 
- * The dialog opens Google login page in embedded webivew, 
- * asking user to login and confirm access of this application 
+ *
+ * The dialog opens Google login page in embedded webivew,
+ * asking user to login and confirm access of this application
  * to some services.
  * After that the webview is hidden and the dialog exchanges some tokens
- * for access and refresh tokens. 
+ * for access and refresh tokens.
  * The access token is then used for authenticating any request on Google
  * services, the refresh token is used to refresh expired access token.
+ *
+ * This dialog is not (for now) part of public API, thus it's not in the KGoogle
+ * namespace and neither is this header installed.
  */
 class KDE_EXPORT AuthDialog: public KDialog
 {
   Q_OBJECT
+
   public:
     /**
      * Creates the dialog
-     * 
-     * @param windowId ID of window 
-     **/
+     *
+     * @param windowId ID of parent window
+     */
     AuthDialog(WId windowId);
+
     virtual ~AuthDialog();
 
     /**
-     * Sets scopes which to obtain authentication for.
-     * 
-     * See http://code.google.com/apis/gdata/faq.html#AuthScopes for
-     * list of available scopes.
-     * 
-     * @param List of scope URLs
-     * */
-    void setScopes (const QStringList &scopes);
-    
-    /**
-     * Starts the authentication process.
-     * 
-     * @param m_clientId ID of this application as assigned by Google
-     * @param m_clientSecret Secret token for this application as assigned
-     * 			     by Google
-     */
-    void auth (const QString &m_clientId, const QString &m_clientSecret);
-    
-    /**
-     * Returns retrieved access token.
-     * 
-     * Access token is a persitent token which must be present
-     * in every request on Google API. Through this token, the 
-     * remote server can grant access to requested data.
-     * 
-     * There is no point in calling this method before \finished()
-     * is emitted or the dialog is \accepted().
-     * 
-     * @return Authorized access token
-     */
-    QString accessToken() { return m_accessToken; }
-
-    /**
-     * Returns retrieved refresh token.
-     * 
-     * The access token has limited validity. When the access token
-     * expires, every authenticated service will return Error 401 
-     * Unauthorized.
-     * By sending the refresh token a new pair of access and refresh token
-     * will be received.
+     * Starts the authentication process of \p account.
      *
-     * There is no point in calling this method before \finished()
-     * is emitted or the dialog is \accepted().
-     * 
-     * @return Refresh token 
+     * @param account Account (with at least account name and scopes set) for which
+     *                we are authenticating
      */
-    QString refreshToken() { return m_refreshToken; }
-    
-  signals:
+    void authenticate (KGoogle::Account *account);
+
+  Q_SIGNALS:
     /**
      * This signal is emitted when access token and refresh token were successfully retrieved.
+     *
+     * When running the dialog synchronously via KDialog::exec() the dialog
+     * also emits KDialog::accepted()
      * 
-     * When running the dialog synchronously via \KDialog::exec() the dialog
-     * also emits \KDialog::accepted()
-     * 
-     * @param accessToken Received access token
-     * @param refreshtoken Received refresh token
+     * @param account Successfully authenticated account with tokens set
      */
-    void finished(QString accessToken, QString refreshToken);
-    
-  private slots:
+    void authenticated(KGoogle::Account *account);
+
+    /**
+     * Emitted whenever an error occurs during the authentication.
+     */
+    void error(const KGoogle::Error errCode, const QString &msg);
+
+  private Q_SLOTS:
+    /**
+     * Emits error() signal with same parameters and displays the error
+     * on the dialog.
+     */
+    void emitError(const KGoogle::Error errCode, const QString &msg);
+
     void webviewUrlChanged(const QUrl &url);
     void webviewFinished();
-    
+
     void networkRequestFinished(QNetworkReply *reply);
-    
+
   private:
-    void setError(const QString &error);
-    
     /* GUI */
     QWidget *m_widget;
     QProgressBar *m_progressbar;
@@ -133,12 +109,8 @@ class KDE_EXPORT AuthDialog: public KDialog
     QVBoxLayout *m_vbox;
     KWebView *m_webiew;
     QLabel *m_label;
-    
-    QStringList m_scopes;
-    QString m_clientId;
-    QString m_clientSecret;    
-    QString m_accessToken;
-    QString m_refreshToken;
+
+    KGoogle::Account *m_account;
 };
 
 #endif // AUTHDIALOG_H

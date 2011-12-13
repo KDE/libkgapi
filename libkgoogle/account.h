@@ -22,6 +22,7 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
+#include <qmetatype.h>
 
 #include <libkgoogle/libkgoogle_export.h>
 
@@ -40,7 +41,20 @@ namespace KGoogle {
    */
   class LIBKGOOGLE_EXPORT Account
   {
+
+    /**
+    * Grants access of KGoogle::Auth to KGoogle::Account::m_scopesChanged
+    */
+    friend class Auth;
+
     public:
+      /**
+       * Creates any empty account.
+       *
+       * Such object represents invalid account.
+       */
+      Account();
+
       /**
        * Constructs a new account
        *
@@ -140,11 +154,9 @@ namespace KGoogle {
       bool m_scopesChanged;
   };
 
-  /**
-   * Grants access of KGoogle::Auth to KGoogle::Account::m_scopesChanged
-   */
-  friend class Auth;
-
 } /* namespace KGoogle */
+
+Q_DECLARE_METATYPE(KGoogle::Account);
+Q_DECLARE_METATYPE(KGoogle::Account*);
 
 #endif // LIBKGOOGLE_ACCOUNT_H

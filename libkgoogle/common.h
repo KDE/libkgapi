@@ -28,6 +28,17 @@
 
 namespace KGoogle {
 
+
+  /**
+   * ClientID token for Google API.
+   */
+  const QString APIClientID = "554041944266.apps.googleusercontent.com";
+
+  /**
+   * ClientSecret token for Google API.
+   */
+  const QString APIClientSecret = "mdT1DjzohxN3npUUzkENT0gO";
+
   /**
    * Error codes for asynchronous operations. When an error occurs, a signal
    * with one of following error codes is emitted.
@@ -40,6 +51,8 @@ namespace KGoogle {
     UnknownService = 4,      /// libKGoogle error - application requested unknown service.
     InvalidResponse = 5,     /// libKGoogle error - Google returned invalid response.
     BackendNotReady = 6,     /// libKGoogle error - backend is not ready (for example KWallet is not opened).
+    InvalidAccount = 7,      /// libKGoogle error - the KGoogle::Account object is invalid.
+    NetworkError = 8,        /// libKGoogle error - standard network request returned other code then 200.
 
     /* Following error codes identify Google errors */
     OK = 200,                /// Request succesfully executed.
