@@ -40,6 +40,13 @@ namespace KGoogle {
 
   /**
    * Auth provides API for authentication against Google services.
+   *
+   * The Auth object is a singleton.
+   *
+   * When created for the first time, the KWallet is opened asynchronously.
+   * When the operation is finished, the signal KGoogle::Auth::ready() is
+   * emitted. When Auth fails to open the KWallet, KGoogle::Auth::error() is
+   * emitted respective error code.
    */
   class LIBKGOOGLE_EXPORT Auth: public QObject
   {
@@ -48,13 +55,9 @@ namespace KGoogle {
 
     public:
       /**
-       * Constructs a new KGoogleAuth object and tries to open KWallet.
-       *
-       * The KWallet is opened asynchronously. When the operation is finished,
-       * the signal KGoogle::Auth::ready() is emitted. When Auth fails to open
-       * the KWallet, KGoogle::Auth::error() with respective error code.
+       * @return Returns single instance of KGoogle::Auth.
        */
-      Auth();
+      static Auth* instance();
 
       virtual ~Auth();
 
@@ -136,8 +139,13 @@ namespace KGoogle {
       void walletOpened(const bool success);
 
     private:
+      Auth();
+      Auth(const Auth& other);
+      Auth& operator=(const Auth &other);
+
       KWallet::Wallet *m_kwallet;
 
+      static Auth *m_instance;
   };
 
 } // namespace KGoogle

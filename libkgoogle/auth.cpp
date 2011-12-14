@@ -29,6 +29,7 @@
 
 #include <qnetworkreply.h>
 #include <qnetworkrequest.h>
+#include <qmutex.h>
 
 #include <qjson/parser.h>
 
@@ -36,6 +37,23 @@ using namespace KWallet;
 using namespace KGoogle;
 
 #define KWALLET_FOLDER "Akonadi Google"
+
+Auth* Auth::m_instance = 0;
+
+Auth *Auth::instance()
+{
+  static QMutex mutex;
+  if (!m_instance) {
+    mutex.lock();
+
+    if (!m_instance)
+      m_instance = new Auth();
+
+    mutex.unlock();
+  }
+
+  return m_instance;
+}
 
 Auth::Auth()
 {
