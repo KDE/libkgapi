@@ -57,17 +57,7 @@ namespace KGoogle {
 
 	~Contact();
 
-	/**
-	 * A standard-named method for KABC::Addressee::setId()
-	 */
-	void setId(const QString &id);
-
-	/**
-	 * A standard-named method for KABC::Addressee::id()
-	 */
-	QString id();
-
-	/**
+        /**
 	 * Tags contact as deleted on the remote server.
 	 */
 	void setDeleted(const bool deleted);
@@ -75,7 +65,7 @@ namespace KGoogle {
 	/**
 	 * Returns wheter contact was deleted on the remote server.
 	 */
-	bool deleted();
+	bool deleted() const;
 
 	/**
 	 * Sets URL of contact photo.
@@ -90,7 +80,7 @@ namespace KGoogle {
 	/**
 	 * Returns URL of contact photo.
 	 */
-	QUrl photoUrl();
+	QUrl photoUrl() const;
 
 	/**
 	 * Sets date and time when the contact was created.
@@ -100,7 +90,7 @@ namespace KGoogle {
 	/**
 	 * Returns date and time when the contact was created.
 	 */
-	KDateTime created();
+	KDateTime created() const;
 
 	/**
 	 * Sets date and time or last change of the contact
@@ -112,7 +102,7 @@ namespace KGoogle {
 	 * Returns date and time of last change of the contact
 	 * on the remote server.
 	 */
-	KDateTime updated();
+	KDateTime updated() const;
 
 	/**
 	 * Set list of groups the contact is member of.
@@ -127,7 +117,7 @@ namespace KGoogle {
 	/**
 	 * Returns list of groups the contact is member of.
 	 */
-	QStringList groups();
+	QStringList groups() const;
 
 	/**
 	 * Converts IMProtocol to Google Scheme URL.

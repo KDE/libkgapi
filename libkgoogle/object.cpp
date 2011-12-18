@@ -31,16 +31,6 @@ KGoogle::Object::~Object()
 
 }
 
-void KGoogle::Object::setId(const QString& id)
-{
-  m_id = id;
-}
-
-const QString& KGoogle::Object::id() const
-{
-  return m_id;
-}
-
 void KGoogle::Object::setEtag(const QString& etag)
 {
   m_etag = etag;

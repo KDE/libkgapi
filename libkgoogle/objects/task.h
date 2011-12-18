@@ -55,10 +55,7 @@ namespace KGoogle {
 	virtual ~Task();
 
 	void setDeleted (const bool deleted);
-	bool deleted();
-
-	void setId(const QString &id);
-	QString id();
+	bool deleted() const;
 
       private:
 	bool m_deleted;

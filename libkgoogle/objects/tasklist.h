@@ -37,11 +37,15 @@ namespace KGoogle {
 	TaskList();
 	virtual ~TaskList();
 
+        void setUid(const QString &uid);
+        QString uid() const;
+
 	void setTitle(const QString &title);
-	QString title();
+	QString title() const;
 
       private:
 	QString m_title;
+        QString m_uid;
 
     };
 

@@ -192,7 +192,7 @@ KGoogle::Object* Tasks::JSONToTaskList(QVariantMap jsonData)
 {
   Objects::TaskList *object = new Objects::TaskList();
 
-  object->setId(jsonData["id"].toString());
+  object->setUid(jsonData["id"].toString());
   object->setEtag(jsonData["etag"].toString());
   object->setTitle(jsonData["title"].toString());
 
@@ -203,7 +203,7 @@ KGoogle::Object* Tasks::JSONToTask(QVariantMap jsonData)
 {
   Objects::Task *object = new Objects::Task();
 
-  object->setId(jsonData["id"].toString());
+  object->setUid(jsonData["id"].toString());
   object->setEtag(jsonData["etag"].toString());
   object->setSummary(jsonData["title"].toString());;
   object->setLastModified(AccessManager::RFC3339StringToDate(jsonData["updated"].toString()));
@@ -239,7 +239,7 @@ QVariantMap Tasks::taskListToJSON(KGoogle::Object* taskList)
   QVariantMap output;
   Objects::TaskList *object = static_cast< Objects::TaskList* >(taskList);
 
-  output["id"] = object->id();
+  output["id"] = object->uid();
   output["title"] = object->title();
 
   return output;
@@ -250,8 +250,8 @@ QVariantMap Tasks::taskToJSON(KGoogle::Object* task)
   QVariantMap output;
   Objects::Task *object = static_cast< Objects::Task* >(task);
 
-  if (!object->id().isEmpty())
-    output["id"] = object->id();
+  if (!object->uid().isEmpty())
+    output["id"] = object->uid();
 
   output["title"] = object->summary();
   output["notes"] = object->description();

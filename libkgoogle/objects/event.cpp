@@ -74,22 +74,10 @@ void Objects::Event::setDeleted(const bool deleted)
   d->deleted = deleted;
 }
 
-bool Objects::Event::deleted()
+bool Objects::Event::deleted() const
 {
   return d->deleted;
 }
-
-void Objects::Event::setId(const QString& id)
-{
-  setUid(id);
-}
-
-QString Objects::Event::id()
-{
-  return uid();
-}
-
-
 
 Objects::Event& Objects::Event::operator=( const Objects::Event& other )
 {

@@ -49,7 +49,18 @@ Calendar::~Calendar()
 { }
 
 
-QString Calendar::title()
+void Calendar::setUid (const QString &uid)
+{
+  d->uid = uid;
+}
+
+QString Calendar::uid() const
+{
+  return d->uid;
+}
+
+
+QString Calendar::title() const
 {
   return d->title.isEmpty() ? "Google Calendar" : d->title;
 }
@@ -59,7 +70,7 @@ void Calendar::setTitle(const QString &title)
   d->title = title;
 }
 
-QString Calendar::color()
+QString Calendar::color() const
 {
   return d->color.isEmpty() ? "#000000" : d->color;
 }
@@ -69,7 +80,7 @@ void Calendar::setColor(const QString &color)
   d->color = color;
 }
 
-QString Calendar::details()
+QString Calendar::details() const
 {
   return d->details;
 }
@@ -79,7 +90,7 @@ void Calendar::setDetails(const QString& details)
   d->details = details;
 }
 
-QString Calendar::timezone()
+QString Calendar::timezone() const
 {
   return d->timezone;
 }
@@ -89,7 +100,7 @@ void Calendar::setTimezone(const QString& timezone)
   d->timezone = timezone;
 }
 
-bool Calendar::editable()
+bool Calendar::editable() const
 {
   return d->editable;
 }
@@ -99,7 +110,7 @@ void Calendar::setEditable(const bool editable)
   d->editable = editable;
 }
 
-KDateTime Calendar::created()
+KDateTime Calendar::created() const
 {
   return d->created;
 }
@@ -109,7 +120,7 @@ void Calendar::setCreated(const KDateTime& created)
   d->created = created;
 }
 
-KDateTime Calendar::updated()
+KDateTime Calendar::updated() const
 {
   return d->updated;
 }

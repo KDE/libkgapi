@@ -40,16 +40,6 @@ namespace KGoogle {
       virtual ~Object();
 
       /**
-       * Sets ID of this object.
-       */
-      void setId (const QString &id);
-
-      /**
-       * Returns ID of this object.
-       */
-      const QString& id() const;
-
-      /**
        * Sets etag of this object.
        *
        * Etag represents a revision of an object.
@@ -64,7 +54,6 @@ namespace KGoogle {
       const QString& etag() const;
 
     private:
-      QString m_id;
       QString m_etag;
   };
 

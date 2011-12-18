@@ -214,7 +214,7 @@ KGoogle::Object* Services::Calendar::JSONToCalendar(const QVariantMap& calendar)
   QString id = calendar["id"].toString().replace("%40", "@");
   id.remove("http://www.google.com/calendar/feeds/default/calendars/"); // Remove the URL prefix
 
-  object->setId(id);
+  object->setUid(id);
   object->setEtag(calendar["etag"].toString());
   object->setTitle(calendar["title"].toString());
   object->setColor(calendar["color"].toString());
@@ -231,7 +231,7 @@ QVariantMap Services::Calendar::calendarToJSON(KGoogle::Object* calendar)
   QVariantMap output, entry;
   Objects::Calendar *object = static_cast< Objects::Calendar* >(calendar);
 
-  entry["id"] = "http://www.google.com/calendar/feeds/default/calendars/" + calendar->id(); 
+  entry["id"] = "http://www.google.com/calendar/feeds/default/calendars/" + object->uid();
   entry["title"] = object->title();
   entry["color"] = object->color();
   entry["details"] = object->details();
@@ -259,7 +259,7 @@ KGoogle::Object* Services::Calendar::JSONToEvent(const QVariantMap& event)
   Objects::Event *object = new Objects::Event();
 
   /* ID */
-  object->setId(event["id"].toString());
+  object->setUid(event["id"].toString());
 
   /* ETAG */
   object->setEtag(event["etag"].toString());
@@ -442,7 +442,7 @@ QVariantMap Services::Calendar::eventToJSON(KGoogle::Object* event)
   QVariantMap output, data;
 
   /* ID */
-  data["id"] = object->id();
+  data["id"] = object->uid();
 
   /* Deleted? */
   data["deleted"] = object->deleted();

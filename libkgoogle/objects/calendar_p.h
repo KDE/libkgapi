@@ -32,6 +32,7 @@ namespace KGoogle {
 	CalendarData(const CalendarData &other);
 	~CalendarData() {};
 
+        QString uid;
 	QString title;
 	QString color;
 	QString details;

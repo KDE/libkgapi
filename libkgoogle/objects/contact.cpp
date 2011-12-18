@@ -57,22 +57,12 @@ Contact::Contact(const Contact &other):
 Contact::~Contact()
 { }
 
-void Contact::setId(const QString& id)
-{
-  setUid(id);
-}
-
-QString Contact::id()
-{
-  return uid();
-}
-
 void Contact::setDeleted(const bool deleted)
 {
   d->deleted = deleted;
 }
 
-bool Contact::deleted()
+bool Contact::deleted() const
 {
   return d->deleted;
 }
@@ -87,7 +77,7 @@ void Contact::setPhotoUrl(const QUrl& photoUrl)
   d->photoUrl = photoUrl;
 }
 
-QUrl Contact::photoUrl()
+QUrl Contact::photoUrl() const
 {
   return d->photoUrl;
 }
@@ -97,7 +87,7 @@ void Contact::setUpdated(const KDateTime& updated)
   d->updated = updated;
 }
 
-KDateTime Contact::updated()
+KDateTime Contact::updated() const
 {
   return d->updated;
 }
@@ -125,7 +115,7 @@ QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
     default:
       return "OTHER";
   }
-  
+
   return "OTHER";
 }
 
@@ -141,7 +131,7 @@ QString Contact::IMProtocolNameToScheme(const QString& protocolName)
     proto = "JABBER";
   else
     proto = protocolName.toUpper();
-  
+
   return SCHEME_URL + proto;
 }
 
@@ -165,24 +155,24 @@ Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)
     return MSN;
   if (protoName == "AIM")
     return AIM;
-  
+
   return Other;
 }
 
 QString Contact::addressTypeToScheme(const KABC::Address::Type type, bool *primary)
 {
   QString typeName;
-  
+
   if (primary)
     *primary = (type & KABC::Address::Pref);
-  
+
   if (type & KABC::Address::Work)
     typeName = "work";
   else if (type & KABC::Address::Home)
     typeName = "home";
   else
     typeName = "other";
-  
+
   return SCHEME_URL + typeName;
 }
 
@@ -190,22 +180,22 @@ KABC::Address::Type Contact::addressSchemeToType(const QString& scheme, const bo
 {
   QString typeName = scheme.mid(scheme.lastIndexOf("#")+1);
   KABC::Address::Type type;
-  
+
   if (typeName == "work")
     type = KABC::Address::Work;
   else
     type = KABC::Address::Home;
-  
+
   if (primary)
     type |= KABC::Address::Pref;
-  
+
   return type;
 }
 
 QString Contact::phoneTypeToScheme(const KABC::PhoneNumber::Type type)
 {
   QString typeName;
-  
+
   if (type == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell))
     typeName = "work_mobile";
   else if (type == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax))
@@ -232,7 +222,7 @@ QString Contact::phoneTypeToScheme(const KABC::PhoneNumber::Type type)
     typeName = "mobile";
   else if (type & KABC::PhoneNumber::Pager)
     typeName = "pager";
-  
+
   return SCHEME_URL + typeName;
 }
 
@@ -240,7 +230,7 @@ KABC::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
 {
   QString typeName = scheme.mid(scheme.lastIndexOf("#")+1);
   KABC::PhoneNumber::Type type;
-  
+
   if (typeName == "car")
     type = KABC::PhoneNumber::Car;
   else if (typeName == "fax")
@@ -269,6 +259,6 @@ KABC::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
     type = KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref;
   else 
     type =KABC::PhoneNumber::Home;
-  
+
   return type;
 }

@@ -50,10 +50,20 @@ namespace KGoogle {
 
 	~Calendar();
 
+        /**
+         * Sets UID of the calendar.
+         */
+        void setUid(const QString &uid);
+
+        /**
+         * Returns uID of the calendar.
+         */
+        QString uid() const;
+
 	/**
 	 * Returns calendar title (name).
 	 */
-	QString title();
+	QString title() const;
 
 	/**
 	 * Sets a calendar title (name).
@@ -63,7 +73,7 @@ namespace KGoogle {
 	/**
 	 * Returns color of the remote calendar. 
 	 */
-	QString color();
+	QString color() const;
 
 	/**
 	 * Sets color of the remote calendar.
@@ -73,7 +83,7 @@ namespace KGoogle {
 	/**
 	 * Returns detailed description of the calendar.
 	 */
-	QString details();
+	QString details() const;
 
 	/**
 	 * Sets detailed description of a calenar.
@@ -83,7 +93,7 @@ namespace KGoogle {
 	/**
 	 * Returns timezone of the calendar.
 	 */
-	QString timezone();
+	QString timezone() const;
 
 	/**
 	 * Sets timezone of the calendar.
@@ -93,7 +103,7 @@ namespace KGoogle {
 	/**
 	 * Returns wheter calendar is editable or read-only.
 	 */
-	bool editable();
+	bool editable() const;
 
 	/**
 	 * Sets calendar to read-only or editable.
@@ -104,7 +114,7 @@ namespace KGoogle {
 	 * Returns date and time when the calendar was created
 	 * on the remote server.
 	 */
-	KDateTime created();
+	KDateTime created() const;
 
 	/**
 	 * Sets date and time when the calendar was created on
@@ -115,11 +125,11 @@ namespace KGoogle {
 	/**
 	 * Returns date and time when the calendar was last
 	 * updated on the remote server.
-	 * 
+	 *
 	 * This value does not reflect last update of calendar content,
 	 * but just it's properties.
 	 */
-	KDateTime updated();
+	KDateTime updated() const;
 
 	/**
 	 * Sets date and time when the calendar properties were last
@@ -128,7 +138,7 @@ namespace KGoogle {
 	 */
 	void setUpdated(const KDateTime &updated);
 
-      protected:
+    protected:
 	QExplicitlySharedDataPointer<CalendarData> d;
 
     };

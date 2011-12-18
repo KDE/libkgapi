@@ -42,7 +42,7 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
 
   /* Google contact ID. Store only the ID, not the entire URL */
   QString id = data["id"].toMap()["$t"].toString();
-  object->setId(id.mid(id.lastIndexOf("/")+1));
+  object->setUid(id.mid(id.lastIndexOf("/")+1));
 
   /* Google ETAG. This can be used to identify if the item was changed remotly */
   object->setEtag(data["gd$etag"].toString());
@@ -321,7 +321,7 @@ KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
     /* Google contact ID. Store only the ID, not the entire URL */
     if (e.tagName() == "id") {
       QString id = e.text();
-      contact->setId(id.mid(id.lastIndexOf("/")+1));
+      contact->setUid(id.mid(id.lastIndexOf("/")+1));
       continue;
     }
 

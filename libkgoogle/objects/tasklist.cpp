@@ -31,12 +31,22 @@ TaskList::~TaskList()
 
 }
 
+void TaskList::setUid (const QString &uid)
+{
+  m_uid = uid;
+}
+
+QString TaskList::uid() const
+{
+  return m_uid;
+}
+
 void TaskList::setTitle(const QString& title)
 {
   m_title = title;
 }
 
-QString TaskList::title()
+QString TaskList::title() const
 {
   return m_title;
 }

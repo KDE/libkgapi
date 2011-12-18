@@ -53,18 +53,7 @@ void Task::setDeleted(const bool deleted)
   m_deleted = deleted;
 }
 
-bool Task::deleted()
+bool Task::deleted() const
 {
   return m_deleted;
 }
-
-void Task::setId(const QString& id)
-{
-  setUid(id);
-}
-
-QString Task::id()
-{
-  return uid();
-}
-
