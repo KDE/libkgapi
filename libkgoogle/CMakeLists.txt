@@ -25,11 +25,13 @@ set(libkgoogle_SRCS
     object.cpp
     request.cpp
     reply.cpp
+    objects/accountinfo.cpp
     objects/calendar.cpp
     objects/contact.cpp
     objects/event.cpp
     objects/task.cpp
     objects/tasklist.cpp
+    services/accountinfo.cpp
     services/addressbook.cpp
     services/calendar.cpp
     services/tasks.cpp
@@ -47,11 +49,13 @@ set(libkgoogle_HDRS
     service.h)
 
 set(services_HDRS
+    services/accountinfo.h
     services/addressbook.h
     services/calendar.h
     services/tasks.h)
 
 set(objects_HDRS
+    objects/accountinfo.h
     objects/calendar.h
     objects/contact.h
     objects/event.h
