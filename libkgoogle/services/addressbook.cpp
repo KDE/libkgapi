@@ -104,7 +104,7 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
       object->setTitle(organization["gd$orgTitle"].toMap()["$t"].toString());
 
     if (organization.contains("gd$where"))
-      object->insertCustom("X-KADDRESSBOOK", "X-Office", organization["gd$where"].toMap()["$t"].toString());
+      object->setOffice(organization["gd$where"].toMap()["$t"].toString());
   }
 
   /* Nickname */
@@ -114,7 +114,7 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
 
   /* Occupation (= organization/title) */
   if (data.contains("gContact$occupation")) {
-    object->insertCustom("KADDRESSBOOK", "X-Profession", data["gContact$occupation"].toMap()["$t"].toString());
+    object->setProfession(data["gContact$occupation"].toMap()["$t"].toString());
   }
 
   /* Relationships */
@@ -122,17 +122,17 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
     foreach (QVariant r, data["gContact$relation"].toList()) {
       QVariantMap relation = r.toMap();
       if (relation["rel"].toString() == "spouse") {
-	object->insertCustom("KADDRESSBOOK", "X-SpousesName", relation["$t"].toString());
+        object->setSpousesName(relation["$t"].toString());
 	continue;
       }
 
       if (relation["rel"].toString() == "manager") {
-	object->insertCustom("KADDRESSBOOK", "X-ManagersName", relation["$t"].toString());
+        object->setManagersName(relation["$t"].toString());
 	continue;
       }
 
       if (relation["rel"].toString() == "assistant") {
-	object->insertCustom("KADDRESSBOOK", "X-AssistantsName", relation["$t"].toString());
+        object->setAssistantsName(relation["$t"].toString());
 	continue;
       }
     }
@@ -145,7 +145,7 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
 
       if (event["rel"].toString() == "anniversary") {
 	QVariantMap when = event["gd$when"].toMap();
-	object->insertCustom("KADDRESSBOOK", "X-Anniversary", when["startTime"].toString());
+        object->setAnniversary(when["startTime"].toString());
       }
     }
   }
@@ -161,7 +161,7 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
       }
 
       if (web["rel"].toString() == "blog") {
-	object->insertCustom("KADDRESSBOOK", "BlogFeed", web["href"].toString());
+        object->setBlogFeed(web["href"].toString());
 	continue;
       }
     }
@@ -377,7 +377,7 @@ KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
 	}
 
 	if (el.tagName() == "gd:where") {
-	  contact->insertCustom("KADDRESSBOOK", "X-Office", el.text());
+          contact->setOffice(el.text());
 	  continue;
 	}
       }
@@ -392,24 +392,24 @@ KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
 
     /* Occupation (= organization/title) */
     if (e.tagName() == "gContact:occupation") {
-      contact->insertCustom("KADDRESSBOOK", "X-Profession", e.text());
+      contact->setProfession(e.text());
       continue;
     }
 
     /* Relationships */
     if (e.tagName() == "gContact:relation") {
       if (e.attribute("rel", "") == "spouse") {
-	contact->insertCustom("KADDRESSBOOK", "X-SpousesName", e.text());
+        contact->setSpousesName(e.text());
 	continue;
       }
 
       if (e.attribute("rel", "") == "manager") {
-	contact->insertCustom("KADDRESSBOOK", "X-ManagersName", e.text());
+        contact->setManagersName(e.text());
 	continue;
       }
 
       if (e.attribute("rel", "") == "assistant") {
-	contact->insertCustom("KADDRESSBOOK", "X-AssistantsName", e.text());
+        contact->setAssistantsName(e.text());
 	continue;
       }
 
@@ -420,7 +420,7 @@ KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
     if (e.tagName() == "gContact:event") {
       if (e.attribute("rel", "") == "anniversary") {
 	QDomElement w = e.firstChildElement("gd:when");
-	contact->insertCustom("KADDRESSBOOK", "X-Anniversary", w.attribute("startTime", ""));
+        contact->setAnniversary(w.attribute("startTime", ""));
       }
 
       continue;
@@ -434,7 +434,7 @@ KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
       }
 
       if (e.attribute("rel", "") == "blog") {
-	contact->insertCustom("KADDRESSBOOK", "BlogFeed", e.attribute("href", ""));
+        contact->setBlogFeed(e.attribute("href", ""));
 	continue;
       }
 
@@ -557,14 +557,15 @@ QByteArray Addressbook::objectToXML(KGoogle::Object* object)
 
   /* Organization (work) */
   QByteArray org;
+  QString office = contact->office();
   if (!contact->organization().isEmpty())
     org.append("<gd:orgName>").append(contact->organization().toLatin1()).append("</gd:orgName>");
   if (!contact->department().isEmpty())
     org.append("<gd:orgDepartment>").append(contact->department().toLatin1()).append("</gd:orgDepartment>");
   if (!contact->title().isEmpty())
     org.append("<gd:orgTitle>").append(contact->title().toLatin1()).append("</gd:orgTitle>");
-  if (!contact->custom("KADDRESSBOOK", "X-Office").isEmpty()) {
-    org.append("<gd:where>").append(contact->custom("KADDRESSBOOK", "X-Office").toLatin1()).append("</gd:where>");
+  if (!office.isEmpty()) {
+    org.append("<gd:where>").append(office.toLatin1()).append("</gd:where>");
     parsedCustoms << "KADDRESSBOOK-X-Office";
   }
   if (!org.isEmpty())
@@ -575,34 +576,34 @@ QByteArray Addressbook::objectToXML(KGoogle::Object* object)
     output.append("<gContact:nickname>").append(contact->nickName().toLatin1()).append("</gContact:nickname>");
 
   /* Occupation */
-  if (!contact->custom("KADDRESSBOOK", "X-Profession").isEmpty()) {
-    output.append("<gContact:occupation>").append(contact->custom("KADDRESSBOOK", "X-Profession").toLatin1()).append("</gContact:occupation>");
+  if (!contact->profession().isEmpty()) {
+    output.append("<gContact:occupation>").append(contact->profession().toLatin1()).append("</gContact:occupation>");
     parsedCustoms << "KADDRESSBOOK-X-Profession";
   }
 
   /* Spouse */
-  QString spouse = contact->custom("KADDRESSBOOK", "X-SpousesName");
+  QString spouse = contact->spousesName();
   if (!spouse.isEmpty()) {
     output.append("<gContact:relation rel=\"spouse\">").append(spouse.toLatin1()).append("</gContact:relation>");
     parsedCustoms << "KADDRESSBOOK-X-SpousesName";
   }
 
   /* Manager */
-  QString manager = contact->custom("KADDRESSBOOK", "X-ManagersName");
+  QString manager = contact->managersName();
   if (!manager.isEmpty()) {
     output.append("<gContact:relation rel=\"manager\">").append(manager.toLatin1()).append("</gContact:relation>");
     parsedCustoms << "KADDRESSBOOK-X-ManagersName";
   }
 
   /* Assistant */
-  QString assistant = contact->custom("KADDRESSBOOK", "X-AssistantsName");
+  QString assistant = contact->assistantsName();
   if (!assistant.isEmpty()) {
     output.append("<gContact:relation rel=\"assistant\">").append(assistant.toLatin1()).append("</gContact:relation>");
     parsedCustoms << "KADDRESSBOOK-X-AssistantsName";
   }
 
   /* Anniversary */
-  QString anniversary = contact->custom("KADDRESSBOOK", "X-Anniversary");
+  QString anniversary = contact->anniversary();
   if (!anniversary.isEmpty()) {
     output.append("<gContact:event rel=\"anniversary\"><gd:when startTime=\"").append(anniversary.toLatin1()).append("\" /></gContact:event>");
     parsedCustoms << "KADDRESSBOOK-X-Anniversary";
@@ -613,7 +614,7 @@ QByteArray Addressbook::objectToXML(KGoogle::Object* object)
     output.append("<gContact:website rel=\"home-page\" href=\"").append(contact->url().prettyUrl().toLatin1()).append("\" />");
 
   /* Blog */
-  QString blog = contact->custom("KADDRESSBOOK", "BlogFeed");
+  QString blog = contact->blogFeed();
   if (!blog.isEmpty()) {
     output.append("<gContact:website rel=\"blog\" href=\"").append(blog.toLatin1()).append("\" />");
     parsedCustoms << "KADDRESSBOOK-BlogFeed";

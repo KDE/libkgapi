@@ -92,6 +92,75 @@ KDateTime Contact::updated() const
   return d->updated;
 }
 
+void Contact::setSpousesName (const QString &name)
+{
+  insertCustom("KADDRESSBOOK", "X-SpousesName", name);
+}
+
+QString Contact::spousesName() const
+{
+  return custom("KADDRESSBOOK", "X-SpousesName");
+}
+
+void Contact::setManagersName (const QString &name)
+{
+  insertCustom("KADDRESSBOOK", "X-ManagersName", name);
+}
+
+QString Contact::managersName() const
+{
+  return custom("KADDRESSBOOK", "X-ManagersName");
+}
+
+void Contact::setAssistantsName (const QString &name)
+{
+  insertCustom("KADDRESSBOOK", "X-AssistantsName", name);
+}
+
+QString Contact::assistantsName()
+{
+  return custom("KADDRESSBOOK", "X-AssistantsName");
+}
+
+void Contact::setProfession (const QString &profession)
+{
+  insertCustom("KADDRESSBOOK", "X-Profession", profession);
+}
+
+QString Contact::profession() const
+{
+  return custom("KADDRESSBOOK", "X-Profession");
+}
+
+void Contact::setOffice (const QString &office)
+{
+  insertCustom("KADDRESSBOOK", "X-Office", office);
+}
+
+QString Contact::office() const
+{
+  return custom("KADDRESSBOOK", "X-Office");
+}
+
+void Contact::setAnniversary (const QString &anniversary)
+{
+  insertCustom("KADDRESSBOOK", "X-Anniversary", anniversary);
+}
+
+QString Contact::anniversary() const
+{
+  return custom("KADDRESSBOOK", "X-Anniversary");
+}
+
+void Contact::setBlogFeed (const QString &url)
+{
+  insertCustom("KADDRESSBOOK", "BlogFeed", url);
+}
+
+QString Contact::blogFeed() const
+{
+  return custom("KADDRESSBOOK", "BlogFeed");
+}
 
 QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
 {

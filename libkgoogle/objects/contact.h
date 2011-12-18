@@ -104,6 +104,76 @@ namespace KGoogle {
 	 */
 	KDateTime updated() const;
 
+        /**
+         * Sets name of contact's spouse.
+         */
+        void setSpousesName(const QString &name);
+
+        /**
+         * Returns name of contacts' spouse
+         */
+        QString spousesName() const;
+
+        /**
+         * Sets name of contact's manager.
+         */
+        void setManagersName(const QString &name);
+
+        /**
+         * Returns name of contact's manager.
+         */
+        QString managersName() const;
+
+        /**
+         * Sets assistant's name.
+         */
+        void setAssistantsName(const QString &name);
+
+        /**
+         * Returns name of contact's assistant.
+         */
+        QString assistantsName();
+
+        /**
+         * Sets contact's profession.
+         */
+        void setProfession(const QString &profession);
+
+        /**
+         * Returns contact's profession.
+         */
+        QString profession() const;
+
+        /**
+         * Sets address of contact's office.
+         */
+        void setOffice(const QString &office);
+
+        /**
+         * Returns address of contacts' office.
+         */
+        QString office() const;
+
+        /**
+         * Sets date of contact's anniversary.
+         */
+        void setAnniversary(const QString &anniversary);
+
+        /**
+         * Returns date of contact's anniversary
+         */
+        QString anniversary() const;
+
+        /**
+         * Sets URL of contact's blog.
+         */
+        void setBlogFeed(const QString &url);
+
+        /**
+         * Returns URL of contact's blog.
+         */
+        QString blogFeed() const;
+
 	/**
 	 * Set list of groups the contact is member of.
 	 */
