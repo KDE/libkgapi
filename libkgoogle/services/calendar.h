@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Calendar Service
+    libKGoogle - Services - Calendar
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,137 +17,137 @@
 */
 
 
-#ifndef SERVICE_CALENDAR_H
-#define SERVICE_CALENDAR_H
+#ifndef LIBKGOOGLE_SERVICES_CALENDAR_H
+#define LIBKGOOGLE_SERVICES_CALENDAR_H
 
-#include <libkgoogle/kgoogleservice.h>
+#include <libkgoogle/service.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 #include "qvariant.h"
 
 namespace KGoogle {
-  
-  class KGoogleObject;
- 
-  namespace Service {
-    
+
+  class Object;
+
+  namespace Services {
+
     /**
      * Represents Google Calendar service.
      */
-    class LIBKGOOGLE_EXPORT Calendar: public KGoogleService
+    class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Service
     {
       public:
 	~Calendar() { }
 
 	/**
-	 * Implementation of KGoogleService::JSONToObject().
+	 * Implementation of KGoogle::Service::JSONToObject().
 	 */
-	KGoogleObject* JSONToObject(const QByteArray& jsonData);
-	
-	/**
-	 * Implementation of KGoogleService::objectToJSON().
-	 */
-	QByteArray objectToJSON(KGoogleObject* object);
-	
-	/**
-	 * Implementation of KGoogleService::parseJSONFeed().
-	 */
-	QList< KGoogleObject* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
-	
-	/**
-	 * Implementation of KGoogleService::XMLToObject().
-	 */
-	KGoogleObject* XMLToObject(const QByteArray& xmlData);
-	
-	/**
-	 * Implementation of KGoogleService::objecttoXML().
-	 */
-	QByteArray objectToXML(KGoogleObject* object);
-	
-	/**
-	 * Implementation of KGoogleService::parseXMLFeed().
-	 */
-	QList< KGoogleObject* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
+	KGoogle::Object* JSONToObject(const QByteArray& jsonData);
 
 	/**
-	 * Implementation of KGoogleService::protocolVersion().
+	 * Implementation of KGoogle::Service::objectToJSON().
+	 */
+	QByteArray objectToJSON(KGoogle::Object* object);
+
+	/**
+	 * Implementation of KGoogle::Service::parseJSONFeed().
+	 */
+	QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
+
+	/**
+	 * Implementation of KGoogle::Service::XMLToObject().
+	 */
+	KGoogle::Object* XMLToObject(const QByteArray& xmlData);
+
+	/**
+	 * Implementation of KGoogle::Service::objecttoXML().
+	 */
+	QByteArray objectToXML(KGoogle::Object* object);
+
+	/**
+	 * Implementation of KGoogle::Service::parseXMLFeed().
+	 */
+	QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
+
+	/**
+	 * Implementation of KGoogle::Service::protocolVersion().
 	 */
 	const QString protocolVersion();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::FetchAll requests.
+	 * Returns URL for KGoogle::Request::FetchAll requests.
 	 */
 	static QString fetchAllUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequests::Fetch requests.
+	 * Returns URL for KGoogle::Requests::Fetch requests.
 	 */
 	static QString fetchUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Create requests.
+	 * Returns URL for KGoogle::Request::Create requests.
 	 */
 	static QString createUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequests::Update requests.
+	 * Returns URL for KGoogle::Requests::Update requests.
 	 */
 	static QString updateUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequests::Remove requests.
+	 * Returns URL for KGoogle::Requests::Remove requests.
 	 */
 	static QString removeUrl();
-	
+
 	/**
 	 * Returns service scope URL
 	 */
 	static QString scopeUrl();
-	
+
 	/**
 	 * Returns wheter service supports reading data in JSON format.
-	 * 
+	 *
 	 * @param urlParam Returns value of "alt" query. Usually is 
 	 * "json" or "jsonc". When service does not support reading JSON
 	 * data, the value remains unchanged.
 	 */
 	static bool supportsJSONRead(QString* urlParam);
-	
+
 	/**
 	 * Returns wheter service supports writing data in JSON format.
-	 * 
+	 *
 	 * @param urlParam Returns value of "alt" query. Usually is
 	 * "json" or "jsonc". When service does not support writing JSON
 	 * data, the value remains unchanged.
 	 */
 	static bool supportsJSONWrite(QString* urlParam);
-	
+
       private:
 	KDateTime parseRecurrenceDT(const QString &dt, bool *allday);
 
-	KGoogleObject* JSONToCalendar(const QVariantMap& calendar);
-	QVariantMap calendarToJSON(KGoogleObject* calendar);
-	QList<KGoogleObject*> parseCalendarJSONFeed(const QVariantList& feed);
-	
+	KGoogle::Object* JSONToCalendar(const QVariantMap& calendar);
+	QVariantMap calendarToJSON(KGoogle::Object* calendar);
+	QList<KGoogle::Object*> parseCalendarJSONFeed(const QVariantList& feed);
+
 #if 0
 	KGoogleObject* XMLToCalendar(const QDomElement& calendar);
 	QDomElement calendarToXML(const KGoogleObject *calendar);
 	QList<KGoogleObject*> parseCalendarXMLFeed(const QDomElement& feed);
 #endif
-	
-	KGoogleObject* JSONToEvent(const QVariantMap& event);
-	QVariantMap eventToJSON(KGoogleObject *event);
-	QList<KGoogleObject*> parseEventJSONFeed(const QVariantList& feed);
-	
+
+	KGoogle::Object* JSONToEvent(const QVariantMap& event);
+	QVariantMap eventToJSON(KGoogle::Object *event);
+	QList<KGoogle::Object*> parseEventJSONFeed(const QVariantList& feed);
+
 #if 0
 	KGoogleObject* XMLToEvent(const QDomElement& event);
 	QDomElement eventToXML(const KGoogleObject *event);
 	QList<KGoogleObject*> parseEventXMLFeed(const QDomElement& feed);
 #endif
     };
-    
-  } // namespace Service
+
+  } // namespace Services
 
 } // namespace KGoogle
 
-#endif // SERVICE_CALENDAR_H
+#endif // LIBKGOOGLE_SERVICES_CALENDAR_H

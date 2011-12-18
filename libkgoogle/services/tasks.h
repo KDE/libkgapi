@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Tasks service
+    libKGoogle - Services - Tasks
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,56 +17,56 @@
 */
 
 
-#ifndef SERVICE_TASKS_H
-#define SERVICE_TASKS_H
+#ifndef LIBKGOOGLE_SERVICES_TASKS_H
+#define LIBKGOOGLE_SERVICES_TASKS_H
 
-#include <libkgoogle/kgoogleservice.h>
+#include <libkgoogle/service.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
-  
-  class KGoogleObject;
-  
-  namespace Service {
 
-    class LIBKGOOGLE_EXPORT Tasks: public KGoogleService
+  class Object;
+
+  namespace Services {
+
+    class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
     {
       public:
 	~Tasks();
-	
+
 	/**
-	 * Implementation of KGoogleService::JSONToObject()
+	 * Implementation of KGoogle::Service::JSONToObject()
 	 */
-	KGoogleObject* JSONToObject(const QByteArray& jsonData);
-	
+	KGoogle::Object* JSONToObject(const QByteArray& jsonData);
+
 	/**
-	 * Implementation of KGoogleService::objectTOJSON()
+	 * Implementation of KGoogle::Service::objectTOJSON()
 	 */
-	QByteArray objectToJSON(KGoogleObject* object);
-	
+	QByteArray objectToJSON(KGoogle::Object* object);
+
 	/**
-	 * Implementation of KGoogleService::parseJSONFeed()
+	 * Implementation of KGoogle::Service::parseJSONFeed()
 	 */
-	QList< KGoogleObject* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
-	
+	QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
+
 	/**
 	 * Does nothing since Google Tasks API does not support XML.
 	 */
-	QByteArray objectToXML(KGoogleObject* object);
-	
+	QByteArray objectToXML(KGoogle::Object* object);
+
 	/**
 	 * Does nothing since Google Tasks API does not support XML.
-	 */	
-	QList< KGoogleObject* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
-	
+	 */
+	QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
+
 	/**
 	 * Does nothing since Google Tasks API does not support XML.
-	 */	
-	KGoogleObject* XMLToObject(const QByteArray& xmlData);
-      
+	 */
+	KGoogle::Object* XMLToObject(const QByteArray& xmlData);
+
 	/**
-	 * Implementation of KGoogleService::protocolVersion().
-	 * 
+	 * Implementation of KGoogle::Service::protocolVersion().
+	 *
 	 * Tasks API does not have any version number, thus this function
 	 * returns an empty string.
 	 */
@@ -76,70 +76,72 @@ namespace KGoogle {
 	 * Returns scope URL for Google Tasks service.
 	 */
 	static QString scopeUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Create requests for tasks.
+	 * Returns URL for KGoogle::Request::Create requests for tasks.
 	 */
 	static QString createTaskUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::FetchAll requests for tasks.
+	 * Returns URL for KGoogle::Request::FetchAll requests for tasks.
 	 */
 	static QString fetchAllTasksUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Fetch requests for tasks.
+	 * Returns URL for KGoogle::Request::Fetch requests for tasks.
 	 */
 	static QString fetchTaskUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Update requests for tasks.
+	 * Returns URL for KGoogle::Request::Update requests for tasks.
 	 */
 	static QString updateTaskUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Remove requests for tasks.
+	 * Returns URL for KGoogle::Request::Remove requests for tasks.
 	 */
 	static QString removeTaskUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Update request for tasks.
+	 * Returns URL for KGoogle::Request::Update request for tasks.
 	 * This URL is used specially for moving tasks to another parents.
 	 */
 	static QString moveTaskUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::FetchAll requests for tasks lists
+	 * Returns URL for KGoogle::Request::FetchAll requests for tasks lists
 	 */
 	static QString fetchTaskListsUrl();
-	
+
 	/**
 	 * Returns wheter service supports reading data in JSON format.
-	 * 
+	 *
 	 * @param urlParam Returns empty string, because Tasks API supports
 	 * only JSON, so there's no need for explicit parameter for it.
 	 */
 	static bool supportsJSONRead(QString* urlParam);
-	
+
 	/**
 	 * Returns wheter service supports writing data in JSON format.
-	 * 
+	 *
 	 * @param urlParam Returns empty string, because Tasks API supports
 	 * only JSON, so there's no need for explicit parameter for it.
 	 */
 	static bool supportsJSONWrite(QString* urlParam);
-	
+
       private:
-	QList< KGoogleObject* > parseTaskListJSONFeed(QVariantList items);
-	QList< KGoogleObject* > parseTasksJSONFeed(QVariantList items);
-	
-	KGoogleObject* JSONToTaskList(QVariantMap jsonData);
-	QVariantMap taskListToJSON(KGoogleObject *taskList);
-	
-	KGoogleObject* JSONToTask(QVariantMap jsonData);
-	QVariantMap taskToJSON(KGoogleObject *task);
+	QList< KGoogle::Object* > parseTaskListJSONFeed(QVariantList items);
+	QList< KGoogle::Object* > parseTasksJSONFeed(QVariantList items);
+
+	KGoogle::Object* JSONToTaskList(QVariantMap jsonData);
+	QVariantMap taskListToJSON(KGoogle::Object *taskList);
+
+	KGoogle::Object* JSONToTask(QVariantMap jsonData);
+	QVariantMap taskToJSON(KGoogle::Object *task);
     };
-  } /* namespace Service */
+
+  } /* namespace Services */
+
 } /* namespace KGoogle */
 
 #endif // SERVICE_TASKS_H

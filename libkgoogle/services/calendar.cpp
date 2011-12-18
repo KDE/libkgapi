@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    libKGoogle - Services - Calendar
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -18,9 +18,9 @@
 
 
 #include "calendar.h"
+#include "accessmanager.h"
 #include "objects/calendar.h"
 #include "objects/event.h"
-#include "kgoogleaccessmanager.h"
 
 #ifdef WITH_KCAL
 #include <kcal/event.h>
@@ -54,13 +54,13 @@ using namespace KCalCore;
 
 /********** PUBLIC JSON INTERFACE ************/
 
-KGoogleObject* Service::Calendar::JSONToObject(const QByteArray& jsonData)
+KGoogle::Object* Services::Calendar::JSONToObject(const QByteArray& jsonData)
 {
   QJson::Parser parser;
-  
+
   QVariantMap object = parser.parse(jsonData).toMap();
   QVariantMap data = object["data"].toMap();
-  
+
   if (object["kind"] == "calendar#calendar")
     return JSONToCalendar(data);
   else if (object["kind"] == "calendar#event")
@@ -72,13 +72,13 @@ KGoogleObject* Service::Calendar::JSONToObject(const QByteArray& jsonData)
 
 }
 
-QByteArray Service::Calendar::objectToJSON(KGoogleObject* object)
+QByteArray Services::Calendar::objectToJSON(KGoogle::Object* object)
 {
   QVariantMap map;
-  
-  if (dynamic_cast<const Object::Calendar*>(object)) {
+
+  if (dynamic_cast< const Objects::Calendar* >(object)) {
     map = calendarToJSON(object);
-  } else if (dynamic_cast<const Object::Event*>(object)) {
+  } else if (dynamic_cast< const Objects::Event* >(object)) {
     map = eventToJSON(object);
   }
 
@@ -86,87 +86,72 @@ QByteArray Service::Calendar::objectToJSON(KGoogleObject* object)
   return serializer.serialize(map);
 }
 
-QList< KGoogleObject* > Service::Calendar::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
+QList< KGoogle::Object* > Services::Calendar::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
 {
   QJson::Parser parser;
-  
+
   QVariantMap map = parser.parse(jsonFeed).toMap();
   QVariantMap data = map["data"].toMap();
-  
-  QList< KGoogleObject* > list;
-  
+
+  QList< KGoogle::Object* > list;
+
   if (data["kind"] == "calendar#calendarFeed") {
     list = parseCalendarJSONFeed(data["items"].toList());
   } else if (data["kind"] == "calendar#eventFeed") {
     list = parseEventJSONFeed(data["items"].toList());
   }
-    
+
   if (feedData) {
     feedData->itemsPerPage = data["itemsPerPage"].toInt();
     feedData->startIndex = data["startIndex"].toInt();
     feedData->totalResults = data["totalResults"].toInt();
     feedData->nextLink = data["nextLink"].toUrl();
   }
-  
+
   return list;
 }
 
 
 /************* PUBLIC XML INTERFACE ***********/
 
-KGoogleObject* Service::Calendar::XMLToObject(const QByteArray& xmlData)
+KGoogle::Object* Services::Calendar::XMLToObject(const QByteArray& xmlData)
 {
   Q_UNUSED (xmlData);
-  
+
   return 0;
 }
 
-QByteArray Service::Calendar::objectToXML(KGoogleObject* object)
+QByteArray Services::Calendar::objectToXML(KGoogle::Object* object)
 {
   Q_UNUSED (object);
-  
+
   return QByteArray();
 }
 
-QList< KGoogleObject* > Service::Calendar::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
+QList< KGoogle::Object* > Services::Calendar::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
 {
   Q_UNUSED (xmlFeed);
   Q_UNUSED (feedData);
-  
-  return QList< KGoogleObject* >();
+
+  return QList< KGoogle::Object* >();
 }
 
 
 /************* URLS **************/
 
-QString Service::Calendar::scopeUrl() 
-{ 
-  return "https://www.google.com/calendar/feeds/"; 
-}
-
-QString Service::Calendar::fetchAllUrl() 
+QString Services::Calendar::scopeUrl()
 {
-  // %1 = user (default or user@gmail.com)
-  // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc"; 
+  return "https://www.google.com/calendar/feeds/";
 }
 
-QString Service::Calendar::fetchUrl()
-{
-  // %1 = user (default or user@gmail.com)
-  // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  // %3 = event/calendar ID
-  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc";
-}
-
-QString Service::Calendar::createUrl()
+QString Services::Calendar::fetchAllUrl()
 {
   // %1 = user (default or user@gmail.com)
   // %2 = visibility (allcalendars for list of calendars, private for list of events)
   return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc";
 }
 
-QString Service::Calendar::updateUrl()
+QString Services::Calendar::fetchUrl()
 {
   // %1 = user (default or user@gmail.com)
   // %2 = visibility (allcalendars for list of calendars, private for list of events)
@@ -174,32 +159,47 @@ QString Service::Calendar::updateUrl()
   return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc";
 }
 
- QString Service::Calendar::removeUrl() 
-{ 
+QString Services::Calendar::createUrl()
+{
+  // %1 = user (default or user@gmail.com)
+  // %2 = visibility (allcalendars for list of calendars, private for list of events)
+  return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc";
+}
+
+QString Services::Calendar::updateUrl()
+{
   // %1 = user (default or user@gmail.com)
   // %2 = visibility (allcalendars for list of calendars, private for list of events)
   // %3 = event/calendar ID
-  return "https://www.google.com/calendar/feeds/%1/%2/full/%3"; 
+  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc";
 }
 
-const QString Service::Calendar::protocolVersion()
+ QString Services::Calendar::removeUrl()
+{
+  // %1 = user (default or user@gmail.com)
+  // %2 = visibility (allcalendars for list of calendars, private for list of events)
+  // %3 = event/calendar ID
+  return "https://www.google.com/calendar/feeds/%1/%2/full/%3";
+}
+
+const QString Services::Calendar::protocolVersion()
 {
   return "2";
 }
 
-bool Service::Calendar::supportsJSONRead(QString* urlParam)
+bool Services::Calendar::supportsJSONRead(QString* urlParam)
 {
   if (urlParam)
     *urlParam = "jsonc";
-  
+
   return true;
 }
 
-bool Service::Calendar::supportsJSONWrite(QString* urlParam)
+bool Services::Calendar::supportsJSONWrite(QString* urlParam)
 {
   if (urlParam)
     *urlParam = "jsonc";
-  
+
   return true;
 }
 
@@ -207,46 +207,46 @@ bool Service::Calendar::supportsJSONWrite(QString* urlParam)
 
 
 /******** PRIVATE METHODS ************/
-KGoogleObject* Service::Calendar::JSONToCalendar(const QVariantMap& calendar)
+KGoogle::Object* Services::Calendar::JSONToCalendar(const QVariantMap& calendar)
 {
-  Object::Calendar *object = new Object::Calendar();
-  
+  Objects::Calendar *object = new Objects::Calendar();
+
   QString id = calendar["id"].toString().replace("%40", "@");
   id.remove("http://www.google.com/calendar/feeds/default/calendars/"); // Remove the URL prefix
-    
+
   object->setId(id);
   object->setEtag(calendar["etag"].toString());
   object->setTitle(calendar["title"].toString());
   object->setColor(calendar["color"].toString());
   object->setDetails(calendar["details"].toString());
   object->setEditable(calendar["editable"].toBool());
-  object->setCreated(KGoogleAccessManager::RFC3339StringToDate(calendar["created"].toString()));
-  object->setUpdated(KGoogleAccessManager::RFC3339StringToDate(calendar["created"].toString()));
+  object->setCreated(AccessManager::RFC3339StringToDate(calendar["created"].toString()));
+  object->setUpdated(AccessManager::RFC3339StringToDate(calendar["created"].toString()));
  
-  return dynamic_cast< KGoogleObject* >(object);
+  return dynamic_cast< KGoogle::Object* >(object);
 }
 
-QVariantMap Service::Calendar::calendarToJSON(KGoogleObject* calendar)
+QVariantMap Services::Calendar::calendarToJSON(KGoogle::Object* calendar)
 {
   QVariantMap output, entry;
-  Object::Calendar *object = static_cast< Object::Calendar* >(calendar);
-  
+  Objects::Calendar *object = static_cast< Objects::Calendar* >(calendar);
+
   entry["id"] = "http://www.google.com/calendar/feeds/default/calendars/" + calendar->id(); 
   entry["title"] = object->title();
   entry["color"] = object->color();
   entry["details"] = object->details();
   entry["editable"] = object->editable();
-  
+
   output["apiVersion"] = "2.3";
   output["data"] = entry;
-  
+
   return output;
 }
 
-QList< KGoogleObject* > Service::Calendar::parseCalendarJSONFeed(const QVariantList& feed)
+QList< KGoogle::Object* > Services::Calendar::parseCalendarJSONFeed(const QVariantList& feed)
 {
-  QList< KGoogleObject* > output;
- 
+  QList< KGoogle::Object* > output;
+
   foreach (QVariant i, feed) {
     output.append(JSONToCalendar(i.toMap()));
   }
@@ -254,34 +254,34 @@ QList< KGoogleObject* > Service::Calendar::parseCalendarJSONFeed(const QVariantL
   return output;
 }
 
-KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
+KGoogle::Object* Services::Calendar::JSONToEvent(const QVariantMap& event)
 {
-  Object::Event *object = new Object::Event();
-  
+  Objects::Event *object = new Objects::Event();
+
   /* ID */
   object->setId(event["id"].toString());
-  
+
   /* ETAG */
   object->setEtag(event["etag"].toString());
-  
+
   /* Deleted? */
   object->setDeleted(event["deleted"].toBool());
 
   /* Can edit? */
   object->setReadOnly(!event["canEdit"].toBool());
-  
+
   /* Summary */
   object->setSummary(event["title"].toString());
-  
+
   /* Description */
   object->setDescription(event["details"].toString());
-  
+
   /* Created */
-  object->setCreated(KGoogleAccessManager::RFC3339StringToDate(event["created"].toString()));
-  
+  object->setCreated(AccessManager::RFC3339StringToDate(event["created"].toString()));
+
   /* Last updated */
-  object->setLastModified(KGoogleAccessManager::RFC3339StringToDate(event["updated"].toString()));
-  
+  object->setLastModified(AccessManager::RFC3339StringToDate(event["updated"].toString()));
+
   /* Status */
   if (event["status"].toString() == "confirmed") {
     object->setStatus(Incidence::StatusConfirmed);
@@ -293,17 +293,17 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
   } else {
     object->setStatus(Incidence::StatusNone);
   }
-  
+
   /* Transparency */
   if (event["transparency"].toString() == "transparent") {
     object->setTransparency(Event::Transparent);
   } else { /* Assume opaque as default transparency */
     object->setTransparency(Event::Opaque);
   }
-  
+
   /* Location */
   object->setLocation(event["location"].toString());
-  
+
   /* Attendees */
   QVariantList attendees = event["attendees"].toList();
   foreach (const QVariant &a, attendees) {
@@ -326,7 +326,7 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
     else if (att["type"] == "optional")
       attendee->setRole(Attendee::OptParticipant);
     /* No further roles supported by Google */
-    
+
     /* Google sends organizer as one of attendees with rel="organizer" attribute */
     if (att["rel"] == "organizer") {
       PersonPtr person(new Person(att["displayName"].toString(),
@@ -337,10 +337,10 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
       object->setOrganizer(person);
 #endif
     }
-    
+
     object->addAttendee(attendee, true);
   }
-  
+
   /* Start, End, all-day event */
   QVariantList whens = event["when"].toList();
   foreach (const QVariant &w, whens) {
@@ -353,20 +353,20 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
       dtStart = KDateTime::fromString(when["start"].toString(), "%Y-%m-%d");
       dtEnd = KDateTime::fromString(when["end"].toString(), "%Y-%m-%d").addDays(-1);
     } else {
-      dtStart = KGoogleAccessManager::RFC3339StringToDate(when["start"].toString());
-      dtEnd = KGoogleAccessManager::RFC3339StringToDate(when["end"].toString());
-      
+      dtStart = AccessManager::RFC3339StringToDate(when["start"].toString());
+      dtEnd = AccessManager::RFC3339StringToDate(when["end"].toString());
+
       if (!dtStart.isLocalZone())
 	dtStart = dtStart.toLocalZone();
-      
+
       if (!dtEnd.isLocalZone())
 	dtEnd = dtEnd.toLocalZone();
     }
-    
+
     object->setDtStart(dtStart);
     object->setDtEnd(dtEnd);
   }
-  
+
   /* Recurrence */
   QStringList recrs = event["recurrence"].toString().split("\r\n");
   foreach (const QString &rec, recrs) {
@@ -390,7 +390,7 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
       break;
     }
   }
-  
+
   /* Reminders - the recurrence and/or start/end must be set BEFORE alarms 
    * because alarms must already know dtStart! */
   QVariantList reminders = event["reminders"].toList();
@@ -398,7 +398,7 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
     QVariantMap reminder = r.toMap();
     AlarmPtr alarm(new Alarm(object));
     alarm->setTime(object->dtStart());
-    
+
     if (reminder["method"].toString() == "alert")
       alarm->setType(Alarm::Display);
     else if (reminder["method"].toString() == "email")
@@ -406,7 +406,7 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
     else {
       continue;
     }
-    
+
     if (!reminder["minutes"].toString().isEmpty()) {
       /* Start offset is in seconds and must be negative, so that the alarm trigger times
        * is BEFORE the event start. When alarm should trigger AFTER the event start, 
@@ -431,37 +431,37 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
   }
   /* TODO: Implement support for additional features:
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
-   */  
-  
-  return dynamic_cast< KGoogleObject* >(object);
+   */
+
+  return dynamic_cast< KGoogle::Object* >(object);
 }
 
-QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
+QVariantMap Services::Calendar::eventToJSON(KGoogle::Object* event)
 {
-  Object::Event *object = static_cast<Object::Event*>(event);
+  Objects::Event *object = static_cast<Objects::Event*>(event);
   QVariantMap output, data;
-  
+
   /* ID */
   data["id"] = object->id();
-  
+
   /* Deleted? */
   data["deleted"] = object->deleted();
-  
+
   /* Can edit? */
   data["canEdit"] = object->isReadOnly();
-   
+
   /* Summary */
   data["title"] = object->summary();
-  
+
   /* Description */
   data["details"] = object->description();
-  
+
   /* Created */
-  data["created"] = KGoogleAccessManager::dateToRFC3339String(object->created());
-  
+  data["created"] = AccessManager::dateToRFC3339String(object->created());
+
   /* Last updated */
-  data["updated"] = KGoogleAccessManager::dateToRFC3339String(object->lastModified());
-  
+  data["updated"] = AccessManager::dateToRFC3339String(object->lastModified());
+
   /* Status */
   if (object->status() == Incidence::StatusConfirmed)
     data["status"] = "confirmed";
@@ -475,18 +475,18 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
     data["transparency"] = "transparent";
   else
     data["transparency"] = "opaque";
-  
+
   /* Location */
   data["location"] = object->location();
-  
+
   /* Attendees */
   QVariantList atts;
   foreach (const AttendeePtr attee, object->attendees()) {
     QVariantMap att;
-    
+
     att["displayName"] = attee->name();
     att["email"] = attee->email();
-    
+
     if (attee->status() == Attendee::Accepted)
       att["status"] = "accepted";
     else if (attee->status() == Attendee::None)
@@ -495,7 +495,7 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
       att["status"] = "declined";
     else if (attee->status() == Attendee::Tentative)
       att["status"] == "tentative";
-    
+
     if (attee->role() == Attendee::ReqParticipant)
       att["type"] = "required";
     else if (attee->role() == Attendee::OptParticipant)
@@ -504,7 +504,7 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
 
     atts.append(att);
   }
-  
+
   /* Organizer. Google expects organizator as one of attendees. */
   QVariantMap org;
 #ifdef WITH_KCAL
@@ -516,13 +516,13 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
   org["email"] = organizer->email();
   org["rel"] = "organizer";
   atts.append(org);
-  
+
   data["attendees"] = atts;
-  
-    
+
+
   /* Start, end, reminders */
   QVariantMap when;
-  
+
   /* Reminders */
   QVariantList reminders;
   foreach (AlarmPtr a, object->alarms()) {
@@ -531,12 +531,12 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
       alarm["method"] = "alert";
     else if (a->type() == Alarm::Email)
       alarm["method"] = "email";
-    
+
     if (a->startOffset().asSeconds() < 0)
       alarm["minutes"] = a->startOffset().asSeconds()/(-60);
     else
       alarm["absoluteTime"] = a->time().toString(KDateTime::RFCDate);
-    
+
     reminders.append(alarm);
   }
 
@@ -571,8 +571,8 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
       when["start"] = object->dtStart().toString("%Y-%m-%d");
       when["end"] = object->dtEnd().addDays(1).toString("%Y-%m-%d");
     } else {
-      when["start"] = KGoogleAccessManager::dateToRFC3339String(object->dtStart());
-      when["end"] = KGoogleAccessManager::dateToRFC3339String(object->dtEnd());
+      when["start"] = AccessManager::dateToRFC3339String(object->dtStart());
+      when["end"] = AccessManager::dateToRFC3339String(object->dtEnd());
     }
     when["reminders"] = reminders;
     data["when"] = QVariantList() << when;
@@ -590,16 +590,16 @@ QVariantMap Service::Calendar::eventToJSON(KGoogleObject* event)
   /* TODO: Implement support for additional features:
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
    */
-  
+
   output["apiVersion"] = "2.3";
   output["data"] = data;
-  
+
   return output;
 }
 
-QList< KGoogleObject* > Service::Calendar::parseEventJSONFeed(const QVariantList& feed)
+QList< KGoogle::Object* > Services::Calendar::parseEventJSONFeed(const QVariantList& feed)
 {
-  QList< KGoogleObject* > output;
+  QList< KGoogle::Object* > output;
 
   foreach (QVariant i, feed) {
     output.append(JSONToEvent(i.toMap()));
@@ -608,7 +608,7 @@ QList< KGoogleObject* > Service::Calendar::parseEventJSONFeed(const QVariantList
   return output;
 }
 
-KDateTime Service::Calendar::parseRecurrenceDT(const QString& dt, bool *allDay)
+KDateTime Services::Calendar::parseRecurrenceDT(const QString& dt, bool *allDay)
 {
     KDateTime out;
     KTimeZone tz;

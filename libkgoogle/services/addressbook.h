@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    libKGoogle - Services - Addressbook
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,93 +17,93 @@
 */
 
 
-#ifndef SERVICE_ADDRESSBOOK_H
-#define SERVICE_ADDRESSBOOK_H
+#ifndef LIBKGOOGLE_SERVICES_ADDRESSBOOK_H
+#define LIBKGOOGLE_SERVICES_ADDRESSBOOK_H
 
-#include <libkgoogle/kgoogleservice.h>
+#include <libkgoogle/service.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 #include <qmetatype.h>
 
 namespace KGoogle {
-  
-  class KGoogleObject;
- 
-  namespace Service {
+
+  class Object;
+
+  namespace Services {
 
     /**
      * Represents Google Contacts service.
      */
-    class LIBKGOOGLE_EXPORT Addressbook: public KGoogleService
+    class LIBKGOOGLE_EXPORT Addressbook: public KGoogle::Service
     {
       public:
 	~Addressbook();
-	
-	/**
-	 * Implementation of KGoogleService::JSONToObject().
-	 */
-	KGoogleObject* JSONToObject(const QByteArray& jsonData);
-	
-	/**
-	 * Implementation of KGoogleService::objectToJSON().
-	 */
-	QByteArray objectToJSON(KGoogleObject* object);
-	
-	/**
-	 * Implementation of KGoogleService::parseJSONFeed().
-	 */
-	QList< KGoogleObject* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
-	
-	/**
-	 * Implementation of KGoogleService::XMLToObject().
-	 */
-	KGoogleObject* XMLToObject(const QByteArray& xmlData);
-	
-	/**
-	 * Implementation of KGoogleService::objectToXML().
-	 */
-	QByteArray objectToXML(KGoogleObject* object);
-	
-	/**
-	 * Implementation of KGoogleService::parseXMLFeed().
-	 */
-	QList< KGoogleObject* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
 
 	/**
-	 * Implementation of KGoogleService::protocolVersion().
+	 * Implementation of KGoogle::Service::JSONToObject().
+	 */
+	KGoogle::Object* JSONToObject(const QByteArray& jsonData);
+
+	/**
+	 * Implementation of KGoogle::Service::objectToJSON().
+	 */
+	QByteArray objectToJSON(KGoogle::Object* object);
+
+	/**
+	 * Implementation of KGoogle::Service::parseJSONFeed().
+	 */
+	QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
+
+	/**
+	 * Implementation of KGoogle::Service::XMLToObject().
+	 */
+	KGoogle::Object* XMLToObject(const QByteArray& xmlData);
+
+	/**
+	 * Implementation of KGoogle::Service::objectToXML().
+	 */
+	QByteArray objectToXML(KGoogle::Object* object);
+
+	/**
+	 * Implementation of KGoogle::Service::parseXMLFeed().
+	 */
+	QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
+
+	/**
+	 * Implementation of KGoogle::Service::protocolVersion().
 	 */
 	const QString protocolVersion();
-	
+
 	/**
 	 * Returns scope URL for Google Calendar service.
 	 */
 	static QString scopeUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Create requests.
+	 * Returns URL for KGoogle::Request::Create requests.
 	 */
 	static QString createUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::FetchAll requests.
+	 * Returns URL for KGoogle::Request::FetchAll requests.
 	 */
 	static QString fetchAllUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Fetch requests.
+	 * Returns URL for KGoogle::Request::Fetch requests.
 	 */
 	static QString fetchUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Update requests.
+	 * Returns URL for KGoogle::Request::Update requests.
 	 */
 	static QString updateUrl();
-	
+
 	/**
-	 * Returns URL for KGoogleRequest::Remove requests.
+	 * Returns URL for KGoogle::Request::Remove requests.
 	 */
 	static QString removeUrl();
-	
+
 	/**
 	 * Returns wheter service supports reading data in JSON format.
 	 * 
@@ -112,7 +112,7 @@ namespace KGoogle {
 	 * data, the value remains unchanged.
 	 */
 	static bool supportsJSONRead(QString* urlParam);
-	
+
 	/**
 	 * Returns wheter service supports writing data in JSON format.
 	 * 
@@ -122,11 +122,11 @@ namespace KGoogle {
 	 */
 	static bool supportsJSONWrite(QString* urlParam);
     };
-    
-  } // namespace Service
-  
+
+  } // namespace Services
+
 } // namespace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::Service::Addressbook)
+Q_DECLARE_METATYPE(KGoogle::Services::Addressbook)
 
-#endif // SERVICE_ADDRESSBOOK_H
+#endif // LIBKGOOGLE_SERVICES_ADDRESSBOOK_H
