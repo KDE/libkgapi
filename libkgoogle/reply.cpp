@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleReply
+    libKGoogle - Reply
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,16 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "kgooglereply.h"
+#include "reply.h"
 
 #include <qmetatype.h>
 #include <qglobal.h>
 
 using namespace KGoogle;
 
-KGoogleReply::KGoogleReply(const KGoogleRequest::RequestType requestType, const KGoogleReply::ErrorCode error, 
-			   const QString &serviceName, const QList<KGoogleObject*> &replyData,
-			   KGoogleRequest *request):
+KGoogle::Reply::Reply(const KGoogle::Request::RequestType requestType, const KGoogle::Error error,
+                      const QString &serviceName, const QList< KGoogle::Object* > &replyData,
+                      KGoogle::Request *request):
   m_requestType(requestType),
   m_errorCode(error),
   m_replyData(replyData),
@@ -35,40 +35,40 @@ KGoogleReply::KGoogleReply(const KGoogleRequest::RequestType requestType, const 
     m_serviceName = serviceName;
 }
 
-KGoogleReply::~KGoogleReply()
+KGoogle::Reply::~Reply()
 { }
 
-KGoogleRequest::RequestType KGoogleReply::requestType()
+KGoogle::Request::RequestType KGoogle::Reply::requestType()
 {
   return m_requestType;
 }
 
-KGoogleReply::ErrorCode KGoogleReply::error()
+KGoogle::Error KGoogle::Reply::error() const
 {
   return m_errorCode;
 }
 
-QString KGoogleReply::serviceName()
+const QString& KGoogle::Reply::serviceName() const
 {
   return m_serviceName;
 }
 
-QList<KGoogleObject*> KGoogleReply::replyData()
+const QList< KGoogle::Object* >& KGoogle::Reply::replyData() const
 {
   return m_replyData;
 }
 
-KGoogleRequest* KGoogleReply::request()
+KGoogle::Request* KGoogle::Reply::request() const
 {
   return m_request;
 }
 
-qint64 KGoogleReply::readData(char* data, qint64 maxSize)
+qint64 KGoogle::Reply::readData(char* data, qint64 maxSize)
 {
   return read(data, maxSize);
 }
 
-void KGoogleReply::abort()
+void KGoogle::Reply::abort()
 {
   QNetworkReply::close();
 }

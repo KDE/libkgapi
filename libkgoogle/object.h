@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject
+    libKGoogle - Object
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,10 +17,10 @@
 */
 
 
-#ifndef KGOOGLEOBJECT_H
-#define KGOOGLEOBJECT_H
+#ifndef LIBKGOOGLE_OBJECT_H
+#define LIBKGOOGLE_OBJECT_H
 
-#include <qobject.h>
+#include <qstring.h>
 
 #include <libkgoogle/libkgoogle_export.h>
 
@@ -28,40 +28,41 @@ namespace KGoogle {
 
   /**
    * Base class for Google objects.
-   * 
+   *
    * Google object represents data received
    * from a Google service.
    */
-  class LIBKGOOGLE_EXPORT KGoogleObject
+  class LIBKGOOGLE_EXPORT Object
   {
     public:
-      KGoogleObject();
-      virtual ~KGoogleObject();
+      Object();
+
+      virtual ~Object();
 
       /**
        * Sets ID of this object.
        */
       void setId (const QString &id);
-      
+
       /**
        * Returns ID of this object.
        */
-      QString id();
-      
+      const QString& id() const;
+
       /**
        * Sets etag of this object.
-       * 
+       *
        * Etag represents a revision of an object.
        * When object is changed on the remote side
        * is given a new etag.
        */
       void setEtag (const QString &etag);
-      
+
       /**
        * Returns tag of this object.
        */
-      QString etag();
-      
+      const QString& etag() const;
+
     private:
       QString m_id;
       QString m_etag;
@@ -69,4 +70,4 @@ namespace KGoogle {
 
 } // namespace KGoogle
 
-#endif // KGOOGLEOBJECT_H
+#endif // LIBKGOOGLE_OBJECT_H

@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleAccessManager
+    libKGoogle - AccessManager
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,126 +17,131 @@
 */
 
 
-#ifndef KGOOGLEACCESSMANAGER_H
-#define KGOOGLEACCESSMANAGER_H
+#ifndef LIBKGOOGLE_ACCESSMANAGER_H
+#define LIBKGOOGLE_ACCESSMANAGER_H
 
 #include <qobject.h>
 #include <qurl.h>
+#include <qsemaphore.h>
 
 #include <kdatetime.h>
+#include <kio/accessmanager.h>
 
-#include <libkgoogle/kgooglerequest.h>
+#include <libkgoogle/common.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-class QNetworkAccessManager;
 class QNetworkReply;
 
 namespace KGoogle {
-  class KGoogleAuth;
-  class KGoogleReply;
+  class Auth;
+  class Reply;
+  class Request;
 }
 
 namespace KGoogle {
 
   /**
-   * KGoogleAccessManager allows application to send
-   * requests to Google services.
+   * AccessManager allows application to send and receive requests from 
+   * Google services.
    */
-  class LIBKGOOGLE_EXPORT KGoogleAccessManager: public QObject
+  class LIBKGOOGLE_EXPORT AccessManager: public QObject
   {
 
     Q_OBJECT
 
     public:
       /**
-       * Constructs a new access manager 
+       * Constructs a new access manager
        */
-      KGoogleAccessManager(KGoogleAuth *auth);
-      
-      virtual ~KGoogleAccessManager();
-      
+      AccessManager();
+
+      virtual ~AccessManager();
+
       /**
        * Converts RFC3339 date and time to KDateTime object.
-       * 
+       *
        * KDateTime::fromString() supportes RFC3339 date 
        * since KDE 4.7.0. This function uses native implementation
        * when available and provides custom implementation for
-       * backwards compatibilityt with older KDE versions.       
-       * 
+       * backwards compatibilityt with older KDE versions.
+       *
        * @param datetime String with date and time in RFC3339 format
        * @return \p datetime converted to KDateTime object
        */
       static KDateTime RFC3339StringToDate(const QString &datetime);
-      
+
       /**
        * Converts KDateTime object do RFC3339 string.
-       * 
+       *
        * KDateTime::toString() supportes RFC3339 date 
        * since KDE 4.7.0. This function uses native implementation
        * when available and provides custom implementation for
        * backwards compatibilityt with older KDE versions.
-       * 
+       *
        * @param datetime KDateTime object to be converted
        * @return \p datetime converted to RFC3339 string
        */
-      static QString dateToRFC3339String(const KDateTime &datetime);      
-      
+      static QString dateToRFC3339String(const KDateTime &datetime);
+
+
     public Q_SLOTS:
       /**
-       * Sends p0 request to a Google service.
-       * 
+       * Sends a \p request to a Google service.
+       *
+       * When a reply is received, the replyReceived() signal
+       * is emitted. When Google sends more replies (usually
+       * when the amount of items is more then 25 Google splits
+       * the reply to multiple smaller replies) the requestFinished()
+       * signal is emitted after the last reply is received.
+       *
        * @param request A request to be send
        */
-      void sendRequest(KGoogleRequest *request);
-      
+      void sendRequest(KGoogle::Request *request);
+
+
     Q_SIGNALS:
       /**
        * A reply was received.
-       * 
+       *
        * This signal is emitted whenever a reply from
        * a Google service was received.
        */
-      void replyReceived(KGoogleReply *reply);
-      
+      void replyReceived(KGoogle::Reply *reply);
+
       /**
        * A request was finished.
-       * 
+       *
        * This signal is emitted when last batch of data is received,
        * for example when all pages of events feed are fetched.
        * 
        * @param request The related request.
        */
-      void requestFinished(KGoogleRequest *request);
-      
+      void requestFinished(KGoogle::Request *request);
+
       /**
        * An error occurred.
-       * 
+       *
        * This signal is emitted whenever an error
        * occurs.
        */
-      void error(const QString &msg, const int errorCode);
-
-      /**
-       * An authentication-related error occured.
-       */
-      void authError(const QString &msg);
+      void error(const KGoogle::Error errCode, const QString &msg);
 
     private Q_SLOTS:
       void nam_replyReceived(QNetworkReply *reply);
-      void nam_sendRequest(KGoogleRequest *request);
+      void nam_sendRequest(KGoogle::Request *request);
 
-      void newTokensReceived();
+      void priv_error(const KGoogle::Error errCode, const QString &msg);
+
       void submitCache();
-      
+
     private:
-      KGoogleAuth *m_auth;
-      QNetworkAccessManager *m_nam;
-      
-      QList<KGoogleRequest*> m_cache;
-      
-      bool m_namLocked;
+      KIO::Integration::AccessManager *m_nam;
+
+      QList<KGoogle::Request*> m_cache;
+
+      QSemaphore *m_cacheSemaphore;
   };
 
 }  // namespace KGoogle
 
-#endif // KGOOGLEACCESSMANAGER_H
+#endif // LIBKGOOGLEA_CCESSMANAGER_H

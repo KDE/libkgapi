@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleService
+    libKGoogle - Service
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 */
 
 
-#ifndef KGOOGLESERVICE_H
-#define KGOOGLESERVICE_H
+#ifndef LIBKGOOGLE_SERVICE_H
+#define LIBKGOOGLE_SERVICE_H
 
 #include <qobject.h>
 #include <qvariant.h>
@@ -28,73 +28,63 @@
 
 #include <kdatetime.h>
 
+#include <libkgoogle/common.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
 
-  class KGoogleObject;
- 
-  /**
-   * Struct to store additional informations
-   * about a feed.
-   */
-  typedef struct FeedData_ {
-    int startIndex;	/// Index of first item on current feed page.
-    int itemsPerPage;	/// Number of items per feed page. This will be same  for all pages (except for the last one which can be shorter).
-    int totalResults;	/// Number of all items.
-    QUrl nextLink;	/// Link to next page of feed.
-  } FeedData;
-  
+  class Object;
+
   /**
    * A base class for all services.
-   * 
+   *
    * Service is a class that provides additional informations
    * about a Google service and implements parsers for objects
    * from service.
    */
-  class LIBKGOOGLE_EXPORT KGoogleService
+  class LIBKGOOGLE_EXPORT Service
   {
 
     public:
-      virtual ~KGoogleService() { }
-      
+      virtual ~Service() { }
+
       /**
-       * Parses raw p0 jsonData to a KGoogleObject.
+       * Parses raw \p jsonData to a KGoogleObject.
        */
-      virtual KGoogleObject* JSONToObject(const QByteArray& jsonData) = 0;
-      
+      virtual KGoogle::Object* JSONToObject(const QByteArray& jsonData) = 0;
+
       /**
        * Serializes a KGoogleObject to raw JSON data.
        */
-      virtual QByteArray objectToJSON(KGoogleObject* object) = 0;
-      
-      /**
-       * Parses raw JSON feed data into list of KGoogleObject objects.
-       */ 
-      virtual QList< KGoogleObject* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0) = 0;
+      virtual QByteArray objectToJSON(KGoogle::Object* object) = 0;
 
       /**
-       * Parsers raw p0 xmlData into a KGoogleObject.
+       * Parses raw JSON feed data into list of KGoogleObject objects.
        */
-      virtual KGoogleObject* XMLToObject(const QByteArray& xmlData) = 0;
-      
+      virtual QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, KGoogle::FeedData* feedData = 0) = 0;
+
+      /**
+       * Parsers raw \p xmlData into a KGoogleObject.
+       */
+      virtual KGoogle::Object* XMLToObject(const QByteArray& xmlData) = 0;
+
       /**
        * Serializes a KGoogleObject to raw XML data.
        */
-      virtual QByteArray objectToXML(KGoogleObject* object) = 0;
-      
+      virtual QByteArray objectToXML(KGoogle::Object* object) = 0;
+
       /**
        * Parses raw JSON feed data into list of KGoogleObject objects.
        */
-      virtual QList< KGoogleObject* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0) = 0;
-      
+      virtual QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, KGoogle::FeedData* feedData = 0) = 0;
+
       /**
        * Returns version of the services protocol.
        */
       virtual const QString protocolVersion() = 0;
 
     };
-  
+
 } // namespace KGoogle
 
-#endif // KGOOGLESERVICE_H
+#endif // LIBKGOOGLE_SERVICE_H

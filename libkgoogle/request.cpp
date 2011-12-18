@@ -17,55 +17,56 @@
 */
 
 
-#include "kgooglerequest.h"
-#include "kgoogleobject.h"
+#include "account.h"
+#include "request.h"
 
 #include <kdebug.h>
 #include <qglobal.h>
 
 using namespace KGoogle;
 
-KGoogleRequest::KGoogleRequest(const QUrl &url, 
-			       const KGoogleRequest::RequestType requestType, 
-			       const QString &serviceName):
+KGoogle::Request::Request(const QUrl &url,
+                          const KGoogle::Request::RequestType requestType,
+                          const QString &serviceName, KGoogle::Account *account):
   QNetworkRequest(url),
   m_requestType(requestType),
-  m_serviceName(serviceName)
+  m_serviceName(serviceName),
+  m_account(account)
 { }
 
-void KGoogleRequest::setRequestType(const KGoogleRequest::RequestType requestType)
+void KGoogle::Request::setRequestType(const KGoogle::Request::RequestType requestType)
 {
   m_requestType = requestType;
 }
 
-KGoogleRequest::RequestType KGoogleRequest::requestType()
+KGoogle::Request::RequestType KGoogle::Request::requestType() const
 {
   return m_requestType;
 }
 
-bool KGoogleRequest::setServiceName(const QString& serviceName)
+bool KGoogle::Request::setServiceName(const QString& serviceName)
 {
   if (QMetaType::type(qPrintable(serviceName)) == 0) {
     kWarning() << "Trying to use unregistered service " << serviceName;
     return false;
   }
-    
+
   m_serviceName = serviceName;
   return true;
 }
 
-QString KGoogleRequest::serviceName()
+const QString& KGoogle::Request::serviceName() const
 {
   return m_serviceName;
 }
 
-void KGoogleRequest::setRequestData(const QByteArray& data, const QString &contentType)
+void KGoogle::Request::setRequestData(const QByteArray& data, const QString &contentType)
 {
   m_requestData = data;
   m_contentType = contentType;
 }
 
-QByteArray KGoogleRequest::requestData(QString *contentType)
+const QByteArray& KGoogle::Request::requestData(QString *contentType) const
 {
   if (contentType)
     *contentType = m_contentType;
@@ -73,23 +74,27 @@ QByteArray KGoogleRequest::requestData(QString *contentType)
   return m_requestData;
 }
 
-QString KGoogleRequest::contentType()
+const QString& KGoogle::Request::contentType() const
 {
   return m_contentType;
 }
 
+KGoogle::Account* KGoogle::Request::account() const
+{
+  return m_account;
+}
 
-void KGoogleRequest::setProperty(const QString& name, const QVariant& value)
+void KGoogle::Request::setProperty(const QString& name, const QVariant& value)
 {
   m_properties.insert(name, value);
 }
 
-QVariant KGoogleRequest::property(const QString& name)
+QVariant KGoogle::Request::property(const QString& name) const
 {
   return m_properties.value(name);
 }
 
-bool KGoogleRequest::hasProperty(const QString& name)
+bool KGoogle::Request::hasProperty(const QString& name) const
 {
   return m_properties.contains(name);
 }

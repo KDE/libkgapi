@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleRequest
+    libKGoogle - Request
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 */
 
 
-#ifndef KGOOGLEREQUEST_H
-#define KGOOGLEREQUEST_H
+#ifndef LIBKGOOGLE_REQUEST_H
+#define LIBKGOOGLE_REQUEST_H
 
 #include <qnetworkrequest.h>
 #include <qlist.h>
@@ -27,122 +27,127 @@
 #include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
-  class KGoogleObject;
-}
 
-namespace KGoogle {
-  
+  class Account;
+
   /**
    * Represents a request to be send to a Google service.
    */
-  class LIBKGOOGLE_EXPORT KGoogleRequest: public QNetworkRequest
+  class LIBKGOOGLE_EXPORT Request: public QNetworkRequest
   {
 
     public:
-      enum RequestType { 
-	FetchAll, 
-	Fetch, 
-	Create, 
-	Update, 
+      enum RequestType {
+	FetchAll,
+	Fetch,
+	Create,
+	Update,
 	Remove
       };
-	
+
       /**
        * Constructs an empty request
        */
-      KGoogleRequest() { };
-      
+      Request() { };
+
       /**
        * Constructs a new request
        * 
        * @param url Url to send the request to.
        * @param requestType Type of request
        * @param serviceName Name of service this request belongs to.
+       * @param account Google Account to which the request should be sent
        */
-      KGoogleRequest(const QUrl &url, const RequestType requestType, const QString &serviceName);
+      Request(const QUrl &url, const RequestType requestType, const QString &serviceName, KGoogle::Account *account);
 
       /**
        * Sets type of this request.
        */
       void setRequestType(const RequestType requestType);
-      
+
       /**
        * Returns type of this request.
        */
-      RequestType requestType();
-      
+      RequestType requestType() const;
+
       /**
        * Sets name of a service.
-       * 
+       *
        * @see KGoogleService
        */
       bool setServiceName(const QString &serviceName);
-      
+
       /**
        * Returns name of service this requests belongs to
        */
-      QString serviceName();
-      
+      const QString& serviceName() const;
+
       /**
        * Sets raw request data and it's type.
-       * 
+       *
        * Data can represent single or multiple objects serialized 
        * in XML or JSON format. Note, that not all services accept
        * both, XML and JSON data, some services (like Google Calendar)
        * support JSON for read and XML for write access.
-       * 
+       *
        * @param data Raw data to be send to remote service.
        * @param contentType Type of the data. Should be "application/xml"
        * or "application/json".
        */
       void setRequestData(const QByteArray &data, const QString &contentType);
-      
+
       /**
        * Returns raw data assigned to the request.
-       * 
+       *
        * @param contentType pointer to a QString [default:NULL].
        */
-      QByteArray requestData(QString *contentType = 0);
-      
+      const QByteArray& requestData(QString *contentType = 0) const;
+
       /**
-       * Returns mime type of the data 
+       * Returns mime type of the data
        */
-      QString contentType();
-      
+      const QString& contentType() const;
+
+      /**
+       * Returns account to which the request is sent.
+       */
+      KGoogle::Account* account() const;
+
       /**
        * Set a value of an objects property.
-       * 
-       * This mimics functionality of QObject::setProperty(). It 
+       *
+       * This mimics functionality of QObject::setProperty(). It
        * allows user to store additional informations as object's
        * properties.
-       * 
+       *
        * @param name Name of a property.
        * @param value Value of a property.
        */
       void setProperty(const QString &name, const QVariant &value);
-      
+
       /**
        * Returns value of a property assigned by setProperty()
        */
-      QVariant property(const QString &name);
-      
+      QVariant property(const QString &name) const;
+
       /**
-       * Returns wheter request has a property %p name.
+       * Returns wheter request has a property \p name.
        */
-      bool hasProperty(const QString &name);
-      
+      bool hasProperty(const QString &name) const;
+
     private:
       RequestType m_requestType;
       QString m_serviceName;
       QByteArray m_requestData;
       QString m_contentType;
-      QMap<QString,QVariant> m_properties;
+      QMap< QString,QVariant > m_properties;
+      KGoogle::Account *m_account;
 
   };
 
 } // namespace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::KGoogleRequest)
-Q_DECLARE_METATYPE(KGoogle::KGoogleRequest*)
-  
-#endif // KGOOGLEREQUEST_H
+Q_DECLARE_METATYPE(KGoogle::Request)
+Q_DECLARE_METATYPE(KGoogle::Request*)
+
+#endif // LIBKGOOGLE_REQUEST_H

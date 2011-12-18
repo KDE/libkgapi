@@ -17,11 +17,11 @@
 */
 
 
-#include "kgoogleaccessmanager.h"
-#include "kgoogleauth.h"
-#include "kgooglerequest.h"
-#include "kgooglereply.h"
-#include "kgoogleservice.h"
+#include "accessmanager.h"
+#include "auth.h"
+#include "request.h"
+#include "reply.h"
+#include "service.h"
 
 #include <qnetworkreply.h>
 #include <qnetworkrequest.h>
@@ -37,8 +37,6 @@
 #include <klocalizedstring.h>
 #include <kdeversion.h>
 #include <ksystemtimezone.h>
-#include <kio/accessmanager.h>
-
 
 int debugArea() { static int s_area = KDebug::registerArea("libkgoogle"); return s_area; }
 
@@ -46,36 +44,22 @@ using namespace KGoogle;
 
 #define RequestAttribute QNetworkRequest::User
 
-KGoogleAccessManager::KGoogleAccessManager(KGoogle::KGoogleAuth *googleAuth):
-  m_auth(googleAuth),
+AccessManager::AccessManager():
   m_nam(new KIO::Integration::AccessManager(this)),
-  m_namLocked(false)
+  m_cacheSemaphore(new QSemaphore(1))
 {
   connect(m_nam, SIGNAL(finished(QNetworkReply*)),
 	  this, SLOT(nam_replyReceived(QNetworkReply*)));
-
-  connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
-	  this, SLOT(newTokensReceived()));
-  connect(m_auth, SIGNAL(error(QString)),
-          this, SIGNAL(authError(QString)));
 }
 
-KGoogleAccessManager::~KGoogleAccessManager()
+AccessManager::~AccessManager()
 {
   delete m_nam;
 }
 
-void KGoogleAccessManager::newTokensReceived()
+void AccessManager::nam_replyReceived(QNetworkReply* reply)
 {
-  m_namLocked = false;
-
-  submitCache();
-}
-
-
-void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
-{
-  QUrl new_request;  
+  QUrl new_request;
   QByteArray rawData = reply->readAll();
 
 #ifdef DEBUG_RAWDATA
@@ -87,35 +71,39 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
   kDebug() << rawData;
 #endif
 
-  KGoogleRequest *request = reply->request().attribute(RequestAttribute).value<KGoogleRequest*>();
+  KGoogle::Request *request = reply->request().attribute(RequestAttribute).value<KGoogle::Request*>();
   if (!request) {
-    emit error(i18n("No valid reply received"), 0);
+    emit error(KGoogle::InvalidResponse, i18n("No valid reply received"));
     return;
   }
 
   switch (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()) {
-    case KGoogleReply::OK:		/** << OK status (fetched, updated, removed) */
-    case KGoogleReply::Created: 	/** << OK status (created) */
-    case KGoogleReply::NoContent:	/** << OK status (removed task using Tasks API) */
+    case KGoogle::OK:		/** << OK status (fetched, updated, removed) */
+    case KGoogle::Created: 	/** << OK status (created) */
+    case KGoogle::NoContent:	/** << OK status (removed task using Tasks API) */
       break;
 
-    case KGoogleReply::TemporarilyMoved:  /** << Temporarily moved - Google provides a new URL where to send the request */
+    case KGoogle::TemporarilyMoved:  /** << Temporarily moved - Google provides a new URL where to send the request */
       kDebug() << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
       request->setUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
       nam_sendRequest(request);
       return;
 
-    case KGoogleReply::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
+    case KGoogle::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
       kWarning() << "Bad request, Google replied '" << reply->readAll() << "'";
-      emit error(i18n("Bad request."), KGoogleReply::BadRequest);
+      emit error(KGoogle::BadRequest, i18n("Bad request."));
       return;
 
-    case KGoogleReply::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
+    case KGoogle::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
       /* Lock the service, add request to cache and request new tokens. */
-      if (!m_namLocked) {
-	m_namLocked = true;
-	m_cache << request;
-	m_auth->refreshToken();
+      if (m_cacheSemaphore->available() == 1) {
+	m_cacheSemaphore->acquire();
+        m_cache << request;
+
+        KGoogle::Auth *auth = KGoogle::Auth::instance();
+        connect(auth, SIGNAL(error(KGoogle::Error,QString)),
+                this, SIGNAL(error(KGoogle::Error,QString)));
+        auth->authenticate(request->account(), true);
       }
       /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
       return;
@@ -123,20 +111,20 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
     default: /** Something went wrong, there's nothing we can do about it */
       kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
 		 << ", Google replied '" << reply->readAll() << "'";
-      emit error(i18n("Unknown error"), reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+      emit error(KGoogle::UnknownError, i18n("Unknown error"));
       return;
   }
 
-  QList<KGoogleObject*> replyData;
+  QList< KGoogle::Object* > replyData;
 
   int type = QMetaType::type(qPrintable(request->serviceName()));
-  KGoogleService *service = static_cast<KGoogleService*>(QMetaType::construct(type));
+  KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
 
   switch (request->requestType()) {
     /* For fetch-all request parse the XML/JSON reply and split it to individual
      * <entry>/entry blocks which then convert to QList of KGoogleObjects */
-    case KGoogleRequest::FetchAll: {
-      FeedData* feedData = new FeedData;
+    case KGoogle::Request::FetchAll: {
+      KGoogle::FeedData* feedData = new KGoogle::FeedData;
 
       if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
           reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
@@ -163,9 +151,9 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
       }
     } break;
 
-    case KGoogleRequest::Fetch:
-    case KGoogleRequest::Create:
-    case KGoogleRequest::Update: {
+    case KGoogle::Request::Fetch:
+    case KGoogle::Request::Create:
+    case KGoogle::Request::Update: {
       if (request->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
 
 	replyData.append(service->JSONToObject(rawData));
@@ -177,15 +165,13 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
       }
     } break;
 
-    case KGoogleRequest::Remove:
+    case KGoogle::Request::Remove:
       break;
   }
 
-  KGoogleReply *greply = new KGoogleReply(request->requestType(),
-					  (KGoogle::KGoogleReply::ErrorCode)reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
-					  request->serviceName(),
-					  replyData,
-					  request);
+  KGoogle::Reply *greply = new KGoogle::Reply(request->requestType(),
+                                              (KGoogle::Error) reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
+                                              request->serviceName(), replyData, request);
 
   emit replyReceived(greply);
 
@@ -200,7 +186,7 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
   delete service;
 }
 
-void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
+void KGoogle::AccessManager::nam_sendRequest(KGoogle::Request* request)
 {
   QNetworkRequest nr;
 
@@ -211,14 +197,14 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
 #endif
 
   int type = QMetaType::type(qPrintable(request->serviceName()));
-  KGoogleService *service = static_cast<KGoogleService*>(QMetaType::construct(type));
+  KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
   if (!service) {
     kWarning() << "Failed to resolve service " << request->serviceName();
-    emit error(i18n("Invalid request, service %1 is not registered.", request->serviceName()), 0);
+    emit error(KGoogle::UnknownService, i18n("Invalid request, service %1 is not registered.", request->serviceName()));
     return;
   }
 
-  nr.setRawHeader("Authorization","Bearer " + m_auth->accessToken().toLatin1());
+  nr.setRawHeader("Authorization","Bearer " + request->account()->accessToken().toLatin1());
   nr.setRawHeader("GData-Version", service->protocolVersion().toLatin1());
   nr.setUrl(request->url());
   nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
@@ -234,26 +220,26 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
   delete service;
 
   switch (request->requestType()) {
-    case KGoogleRequest::FetchAll:
+    case KGoogle::Request::FetchAll:
       m_nam->get(nr);
       break;
 
-    case KGoogleRequest::Fetch:
+    case KGoogle::Request::Fetch:
       m_nam->get(nr);
       break;
 
-    case KGoogleRequest::Create:
+    case KGoogle::Request::Create:
       nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
       m_nam->post(nr, request->requestData());
       break;
 
-    case KGoogleRequest::Update:
+    case KGoogle::Request::Update:
       nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
       nr.setRawHeader("If-Match", "*");
       m_nam->put(nr, request->requestData());
       break;
 
-    case KGoogleRequest::Remove:
+    case KGoogle::Request::Remove:
       nr.setRawHeader("If-Match", "*");
       m_nam->deleteResource(nr);
       break;
@@ -261,23 +247,29 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
 }
 
 
-void KGoogleAccessManager::submitCache()
+void KGoogle::AccessManager::submitCache()
 {
-  while (!m_cache.isEmpty() && !m_namLocked)
+  while (!m_cache.isEmpty() && m_cacheSemaphore->available())
     nam_sendRequest(m_cache.takeFirst());
 }
 
 
-void KGoogleAccessManager::sendRequest(KGoogleRequest *request)
+void KGoogle::AccessManager::sendRequest(KGoogle::Request *request)
 {
   /* Queue to cache */
   m_cache.append(request);
 
-  if (!m_namLocked)
+  if (m_cacheSemaphore->available())
     submitCache();
 }
 
-KDateTime KGoogleAccessManager::RFC3339StringToDate(const QString& datetime)
+void KGoogle::AccessManager::priv_error (const Error errCode, const QString &msg)
+{
+  emit error(errCode, msg);
+}
+
+
+KDateTime KGoogle::AccessManager::RFC3339StringToDate(const QString& datetime)
 {
 #if KDE_IS_VERSION(4,6,90)
   return KDateTime::fromString(datetime, KDateTime::RFC3339Date);
@@ -347,7 +339,7 @@ KDateTime KGoogleAccessManager::RFC3339StringToDate(const QString& datetime)
 #endif
 }
 
-QString KGoogleAccessManager::dateToRFC3339String(const KDateTime& datetime)
+QString KGoogle::AccessManager::dateToRFC3339String(const KDateTime& datetime)
 {
 #if KDE_IS_VERSION(4,6,90)
   return datetime.toString(KDateTime::RFC3339Date);

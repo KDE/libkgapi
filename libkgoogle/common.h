@@ -23,6 +23,7 @@
 #include <stdexcept>
 
 #include <qstring.h>
+#include <qurl.h>
 
 #include <klocalizedstring.h>
 
@@ -68,7 +69,6 @@ namespace KGoogle {
     Gone = 410,              /// The requested does not exist anymore on the remote site
     InternalError = 500      /// An unexpected error on the Google service occuerd
   };
-
 
   namespace Exception {
 
@@ -165,6 +165,17 @@ namespace KGoogle {
     };
 
   } /* namespace Exception */
+
+  /**
+   * Struct to store additional informations about a feed.
+   */
+  typedef struct FeedData_ {
+    int startIndex;     /// Index of first item on current feed page.
+    int itemsPerPage;   /// Number of items per feed page. This will be same  for all pages (except for the last one which can be shorter).
+    int totalResults;   /// Number of all items.
+    QUrl nextLink;      /// Link to next page of feed.
+  } FeedData;
+
 
 } /* namespace KGoogle */
 

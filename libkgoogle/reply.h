@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleReply
+    libKGoogle - Reply
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,100 +17,86 @@
 */
 
 
-#ifndef KGOOGLEREPLY_H
-#define KGOOGLEREPLY_H
+#ifndef LIBKGOOGLE_REPLY_H
+#define LIBKGOOGLE_REPLY_H
 
 #include <qnetworkreply.h>
 
-#include <libkgoogle/kgooglerequest.h>
-#include <libkgoogle/kgoogleobject.h>
-#include <libkgoogle/kgoogleservice.h>
+#include <libkgoogle/common.h>
+#include <libkgoogle/request.h>
+#include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
-  
+
   /**
    * Represents a reply received from a Google service.
-   */ 
-  class LIBKGOOGLE_EXPORT KGoogleReply: public QNetworkReply
+   */
+  class LIBKGOOGLE_EXPORT Reply: public QNetworkReply
   {
     public:
-      enum ErrorCode { OK = 200,		/// Request succesfully executed.
-		       Created = 201,		/// Create request successfuly executed.
-		       NoContent = 204,		/// Tasks API returns 204 when task is sucessfully removed.
-		       TemporarilyMoved = 302,	/// The object is located on a different URL provided in reply.
-		       NotModified = 304,	/// Request was successfull, but no data were updated.
-		       BadRequest = 400,	/// Invalid (malformed) request.
-		       Unauthorized = 401,	/// Invalid or expired token. See KGoogleAccount::refreshTokens().
-		       Forbidden = 403,		/// The requested data are not accessible to this account
-		       NotFound = 404,		/// Requested object was not found on the remote side
-		       Conflict = 409,		/// Object on the remote site differs from the submitted one. See KGoogleObject::setEtag().
-		       Gone = 410,		/// The requested does not exist anymore on the remote site
-		       InternalError = 500 	/// An unexpected error on the Google service occuerd
-      };
-      
       /**
        * Constructs a new reply.
-       * 
+       *
        * @param requestType Type of request this reply relates to.
        * @param error Error code received from remote service.
        * @param serviceName Name of service this reply relates to.
        * @param replyData List of objects contained in this reply
        * @param request Original request this is a reply to
        */
-      KGoogleReply(const KGoogle::KGoogleRequest::RequestType requestType, const ErrorCode error, 
-		   const QString &serviceName, const QList<KGoogleObject*> &replyData,
-		   KGoogleRequest *request);
+      Reply(const KGoogle::Request::RequestType requestType, const KGoogle::Error error,
+            const QString &serviceName, const QList< KGoogle::Object* > &replyData,
+            KGoogle::Request *request);
 
-      ~KGoogleReply();
-      
+      virtual ~Reply();
+
       /**
        * Returns type of request this reply relates to.
        */
-      KGoogle::KGoogleRequest::RequestType requestType();
-      
+      KGoogle::Request::RequestType requestType();
+
       /**
        * Returns error code received from Google service
        */
-      ErrorCode error();
-      
+      KGoogle::Error error() const;
+
       /**
        * Returns name of service this reply came from. Note that
        * the service name relates to a KGoogleService subclasses.
        */
-      QString serviceName();
-      
+      const QString& serviceName() const;
+
       /**
        * Returns list of KGoogleObject objects representing data
        * received from the remote service.
        */
-      QList<KGoogleObject*> replyData();
-      
+      const QList< KGoogle::Object* >& replyData() const;
+
       /**
        * Returns the original request passed to KGoogleAccessManager.
        */
-      KGoogleRequest* request();
-      
+      KGoogle::Request* request() const;
+
       /**
        * Abort the request this reply belongs to.
        * 
        * See QNetworkReply::abort() for more details.
        */
       virtual void abort();
-      
+
     protected:
       virtual qint64 readData(char *data, qint64 maxSize);
-      
+
     private:
-      KGoogle::KGoogleRequest::RequestType m_requestType;
-      ErrorCode m_errorCode;
+      KGoogle::Request::RequestType m_requestType;
+      KGoogle::Error m_errorCode;
       QString m_serviceName;
-      QList<KGoogleObject*> m_replyData;
-      KGoogleRequest *m_request;     
+      QList< KGoogle::Object* > m_replyData;
+      KGoogle::Request *m_request;
       FeedData *m_feedData;
-    
+
   };
-  
+
 } // namespace KGoogle
 
-#endif // KGOOGLEREPLY_H
+#endif // LIBKGOOGLE_REPLY_H

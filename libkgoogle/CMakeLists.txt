@@ -18,13 +18,13 @@ add_definitions(-DLIBKGOOGLE_LIBRARY)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(libkgoogle_SRCS
+    accessmanager.cpp
     account.cpp
     auth.cpp
     authdialog.cpp
-    kgoogleaccessmanager.cpp 
-    kgoogleobject.cpp
-    kgooglereply.cpp
-    kgooglerequest.cpp 
+    object.cpp
+    request.cpp
+    reply.cpp
     objects/calendar.cpp
     objects/contact.cpp
     objects/event.cpp
@@ -37,14 +37,14 @@ set(libkgoogle_SRCS
 
 set(libkgoogle_HDRS
     libkgoogle_export.h
+    accessmanager.h
     account.h
     auth.h
     common.h
-    kgoogleaccessmanager.h
-    kgoogleobject.h
-    kgooglereply.h
-    kgooglerequest.h
-    kgoogleservice.h)
+    object.h
+    reply.h
+    request.h
+    service.h)
 
 set(services_HDRS
     services/addressbook.h

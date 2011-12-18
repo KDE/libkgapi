@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject
+    libKGoogle - Object
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,36 +17,36 @@
 */
 
 
-#include "kgoogleobject.h"
+#include "object.h"
 
 using namespace KGoogle;
 
-KGoogleObject::KGoogleObject()
-{ 
-
-}
-
-KGoogleObject::~KGoogleObject()
+KGoogle::Object::Object()
 {
 
 }
 
-void KGoogleObject::setId(const QString& id)
+KGoogle::Object::~Object()
+{
+
+}
+
+void KGoogle::Object::setId(const QString& id)
 {
   m_id = id;
 }
 
-QString KGoogleObject::id()
+const QString& KGoogle::Object::id() const
 {
   return m_id;
 }
 
-void KGoogleObject::setEtag(const QString& etag)
+void KGoogle::Object::setEtag(const QString& etag)
 {
   m_etag = etag;
 }
 
-QString KGoogleObject::etag()
+const QString& KGoogle::Object::etag() const
 {
   return m_etag;
 }
