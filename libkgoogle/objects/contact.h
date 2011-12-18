@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject - Contact
+    libKGoogle - Objects - Contact
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,10 +17,10 @@
 */
 
 
-#ifndef OBJECT_CONTACT_H
-#define OBJECT_CONTACT_H
+#ifndef LIBKGOOGLE_OBJECTS_CONTACT_H
+#define LIBKGOOGLE_OBJECTS_CONTACT_H
 
-#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 #include <kabc/addressee.h>
@@ -33,19 +33,19 @@
 
 namespace KGoogle {
 
-  namespace Object {
+  namespace Objects {
 
     class ContactData;
 
     /**
      * Represents a single contact.
      */
-    class LIBKGOOGLE_EXPORT Contact : public KGoogleObject, public KABC::Addressee
+    class LIBKGOOGLE_EXPORT Contact : public KGoogle::Object, public KABC::Addressee
     {
       public:
 	typedef QSharedPointer<Contact> Ptr;
 
-	enum IMProtocol { 
+	enum IMProtocol {
 	  Jabber, ICQ, GoogleTalk, QQ, Skype, Yahoo, MSN, AIM, Other
 	};
 
@@ -174,14 +174,14 @@ namespace KGoogle {
 
     };
 
-  } // namespace Object
+  } // namespace Objects
 
 } // namespace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::Object::Contact)
-Q_DECLARE_METATYPE(KGoogle::Object::Contact::Ptr)
+Q_DECLARE_METATYPE(KGoogle::Objects::Contact)
+Q_DECLARE_METATYPE(KGoogle::Objects::Contact::Ptr)
 
-#endif /* OBJECT_CONTACT_H */
+#endif /* LIBKGOOGLE_OBJECTS_CONTACT_H */
 
 
 

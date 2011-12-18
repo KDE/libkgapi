@@ -30,7 +30,7 @@
 
 namespace KGoogle {
 
-  namespace Object {
+  namespace Objects {
 
     class ContactData : public QSharedData
     {
@@ -48,7 +48,7 @@ namespace KGoogle {
 	KDateTime updated;
     };
 
-  } // namespace Service
+  } // namespace Objects
 
 } // namespace KGoogle
 

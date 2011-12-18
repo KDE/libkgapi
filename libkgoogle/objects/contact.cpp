@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "kgoogleobject.h"
+#include "object.h"
 #include "contact.h"
 #include "contact_p.h"
 #include "services/addressbook.h"
@@ -29,7 +29,7 @@
 #include <kabc/address.h>
 #include <kabc/phonenumber.h>
 
-using namespace KGoogle::Object;
+using namespace KGoogle::Objects;
 
 #define SCHEME_URL "http://schemas.google.com/g/2005#"
 
@@ -49,7 +49,7 @@ Contact::Contact()
 }
 
 Contact::Contact(const Contact &other):
-  KGoogleObject(other),
+  KGoogle::Object(other),
   KABC::Addressee(other),
   d(other.d)
 { }

@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject - EventData
+    libKGoogle - Objects - EventData
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -23,23 +23,23 @@
 #include <qstring.h>
 
 namespace KGoogle {
-  
-  namespace Object {
-  
+
+  namespace Objects {
+
     class EventData: public QSharedData
     {
       public:
 	EventData() { };
 	EventData(const EventData &other);
 	~EventData() { };
-      
+
 	bool deleted;
 	QString id;
 	QString etag;
     };
 
   } // namespace Object
-  
+
 } // namespace KGoogle
 
 

@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject - Calendar
+    libKGoogle - Objects - Calendar
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,10 +17,10 @@
 */
 
 
-#ifndef OBJECT_CALENDAR_H
-#define OBJECT_CALENDAR_H
+#ifndef LIBKGOOGLE_OBJECTS_CALENDAR_H
+#define LIBKGOOGLE_OBJECTS_CALENDAR_H
 
-#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 #include <qsharedpointer.h>
@@ -29,17 +29,17 @@
 #include <kdatetime.h>
 
 namespace KGoogle {
-  
-  namespace Object {
 
-    class CalendarData;    
-    
+  namespace Objects {
+
+    class CalendarData;
+
     /**
      * Represents a calendar.
      */
-    class LIBKGOOGLE_EXPORT Calendar: public KGoogleObject
+    class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Object
     {
-      
+
       public:
 	typedef QSharedPointer<Calendar> Ptr;
 	typedef QList<Calendar> List;
@@ -49,22 +49,22 @@ namespace KGoogle {
 	Calendar(const Calendar &other);
 
 	~Calendar();
-    
+
 	/**
 	 * Returns calendar title (name).
 	 */
 	QString title();
-	
+
 	/**
 	 * Sets a calendar title (name).
 	 */
 	void setTitle(const QString &title);
-    
+
 	/**
 	 * Returns color of the remote calendar. 
 	 */
 	QString color();
-	
+
 	/**
 	 * Sets color of the remote calendar.
 	 */
@@ -74,7 +74,7 @@ namespace KGoogle {
 	 * Returns detailed description of the calendar.
 	 */
 	QString details();
-	
+
 	/**
 	 * Sets detailed description of a calenar.
 	 */
@@ -84,7 +84,7 @@ namespace KGoogle {
 	 * Returns timezone of the calendar.
 	 */
 	QString timezone();
-	
+
 	/**
 	 * Sets timezone of the calendar.
 	 */
@@ -94,7 +94,7 @@ namespace KGoogle {
 	 * Returns wheter calendar is editable or read-only.
 	 */
 	bool editable();
-	
+
 	/**
 	 * Sets calendar to read-only or editable.
 	 */
@@ -105,16 +105,16 @@ namespace KGoogle {
 	 * on the remote server.
 	 */
 	KDateTime created();
-	
+
 	/**
 	 * Sets date and time when the calendar was created on
 	 * the remote server.
 	 */
 	void setCreated(const KDateTime &created);
-     
+
 	/**
 	 * Returns date and time when the calendar was last
-	 * updated on the remote server. 
+	 * updated on the remote server.
 	 * 
 	 * This value does not reflect last update of calendar content,
 	 * but just it's properties.
@@ -132,14 +132,14 @@ namespace KGoogle {
 	QExplicitlySharedDataPointer<CalendarData> d;
 
     };
-    
-  } // namespace Object
-  
+
+  } // namespace Objects
+
 } // namespace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::Object::Calendar)
-Q_DECLARE_METATYPE(KGoogle::Object::Calendar*)
-Q_DECLARE_METATYPE(KGoogle::Object::Calendar::Ptr)
-Q_DECLARE_METATYPE(KGoogle::Object::Calendar::List)
+Q_DECLARE_METATYPE(KGoogle::Objects::Calendar)
+Q_DECLARE_METATYPE(KGoogle::Objects::Calendar*)
+Q_DECLARE_METATYPE(KGoogle::Objects::Calendar::Ptr)
+Q_DECLARE_METATYPE(KGoogle::Objects::Calendar::List)
 
-#endif // OBJECT_CALENDAR_H
+#endif // LIBKGOOGLE_OBJECTS_CALENDAR_H

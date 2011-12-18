@@ -23,7 +23,7 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-using namespace KGoogle::Object;
+using namespace KGoogle::Objects;
 
 CalendarData::CalendarData(const CalendarData &other):
   QSharedData(other),
@@ -41,7 +41,7 @@ Calendar::Calendar():
 { }
 
 Calendar::Calendar(const Calendar &other):
-  KGoogleObject(other),
+  KGoogle::Object(other),
   d(other.d)
 { }
 

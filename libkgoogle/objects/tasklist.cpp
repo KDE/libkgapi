@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Task List
+    libKGoogle - Objects - Task List
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,7 @@
 
 #include "tasklist.h"
 
-using namespace KGoogle;
-using namespace Object;
+using namespace KGoogle::Objects;
 
 TaskList::TaskList()
 {

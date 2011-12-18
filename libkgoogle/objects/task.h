@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Task
+    libKGoogle - Objects - Task
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,10 +17,10 @@
 */
 
 
-#ifndef OBJECT_TASK_H 
-#define OBJECT_TASK_H 
+#ifndef LIBKGOOGLE_OBJECTS_TASK_H
+#define LIBKGOOGLE_OBJECTS_TASK_H
 
-#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 #ifdef WITH_KCAL
@@ -33,13 +33,13 @@ typedef KCalCore::Todo::Ptr TodoPtr;
 #endif
 
 namespace KGoogle {
-  
-  namespace Object {
-    
+
+  namespace Objects {
+
 #ifdef WITH_KCAL
-    class LIBKGOOGLE_EXPORT Task: public KGoogleObject, public KCal::Todo
+    class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCal::Todo
 #else
-    class LIBKGOOGLE_EXPORT Task: public KGoogleObject, public KCalCore::Todo
+    class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCalCore::Todo
 #endif
     {
       public:
@@ -62,13 +62,15 @@ namespace KGoogle {
 
       private:
 	bool m_deleted;
-      
+
     };
-  } /* namespace Object */
+
+  } /* namespace Objects */
+
 } /* namespace KGoogle */
 
-Q_DECLARE_METATYPE(KGoogle::Object::Task::Ptr)
-Q_DECLARE_METATYPE(KGoogle::Object::Task::List)
+Q_DECLARE_METATYPE(KGoogle::Objects::Task::Ptr)
+Q_DECLARE_METATYPE(KGoogle::Objects::Task::List)
 
 
 #endif // OBJECT_TASK_H 

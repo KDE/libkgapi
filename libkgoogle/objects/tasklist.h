@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Task List
+    libKGoogle - Objects - Task List
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,23 @@
 */
 
 
-#ifndef OBJECT_TASKLIST_H
-#define OBJECT_TASKLIST_H
+#ifndef LIBKGOOGLE_OBJECTS_TASKLIST_H
+#define LIBKGOOGLE_OBJECTS_TASKLIST_H
 
-#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 #include <qmetatype.h>
 
 namespace KGoogle {
-  
-  namespace Object {
 
-    class LIBKGOOGLE_EXPORT TaskList: public KGoogleObject
+  namespace Objects {
+
+    class LIBKGOOGLE_EXPORT TaskList: public KGoogle::Object
     {
       public:
 	typedef QList<TaskList> List;
-	
+
 	TaskList();
 	virtual ~TaskList();
 
@@ -44,11 +44,13 @@ namespace KGoogle {
 	QString m_title;
 
     };
-  } /* namespace Object */
+
+  } /* namespace Objects */
+
 } /* namespace KGoogle */
 
-Q_DECLARE_METATYPE(KGoogle::Object::TaskList)
-Q_DECLARE_METATYPE(KGoogle::Object::TaskList*)
-Q_DECLARE_METATYPE(KGoogle::Object::TaskList::List)
+Q_DECLARE_METATYPE(KGoogle::Objects::TaskList)
+Q_DECLARE_METATYPE(KGoogle::Objects::TaskList*)
+Q_DECLARE_METATYPE(KGoogle::Objects::TaskList::List)
 
 #endif // OBJECT_TASKLIST_H

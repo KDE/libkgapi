@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject - Calendar
+    libKGoogle - Objects - Calendar
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -22,26 +22,26 @@
 #include <kdatetime.h>
 
 namespace KGoogle {
-  
-  namespace Object {
-  
+
+  namespace Objects {
+
     class CalendarData: public QSharedData
     {
       public:
 	CalendarData() {};
 	CalendarData(const CalendarData &other);
 	~CalendarData() {};
-	
+
 	QString title;
 	QString color;
 	QString details;
 	QString timezone;
-	bool editable;   
-	
+	bool editable;
+
 	KDateTime created;
 	KDateTime updated;
     };
-    
-  } // namespace Object
-  
+
+  } // namespace Objects
+
 } // namespace KGoogle

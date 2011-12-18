@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Task
+    libKGoogle - Objects - Task
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -19,15 +19,14 @@
 
 #include "task.h"
 
-using namespace KGoogle;
-using namespace Object;
+using namespace KGoogle::Objects;
 
 Task::Task():
   m_deleted(false)
 { }
 
 Task::Task(const Task& other):
-  KGoogleObject(other),
+  KGoogle::Object(other),
 #ifdef WITH_KCAL
   KCal::Todo(other),
 #else
