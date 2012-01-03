@@ -25,22 +25,23 @@
 
 using namespace KGoogle::Objects;
 
-CalendarData::CalendarData(const CalendarData &other):
+CalendarData::CalendarData(const CalendarData &other) :
   QSharedData(other),
   title(other.title),
   color(other.color),
   details(other.details),
   timezone(other.timezone),
+  location(other.location),
   editable(other.editable),
   created(other.created),
   updated(other.updated)
 { }
 
-Calendar::Calendar():
+Calendar::Calendar() :
   d(new CalendarData)
 { }
 
-Calendar::Calendar(const Calendar &other):
+Calendar::Calendar(const Calendar &other) :
   KGoogle::Object(other),
   d(other.d)
 { }
@@ -49,7 +50,7 @@ Calendar::~Calendar()
 { }
 
 
-void Calendar::setUid (const QString &uid)
+void Calendar::setUid(const QString &uid)
 {
   d->uid = uid;
 }
@@ -85,9 +86,19 @@ QString Calendar::details() const
   return d->details;
 }
 
-void Calendar::setDetails(const QString& details)
+void Calendar::setDetails(const QString &details)
 {
   d->details = details;
+}
+
+QString Calendar::location() const
+{
+  return d->location;
+}
+
+void Calendar::setLocation(const QString &location)
+{
+  d->location = location;
 }
 
 QString Calendar::timezone() const
@@ -95,7 +106,7 @@ QString Calendar::timezone() const
   return d->timezone;
 }
 
-void Calendar::setTimezone(const QString& timezone)
+void Calendar::setTimezone(const QString &timezone)
 {
   d->timezone = timezone;
 }
@@ -115,7 +126,7 @@ KDateTime Calendar::created() const
   return d->created;
 }
 
-void Calendar::setCreated(const KDateTime& created)
+void Calendar::setCreated(const KDateTime &created)
 {
   d->created = created;
 }
@@ -125,7 +136,7 @@ KDateTime Calendar::updated() const
   return d->updated;
 }
 
-void Calendar::setUpdated(const KDateTime& updated)
+void Calendar::setUpdated(const KDateTime &updated)
 {
   d->updated = updated;
 }

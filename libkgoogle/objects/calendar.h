@@ -28,9 +28,11 @@
 
 #include <kdatetime.h>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+  namespace Objects
+  {
 
     class CalendarData;
 
@@ -41,14 +43,14 @@ namespace KGoogle {
     {
 
       public:
-	typedef QSharedPointer<Calendar> Ptr;
-	typedef QList<Calendar> List;
+        typedef QSharedPointer<Calendar> Ptr;
+        typedef QList<Calendar> List;
 
-	Calendar();
+        Calendar();
 
-	Calendar(const Calendar &other);
+        Calendar(const Calendar &other);
 
-	~Calendar();
+        ~Calendar();
 
         /**
          * Sets UID of the calendar.
@@ -60,86 +62,96 @@ namespace KGoogle {
          */
         QString uid() const;
 
-	/**
-	 * Returns calendar title (name).
-	 */
-	QString title() const;
+        /**
+         * Returns calendar title (name).
+         */
+        QString title() const;
 
-	/**
-	 * Sets a calendar title (name).
-	 */
-	void setTitle(const QString &title);
+        /**
+         * Sets a calendar title (name).
+         */
+        void setTitle(const QString &title);
 
-	/**
-	 * Returns color of the remote calendar. 
-	 */
-	QString color() const;
+        /**
+         * Returns color of the remote calendar.
+         */
+        QString color() const;
 
-	/**
-	 * Sets color of the remote calendar.
-	 */
-	void setColor(const QString &color);
+        /**
+         * Sets color of the remote calendar.
+         */
+        void setColor(const QString &color);
 
-	/**
-	 * Returns detailed description of the calendar.
-	 */
-	QString details() const;
+        /**
+         * Returns detailed description of the calendar.
+         */
+        QString details() const;
 
-	/**
-	 * Sets detailed description of a calenar.
-	 */
-	void setDetails(const QString &details);
+        /**
+         * Sets detailed description of a calenar.
+         */
+        void setDetails(const QString &details);
 
-	/**
-	 * Returns timezone of the calendar.
-	 */
-	QString timezone() const;
+        /**
+         * Returns geographic location of the calendar.
+         */
+        QString location() const;
 
-	/**
-	 * Sets timezone of the calendar.
-	 */
-	void setTimezone(const QString &timezone);
+        /**
+         * Sets geographic location of the calendar.
+         */
+        void setLocation(const QString &location);
 
-	/**
-	 * Returns wheter calendar is editable or read-only.
-	 */
-	bool editable() const;
+        /**
+         * Returns timezone of the calendar.
+         */
+        QString timezone() const;
 
-	/**
-	 * Sets calendar to read-only or editable.
-	 */
-	void setEditable(const bool editable);
+        /**
+         * Sets timezone of the calendar.
+         */
+        void setTimezone(const QString &timezone);
 
-	/**
-	 * Returns date and time when the calendar was created
-	 * on the remote server.
-	 */
-	KDateTime created() const;
+        /**
+         * Returns wheter calendar is editable or read-only.
+         */
+        bool editable() const;
 
-	/**
-	 * Sets date and time when the calendar was created on
-	 * the remote server.
-	 */
-	void setCreated(const KDateTime &created);
+        /**
+         * Sets calendar to read-only or editable.
+         */
+        void setEditable(const bool editable);
 
-	/**
-	 * Returns date and time when the calendar was last
-	 * updated on the remote server.
-	 *
-	 * This value does not reflect last update of calendar content,
-	 * but just it's properties.
-	 */
-	KDateTime updated() const;
+        /**
+         * Returns date and time when the calendar was created
+         * on the remote server.
+         */
+        KDateTime created() const;
 
-	/**
-	 * Sets date and time when the calendar properties were last
-	 * updated on the remote server. This does not include updated
-	 * of calendar content.
-	 */
-	void setUpdated(const KDateTime &updated);
+        /**
+         * Sets date and time when the calendar was created on
+         * the remote server.
+         */
+        void setCreated(const KDateTime &created);
 
-    protected:
-	QExplicitlySharedDataPointer<CalendarData> d;
+        /**
+         * Returns date and time when the calendar was last
+         * updated on the remote server.
+         *
+         * This value does not reflect last update of calendar content,
+         * but just it's properties.
+         */
+        KDateTime updated() const;
+
+        /**
+         * Sets date and time when the calendar properties were last
+         * updated on the remote server. This does not include updated
+         * of calendar content.
+         */
+        void setUpdated(const KDateTime &updated);
+
+      protected:
+        QExplicitlySharedDataPointer<CalendarData> d;
 
     };
 

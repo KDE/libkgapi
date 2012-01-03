@@ -37,6 +37,7 @@ namespace KGoogle {
 	QString color;
 	QString details;
 	QString timezone;
+        QString location;
 	bool editable;
 
 	KDateTime created;
