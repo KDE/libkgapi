@@ -79,7 +79,7 @@ namespace KGoogle {
        *
        * @return Returns list of all Google accounts from KWallet.
        */
-      const QList<const KGoogle::Account*> getAccounts();
+      const QList< KGoogle::Account* > getAccounts();
 
       /**
        * Stores \p account in KWallet.
@@ -111,6 +111,19 @@ namespace KGoogle {
        *                 to KWallet.
        */
       void authenticate(KGoogle::Account *account, bool autoSave = true);
+
+      /**
+       * Revokes tokens for \p account and removes it from KWallet.
+       *
+       * This method will not throw any exception when the account
+       * is invalid or does not exist, only when access to the secure
+       * backend fails.
+       *
+       * @param account Account to which revoke access.
+       * @return Returns \p true when account is succesfully removed, \p false
+       *         when account does not exist or something fails.
+       */
+      bool revoke(KGoogle::Account *account);
 
     Q_SIGNALS:
       /**

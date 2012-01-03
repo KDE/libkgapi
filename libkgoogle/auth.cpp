@@ -98,21 +98,21 @@ const KGoogle::Account *Auth::getAccount (const QString &account)
   return acc;
 }
 
-const QList< const KGoogle::Account * > Auth::getAccounts()
+const QList< KGoogle::Account * > Auth::getAccounts()
 {
   if (!m_kwallet->isOpen()) {
     emit error(KGoogle::BackendNotReady, i18n("KWallet is not opened"));
     throw Exception::BackendNotReady();
-    return QList< const Account *>();
+    return QList< Account *>();
   }
 
   if (!m_kwallet->hasFolder(KWALLET_FOLDER))
-    return QList< const Account *>();
+    return QList< Account *>();
 
 
   m_kwallet->setFolder(KWALLET_FOLDER);
   QStringList list = m_kwallet->entryList();
-  QList< const Account * > accounts;
+  QList< Account * > accounts;
   foreach (QString accName, list) {
     QMap< QString, QString > map;
     m_kwallet->readMap(accName, map);
@@ -156,6 +156,44 @@ void Auth::authenticate (KGoogle::Account *account, bool autoSave)
     refreshTokens(account, autoSave);
   }
 }
+
+bool Auth::revoke (Account *account)
+{
+  if (!account || account->accountName().isEmpty()) {
+    return false;
+  }
+
+  if (!m_kwallet->isOpen()) {
+    emit error(KGoogle::BackendNotReady, i18n("Kwallet is not opened"));
+    throw Exception::BackendNotReady();
+    return false;
+  }
+
+  if (!m_kwallet->hasFolder(KWALLET_FOLDER))
+    return false;
+
+  if (m_kwallet->hasEntry(account->accountName())) {
+
+    if (m_kwallet->removeEntry(account->accountName()) == 0) {
+
+      account->setAccessToken("");
+      account->setRefreshToken("");
+      account->setScopes(QStringList());
+      return true;
+
+    } else {
+
+      return false;
+
+    }
+
+  } else {
+
+    return false;
+
+  }
+}
+
 
 /******************************** PRIVATE METHODS ***************************/
 void Auth::fullAuthentication (KGoogle::Account *account, bool autoSave)
