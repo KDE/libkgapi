@@ -76,31 +76,56 @@ namespace KGoogle {
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests.
+         *
+         * https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc
+         * %1 = user ("default" or user@gmail.com)
+         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
 	 */
 	static QString fetchAllUrl();
 
 	/**
 	 * Returns URL for KGoogle::Requests::Fetch requests.
+         *
+         * https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc
+         * %1 = user ("default" or user@gmail.com)
+         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
+         * %3 = event ID/calendar ID
 	 */
 	static QString fetchUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests.
+         *
+         * https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc
+         * %1 = user ("default" or user@gmail.com)
+         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
 	 */
 	static QString createUrl();
 
 	/**
 	 * Returns URL for KGoogle::Requests::Update requests.
+         *
+         * https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc
+         * %1 = user ("default" or user@gmail.com)
+         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
+         * %3 = event ID/calendar ID
 	 */
 	static QString updateUrl();
 
 	/**
 	 * Returns URL for KGoogle::Requests::Remove requests.
+         *
+         * https://www.google.com/calendar/feeds/%1/%2/full/%3
+         * %1 = user ("default" or user@gmail.com)
+         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
+         * %3 = event ID/calendar ID
 	 */
 	static QString removeUrl();
 
 	/**
 	 * Returns service scope URL
+         *
+         * https://www.google.com/calendar/feeds/
 	 */
 	static QString scopeUrl();
 

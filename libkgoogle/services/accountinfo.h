@@ -64,7 +64,7 @@ namespace KGoogle {
         /**
          * Returns KGoogle::Request::Fetch URL.
          *
-         * URL: https://www.googleapis.com/oauth2/v1/userinfo
+         * https://www.googleapis.com/oauth2/v1/userinfo
          */
         static QString fetchUrl();
 

@@ -163,7 +163,7 @@ QString Tasks::moveTaskUrl()
 {
   // %1 = taskList
   // %2 = task ID
-  return "https://www.googleapis.com//tasks/v1/lists/%1/tasks/%2/move";
+  return "https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2/move";
 }
 
 

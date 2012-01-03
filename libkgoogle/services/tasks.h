@@ -74,42 +74,68 @@ namespace KGoogle {
 
 	/**
 	 * Returns scope URL for Google Tasks service.
+         *
+         * https://www.googleapis.com/auth/tasks
 	 */
 	static QString scopeUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests for tasks.
+         *
+         * https://www.googleapis.com/tasks/v1/lists/%1/tasks
+         * %1 = tasklist ID
 	 */
 	static QString createTaskUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests for tasks.
+         *
+         * https://www.googleapis.com/tasks/v1/lists/%1/tasks
+         * %1 = tasklist ID
 	 */
 	static QString fetchAllTasksUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Fetch requests for tasks.
+         *
+         * https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2
+         * %1 = tasklist ID
+         * %2 = task ID
 	 */
 	static QString fetchTaskUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Update requests for tasks.
+         *
+         * https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2
+         * %1 = tasklist ID
+         * %2 = task ID
 	 */
 	static QString updateTaskUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Remove requests for tasks.
+         *
+         * https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2
+         * %1 = tasklist ID
+         * %2 = task ID
 	 */
 	static QString removeTaskUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Update request for tasks.
 	 * This URL is used specially for moving tasks to another parents.
+         *
+         * https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2/move
+         * %1 = tasklist ID
+         * %2 = task ID
 	 */
 	static QString moveTaskUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests for tasks lists
+         *
+         * https://www.googleapis.com/tasks/v1/users/@me/lists
 	 */
 	static QString fetchTaskListsUrl();
 

@@ -706,7 +706,7 @@ QList< KGoogle::Object* > Addressbook::parseXMLFeed(const QByteArray& xmlFeed, F
 
 QString Addressbook::scopeUrl()
 {
-  return "https://www.google.com/m8/feeds/"; 
+  return "https://www.google.com/m8/feeds/";
 }
 
 QString Addressbook::fetchAllUrl()
@@ -719,7 +719,7 @@ QString Addressbook::fetchUrl()
 {
     // %1 = user (default or user@gmail.com)
     // %2 = contact ID
-  return "https://www.google.com/m8/feeds/contacts/%1/full/%2"; 
+  return "https://www.google.com/m8/feeds/contacts/%1/full/%2";
 }
 
 QString Addressbook::createUrl()

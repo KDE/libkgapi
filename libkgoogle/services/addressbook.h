@@ -76,31 +76,51 @@ namespace KGoogle {
 
 	/**
 	 * Returns scope URL for Google Calendar service.
+         *
+         * https://www.google.com/m8/feeds/
 	 */
 	static QString scopeUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests.
+         *
+         * https://www.google.com/m8/feeds/contacts/%1/full
+         * %1 = user ("default" or user@gmail.com)
 	 */
 	static QString createUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests.
+         *
+         * https://www.google.com/m8/feeds/contacts/%1/full
+         * %1 = user ("default" or user@gmail.com)
 	 */
 	static QString fetchAllUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Fetch requests.
+         *
+         * https://www.google.com/m8/feeds/contacts/%1/full/%2
+         * %1 = user ("default" or user@gmail.com)
+         * %2 = contact ID
 	 */
 	static QString fetchUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Update requests.
+         *
+         * https://www.google.com/m8/feeds/contacts/%1/full/%2
+         * %1 = user ("default" or user@gmail.com)
+         * %2 = contact ID
 	 */
 	static QString updateUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Remove requests.
+         *
+         * https://www.google.com/m8/feeds/contacts/%1/full/%2
+         * %1 = user ("default" or user@gmail.com)
+         * %2 = contact ID
 	 */
 	static QString removeUrl();
 
