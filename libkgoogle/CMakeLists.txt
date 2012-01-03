@@ -35,6 +35,7 @@ set(libkgoogle_SRCS
     services/addressbook.cpp
     services/calendar.cpp
     services/tasks.cpp
+    ui/accountslistview.cpp
 )
 
 set(libkgoogle_HDRS
@@ -61,6 +62,9 @@ set(objects_HDRS
     objects/event.h
     objects/task.h
     objects/tasklist.h)
+
+set(ui_HDRS
+    ui/accountslistview.h)
 
 add_subdirectory(cmake)
 
@@ -93,3 +97,4 @@ install(TARGETS kgoogle ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES ${libkgoogle_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle)
 install(FILES ${services_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/services)
 install(FILES ${objects_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/objects)
+install(FILES ${ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/ui)
