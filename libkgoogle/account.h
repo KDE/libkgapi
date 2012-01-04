@@ -53,7 +53,7 @@ namespace KGoogle {
        *
        * Such object represents invalid account.
        */
-      Account();
+      Account() { };
 
       /**
        * Constructs a new account
