@@ -87,7 +87,7 @@ namespace KGoogle {
 	 */
 	static QString createTaskUrl();
 
-	/**
+        /**
 	 * Returns URL for KGoogle::Request::FetchAll requests for tasks.
          *
          * https://www.googleapis.com/tasks/v1/lists/%1/tasks
@@ -138,6 +138,29 @@ namespace KGoogle {
          * https://www.googleapis.com/tasks/v1/users/@me/lists
 	 */
 	static QString fetchTaskListsUrl();
+
+        /**
+         * Returns URL for KGoogle::Request::Creata requests for tasks lists.
+         *
+         * https://www.googleapis.com/tasks/v1/users/@me/lists
+         */
+        static QString createTaskListUrl();
+
+        /**
+         * Returns URL for KGoogle::Request::Update requests for task lists.
+         *
+         * https://www.googleapis.com/tasks/v1/users/@me/lists/%1
+         * %1 = tasklist ID
+         */
+        static QString updateTaskListUrl();
+
+        /**
+         * Returns URL for KGoogle::Request::Remove requests for task lists.
+         *
+         * https://www.googleapis.com/tasks/v1/users/@me/lists/%1
+         * %1 = tasklist ID
+         */
+        static QString removeTaskListUrl();
 
 	/**
 	 * Returns wheter service supports reading data in JSON format.

@@ -154,11 +154,6 @@ QString Tasks::removeTaskUrl()
   return "https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2";
 }
 
-QString Tasks::fetchTaskListsUrl()
-{
-  return "https://www.googleapis.com/tasks/v1/users/@me/lists";
-}
-
 QString Tasks::moveTaskUrl()
 {
   // %1 = taskList
@@ -166,6 +161,27 @@ QString Tasks::moveTaskUrl()
   return "https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2/move";
 }
 
+QString Tasks::fetchTaskListsUrl()
+{
+  return "https://www.googleapis.com/tasks/v1/users/@me/lists";
+}
+
+QString Tasks::createTaskListUrl()
+{
+  return "https://www.googleapis.com/tasks/v1/users/@me/lists";
+}
+
+QString Tasks::updateTaskListUrl()
+{
+  // %1 = tasklist ID
+  return "https://www.googleapis.com/tasks/v1/users/@me/lists/%1";
+}
+
+QString Tasks::removeTaskListUrl()
+{
+  // %1 = tasklist ID
+  return "https://www.googleapis.com/tasks/v1/users/@me/lists/%1";
+}
 
 const QString Tasks::protocolVersion()
 {
