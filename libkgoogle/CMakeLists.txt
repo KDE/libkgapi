@@ -35,7 +35,7 @@ set(libkgoogle_SRCS
     services/addressbook.cpp
     services/calendar.cpp
     services/tasks.cpp
-    ui/accountslistview.cpp
+    ui/accountscombo.cpp
 )
 
 set(libkgoogle_HDRS
@@ -64,7 +64,7 @@ set(objects_HDRS
     objects/tasklist.h)
 
 set(ui_HDRS
-    ui/accountslistview.h)
+    ui/accountscombo.h)
 
 add_subdirectory(cmake)
 

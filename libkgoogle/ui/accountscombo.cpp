@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Ui - AccountsTreeView
+    libKGoogle - Ui - AccountsCombo
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,43 +17,38 @@
 */
 
 
-#include "accountslistview.h"
+#include "accountscombo.h"
 #include "auth.h"
-
-#include <qstandarditemmodel.h>
 
 #include <klocalizedstring.h>
 
 using namespace KGoogle::Ui;
 
-AccountsListView::AccountsListView (QWidget *parent):
-  QListView (parent)
+AccountsCombo::AccountsCombo (QWidget *parent):
+  QComboBox (parent)
 {
   QStandardItemModel *model;
   QList< QStandardItem* > columns;
 
-  columns << new QStandardItem(i18n("Accounts"));
-
   model = new QStandardItemModel(parent);
-  model->appendColumn(columns);
 
   initModel(model);
   setModel(model);
 }
 
-AccountsListView::~AccountsListView()
+AccountsCombo::~AccountsCombo()
 {
 
 }
 
-KGoogle::Account *AccountsListView::currentAccount() const
+KGoogle::Account *AccountsCombo::currentAccount() const
 {
-  QModelIndex index = currentIndex();
+  int index = currentIndex();
 
-  return qVariantValue< KGoogle::Account* >(index.data(AccountDataRole));
+  return qVariantValue< KGoogle::Account* >(itemData(index, AccountDataRole));
 }
 
-void AccountsListView::initModel (QStandardItemModel *model)
+void AccountsCombo::initModel (QStandardItemModel *model)
 {
   KGoogle::Auth *auth = KGoogle::Auth::instance();
   QList< KGoogle::Account* > accounts;
@@ -66,7 +61,7 @@ void AccountsListView::initModel (QStandardItemModel *model)
   }
 }
 
-void AccountsListView::reload()
+void AccountsCombo::reload()
 {
   QStandardItemModel *si_model = static_cast< QStandardItemModel* >(model());
 

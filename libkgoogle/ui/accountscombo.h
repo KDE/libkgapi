@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Ui - AccountsTreeView
+    libKGoogle - Ui - AccountsCombo
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,13 +17,13 @@
 */
 
 
-#ifndef LIBKGOOGLE_UI_ACCOUNTSTREEVIEW_H
-#define LIBKGOOGLE_UI_ACCOUNTSTREEVIEW_H
+#ifndef LIBKGOOGLE_UI_ACCOUNTSCOMBO_H
+#define LIBKGOOGLE_UI_ACCOUNTSCOMBO_H
 
-#include <qlistview.h>
-#include <account.h>
+#include <qcombobox.h>
+#include <qstandarditemmodel.h>
 
-class QStandardItemModel;
+#include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle
 {
@@ -33,7 +33,7 @@ namespace KGoogle
   namespace Ui
   {
 
-    class AccountsListView : public QListView
+    class LIBKGOOGLE_EXPORT AccountsCombo : public QComboBox
     {
         Q_OBJECT
 
@@ -43,9 +43,9 @@ namespace KGoogle
           AccountDataRole = Qt::UserRole + 1
         };
 
-        explicit AccountsListView (QWidget *parent = 0);
+        explicit AccountsCombo (QWidget *parent = 0);
 
-        virtual ~AccountsListView();
+        virtual ~AccountsCombo();
 
         KGoogle::Account* currentAccount() const;
 
