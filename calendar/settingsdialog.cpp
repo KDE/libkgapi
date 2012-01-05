@@ -19,210 +19,663 @@
 #include <qpixmap.h>
 #include <qicon.h>
 #include <qcolor.h>
+#include <qlistwidget.h>
 
-#include <KDE/KMessageBox>
-#include <KDE/KWindowSystem>
+#include <kmessagebox.h>
+#include <kwindowsystem.h>
+#include <klocalizedstring.h>
 
+#include "calendareditor.h"
 #include "settingsdialog.h"
-#include "ui_settingsdialog.h"
 #include "settings.h"
+#include "tasklisteditor.h"
+#include "ui_settingsdialog.h"
 
-#include "libkgoogle/kgoogleaccessmanager.h"
-#include "libkgoogle/kgooglerequest.h"
-#include "libkgoogle/kgooglereply.h"
-#include "libkgoogle/kgoogleauth.h"
-#include "libkgoogle/objects/calendar.h"
-#include "libkgoogle/services/calendar.h"
+#include <libkgoogle/accessmanager.h>
+#include <libkgoogle/request.h>
+#include <libkgoogle/reply.h>
+#include <libkgoogle/auth.h>
+#include <libkgoogle/objects/calendar.h>
+#include <libkgoogle/objects/tasklist.h>
+#include <libkgoogle/services/calendar.h>
+#include <libkgoogle/services/tasks.h>
+#include <libkgoogle/ui/accountscombo.h>
 
 using namespace KGoogle;
 
-SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* parent):
+enum {
+  KGoogleObjectRole = Qt::UserRole,
+  ObjectUIDRole = Qt::UserRole + 1
+};
+
+SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
   KDialog(parent),
-  m_calendar(0),
-  m_windowId (windowId),
-  m_googleAuth(googleAuth)
+  m_windowId (windowId)
 {
-  qRegisterMetaType<KGoogle::Service::Calendar>("Calendar");
-  
+  qRegisterMetaType<KGoogle::Services::Calendar>("Calendar");
+  qRegisterMetaType<KGoogle::Services::Tasks>("Tasks");
+
   KWindowSystem::setMainWindow(this, windowId);
-  
-  connect(m_googleAuth, SIGNAL(tokensRecevied(QString,QString)),
-	  this, SLOT(authenticated(QString,QString)));
-  
-  m_gam = new KGoogleAccessManager(m_googleAuth);
-  connect (m_gam, SIGNAL (replyReceived(KGoogleReply*)),
-	   this, SLOT (replyReceived(KGoogleReply*)));
-  
-  m_mainWidget = new QWidget();
-  
-  m_ui = new Ui::SettingsDialog();
-  m_ui->setupUi(m_mainWidget);
-  setMainWidget(m_mainWidget);
-  
-  connect(m_ui->revokeAuthButton, SIGNAL(clicked(bool)),
-	  this, SLOT(revokeTokens()));
-  connect(m_ui->authenticateButton, SIGNAL(clicked(bool)),
-	  this, SLOT(authenticate()));
-  connect(m_ui->refreshListButton, SIGNAL(clicked(bool)),
-	  this, SLOT(refreshCalendarList()));
-  connect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
-	  this, SLOT(calendarChanged(int)));
-  connect(m_ui->refreshCalendarCheckbox, SIGNAL(clicked(bool)),
-	  m_ui->refreshIntervalSpinBox, SLOT(setEnabled(bool)));
-  
-  m_ui->refreshCalendarCheckbox->setChecked(Settings::self()->refreshCalendar());
-  m_ui->refreshIntervalSpinBox->setEnabled(m_ui->refreshCalendarCheckbox->isChecked());
-  m_ui->refreshIntervalSpinBox->setValue(Settings::self()->refreshInterval());
-  
-  if (!Settings::self()->calendarId().isEmpty()) {
-    m_calendar = new Object::Calendar();
-    m_calendar->setId(Settings::self()->calendarId());
-    m_calendar->setTitle(Settings::self()->calendarName());
-    m_calendar->setColor(Settings::self()->calendarColor());
-  }
-  
-  if (m_googleAuth->accessToken().isEmpty()) {
-    setAuthenticated(false);
-  } else {
-    setAuthenticated(true);
-    refreshCalendarList();
-  }
+
+  m_ui = new ::Ui::SettingsDialog();
+  m_ui->setupUi(this->mainWidget());
+
+  connect(m_ui->addAccountBtn, SIGNAL(clicked()),
+          this, SLOT(addAccountClicked()));
+  connect(m_ui->removeAccountBtn, SIGNAL(clicked()),
+          this, SLOT(removeAccountClicked()));
+  connect(m_ui->accountsCombo, SIGNAL(currentIndexChanged(int)),
+          this, SLOT(accountChanged()));
+  connect(m_ui->addCalBtn, SIGNAL(clicked()),
+          this, SLOT(addCalendarClicked()));
+  connect(m_ui->editCalBtn, SIGNAL(clicked()),
+          this, SLOT(editCalendarClicked()));
+  connect(m_ui->calendarsList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+          this, SLOT(editCalendarClicked()));
+  connect(m_ui->calendarsList, SIGNAL(itemChanged(QListWidgetItem*)),
+          this, SLOT(calendarChecked(QListWidgetItem*)));
+  connect(m_ui->removeCalBtn, SIGNAL(clicked()),
+          this, SLOT(removeCalendarClicked()));
+  connect(m_ui->reloadCalendarsBtn, SIGNAL(clicked()),
+          this, SLOT(reloadCalendarsClicked()));
+  connect(m_ui->addTasksBtn, SIGNAL(clicked()),
+          this, SLOT(addTaskListClicked()));
+  connect(m_ui->editTasksBtn, SIGNAL(clicked()),
+          this, SLOT(editTaskListClicked()));
+  connect(m_ui->tasksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+          this, SLOT(editCalendarClicked()));
+  connect(m_ui->tasksList, SIGNAL(itemChanged(QListWidgetItem*)),
+          this, SLOT(taskListChecked(QListWidgetItem*)));
+  connect(m_ui->removeTasksBtn, SIGNAL(clicked()),
+          this, SLOT(removeTaskListClicked()));
+  connect(m_ui->reloadTasksBtn, SIGNAL(clicked()),
+          this, SLOT(reloadTaskListsClicked()));
+
+  KGoogle::Auth *auth = KGoogle::Auth::instance();
+  connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
+          this, SLOT(reloadAccounts()));
+
+  reloadAccounts();
 }
 
 SettingsDialog::~SettingsDialog()
 {
-  Settings::self()->setRefreshCalendar(m_ui->refreshCalendarCheckbox->isChecked());
-  Settings::self()->setRefreshInterval(m_ui->refreshIntervalSpinBox->value());
-  Settings::self()->writeConfig();  
-  
+  Settings::self()->writeConfig();
+
   delete m_ui;
-  delete m_mainWidget;
-  
-  if (m_calendar)
-    delete m_calendar;
 }
 
-void SettingsDialog::setAuthenticated(bool authenticated)
+void SettingsDialog::reloadAccounts()
 {
-  m_ui->authenticateButton->setVisible(!authenticated);
-  m_ui->authenticateLabel->setVisible(!authenticated);
+  disconnect(m_ui->accountsCombo, SIGNAL(currentIndexChanged(int)),
+             this, SLOT(accountChanged()));
 
-  m_ui->revokeAuthButton->setVisible(authenticated);
-  m_ui->revokeAuthLabel->setVisible(authenticated);
-  
-  m_ui->calendarGroupBox->setEnabled(authenticated);
-  m_ui->comboBox->setEnabled(authenticated);
-}
+  m_ui->accountsCombo->reload();
 
-
-void SettingsDialog::refreshCalendarList()
-{
-  QString url = Service::Calendar::fetchAllUrl().arg("default")
-					        .arg("allcalendars");
-  KGoogleRequest *request = new KGoogleRequest(QUrl(url),
-					       KGoogleRequest::FetchAll,
-					       "Calendar");
-  m_gam->sendRequest(request);
-}
-
-
-void SettingsDialog::authenticated(QString accessToken, QString refreshToken)
-{
-  if (!accessToken.isEmpty() && !refreshToken.isEmpty()) {
-    setAuthenticated(true);
-    refreshCalendarList();
-  } else {
-    setAuthenticated(false);
+  QString accName = Settings::self()->account();
+  if (!accName.isEmpty()) {
+    int index = m_ui->accountsCombo->findText(accName);
+    m_ui->accountsCombo->setCurrentIndex(index);
+    accountChanged();
   }
+
+  connect(m_ui->accountsCombo, SIGNAL(currentIndexChanged(int)),
+          this, SLOT(accountChanged()));
 }
 
-
-void SettingsDialog::replyReceived(KGoogleReply* reply)
+void SettingsDialog::addAccountClicked()
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
-    qDebug() << reply->readAll();
-    KMessageBox::error(this, 
-      i18n("Failed to refresh the list of calendars."),
-      i18n("Failed to refresh the list of calendars"), 0);
+  KGoogle::Auth *auth = KGoogle::Auth::instance();
+
+  KGoogle::Account *account = new KGoogle::Account();
+  account->addScope(Services::Calendar::scopeUrl());
+  account->addScope(Services::Tasks::scopeUrl());
+
+  auth->authenticate(account, true);
+}
+
+void SettingsDialog::removeAccountClicked()
+{
+  KGoogle::Account *account = m_ui->accountsCombo->currentAccount();
+  if (!account)
+    return;
+
+  if (KMessageBox::warningYesNo(this,
+      i18n("Do you really want to revoke access to account <b>%1</b>?"
+           "<br>This will revoke access to all application using this account!", account->accountName()),
+      i18n("Revoke Access?"),
+      KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) != KMessageBox::Yes)
+    return;
+
+  KGoogle::Auth *auth = KGoogle::Auth::instance();
+  auth->revoke(account);
+
+  reloadAccounts();
+}
+
+void SettingsDialog::accountChanged()
+{
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->calendarsBox->setDisabled(true);
+  m_ui->tasksBox->setDisabled(true);
+
+  Account *account = m_ui->accountsCombo->currentAccount();
+  if (account == 0) {
+    m_ui->accountsBox->setEnabled(true);
+    m_ui->calendarsList->clear();
+    m_ui->calendarsBox->setEnabled(true);
+    m_ui->tasksList->clear();
+    m_ui->tasksBox->setEnabled(true);
     return;
   }
-  
-  disconnect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
-	   this, SLOT(calendarChanged(int)));
 
+  KGoogle::AccessManager *gam;
+  KGoogle::Request *request;
 
-  m_ui->comboBox->clear();
-  
-  QList<KGoogleObject*> replyData = reply->replyData();
-  
-  foreach (KGoogleObject* data, replyData) {
-    Object::Calendar* calendar = static_cast<Object::Calendar*>(data);
-  
-    QPixmap pixmap(12, 12);
-    QColor color(calendar->color());
-    pixmap.fill(color);
-    QIcon icon(pixmap);
-    QVariant varCal;
-    varCal.setValue(calendar);
-    
-    m_ui->comboBox->addItem(icon, calendar->title());
-    int index = m_ui->comboBox->count()-1;
-    m_ui->comboBox->setItemData(index, calendar->id(), 1001);
-    m_ui->comboBox->setItemData(index, varCal, 1001);
-  }
-
-  if (m_calendar) {
-    int index = m_ui->comboBox->findData(m_calendar->id(), 1001);
-    m_ui->comboBox->setCurrentIndex(index);
-  } else {
-    int index = m_ui->comboBox->currentIndex();
-    setCalendar(m_ui->comboBox->itemData(index, 1001).value<Object::Calendar*>());
-  }
-
-  connect(m_ui->comboBox, SIGNAL(currentIndexChanged(int)),
-	  this, SLOT(calendarChanged(int)));
-    
-  m_ui->refreshListButton->setText("Refresh list");
-  m_ui->calendarGroupBox->setEnabled(true);
-}
-
-void SettingsDialog::calendarChanged(int index)
-{
-  setCalendar(m_ui->comboBox->itemData(index, 1001).value<Object::Calendar*>());
-}
-
-
-void SettingsDialog::authenticate()
-{
-  m_googleAuth->requestToken(0);
-}
-
-void SettingsDialog::revokeTokens()
-{
-  m_googleAuth->revokeTokens();
-  
-  Settings::self()->calendarId().clear();
-  Settings::self()->calendarColor().clear();
-  Settings::self()->calendarName().clear();
+  Settings::self()->setAccount(m_ui->accountsCombo->currentText());
+  Settings::self()->setCalendars(QStringList());
+  Settings::self()->setTaskLists(QStringList());
   Settings::self()->writeConfig();
-  
-  setAuthenticated(false);
+
+  m_ui->calendarsList->clear();
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+  QString url = Services::Calendar::fetchAllUrl().arg("default", "allcalendars");
+  request = new KGoogle::Request(url, Request::FetchAll, "Calendar", account);
+  gam->sendRequest(request);
+
+  m_ui->tasksList->clear();
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+  request = new KGoogle::Request(Services::Tasks::fetchTaskListsUrl(), Request::FetchAll, "Tasks", account);
+  gam->sendRequest(request);
 }
 
-void SettingsDialog::setCalendar(Object::Calendar* calendar)
+void SettingsDialog::addCalendarClicked()
 {
-  if (m_calendar)
-    delete m_calendar;
-  
-  m_calendar = calendar;
-   
-  if (m_calendar) {
-    Settings::self()->setCalendarId(m_calendar->id());
-    Settings::self()->setCalendarColor(m_calendar->color());
-    Settings::self()->setCalendarName(m_calendar->title());
+  CalendarEditor *editor = new CalendarEditor;
+  connect(editor, SIGNAL(accepted(KGoogle::Objects::Calendar*)),
+          this, SLOT(addCalendar(KGoogle::Objects::Calendar*)));
+
+  editor->exec();
+}
+
+void SettingsDialog::addCalendar(KGoogle::Objects::Calendar *calendar)
+{
+  KGoogle::Account *account;
+  KGoogle::AccessManager *gam;
+  KGoogle::Request *request;
+  Services::Calendar parser;
+  QByteArray data;
+
+  account = m_ui->accountsCombo->currentAccount();
+
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->calendarsBox->setDisabled(true);
+
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(gam_objectCreated(KGoogle::Reply*)));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+
+  QString url = Services::Calendar::createUrl().arg("default", "owncalendars");
+  request = new KGoogle::Request(url, Request::Create, "Calendar", account);
+  data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(calendar));
+  request->setRequestData(data, "application/json");
+  gam->sendRequest(request);
+
+  delete sender();
+  delete calendar;
+}
+
+void SettingsDialog::editCalendarClicked()
+{
+  Objects::Calendar *calendar;
+  QListWidgetItem *item;
+
+  item = m_ui->calendarsList->currentItem();
+  calendar = item->data(KGoogleObjectRole).value< KGoogle::Objects::Calendar* >();
+
+  CalendarEditor *editor = new CalendarEditor(calendar);
+  connect(editor, SIGNAL(accepted(KGoogle::Objects::Calendar*)),
+          this, SLOT(editCalendar(KGoogle::Objects::Calendar*)));
+
+  editor->exec();
+}
+
+void SettingsDialog::editCalendar(KGoogle::Objects::Calendar *calendar)
+{
+  KGoogle::Account *account;
+  KGoogle::AccessManager *gam;
+  KGoogle::Request *request;
+  Services::Calendar parser;
+  QByteArray data;
+
+  account = m_ui->accountsCombo->currentAccount();
+
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->calendarsBox->setDisabled(true);
+
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(gam_objectModified(KGoogle::Reply*)));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+
+  QString url = Services::Calendar::updateUrl().arg("default", "owncalendars", calendar->uid());
+  request = new KGoogle::Request(url, Request::Update, "Calendar", account);
+  data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(calendar));
+  request->setRequestData(data, "application/json");
+  gam->sendRequest(request);
+
+  delete sender();
+  delete calendar;
+}
+
+void SettingsDialog::removeCalendarClicked()
+{
+  Objects::Calendar *calendar;
+  QListWidgetItem *item;
+
+  item = m_ui->calendarsList->currentItem();
+  calendar = item->data(KGoogleObjectRole).value< KGoogle::Objects::Calendar* >();
+
+  if (KMessageBox::warningYesNo(this,
+      i18n("Do you really want to remove calendar <b>%1</b>?<br>"
+           "<b>This will remove the calendar from Google servers as well!</b>", calendar->title()),
+      i18n("Remove Calendar?"),
+      KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) != KStandardGuiItem::Yes)
+    return;
+
+  KGoogle::Account *account;
+  KGoogle::AccessManager *gam;
+  KGoogle::Request *request;
+
+  account = m_ui->accountsCombo->currentAccount();
+
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->calendarsBox->setDisabled(true);
+
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(reloadCalendarsClicked()));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+
+  QString url = Services::Calendar::removeUrl().arg("default", "owncalendars", calendar->uid());
+  request = new KGoogle::Request(url, Request::Remove, "Calendar", account);
+  gam->sendRequest(request);
+}
+
+void SettingsDialog::addTaskListClicked()
+{
+  TasklistEditor *editor = new TasklistEditor;
+  connect(editor, SIGNAL(accepted(KGoogle::Objects::TaskList*)),
+          this, SLOT(addTaskList(KGoogle::Objects::TaskList*)));
+
+  editor->exec();
+}
+
+void SettingsDialog::reloadCalendarsClicked()
+{
+  KGoogle::AccessManager *gam;
+  KGoogle::Account *account;
+  KGoogle::Request *request;
+
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->calendarsBox->setDisabled(true);
+
+  account = m_ui->accountsCombo->currentAccount();
+
+  m_ui->calendarsList->clear();
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+  QString url = Services::Calendar::fetchAllUrl().arg("default", "allcalendars");
+  request = new KGoogle::Request(url, Request::FetchAll, "Calendar", account);
+  gam->sendRequest(request);
+}
+
+void SettingsDialog::calendarChecked(QListWidgetItem *item)
+{
+  QStringList calendars;
+  QString uid;
+
+  calendars = Settings::self()->calendars();
+  uid = item->data(ObjectUIDRole).toString();
+
+  if (item->checkState() == Qt::Checked) {
+    calendars.append(uid);
   } else {
-    Settings::self()->calendarId().clear();
-    Settings::self()->calendarColor().clear();
-    Settings::self()->calendarName().clear();
+    calendars.removeAll(uid);
   }
+
+  Settings::self()->setCalendars(calendars);
+  Settings::self()->writeConfig();
+}
+
+
+void SettingsDialog::addTaskList(TaskList *taskList)
+{
+  KGoogle::Account *account;
+  KGoogle::AccessManager *gam;
+  KGoogle::Request *request;
+  Services::Tasks parser;
+  QByteArray data;
+
+  account = m_ui->accountsCombo->currentAccount();
+
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->tasksBox->setDisabled(true);
+
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(gam_objectCreated(KGoogle::Reply*)));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+
+  request = new KGoogle::Request(Services::Tasks::createTaskListUrl(), Request::Create, "Tasks", account);
+  data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(taskList));
+  request->setRequestData(data, "application/json");
+  gam->sendRequest(request);
+
+  delete sender();
+  delete taskList;
+}
+
+void SettingsDialog::editTaskListClicked()
+{
+  Objects::TaskList *taskList;
+  QListWidgetItem *item;
+
+  item = m_ui->tasksList->currentItem();
+  taskList = item->data(KGoogleObjectRole).value< KGoogle::Objects::TaskList* >();
+
+  TasklistEditor *editor = new TasklistEditor(taskList);
+  connect(editor, SIGNAL(accepted(KGoogle::Objects::TaskList*)),
+          this, SLOT(editTaskList(KGoogle::Objects::TaskList*)));
+
+  editor->exec();
+}
+
+void SettingsDialog::editTaskList(TaskList *taskList)
+{
+  KGoogle::Account *account;
+  KGoogle::AccessManager *gam;
+  KGoogle::Request *request;
+  Services::Tasks parser;
+  QByteArray data;
+
+  account = m_ui->accountsCombo->currentAccount();
+
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->tasksBox->setDisabled(true);
+
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(gam_objectModified(KGoogle::Reply*)));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+
+  QString url = Services::Tasks::updateTaskListUrl().arg(taskList->uid());
+  request = new KGoogle::Request(url, Request::Update, "Tasks", account);
+  data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(taskList));
+  request->setRequestData(data, "application/json");
+  gam->sendRequest(request);
+
+  delete sender();
+  delete taskList;
+}
+
+void SettingsDialog::removeTaskListClicked()
+{
+  Objects::TaskList *taskList;
+  QListWidgetItem *item;
+
+  item = m_ui->tasksList->currentItem();
+  taskList = item->data(KGoogleObjectRole).value< KGoogle::Objects::TaskList* >();
+
+  if (KMessageBox::warningYesNo(this,
+    i18n("Do you really want to remove tasklist <b>%1</b>?<br>"
+    "<b>This will remove the tasklist from Google servers as well!</b>", taskList->title()),
+    i18n("Remove tasklist?"),
+    KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) != KStandardGuiItem::Yes)
+    return;
+
+  KGoogle::Account *account;
+  KGoogle::AccessManager *gam;
+  KGoogle::Request *request;
+
+  account = m_ui->accountsCombo->currentAccount();
+
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->tasksBox->setDisabled(true);
+
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(reloadTaskListsClicked()));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+
+  QString url = Services::Tasks::removeTaskListUrl().arg(taskList->uid());
+  request = new KGoogle::Request(url, Request::Remove, "Tasks", account);
+  gam->sendRequest(request);
+}
+
+void SettingsDialog::reloadTaskListsClicked()
+{
+  KGoogle::AccessManager *gam;
+  KGoogle::Account *account;
+  KGoogle::Request *request;
+
+  m_ui->accountsBox->setDisabled(true);
+  m_ui->tasksBox->setDisabled(true);
+
+  account = m_ui->accountsCombo->currentAccount();
+
+  m_ui->tasksList->clear();
+  gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
+  connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+          gam, SLOT(deleteLater()));
+  request = new KGoogle::Request(Services::Tasks::fetchTaskListsUrl(), Request::FetchAll, "Tasks", account);
+  gam->sendRequest(request);
+}
+
+void SettingsDialog::taskListChecked(QListWidgetItem *item)
+{
+  QStringList taskLists;
+  QString uid;
+
+  taskLists = Settings::self()->taskLists();
+  uid = item->data(ObjectUIDRole).toString();
+
+  if (item->checkState() == Qt::Checked) {
+    taskLists.append(uid);
+  } else {
+    taskLists.removeAll(uid);
+  }
+
+  Settings::self()->setTaskLists(taskLists);
+  Settings::self()->writeConfig();
+}
+
+void SettingsDialog::gam_objectCreated(Reply *reply)
+{
+  QList< KGoogle::Object* > objects = reply->replyData();
+
+  if (reply->serviceName() == "Calendar") {
+
+    foreach (KGoogle::Object *object, objects) {
+      KGoogle::Objects::Calendar *calendar = static_cast< KGoogle::Objects::Calendar* >(object);
+
+      QListWidgetItem *item = new QListWidgetItem(calendar->title());
+      item->setData(KGoogleObjectRole, qVariantFromValue(calendar));
+      item->setData(ObjectUIDRole, calendar->uid());
+      item->setCheckState(Qt::Unchecked);
+
+      m_ui->calendarsList->addItem(item);
+    }
+
+    m_ui->calendarsBox->setEnabled(true);
+    m_ui->accountsBox->setEnabled(true);
+
+  } else if (reply->serviceName() == "Tasks") {
+
+    foreach (KGoogle::Object *object, objects) {
+      KGoogle::Objects::TaskList *taskList = static_cast< KGoogle::Objects::TaskList* >(object);
+
+      QListWidgetItem *item = new QListWidgetItem(taskList->title());
+      item->setData(KGoogleObjectRole, qVariantFromValue(taskList));
+      item->setData(ObjectUIDRole, taskList->uid());
+      item->setCheckState(Qt::Unchecked);
+
+      m_ui->tasksList->addItem(item);
+    }
+
+    m_ui->tasksBox->setEnabled(true);
+    m_ui->accountsBox->setEnabled(true);
+
+  }
+
+  delete reply;
+}
+
+
+void SettingsDialog::gam_objectsListReceived(Reply *reply)
+{
+  QList< KGoogle::Object* > objects = reply->replyData();
+
+  if (reply->serviceName() == "Calendar") {
+
+    foreach (KGoogle::Object *object, objects) {
+      Objects::Calendar *calendar;
+      QListWidgetItem *item;
+
+      calendar = static_cast< Objects::Calendar* >(object);
+      item = new QListWidgetItem;
+      item->setText(calendar->title());
+      item->setData(KGoogleObjectRole, qVariantFromValue(calendar));
+      item->setData(ObjectUIDRole, calendar->uid());
+
+      if (Settings::self()->calendars().contains(calendar->uid()))
+        item->setCheckState(Qt::Checked);
+      else
+        item->setCheckState(Qt::Unchecked);
+
+      m_ui->calendarsList->addItem(item);
+    }
+
+    m_ui->calendarsBox->setEnabled(true);
+    delete reply;
+
+  } else if (reply->serviceName() == "Tasks") {
+
+    foreach (KGoogle::Object *object, objects) {
+      Objects::TaskList *taskList;
+      QListWidgetItem *item;
+
+      taskList = static_cast< Objects::TaskList* >(object);
+      item = new QListWidgetItem;
+      item->setText(taskList->title());
+      item->setData(KGoogleObjectRole, qVariantFromValue(taskList));
+      item->setData(ObjectUIDRole, taskList->uid());
+
+      if (Settings::self()->taskLists().contains(taskList->uid()))
+        item->setCheckState(Qt::Checked);
+      else
+        item->setCheckState(Qt::Unchecked);
+
+      m_ui->tasksList->addItem(item);
+    }
+
+    m_ui->tasksBox->setEnabled(true);
+    delete reply;
+
+  }
+
+  if (m_ui->calendarsBox->isEnabled() && m_ui->tasksList->isEnabled())
+    m_ui->accountsBox->setEnabled(true);
+}
+
+void SettingsDialog::gam_objectModified(Reply *reply)
+{
+  QList< KGoogle::Object* > objects = reply->replyData();
+
+  if (reply->serviceName() == "Calendar") {
+
+    foreach (KGoogle::Object *object, objects) {
+      KGoogle::Objects::Calendar *calendar = static_cast< KGoogle::Objects::Calendar* >(object);
+      QListWidgetItem *item = 0;
+
+      for (int i = 0; i < m_ui->calendarsList->count(); i++) {
+        QListWidgetItem *t= m_ui->calendarsList->item(i);
+
+        if (t->data(ObjectUIDRole).toString() == calendar->uid())
+          item = t;
+      }
+
+      if (item) {
+        KGoogle::Objects::Calendar *oldCal;
+
+        oldCal = item->data(KGoogleObjectRole).value< KGoogle::Objects::Calendar* >();
+        delete oldCal;
+        item->setText(calendar->uid());
+        item->setData(KGoogleObjectRole, qVariantFromValue(calendar));
+
+      } else {
+        item = new QListWidgetItem;
+        item->setText(calendar->uid());
+        item->setData(KGoogleObjectRole, qVariantFromValue(calendar));
+        m_ui->calendarsList->addItem(item);
+      }
+    }
+
+    m_ui->calendarsBox->setEnabled(true);
+    m_ui->accountsBox->setEnabled(true);
+
+  } else if (reply->serviceName() == "Tasks") {
+
+    foreach (KGoogle::Object *object, objects) {
+      KGoogle::Objects::TaskList *taskList = static_cast< KGoogle::Objects::TaskList* >(object);
+      QListWidgetItem *item = 0;
+
+      for (int i = 0; i < m_ui->tasksList->count(); i++) {
+        QListWidgetItem *t= m_ui->tasksList->item(i);
+
+        if (t->data(ObjectUIDRole).toString() == taskList->uid())
+          item = t;
+      }
+
+      if (item) {
+        KGoogle::Objects::TaskList *oldTL;
+
+        oldTL = item->data(KGoogleObjectRole).value< KGoogle::Objects::TaskList* >();
+        delete oldTL;
+        item->setText(taskList->uid());
+        item->setData(KGoogleObjectRole, qVariantFromValue(taskList));
+
+      } else {
+        item = new QListWidgetItem;
+        item->setText(taskList->uid());
+        item->setData(KGoogleObjectRole, qVariantFromValue(taskList));
+        m_ui->tasksList->addItem(item);
+      }
+    }
+    m_ui->tasksBox->setEnabled(true);
+    m_ui->accountsBox->setEnabled(true);
+
+  }
+
+  delete reply;
 }

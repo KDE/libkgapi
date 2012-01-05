@@ -29,14 +29,17 @@ namespace Ui {
 }
 
 namespace KGoogle {
-  class KGoogleAuth;
-  class KGoogleReply;
-  class KGoogleAccessManager;
-  
-  namespace Object {
+  class Auth;
+  class Reply;
+  class AccessManager;
+
+  namespace Objects {
     class Calendar;
+    class TaskList;
   }
 }
+
+class QListWidgetItem;
 
 using namespace KGoogle;
 
@@ -44,35 +47,38 @@ class SettingsDialog : public KDialog
 {
   Q_OBJECT
   public:
-    SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget *parent = 0);
+    SettingsDialog(WId windowId, QWidget *parent = 0);
     ~SettingsDialog();
 
   private Q_SLOTS:
-    void refreshCalendarList();
-    
-    void replyReceived(KGoogleReply *reply);
-    
-    void calendarChanged(int index);
-    
-    void revokeTokens();
-    void authenticate();
-    
-    void setAuthenticated(bool authenticated);
-    
-    void authenticated(QString accessToken, QString refreshToken);
-    
+    void reloadAccounts();
+    void addAccountClicked();
+    void removeAccountClicked();
+    void accountChanged();
+    void addCalendarClicked();
+    void editCalendarClicked();
+    void calendarChecked(QListWidgetItem *item);
+    void removeCalendarClicked();
+    void reloadCalendarsClicked();
+    void addTaskListClicked();
+    void editTaskListClicked();
+    void taskListChecked(QListWidgetItem *item);
+    void removeTaskListClicked();
+    void reloadTaskListsClicked();
+
+    void gam_objectsListReceived(KGoogle::Reply *reply);
+    void gam_objectCreated(KGoogle::Reply *reply);
+    void gam_objectModified(KGoogle::Reply *reply);
+
+    void addCalendar(KGoogle::Objects::Calendar *calendar);
+    void editCalendar(KGoogle::Objects::Calendar *calendar);
+
+    void addTaskList(KGoogle::Objects::TaskList *taskList);
+    void editTaskList(KGoogle::Objects::TaskList *taskList);
+
   private:
-    void setCalendar(Object::Calendar *calendar);
-    
     Ui::SettingsDialog *m_ui;
-    QWidget *m_mainWidget;    
-    
-    Object::Calendar *m_calendar;
-    
     WId m_windowId;
-    
-    KGoogleAccessManager *m_gam;
-    KGoogleAuth *m_googleAuth;
 };
 
 #endif // SETTINGSDIALOG_H

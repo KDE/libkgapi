@@ -1,5 +1,5 @@
 /*
-    Akonadi Google - Contacts Resource
+    Akonadi Google - Calendar Resource
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,39 +17,43 @@
 */
 
 
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#ifndef CALENDAREDITOR_H
+#define CALENDAREDITOR_H
 
-#include "settingsbase.h"
+#include <QDialog>
 
-#include <qwindowdefs.h>
+#include <libkgoogle/objects/calendar.h>
 
-/**
- * @brief Settings object
- * 
- * Provides read-only access to application clientId and
- * clientSecret and read-write access to accessToken and 
- * refreshToken.
- */
-class Settings: public SettingsBase
+namespace Ui
+{
+  class CalendarEditor;
+}
+
+using namespace KGoogle::Objects;
+
+class CalendarEditor: public QDialog
 {
   Q_OBJECT
-  Q_CLASSINFO( "D-Bus Interface", "org.kde.Akonadi.GoogleCalendar.ExtendedSettings" )
+
   public:
-    Settings();
-    void setWindowId (WId id);
-    void setResourceId(const QString &resourceIdentifier);
-    static Settings* self();
+    explicit CalendarEditor(Calendar *calendar = 0);
 
-    QString appId() const;
+    virtual ~CalendarEditor();
 
-    QString clientId() const;
-    QString clientSecret() const;
+  Q_SIGNALS:
+    void accepted(KGoogle::Objects::Calendar *calendar);
+
+  private Q_SLOTS:
+    void accepted();
 
   private:
-    WId m_winId;
-    QString m_resourceId;
+    void initTimezones();
+    void initColors();
+    void initWidgets();
 
+    Calendar *m_calendar;
+    Ui::CalendarEditor *m_ui;
 };
 
-#endif // SETTINGS_H
+#endif // CALENDAREDITOR_H
+

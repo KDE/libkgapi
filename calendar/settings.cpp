@@ -32,7 +32,7 @@ class SettingsHelper {
       delete q;
       q = 0;
     }
-    
+
     Settings *q;
 };
 
@@ -42,7 +42,7 @@ Settings::Settings()
 {
   Q_ASSERT (!s_globalSettings->q);
   s_globalSettings->q = this;
-  
+
   new SettingsAdaptor(this);
   QDBusConnection::sessionBus().registerObject(QLatin1String("/Settings"), this,
 		  QDBusConnection::ExportAdaptors | QDBusConnection::ExportScriptableContents);
@@ -54,9 +54,9 @@ Settings* Settings::self()
     new Settings;
     s_globalSettings->q->readConfig();
   }
-    
+
   return s_globalSettings->q;
-	
+
 }
 
 QString Settings::clientId() const
