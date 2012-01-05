@@ -255,7 +255,9 @@ QVariantMap Tasks::taskListToJSON(KGoogle::Object* taskList)
   QVariantMap output;
   Objects::TaskList *object = static_cast< Objects::TaskList* >(taskList);
 
-  output["id"] = object->uid();
+  output["kind"] = "tasks#taskList";
+  if (!object->uid().isEmpty())
+    output["id"] = object->uid();
   output["title"] = object->title();
 
   return output;
@@ -265,6 +267,8 @@ QVariantMap Tasks::taskToJSON(KGoogle::Object* task)
 {
   QVariantMap output;
   Objects::Task *object = static_cast< Objects::Task* >(task);
+
+  output["kind"] = "tasks#task";
 
   if (!object->uid().isEmpty())
     output["id"] = object->uid();

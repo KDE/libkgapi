@@ -61,9 +61,9 @@ KGoogle::Object* Services::Calendar::JSONToObject(const QByteArray& jsonData)
   QVariantMap object = parser.parse(jsonData).toMap();
   QVariantMap data = object["data"].toMap();
 
-  if (object["kind"] == "calendar#calendar")
+  if ((object["kind"] == "calendar#calendar") || (data["kind"] == "calendar#calendar"))
     return JSONToCalendar(data);
-  else if (object["kind"] == "calendar#event")
+  else if ((object["kind"] == "calendar#event") || (data["kind"] == "calendar#event"))
     return JSONToEvent(data);
   else {
     /* FIXME: This is a very very wild assumption */
@@ -220,9 +220,11 @@ KGoogle::Object* Services::Calendar::JSONToCalendar(const QVariantMap& calendar)
   object->setColor(calendar["color"].toString());
   object->setDetails(calendar["details"].toString());
   object->setEditable(calendar["editable"].toBool());
+  object->setLocation(calendar["location"].toString());
+  object->setTimezone(calendar["timeZone"].toString());
   object->setCreated(AccessManager::RFC3339StringToDate(calendar["created"].toString()));
   object->setUpdated(AccessManager::RFC3339StringToDate(calendar["created"].toString()));
- 
+
   return dynamic_cast< KGoogle::Object* >(object);
 }
 
@@ -231,11 +233,16 @@ QVariantMap Services::Calendar::calendarToJSON(KGoogle::Object* calendar)
   QVariantMap output, entry;
   Objects::Calendar *object = static_cast< Objects::Calendar* >(calendar);
 
-  entry["id"] = "http://www.google.com/calendar/feeds/default/calendars/" + object->uid();
+  if (!object->uid().isEmpty())
+    entry["id"] = "http://www.google.com/calendar/feeds/default/calendars/" + object->uid();
+
   entry["title"] = object->title();
   entry["color"] = object->color();
   entry["details"] = object->details();
-  entry["editable"] = object->editable();
+  entry["location"] = object->location();
+  if (!object->timezone().isEmpty())
+    entry["timeZone"] = object->timezone();
+  entry["hidden"] = false;
 
   output["apiVersion"] = "2.3";
   output["data"] = entry;
