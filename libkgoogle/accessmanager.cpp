@@ -154,11 +154,13 @@ void AccessManager::nam_replyReceived(QNetworkReply* reply)
     case KGoogle::Request::Fetch:
     case KGoogle::Request::Create:
     case KGoogle::Request::Update: {
-      if (request->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
+      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
+          reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
 
 	replyData.append(service->JSONToObject(rawData));
 
-      } else if (request->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
+      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
+                 reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
 
 	replyData.append(service->XMLToObject(rawData));
 
