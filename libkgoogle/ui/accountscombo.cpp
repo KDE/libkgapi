@@ -27,13 +27,7 @@ using namespace KGoogle::Ui;
 AccountsCombo::AccountsCombo (QWidget *parent):
   QComboBox (parent)
 {
-  QStandardItemModel *model;
-  QList< QStandardItem* > columns;
-
-  model = new QStandardItemModel(parent);
-
-  initModel(model);
-  setModel(model);
+  reload();
 }
 
 AccountsCombo::~AccountsCombo()
@@ -45,26 +39,20 @@ KGoogle::Account *AccountsCombo::currentAccount() const
 {
   int index = currentIndex();
 
-  return qVariantValue< KGoogle::Account* >(itemData(index, AccountDataRole));
-}
+  if (index == -1)
+    return 0;
 
-void AccountsCombo::initModel (QStandardItemModel *model)
-{
-  KGoogle::Auth *auth = KGoogle::Auth::instance();
-  QList< KGoogle::Account* > accounts;
-
-  accounts = auth->getAccounts();
-  foreach (KGoogle::Account *account, accounts) {
-    QStandardItem *row = new QStandardItem(account->accountName());
-    row->setData(qVariantFromValue<KGoogle::Account*>(account), AccountDataRole);
-    model->appendRow(row);
-  }
+  return qVariantValue< KGoogle::Account* >(itemData(index, Qt::UserRole));
 }
 
 void AccountsCombo::reload()
 {
-  QStandardItemModel *si_model = static_cast< QStandardItemModel* >(model());
+  KGoogle::Auth *auth = KGoogle::Auth::instance();
+  QList< KGoogle::Account* > accounts;
+  clear();
 
-  si_model->clear();
-  initModel(si_model);
+  accounts = auth->getAccounts();
+  foreach (KGoogle::Account *account, accounts) {
+    addItem(account->accountName(), qVariantFromValue(account));
+  }
 }

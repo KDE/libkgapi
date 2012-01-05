@@ -38,11 +38,6 @@ namespace KGoogle
         Q_OBJECT
 
       public:
-        enum ItemRoles
-        {
-          AccountDataRole = Qt::UserRole + 1
-        };
-
         explicit AccountsCombo (QWidget *parent = 0);
 
         virtual ~AccountsCombo();
@@ -52,8 +47,6 @@ namespace KGoogle
       public Q_SLOTS:
         void reload();
 
-      private:
-        void initModel (QStandardItemModel *model);
     };
 
   }
