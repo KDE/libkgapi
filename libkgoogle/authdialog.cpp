@@ -96,6 +96,10 @@ void AuthDialog::webviewFinished()
     params.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
     params.addQueryItem("grant_type", "authorization_code");
 
+#ifdef DEBUG_RAWDATA
+    kDebug() << "Authorizing token:" << params;
+#endif
+
     nam->post(request, params.encodedQuery());
   }
 }
@@ -115,6 +119,10 @@ void AuthDialog::networkRequestFinished(QNetworkReply* reply)
     emitError(KGoogle::AuthError, i18n("Failed to parse server response."));
     return;
   }
+
+#ifdef DEBUG_RAWDATA
+  kDebug() << "Retrieved new tokens pair:" << parsed_data;
+#endif
 
   m_account->setAccessToken(parsed_data["access_token"].toString());
   m_account->setRefreshToken(parsed_data["refresh_token"].toString());
@@ -186,6 +194,10 @@ void AuthDialog::authenticate (KGoogle::Account *account)
   url.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
   url.addQueryItem("scope", account->scopes().join(" "));
   url.addQueryItem("response_type", "code");
+
+#ifdef DEBUG_RAWDATA
+  kDebug() << "Requesting new token:" << url;
+#endif
 
   m_webiew->setUrl(url);
 }
