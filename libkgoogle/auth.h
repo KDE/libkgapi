@@ -149,8 +149,6 @@ namespace KGoogle {
       void refreshTokens(KGoogle::Account *account, bool autoSave);
       void refreshTokensFinished(QNetworkReply *reply);
 
-      void walletOpened(const bool success);
-
     private:
       Auth();
       Auth(const Auth& other);

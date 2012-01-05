@@ -57,9 +57,7 @@ Auth *Auth::instance()
 
 Auth::Auth()
 {
-  m_kwallet = Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Asynchronous);
-  connect(m_kwallet, SIGNAL(walletOpened(bool)),
-	  this, SLOT(walletOpened(bool)));
+  m_kwallet = Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Synchronous);
 }
 
 
@@ -145,7 +143,7 @@ void Auth::storeAccount (const KGoogle::Account *account)
 
 void Auth::authenticate (KGoogle::Account *account, bool autoSave)
 {
-  if (!account || account->accountName().isEmpty()) {
+  if (!account) {
     throw Exception::InvalidAccount();
     return;
   }
@@ -153,6 +151,10 @@ void Auth::authenticate (KGoogle::Account *account, bool autoSave)
   if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
     fullAuthentication(account, autoSave);
   } else {
+    if (account->accountName().isEmpty()) {
+      throw Exception::InvalidAccount();
+      return;
+    }
     refreshTokens(account, autoSave);
   }
 }
@@ -208,6 +210,7 @@ void Auth::fullAuthentication (KGoogle::Account *account, bool autoSave)
   connect(dlg, SIGNAL(accepted()),
           dlg, SLOT(deleteLater()));
 
+  dlg->show();
   dlg->authenticate(account);
 }
 
@@ -297,8 +300,3 @@ void Auth::refreshTokensFinished (QNetworkReply *reply)
   emit authenticated(account);
 }
 
-void Auth::walletOpened (const bool success)
-{
-  if (!success)
-    emit error(BackendNotReady, i18n("Failed to open KWallet"));
-}
