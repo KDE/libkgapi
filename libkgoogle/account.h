@@ -64,7 +64,7 @@ namespace KGoogle {
        * @param scopes List of scopes
        */
       Account(const QString &account, const QString &accessToken = QString(),
-              const QString &refreshtoken = QString(),
+              const QString &refreshToken = QString(),
               const QStringList &scopes = QStringList());
 
       virtual ~Account();

@@ -69,16 +69,14 @@ Auth::~Auth()
   }
 }
 
-const KGoogle::Account *Auth::getAccount (const QString &account)
+KGoogle::Account *Auth::getAccount (const QString &account) const
 {
   if (!m_kwallet->isOpen()) {
-    emit error(KGoogle::BackendNotReady, i18n("KWallet is not opened"));
     throw Exception::BackendNotReady();
     return 0;
   }
 
   if (!m_kwallet->hasFolder(KWALLET_FOLDER)) {
-    emit error(KGoogle::UnknownAccount, i18n("Account %1 does not exist", account));
     throw Exception::UnknownAccount(account);
     return 0;
   }
@@ -87,7 +85,6 @@ const KGoogle::Account *Auth::getAccount (const QString &account)
 
   QMap< QString, QString > map;
   if (m_kwallet->readMap(account, map) != 0) {
-    emit error(KGoogle::UnknownAccount, i18n("Account %1 does not exist", account));
     throw Exception::UnknownAccount(account);
     return 0;
   }
@@ -96,10 +93,9 @@ const KGoogle::Account *Auth::getAccount (const QString &account)
   return acc;
 }
 
-const QList< KGoogle::Account * > Auth::getAccounts()
+QList< KGoogle::Account * > Auth::getAccounts() const
 {
   if (!m_kwallet->isOpen()) {
-    emit error(KGoogle::BackendNotReady, i18n("KWallet is not opened"));
     throw Exception::BackendNotReady();
     return QList< Account *>();
   }
@@ -123,8 +119,13 @@ const QList< KGoogle::Account * > Auth::getAccounts()
 void Auth::storeAccount (const KGoogle::Account *account)
 {
   if (!m_kwallet->isOpen()) {
-    emit error(KGoogle::BackendNotReady, i18n("Kwallet is not opened"));
     throw Exception::BackendNotReady();
+    return;
+  }
+
+  if (!(account && !account->accountName().isEmpty() &&
+        !account->accessToken().isEmpty() && !account->refreshToken().isEmpty())) {
+    throw Exception::InvalidAccount();
     return;
   }
 
@@ -166,7 +167,6 @@ bool Auth::revoke (Account *account)
   }
 
   if (!m_kwallet->isOpen()) {
-    emit error(KGoogle::BackendNotReady, i18n("Kwallet is not opened"));
     throw Exception::BackendNotReady();
     return false;
   }

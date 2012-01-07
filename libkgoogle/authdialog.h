@@ -66,10 +66,15 @@ class KDE_EXPORT AuthDialog: public KDialog
     virtual ~AuthDialog();
 
     /**
-     * Starts the authentication process of \p account.
+     * Starts the authentication process of \p account. When finished
+     * the authenticated() signal will be emitted with the same instance
+     * of \p account and with tokens filled. The name of the account
+     * must be obtained manually via the AccountInfo service.
      *
-     * @param account Account (with at least account name and scopes set) for which
-     *                we are authenticating
+     * Throws KGoogle::Exception::Invalid account when the list
+     * of scopes in \p account is empty.
+     *
+     * @param account An account to be authenticated.
      */
     void authenticate (KGoogle::Account *account);
 
@@ -79,8 +84,8 @@ class KDE_EXPORT AuthDialog: public KDialog
      *
      * When running the dialog synchronously via KDialog::exec() the dialog
      * also emits KDialog::accepted()
-     * 
-     * @param account Successfully authenticated account with tokens set
+     *
+     * @param account Successfully authenticated account with name tokens set
      */
     void authenticated(KGoogle::Account *account);
 

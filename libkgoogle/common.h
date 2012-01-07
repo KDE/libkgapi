@@ -65,7 +65,7 @@ namespace KGoogle {
     Unauthorized = 401,      /// Invalid or expired token. See KGoogleAccount::refreshTokens().
     Forbidden = 403,         /// The requested data are not accessible to this account
     NotFound = 404,          /// Requested object was not found on the remote side
-    Conflict = 409,          /// Object on the remote site differs from the submitted one. See KGoogleObject::setEtag().
+    Conflict = 409,          /// Object on the remote site differs from the submitted one. See KGoogle::Object::setEtag().
     Gone = 410,              /// The requested does not exist anymore on the remote site
     InternalError = 500      /// An unexpected error on the Google service occuerd
   };
@@ -169,7 +169,7 @@ namespace KGoogle {
   /**
    * Struct to store additional informations about a feed.
    */
-  typedef struct FeedData_ {
+  typedef struct FeedData {
     int startIndex;     /// Index of first item on current feed page.
     int itemsPerPage;   /// Number of items per feed page. This will be same  for all pages (except for the last one which can be shorter).
     int totalResults;   /// Number of all items.

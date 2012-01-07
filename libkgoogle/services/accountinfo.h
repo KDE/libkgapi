@@ -57,7 +57,7 @@ namespace KGoogle {
          * Returns scope URL for AccountInfo service.
          *
          * URL: https://www.googleapis.com/auth/userinfo.%property_name%.
-         * @See KGoogle::Objects::AccountInfo
+         * @see KGoogle::Objects::AccountInfo
          */
         static QString scopeUrl();
 

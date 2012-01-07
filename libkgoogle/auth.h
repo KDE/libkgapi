@@ -66,26 +66,41 @@ namespace KGoogle {
        *
        * It is up to user to delete the Account when no longer needed.
        *
+       * Throwns KGoogle::Exception::BackendNotReady when KWallet is not opened
+       * or connection fails for any reason. When account does not exist
+       * KGoogle::Exception::UnknownAccount is thrown.
+       *
        * @param account Name of account whose authentication to obtain
        * @return Returns KGoogle::Account or NULL when no such account is found in the
        *         KWallet or access to KWallet failed.
        */
-      const KGoogle::Account* getAccount(const QString &account);
+      KGoogle::Account* getAccount(const QString &account) const;
 
       /**
        * Retrieves list of all accounts from KWallet.
        *
-       * It's up to user to delete all accounts in the list when no longer needed.
+       * It's up to caller to delete all accounts in the list when no longer needed.
+       *
+       * Throws KGoogle::Exception::BackendNotReady when KWallet is not opened or
+       * connection fails for any reason.
        *
        * @return Returns list of all Google accounts from KWallet.
        */
-      const QList< KGoogle::Account* > getAccounts();
+      QList< KGoogle::Account* > getAccounts() const;
 
       /**
        * Stores \p account in KWallet.
        *
        * When account with same name already exists in KWallet
        * it will be overwritten by the new \p account.
+       *
+       * The \p account must have name, refresh and access tokens
+       * set, otherwise KGoogle::Exception::InvalidAccount is thrown
+       * and nothing is stored, e.g. you are not allowed to store incomplete
+       * or unauthenticated account.
+       *
+       * Throws KGoogle::Exception::BackendNotReady when KWallet is
+       * not opened or connection fails for any reason.
        *
        * @param account Account to store in KWallet
        */
@@ -95,8 +110,8 @@ namespace KGoogle {
        * Authenticates \p account against Google services.
        *
        * When \p account contains no access or refresh token,
-       * a complete authentication is performed (including dislaying)
-       * KGoogle::AuthDialog.
+       * a complete authentication is performed (including dislaying
+       * KGoogle::AuthDialog).
        *
        * When the \p account has both, access and refresh token set then
        * the refresh token is used to only obtain a new access token.
@@ -104,6 +119,11 @@ namespace KGoogle {
        * The operations runs asynchronously. When finished,
        * KGoogle::Auth::authenticated() signal is emitted.
        * Upon error, KGoogle::Auth::error() signal is emitted.
+       *
+       * Throws KGoogle::Exception::InvalidAccount when \p account is not
+       * valid or null. You are only allowed to pass an invalid \p account
+       * (but not a null pointer!) if you want to run the full authentication,
+       * otherwise at least name and scopes are required to be set.
        *
        * @param account Account whose token is to be refreshed.
        * @param autoSave Whether KGoogle::Auth should automatically
@@ -116,8 +136,9 @@ namespace KGoogle {
        * Revokes tokens for \p account and removes it from KWallet.
        *
        * This method will not throw any exception when the account
-       * is invalid or does not exist, only when access to the secure
-       * backend fails.
+       * is invalid or does not exist, only throws
+       * KGoogle::Exception::BackendNotReady when KWallet is not opened
+       * or connection fails (for any reason).
        *
        * @param account Account to which revoke access.
        * @return Returns \p true when account is succesfully removed, \p false
@@ -136,7 +157,7 @@ namespace KGoogle {
 
       /**
        * Account was succesfully (re-)authenticated.
-       * 
+       *
        * This signal is emitted when \p account was succesfully authenticated
        * (for the first time), or when just tokens were refreshed.
        */

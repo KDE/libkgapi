@@ -57,8 +57,6 @@ namespace KGoogle {
 
         /**
          * Sets an account ID.
-         *
-         * @see id()
          */
         void setId(const QString &id);
 
@@ -75,7 +73,7 @@ namespace KGoogle {
         /**
          * Returns account email address.
          *
-         * The address does not have to be @gmail.com.
+         * The address does not have to be \@gmail.com.
          */
         QString email() const;
 

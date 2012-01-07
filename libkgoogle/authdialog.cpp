@@ -187,6 +187,12 @@ AuthDialog::~AuthDialog()
 
 void AuthDialog::authenticate (KGoogle::Account *account)
 {
+
+  if (!account || account->scopes().isEmpty()) {
+    throw KGoogle::Exception::InvalidAccount();
+    return;
+  }
+
   m_account = account;
 
   QUrl url("https://accounts.google.com/o/oauth2/auth");
