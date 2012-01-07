@@ -55,6 +55,7 @@ AccessManager::AccessManager():
 AccessManager::~AccessManager()
 {
   delete m_nam;
+  delete m_cacheSemaphore;
 }
 
 void AccessManager::nam_replyReceived(QNetworkReply* reply)
