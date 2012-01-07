@@ -21,12 +21,15 @@
 #define LIBKGOOGLE_SERVICES_ACCOUNTINFO_H
 
 #include <libkgoogle/service.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
 
+  class Object;
+
   namespace Services {
 
-    class AccountInfo : public KGoogle::Service
+    class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Service
     {
       public:
         AccountInfo();
