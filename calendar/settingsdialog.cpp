@@ -131,7 +131,12 @@ void SettingsDialog::addAccountClicked()
   account->addScope(Services::Calendar::scopeUrl());
   account->addScope(Services::Tasks::scopeUrl());
 
-  auth->authenticate(account, true);
+  try {
+    auth->authenticate(account, true);
+  }
+  catch (KGoogle::Exception::BaseException &e) {
+    KMessageBox::error(this, e.what());
+  }
 }
 
 void SettingsDialog::removeAccountClicked()
@@ -148,7 +153,12 @@ void SettingsDialog::removeAccountClicked()
     return;
 
   KGoogle::Auth *auth = KGoogle::Auth::instance();
-  auth->revoke(account);
+  try {
+    auth->revoke(account);
+  }
+  catch (KGoogle::Exception::BaseException &e) {
+    KMessageBox::error(this, e.what());
+  }
 
   reloadAccounts();
 }
@@ -204,6 +214,8 @@ void SettingsDialog::addCalendarClicked()
           this, SLOT(addCalendar(KGoogle::Objects::Calendar*)));
 
   editor->exec();
+
+  delete editor;
 }
 
 void SettingsDialog::addCalendar(KGoogle::Objects::Calendar *calendar)
@@ -231,7 +243,6 @@ void SettingsDialog::addCalendar(KGoogle::Objects::Calendar *calendar)
   request->setRequestData(data, "application/json");
   gam->sendRequest(request);
 
-  delete sender();
   delete calendar;
 }
 
@@ -248,6 +259,8 @@ void SettingsDialog::editCalendarClicked()
           this, SLOT(editCalendar(KGoogle::Objects::Calendar*)));
 
   editor->exec();
+
+  delete editor;
 }
 
 void SettingsDialog::editCalendar(KGoogle::Objects::Calendar *calendar)
@@ -275,7 +288,6 @@ void SettingsDialog::editCalendar(KGoogle::Objects::Calendar *calendar)
   request->setRequestData(data, "application/json");
   gam->sendRequest(request);
 
-  delete sender();
   delete calendar;
 }
 
@@ -321,6 +333,8 @@ void SettingsDialog::addTaskListClicked()
           this, SLOT(addTaskList(KGoogle::Objects::TaskList*)));
 
   editor->exec();
+
+  delete editor;
 }
 
 void SettingsDialog::reloadCalendarsClicked()
@@ -388,7 +402,6 @@ void SettingsDialog::addTaskList(TaskList *taskList)
   request->setRequestData(data, "application/json");
   gam->sendRequest(request);
 
-  delete sender();
   delete taskList;
 }
 
@@ -405,6 +418,8 @@ void SettingsDialog::editTaskListClicked()
           this, SLOT(editTaskList(KGoogle::Objects::TaskList*)));
 
   editor->exec();
+
+  delete editor;
 }
 
 void SettingsDialog::editTaskList(TaskList *taskList)
@@ -432,7 +447,6 @@ void SettingsDialog::editTaskList(TaskList *taskList)
   request->setRequestData(data, "application/json");
   gam->sendRequest(request);
 
-  delete sender();
   delete taskList;
 }
 
