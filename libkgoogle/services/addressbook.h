@@ -84,45 +84,42 @@ namespace KGoogle {
 	/**
 	 * Returns URL for KGoogle::Request::Create requests.
          *
-         * https://www.google.com/m8/feeds/contacts/%1/full
-         * %1 = user ("default" or user@gmail.com)
+         * @param user User. "default" or user@gmail.com}
 	 */
-	static QString createUrl();
+	static QString createUrl(const QString &user);
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests.
          *
-         * https://www.google.com/m8/feeds/contacts/%1/full
-         * %1 = user ("default" or user@gmail.com)
+         * @param user User. "default" or user@gmail.com
 	 */
-	static QString fetchAllUrl();
+	static QString fetchAllUrl(const QString &user);
 
 	/**
 	 * Returns URL for KGoogle::Request::Fetch requests.
          *
          * https://www.google.com/m8/feeds/contacts/%1/full/%2
-         * %1 = user ("default" or user@gmail.com)
-         * %2 = contact ID
+         * @param user User. "default" or user@gmail.com
+         * @param contactID ID of contact to fetch
 	 */
-	static QString fetchUrl();
+	static QString fetchUrl(const QString &user, const QString &contactID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Update requests.
          *
-         * https://www.google.com/m8/feeds/contacts/%1/full/%2
-         * %1 = user ("default" or user@gmail.com)
-         * %2 = contact ID
+         * @param user User. "default" or user@gmail.com
+         * @param contactID ID of contact to update
 	 */
-	static QString updateUrl();
+	static QString updateUrl(const QString &user, const QString &contactID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Remove requests.
          *
          * https://www.google.com/m8/feeds/contacts/%1/full/%2
-         * %1 = user ("default" or user@gmail.com)
-         * %2 = contact ID
+         * @param user User. "default" or user@gmail.com
+         * @param contactID ID of contact to remove
 	 */
-	static QString removeUrl();
+	static QString removeUrl(const QString &user, const QString &contactID);
 
 	/**
 	 * Returns wheter service supports reading data in JSON format.

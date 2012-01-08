@@ -144,42 +144,29 @@ QString Services::Calendar::scopeUrl()
   return "https://www.google.com/calendar/feeds/";
 }
 
-QString Services::Calendar::fetchAllUrl()
+QString Services::Calendar::fetchAllUrl(const QString& user, const QString& visibility)
 {
-  // %1 = user (default or user@gmail.com)
-  // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc";
+  return "https://www.google.com/calendar/feeds/" + user + "/" + visibility + "/full?alt=jsonc";
 }
 
-QString Services::Calendar::fetchUrl()
+QString Services::Calendar::fetchUrl(const QString& user, const QString& visibility, const QString objID)
 {
-  // %1 = user (default or user@gmail.com)
-  // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  // %3 = event/calendar ID
-  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc";
+  return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
 }
 
-QString Services::Calendar::createUrl()
+QString Services::Calendar::createUrl(const QString& user, const QString& visibility)
 {
-  // %1 = user (default or user@gmail.com)
-  // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  return "https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc";
+  return "https://www.google.com/calendar/feeds/" + user + "/" + visibility + "/full?alt=jsonc";
 }
 
-QString Services::Calendar::updateUrl()
+QString Services::Calendar::updateUrl(const QString& user, const QString& visibility, const QString& objID)
 {
-  // %1 = user (default or user@gmail.com)
-  // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  // %3 = event/calendar ID
-  return "https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc";
+  return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
 }
 
- QString Services::Calendar::removeUrl()
+QString Services::Calendar::removeUrl(const QString& user, const QString& visibility, const QString& objID)
 {
-  // %1 = user (default or user@gmail.com)
-  // %2 = visibility (allcalendars for list of calendars, private for list of events)
-  // %3 = event/calendar ID
-  return "https://www.google.com/calendar/feeds/%1/%2/full/%3";
+  return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
 }
 
 const QString Services::Calendar::protocolVersion()

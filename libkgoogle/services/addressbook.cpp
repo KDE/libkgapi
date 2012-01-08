@@ -708,37 +708,29 @@ QString Addressbook::scopeUrl()
   return "https://www.google.com/m8/feeds/";
 }
 
-QString Addressbook::fetchAllUrl()
+QString Addressbook::fetchAllUrl(const QString& user)
 {
-  // %1 = user (default or user@gmail.com)
-  return "https://www.google.com/m8/feeds/contacts/%1/full";
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full";
 }
 
-QString Addressbook::fetchUrl()
+QString Addressbook::fetchUrl(const QString& user, const QString& contactID)
 {
-    // %1 = user (default or user@gmail.com)
-    // %2 = contact ID
-  return "https://www.google.com/m8/feeds/contacts/%1/full/%2";
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
 }
 
-QString Addressbook::createUrl()
+QString Addressbook::createUrl(const QString& user)
 {
-  // %1 = user (default or user@gmail.com)
-  return "https://www.google.com/m8/feeds/contacts/%1/full";
+  return "https://www.google.com/m8/feeds/contacts/" + user +"/full";
 }
 
-QString Addressbook::updateUrl()
+QString Addressbook::updateUrl(const QString& user, const QString& contactID)
 {
-  // %1 = user (default or user@gmail.com)
-  // %2 = contact ID
-  return "https://www.google.com/m8/feeds/contacts/%1/full/%2"; 
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
 }
 
-QString Addressbook::removeUrl()
+QString Addressbook::removeUrl(const QString& user, const QString& contactID)
 {
-  // %1 = user (default or user@gmail.com)
-  // %2 = contact ID
-  return "https://www.google.com/m8/feeds/contacts/%1/full/%2"; 
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
 }
 
 const QString Addressbook::protocolVersion()

@@ -121,44 +121,34 @@ QString Tasks::scopeUrl()
   return "https://www.googleapis.com/auth/tasks";
 }
 
-QString Tasks::fetchAllTasksUrl()
+QString Tasks::fetchAllTasksUrl(const QString& tasklistID)
 {
-  // %1 = taskList
-  return "https://www.googleapis.com/tasks/v1/lists/%1/tasks";
+  return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks";
 }
 
-QString Tasks::fetchTaskUrl()
+QString Tasks::fetchTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-  // %1 = taskList
-  // %2 = task ID
-  return "https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2";
+  return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID;
 }
 
-QString Tasks::createTaskUrl()
+QString Tasks::createTaskUrl(const QString& tasklistID)
 {
-  // %1 = taskList
-  return "https://www.googleapis.com/tasks/v1/lists/%1/tasks";
+  return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks";
 }
 
-QString Tasks::updateTaskUrl()
+QString Tasks::updateTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-  // %1 = taskList
-  // %2 = task ID
-  return "https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2";
+  return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID;
 }
 
-QString Tasks::removeTaskUrl()
+QString Tasks::removeTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-  // %1 = taskList
-  // %2 = task ID
-  return "https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2";
+  return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID;
 }
 
-QString Tasks::moveTaskUrl()
+QString Tasks::moveTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-  // %1 = taskList
-  // %2 = task ID
-  return "https://www.googleapis.com/tasks/v1/lists/%1/tasks/%2/move";
+  return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID + "/move";
 }
 
 QString Tasks::fetchTaskListsUrl()
@@ -171,16 +161,14 @@ QString Tasks::createTaskListUrl()
   return "https://www.googleapis.com/tasks/v1/users/@me/lists";
 }
 
-QString Tasks::updateTaskListUrl()
+QString Tasks::updateTaskListUrl(const QString& tasklistID)
 {
-  // %1 = tasklist ID
-  return "https://www.googleapis.com/tasks/v1/users/@me/lists/%1";
+  return "https://www.googleapis.com/tasks/v1/users/@me/lists/" + tasklistID;
 }
 
-QString Tasks::removeTaskListUrl()
+QString Tasks::removeTaskListUrl(const QString& tasklistID)
 {
-  // %1 = tasklist ID
-  return "https://www.googleapis.com/tasks/v1/users/@me/lists/%1";
+  return "https://www.googleapis.com/tasks/v1/users/@me/lists/" + tasklistID;
 }
 
 const QString Tasks::protocolVersion()

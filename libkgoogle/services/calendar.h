@@ -77,50 +77,45 @@ namespace KGoogle {
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests.
          *
-         * https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc
-         * %1 = user ("default" or user@gmail.com)
-         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
+         * @param user "default" or user@gmail.com
+         * @param visibility "allcalendars" for list of calendars, "private" for list of events
 	 */
-	static QString fetchAllUrl();
+	static QString fetchAllUrl(const QString &user, const QString &visibility);
 
 	/**
 	 * Returns URL for KGoogle::Requests::Fetch requests.
          *
-         * https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc
-         * %1 = user ("default" or user@gmail.com)
-         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
-         * %3 = event ID/calendar ID
+         * @param user "default" or user@gmail.com
+         * @param visibility "allcalendars" for calendar, "private" for event
+         * @param objID event ID or calendar ID (depending on \p visibility)
 	 */
-	static QString fetchUrl();
+	static QString fetchUrl(const QString &user, const QString &visibility, const QString objID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests.
          *
-         * https://www.google.com/calendar/feeds/%1/%2/full?alt=jsonc
-         * %1 = user ("default" or user@gmail.com)
-         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
+         * @param user "default" or user@gmail.com
+         * @param visibility "allcalendars" when creating a calendar, "private" when creating an event
 	 */
-	static QString createUrl();
+	static QString createUrl(const QString &user, const QString &visibility);
 
 	/**
 	 * Returns URL for KGoogle::Requests::Update requests.
          *
-         * https://www.google.com/calendar/feeds/%1/%2/full/%3?alt=jsonc
-         * %1 = user ("default" or user@gmail.com)
-         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
-         * %3 = event ID/calendar ID
+         * @param user "default" or user@gmail.com
+         * @param visibility "allcalendars" when updating a calendar, "private" when updating an event
+         * @param objID event ID or calendar ID (depending on \p visibility)
 	 */
-	static QString updateUrl();
+	static QString updateUrl(const QString &user, const QString &visibility, const QString &objID);
 
 	/**
 	 * Returns URL for KGoogle::Requests::Remove requests.
          *
-         * https://www.google.com/calendar/feeds/%1/%2/full/%3
-         * %1 = user ("default" or user@gmail.com)
-         * %2 = visibility ("allcalendars" for list of calendars, "private" for list of events)
-         * %3 = event ID/calendar ID
+         * @param user "default" or user@gmail.com
+         * @param visibility "allcalendars" when removing a calendar, "private" when removing an event
+         * @param objID event ID of calendar ID (depending on \p visiblity)
 	 */
-	static QString removeUrl();
+	static QString removeUrl(const QString &user, const QString &visibility, const QString &objID);
 
 	/**
 	 * Returns service scope URL
