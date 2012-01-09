@@ -51,7 +51,14 @@ void AccountsCombo::reload()
   QList< KGoogle::Account* > accounts;
   clear();
 
-  accounts = auth->getAccounts();
+  try {
+    accounts = auth->getAccounts();
+  }
+  catch (KGoogle::Exception::BackendNotReady &e) {
+    /* Slot must not throw an exception, application might not be ready for that */
+    return;
+  }
+
   foreach (KGoogle::Account *account, accounts) {
     addItem(account->accountName(), qVariantFromValue(account));
   }
