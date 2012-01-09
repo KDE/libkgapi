@@ -36,7 +36,7 @@ const QString KGoogle::Services::AccountInfo::protocolVersion()
 
 QString KGoogle::Services::AccountInfo::scopeUrl(const QString &propertyName)
 {
-  return "https://www.googleapis.com/oauth2/v1/userinfo." + propertyName;
+  return "https://www.googleapis.com/auth/userinfo." + propertyName;
 }
 
 QString KGoogle::Services::AccountInfo::fetchUrl()
