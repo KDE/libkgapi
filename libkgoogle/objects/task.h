@@ -44,6 +44,7 @@ namespace KGoogle {
     {
       public:
 	typedef QList<Task> List;
+        typedef QSharedPointer< Task > Ptr;
 
 	Task();
 	Task(const Task& other);
