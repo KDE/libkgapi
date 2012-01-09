@@ -72,7 +72,14 @@ namespace KGoogle {
       /**
        * @return Returns account name (user.name@gmail.com).
        */
-      const QString& accountName() const;
+      QString accountName() const;
+
+      /**
+       * Sets name of account.
+       *
+       * @param accountName Account name.
+       */
+      void setAccountName(const QString &accountName);
 
       /**
        * @return Returns access token for the account.

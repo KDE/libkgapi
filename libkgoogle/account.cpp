@@ -37,9 +37,14 @@ Account::~Account()
 
 }
 
-const QString &Account::accountName() const
+QString Account::accountName() const
 {
   return m_accName;
+}
+
+void Account::setAccountName(const QString& accountName)
+{
+  m_accName = accountName;
 }
 
 const QString &Account::accessToken() const
