@@ -20,15 +20,19 @@
 #ifndef CALENDARRESOURCE_H
 #define CALENDARRESOURCE_H
 
-#include <Akonadi/AgentBase>
-#include <Akonadi/ResourceBase>
+#include <akonadi/agentbase.h>
+#include <akonadi/resourcebase.h>
 
 #include <akonadi/item.h>
+#include <akonadi/collection.h>
+
+#include <libkgoogle/common.h>
 
 namespace KGoogle {
-  class KGoogleAccessManager;
-  class KGoogleAuth;
-  class KGoogleReply;
+  class AccessManager;
+  class Account;
+  class Reply;
+  class Request;
 }
 
 using namespace KGoogle;
@@ -54,32 +58,53 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void itemRemoved(const Akonadi::Item& item);
 
   protected:
-    void aboutToQuit();  
+    void aboutToQuit();
 
   private Q_SLOTS:
-    void slotGAMError(const QString &msg, const int errorCode);
-    void authError(const QString &error);
+    void error(const KGoogle::Error, const QString&);
     void slotAbortRequested();
-    void tokensReceived();
 
-    void replyReceived(KGoogleReply *reply);
-    void commitItemsList();
+    void cachedItemsRetrieved(KJob *job);
+    void replyReceived(KGoogle::Reply *reply);
+    void commitItemsList(KGoogle::Request *request);
 
-    void initialItemFetchJobFinished(KJob *job);
-    void eventListReceived(KGoogleReply *reply);
-    void eventReceived(KGoogleReply *reply);
-    void eventCreated(KGoogleReply *reply);
-    void eventUpdated(KGoogleReply *reply);
-    void eventRemoved(KGoogleReply *reply);
+    void itemsReceived(KGoogle::Reply *reply);
+    void itemReceived(KGoogle::Reply *reply);
+    void itemCreated(KGoogle::Reply *reply);
+    void itemUpdated(KGoogle::Reply *reply);
+    void itemRemoved(KGoogle::Reply *reply);
+
+    bool taskReceived(KGoogle::Reply *reply);
+    bool tasksReceived(KGoogle::Reply *reply);
+    bool taskListReceived(KGoogle::Reply *reply);
+    bool taskCreated(KGoogle::Reply *reply);
+    bool taskUpdated(KGoogle::Reply *reply);
+    bool taskRemoved(KGoogle::Reply *reply);
+    bool commitTaskLists(KGoogle::Request *request);
+    bool commitTasks(KGoogle::Request *request);
+
+    bool eventReceived(KGoogle::Reply *reply);
+    bool eventsReceived(KGoogle::Reply *reply);
+    bool calendarsReceived(KGoogle::Reply *reply);
+    bool eventCreated(KGoogle::Reply *reply);
+    bool eventUpdated(KGoogle::Reply *reply);
+    bool eventRemoved(KGoogle::Reply *reply);
+    bool commitCalendars(KGoogle::Request *reply);
+    bool commitEvents(KGoogle::Request *reply);
 
   private:
     void abort();
 
-    KGoogleAccessManager *m_gam;
-    KGoogleAuth *m_auth;
+    AccessManager *m_gam;
 
-    Akonadi::Item::List m_changedItems;
-    Akonadi::Item::List m_removedItems;
+    Akonadi::Item::List m_changedEvents;
+    Akonadi::Item::List m_changedTodos;
+    Akonadi::Item::List m_removedEvents;
+    Akonadi::Item::List m_removedTodos;
+
+    Akonadi::Collection::List m_collections;
+    bool m_fetchedCalendars;
+    bool m_fetchedTaskLists;
 };
 
 #endif // CALENDARRESOURCE_H

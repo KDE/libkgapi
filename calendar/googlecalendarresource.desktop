@@ -31,6 +31,6 @@ Comment[uk]=Доступ до ваших календарів Google з KDE
 Comment[x-test]=xxAccess your Google Calendars from KDExx
 Type=AkonadiResource
 Exec=akonadi_googlecalendar_resource
-X-Akonadi-MimeTypes=text/calendar,application/x-vnd.akonadi.calendar.event
+X-Akonadi-MimeTypes=text/calendar,application/x-vnd.akonadi.calendar.event,application/x-vnd.akonadi.calendar.todo,text/directory
 X-Akonadi-Capabilities=Resource
 X-Akonadi-Identifier=akonadi_googlecalendar_resource

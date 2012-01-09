@@ -113,11 +113,11 @@ void SettingsDialog::reloadAccounts()
   m_ui->accountsCombo->reload();
 
   QString accName = Settings::self()->account();
-  if (!accName.isEmpty()) {
-    int index = m_ui->accountsCombo->findText(accName);
+  int index = m_ui->accountsCombo->findText(accName);
+  if (index > -1)
     m_ui->accountsCombo->setCurrentIndex(index);
-    accountChanged();
-  }
+
+  accountChanged();
 
   connect(m_ui->accountsCombo, SIGNAL(currentIndexChanged(int)),
           this, SLOT(accountChanged()));
@@ -193,8 +193,8 @@ void SettingsDialog::accountChanged()
           this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
-  QString url = Services::Calendar::fetchAllUrl().arg("default", "allcalendars");
-  request = new KGoogle::Request(url, Request::FetchAll, "Calendar", account);
+  request = new KGoogle::Request(Services::Calendar::fetchAllUrl("default", "allcalendars"), 
+                                 Request::FetchAll, "Calendar", account);
   gam->sendRequest(request);
 
   m_ui->tasksList->clear();
@@ -237,8 +237,8 @@ void SettingsDialog::addCalendar(KGoogle::Objects::Calendar *calendar)
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  QString url = Services::Calendar::createUrl().arg("default", "owncalendars");
-  request = new KGoogle::Request(url, Request::Create, "Calendar", account);
+  request = new KGoogle::Request(Services::Calendar::createUrl("default", "owncalendars"),
+                                 Request::Create, "Calendar", account);
   data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(calendar));
   request->setRequestData(data, "application/json");
   gam->sendRequest(request);
@@ -282,8 +282,8 @@ void SettingsDialog::editCalendar(KGoogle::Objects::Calendar *calendar)
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  QString url = Services::Calendar::updateUrl().arg("default", "owncalendars", calendar->uid());
-  request = new KGoogle::Request(url, Request::Update, "Calendar", account);
+  request = new KGoogle::Request(Services::Calendar::updateUrl("default", "owncalendars", calendar->uid()),
+                                 Request::Update, "Calendar", account);
   data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(calendar));
   request->setRequestData(data, "application/json");
   gam->sendRequest(request);
@@ -321,8 +321,8 @@ void SettingsDialog::removeCalendarClicked()
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  QString url = Services::Calendar::removeUrl().arg("default", "owncalendars", calendar->uid());
-  request = new KGoogle::Request(url, Request::Remove, "Calendar", account);
+  request = new KGoogle::Request(Services::Calendar::removeUrl("default", "owncalendars", calendar->uid()),
+                                 Request::Remove, "Calendar", account);
   gam->sendRequest(request);
 }
 
@@ -354,8 +354,9 @@ void SettingsDialog::reloadCalendarsClicked()
           this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
-  QString url = Services::Calendar::fetchAllUrl().arg("default", "allcalendars");
-  request = new KGoogle::Request(url, Request::FetchAll, "Calendar", account);
+
+  request = new KGoogle::Request(Services::Calendar::fetchAllUrl("default", "allcalendars"),
+                                 Request::FetchAll, "Calendar", account);
   gam->sendRequest(request);
 }
 
@@ -367,9 +368,9 @@ void SettingsDialog::calendarChecked(QListWidgetItem *item)
   calendars = Settings::self()->calendars();
   uid = item->data(ObjectUIDRole).toString();
 
-  if (item->checkState() == Qt::Checked) {
+  if ((item->checkState() == Qt::Checked) && !calendars.contains(uid)) {
     calendars.append(uid);
-  } else {
+  } else if ((item->checkState() == Qt::Unchecked) && calendars.contains(uid)) {
     calendars.removeAll(uid);
   }
 
@@ -441,8 +442,8 @@ void SettingsDialog::editTaskList(TaskList *taskList)
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  QString url = Services::Tasks::updateTaskListUrl().arg(taskList->uid());
-  request = new KGoogle::Request(url, Request::Update, "Tasks", account);
+  request = new KGoogle::Request(Services::Tasks::updateTaskListUrl(taskList->uid()),
+                                 Request::Update, "Tasks", account);
   data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(taskList));
   request->setRequestData(data, "application/json");
   gam->sendRequest(request);
@@ -480,8 +481,8 @@ void SettingsDialog::removeTaskListClicked()
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  QString url = Services::Tasks::removeTaskListUrl().arg(taskList->uid());
-  request = new KGoogle::Request(url, Request::Remove, "Tasks", account);
+  request = new KGoogle::Request(Services::Tasks::removeTaskListUrl(taskList->uid()),
+                                 Request::Remove, "Tasks", account);
   gam->sendRequest(request);
 }
 
@@ -514,9 +515,9 @@ void SettingsDialog::taskListChecked(QListWidgetItem *item)
   taskLists = Settings::self()->taskLists();
   uid = item->data(ObjectUIDRole).toString();
 
-  if (item->checkState() == Qt::Checked) {
+  if ((item->checkState() == Qt::Checked) && !taskLists.contains(uid)) {
     taskLists.append(uid);
-  } else {
+  } else if ((item->checkState() == Qt::Unchecked) && taskLists.contains(uid)) {
     taskLists.removeAll(uid);
   }
 
