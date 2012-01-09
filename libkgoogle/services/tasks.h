@@ -167,14 +167,14 @@ namespace KGoogle {
 	static bool supportsJSONWrite(QString* urlParam);
 
       private:
-	QList< KGoogle::Object* > parseTaskListJSONFeed(QVariantList items);
-	QList< KGoogle::Object* > parseTasksJSONFeed(QVariantList items);
+	QList< KGoogle::Object* > parseTaskListJSONFeed(const QVariantList &items) const;
+	QList< KGoogle::Object* > parseTasksJSONFeed(const QVariantList &items) const;
 
-	KGoogle::Object* JSONToTaskList(QVariantMap jsonData);
-	QVariantMap taskListToJSON(KGoogle::Object *taskList);
+	KGoogle::Object* JSONToTaskList(QVariantMap jsonData) const;
+	QVariantMap taskListToJSON(KGoogle::Object *taskList) const;
 
-	KGoogle::Object* JSONToTask(QVariantMap jsonData);
-	QVariantMap taskToJSON(KGoogle::Object *task);
+	KGoogle::Object* JSONToTask(QVariantMap jsonData) const;
+	QVariantMap taskToJSON(KGoogle::Object *task) const;
     };
 
   } /* namespace Services */
