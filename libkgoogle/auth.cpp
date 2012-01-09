@@ -20,6 +20,7 @@
 #include "auth.h"
 #include "authdialog.h"
 #include "common.h"
+#include "services/accountinfo.h"
 
 #include <kwallet.h>
 #include <kdebug.h>
@@ -123,14 +124,16 @@ void Auth::storeAccount (const KGoogle::Account *account)
     return;
   }
 
-  if (!(account && !account->accountName().isEmpty() &&
-        !account->accessToken().isEmpty() && !account->refreshToken().isEmpty())) {
+  if (!account || account->accountName().isEmpty() ||
+       account->accessToken().isEmpty() || account->refreshToken().isEmpty()) {
     throw Exception::InvalidAccount();
     return;
   }
 
   if (!m_kwallet->hasFolder(KWALLET_FOLDER))
     m_kwallet->createFolder(KWALLET_FOLDER);
+
+  m_kwallet->setFolder(KWALLET_FOLDER);
 
   if (m_kwallet->hasEntry(account->accountName()))
     m_kwallet->removeEntry(account->accountName());
@@ -150,6 +153,7 @@ void Auth::authenticate (KGoogle::Account *account, bool autoSave)
   }
 
   if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
+    account->addScope(Services::AccountInfo::scopeUrl("email"));
     fullAuthentication(account, autoSave);
   } else {
     if (account->accountName().isEmpty()) {
@@ -220,7 +224,7 @@ void Auth::fullAuthenticationFinished (KGoogle::Account *account)
 
   /* Actually this slot shouldn't be invoked by anything else but
    * AuthDialog, but just to make sure... */
-  if (sender() && qobject_cast<AuthDialog*>(sender()))
+  if (sender() && qobject_cast< AuthDialog* >(sender()))
     autoSave = sender()->property("autoSaveAccount").toBool();
 
   if (autoSave)

@@ -36,6 +36,12 @@
 #include <kpushbutton.h>
 #include <kdemacros.h>
 
+namespace KGoogle {
+
+  class Reply;
+
+};
+
 
 /**
  * Dialog for authentication with Google services.
@@ -68,8 +74,7 @@ class KDE_EXPORT AuthDialog: public KDialog
     /**
      * Starts the authentication process of \p account. When finished
      * the authenticated() signal will be emitted with the same instance
-     * of \p account and with tokens filled. The name of the account
-     * must be obtained manually via the AccountInfo service.
+     * of \p account and with tokens and name filled.
      *
      * Throws KGoogle::Exception::Invalid account when the list
      * of scopes in \p account is empty.
@@ -105,6 +110,7 @@ class KDE_EXPORT AuthDialog: public KDialog
     void webviewFinished();
 
     void networkRequestFinished(QNetworkReply *reply);
+    void accountInfoReceived(KGoogle::Reply *reply);
 
   private:
     /* GUI */

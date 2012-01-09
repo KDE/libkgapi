@@ -33,6 +33,12 @@
 
 #include <qjson/parser.h>
 
+#include "accessmanager.h"
+#include "reply.h"
+#include "request.h"
+#include "services/accountinfo.h"
+#include "objects/accountinfo.h"
+
 
 /****************** Private implementation *****************/
 
@@ -127,10 +133,37 @@ void AuthDialog::networkRequestFinished(QNetworkReply* reply)
   m_account->setAccessToken(parsed_data["access_token"].toString());
   m_account->setRefreshToken(parsed_data["refresh_token"].toString());
 
-  emit authenticated(m_account);
+  KGoogle::AccessManager *gam = new KGoogle::AccessManager;
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          this, SLOT(accountInfoReceived(KGoogle::Reply*)));
+  connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+          gam, SLOT(deleteLater()));
+
+  KGoogle::Request *request;
+  request = new KGoogle::Request(KGoogle::Services::AccountInfo::fetchUrl(),
+                                 KGoogle::Request::Fetch, "AccountInfo", m_account);
+
+  gam->sendRequest(request);
+}
+
+void AuthDialog::accountInfoReceived(KGoogle::Reply* reply)
+{
+  if (reply->error() != KGoogle::OK) {
+    emitError(reply->error(), reply->errorString());
+    return;
+  }
+
+  QList< KGoogle::Object* > data = reply->replyData();
+  KGoogle::Objects::AccountInfo *accountInfo = static_cast< KGoogle::Objects::AccountInfo* >(data.first());
+
+  m_account->setAccountName(accountInfo->email());
+
+  delete reply;
 
   accept();
+  emit authenticated(m_account);
 }
+
 
 /********************* Public implementation ***************/
 
@@ -138,6 +171,8 @@ AuthDialog::AuthDialog(WId windowId):
   KDialog()
 {
   KWindowSystem::setMainWindow(this, windowId);
+
+  qRegisterMetaType< KGoogle::Services::AccountInfo >("AccountInfo");
 
   setModal(true);
 
