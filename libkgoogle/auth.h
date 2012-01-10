@@ -62,6 +62,21 @@ namespace KGoogle {
       virtual ~Auth();
 
       /**
+       * Sets KWallet folder in which libkgoogle should store tokens
+       *
+       * Every application should call this before using Auth for the first
+       * time. When there is no folder set libKGoogle will use default "libkgoogle"
+       * folder. There is no problem storing tokens in the "libkgoogle" folder but
+       * remember that then the tokens will be shared accross all applications that
+       * won't set the folder either. It is strongly recommended for each application
+       * to use it's own folder.
+       *
+       * @param folder Folder in KWallet in which tokens and accounts for current application
+       *               should be stored. If the \p folder does not exist, it will be created.
+       */
+      void setKWalletFolder(const QString &folder);
+
+      /**
        * Retrieves \p account from KWallet.
        *
        * It is up to user to delete the Account when no longer needed.
@@ -175,6 +190,7 @@ namespace KGoogle {
       Auth(const Auth& other);
       Auth& operator=(const Auth &other);
 
+      QString m_kwalletFolder;
       KWallet::Wallet *m_kwallet;
 
       static Auth *m_instance;

@@ -37,8 +37,6 @@
 using namespace KWallet;
 using namespace KGoogle;
 
-#define KWALLET_FOLDER "Akonadi Google"
-
 Auth* Auth::m_instance = 0;
 
 Auth *Auth::instance()
@@ -56,9 +54,11 @@ Auth *Auth::instance()
   return m_instance;
 }
 
-Auth::Auth()
+Auth::Auth():
+  m_kwalletFolder("libkgoogle"),
+  m_kwallet(Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Synchronous))
 {
-  m_kwallet = Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Synchronous);
+
 }
 
 
@@ -70,6 +70,12 @@ Auth::~Auth()
   }
 }
 
+void Auth::setKWalletFolder(const QString& folder)
+{
+  m_kwalletFolder = folder;
+}
+
+
 KGoogle::Account *Auth::getAccount (const QString &account) const
 {
   if (!m_kwallet->isOpen()) {
@@ -77,12 +83,12 @@ KGoogle::Account *Auth::getAccount (const QString &account) const
     return 0;
   }
 
-  if (!m_kwallet->hasFolder(KWALLET_FOLDER)) {
+  if (!m_kwallet->hasFolder(m_kwalletFolder)) {
     throw Exception::UnknownAccount(account);
     return 0;
   }
 
-  m_kwallet->setFolder(KWALLET_FOLDER);
+  m_kwallet->setFolder(m_kwalletFolder);
 
   QMap< QString, QString > map;
   if (m_kwallet->readMap(account, map) != 0) {
@@ -101,11 +107,11 @@ QList< KGoogle::Account * > Auth::getAccounts() const
     return QList< Account *>();
   }
 
-  if (!m_kwallet->hasFolder(KWALLET_FOLDER))
+  if (!m_kwallet->hasFolder(m_kwalletFolder))
     return QList< Account *>();
 
 
-  m_kwallet->setFolder(KWALLET_FOLDER);
+  m_kwallet->setFolder(m_kwalletFolder);
   QStringList list = m_kwallet->entryList();
   QList< Account * > accounts;
   foreach (QString accName, list) {
@@ -130,10 +136,10 @@ void Auth::storeAccount (const KGoogle::Account *account)
     return;
   }
 
-  if (!m_kwallet->hasFolder(KWALLET_FOLDER))
-    m_kwallet->createFolder(KWALLET_FOLDER);
+  if (!m_kwallet->hasFolder(m_kwalletFolder))
+    m_kwallet->createFolder(m_kwalletFolder);
 
-  m_kwallet->setFolder(KWALLET_FOLDER);
+  m_kwallet->setFolder(m_kwalletFolder);
 
   if (m_kwallet->hasEntry(account->accountName()))
     m_kwallet->removeEntry(account->accountName());
@@ -175,7 +181,7 @@ bool Auth::revoke (Account *account)
     return false;
   }
 
-  if (!m_kwallet->hasFolder(KWALLET_FOLDER))
+  if (!m_kwallet->hasFolder(m_kwalletFolder))
     return false;
 
   if (m_kwallet->hasEntry(account->accountName())) {
