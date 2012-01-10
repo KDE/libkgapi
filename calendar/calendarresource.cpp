@@ -75,6 +75,9 @@ CalendarResource::CalendarResource(const QString &id):
   qRegisterMetaType< KGoogle::Services::Calendar >("Calendar");
   qRegisterMetaType< KGoogle::Services::Tasks >("Tasks");
 
+  Auth *auth = Auth::instance();
+  auth->setKWalletFolder("Akonadi Google");
+
   setNeedsNetwork(true);
   setOnline(true);
 
