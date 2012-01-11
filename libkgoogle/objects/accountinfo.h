@@ -21,6 +21,7 @@
 #define LIBKGOOGLE_OBJECTS_ACCOUNTINFO_H
 
 #include <libkgoogle/object.h>
+#include <libkgoogle_export.h>
 
 #include <qshareddata.h>
 #include <qmetatype.h>
@@ -46,7 +47,7 @@ namespace KGoogle {
      * https://Fwww.googleapis.com/auth/userinfo.%propertyName%.
      * To access all properties, use 'profile' scope.
      */
-    class AccountInfo : public KGoogle::Object
+    class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Object
     {
       public:
         AccountInfo();
