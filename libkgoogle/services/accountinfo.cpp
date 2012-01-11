@@ -34,14 +34,14 @@ const QString KGoogle::Services::AccountInfo::protocolVersion()
   return "1";
 }
 
-QString KGoogle::Services::AccountInfo::scopeUrl(const QString &propertyName)
+QUrl KGoogle::Services::AccountInfo::scopeUrl(const QString &propertyName)
 {
-  return "https://www.googleapis.com/auth/userinfo." + propertyName;
+  return QUrl("https://www.googleapis.com/auth/userinfo." + propertyName);
 }
 
-QString KGoogle::Services::AccountInfo::fetchUrl()
+QUrl KGoogle::Services::AccountInfo::fetchUrl()
 {
-  return "https://www.googleapis.com/oauth2/v1/userinfo";
+  return QUrl("https://www.googleapis.com/oauth2/v1/userinfo");
 }
 
 KGoogle::Object *KGoogle::Services::AccountInfo::JSONToObject (const QByteArray &jsonData)

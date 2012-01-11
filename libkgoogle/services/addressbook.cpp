@@ -703,32 +703,32 @@ QList< KGoogle::Object* > Addressbook::parseXMLFeed(const QByteArray& xmlFeed, F
   return QList< KGoogle::Object* >();
 }
 
-QString Addressbook::scopeUrl()
+QUrl Addressbook::scopeUrl()
 {
-  return "https://www.google.com/m8/feeds/";
+  return QUrl("https://www.google.com/m8/feeds/");
 }
 
-QString Addressbook::fetchAllUrl(const QString& user)
+QUrl Addressbook::fetchAllUrl(const QString& user)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user + "/full";
 }
 
-QString Addressbook::fetchUrl(const QString& user, const QString& contactID)
+QUrl Addressbook::fetchUrl(const QString& user, const QString& contactID)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
 }
 
-QString Addressbook::createUrl(const QString& user)
+QUrl Addressbook::createUrl(const QString& user)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user +"/full";
 }
 
-QString Addressbook::updateUrl(const QString& user, const QString& contactID)
+QUrl Addressbook::updateUrl(const QString& user, const QString& contactID)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
 }
 
-QString Addressbook::removeUrl(const QString& user, const QString& contactID)
+QUrl Addressbook::removeUrl(const QString& user, const QString& contactID)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
 }

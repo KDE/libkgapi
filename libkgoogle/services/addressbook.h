@@ -79,21 +79,21 @@ namespace KGoogle {
          *
          * https://www.google.com/m8/feeds/
 	 */
-	static QString scopeUrl();
+	static QUrl scopeUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests.
          *
          * @param user User. "default" or user@gmail.com}
 	 */
-	static QString createUrl(const QString &user);
+	static QUrl createUrl(const QString &user);
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests.
          *
          * @param user User. "default" or user@gmail.com
 	 */
-	static QString fetchAllUrl(const QString &user);
+	static QUrl fetchAllUrl(const QString &user);
 
 	/**
 	 * Returns URL for KGoogle::Request::Fetch requests.
@@ -102,7 +102,7 @@ namespace KGoogle {
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to fetch
 	 */
-	static QString fetchUrl(const QString &user, const QString &contactID);
+	static QUrl fetchUrl(const QString &user, const QString &contactID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Update requests.
@@ -110,7 +110,7 @@ namespace KGoogle {
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to update
 	 */
-	static QString updateUrl(const QString &user, const QString &contactID);
+	static QUrl updateUrl(const QString &user, const QString &contactID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Remove requests.
@@ -119,7 +119,7 @@ namespace KGoogle {
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to remove
 	 */
-	static QString removeUrl(const QString &user, const QString &contactID);
+	static QUrl removeUrl(const QString &user, const QString &contactID);
 
 	/**
 	 * Returns wheter service supports reading data in JSON format.

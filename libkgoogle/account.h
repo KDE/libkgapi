@@ -21,6 +21,7 @@
 #define LIBKGOOGLE_ACCOUNT_H
 
 #include <qstring.h>
+#include <qurl.h>
 #include <qstringlist.h>
 #include <qmetatype.h>
 
@@ -65,7 +66,7 @@ namespace KGoogle {
        */
       Account(const QString &account, const QString &accessToken = QString(),
               const QString &refreshToken = QString(),
-              const QStringList &scopes = QStringList());
+              const QList< QUrl > &scopes = QList< QUrl >());
 
       virtual ~Account();
 
@@ -108,7 +109,7 @@ namespace KGoogle {
       /**
        * @return Returns list of scopes the account is authenticated against.
        */
-      const QStringList &scopes() const;
+      const QList< QUrl > &scopes() const;
 
       /**
        * Sets new scopes. Use must re-authenticate to allow access to the new scopes.
@@ -118,7 +119,7 @@ namespace KGoogle {
        *
        * @param scopes List of the new scopes.
        */
-      void setScopes(const QStringList &scopes);
+      void setScopes(const QList< QUrl > &scopes);
 
       /**
        * Adds a single scope to account scopes.
@@ -128,7 +129,7 @@ namespace KGoogle {
        *
        * @param scope The new scope to be added.
        */
-      void addScope(const QString &scope);
+      void addScope(const QUrl &scope);
 
       /**
        * Removes scope from the list.
@@ -138,13 +139,13 @@ namespace KGoogle {
        *
        * @param scope The scope to be removed.
        */
-      void removeScope(const QString &scope);
+      void removeScope(const QUrl &scope);
 
     private:
       QString m_accName;
       QString m_accessToken;
       QString m_refreshToken;
-      QStringList m_scopes;
+      QList< QUrl > m_scopes;
 
       /**
        * Whether scopes were changed or not.

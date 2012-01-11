@@ -80,7 +80,7 @@ namespace KGoogle {
          * @param user "default" or user@gmail.com
          * @param visibility "allcalendars" for list of calendars, "private" for list of events
 	 */
-	static QString fetchAllUrl(const QString &user, const QString &visibility);
+	static QUrl fetchAllUrl(const QString &user, const QString &visibility);
 
 	/**
 	 * Returns URL for KGoogle::Requests::Fetch requests.
@@ -89,7 +89,7 @@ namespace KGoogle {
          * @param visibility "allcalendars" for calendar, "private" for event
          * @param objID event ID or calendar ID (depending on \p visibility)
 	 */
-	static QString fetchUrl(const QString &user, const QString &visibility, const QString objID);
+	static QUrl fetchUrl(const QString &user, const QString &visibility, const QString objID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests.
@@ -97,7 +97,7 @@ namespace KGoogle {
          * @param user "default" or user@gmail.com
          * @param visibility "allcalendars" when creating a calendar, "private" when creating an event
 	 */
-	static QString createUrl(const QString &user, const QString &visibility);
+	static QUrl createUrl(const QString &user, const QString &visibility);
 
 	/**
 	 * Returns URL for KGoogle::Requests::Update requests.
@@ -106,7 +106,7 @@ namespace KGoogle {
          * @param visibility "allcalendars" when updating a calendar, "private" when updating an event
          * @param objID event ID or calendar ID (depending on \p visibility)
 	 */
-	static QString updateUrl(const QString &user, const QString &visibility, const QString &objID);
+	static QUrl updateUrl(const QString &user, const QString &visibility, const QString &objID);
 
 	/**
 	 * Returns URL for KGoogle::Requests::Remove requests.
@@ -115,14 +115,14 @@ namespace KGoogle {
          * @param visibility "allcalendars" when removing a calendar, "private" when removing an event
          * @param objID event ID of calendar ID (depending on \p visiblity)
 	 */
-	static QString removeUrl(const QString &user, const QString &visibility, const QString &objID);
+	static QUrl removeUrl(const QString &user, const QString &visibility, const QString &objID);
 
 	/**
 	 * Returns service scope URL
          *
          * https://www.google.com/calendar/feeds/
 	 */
-	static QString scopeUrl();
+	static QUrl scopeUrl();
 
 	/**
 	 * Returns wheter service supports reading data in JSON format.

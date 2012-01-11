@@ -77,21 +77,21 @@ namespace KGoogle {
          *
          * https://www.googleapis.com/auth/tasks
 	 */
-	static QString scopeUrl();
+	static QUrl scopeUrl();
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests for tasks.
          *
          * @param tasklistID ID of parent task list
 	 */
-	static QString createTaskUrl(const QString &tasklistID);
+	static QUrl createTaskUrl(const QString &tasklistID);
 
         /**
 	 * Returns URL for KGoogle::Request::FetchAll requests for tasks.
          *
          * @param tasklistID ID of parent task list
 	 */
-	static QString fetchAllTasksUrl(const QString &tasklistID);
+	static QUrl fetchAllTasksUrl(const QString &tasklistID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Fetch requests for tasks.
@@ -99,7 +99,7 @@ namespace KGoogle {
          * @param tasklistID ID of parent task list
          * @param taskID ID of task to fetch
 	 */
-	static QString fetchTaskUrl(const QString &tasklistID, const QString &taskID);
+	static QUrl fetchTaskUrl(const QString &tasklistID, const QString &taskID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Update requests for tasks.
@@ -107,7 +107,7 @@ namespace KGoogle {
          * @param tasklistID ID of parent task list
          * @param taskID ID of task to update
 	 */
-	static QString updateTaskUrl(const QString &tasklistID, const QString &taskID);
+	static QUrl updateTaskUrl(const QString &tasklistID, const QString &taskID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Remove requests for tasks.
@@ -115,7 +115,7 @@ namespace KGoogle {
          * @param tasklistID ID of parent task list
          * @param taskID ID of task to remove
 	 */
-	static QString removeTaskUrl(const QString &tasklistID, const QString &taskID);
+	static QUrl removeTaskUrl(const QString &tasklistID, const QString &taskID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Update request for tasks.
@@ -124,31 +124,31 @@ namespace KGoogle {
          * @param tasklistID ID of parent task list
          * @param taskID ID of task to move
          */
-	static QString moveTaskUrl(const QString &tasklistID, const QString &taskID);
+	static QUrl moveTaskUrl(const QString &tasklistID, const QString &taskID);
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests for tasks lists
 	 */
-	static QString fetchTaskListsUrl();
+	static QUrl fetchTaskListsUrl();
 
         /**
          * Returns URL for KGoogle::Request::Creata requests for tasks lists.
          */
-        static QString createTaskListUrl();
+	static QUrl createTaskListUrl();
 
         /**
          * Returns URL for KGoogle::Request::Update requests for task lists.
          *
          * @param tasklistID ID of task list to update
          */
-        static QString updateTaskListUrl(const QString &tasklistID);
+	static QUrl updateTaskListUrl(const QString &tasklistID);
 
         /**
          * Returns URL for KGoogle::Request::Remove requests for task lists.
          *
          * @param tasklistID ID of task list to remove
          */
-        static QString removeTaskListUrl(const QString &tasklistID);
+	static QUrl removeTaskListUrl(const QString &tasklistID);
 
 	/**
 	 * Returns wheter service supports reading data in JSON format.

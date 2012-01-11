@@ -230,10 +230,14 @@ void AuthDialog::authenticate (KGoogle::Account *account)
 
   m_account = account;
 
+  QStringList scopes;
+  foreach (const QUrl &scope, account->scopes())
+    scopes << scope.toString();
+
   QUrl url("https://accounts.google.com/o/oauth2/auth");
   url.addQueryItem("client_id", KGoogle::APIClientID);
   url.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
-  url.addQueryItem("scope", account->scopes().join(" "));
+  url.addQueryItem("scope", scopes.join(" "));
   url.addQueryItem("response_type", "code");
 
 #ifdef DEBUG_RAWDATA

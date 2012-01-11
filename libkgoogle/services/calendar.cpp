@@ -139,32 +139,32 @@ QList< KGoogle::Object* > Services::Calendar::parseXMLFeed(const QByteArray& xml
 
 /************* URLS **************/
 
-QString Services::Calendar::scopeUrl()
+QUrl Services::Calendar::scopeUrl()
 {
-  return "https://www.google.com/calendar/feeds/";
+  return QUrl("https://www.google.com/calendar/feeds/");
 }
 
-QString Services::Calendar::fetchAllUrl(const QString& user, const QString& visibility)
-{
-  return "https://www.google.com/calendar/feeds/" + user + "/" + visibility + "/full?alt=jsonc";
-}
-
-QString Services::Calendar::fetchUrl(const QString& user, const QString& visibility, const QString objID)
-{
-  return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
-}
-
-QString Services::Calendar::createUrl(const QString& user, const QString& visibility)
+QUrl Services::Calendar::fetchAllUrl(const QString& user, const QString& visibility)
 {
   return "https://www.google.com/calendar/feeds/" + user + "/" + visibility + "/full?alt=jsonc";
 }
 
-QString Services::Calendar::updateUrl(const QString& user, const QString& visibility, const QString& objID)
+QUrl Services::Calendar::fetchUrl(const QString& user, const QString& visibility, const QString objID)
 {
   return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
 }
 
-QString Services::Calendar::removeUrl(const QString& user, const QString& visibility, const QString& objID)
+QUrl Services::Calendar::createUrl(const QString& user, const QString& visibility)
+{
+  return "https://www.google.com/calendar/feeds/" + user + "/" + visibility + "/full?alt=jsonc";
+}
+
+QUrl Services::Calendar::updateUrl(const QString& user, const QString& visibility, const QString& objID)
+{
+  return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
+}
+
+QUrl Services::Calendar::removeUrl(const QString& user, const QString& visibility, const QString& objID)
 {
   return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
 }

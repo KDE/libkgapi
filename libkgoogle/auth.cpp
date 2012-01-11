@@ -96,7 +96,12 @@ KGoogle::Account *Auth::getAccount (const QString &account) const
     return 0;
   }
 
-  Account *acc = new Account(account, map["accessToken"], map["refreshToken"], map["scopes"].split(','));
+  QStringList scopes = map["scopes"].split(',');
+  QList< QUrl > scopeUrls;
+  foreach (const QString &scope, scopes)
+    scopeUrls << QUrl(scope);
+
+  Account *acc = new Account(account, map["accessToken"], map["refreshToken"], scopeUrls);
   return acc;
 }
 
@@ -117,7 +122,12 @@ QList< KGoogle::Account * > Auth::getAccounts() const
   foreach (QString accName, list) {
     QMap< QString, QString > map;
     m_kwallet->readMap(accName, map);
-    accounts.append(new Account(accName, map["accessToken"], map["refreshToken"], map["scopes"].split(',')));
+
+    QStringList scopes = map["scopes"].split(',');
+    QList< QUrl > scopeUrls;
+    foreach (const QString &scope, scopes)
+      scopeUrls << QUrl(scope);
+    accounts.append(new Account(accName, map["accessToken"], map["refreshToken"], scopeUrls));
   }
 
   return accounts;
@@ -144,10 +154,14 @@ void Auth::storeAccount (const KGoogle::Account *account)
   if (m_kwallet->hasEntry(account->accountName()))
     m_kwallet->removeEntry(account->accountName());
 
+  QStringList scopes;
+  foreach (const QUrl &scope, account->scopes())
+    scopes << scope.toString();
+
   QMap< QString, QString > map;
   map["accessToken"] = account->accessToken();
   map["refreshToken"] = account->refreshToken();
-  map["scopes"] = account->scopes().join(",");
+  map["scopes"] = scopes.join(",");
   m_kwallet->writeMap(account->accountName(), map);
 }
 
@@ -190,7 +204,7 @@ bool Auth::revoke (Account *account)
 
       account->setAccessToken("");
       account->setRefreshToken("");
-      account->setScopes(QStringList());
+      account->setScopes(QList< QUrl >());
       return true;
 
     } else {

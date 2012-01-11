@@ -63,14 +63,14 @@ namespace KGoogle {
          *
          * @param propertyName Name of property
          */
-        static QString scopeUrl(const QString &propertyName);
+        static QUrl scopeUrl(const QString &propertyName);
 
         /**
          * Returns KGoogle::Request::Fetch URL.
          *
          * https://www.googleapis.com/oauth2/v1/userinfo
          */
-        static QString fetchUrl();
+        static QUrl fetchUrl();
 
         /**
          * The AccountInfo always returns informations about single account, never feed.
