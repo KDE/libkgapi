@@ -21,15 +21,18 @@
 #include <qmetatype.h>
 #include <qglobal.h>
 
+#include <kdebug.h>
+
 using namespace KGoogle;
 
 KGoogle::Reply::Reply(const KGoogle::Request::RequestType requestType, const KGoogle::Error error,
                       const QString &serviceName, const QList< KGoogle::Object* > &replyData,
-                      KGoogle::Request *request):
+                      KGoogle::Request *request, const QByteArray &rawData):
   m_requestType(requestType),
   m_errorCode(error),
   m_replyData(replyData),
-  m_request(request)
+  m_request(request),
+  m_rawData(rawData)
 {
   if (QMetaType::type(qPrintable(serviceName)))
     m_serviceName = serviceName;
@@ -71,4 +74,9 @@ qint64 KGoogle::Reply::readData(char* data, qint64 maxSize)
 void KGoogle::Reply::abort()
 {
   QNetworkReply::close();
+}
+
+QByteArray Reply::readAll()
+{
+  return m_rawData;
 }

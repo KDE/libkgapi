@@ -46,7 +46,7 @@ namespace KGoogle {
        */
       Reply(const KGoogle::Request::RequestType requestType, const KGoogle::Error error,
             const QString &serviceName, const QList< KGoogle::Object* > &replyData,
-            KGoogle::Request *request);
+            KGoogle::Request *request, const QByteArray &rawData = QByteArray());
 
       virtual ~Reply();
 
@@ -84,6 +84,16 @@ namespace KGoogle {
        */
       virtual void abort();
 
+
+      /**
+       * This is an overloaded method.
+       *
+       * While QNetworkReply acts as a sequential device (data can be read only
+       * once), KGoogle::Reply keeps the data cached, so you can call readAll()
+       * multiple times.
+       */
+      QByteArray readAll();
+
     protected:
       virtual qint64 readData(char *data, qint64 maxSize);
 
@@ -94,6 +104,8 @@ namespace KGoogle {
       QList< KGoogle::Object* > m_replyData;
       KGoogle::Request *m_request;
       FeedData *m_feedData;
+
+      QByteArray m_rawData;
 
   };
 

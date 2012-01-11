@@ -172,9 +172,10 @@ void AccessManager::nam_replyReceived(QNetworkReply* reply)
       break;
   }
 
-  KGoogle::Reply *greply = new KGoogle::Reply(request->requestType(),
-                                              (KGoogle::Error) reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
-                                              request->serviceName(), replyData, request);
+  KGoogle::Reply *greply;
+  greply = new KGoogle::Reply(request->requestType(),
+			      (KGoogle::Error) reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
+                              request->serviceName(), replyData, request, rawData);
 
   emit replyReceived(greply);
 
