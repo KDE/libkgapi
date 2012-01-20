@@ -19,19 +19,17 @@
 
 #include "authdialog.h"
 
-#include <KDE/KWindowSystem>
-#include <KDE/KLocalizedString>
+#include <kwindowsystem.h>
+#include <klocalizedstring.h>
+#include <kio/accessmanager.h>
 
-#include <QtCore/QByteArray>
-#include <QtCore/QUrl>
-#include <QtCore/QString>
-#include <QtCore/QDebug>
+#include <qbytearray.h>
+#include <qurl.h>
+#include <qstring.h>
 
-#include <QtWebKit/QWebFrame>
-#include <QtWebKit/QWebElement>
-
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkReply>
+#include <qwebframe.h>
+#include <qwebelement.h>
+#include <qnetworkreply.h>
 
 #include <qjson/parser.h>
 
@@ -53,7 +51,7 @@ void AuthDialog::webviewUrlChanged(const QUrl &url)
   QString token, verifier;
     
   /* Access token here - hide browser and tell user to wait until we 
-  * finish the authentication process ourselves */
+   * finish the authentication process ourselves */
   if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
     m_webiew->setVisible(false);
     m_progressbar->setVisible(false);
@@ -77,8 +75,8 @@ void AuthDialog::webviewFinished()
       setError("<b>Failed to obtain token.</b>");
       return;
     }
-    
-    QNetworkAccessManager *nam = new QNetworkAccessManager();
+
+    QNetworkAccessManager *nam = new KIO::Integration::AccessManager(this);
     QNetworkRequest request;
     QByteArray data;
 
@@ -95,7 +93,7 @@ void AuthDialog::webviewFinished()
     data.append("code="+token.toLatin1()+"&");
     data.append("redirect_uri=urn:ietf:wg:oauth:2.0:oob&");
     data.append("grant_type=authorization_code");
-    
+
     nam->post(request, data);    
   }
 }
@@ -190,7 +188,7 @@ void AuthDialog::auth(const QString& clientId, const QString& clientSecret)
 {
   m_clientId = clientId;
   m_clientSecret = clientSecret;
-  
+
   m_webiew->setUrl(QUrl("https://accounts.google.com/o/oauth2/auth?"
 			"client_id="+clientId+"&"
 			"redirect_uri=urn:ietf:wg:oauth:2.0:oob&"

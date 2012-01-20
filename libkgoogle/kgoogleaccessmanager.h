@@ -116,6 +116,11 @@ namespace KGoogle {
        */
       void error(const QString &msg, const int errorCode);
 
+      /**
+       * An authentication-related error occured.
+       */
+      void authError(const QString &msg);
+
     private Q_SLOTS:
       void nam_replyReceived(QNetworkReply *reply);
       void nam_sendRequest(KGoogleRequest *request);

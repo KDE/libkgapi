@@ -79,6 +79,8 @@ CalendarResource::CalendarResource(const QString &id):
 	  this, SLOT(replyReceived(KGoogleReply*)));
   connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
 	  this, SLOT(commitItemsList()));
+  connect(m_gam, SIGNAL(authError(QString)),
+          this, SLOT(authError(QString)));
 
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
@@ -113,6 +115,14 @@ void CalendarResource::slotGAMError(const QString &msg, const int errorCode)
   cancelTask(msg);
 
   Q_UNUSED(errorCode);
+}
+
+void CalendarResource::authError (const QString &error)
+{
+  cancelTask(error);
+
+  setOnline(false);
+  emit status(Broken, error);
 }
 
 
@@ -192,7 +202,7 @@ void CalendarResource::retrieveCollections()
   calendar.setRemoteId(Settings::self()->calendarId());
   calendar.setName(Settings::self()->calendarName());
   calendar.setParentCollection(Akonadi::Collection::root());
-  calendar.setContentMimeTypes(QStringList() << "text/calendar" );
+  calendar.setContentMimeTypes(QStringList() << "application/x-vnd.akonadi.calendar.event" );
   calendar.setRights(Collection::ReadOnly |
 		     Collection::CanChangeItem |
 		     Collection::CanCreateItem |

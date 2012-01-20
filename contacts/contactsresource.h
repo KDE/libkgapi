@@ -116,6 +116,7 @@ class ContactsResource: public Akonadi::ResourceBase,
 
   private Q_SLOTS:
     void slotGAMError(const QString &msg, const int errorCode);
+    void slotAuthError(const QString &msg);
     void slotAbortRequested();
     void tokensReceived();
     void initialItemFetchJobFinished(KJob *job);

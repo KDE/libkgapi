@@ -222,7 +222,7 @@ KGoogleObject* Addressbook::JSONToObject(const QByteArray& jsonData)
   /* Birthday */
   QVariantMap bDay = data["gContact$birthday"].toMap();
   if (!bDay.isEmpty())
-    object->setBirthday(QDateTime::fromString(bDay["when"].toString(), "%Y-%m-%d"));
+    object->setBirthday(QDateTime::fromString(bDay["when"].toString(), "yyyy-MM-dd"));
     
   /* User-defined fields */
   QVariantList userDefined = data["gContact$userDefinedField"].toList();
@@ -505,7 +505,7 @@ KGoogleObject* Addressbook::XMLToObject(const QByteArray& xmlData)
 
     /* Birthday */
     if (e.tagName() == "gContact:birthday") {
-      contact->setBirthday(QDateTime::fromString(e.attribute("when"), "%Y-%m-%d"));
+      contact->setBirthday(QDateTime::fromString(e.attribute("when"), "yyyy-MM-dd"));
       continue;
     }
 
@@ -538,33 +538,33 @@ QByteArray Addressbook::objectToXML(KGoogleObject* object)
   /* Name */
   output.append("<gd:name>");
   if (!contact->givenName().isEmpty())
-    output.append("<gd:givenName>").append(contact->givenName().toLatin1()).append("</gd:givenName>");
+    output.append("<gd:givenName>").append(contact->givenName().toUtf8()).append("</gd:givenName>");
   if (!contact->familyName().isEmpty())
-    output.append("<gd:familyName>").append(contact->familyName().toLatin1()).append("</gd:familyName>");
+    output.append("<gd:familyName>").append(contact->familyName().toUtf8()).append("</gd:familyName>");
   if (!contact->assembledName().isEmpty())
-    output.append("<gd:fullName>").append(contact->assembledName().toLatin1()).append("</gd:fullName>");
+    output.append("<gd:fullName>").append(contact->assembledName().toUtf8()).append("</gd:fullName>");
   if (!contact->additionalName().isEmpty())
-    output.append("<gd:additionalName>").append(contact->additionalName().toLatin1()).append("</gd:additionalName>");
+    output.append("<gd:additionalName>").append(contact->additionalName().toUtf8()).append("</gd:additionalName>");
   if (!contact->prefix().isEmpty())
-    output.append("<gd:namePrefix>").append(contact->prefix().toLatin1()).append("</gd:namePrefix>");
+    output.append("<gd:namePrefix>").append(contact->prefix().toUtf8()).append("</gd:namePrefix>");
   if (!contact->suffix().isEmpty())
-    output.append("<gd:nameSuffix>").append(contact->suffix().toLatin1()).append("</gd:nameSuffix>");
+    output.append("<gd:nameSuffix>").append(contact->suffix().toUtf8()).append("</gd:nameSuffix>");
   output.append("</gd:name>");
   
   /* Notes */
   if (!contact->note().isEmpty())
-    output.append("<atom:content type='text'>").append(contact->note().toLatin1()).append("</atom:content>");
+    output.append("<atom:content type='text'>").append(contact->note().toUtf8()).append("</atom:content>");
   
   /* Organization (work) */
   QByteArray org;
   if (!contact->organization().isEmpty())
-    org.append("<gd:orgName>").append(contact->organization().toLatin1()).append("</gd:orgName>");
+    org.append("<gd:orgName>").append(contact->organization().toUtf8()).append("</gd:orgName>");
   if (!contact->department().isEmpty())
-    org.append("<gd:orgDepartment>").append(contact->department().toLatin1()).append("</gd:orgDepartment>");
+    org.append("<gd:orgDepartment>").append(contact->department().toUtf8()).append("</gd:orgDepartment>");
   if (!contact->title().isEmpty())
-    org.append("<gd:orgTitle>").append(contact->title().toLatin1()).append("</gd:orgTitle>");
+    org.append("<gd:orgTitle>").append(contact->title().toUtf8()).append("</gd:orgTitle>");
   if (!contact->custom("KADDRESSBOOK", "X-Office").isEmpty()) {
-    org.append("<gd:where>").append(contact->custom("KADDRESSBOOK", "X-Office").toLatin1()).append("</gd:where>");
+    org.append("<gd:where>").append(contact->custom("KADDRESSBOOK", "X-Office").toUtf8()).append("</gd:where>");
     parsedCustoms << "KADDRESSBOOK-X-Office";
   }
   if (!org.isEmpty())
@@ -572,56 +572,56 @@ QByteArray Addressbook::objectToXML(KGoogleObject* object)
 
   /* Nickname */
   if (!contact->nickName().isEmpty())
-    output.append("<gContact:nickname>").append(contact->nickName().toLatin1()).append("</gContact:nickname>");
+    output.append("<gContact:nickname>").append(contact->nickName().toUtf8()).append("</gContact:nickname>");
   
   /* Occupation */
   if (!contact->custom("KADDRESSBOOK", "X-Profession").isEmpty()) {
-    output.append("<gContact:occupation>").append(contact->custom("KADDRESSBOOK", "X-Profession").toLatin1()).append("</gContact:occupation>");
+    output.append("<gContact:occupation>").append(contact->custom("KADDRESSBOOK", "X-Profession").toUtf8()).append("</gContact:occupation>");
     parsedCustoms << "KADDRESSBOOK-X-Profession";
   }
   
   /* Spouse */
   QString spouse = contact->custom("KADDRESSBOOK", "X-SpousesName");
   if (!spouse.isEmpty()) {
-    output.append("<gContact:relation rel=\"spouse\">").append(spouse.toLatin1()).append("</gContact:relation>");
+    output.append("<gContact:relation rel=\"spouse\">").append(spouse.toUtf8()).append("</gContact:relation>");
     parsedCustoms << "KADDRESSBOOK-X-SpousesName";
   }
   
   /* Manager */
   QString manager = contact->custom("KADDRESSBOOK", "X-ManagersName");
   if (!manager.isEmpty()) {
-    output.append("<gContact:relation rel=\"manager\">").append(manager.toLatin1()).append("</gContact:relation>");
+    output.append("<gContact:relation rel=\"manager\">").append(manager.toUtf8()).append("</gContact:relation>");
     parsedCustoms << "KADDRESSBOOK-X-ManagersName";
   }
   
   /* Assistant */
   QString assistant = contact->custom("KADDRESSBOOK", "X-AssistantsName");
   if (!assistant.isEmpty()) {
-    output.append("<gContact:relation rel=\"assistant\">").append(assistant.toLatin1()).append("</gContact:relation>");
+    output.append("<gContact:relation rel=\"assistant\">").append(assistant.toUtf8()).append("</gContact:relation>");
     parsedCustoms << "KADDRESSBOOK-X-AssistantsName";
   }
   
   /* Anniversary */
   QString anniversary = contact->custom("KADDRESSBOOK", "X-Anniversary");
   if (!anniversary.isEmpty()) {
-    output.append("<gContact:event rel=\"anniversary\"><gd:when startTime=\"").append(anniversary.toLatin1()).append("\" /></gContact:event>");
+    output.append("<gContact:event rel=\"anniversary\"><gd:when startTime=\"").append(anniversary.toUtf8()).append("\" /></gContact:event>");
     parsedCustoms << "KADDRESSBOOK-X-Anniversary";
   }
   
   /* Homepage */
   if (!contact->url().isEmpty())
-    output.append("<gContact:website rel=\"home-page\" href=\"").append(contact->url().prettyUrl().toLatin1()).append("\" />");
+    output.append("<gContact:website rel=\"home-page\" href=\"").append(contact->url().prettyUrl().toUtf8()).append("\" />");
   
   /* Blog */
   QString blog = contact->custom("KADDRESSBOOK", "BlogFeed");
   if (!blog.isEmpty()) {
-    output.append("<gContact:website rel=\"blog\" href=\"").append(blog.toLatin1()).append("\" />");
+    output.append("<gContact:website rel=\"blog\" href=\"").append(blog.toUtf8()).append("\" />");
     parsedCustoms << "KADDRESSBOOK-BlogFeed";
   }
 
   /* Emails */
   foreach (QString email, contact->emails()) {
-    output.append("<gd:email rel='http://schemas.google.com/g/2005#home' address='").append(email.toLatin1()).append("' />");
+    output.append("<gd:email rel='http://schemas.google.com/g/2005#home' address='").append(email.toUtf8()).append("' />");
   }
   
   /* IMs */
@@ -633,7 +633,7 @@ QByteArray Addressbook::objectToXML(KGoogleObject* object)
       QString proto = key.mid(10);
       proto.chop(4);
       bool primary = (contact->custom("KADDRESSBOOK", "X-IMAddress") == value);
-      output.append(im_str.arg(value, Object::Contact::IMProtocolNameToScheme(proto), (primary ? "true" : "false")).toLatin1());
+      output.append(im_str.arg(value, Object::Contact::IMProtocolNameToScheme(proto), (primary ? "true" : "false")).toUtf8());
       parsedCustoms << key;
     }
   }
@@ -642,41 +642,41 @@ QByteArray Addressbook::objectToXML(KGoogleObject* object)
   /* Phone numbers */
   QString phone_str("<gd:phoneNumber rel=\"%1\">%2</gd:phoneNumber>");
   foreach (KABC::PhoneNumber number, contact->phoneNumbers()) {
-    output.append(phone_str.arg(Object::Contact::phoneTypeToScheme(number.type()), number.number()).toLatin1());
+    output.append(phone_str.arg(Object::Contact::phoneTypeToScheme(number.type()), number.number()).toUtf8());
   }
   
   /* Address */
   foreach (KABC::Address address, contact->addresses()) {
     output.append("<gd:structuredPostalAddress rel='")
-	  .append(Object::Contact::addressTypeToScheme(address.type()).toLatin1())
+	  .append(Object::Contact::addressTypeToScheme(address.type()).toUtf8())
 	  .append("'>");
       
     if (!address.locality().isEmpty())
-      output.append("<gd:city>").append(address.locality().toLatin1()).append("</gd:city>");
+      output.append("<gd:city>").append(address.locality().toUtf8()).append("</gd:city>");
     if (!address.street().isEmpty())
-      output.append("<gd:street>").append(address.street().toLatin1()).append("</gd:street>");
+      output.append("<gd:street>").append(address.street().toUtf8()).append("</gd:street>");
     if (!address.region().isEmpty())
-      output.append("<gd:region>").append(address.region().toLatin1()).append("</gd:region>");
+      output.append("<gd:region>").append(address.region().toUtf8()).append("</gd:region>");
     if (!address.postalCode().isEmpty())
-      output.append("<gd:postcode>").append(address.postalCode().toLatin1()).append("</gd:postcode>");
+      output.append("<gd:postcode>").append(address.postalCode().toUtf8()).append("</gd:postcode>");
     if (!address.country().isEmpty())
-      output.append("<gd:country>").append(address.country().toLatin1()).append("</gd:country>");
+      output.append("<gd:country>").append(address.country().toUtf8()).append("</gd:country>");
     if (!address.formattedAddress().isEmpty())
-      output.append("<gd:formattedAddress>").append(address.formattedAddress().toLatin1()).append("</gd:formattedAddress>");
+      output.append("<gd:formattedAddress>").append(address.formattedAddress().toUtf8()).append("</gd:formattedAddress>");
       
     output.append("</gd:structuredPostalAddress>");
   }
   
   /* Birthday */
   if (!contact->birthday().isNull()) {
-    QString birthday = contact->birthday().toString("%Y-%m-%d");
-    output.append("<gContact:birthday when='").append(birthday.toLatin1()).append("'/>");
+    QString birthday = contact->birthday().toString("yyyy-MM-dd");
+    output.append("<gContact:birthday when='").append(birthday.toUtf8()).append("'/>");
   }
 
   QStringList groups = contact->custom("GCALENDAR", "groupMembershipInfo").split(",");
   if ((groups.length() > 0) && !groups.at(0).isEmpty()) {
     foreach (const QString &group, groups) {
-      output.append(QString("<gContact:groupMembershipInfo deleted=\"false\" href=\"%1\" />").arg(group).toLatin1());
+      output.append(QString("<gContact:groupMembershipInfo deleted=\"false\" href=\"%1\" />").arg(group).toUtf8());
     }
   }
   parsedCustoms << "GCALENDAR-groupMembershipInfo";
@@ -688,7 +688,7 @@ QByteArray Addressbook::objectToXML(KGoogleObject* object)
     QString key = customStr.left(customStr.indexOf(':'));
     if (!parsedCustoms.contains(key)) {
       QString value = customStr.mid(customStr.indexOf(':') + 1);
-      output.append(defined_str.arg(key, value).toLatin1());
+      output.append(defined_str.arg(key, value).toUtf8());
     }
   }
     

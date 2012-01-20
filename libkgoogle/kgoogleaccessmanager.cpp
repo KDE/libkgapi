@@ -23,7 +23,6 @@
 #include "kgooglereply.h"
 #include "kgoogleservice.h"
 
-#include <qnetworkaccessmanager.h>
 #include <qnetworkreply.h>
 #include <qnetworkrequest.h>
 #include <qbytearray.h>
@@ -38,7 +37,10 @@
 #include <klocalizedstring.h>
 #include <kdeversion.h>
 #include <ksystemtimezone.h>
+#include <kio/accessmanager.h>
 
+
+int debugArea() { static int s_area = KDebug::registerArea("libkgoogle"); return s_area; }
 
 using namespace KGoogle;
 
@@ -46,7 +48,7 @@ using namespace KGoogle;
 
 KGoogleAccessManager::KGoogleAccessManager(KGoogle::KGoogleAuth *googleAuth):
   m_auth(googleAuth),
-  m_nam(new QNetworkAccessManager),
+  m_nam(new KIO::Integration::AccessManager(this)),
   m_namLocked(false)
 {
   connect(m_nam, SIGNAL(finished(QNetworkReply*)),
@@ -54,6 +56,8 @@ KGoogleAccessManager::KGoogleAccessManager(KGoogle::KGoogleAuth *googleAuth):
 
   connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
 	  this, SLOT(newTokensReceived()));
+  connect(m_auth, SIGNAL(error(QString)),
+          this, SIGNAL(authError(QString)));
 }
 
 KGoogleAccessManager::~KGoogleAccessManager()
@@ -75,6 +79,11 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
   QByteArray rawData = reply->readAll();
 
 #ifdef DEBUG_RAWDATA
+  QStringList headers;
+  foreach (QString str, reply->rawHeaderList()) {
+    headers << str + ": " + reply->rawHeader(str.toLatin1());
+  }
+  kDebug() << headers;
   kDebug() << rawData;
 #endif
 
@@ -127,16 +136,20 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
     /* For fetch-all request parse the XML/JSON reply and split it to individual
      * <entry>/entry blocks which then convert to QList of KGoogleObjects */
     case KGoogleRequest::FetchAll: {
-      FeedData *feedData = new FeedData;
+      FeedData* feedData = new FeedData;
 
-      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
+      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
+          reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
 
 	replyData = service->parseJSONFeed(rawData, feedData);
 
-      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
+      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
+                 reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
 
-	replyData = service->parseXMLFeed(rawData, feedData);
+        replyData = service->parseXMLFeed(rawData, feedData);
 
+      } else {
+        kDebug() << "Unknown reply content type!";
       }
 
       if (feedData->nextLink.isValid()) {
@@ -153,11 +166,11 @@ void KGoogleAccessManager::nam_replyReceived(QNetworkReply* reply)
     case KGoogleRequest::Fetch:
     case KGoogleRequest::Create:
     case KGoogleRequest::Update: {
-      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
+      if (request->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json")) {
 
 	replyData.append(service->JSONToObject(rawData));
 
-      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
+      } else if (request->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml")) {
 
 	replyData.append(service->XMLToObject(rawData));
 
@@ -205,10 +218,18 @@ void KGoogleAccessManager::nam_sendRequest(KGoogleRequest* request)
     return;
   }
 
-  nr.setRawHeader("Authorization","OAuth " + m_auth->accessToken().toLatin1());
+  nr.setRawHeader("Authorization","Bearer " + m_auth->accessToken().toLatin1());
   nr.setRawHeader("GData-Version", service->protocolVersion().toLatin1());
   nr.setUrl(request->url());
   nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
+
+#ifdef DEBUG_RAWDATA
+  QStringList headers;
+  foreach (QString str, nr.rawHeaderList()) {
+    headers << str + ": " + nr.rawHeader(str.toLatin1());
+  }
+  kDebug() << headers;
+#endif
 
   delete service;
 
