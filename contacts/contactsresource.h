@@ -134,14 +134,11 @@ class ContactsResource: public Akonadi::ResourceBase,
   private:
     void abort();
 
-    void updatePhoto(Akonadi::Item *item);
-    void fetchPhoto(Akonadi::Item *item, const QString &photoUrl, const bool isLastItem);
+    void updatePhoto(Akonadi::Item &item);
+    void fetchPhoto(Akonadi::Item &item, const QString &photoUrl);
 
     KGoogle::KGoogleAccessManager *m_gam;
     KGoogle::KGoogleAuth *m_auth;
-
-    Akonadi::Item::List m_changedItems;
-    Akonadi::Item::List m_removedItems;
 
     QNetworkAccessManager *m_photoNam;
 };
