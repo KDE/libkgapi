@@ -78,8 +78,6 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     KGoogleAccessManager *m_gam;
     KGoogleAuth *m_auth;
 
-    Akonadi::Item::List m_changedItems;
-    Akonadi::Item::List m_removedItems;
 };
 
 #endif // CALENDARRESOURCE_H

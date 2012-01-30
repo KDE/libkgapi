@@ -185,6 +185,8 @@ void CalendarResource::initialItemFetchJobFinished(KJob* job)
     url.addQueryItem("updated-min", Settings::self()->lastSync());
   }
 
+  setItemStreamingEnabled(true);
+
   KGoogleRequest *request = new KGoogleRequest(url,
 					       KGoogleRequest::FetchAll,
 					       "Calendar");
@@ -346,14 +348,11 @@ void CalendarResource::eventListReceived(KGoogleReply* reply)
     item.setMimeType("application/x-vnd.akonadi.calendar.event");
 
     if (event->deleted()) {
-      m_removedItems << item;
+      itemsRetrievedIncremental(Item::List(), Item::List() << item);
     } else {
-      m_changedItems << item;
+      itemsRetrievedIncremental(Item::List() << item, Item::List());
     }
   }
-
-  /* Wait for requestFinished() signal and then commit all items at once in
-   * commitItemsList() */
 }
 
 void CalendarResource::eventReceived(KGoogleReply* reply)
@@ -465,10 +464,7 @@ void CalendarResource::tokensReceived()
 
 void CalendarResource::commitItemsList()
 {
-  if (Settings::self()->lastSync().isEmpty())
-    itemsRetrieved(m_changedItems);
-  else
-    itemsRetrievedIncremental(m_changedItems, m_removedItems);
+  itemsRetrievalDone();
 
   /* Store the time of this sync. Next time we will only ask for items
    * that changed or were removed since sync
@@ -476,12 +472,11 @@ void CalendarResource::commitItemsList()
    */
   Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
 
+  setItemStreamingEnabled(false);
+
   emit percent(100);
   emit status(Idle, i18n("Collections synchronized"));
   taskDone();
-
-  m_changedItems.clear();
-  m_removedItems.clear();
 }
 
 
