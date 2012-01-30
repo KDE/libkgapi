@@ -222,6 +222,8 @@ void ContactsResource::initialItemFetchJobFinished(KJob* job)
     return;
   }
 
+  setItemStreamingEnabled(true);
+
   QUrl url(Service::Addressbook::fetchAllUrl().arg("default"));
   url.addQueryItem("alt", "json");
   if (!Settings::self()->lastSync().isEmpty())
@@ -356,12 +358,15 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
     item.setRemoteId(contact->id());
 
     if (contact->deleted()) {
-      m_removedItems << item;
+      itemsRetrievedIncremental(Item::List(), Item::List() << item);
     } else {
       item.setRemoteRevision(contact->etag());
       item.setMimeType(contact->mimeType());
       item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
-      fetchPhoto(&item, contact->photoUrl().toString(), (allData.last() == object));
+
+      itemsRetrievedIncremental(Item::List() << item, Item::List());
+
+      fetchPhoto(item, contact->photoUrl().toString());
     }
   }
 }
@@ -390,7 +395,10 @@ void ContactsResource::contactReceived(KGoogleReply* reply)
   else {
     item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
     item.setMimeType(contact->mimeType());
-    fetchPhoto(&item, contact->photoUrl().toString(), false);  
+
+    itemsRetrieved (Item::List() << item);
+
+    fetchPhoto(item, contact->photoUrl().toString());  
   }
 
   emit percent(100);
@@ -417,13 +425,13 @@ void ContactsResource::contactCreated(KGoogleReply* reply)
   item.setRemoteId(contact->id());
   item.setRemoteRevision(contact->etag());
 
-  updatePhoto(&item);
-
   changeCommitted(item);
 
   item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
   ItemModifyJob *modifyJob = new ItemModifyJob(item);
   connect(modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
+
+  updatePhoto(item);
 
   status(Idle, i18n("Contact created"));
   taskDone();
@@ -448,9 +456,9 @@ void ContactsResource::contactUpdated(KGoogleReply* reply)
   item.setRemoteId(contact->id());
   item.setRemoteRevision(contact->etag());
 
-  updatePhoto(&item);
-
   changeCommitted(item);
+
+  updatePhoto(item);
 
   status(Idle, i18n("Contact changed"));
   taskDone();
@@ -484,32 +492,32 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
     addressee.setPhoto(KABC::Picture(image));
     item.setPayload<KABC::Addressee>(addressee);
 
-    m_changedItems << item;
+    ItemModifyJob *modifyJob = new ItemModifyJob(item);
+    connect(modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
   }
 }
 
-void ContactsResource::fetchPhoto(Akonadi::Item *item, const QString &photoUrl, const bool isLastItem)
+void ContactsResource::fetchPhoto(Akonadi::Item &item, const QString &photoUrl)
 {
   QString photoId = photoUrl.mid(photoUrl.lastIndexOf("/")+1);
 
   QNetworkRequest request;
   request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+photoId));
   request.setRawHeader("Authorization", "OAuth "+m_auth->accessToken().toLatin1());
-  request.setRawHeader("GData-Version", "3.0");  
+  request.setRawHeader("GData-Version", "3.0");
 
-  request.setAttribute(QNetworkRequest::User, QVariant::fromValue(*item));
-  request.setAttribute(QNetworkRequest::UserMax, QVariant(isLastItem));
+  request.setAttribute(QNetworkRequest::User, qVariantFromValue(item));
   m_photoNam->get(request);
 }
 
 
-void ContactsResource::updatePhoto(Item* item)
+void ContactsResource::updatePhoto(Item &item)
 {
-  KABC::Addressee addressee = item->payload<KABC::Addressee>();
+  KABC::Addressee addressee = item.payload<KABC::Addressee>();
   QNetworkRequest request;
-  request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+item->remoteId()));
+  request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+item.remoteId()));
   request.setRawHeader("Authorization", "OAuth "+m_auth->accessToken().toLatin1());
-  request.setRawHeader("GData-Version", "3.0");  
+  request.setRawHeader("GData-Version", "3.0");
   request.setRawHeader("If-Match", "*");
 
   if (!addressee.photo().isEmpty()) {
@@ -538,15 +546,11 @@ void ContactsResource::tokensReceived()
 
 void ContactsResource::commitItemsList()
 {
-  if (Settings::self()->lastSync().isEmpty())
-    itemsRetrieved(m_changedItems);
-  else
-    itemsRetrievedIncremental(m_changedItems, m_removedItems);
-
-  m_changedItems.clear();
-  m_removedItems.clear();
+  itemsRetrievalDone();
 
   Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
+
+  setItemStreamingEnabled(false);
 
   emit percent(100);
   emit status(Idle, i18n("Collections synchronized"));
