@@ -19,7 +19,7 @@
 #include "object.h"
 #include "contact.h"
 #include "contact_p.h"
-#include "services/addressbook.h"
+#include "services/contacts.h"
 
 #include <qstring.h>
 #include <qurl.h>
