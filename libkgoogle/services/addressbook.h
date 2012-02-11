@@ -24,6 +24,7 @@
 #include <libkgoogle/libkgoogle_export.h>
 
 #include <qmetatype.h>
+#include <qdom.h>
 
 namespace KGoogle {
 
@@ -86,14 +87,14 @@ namespace KGoogle {
          *
          * @param user User. "default" or user@gmail.com}
 	 */
-	static QUrl createUrl(const QString &user);
+	static QUrl createContactUrl(const QString &user);
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests.
          *
          * @param user User. "default" or user@gmail.com
 	 */
-	static QUrl fetchAllUrl(const QString &user);
+	static QUrl fetchAllContactsUrl(const QString &user);
 
 	/**
 	 * Returns URL for KGoogle::Request::Fetch requests.
@@ -102,7 +103,7 @@ namespace KGoogle {
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to fetch
 	 */
-	static QUrl fetchUrl(const QString &user, const QString &contactID);
+	static QUrl fetchContactUrl(const QString &user, const QString &contactID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Update requests.
@@ -110,7 +111,7 @@ namespace KGoogle {
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to update
 	 */
-	static QUrl updateUrl(const QString &user, const QString &contactID);
+	static QUrl updateContactUrl(const QString &user, const QString &contactID);
 
 	/**
 	 * Returns URL for KGoogle::Request::Remove requests.
@@ -119,7 +120,45 @@ namespace KGoogle {
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to remove
 	 */
-	static QUrl removeUrl(const QString &user, const QString &contactID);
+	static QUrl removeContactUrl(const QString &user, const QString &contactID);
+
+	/**
+	 * Returns URL for KGoogle::Request::FetchAll requests.
+	 *
+	 * @param user User ("default" or user@gmail.com) in whose addressbook to look.
+	 */
+	static QUrl fetchAllGroupsUrl(const QString &user);
+
+	/**
+	 * Returns URL for KGoogle::Request::Fetch requests.
+	 *
+	 * @param user User ("default" or user@gmail.com) in whose addressbook to look
+	 * @param groupId ID of group of which to fetch all data.
+	 */
+	static QUrl fetchGroupUrl(const QString &user, const QString &groupId);
+
+	/**
+	 * Returns URL for KGoogle::Request::Create requestse.
+	 *
+	 * @param user User (user@gmail.com) in whose addressbook to create a group.
+	 */
+	static QUrl createGroupUrl(const QString &user);
+
+	/**
+	 * Returns URL for KGoogle::Request::Update requests.
+	 *
+	 * @param user User (user@gmail.com)) in whose addressbook to look
+	 * @param groupID ID of group to update.
+	 */
+	static QUrl updateGroupUrl(const QString &user, const QString &groupId);
+
+	/**
+	 * Returns URL for KGoogle::Request::Remove requests.
+	 *
+	 * @param user User (user@gmail.com) in whose addressbook to look
+	 * @param groupID ID of group to delete
+	 */
+	static QUrl removeGroupUrl(const QString &user, const QString &groupId);
 
 	/**
 	 * Returns wheter service supports reading data in JSON format.
@@ -138,6 +177,17 @@ namespace KGoogle {
 	 * data, the value remains unchanged.
 	 */
 	static bool supportsJSONWrite(QString* urlParam);
+
+      private:
+	KGoogle::Object* JSONToContact(const QVariantMap &data);
+	KGoogle::Object* JSONToGroup(const QVariantMap &data);
+
+	QByteArray contactToXML(const KGoogle::Object *object);
+	QByteArray groupToXML(const KGoogle::Object *object);
+
+	KGoogle::Object* XMLToContact(const QDomDocument &data);
+	KGoogle::Object* XMLToGroup(const QDomDocument &data);
+
     };
 
   } // namespace Services

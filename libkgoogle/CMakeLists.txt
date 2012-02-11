@@ -29,6 +29,7 @@ set(libkgoogle_SRCS
     objects/accountinfo.cpp
     objects/calendar.cpp
     objects/contact.cpp
+    objects/contactsgroup.cpp
     objects/event.cpp
     objects/task.cpp
     objects/tasklist.cpp
@@ -60,6 +61,7 @@ set(objects_HDRS
     objects/accountinfo.h
     objects/calendar.h
     objects/contact.h
+    objects/contactsgroup.h
     objects/event.h
     objects/task.h
     objects/tasklist.h)

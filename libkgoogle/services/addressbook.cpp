@@ -20,6 +20,7 @@
 #include "addressbook.h"
 #include "accessmanager.h"
 #include "objects/contact.h"
+#include "objects/contactsgroup.h"
 
 #include <kurl.h>
 
@@ -32,17 +33,247 @@ using namespace KGoogle::Services;
 Addressbook::~Addressbook()
 { }
 
-KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
+
+QByteArray Addressbook::objectToJSON(KGoogle::Object* object)
+{
+  /* Google allows writing only XML data */
+  return QByteArray();
+
+  Q_UNUSED(object)
+}
+
+QByteArray Addressbook::objectToXML(KGoogle::Object* object)
+{
+  if (dynamic_cast< KGoogle::Objects::Contact* >(object))
+    return contactToXML(object);
+  else if (dynamic_cast< KGoogle::Objects::ContactsGroup* >(object))
+    return groupToXML(object);
+  else
+    return QByteArray();
+}
+
+
+QList< KGoogle::Object* > Addressbook::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
+{
+  QList< KGoogle::Object* > output;
+  QJson::Parser parser;
+  QJson::Serializer serializer;
+
+  QVariantMap head = parser.parse(jsonFeed).toMap();
+
+  QVariantMap feed = head["feed"].toMap();
+
+  foreach (QVariant c, feed["category"].toList()) {
+    QVariantMap category = c.toMap();
+    bool groups = (category["term"].toString() == "http://schemas.google.com/contact/2008#group");
+
+    QVariantList entries = feed["entry"].toList();
+
+    foreach (QVariant e, entries) {
+      if (groups)
+	output << JSONToGroup(e.toMap());
+      else
+	output << JSONToContact(e.toMap());
+    }
+  }
+
+  if (feedData) {
+    QVariantList links = feed["link"].toList();
+    foreach (QVariant l, links) {
+      QVariantMap link = l.toMap();
+      if (link["rel"].toString() == "next") {
+	feedData->nextLink = link["href"].toUrl();
+	break;
+      }
+    }
+
+    QVariantMap tmp = feed["openSearch$totalResults"].toMap();
+    feedData->totalResults = tmp["$t"].toInt();
+
+    tmp = feed["openSearch$startIndex"].toMap();
+    feedData->startIndex = tmp["$t"].toInt();
+
+    tmp = feed["openSearch$itemsPerPage"].toMap();
+    feedData->itemsPerPage = tmp["$t"].toInt();
+  }
+
+  return output;
+}
+
+Object *Addressbook::JSONToObject(const QByteArray &jsonData)
+{
+  QJson::Parser parser;
+  QVariantMap data, entry;
+
+  data = parser.parse(jsonData).toMap();
+
+  entry = data["entry"].toMap();
+
+  foreach (QVariant c, entry["category"].toList()) {
+    QVariantMap category = c.toMap();
+
+    if (category["term"].toString() == "http://schemas.google.com/contact/2008#group") {
+      return JSONToGroup(entry);
+    }
+
+    if (category["term"].toString() == "http://schemas.google.com/contact/2008#contact") {
+      return JSONToContact(entry);
+    }
+  }
+
+  return 0;
+}
+
+KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
+{
+  QByteArray xmlDoc;
+  /* Document without <xml> header is not valid and Qt won't parse it */
+  if (!xmlData.contains("<?xml"))
+    xmlDoc.append("<?xml version='1.0' encoding='UTF-8'?>");
+  xmlDoc.append(xmlData);
+
+  QDomDocument doc;
+  doc.setContent(xmlDoc);
+  QDomNodeList entry = doc.elementsByTagName("entry");
+  QDomNodeList data;
+  if (entry.length() > 0) {
+    data = entry.at(0).childNodes();
+  } else {
+    return 0;
+  }
+
+  bool isGroup = false;
+
+  for (int i = 0; i < data.count(); i++) {
+    QDomNode n = data.at(i);
+    QDomElement e = n.toElement();
+
+    if ((e.tagName() == "category") &&
+        (e.attribute("term") == "http://schemas.google.com/contact/2008#group")) {
+      isGroup = true;
+      break;
+    }
+  }
+
+  if (isGroup)
+    return XMLToGroup(doc);
+  else
+    return XMLToContact(doc);
+
+}
+
+QList< KGoogle::Object* > Addressbook::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
+{
+  Q_UNUSED (xmlFeed);
+  Q_UNUSED (feedData);
+
+  return QList< KGoogle::Object* >();
+}
+
+QUrl Addressbook::scopeUrl()
+{
+  return QUrl("https://www.google.com/m8/feeds/");
+}
+
+QUrl Addressbook::fetchAllContactsUrl(const QString& user)
+{
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full?alt=json";
+}
+
+QUrl Addressbook::fetchContactUrl(const QString& user, const QString& contactID)
+{
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID + "?alt=json";
+}
+
+QUrl Addressbook::createContactUrl(const QString& user)
+{
+  return "https://www.google.com/m8/feeds/contacts/" + user +"/full";
+}
+
+QUrl Addressbook::updateContactUrl(const QString& user, const QString& contactID)
+{
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
+}
+
+QUrl Addressbook::removeContactUrl(const QString& user, const QString& contactID)
+{
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
+}
+
+QUrl Addressbook::fetchAllGroupsUrl(const QString &user)
+{
+  return "https://www.google.com/m8/feeds/groups/" + user + "/full?alt=json";
+}
+
+QUrl Addressbook::fetchGroupUrl(const QString &user, const QString &groupId)
+{
+  return "https://www.google.com/m8/feeds/groups/" + user + "/base/" + groupId + "?alt=json";
+}
+
+QUrl Addressbook::createGroupUrl(const QString &user)
+{
+  return "https://www.google.com/m8/feeds/groups/" + user + "/full";
+}
+
+QUrl Addressbook::updateGroupUrl(const QString &user, const QString &groupId)
+{
+  return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + groupId;
+}
+
+QUrl Addressbook::removeGroupUrl(const QString &user, const QString &groupId)
+{
+  return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + groupId;
+}
+
+const QString Addressbook::protocolVersion()
+{
+  return "3.0";
+}
+
+bool Addressbook::supportsJSONRead(QString* urlParam)
+{
+  if (urlParam)
+    *urlParam = "json";
+
+  return true;
+}
+
+bool Addressbook::supportsJSONWrite(QString* urlParam)
+{
+  Q_UNUSED (urlParam)
+
+  return false;
+}
+
+KGoogle::Object *Addressbook::JSONToGroup(const QVariantMap &data)
+{
+  Objects::ContactsGroup *object = new Objects::ContactsGroup;
+
+  QString id = data["id"].toMap()["$t"].toString();
+  object->setId(id.mid(id.lastIndexOf("/") + 1));
+  object->setEtag(data["gd$etag"].toString());
+
+  object->setTitle(data["title"].toMap()["$t"].toString());
+  object->setContent(data["content"].toMap()["$t"].toString());
+
+  object->setUpdated(AccessManager::RFC3339StringToDate(data["updated"].toMap()["$t"].toString()).dateTime());
+
+  if (data.contains("gContact$systemGroup"))
+    object->setIsSystemGroup(true);
+  else
+    object->setIsSystemGroup(false);
+
+  return object;
+}
+
+
+KGoogle::Object* Addressbook::JSONToContact(const QVariantMap &data)
 {
   Objects::Contact *object = new Objects::Contact();
 
-  QJson::Parser parser;
-  QVariantMap data = parser.parse(jsonData).toMap();
-
-
   /* Google contact ID. Store only the ID, not the entire URL */
   QString id = data["id"].toMap()["$t"].toString();
-  object->setUid(id.mid(id.lastIndexOf("/")+1));
+  object->setUid(id.mid(id.lastIndexOf("/") + 1));
 
   /* Google ETAG. This can be used to identify if the item was changed remotly */
   object->setEtag(data["gd$etag"].toString());
@@ -55,7 +286,7 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
    * itself. */
   object->setDeleted(data["gd$deleted"].isValid());
 
-  /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture 
+  /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture
    * itself. */
   QVariantList links = data["link"].toList();
   foreach (const QVariant &link, links) {
@@ -122,17 +353,17 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
     foreach (QVariant r, data["gContact$relation"].toList()) {
       QVariantMap relation = r.toMap();
       if (relation["rel"].toString() == "spouse") {
-        object->setSpousesName(relation["$t"].toString());
+	object->setSpousesName(relation["$t"].toString());
 	continue;
       }
 
       if (relation["rel"].toString() == "manager") {
-        object->setManagersName(relation["$t"].toString());
+	object->setManagersName(relation["$t"].toString());
 	continue;
       }
 
       if (relation["rel"].toString() == "assistant") {
-        object->setAssistantsName(relation["$t"].toString());
+	object->setAssistantsName(relation["$t"].toString());
 	continue;
       }
     }
@@ -145,7 +376,7 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
 
       if (event["rel"].toString() == "anniversary") {
 	QVariantMap when = event["gd$when"].toMap();
-        object->setAnniversary(when["startTime"].toString());
+	object->setAnniversary(when["startTime"].toString());
       }
     }
   }
@@ -161,7 +392,7 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
       }
 
       if (web["rel"].toString() == "blog") {
-        object->setBlogFeed(web["href"].toString());
+	object->setBlogFeed(web["href"].toString());
 	continue;
       }
     }
@@ -194,29 +425,29 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
   foreach (const QVariant &a, addresses) {
     QVariantMap address = a.toMap();
     KABC::Address addr;
-    if (!address.contains("gd$city") && 
+    if (!address.contains("gd$city") &&
       !address.contains("gd$country") &&
       !address.contains("gd$postcode") &&
       !address.contains("gd$region") &&
       !address.contains("gd$pobox")) {
       addr.setExtended(address["gd$street"].toMap()["$t"].toString());
-    } else {
-      if (address.contains("gd$street"))
-	addr.setStreet(address["gd$street"].toMap()["$t"].toString());
-      if (address.contains("gd$country"))
-	addr.setCountry(address["gd$country"].toMap()["$t"].toString());
-      if (address.contains("gd$city"))
-	addr.setLocality(address["gd$city"].toMap()["$t"].toString());
-      if (address.contains("gd$postcode"))
-	addr.setPostalCode(address["gd$postcode"].toMap()["$t"].toString());
-      if (address.contains("gdregion"))
-	addr.setRegion(address["gd$region"].toMap()["$t"].toString());
-      if (address.contains("gd$pobox"))
-	addr.setPostOfficeBox(address["gd$pobox"].toMap()["$t"].toString());
-    }
-    addr.setType(Objects::Contact::addressSchemeToType(address["rel"].toString()));
+      } else {
+	if (address.contains("gd$street"))
+	  addr.setStreet(address["gd$street"].toMap()["$t"].toString());
+	if (address.contains("gd$country"))
+	  addr.setCountry(address["gd$country"].toMap()["$t"].toString());
+	if (address.contains("gd$city"))
+	  addr.setLocality(address["gd$city"].toMap()["$t"].toString());
+	if (address.contains("gd$postcode"))
+	  addr.setPostalCode(address["gd$postcode"].toMap()["$t"].toString());
+	if (address.contains("gdregion"))
+	  addr.setRegion(address["gd$region"].toMap()["$t"].toString());
+	if (address.contains("gd$pobox"))
+	  addr.setPostOfficeBox(address["gd$pobox"].toMap()["$t"].toString());
+      }
+      addr.setType(Objects::Contact::addressSchemeToType(address["rel"].toString()));
 
-    object->insertAddress(addr);
+      object->insertAddress(addr);
   }
 
   /* Birthday */
@@ -237,299 +468,17 @@ KGoogle::Object* Addressbook::JSONToObject(const QByteArray& jsonData)
   foreach (const QVariant &g, groups) {
     QVariantMap group = g.toMap();
     if (group["deleted"].toBool() == false)
-	groupsList.append(group["href"].toString());
+      groupsList.append(group["href"].toString());
   }
   object->insertCustom("GCALENDAR", "groupMembershipInfo", groupsList.join(","));
 
   return dynamic_cast< KGoogle::Object* >(object);
 }
 
-QByteArray Addressbook::objectToJSON(KGoogle::Object* object)
+
+QByteArray Addressbook::contactToXML(const KGoogle::Object* object)
 {
-  /* Google allows writing only XML data */
-  return QByteArray();
-
-  Q_UNUSED(object)
-}
-
-QList< KGoogle::Object* > Addressbook::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
-{
-  QList< KGoogle::Object* > output;
-  QJson::Parser parser;
-  QJson::Serializer serializer;
-
-  QVariantMap head = parser.parse(jsonFeed).toMap();
-
-  QVariantMap feed = head["feed"].toMap();
-  QVariantList entries = feed["entry"].toList();
-  foreach (QVariant e, entries) {
-    QByteArray entry = serializer.serialize(e);
-
-    output.append(JSONToObject(entry));
-  }
-
-  if (feedData) {
-    QVariantList links = feed["link"].toList();
-    foreach (QVariant l, links) {
-      QVariantMap link = l.toMap();
-      if (link["rel"].toString() == "next") {
-	feedData->nextLink = link["href"].toUrl();
-	break;
-      }
-    }
-
-    QVariantMap tmp = feed["openSearch$totalResults"].toMap();
-    feedData->totalResults = tmp["$t"].toInt();
-
-    tmp = feed["openSearch$startIndex"].toMap();
-    feedData->startIndex = tmp["$t"].toInt();
-
-    tmp = feed["openSearch$itemsPerPage"].toMap();
-    feedData->itemsPerPage = tmp["$t"].toInt();
-  }
-
-  return output;
-}
-
-
-KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
-{
-  Objects::Contact *contact = new Objects::Contact();
-
-  QByteArray xmlDoc;
-  /* Document without <xml> header is not valid and Qt won't parse it */
-  if (!xmlData.contains("<?xml"))
-    xmlDoc.append("<?xml version='1.0' encoding='UTF-8'?>");
-  xmlDoc.append(xmlData);
-
-  QStringList groups;
-
-  QDomDocument doc;
-  doc.setContent(xmlDoc);
-  QDomNodeList entry = doc.elementsByTagName("entry");
-  QDomNodeList data;
-  if (entry.length() > 0) {
-    data = entry.at(0).childNodes();
-  } else {
-    return 0;
-  }
-
-  for (int i = 0; i < data.count(); i++) {
-    QDomNode n = data.at(i);
-    QDomElement e = n.toElement();
-
-    /* Google contact ID. Store only the ID, not the entire URL */
-    if (e.tagName() == "id") {
-      QString id = e.text();
-      contact->setUid(id.mid(id.lastIndexOf("/")+1));
-      continue;
-    }
-
-    /* ETag */
-    if (e.tagName() == "etag") {
-      contact->setEtag(e.text());
-      continue;
-    }
-
-    /* If the contact was deleted, we don't need more info about it.
-     * Just store our own flag, which will be then parsed by the resource
-     * itself. */
-    contact->setDeleted (e.tagName() == "gd:deleted");
-
-    /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture 
-     * itself. */
-    if (e.tagName() == "link" && e.attribute("rel") == "http://schemas.google.com/contacts/2008/rel#photo") {
-      contact->setPhotoUrl(e.attribute("href"));	/* URL */
-      continue;
-    }
-
-    /* Name */
-    if (e.tagName() == "title") {
-      contact->setName(e.text());
-      continue;
-    }
-
-    /* Note */
-    if (e.tagName() == "content") {
-      contact->setNote(e.text());
-      continue;
-    }
-
-    /* Organization (work) - KABC supports only organization */
-    if (e.tagName() == "gd:organization") {
-      QDomNodeList l = e.childNodes();
-      for (uint i = 0; i < l.length(); i++) {
-	QDomElement el = l.at(i).toElement();
-
-	if (el.tagName() == "gd:orgName") {
-	  contact->setOrganization(el.text());
-	  continue;
-	}
-
-	if (el.tagName() == "gd:orgDepartment") {
-	  contact->setDepartment(el.text());
-	  continue;
-	}
-
-	if (el.tagName() == "gd:orgTitle") {
-	  contact->setTitle(el.text());
-	  continue;
-	}
-
-	if (el.tagName() == "gd:where") {
-          contact->setOffice(el.text());
-	  continue;
-	}
-      }
-      continue;
-    }
-
-    /* Nickname */
-    if (e.tagName() == "gContact:nickname") {
-      contact->setNickName(e.text());
-      continue;
-    }
-
-    /* Occupation (= organization/title) */
-    if (e.tagName() == "gContact:occupation") {
-      contact->setProfession(e.text());
-      continue;
-    }
-
-    /* Relationships */
-    if (e.tagName() == "gContact:relation") {
-      if (e.attribute("rel", "") == "spouse") {
-        contact->setSpousesName(e.text());
-	continue;
-      }
-
-      if (e.attribute("rel", "") == "manager") {
-        contact->setManagersName(e.text());
-	continue;
-      }
-
-      if (e.attribute("rel", "") == "assistant") {
-        contact->setAssistantsName(e.text());
-	continue;
-      }
-
-      continue;
-    }
-
-    /* Anniversary */
-    if (e.tagName() == "gContact:event") {
-      if (e.attribute("rel", "") == "anniversary") {
-	QDomElement w = e.firstChildElement("gd:when");
-        contact->setAnniversary(w.attribute("startTime", ""));
-      }
-
-      continue;
-    }
-
-    /* Websites */
-    if (e.tagName() == "gContact:website") {
-      if (e.attribute("rel", "") == "home-page") {
-	contact->setUrl(KUrl(e.attribute("href", "")));
-	continue;
-      }
-
-      if (e.attribute("rel", "") == "blog") {
-        contact->setBlogFeed(e.attribute("href", ""));
-	continue;
-      }
-
-      continue;
-    }
-
-    /* Emails */
-    if (e.tagName() == "gd:email") {
-      contact->insertEmail(e.attribute("address"), (e.attribute("primary").toLower() == "true"));
-      continue;
-    }
-
-    /* IMs */
-    if (e.tagName() == "gd:im") {
-      contact->insertCustom("messaging/" + Objects::Contact::IMSchemeToProtocolName(e.attribute("protocol")), "All", e.attribute("address"));
-      continue;
-    }
-
-    /* Phone numbers */
-    if (e.tagName() == "gd:phoneNumber") {
-      contact->insertPhoneNumber(KABC::PhoneNumber(e.text(), Objects::Contact::phoneSchemeToType(e.attribute("rel"))));
-      continue;
-    }
-
-    /* Addresses */
-    /* FIXME */
-    if (e.tagName() == "gd:structuredPostalAddress") {
-      KABC::Address address;
-      QDomNodeList l = e.childNodes();
-      for (uint i = 0; i < l.length(); i++) {
-	QDomElement el = l.at(i).toElement();
-
-	if (el.tagName() == "gd:street") {
-	  address.setStreet(el.text());
-	  continue;
-	}
-
-	if (el.tagName() == "gd:country") {
-	  address.setCountry(el.text());
-	  continue;
-	}
-
-	if (el.tagName() == "gd:city") {
-	  address.setLocality(el.text());
-	  continue;
-	}
-
-	if (el.tagName() == "gd:postcode") {
-	  address.setPostalCode(el.text());
-	  continue;
-	}
-
-	if (el.tagName() == "gd:region") {
-	  address.setRegion(el.text());
-	  continue;
-	}
-
-	if (el.tagName() == "gd:pobox") {
-	  address.setPostOfficeBox(el.text());
-	  continue;
-	}
-      }
-
-      address.setType(Objects::Contact::addressSchemeToType(e.attribute("rel"), (e.attribute("primary") == "true")));
-      contact->insertAddress(address);
-      continue;
-    }
-
-    /* Birthday */
-    if (e.tagName() == "gContact:birthday") {
-      contact->setBirthday(QDateTime::fromString(e.attribute("when"), "yyyy-MM-dd"));
-      continue;
-    }
-
-    /* User-defined tags */
-    if (e.tagName() == "gContact:userDefinedField") {
-      contact->insertCustom("GCALENDAR", e.attribute("key", ""), e.attribute("value", ""));
-      continue;
-    }
-
-    if (e.tagName() == "gContact:groupMembershipInfo") {
-      if (e.hasAttribute("deleted") || e.attribute("deleted").toInt() == false) {
-	  groups.append(e.attribute("href"));
-      }
-    }
-  }
-
-  contact->insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
-
-  return dynamic_cast< KGoogle::Object* >(contact);
-}
-
-QByteArray Addressbook::objectToXML(KGoogle::Object* object)
-{
-  Objects::Contact *contact = static_cast< Objects::Contact* >(object);
+  const Objects::Contact *contact = static_cast< const Objects::Contact* >(object);
 
   QByteArray output;
 
@@ -649,8 +598,8 @@ QByteArray Addressbook::objectToXML(KGoogle::Object* object)
   /* Address */
   foreach (KABC::Address address, contact->addresses()) {
     output.append("<gd:structuredPostalAddress rel='")
-	  .append(Objects::Contact::addressTypeToScheme(address.type()).toUtf8())
-	  .append("'>");
+    .append(Objects::Contact::addressTypeToScheme(address.type()).toUtf8())
+    .append("'>");
 
     if (!address.locality().isEmpty())
       output.append("<gd:city>").append(address.locality().toUtf8()).append("</gd:city>");
@@ -695,60 +644,293 @@ QByteArray Addressbook::objectToXML(KGoogle::Object* object)
   return output;
 }
 
-QList< KGoogle::Object* > Addressbook::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
+QByteArray Addressbook::groupToXML(const KGoogle::Object *object)
 {
-  Q_UNUSED (xmlFeed);
-  Q_UNUSED (feedData);
+  const KGoogle::Objects::ContactsGroup *group = static_cast< const KGoogle::Objects::ContactsGroup* >(object);
 
-  return QList< KGoogle::Object* >();
+  QByteArray output;
+
+  output.append("<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
+		"term=\"http://schemas.google.com/g/2005#group\"/>");
+  output.append("<atom:title type=\"text\">").append(group->title().toUtf8()).append("</atom:title>");
+  output.append("<atom:content type=\"text\">").append(group->content().toUtf8()).append("</atom:content>");
+
+  return output;
 }
 
-QUrl Addressbook::scopeUrl()
+KGoogle::Object *Addressbook::XMLToContact(const QDomDocument &doc)
 {
-  return QUrl("https://www.google.com/m8/feeds/");
+  Objects::Contact *contact;
+  QStringList groups;
+
+  QDomNodeList entry = doc.elementsByTagName("entry");
+  QDomNodeList data;
+  if (entry.length() > 0) {
+    data = entry.at(0).childNodes();
+  } else {
+    return 0;
+  }
+
+  contact = new Objects::Contact();
+
+  for (int i = 0; i < data.count(); i++) {
+    QDomNode n = data.at(i);
+    QDomElement e = n.toElement();
+
+    /* Google contact ID. Store only the ID, not the entire URL */
+    if (e.tagName() == "id") {
+      QString id = e.text();
+      contact->setUid(id.mid(id.lastIndexOf("/")+1));
+      continue;
+    }
+
+    /* ETag */
+    if (e.tagName() == "etag") {
+      contact->setEtag(e.text());
+      continue;
+    }
+
+    /* If the contact was deleted, we don't need more info about it.
+    * Just store our own flag, which will be then parsed by the resource
+    * itself. */
+    contact->setDeleted (e.tagName() == "gd:deleted");
+
+    /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture
+    * itself. */
+    if (e.tagName() == "link" && e.attribute("rel") == "http://schemas.google.com/contacts/2008/rel#photo") {
+      contact->setPhotoUrl(e.attribute("href"));	/* URL */
+      continue;
+    }
+
+    /* Name */
+    if (e.tagName() == "title") {
+      contact->setName(e.text());
+      continue;
+    }
+
+    /* Note */
+    if (e.tagName() == "content") {
+      contact->setNote(e.text());
+      continue;
+    }
+
+    /* Organization (work) - KABC supports only organization */
+    if (e.tagName() == "gd:organization") {
+      QDomNodeList l = e.childNodes();
+      for (uint i = 0; i < l.length(); i++) {
+	QDomElement el = l.at(i).toElement();
+
+	if (el.tagName() == "gd:orgName") {
+	  contact->setOrganization(el.text());
+	  continue;
+	}
+
+	if (el.tagName() == "gd:orgDepartment") {
+	  contact->setDepartment(el.text());
+	  continue;
+	}
+
+	if (el.tagName() == "gd:orgTitle") {
+	  contact->setTitle(el.text());
+	  continue;
+	}
+
+	if (el.tagName() == "gd:where") {
+	  contact->setOffice(el.text());
+	  continue;
+	}
+      }
+      continue;
+    }
+
+    /* Nickname */
+    if (e.tagName() == "gContact:nickname") {
+      contact->setNickName(e.text());
+      continue;
+    }
+
+    /* Occupation (= organization/title) */
+    if (e.tagName() == "gContact:occupation") {
+      contact->setProfession(e.text());
+      continue;
+    }
+
+    /* Relationships */
+    if (e.tagName() == "gContact:relation") {
+      if (e.attribute("rel", "") == "spouse") {
+	contact->setSpousesName(e.text());
+	continue;
+      }
+
+      if (e.attribute("rel", "") == "manager") {
+	contact->setManagersName(e.text());
+	continue;
+      }
+
+      if (e.attribute("rel", "") == "assistant") {
+	contact->setAssistantsName(e.text());
+	continue;
+      }
+
+      continue;
+    }
+
+    /* Anniversary */
+    if (e.tagName() == "gContact:event") {
+      if (e.attribute("rel", "") == "anniversary") {
+	QDomElement w = e.firstChildElement("gd:when");
+      contact->setAnniversary(w.attribute("startTime", ""));
+      }
+
+      continue;
+    }
+
+    /* Websites */
+    if (e.tagName() == "gContact:website") {
+      if (e.attribute("rel", "") == "home-page") {
+	contact->setUrl(KUrl(e.attribute("href", "")));
+      continue;
+      }
+
+      if (e.attribute("rel", "") == "blog") {
+	contact->setBlogFeed(e.attribute("href", ""));
+	continue;
+      }
+
+      continue;
+    }
+
+    /* Emails */
+    if (e.tagName() == "gd:email") {
+      contact->insertEmail(e.attribute("address"), (e.attribute("primary").toLower() == "true"));
+      continue;
+    }
+
+    /* IMs */
+    if (e.tagName() == "gd:im") {
+      contact->insertCustom("messaging/" + Objects::Contact::IMSchemeToProtocolName(e.attribute("protocol")), "All", e.attribute("address"));
+      continue;
+    }
+
+    /* Phone numbers */
+    if (e.tagName() == "gd:phoneNumber") {
+      contact->insertPhoneNumber(KABC::PhoneNumber(e.text(), Objects::Contact::phoneSchemeToType(e.attribute("rel"))));
+      continue;
+    }
+
+    /* Addresses */
+    /* FIXME */
+    if (e.tagName() == "gd:structuredPostalAddress") {
+      KABC::Address address;
+      QDomNodeList l = e.childNodes();
+      for (uint i = 0; i < l.length(); i++) {
+	QDomElement el = l.at(i).toElement();
+
+	if (el.tagName() == "gd:street") {
+	  address.setStreet(el.text());
+	  continue;
+	}
+
+	if (el.tagName() == "gd:country") {
+	  address.setCountry(el.text());
+	  continue;
+	}
+
+	if (el.tagName() == "gd:city") {
+	  address.setLocality(el.text());
+	  continue;
+	}
+
+	if (el.tagName() == "gd:postcode") {
+	  address.setPostalCode(el.text());
+	  continue;
+	}
+
+	if (el.tagName() == "gd:region") {
+	  address.setRegion(el.text());
+	  continue;
+	}
+
+	if (el.tagName() == "gd:pobox") {
+	  address.setPostOfficeBox(el.text());
+	  continue;
+	}
+      }
+
+      address.setType(Objects::Contact::addressSchemeToType(e.attribute("rel"), (e.attribute("primary") == "true")));
+      contact->insertAddress(address);
+      continue;
+    }
+
+    /* Birthday */
+    if (e.tagName() == "gContact:birthday") {
+      contact->setBirthday(QDateTime::fromString(e.attribute("when"), "yyyy-MM-dd"));
+      continue;
+    }
+
+    /* User-defined tags */
+    if (e.tagName() == "gContact:userDefinedField") {
+      contact->insertCustom("GCALENDAR", e.attribute("key", ""), e.attribute("value", ""));
+      continue;
+    }
+
+    if (e.tagName() == "gContact:groupMembershipInfo") {
+      if (e.hasAttribute("deleted") || e.attribute("deleted").toInt() == false) {
+	groups.append(e.attribute("href"));
+      }
+    }
+  }
+
+  contact->insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
+
+  return dynamic_cast< KGoogle::Object* >(contact);
 }
 
-QUrl Addressbook::fetchAllUrl(const QString& user)
+Object *Addressbook::XMLToGroup(const QDomDocument &doc)
 {
-  return "https://www.google.com/m8/feeds/contacts/" + user + "/full";
-}
+  Objects::ContactsGroup *group;
+  QStringList groups;
 
-QUrl Addressbook::fetchUrl(const QString& user, const QString& contactID)
-{
-  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
-}
+  QDomNodeList entry = doc.elementsByTagName("entry");
+  QDomNodeList data;
+  if (entry.length() > 0) {
+    data = entry.at(0).childNodes();
+  } else {
+    return 0;
+  }
 
-QUrl Addressbook::createUrl(const QString& user)
-{
-  return "https://www.google.com/m8/feeds/contacts/" + user +"/full";
-}
+  group = new Objects::ContactsGroup();
 
-QUrl Addressbook::updateUrl(const QString& user, const QString& contactID)
-{
-  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
-}
+  for (int i = 0; i < data.count(); i++) {
+    QDomNode n = data.at(i);
+    QDomElement e = n.toElement();
 
-QUrl Addressbook::removeUrl(const QString& user, const QString& contactID)
-{
-  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
-}
+    if (e.tagName() == "id") {
+      QString url = e.text();
+      group->setId(url.mid(url.lastIndexOf("/") + 1));
+      continue;
+    }
 
-const QString Addressbook::protocolVersion()
-{
-  return "3.0";
-}
+    if (e.tagName() == "updated") {
+      group->setUpdated(KGoogle::AccessManager::RFC3339StringToDate(e.text()).dateTime());
+      continue;
+    }
 
-bool Addressbook::supportsJSONRead(QString* urlParam)
-{
-  if (urlParam)
-    *urlParam = "json";
+    if (e.tagName() == "title") {
+      group->setTitle(e.text());
+      continue;
+    }
 
-  return true;
-}
+    if (e.tagName() == "content") {
+      group->setContent(e.text());
+      continue;
+    }
 
-bool Addressbook::supportsJSONWrite(QString* urlParam)
-{
-  Q_UNUSED (urlParam)
+    if (e.tagName() == "gContact:systemGroup") {
+      group->setIsSystemGroup(true);
+      continue;
+    }
+  }
 
-  return false;
+  return dynamic_cast< KGoogle::Object* > (group);
 }
