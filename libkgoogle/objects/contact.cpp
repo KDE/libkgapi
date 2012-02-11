@@ -117,7 +117,7 @@ void Contact::setAssistantsName (const QString &name)
   insertCustom("KADDRESSBOOK", "X-AssistantsName", name);
 }
 
-QString Contact::assistantsName()
+QString Contact::assistantsName() const
 {
   return custom("KADDRESSBOOK", "X-AssistantsName");
 }

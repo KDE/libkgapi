@@ -132,7 +132,7 @@ namespace KGoogle {
         /**
          * Returns name of contact's assistant.
          */
-        QString assistantsName();
+        QString assistantsName() const;
 
         /**
          * Sets contact's profession.
