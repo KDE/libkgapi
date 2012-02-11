@@ -34,8 +34,8 @@ set(libkgoogle_SRCS
     objects/task.cpp
     objects/tasklist.cpp
     services/accountinfo.cpp
-    services/addressbook.cpp
     services/calendar.cpp
+    services/contacts.cpp
     services/tasks.cpp
     ui/accountscombo.cpp
 )
@@ -53,8 +53,8 @@ set(libkgoogle_HDRS
 
 set(services_HDRS
     services/accountinfo.h
-    services/addressbook.h
     services/calendar.h
+    services/contacts.h
     services/tasks.h)
 
 set(objects_HDRS

@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Addressbook Service
+    libKGoogle - Contacts Service
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 */
 
 
-#include "addressbook.h"
+#include "contacts.h"
 #include "accessmanager.h"
 #include "objects/contact.h"
 #include "objects/contactsgroup.h"
@@ -30,11 +30,11 @@
 using namespace KGoogle;
 using namespace KGoogle::Services;
 
-Addressbook::~Addressbook()
+Contacts::~Contacts()
 { }
 
 
-QByteArray Addressbook::objectToJSON(KGoogle::Object* object)
+QByteArray Contacts::objectToJSON(KGoogle::Object* object)
 {
   /* Google allows writing only XML data */
   return QByteArray();
@@ -42,7 +42,7 @@ QByteArray Addressbook::objectToJSON(KGoogle::Object* object)
   Q_UNUSED(object)
 }
 
-QByteArray Addressbook::objectToXML(KGoogle::Object* object)
+QByteArray Contacts::objectToXML(KGoogle::Object* object)
 {
   if (dynamic_cast< KGoogle::Objects::Contact* >(object))
     return contactToXML(object);
@@ -53,7 +53,7 @@ QByteArray Addressbook::objectToXML(KGoogle::Object* object)
 }
 
 
-QList< KGoogle::Object* > Addressbook::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
+QList< KGoogle::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
 {
   QList< KGoogle::Object* > output;
   QJson::Parser parser;
@@ -100,7 +100,7 @@ QList< KGoogle::Object* > Addressbook::parseJSONFeed(const QByteArray& jsonFeed,
   return output;
 }
 
-Object *Addressbook::JSONToObject(const QByteArray &jsonData)
+Object *Contacts::JSONToObject(const QByteArray &jsonData)
 {
   QJson::Parser parser;
   QVariantMap data, entry;
@@ -124,7 +124,7 @@ Object *Addressbook::JSONToObject(const QByteArray &jsonData)
   return 0;
 }
 
-KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
+KGoogle::Object* Contacts::XMLToObject(const QByteArray& xmlData)
 {
   QByteArray xmlDoc;
   /* Document without <xml> header is not valid and Qt won't parse it */
@@ -162,7 +162,7 @@ KGoogle::Object* Addressbook::XMLToObject(const QByteArray& xmlData)
 
 }
 
-QList< KGoogle::Object* > Addressbook::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
+QList< KGoogle::Object* > Contacts::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
 {
   Q_UNUSED (xmlFeed);
   Q_UNUSED (feedData);
@@ -170,67 +170,67 @@ QList< KGoogle::Object* > Addressbook::parseXMLFeed(const QByteArray& xmlFeed, F
   return QList< KGoogle::Object* >();
 }
 
-QUrl Addressbook::scopeUrl()
+QUrl Contacts::scopeUrl()
 {
   return QUrl("https://www.google.com/m8/feeds/");
 }
 
-QUrl Addressbook::fetchAllContactsUrl(const QString& user)
+QUrl Contacts::fetchAllContactsUrl(const QString& user)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user + "/full?alt=json";
 }
 
-QUrl Addressbook::fetchContactUrl(const QString& user, const QString& contactID)
+QUrl Contacts::fetchContactUrl(const QString& user, const QString& contactID)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID + "?alt=json";
 }
 
-QUrl Addressbook::createContactUrl(const QString& user)
+QUrl Contacts::createContactUrl(const QString& user)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user +"/full";
 }
 
-QUrl Addressbook::updateContactUrl(const QString& user, const QString& contactID)
+QUrl Contacts::updateContactUrl(const QString& user, const QString& contactID)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
 }
 
-QUrl Addressbook::removeContactUrl(const QString& user, const QString& contactID)
+QUrl Contacts::removeContactUrl(const QString& user, const QString& contactID)
 {
   return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
 }
 
-QUrl Addressbook::fetchAllGroupsUrl(const QString &user)
+QUrl Contacts::fetchAllGroupsUrl(const QString &user)
 {
   return "https://www.google.com/m8/feeds/groups/" + user + "/full?alt=json";
 }
 
-QUrl Addressbook::fetchGroupUrl(const QString &user, const QString &groupId)
+QUrl Contacts::fetchGroupUrl(const QString &user, const QString &groupId)
 {
   return "https://www.google.com/m8/feeds/groups/" + user + "/base/" + groupId + "?alt=json";
 }
 
-QUrl Addressbook::createGroupUrl(const QString &user)
+QUrl Contacts::createGroupUrl(const QString &user)
 {
   return "https://www.google.com/m8/feeds/groups/" + user + "/full";
 }
 
-QUrl Addressbook::updateGroupUrl(const QString &user, const QString &groupId)
+QUrl Contacts::updateGroupUrl(const QString &user, const QString &groupId)
 {
   return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + groupId;
 }
 
-QUrl Addressbook::removeGroupUrl(const QString &user, const QString &groupId)
+QUrl Contacts::removeGroupUrl(const QString &user, const QString &groupId)
 {
   return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + groupId;
 }
 
-const QString Addressbook::protocolVersion()
+const QString Contacts::protocolVersion()
 {
   return "3.0";
 }
 
-bool Addressbook::supportsJSONRead(QString* urlParam)
+bool Contacts::supportsJSONRead(QString* urlParam)
 {
   if (urlParam)
     *urlParam = "json";
@@ -238,14 +238,14 @@ bool Addressbook::supportsJSONRead(QString* urlParam)
   return true;
 }
 
-bool Addressbook::supportsJSONWrite(QString* urlParam)
+bool Contacts::supportsJSONWrite(QString* urlParam)
 {
   Q_UNUSED (urlParam)
 
   return false;
 }
 
-KGoogle::Object *Addressbook::JSONToGroup(const QVariantMap &data)
+KGoogle::Object *Contacts::JSONToGroup(const QVariantMap &data)
 {
   Objects::ContactsGroup *object = new Objects::ContactsGroup;
 
@@ -267,7 +267,7 @@ KGoogle::Object *Addressbook::JSONToGroup(const QVariantMap &data)
 }
 
 
-KGoogle::Object* Addressbook::JSONToContact(const QVariantMap &data)
+KGoogle::Object* Contacts::JSONToContact(const QVariantMap &data)
 {
   Objects::Contact *object = new Objects::Contact();
 
@@ -476,7 +476,7 @@ KGoogle::Object* Addressbook::JSONToContact(const QVariantMap &data)
 }
 
 
-QByteArray Addressbook::contactToXML(const KGoogle::Object* object)
+QByteArray Contacts::contactToXML(const KGoogle::Object* object)
 {
   const Objects::Contact *contact = static_cast< const Objects::Contact* >(object);
 
@@ -644,7 +644,7 @@ QByteArray Addressbook::contactToXML(const KGoogle::Object* object)
   return output;
 }
 
-QByteArray Addressbook::groupToXML(const KGoogle::Object *object)
+QByteArray Contacts::groupToXML(const KGoogle::Object *object)
 {
   const KGoogle::Objects::ContactsGroup *group = static_cast< const KGoogle::Objects::ContactsGroup* >(object);
 
@@ -658,7 +658,7 @@ QByteArray Addressbook::groupToXML(const KGoogle::Object *object)
   return output;
 }
 
-KGoogle::Object *Addressbook::XMLToContact(const QDomDocument &doc)
+KGoogle::Object *Contacts::XMLToContact(const QDomDocument &doc)
 {
   Objects::Contact *contact;
   QStringList groups;
@@ -886,7 +886,7 @@ KGoogle::Object *Addressbook::XMLToContact(const QDomDocument &doc)
   return dynamic_cast< KGoogle::Object* >(contact);
 }
 
-Object *Addressbook::XMLToGroup(const QDomDocument &doc)
+Object *Contacts::XMLToGroup(const QDomDocument &doc)
 {
   Objects::ContactsGroup *group;
   QStringList groups;

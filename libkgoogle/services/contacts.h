@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Services - Addressbook
+    libKGoogle - Services - Contacts
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 */
 
 
-#ifndef LIBKGOOGLE_SERVICES_ADDRESSBOOK_H
-#define LIBKGOOGLE_SERVICES_ADDRESSBOOK_H
+#ifndef LIBKGOOGLE_SERVICES_CONTACTS_H
+#define LIBKGOOGLE_SERVICES_CONTACTS_H
 
 #include <libkgoogle/service.h>
 #include <libkgoogle/libkgoogle_export.h>
@@ -35,10 +35,10 @@ namespace KGoogle {
     /**
      * Represents Google Contacts service.
      */
-    class LIBKGOOGLE_EXPORT Addressbook: public KGoogle::Service
+    class LIBKGOOGLE_EXPORT Contacts: public KGoogle::Service
     {
       public:
-	~Addressbook();
+	~Contacts();
 
 	/**
 	 * Implementation of KGoogle::Service::JSONToObject().
@@ -194,6 +194,6 @@ namespace KGoogle {
 
 } // namespace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::Services::Addressbook)
+Q_DECLARE_METATYPE(KGoogle::Services::Contacts)
 
-#endif // LIBKGOOGLE_SERVICES_ADDRESSBOOK_H
+#endif // LIBKGOOGLE_SERVICES_CONTACTS_H
