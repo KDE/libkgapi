@@ -50,6 +50,8 @@ AccessManager::AccessManager():
 {
   connect(m_nam, SIGNAL(finished(QNetworkReply*)),
 	  this, SLOT(nam_replyReceived(QNetworkReply*)));
+  connect(Auth::instance(), SIGNAL(error(KGoogle::Error,QString)),
+	  this, SIGNAL(error(KGoogle::Error,QString)));
 }
 
 AccessManager::~AccessManager()
@@ -111,8 +113,8 @@ void AccessManager::nam_replyReceived(QNetworkReply* reply)
 
     default: /** Something went wrong, there's nothing we can do about it */
       kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
-		 << ", Google replied '" << reply->readAll() << "'";
-      emit error(KGoogle::UnknownError, i18n("Unknown error"));
+		 << ", Google replied '" << rawData << "'";
+      emit error(KGoogle::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", QString(rawData)));
       return;
   }
 
