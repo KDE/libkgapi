@@ -6,6 +6,8 @@
 			  http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile/>
   <group name="General">
+    <entry name="Account" type="String">
+    </entry>
     <entry name="LastSync" type="String">
     </entry>
     <entry name="RefreshAddressbook" type="Bool">
@@ -13,6 +15,8 @@
     </entry>
     <entry name="RefreshInterval" type="Int">
       <default>30</default>
+    </entry>
+    <entry name="Groups" type="StringList">
     </entry>
   </group>
 </kcfg>

@@ -22,11 +22,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(contactsresource_SRCS
     contactsresource.cpp
+    groupeditor.cpp
     settings.cpp
     settingsdialog.cpp
 )
 
-kde4_add_ui_files(contactsresource_SRCS settingsdialog.ui)
+kde4_add_ui_files(contactsresource_SRCS ui/settingsdialog.ui ui/groupeditor.ui)
 kde4_add_kcfg_files(contactsresource_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/settingsbase.kcfgc)
 kcfg_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/settingsbase.kcfg org.kde.Akonadi.GoogleContacts.Settings)
 qt4_add_dbus_adaptor(contactsresource_SRCS

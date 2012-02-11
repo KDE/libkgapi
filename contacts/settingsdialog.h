@@ -1,6 +1,6 @@
 /*
     Akonadi Google - Calendar Resource
-    Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
+    Copyright (C) 2011, 2012  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,38 +22,64 @@
 
 #include <KDE/KDialog>
 
+#include <libkgoogle/common.h>
+
 namespace Ui {
   class SettingsDialog;
 }
 
 namespace KGoogle {
-  class KGoogleAuth;
+
+  namespace Objects {
+
+    class ContactsGroup;
+
+  }
+
+  class Reply;
+
 }
 
-using namespace KGoogle;
+class QTreeWidgetItem;
 
 class SettingsDialog : public KDialog
 {
   Q_OBJECT
   public:
-    SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget *parent = 0);
+    SettingsDialog(WId windowId, QWidget *parent = 0);
     ~SettingsDialog();
 
   private Q_SLOTS:
-    void revokeTokens();
-    void authenticate();
-    
-    void setAuthenticated(bool authenticated);
-    
-    void authenticated(QString accessToken, QString refreshToken);
-    
+    void addAccountClicked();
+    void removeAccountClicked();
+    void accountChanged();
+
+    void addGroupClicked();
+    void editGroupClicked();
+    void removeGroupClicked();
+    void reloadGroupsClicked();
+
+    void reloadAccounts();
+
+    void gam_groupCreated(KGoogle::Reply *reply);
+    void gam_groupModified(KGoogle::Reply *reply);
+    void gam_groupRemoved(KGoogle::Reply *reply);
+    void gam_groupsListReceived(KGoogle::Reply *reply);
+
+    void addGroup(KGoogle::Objects::ContactsGroup *group);
+    void editGroup(KGoogle::Objects::ContactsGroup *group);
+
+    void groupSelected(QTreeWidgetItem *item);
+    void groupChecked(QTreeWidgetItem *item);
+
+    void error(KGoogle::Error errCode, const QString &msg);
+    void saveSettings();
   private:
     Ui::SettingsDialog *m_ui;
-    QWidget *m_mainWidget;    
-    
+    QWidget *m_mainWidget;
+
     WId m_windowId;
 
-    KGoogleAuth *m_googleAuth;
 };
 
 #endif // SETTINGSDIALOG_H
