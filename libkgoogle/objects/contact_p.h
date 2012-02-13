@@ -46,6 +46,7 @@ namespace KGoogle {
 	QStringList groups;
 
 	KDateTime updated;
+	KDateTime created;
     };
 
   } // namespace Objects

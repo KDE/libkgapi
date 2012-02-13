@@ -82,6 +82,18 @@ QUrl Contact::photoUrl() const
   return d->photoUrl;
 }
 
+void Contact::setCreated(const KDateTime &created)
+{
+  d->created = created;
+}
+
+KDateTime Contact::created() const
+{
+  return d->created;
+}
+
+
+
 void Contact::setUpdated(const KDateTime& updated)
 {
   d->updated = updated;
@@ -161,6 +173,24 @@ QString Contact::blogFeed() const
 {
   return custom("KADDRESSBOOK", "BlogFeed");
 }
+
+void Contact::addGroup(const QString &group)
+{
+  QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+  groups << group;
+  insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
+}
+
+void Contact::setGroups(const QStringList &groups)
+{
+  insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
+}
+
+QStringList Contact::groups() const
+{
+  return custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+}
+
 
 QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
 {
