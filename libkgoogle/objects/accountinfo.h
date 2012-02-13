@@ -21,7 +21,7 @@
 #define LIBKGOOGLE_OBJECTS_ACCOUNTINFO_H
 
 #include <libkgoogle/object.h>
-#include <libkgoogle_export.h>
+#include <libkgoogle/libkgoogle_export.h>
 
 #include <qshareddata.h>
 #include <qmetatype.h>
