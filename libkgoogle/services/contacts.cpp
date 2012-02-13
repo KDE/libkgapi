@@ -249,8 +249,7 @@ KGoogle::Object *Contacts::JSONToGroup(const QVariantMap &data)
 {
   Objects::ContactsGroup *object = new Objects::ContactsGroup;
 
-  QString id = data["id"].toMap()["$t"].toString();
-  object->setId(id.mid(id.lastIndexOf("/") + 1));
+  object->setId(data["id"].toMap()["$t"].toString());
   object->setEtag(data["gd$etag"].toString());
 
   object->setTitle(data["title"].toMap()["$t"].toString());
@@ -271,9 +270,8 @@ KGoogle::Object* Contacts::JSONToContact(const QVariantMap &data)
 {
   Objects::Contact *object = new Objects::Contact();
 
-  /* Google contact ID. Store only the ID, not the entire URL */
-  QString id = data["id"].toMap()["$t"].toString();
-  object->setUid(id.mid(id.lastIndexOf("/") + 1));
+  /* Google contact ID */
+  object->setUid(data["id"].toMap()["$t"].toString());
 
   /* Google ETAG. This can be used to identify if the item was changed remotly */
   object->setEtag(data["gd$etag"].toString());
@@ -677,10 +675,8 @@ KGoogle::Object *Contacts::XMLToContact(const QDomDocument &doc)
     QDomNode n = data.at(i);
     QDomElement e = n.toElement();
 
-    /* Google contact ID. Store only the ID, not the entire URL */
     if (e.tagName() == "id") {
-      QString id = e.text();
-      contact->setUid(id.mid(id.lastIndexOf("/")+1));
+      contact->setUid(e.text());
       continue;
     }
 
@@ -906,8 +902,7 @@ Object *Contacts::XMLToGroup(const QDomDocument &doc)
     QDomElement e = n.toElement();
 
     if (e.tagName() == "id") {
-      QString url = e.text();
-      group->setId(url.mid(url.lastIndexOf("/") + 1));
+      group->setId(e.text());
       continue;
     }
 
