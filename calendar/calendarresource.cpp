@@ -24,6 +24,7 @@
 #include <libkgoogle/account.h>
 #include <libkgoogle/accessmanager.h>
 #include <libkgoogle/auth.h>
+#include <libkgoogle/fetchlistjob.h>
 #include <libkgoogle/request.h>
 #include <libkgoogle/reply.h>
 #include <libkgoogle/objects/calendar.h>
@@ -86,8 +87,6 @@ CalendarResource::CalendarResource(const QString &id):
 	  this, SLOT(error(KGoogle::Error,QString)));
   connect(m_gam, SIGNAL(replyReceived(KGoogle::Reply*)),
 	  this, SLOT(replyReceived(KGoogle::Reply*)));
-  connect(m_gam, SIGNAL(requestFinished(KGoogle::Request*)),
-	  this, SLOT(commitItemsList(KGoogle::Request*)));
 
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
@@ -150,7 +149,7 @@ void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
           fetchJob, SLOT(deleteLater()));
 
   fetchJob->fetchScope().fetchFullPayload(false);
-  fetchJob->setProperty("Collection", qVariantFromValue(collection));
+  fetchJob->setProperty("collection", qVariantFromValue(collection));
   fetchJob->start();
 }
 
@@ -160,7 +159,7 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
   QString service;
   QStringList syncs;
 
-  Collection collection = job->property("Collection").value<Collection>();
+  Collection collection = job->property("collection").value<Collection>();
 
   /* Can't fetch items for root collection. */
   if (collection == Akonadi::Collection::root())
@@ -168,15 +167,11 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
 
   if (collection.contentMimeTypes().contains(Event::eventMimeType())) {
 
-    emit status(Running, i18n("Synchronizing calendar %1").arg(collection.name()));
-
     service = "Calendar";
     url = Services::Calendar::fetchAllUrl(collection.remoteId(), "private");
     syncs = Settings::self()->calendarSync();
 
   } else if (collection.contentMimeTypes().contains(Todo::todoMimeType())) {
-
-    emit status(Running, i18n("Synchronizing tasklist %1").arg(collection.name()));
 
     service = "Tasks";
     url = Services::Tasks::fetchAllTasksUrl(collection.remoteId());
@@ -202,19 +197,12 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
   if (!lastSync.isEmpty())
     url.addQueryItem("updated-min", lastSync);
 
-  Account *account;
-  try {
-    Auth *auth = Auth::instance();
-    account = auth->getAccount(Settings::self()->account());
-  }
-  catch (Exception::BaseException &e) {
-    emit status(Broken, e.what());
-    return;
-  }
 
-  Request *request = new Request(url, Request::FetchAll, service, account);
-  request->setProperty("Collection", qVariantFromValue(collection));
-  m_gam->sendRequest(request);
+  FetchListJob *fetchJob = new FetchListJob(url, service, Settings::self()->account());
+  fetchJob->setProperty("collection", qVariantFromValue(collection));
+  connect(fetchJob, SIGNAL(finished(KJob*)),
+	  this, SLOT(itemsReceived(KJob*)));
+  fetchJob->start();
 }
 
 
@@ -227,13 +215,11 @@ bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
 
   if (item.parentCollection().contentMimeTypes().contains(Event::eventMimeType())) {
 
-    emit status(Running, i18n("Fetching an event"));
     service = "Calendar";
     url = Services::Calendar::fetchUrl(Settings::self()->account(), "private", item.remoteId());
 
   } else if (item.parentCollection().contentMimeTypes().contains(Todo::todoMimeType())) {
 
-    emit status(Running, i18n("Fetching a task"));
     service = "Tasks";
     url = Services::Tasks::fetchTaskUrl(item.parentCollection().remoteId(), item.remoteId());
 
@@ -258,20 +244,6 @@ bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
 
 void CalendarResource::retrieveCollections()
 {
-  Request *request;
-
-  Account *account;
-  try {
-    Auth *auth = Auth::instance();
-    account = auth->getAccount(Settings::self()->account());
-  }
-  catch (Exception::BaseException &e) {
-    emit status(Broken, e.what());
-    return;
-  }
-
-  emit status(Running, i18n("Synchronizing collections..."));
-
   Akonadi::EntityDisplayAttribute *attr = new Akonadi::EntityDisplayAttribute();
   attr->setDisplayName(Settings::self()->account());
 
@@ -285,15 +257,19 @@ void CalendarResource::retrieveCollections()
   m_collections.clear();
   m_collections.append(collection);
 
-  request = new Request(Services::Calendar::fetchAllUrl("default", "allcalendars"),
-                        KGoogle::Request::FetchAll, "Calendar", account);
-  request->setProperty("isCollection", true);
-  m_gam->sendRequest(request);
+  FetchListJob *fetchJob;
 
-  request = new Request(Services::Tasks::fetchTaskListsUrl(),
-                        KGoogle::Request::FetchAll, "Tasks", account);
-  request->setProperty("isCollection", true);
-  m_gam->sendRequest(request);
+  fetchJob = new FetchListJob(Services::Calendar::fetchAllUrl("default", "allcalendars"),
+			      "Calendar", Settings::self()->account());
+  connect(fetchJob, SIGNAL(finished(KJob*)),
+	  this, SLOT(calendarsReceived(KJob*)));
+  fetchJob->start();
+
+  fetchJob = new FetchListJob(Services::Tasks::fetchTaskListsUrl(),
+			      "Tasks", Settings::self()->account());
+  connect(fetchJob, SIGNAL(finished(KJob*)),
+	  this, SLOT(taskListReceived(KJob*)));
+  fetchJob->start();
 }
 
 void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
@@ -303,8 +279,6 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
   QByteArray data;
 
   if (item.mimeType() == Event::eventMimeType()) {
-
-    emit status(Running, i18n("Creating a new event..."));
 
     EventPtr event = item.payload< EventPtr >();
     Objects::Event kevent(*event);
@@ -316,8 +290,6 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
     data = service.objectToJSON(static_cast< KGoogle::Object* >(&kevent));
 
   } else if (item.mimeType() == Todo::todoMimeType()) {
-
-    emit status(Running, i18n("Creating a new todo..."));
 
     TodoPtr todo = item.payload< TodoPtr >();
     Objects::Task ktodo(*todo);
@@ -359,8 +331,6 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 
   if (item.mimeType() == Event::eventMimeType()) {
 
-    status(Running, i18n("Updating an event..."));
-
     EventPtr event = item.payload< EventPtr >();
     Objects::Event kevent(*event);
 
@@ -371,8 +341,6 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
     data = service.objectToJSON(static_cast< KGoogle::Object* >(&kevent));
 
   } else if (item.mimeType() == Todo::todoMimeType()) {
-
-    status(Running, i18n("Updating a todo..."));
 
     TodoPtr todo = item.payload< TodoPtr >();
     Objects::Task ktodo(*todo);
@@ -447,7 +415,7 @@ void CalendarResource::replyReceived(KGoogle::Reply* reply)
 {
   switch (reply->requestType()) {
     case Request::FetchAll:
-      itemsReceived(reply);
+      /* Handled by FetchListJob */
       break;
 
     case Request::Fetch:
@@ -468,59 +436,34 @@ void CalendarResource::replyReceived(KGoogle::Reply* reply)
   }
 }
 
-void CalendarResource::itemsReceived(KGoogle::Reply *reply)
+void CalendarResource::itemsReceived(KJob *job)
 {
-  if (reply->serviceName() == "Calendar") {
+  FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
 
-    if (reply->request()->hasProperty("isCollection") &&
-        reply->request()->property("isCollection").toBool()) {
+  if (fetchJob->service() == "Calendar") {
 
-      if (calendarsReceived(reply))
-        taskDone();
+    eventsReceived(job);
 
-    } else {
+  } else if (fetchJob->service() == "Tasks") {
 
-      if (eventsReceived(reply))
-        taskDone();
-
-    }
-
-  } else if (reply->serviceName() == "Tasks") {
-
-    if (reply->request()->hasProperty("isCollection") &&
-        reply->request()->property("isCollection").toBool()) {
-
-      if (taskListReceived(reply))
-        taskDone();
-
-    } else {
-
-      if (tasksReceived(reply))
-        taskDone();
-
-    }
+    tasksReceived(job);
 
   } else {
 
     cancelTask(i18n("Received invalid reply"));
 
   }
-
-  delete reply;
-
 }
 
 void CalendarResource::itemReceived(Reply* reply)
 {
   if (reply->serviceName() == "Calendar") {
 
-    if (eventReceived(reply))
-      taskDone();
+    eventReceived(reply);
 
   } else if (reply->serviceName() == "Tasks") {
 
-    if (taskReceived(reply))
-      taskDone();
+    taskReceived(reply);
 
   } else {
 
@@ -532,18 +475,15 @@ void CalendarResource::itemReceived(Reply* reply)
 
 }
 
-
 void CalendarResource::itemCreated(Reply* reply)
 {
   if (reply->serviceName() == "Calendar") {
 
-    if (eventCreated(reply))
-      taskDone();
+    eventCreated(reply);
 
   } else if (reply->serviceName() == "Tasks") {
 
-    if (taskCreated(reply))
-      taskDone();
+    taskCreated(reply);
 
   } else {
 
@@ -559,13 +499,11 @@ void CalendarResource::itemUpdated(Reply* reply)
 {
   if (reply->serviceName() == "Calendar") {
 
-    if (eventUpdated(reply))
-      taskDone();
+    eventUpdated(reply);
 
   } else if (reply->serviceName() == "Tasks") {
 
-    if (taskUpdated(reply))
-      taskDone();
+    taskUpdated(reply);
 
   } else {
 
@@ -581,13 +519,11 @@ void CalendarResource::itemRemoved(Reply* reply)
 {
   if (reply->serviceName() == "Calendar") {
 
-    if (eventRemoved(reply))
-      taskDone();
+    eventRemoved(reply);
 
   } else if (reply->serviceName() == "Tasks") {
 
-    if (taskRemoved(reply))
-      taskDone();
+    taskRemoved(reply);
 
   } else {
 
@@ -597,44 +533,5 @@ void CalendarResource::itemRemoved(Reply* reply)
 
   delete reply;
 }
-
-
-void CalendarResource::commitItemsList(KGoogle::Request *request)
-{
-
-  if (request->serviceName() == "Calendar") {
-
-    if (request->hasProperty("isCollection") &&
-        request->property("isCollection").toBool()) {
-
-      if (commitCalendars(request))
-        taskDone();
-
-    } else {
-
-      if (commitEvents(request))
-        taskDone();
-
-    }
-
-  } else if (request->serviceName() == "Tasks") {
-
-    if (request->hasProperty("isCollection") &&
-        request->property("isCollection").toBool()) {
-
-      if (commitTaskLists(request))
-        taskDone();
-
-    } else {
-
-      if (commitTasks(request))
-        taskDone();
-
-    }
-
-  }
-
-}
-
 
 AKONADI_RESOURCE_MAIN (CalendarResource);

@@ -66,41 +66,32 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
 
     void cachedItemsRetrieved(KJob *job);
     void replyReceived(KGoogle::Reply *reply);
-    void commitItemsList(KGoogle::Request *request);
 
-    void itemsReceived(KGoogle::Reply *reply);
+    void itemsReceived(KJob *job);
     void itemReceived(KGoogle::Reply *reply);
     void itemCreated(KGoogle::Reply *reply);
     void itemUpdated(KGoogle::Reply *reply);
     void itemRemoved(KGoogle::Reply *reply);
 
-    bool taskReceived(KGoogle::Reply *reply);
-    bool tasksReceived(KGoogle::Reply *reply);
-    bool taskListReceived(KGoogle::Reply *reply);
-    bool taskCreated(KGoogle::Reply *reply);
-    bool taskUpdated(KGoogle::Reply *reply);
-    bool taskRemoved(KGoogle::Reply *reply);
-    bool commitTaskLists(KGoogle::Request *request);
-    bool commitTasks(KGoogle::Request *request);
+    void taskListReceived(KJob *job);
+    void calendarsReceived(KJob *job);
 
-    bool eventReceived(KGoogle::Reply *reply);
-    bool eventsReceived(KGoogle::Reply *reply);
-    bool calendarsReceived(KGoogle::Reply *reply);
-    bool eventCreated(KGoogle::Reply *reply);
-    bool eventUpdated(KGoogle::Reply *reply);
-    bool eventRemoved(KGoogle::Reply *reply);
-    bool commitCalendars(KGoogle::Request *reply);
-    bool commitEvents(KGoogle::Request *reply);
+    void taskReceived(KGoogle::Reply *reply);
+    void tasksReceived(KJob *job);
+    void taskCreated(KGoogle::Reply *reply);
+    void taskUpdated(KGoogle::Reply *reply);
+    void taskRemoved(KGoogle::Reply *reply);
+
+    void eventReceived(KGoogle::Reply *reply);
+    void eventsReceived(KJob *job);
+    void eventCreated(KGoogle::Reply *reply);
+    void eventUpdated(KGoogle::Reply *reply);
+    void eventRemoved(KGoogle::Reply *reply);
 
   private:
     void abort();
 
     AccessManager *m_gam;
-
-    Akonadi::Item::List m_changedEvents;
-    Akonadi::Item::List m_changedTodos;
-    Akonadi::Item::List m_removedEvents;
-    Akonadi::Item::List m_removedTodos;
 
     Akonadi::Collection::List m_collections;
     bool m_fetchedCalendars;

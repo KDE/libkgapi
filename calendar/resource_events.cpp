@@ -20,6 +20,7 @@
 #include "calendarresource.h"
 #include "settings.h"
 
+#include <libkgoogle/fetchlistjob.h>
 #include <libkgoogle/reply.h>
 #include <libkgoogle/request.h>
 #include <libkgoogle/objects/event.h>
@@ -49,20 +50,19 @@ using namespace KCal;
 using namespace KCalCore;
 #endif
 
-bool CalendarResource::calendarsReceived(KGoogle::Reply *reply)
+void CalendarResource::calendarsReceived(KJob *job)
 {
-  if (reply->error() != OK) {
-    emit status(Broken, i18n("Failed to fetch calendars: %1").arg(reply->errorString()));
-    return false;
+  if (job->error()) {
+    emit status(Broken, i18n("Failed to fetch calendars: %1").arg(job->errorString()));
+    cancelTask();
+    return;
   }
 
-  Item::List events;
-  Item::List removed;
-  Item::List changed;
+  FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
 
   QStringList calendars = Settings::self()->calendars();
 
-  QList< KGoogle::Object *> allData = reply->replyData();
+  QList< KGoogle::Object *> allData = fetchJob->items();
   foreach (KGoogle::Object* replyData, allData) {
 
       Objects::Calendar *calendar = static_cast< Objects::Calendar* >(replyData);
@@ -86,41 +86,30 @@ bool CalendarResource::calendarsReceived(KGoogle::Reply *reply)
 
   }
 
-  return true;
-}
-
-bool CalendarResource::commitCalendars(KGoogle::Request *request)
-{
-  QString collectionId = request->property("collectionId").toString();
-
   m_fetchedCalendars = true;
 
-  if (m_fetchedCalendars && m_fetchedTaskLists) {
-
+  if (m_fetchedTaskLists && m_fetchedCalendars) {
     collectionsRetrieved(m_collections);
-
     m_collections.clear();
+
     m_fetchedCalendars = false;
     m_fetchedTaskLists = false;
-
-    return true;
   }
-
-  return false;
 }
 
-bool CalendarResource::eventReceived(KGoogle::Reply *reply)
+void CalendarResource::eventReceived(KGoogle::Reply *reply)
 {
   if (reply->error() != OK) {
+    cancelTask();
     emit status(Broken, i18n("Failed to fetch event: %1").arg(reply->errorString()));
-    return false;
+    return;
   }
 
   QList< Object* > data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
     cancelTask(i18n("Expected a single item, server sent %1 items.").arg(data.length()));
-    return false;
+    return;
   }
 
   Objects::Event *event = static_cast< Objects::Event* >(data.first());
@@ -135,24 +124,22 @@ bool CalendarResource::eventReceived(KGoogle::Reply *reply)
     itemsRetrievedIncremental(Item::List(), Item::List() << item);
   else
     itemRetrieved(item);
-
-  emit status(Idle, i18n("Event fetched"));
-
-  return true;
 }
 
-bool CalendarResource::eventsReceived(KGoogle::Reply *reply)
+void CalendarResource::eventsReceived(KJob *job)
 {
-  if (reply->error() != OK) {
-    cancelTask(i18n("Failed to fetch events: %1").arg(reply->errorString()));
-    return false;
+  if (job->error()) {
+    cancelTask(i18n("Failed to fetch events: %1").arg(job->errorString()));
+    return;
   }
 
-  Item::List events;
+  FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
+  Collection collection = fetchJob->property("collection").value< Collection >();
+
   Item::List removed;
   Item::List changed;
 
-  QList< Object *> allData = reply->replyData();
+  QList< Object *> allData = fetchJob->items();
   foreach (Object* replyData, allData) {
 
     Objects::Event *event = static_cast< Objects::Event* >(replyData);
@@ -162,31 +149,43 @@ bool CalendarResource::eventsReceived(KGoogle::Reply *reply)
     item.setRemoteRevision(event->etag());
     item.setPayload< EventPtr >(EventPtr(event));
     item.setMimeType(Event::eventMimeType());
-    item.setParentCollection(reply->request()->property("Collection").value<Collection>());
+    item.setParentCollection(collection);
 
     if (event->deleted())
-      m_removedEvents << item;
+      removed << item;
     else
-      m_changedEvents << item;
+      changed << item;
 
   }
 
-  /* Don't emit taskDone() - will be emitted after commitEvents() is called. */
-  return false;
+  itemsRetrievedIncremental(changed, removed);
+
+  QStringList calendars = Settings::self()->calendarSync();
+  foreach (const QString &calendar, calendars) {
+
+    if (calendar.startsWith(collection.remoteId() + ',')) {
+      calendars.removeAll(calendar);
+      calendars.append(collection.remoteId() + ',' + KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
+      break;
+    }
+  }
+
+  Settings::self()->setCalendarSync(calendars);
+  Settings::self()->writeConfig();
 }
 
-bool CalendarResource::eventCreated(KGoogle::Reply *reply)
+void CalendarResource::eventCreated(KGoogle::Reply *reply)
 {
   if (reply->error() != OK) {
     cancelTask(i18n("Failed to create a new event: %1").arg(reply->errorString()));
-    return false;
+    return;
   }
 
   QList< Object* > data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
     cancelTask(i18n("Expected a single item, server sent %1 items.").arg(data.length()));
-    return false;
+    return;
   }
 
   Objects::Event *event = static_cast< Objects::Event* >(data.first());
@@ -198,28 +197,24 @@ bool CalendarResource::eventCreated(KGoogle::Reply *reply)
   item.setPayload< EventPtr >(EventPtr(event));
   item.setParentCollection(reply->request()->property("Collection").value<Collection>());
 
-  emit status(Idle, i18n("Event created"));
-
   changeCommitted(item);
 
   Akonadi::ItemModifyJob *modifyJob = new Akonadi::ItemModifyJob(item);
   connect (modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
-
-  return true;
 }
 
-bool CalendarResource::eventUpdated(KGoogle::Reply *reply)
+void CalendarResource::eventUpdated(KGoogle::Reply *reply)
 {
   if (reply->error() != OK) {
     cancelTask(i18n("Failed to update an event: %1").arg(reply->errorString()));
-    return false;
+    return;
   }
 
   QList< Object* > data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
     cancelTask(i18n("Expected a single item, server sent %1 items.").arg(data.length()));
-    return false;
+    return;
   }
 
   Objects::Event *event = static_cast< Objects::Event* >(data.first());
@@ -228,62 +223,17 @@ bool CalendarResource::eventUpdated(KGoogle::Reply *reply)
   item.setRemoteRevision(event->etag());
   item.setPayload< EventPtr >(EventPtr(event));
 
-  emit status(Idle, i18n("Event updated"));
-
   changeCommitted(item);
-
-  return true;
 }
 
-bool CalendarResource::eventRemoved(KGoogle::Reply *reply)
+void CalendarResource::eventRemoved(KGoogle::Reply *reply)
 {
   if (reply->error() != OK) {
     cancelTask(i18n("Failed to delete event: %1").arg(reply->errorString()));
-    return false;
+    return;
   }
 
   Item item = reply->request()->property("Item").value<Item>();
   changeCommitted(item);
-
-  emit status(Idle, i18n("Event deleted"));
-
-  return true;
 }
 
-bool CalendarResource::commitEvents(KGoogle::Request *request)
-{
-  Collection collection = request->property("Collection").value< Collection >();
-  QString collectionId = collection.remoteId();
-  bool updated = false;
-
-  QStringList calendars = Settings::self()->calendarSync();
-  foreach (const QString &calendar, calendars) {
-
-    if (calendar.startsWith(collectionId + ',')) {
-      itemsRetrievedIncremental(m_changedEvents, m_removedEvents);
-      calendars.removeAll(calendar);
-      calendars.append(collectionId + ',' + KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-      updated = true;
-      break;
-    }
-
-  }
-
-  if (updated == false) {
-    itemsRetrieved(m_changedEvents);
-    calendars.append(collectionId + ',' + KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-  }
-
-  Settings::self()->setCalendarSync(calendars);
-  Settings::self()->writeConfig();
-
-  m_changedEvents.clear();
-  m_removedEvents.clear();
-
-  emit percent(100);
-  emit status(Idle, i18n("Collections synchronized"));
-
-  taskDone();
-
-  return true;
-}
