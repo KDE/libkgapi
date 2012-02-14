@@ -51,6 +51,7 @@ using namespace KCal;
 using namespace KCalCore;
 #endif
 
+QUrl Services::Calendar::ScopeUrl("https://www.google.com/calendar/feeds/");
 
 /********** PUBLIC JSON INTERFACE ************/
 
@@ -139,9 +140,9 @@ QList< KGoogle::Object* > Services::Calendar::parseXMLFeed(const QByteArray& xml
 
 /************* URLS **************/
 
-QUrl Services::Calendar::scopeUrl()
+const QUrl& Services::Calendar::scopeUrl() const
 {
-  return QUrl("https://www.google.com/calendar/feeds/");
+  return Services::Calendar::ScopeUrl;
 }
 
 QUrl Services::Calendar::fetchAllUrl(const QString& user, const QString& visibility)
@@ -169,7 +170,7 @@ QUrl Services::Calendar::removeUrl(const QString& user, const QString& visibilit
   return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
 }
 
-const QString Services::Calendar::protocolVersion()
+QString Services::Calendar::protocolVersion() const
 {
   return "2";
 }

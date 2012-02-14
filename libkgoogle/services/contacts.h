@@ -38,7 +38,7 @@ namespace KGoogle {
     class LIBKGOOGLE_EXPORT Contacts: public KGoogle::Service
     {
       public:
-	~Contacts();
+	static QUrl ScopeUrl;
 
 	/**
 	 * Implementation of KGoogle::Service::JSONToObject().
@@ -73,14 +73,14 @@ namespace KGoogle {
 	/**
 	 * Implementation of KGoogle::Service::protocolVersion().
 	 */
-	const QString protocolVersion();
+	QString protocolVersion() const;
 
 	/**
 	 * Returns scope URL for Google Calendar service.
          *
          * https://www.google.com/m8/feeds/
 	 */
-	static QUrl scopeUrl();
+	const QUrl& scopeUrl() const;
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests.

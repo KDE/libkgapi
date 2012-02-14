@@ -23,28 +23,27 @@
 
 #include <qjson/parser.h>
 
+using namespace KGoogle;
+using namespace Services;
 
-KGoogle::Services::AccountInfo::AccountInfo()
-{
+QUrl AccountInfo::ScopeUrl("https://www.googleapis.com/auth/userinfo.profile");
 
-}
-
-const QString KGoogle::Services::AccountInfo::protocolVersion()
+QString AccountInfo::protocolVersion() const
 {
   return "1";
 }
 
-QUrl KGoogle::Services::AccountInfo::scopeUrl(const QString &propertyName)
+const QUrl& AccountInfo::scopeUrl() const
 {
-  return QUrl("https://www.googleapis.com/auth/userinfo." + propertyName);
+  return AccountInfo::ScopeUrl;
 }
 
-QUrl KGoogle::Services::AccountInfo::fetchUrl()
+QUrl AccountInfo::fetchUrl()
 {
   return QUrl("https://www.googleapis.com/oauth2/v1/userinfo");
 }
 
-KGoogle::Object *KGoogle::Services::AccountInfo::JSONToObject (const QByteArray &jsonData)
+KGoogle::Object* AccountInfo::JSONToObject (const QByteArray &jsonData)
 {
   QJson::Parser parser;
   QVariantMap data;
@@ -52,11 +51,11 @@ KGoogle::Object *KGoogle::Services::AccountInfo::JSONToObject (const QByteArray 
 
   data = parser.parse(jsonData, &ok).toMap();
   if (!ok) {
-    throw KGoogle::Exception::InvalidResponse();
+    throw Exception::InvalidResponse();
     return 0;
   }
 
-  KGoogle::Objects::AccountInfo *object = new KGoogle::Objects::AccountInfo();
+  Objects::AccountInfo *object = new Objects::AccountInfo();
   object->setId(data["id"].toString());
   object->setEmail(data["email"].toString());
   object->setName(data["name"].toString());

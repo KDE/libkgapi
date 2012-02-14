@@ -81,7 +81,12 @@ namespace KGoogle {
       /**
        * Returns version of the services protocol.
        */
-      virtual const QString protocolVersion() = 0;
+      virtual QString protocolVersion() const = 0;
+
+      /**
+       * Returns service scope URL.
+       */
+      virtual const QUrl& scopeUrl() const = 0;
 
     };
 

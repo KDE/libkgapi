@@ -35,10 +35,7 @@ using namespace KCal;
 using namespace KCalCore;
 #endif
 
-Tasks::~Tasks()
-{
-
-}
+QUrl Tasks::ScopeUrl("https://www.googleapis.com/auth/tasks");
 
 QByteArray Tasks::objectToXML(KGoogle::Object* object)
 {
@@ -118,9 +115,9 @@ QByteArray Tasks::objectToJSON(KGoogle::Object* object)
   return serializer.serialize(map);
 }
 
-QUrl Tasks::scopeUrl()
+const QUrl& Tasks::scopeUrl() const
 {
-  return QUrl("https://www.googleapis.com/auth/tasks");
+  return Tasks::ScopeUrl;
 }
 
 QUrl Tasks::fetchAllTasksUrl(const QString& tasklistID)
@@ -173,7 +170,7 @@ QUrl Tasks::removeTaskListUrl(const QString& tasklistID)
   return "https://www.googleapis.com/tasks/v1/users/@me/lists/" + tasklistID;
 }
 
-const QString Tasks::protocolVersion()
+QString Tasks::protocolVersion() const
 {
   return "";
 }

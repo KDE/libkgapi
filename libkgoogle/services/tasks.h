@@ -32,7 +32,8 @@ namespace KGoogle {
     class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
     {
       public:
-	~Tasks();
+
+        static QUrl ScopeUrl;
 
 	/**
 	 * Implementation of KGoogle::Service::JSONToObject()
@@ -70,14 +71,14 @@ namespace KGoogle {
 	 * Tasks API does not have any version number, thus this function
 	 * returns an empty string.
 	 */
-	const QString protocolVersion();
+	QString protocolVersion() const;
 
 	/**
 	 * Returns scope URL for Google Tasks service.
          *
          * https://www.googleapis.com/auth/tasks
 	 */
-	static QUrl scopeUrl();
+	const QUrl& scopeUrl() const;
 
 	/**
 	 * Returns URL for KGoogle::Request::Create requests for tasks.

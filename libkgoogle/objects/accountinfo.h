@@ -42,10 +42,6 @@ namespace KGoogle {
      * be always filled.
      *
      * The accountInfo service provides read-only acces.
-     *
-     * Access to each property must be explicitly requested via scope URL
-     * https://Fwww.googleapis.com/auth/userinfo.%propertyName%.
-     * To access all properties, use 'profile' scope.
      */
     class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Object
     {

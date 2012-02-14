@@ -32,7 +32,7 @@ namespace KGoogle {
     class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Service
     {
       public:
-        AccountInfo();
+        static QUrl ScopeUrl;
 
         /**
          * Implements KGoogle::Service::JSONToObject().
@@ -42,7 +42,7 @@ namespace KGoogle {
         /**
          * Service version 1 is supported now.
          */
-        const QString protocolVersion();
+        QString protocolVersion() const;
 
         /**
          * The AccountInfo provides read-only access, so serializer is not implemented.
@@ -58,12 +58,8 @@ namespace KGoogle {
 
         /**
          * Returns scope URL for AccountInfo service.
-         *
-         * See KGoogle::Objects::AccountInfo for information about property names.
-         *
-         * @param propertyName Name of property
          */
-        static QUrl scopeUrl(const QString &propertyName);
+        const QUrl& scopeUrl() const;
 
         /**
          * Returns KGoogle::Request::Fetch URL.

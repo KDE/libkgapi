@@ -128,8 +128,8 @@ void SettingsDialog::addAccountClicked()
   KGoogle::Auth *auth = KGoogle::Auth::instance();
 
   KGoogle::Account *account = new KGoogle::Account();
-  account->addScope(Services::Calendar::scopeUrl());
-  account->addScope(Services::Tasks::scopeUrl());
+  account->addScope(Services::Calendar::ScopeUrl);
+  account->addScope(Services::Tasks::ScopeUrl);
 
   try {
     auth->authenticate(account, true);

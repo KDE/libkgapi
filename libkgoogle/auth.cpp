@@ -173,7 +173,7 @@ void Auth::authenticate (KGoogle::Account *account, bool autoSave)
   }
 
   if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
-    account->addScope(Services::AccountInfo::scopeUrl("email"));
+    account->addScope(Services::AccountInfo::ScopeUrl);
     fullAuthentication(account, autoSave);
   } else {
     if (account->accountName().isEmpty()) {

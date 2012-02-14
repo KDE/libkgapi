@@ -37,7 +37,7 @@ namespace KGoogle {
     class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Service
     {
       public:
-	~Calendar() { }
+	static QUrl ScopeUrl;
 
 	/**
 	 * Implementation of KGoogle::Service::JSONToObject().
@@ -72,7 +72,7 @@ namespace KGoogle {
 	/**
 	 * Implementation of KGoogle::Service::protocolVersion().
 	 */
-	const QString protocolVersion();
+	QString protocolVersion() const;
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests.
@@ -122,7 +122,7 @@ namespace KGoogle {
          *
          * https://www.google.com/calendar/feeds/
 	 */
-	static QUrl scopeUrl();
+	const QUrl& scopeUrl() const;
 
 	/**
 	 * Returns wheter service supports reading data in JSON format.

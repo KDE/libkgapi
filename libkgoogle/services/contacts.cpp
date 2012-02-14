@@ -30,9 +30,7 @@
 using namespace KGoogle;
 using namespace KGoogle::Services;
 
-Contacts::~Contacts()
-{ }
-
+QUrl Contacts::ScopeUrl("https://www.google.com/m8/feeds/");
 
 QByteArray Contacts::objectToJSON(KGoogle::Object* object)
 {
@@ -170,9 +168,9 @@ QList< KGoogle::Object* > Contacts::parseXMLFeed(const QByteArray& xmlFeed, Feed
   return QList< KGoogle::Object* >();
 }
 
-QUrl Contacts::scopeUrl()
+const QUrl& Contacts::scopeUrl() const
 {
-  return QUrl("https://www.google.com/m8/feeds/");
+  return Contacts::ScopeUrl;
 }
 
 QUrl Contacts::fetchAllContactsUrl(const QString& user)
@@ -225,7 +223,7 @@ QUrl Contacts::removeGroupUrl(const QString &user, const QString &groupId)
   return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + groupId;
 }
 
-const QString Contacts::protocolVersion()
+QString Contacts::protocolVersion() const
 {
   return "3.0";
 }
