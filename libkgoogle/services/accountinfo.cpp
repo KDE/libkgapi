@@ -27,6 +27,7 @@ using namespace KGoogle;
 using namespace Services;
 
 QUrl AccountInfo::ScopeUrl("https://www.googleapis.com/auth/userinfo.profile");
+QUrl AccountInfo::EmailScopeUrl("https://www.googleapis.com/auth/userinfo.email");
 
 QString AccountInfo::protocolVersion() const
 {

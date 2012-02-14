@@ -33,6 +33,7 @@ namespace KGoogle {
     {
       public:
         static QUrl ScopeUrl;
+        static QUrl EmailScopeUrl;
 
         /**
          * Implements KGoogle::Service::JSONToObject().

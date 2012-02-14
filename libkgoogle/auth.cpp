@@ -173,7 +173,7 @@ void Auth::authenticate (KGoogle::Account *account, bool autoSave)
   }
 
   if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
-    account->addScope(Services::AccountInfo::ScopeUrl);
+    account->addScope(Services::AccountInfo::EmailScopeUrl);
     fullAuthentication(account, autoSave);
   } else {
     if (account->accountName().isEmpty()) {
@@ -228,7 +228,7 @@ void Auth::fullAuthentication (KGoogle::Account *account, bool autoSave)
   dlg->setProperty("autoSaveAccount", QVariant(autoSave));
 
   connect(dlg, SIGNAL(error(KGoogle::Error,QString)),
-          this, SIGNAL(error(KGoogle::Error,QString&)));
+          this, SIGNAL(error(KGoogle::Error,QString)));
   connect(dlg, SIGNAL(authenticated(KGoogle::Account*)),
           this, SLOT(fullAuthenticationFinished(KGoogle::Account*)));
   connect(dlg, SIGNAL(accepted()),
@@ -247,8 +247,14 @@ void Auth::fullAuthenticationFinished (KGoogle::Account *account)
   if (sender() && qobject_cast< AuthDialog* >(sender()))
     autoSave = sender()->property("autoSaveAccount").toBool();
 
-  if (autoSave)
-    storeAccount(account);
+  if (autoSave) {
+    try {
+      storeAccount(account);
+    } catch (Exception::BaseException &e) {
+      emit error(e.code(), e.what());
+      return;
+    }
+  }
 
   /* Reset scopesChanged flag */
   account->m_scopesChanged = false;
