@@ -24,6 +24,7 @@
 #include "libkgoogle/kgoogleauth.h"
 #include "libkgoogle/kgooglerequest.h"
 #include "libkgoogle/kgooglereply.h"
+#include "libkgoogle/fetchlistjob.h"
 #include "libkgoogle/objects/event.h"
 #include "libkgoogle/services/calendar.h"
 
@@ -77,9 +78,7 @@ CalendarResource::CalendarResource(const QString &id):
 	  this, SLOT(slotGAMError(QString,int)));
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
-  connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
-	  this, SLOT(commitItemsList()));
-  connect(m_gam, SIGNAL(authError(QString)),
+connect(m_gam, SIGNAL(authError(QString)),
           this, SLOT(authError(QString)));
 
   connect(this, SIGNAL(abortRequested()),
@@ -172,9 +171,7 @@ bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
 
 void CalendarResource::initialItemFetchJobFinished(KJob* job)
 {
-  ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
-
-  if (fetchJob->error()) {
+ if (job->error()) {
     cancelTask(i18n("Failed to fetch initial data."));
     return;
   }
@@ -185,12 +182,10 @@ void CalendarResource::initialItemFetchJobFinished(KJob* job)
     url.addQueryItem("updated-min", Settings::self()->lastSync());
   }
 
-  setItemStreamingEnabled(true);
-
-  KGoogleRequest *request = new KGoogleRequest(url,
-					       KGoogleRequest::FetchAll,
-					       "Calendar");
-  m_gam->sendRequest(request);
+  FetchListJob *fetchJob = new FetchListJob(url, "Calendar", m_auth);
+  connect(fetchJob, SIGNAL(finished(KJob*)),
+	  this, SLOT(eventListReceived(KJob*)));
+  fetchJob->start();
 
   emit status(Running, i18n("Retrieving list of events"));
 }
@@ -304,10 +299,6 @@ void CalendarResource::itemRemoved(const Akonadi::Item& item)
 void CalendarResource::replyReceived(KGoogleReply* reply)
 {
   switch (reply->requestType()) {
-    case KGoogleRequest::FetchAll:
-      eventListReceived(reply);
-      break;
-
     case KGoogleRequest::Fetch:
       eventReceived(reply);
       break;
@@ -326,18 +317,18 @@ void CalendarResource::replyReceived(KGoogleReply* reply)
   }
 }
 
-void CalendarResource::eventListReceived(KGoogleReply* reply)
+void CalendarResource::eventListReceived(KJob *job)
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
+  if (job->error()) {
     cancelTask(i18n("Failed to retrieve events"));
     return;
   }
 
-  Item::List events;
   Item::List removed;
   Item::List changed;
 
-  QList<KGoogleObject *> allData = reply->replyData();
+  FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
+  QList<KGoogleObject *> allData = fetchJob->items();
   foreach (KGoogleObject* replyData, allData) {
     Item item;
     Object::Event *event = static_cast<Object::Event*>(replyData);
@@ -348,11 +339,16 @@ void CalendarResource::eventListReceived(KGoogleReply* reply)
     item.setMimeType("application/x-vnd.akonadi.calendar.event");
 
     if (event->deleted()) {
-      itemsRetrievedIncremental(Item::List(), Item::List() << item);
+      removed << item;
     } else {
-      itemsRetrievedIncremental(Item::List() << item, Item::List());
+      changed << item;
     }
   }
+
+  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
+
+  itemsRetrievedIncremental(changed, removed);
+  taskDone();
 }
 
 void CalendarResource::eventReceived(KGoogleReply* reply)
@@ -461,23 +457,5 @@ void CalendarResource::tokensReceived()
     synchronize();
   }
 }
-
-void CalendarResource::commitItemsList()
-{
-  itemsRetrievalDone();
-
-  /* Store the time of this sync. Next time we will only ask for items
-   * that changed or were removed since sync
-   * The conversion to UTC is a workaround for Google having troubles to accept +XX:00 timezones
-   */
-  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-
-  setItemStreamingEnabled(false);
-
-  emit percent(100);
-  emit status(Idle, i18n("Collections synchronized"));
-  taskDone();
-}
-
 
 AKONADI_RESOURCE_MAIN (CalendarResource)

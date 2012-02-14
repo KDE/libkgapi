@@ -120,13 +120,12 @@ class ContactsResource: public Akonadi::ResourceBase,
     void slotAbortRequested();
     void tokensReceived();
     void initialItemFetchJobFinished(KJob *job);
+    void contactListReceived(KJob *job);
     void photoRequestFinished(QNetworkReply *reply);
 
     void replyReceived(KGoogleReply *reply);
-    void commitItemsList();
 
     void contactReceived(KGoogleReply *reply);
-    void contactListReceived(KGoogleReply *reply);
     void contactUpdated(KGoogleReply *reply);
     void contactCreated(KGoogleReply *reply);
     void contactRemoved(KGoogleReply *reply);

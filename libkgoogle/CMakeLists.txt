@@ -19,6 +19,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(libkgoogle_SRCS
     authdialog.cpp
+    fetchlistjob.cpp
     kgoogleaccessmanager.cpp 
     kgoogleauth.cpp
     kgoogleobject.cpp
@@ -36,6 +37,7 @@ set(libkgoogle_SRCS
 
 set(libkgoogle_HDRS
     libkgoogle_export.h
+    fetchlistjob.h
     kgoogleaccessmanager.h
     kgoogleauth.h
     kgoogleobject.h

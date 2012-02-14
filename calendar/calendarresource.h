@@ -63,10 +63,10 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void tokensReceived();
 
     void replyReceived(KGoogleReply *reply);
-    void commitItemsList();
 
     void initialItemFetchJobFinished(KJob *job);
-    void eventListReceived(KGoogleReply *reply);
+    void eventListReceived(KJob *job);
+
     void eventReceived(KGoogleReply *reply);
     void eventCreated(KGoogleReply *reply);
     void eventUpdated(KGoogleReply *reply);

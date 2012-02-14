@@ -24,6 +24,7 @@
 #include "libkgoogle/kgoogleauth.h"
 #include "libkgoogle/kgooglerequest.h"
 #include "libkgoogle/kgooglereply.h"
+#include "libkgoogle/fetchlistjob.h"
 #include "libkgoogle/objects/contact.h"
 #include "libkgoogle/services/addressbook.h"
 
@@ -77,8 +78,6 @@ ContactsResource::ContactsResource(const QString &id):
   
   connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
 	  this, SLOT(replyReceived(KGoogleReply*)));
-  connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
-	  this, SLOT(commitItemsList()));
   connect(m_gam, SIGNAL(error(QString,int)),
 	  this, SLOT(slotGAMError(QString,int)));
   connect(this, SIGNAL(abortRequested()),
@@ -216,24 +215,22 @@ void ContactsResource::retrieveCollections()
 
 void ContactsResource::initialItemFetchJobFinished(KJob* job)
 {
-  ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
-
-  if (fetchJob->error()) {
+  if (job->error()) {
     cancelTask(i18n("Failed to fetch initial data."));
     return;
   }
-
-  setItemStreamingEnabled(true);
 
   QUrl url(Service::Addressbook::fetchAllUrl().arg("default"));
   url.addQueryItem("alt", "json");
   if (!Settings::self()->lastSync().isEmpty())
     url.addQueryItem("updated-min", Settings::self()->lastSync());
 
-  KGoogleRequest *request = new KGoogleRequest(url,
-					       KGoogleRequest::FetchAll,
-					       "Addressbook");
-  m_gam->sendRequest(request);
+  FetchListJob *fetchJob = new FetchListJob(url, "Addressbook", m_auth);
+  connect(fetchJob, SIGNAL(finished(KJob*)),
+	  this, SLOT(contactListReceived(KJob*)));
+  connect(fetchJob, SIGNAL(finished(KJob*)),
+	  fetchJob, SLOT(deleteLater()));
+  fetchJob->start();
 
   emit status(Running, i18n("Retrieving list of contacts"));
 }
@@ -320,10 +317,6 @@ void ContactsResource::itemRemoved(const Akonadi::Item& item)
 void ContactsResource::replyReceived(KGoogleReply* reply)
 {
   switch (reply->requestType()) {
-    case KGoogleRequest::FetchAll:
-      contactListReceived(reply);
-      break;
-
     case KGoogleRequest::Fetch:
       contactReceived(reply);
       break;
@@ -342,9 +335,9 @@ void ContactsResource::replyReceived(KGoogleReply* reply)
   }
 }
 
-void ContactsResource::contactListReceived(KGoogleReply* reply)
+void ContactsResource::contactListReceived(KJob *job)
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
+  if (job->error()) {
     cancelTask(i18n("Failed to retrieve contacts"));
     return;
   }
@@ -352,24 +345,31 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
   Item::List removed;
   Item::List changed;
 
-  QList<KGoogleObject*> allData = reply->replyData();
+  FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
+
+  QList<KGoogleObject*> allData = fetchJob->items();
   foreach (KGoogleObject* object, allData) {
     Item item;
     Object::Contact *contact = static_cast<Object::Contact*>(object);
     item.setRemoteId(contact->id());
 
     if (contact->deleted()) {
-      itemsRetrievedIncremental(Item::List(), Item::List() << item);
+      removed << item;
     } else {
       item.setRemoteRevision(contact->etag());
       item.setMimeType(contact->mimeType());
       item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
 
-      itemsRetrievedIncremental(Item::List() << item, Item::List());
+      changed << item;
 
       fetchPhoto(item, contact->photoUrl().toString());
     }
   }
+
+  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
+
+  itemsRetrievedIncremental(changed, removed);
+  taskDone();
 }
 
 void ContactsResource::contactReceived(KGoogleReply* reply)
@@ -544,20 +544,6 @@ void ContactsResource::tokensReceived()
     synchronize();
   }
 }
-
-void ContactsResource::commitItemsList()
-{
-  itemsRetrievalDone();
-
-  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-
-  setItemStreamingEnabled(false);
-
-  emit percent(100);
-  emit status(Idle, i18n("Collections synchronized"));
-  taskDone();
-}
-
 
 
 AKONADI_RESOURCE_MAIN (ContactsResource)
