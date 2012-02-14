@@ -103,6 +103,13 @@ void AccessManager::nam_replyReceived(QNetworkReply* reply)
 	m_cacheSemaphore->acquire();
         m_cache << request;
 
+        int type = QMetaType::type(qPrintable(request->serviceName()));
+        KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
+        QUrl scope = service->scopeUrl();
+
+        if (!request->account()->scopes().contains(scope))
+          request->account()->addScope(scope);
+
         KGoogle::Auth *auth = KGoogle::Auth::instance();
         connect(auth, SIGNAL(error(KGoogle::Error,QString)),
                 this, SIGNAL(error(KGoogle::Error,QString)));
