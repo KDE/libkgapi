@@ -23,6 +23,7 @@ set(libkgoogle_SRCS
     account.cpp
     auth.cpp
     authdialog.cpp
+    fetchlistjob.cpp
     object.cpp
     request.cpp
     reply.cpp
@@ -46,6 +47,7 @@ set(libkgoogle_HDRS
     account.h
     auth.h
     common.h
+    fetchlistjob.h
     object.h
     reply.h
     request.h
