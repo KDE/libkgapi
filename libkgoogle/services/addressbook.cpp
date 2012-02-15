@@ -67,13 +67,13 @@ KGoogleObject* Addressbook::JSONToObject(const QByteArray& jsonData)
   /* Name */
   if (data.contains("title"))
     object->setName(data["title"].toMap()["$t"].toString());
-  
+
   /* Formatted name */
   if (data.contains("gd$name")) {
     QVariantMap name = data["gd$name"].toMap();
     
     if (name.contains("gd$fullName"))
-      object->setName(name["gd$fullName"].toMap()["$t"].toString());
+      object->setFormattedName(name["gd$fullName"].toMap()["$t"].toString());
     if (name.contains("gd$givenName"))
       object->setGivenName(name["gd$givenName"].toMap()["$t"].toString());
     if (name.contains("gd$familyName"))
@@ -330,7 +330,46 @@ KGoogleObject* Addressbook::XMLToObject(const QByteArray& xmlData)
       contact->setEtag(e.text());
       continue;
     }
-    
+
+    if (e.tagName() == "gd:name") {
+      QDomNodeList l = e.childNodes();
+      for (uint i = 0; i < l.length(); i++) {
+        QDomElement el = l.at(i).toElement();
+
+        if (el.tagName() == "gd:fullname") {
+          contact->setFormattedName(el.text());
+          continue;
+        }
+
+        if (el.tagName() == "gd:givenName") {
+          contact->setGivenName(el.text());
+          continue;
+        }
+
+        if (el.tagName() == "gd:familyName") {
+          contact->setFamilyName(el.text());
+          continue;
+        }
+
+        if (el.tagName() == "gd:additionalName") {
+          contact->setAdditionalName(el.text());
+          continue;
+        }
+
+        if (el.tagName() == "gd:namePrefix") {
+          contact->setPrefix(el.text());
+          continue;
+        }
+
+        if (el.tagName() == "gd:nameSuffix") {
+          contact->setSuffix(el.text());
+          continue;
+        }
+
+      }
+      continue;
+    }
+
     /* If the contact was deleted, we don't need more info about it.
      * Just store our own flag, which will be then parsed by the resource
      * itself. */
