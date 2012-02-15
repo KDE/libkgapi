@@ -78,7 +78,7 @@ void Auth::setKWalletFolder(const QString& folder)
 
 KGoogle::Account *Auth::getAccount (const QString &account) const
 {
-  if (!m_kwallet->isOpen()) {
+  if (!m_kwallet || !m_kwallet->isOpen()) {
     throw Exception::BackendNotReady();
     return 0;
   }
@@ -107,7 +107,7 @@ KGoogle::Account *Auth::getAccount (const QString &account) const
 
 QList< KGoogle::Account * > Auth::getAccounts() const
 {
-  if (!m_kwallet->isOpen()) {
+  if (!m_kwallet || !m_kwallet->isOpen()) {
     throw Exception::BackendNotReady();
     return QList< Account *>();
   }
@@ -135,7 +135,7 @@ QList< KGoogle::Account * > Auth::getAccounts() const
 
 void Auth::storeAccount (const KGoogle::Account *account)
 {
-  if (!m_kwallet->isOpen()) {
+  if (!m_kwallet || !m_kwallet->isOpen()) {
     throw Exception::BackendNotReady();
     return;
   }
@@ -190,7 +190,7 @@ bool Auth::revoke (Account *account)
     return false;
   }
 
-  if (!m_kwallet->isOpen()) {
+  if (!m_kwallet || !m_kwallet->isOpen()) {
     throw Exception::BackendNotReady();
     return false;
   }
