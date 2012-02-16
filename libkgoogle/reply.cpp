@@ -17,53 +17,75 @@
 */
 
 #include "reply.h"
+#include "object.h"
 
 #include <qmetatype.h>
 #include <qglobal.h>
 
 #include <kdebug.h>
 
+namespace KGoogle {
+
+  class ReplyPrivate {
+
+    public:
+      KGoogle::Request::RequestType requestType;
+      KGoogle::Error errorCode;
+      QString serviceName;
+      QList< KGoogle::Object* > replyData;
+      KGoogle::Request *request;
+      FeedData *feedData;
+
+      QByteArray rawData;
+  };
+
+}
+
 using namespace KGoogle;
 
 KGoogle::Reply::Reply(const KGoogle::Request::RequestType requestType, const KGoogle::Error error,
                       const QString &serviceName, const QList< KGoogle::Object* > &replyData,
                       KGoogle::Request *request, const QByteArray &rawData):
-  m_requestType(requestType),
-  m_errorCode(error),
-  m_replyData(replyData),
-  m_request(request),
-  m_rawData(rawData)
+  d_ptr(new ReplyPrivate)
 {
+  Q_D(Reply);
+
+  d->requestType = requestType;
+  d->errorCode = error;
+  d->replyData = replyData;
+  d->request = request;
+  d->rawData = rawData;
+
   if (QMetaType::type(qPrintable(serviceName)))
-    m_serviceName = serviceName;
+    d->serviceName = serviceName;
 }
 
 KGoogle::Reply::~Reply()
 { }
 
-KGoogle::Request::RequestType KGoogle::Reply::requestType()
+KGoogle::Request::RequestType KGoogle::Reply::requestType() const
 {
-  return m_requestType;
+  return d_func()->requestType;
 }
 
 KGoogle::Error KGoogle::Reply::error() const
 {
-  return m_errorCode;
+  return d_func()->errorCode;
 }
 
 const QString& KGoogle::Reply::serviceName() const
 {
-  return m_serviceName;
+  return d_func()->serviceName;
 }
 
 const QList< KGoogle::Object* >& KGoogle::Reply::replyData() const
 {
-  return m_replyData;
+  return d_func()->replyData;
 }
 
 KGoogle::Request* KGoogle::Reply::request() const
 {
-  return m_request;
+  return d_func()->request;
 }
 
 qint64 KGoogle::Reply::readData(char* data, qint64 maxSize)
@@ -76,7 +98,7 @@ void KGoogle::Reply::abort()
   QNetworkReply::close();
 }
 
-QByteArray Reply::readAll()
+QByteArray Reply::readAll() const
 {
-  return m_rawData;
+  return d_func()->rawData;
 }

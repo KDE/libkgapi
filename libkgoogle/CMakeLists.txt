@@ -20,8 +20,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(libkgoogle_SRCS
     accessmanager.cpp
+    accessmanager_p.cpp
     account.cpp
     auth.cpp
+    auth_p.cpp
     authdialog.cpp
     fetchlistjob.cpp
     object.cpp

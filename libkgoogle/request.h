@@ -30,6 +30,8 @@ namespace KGoogle {
 
   class Account;
 
+  class RequestPrivate;
+
   /**
    * Represents a request to be send to a Google service.
    */
@@ -48,17 +50,20 @@ namespace KGoogle {
       /**
        * Constructs an empty request
        */
-      Request() { };
+      Request();
 
       /**
        * Constructs a new request
-       * 
+       *
        * @param url Url to send the request to.
        * @param requestType Type of request
        * @param serviceName Name of service this request belongs to.
        * @param account Google Account to which the request should be sent
        */
       Request(const QUrl &url, const RequestType requestType, const QString &serviceName, KGoogle::Account *account);
+
+
+      virtual ~Request();
 
       /**
        * Sets type of this request.
@@ -135,13 +140,11 @@ namespace KGoogle {
        */
       bool hasProperty(const QString &name) const;
 
+    protected:
+      RequestPrivate* const d_ptr;
+
     private:
-      RequestType m_requestType;
-      QString m_serviceName;
-      QByteArray m_requestData;
-      QString m_contentType;
-      QMap< QString,QVariant > m_properties;
-      KGoogle::Account *m_account;
+      Q_DECLARE_PRIVATE(Request)
 
   };
 

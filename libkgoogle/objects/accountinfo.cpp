@@ -38,12 +38,15 @@ AccountInfoData::AccountInfoData(const AccountInfoData &other):
   pictureUrl(other.pictureUrl)
 { }
 
-AccountInfo::AccountInfo()
+AccountInfo::AccountInfo():
+  KGoogle::Object(),
+  d(new AccountInfoData)
 {
-  d = new AccountInfoData;
+
 }
 
 AccountInfo::AccountInfo (const AccountInfo &other):
+  KGoogle::Object(other),
   d(other.d)
 { }
 

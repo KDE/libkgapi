@@ -22,10 +22,8 @@
 
 #include <qobject.h>
 #include <qurl.h>
-#include <qsemaphore.h>
 
 #include <kdatetime.h>
-#include <kio/accessmanager.h>
 
 #include <libkgoogle/common.h>
 #include <libkgoogle/libkgoogle_export.h>
@@ -39,6 +37,8 @@ namespace KGoogle {
 }
 
 namespace KGoogle {
+
+  class AccessManagerPrivate;
 
   /**
    * AccessManager allows application to send and receive requests from 
@@ -113,7 +113,7 @@ namespace KGoogle {
        *
        * This signal is emitted when last batch of data is received,
        * for example when all pages of events feed are fetched.
-       * 
+       *
        * @param request The related request.
        */
       void requestFinished(KGoogle::Request *request);
@@ -126,20 +126,12 @@ namespace KGoogle {
        */
       void error(const KGoogle::Error errCode, const QString &msg);
 
-    private Q_SLOTS:
-      void nam_replyReceived(QNetworkReply *reply);
-      void nam_sendRequest(KGoogle::Request *request);
-
-      void priv_error(const KGoogle::Error errCode, const QString &msg);
-
-      void submitCache();
+    protected:
+      AccessManagerPrivate* const d_ptr;
 
     private:
-      KIO::Integration::AccessManager *m_nam;
+      Q_DECLARE_PRIVATE(AccessManager)
 
-      QList<KGoogle::Request*> m_cache;
-
-      QSemaphore *m_cacheSemaphore;
   };
 
 }  // namespace KGoogle

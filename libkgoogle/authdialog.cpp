@@ -39,6 +39,7 @@
 #include "services/accountinfo.h"
 #include "objects/accountinfo.h"
 
+extern int debugArea();
 
 /****************** Private implementation *****************/
 

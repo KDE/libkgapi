@@ -39,6 +39,7 @@ ContactsGroupPrivate::~ContactsGroupPrivate()
 { }
 
 ContactsGroup::ContactsGroup():
+  KGoogle::Object(),
   d(new ContactsGroupPrivate)
 { }
 
@@ -47,6 +48,7 @@ ContactsGroup::~ContactsGroup()
 
 
 ContactsGroup::ContactsGroup(const ContactsGroup &other):
+  KGoogle::Object(other),
   d(other.d)
 { }
 

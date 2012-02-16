@@ -21,10 +21,13 @@
 #define LIBKGOOGLE_OBJECT_H
 
 #include <qstring.h>
+#include <qshareddata.h>
 
 #include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
+
+  class ObjectPrivate;
 
   /**
    * Base class for Google objects.
@@ -36,6 +39,8 @@ namespace KGoogle {
   {
     public:
       Object();
+
+      Object(const Object &other);
 
       virtual ~Object();
 
@@ -54,7 +59,8 @@ namespace KGoogle {
       const QString& etag() const;
 
     private:
-      QString m_etag;
+      QExplicitlySharedDataPointer< ObjectPrivate > d;
+
   };
 
 } // namespace KGoogle

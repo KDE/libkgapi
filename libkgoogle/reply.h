@@ -24,10 +24,13 @@
 
 #include <libkgoogle/common.h>
 #include <libkgoogle/request.h>
-#include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
+
+  class Object;
+
+  class ReplyPrivate;
 
   /**
    * Represents a reply received from a Google service.
@@ -53,7 +56,7 @@ namespace KGoogle {
       /**
        * Returns type of request this reply relates to.
        */
-      KGoogle::Request::RequestType requestType();
+      KGoogle::Request::RequestType requestType() const;
 
       /**
        * Returns error code received from Google service
@@ -79,11 +82,10 @@ namespace KGoogle {
 
       /**
        * Abort the request this reply belongs to.
-       * 
+       *
        * See QNetworkReply::abort() for more details.
        */
       virtual void abort();
-
 
       /**
        * This is an overloaded method.
@@ -92,21 +94,15 @@ namespace KGoogle {
        * once), KGoogle::Reply keeps the data cached, so you can call readAll()
        * multiple times.
        */
-      QByteArray readAll();
+      QByteArray readAll() const;
 
     protected:
       virtual qint64 readData(char *data, qint64 maxSize);
 
+      ReplyPrivate* const d_ptr;
+
     private:
-      KGoogle::Request::RequestType m_requestType;
-      KGoogle::Error m_errorCode;
-      QString m_serviceName;
-      QList< KGoogle::Object* > m_replyData;
-      KGoogle::Request *m_request;
-      FeedData *m_feedData;
-
-      QByteArray m_rawData;
-
+      Q_DECLARE_PRIVATE(Reply)
   };
 
 } // namespace KGoogle

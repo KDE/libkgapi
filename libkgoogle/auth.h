@@ -38,6 +38,8 @@ class QNetworkReply;
 
 namespace KGoogle {
 
+  class AuthPrivate;
+
   /**
    * Auth provides API for authentication against Google services.
    *
@@ -178,22 +180,16 @@ namespace KGoogle {
        */
       void authenticated(KGoogle::Account *account);
 
-    private Q_SLOTS:
-      void fullAuthentication(KGoogle::Account *account, bool autoSave);
-      void fullAuthenticationFinished(KGoogle::Account *account);
-
-      void refreshTokens(KGoogle::Account *account, bool autoSave);
-      void refreshTokensFinished(QNetworkReply *reply);
+    protected:
+      AuthPrivate* const d_ptr;
 
     private:
+      Q_DECLARE_PRIVATE(Auth)
+
       Auth();
       Auth(const Auth& other);
       Auth& operator=(const Auth &other);
 
-      QString m_kwalletFolder;
-      KWallet::Wallet *m_kwallet;
-
-      static Auth *m_instance;
   };
 
 } // namespace KGoogle

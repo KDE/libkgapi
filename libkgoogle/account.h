@@ -44,8 +44,9 @@ namespace KGoogle {
   {
 
     /**
-    * Grants access of KGoogle::Auth to KGoogle::Account::m_scopesChanged
-    */
+     * Grants access of KGoogle::Auth to KGoogle::Account::m_scopesChanged
+     */
+    friend class AuthPrivate;
     friend class Auth;
 
     public:
