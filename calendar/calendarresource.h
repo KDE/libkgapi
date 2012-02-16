@@ -88,6 +88,8 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void eventUpdated(KGoogle::Reply *reply);
     void eventRemoved(KGoogle::Reply *reply);
 
+    void emitPercent(KJob*job, ulong percent);
+
   private:
     void abort();
 

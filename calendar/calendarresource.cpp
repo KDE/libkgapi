@@ -151,6 +151,8 @@ void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
   fetchJob->fetchScope().fetchFullPayload(false);
   fetchJob->setProperty("collection", qVariantFromValue(collection));
   fetchJob->start();
+
+  emit percent(0);
 }
 
 void CalendarResource::cachedItemsRetrieved(KJob* job)
@@ -202,6 +204,8 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
   fetchJob->setProperty("collection", qVariantFromValue(collection));
   connect(fetchJob, SIGNAL(finished(KJob*)),
 	  this, SLOT(itemsReceived(KJob*)));
+  connect(fetchJob, SIGNAL(percent(KJob*,ulong)),
+          this, SLOT(emitPercent(KJob*,ulong)));
   fetchJob->start();
 }
 
@@ -533,5 +537,13 @@ void CalendarResource::itemRemoved(Reply* reply)
 
   delete reply;
 }
+
+void CalendarResource::emitPercent(KJob* job, ulong progress)
+{
+  Q_UNUSED(job);
+
+  emit percent(progress);
+}
+
 
 AKONADI_RESOURCE_MAIN (CalendarResource);
