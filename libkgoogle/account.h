@@ -24,10 +24,14 @@
 #include <qurl.h>
 #include <qstringlist.h>
 #include <qmetatype.h>
+#include <qshareddata.h>
+#include <qsharedpointer.h>
 
 #include <libkgoogle/libkgoogle_export.h>
 
 namespace KGoogle {
+
+  class AccountPrivate;
 
   /**
    * Account class represents a single Google account.
@@ -50,12 +54,15 @@ namespace KGoogle {
     friend class Auth;
 
     public:
+
+      typedef QSharedPointer< Account > Ptr;
+
       /**
        * Creates any empty account.
        *
        * Such object represents invalid account.
        */
-      Account() { };
+      Account();
 
       /**
        * Constructs a new account
@@ -68,6 +75,8 @@ namespace KGoogle {
       Account(const QString &account, const QString &accessToken = QString(),
               const QString &refreshToken = QString(),
               const QList< QUrl > &scopes = QList< QUrl >());
+
+      Account(const Account &other);
 
       virtual ~Account();
 
@@ -143,10 +152,7 @@ namespace KGoogle {
       void removeScope(const QUrl &scope);
 
     private:
-      QString m_accName;
-      QString m_accessToken;
-      QString m_refreshToken;
-      QList< QUrl > m_scopes;
+      QExplicitlySharedDataPointer< AccountPrivate > d;
 
       /**
        * Whether scopes were changed or not.
@@ -165,7 +171,7 @@ namespace KGoogle {
 
 } /* namespace KGoogle */
 
-Q_DECLARE_METATYPE(KGoogle::Account);
+Q_DECLARE_METATYPE(KGoogle::Account::Ptr);
 Q_DECLARE_METATYPE(KGoogle::Account*);
 
 #endif // LIBKGOOGLE_ACCOUNT_H
