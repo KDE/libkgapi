@@ -25,6 +25,9 @@
 
 namespace KGoogle {
 
+  /**
+   * \internal
+   */
   class RequestPrivate {
 
     public:

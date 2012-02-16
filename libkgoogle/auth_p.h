@@ -33,6 +33,9 @@ namespace KGoogle {
 
   class Auth;
 
+  /**
+   * \internal
+   */
   class AuthPrivate: public QObject
   {
 

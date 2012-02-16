@@ -29,6 +29,9 @@
 
 namespace KGoogle {
 
+  /**
+   * \internal
+   */
   class FetchListJobPrivate: public QObject
   {
     Q_OBJECT
@@ -103,6 +106,8 @@ namespace KGoogle {
       Q_Q(FetchListJob);
 
       q->emitPercent(processed, total);
+
+      Q_UNUSED(request);
     }
 
   private:

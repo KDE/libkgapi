@@ -26,6 +26,9 @@
 
 namespace KGoogle {
 
+  /**
+   * \internal
+   */
   class ReplyPrivate {
 
     public:

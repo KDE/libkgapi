@@ -21,6 +21,9 @@
 
 namespace KGoogle {
 
+  /**
+   * \internal
+   */
   class ObjectPrivate: public QSharedData
   {
     public:

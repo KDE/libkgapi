@@ -31,6 +31,9 @@ namespace KGoogle {
 
   class Request;
 
+  /**
+   * \internal
+   */
   class AccessManagerPrivate: public QObject
   {
 
