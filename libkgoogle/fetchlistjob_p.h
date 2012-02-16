@@ -45,6 +45,8 @@ namespace KGoogle {
 	      this, SLOT(requestFinished(KGoogle::Request*)));
       connect(gam, SIGNAL(error(KGoogle::Error,QString)),
 	      this, SLOT(error(KGoogle::Error,QString)));
+      connect(gam, SIGNAL(requestProgress(KGoogle::Request*,int,int)),
+              this, SLOT(gamRequestProgress(KGoogle::Request*,int,int)));
 
       isRunning = false;
     }
@@ -94,6 +96,13 @@ namespace KGoogle {
 
       q->setError(errCode);
       q->setErrorText(msg);
+    }
+
+    void gamRequestProgress(KGoogle::Request *request, int processed, int total)
+    {
+      Q_Q(FetchListJob);
+
+      q->emitPercent(processed, total);
     }
 
   private:

@@ -118,6 +118,21 @@ namespace KGoogle {
        */
       void requestFinished(KGoogle::Request *request);
 
+
+      /**
+       * Informs about progress of retrieving reply to \p request.
+       *
+       * When reply to the \p request is split to multiple parts,
+       * this signal is emitted whenever a new chunk of data is received.
+       *
+       * When the reply consists of only one part, this signal is not emitted.
+       *
+       * @param request A KGoogle::Request to which the data belong
+       * @param processed Amount of received items
+       * @param totalItems Total amount of items to be received
+       */
+      void requestProgress(KGoogle::Request *request, int processed, int totalItems);
+
       /**
        * An error occurred.
        *

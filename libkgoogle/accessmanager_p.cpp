@@ -75,6 +75,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
   kDebug() << rawData;
 #endif
 
+  int processedItems = -1;
+  int totalItems = -1;
+
   KGoogle::Request *request = reply->request().attribute(RequestAttribute).value<KGoogle::Request*>();
   if (!request) {
     emit q->error(KGoogle::InvalidResponse, i18n("No valid reply received"));
@@ -149,6 +152,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         kDebug() << "Unknown reply content type!";
       }
 
+      processedItems = feedData->startIndex;
+      totalItems = feedData->totalResults;
+
       if (feedData->nextLink.isValid()) {
         QUrl url(feedData->nextLink);
         new_request.setUrl(request->url().toString());
@@ -194,6 +200,10 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
   if (new_request.isValid()) {
     request->setUrl(new_request);
     nam_sendRequest(request);
+
+    if ((processedItems > -1) && (totalItems > -1))
+      emit q->requestProgress(request, processedItems, totalItems);
+
   } else {
     emit q->requestFinished(request);
   }
