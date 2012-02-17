@@ -20,22 +20,18 @@
 #ifndef CONTACTSRESOURCE_H
 #define CONTACTSRESOURCE_H
 
-#include <QtCore/QPointer>
-#include <QtCore/QMap>
-#include <QtCore/QList>
+#include <kdatetime.h>
+#include <akonadi/resourcebase.h>
+#include <akonadi/agentbase.h>
+#include <akonadi/collection.h>
+#include <akonadi/item.h>
 
-#include <KDE/KDateTime>
-#include <KDE/Akonadi/ResourceBase>
-#include <KDE/Akonadi/AgentBase>
-#include <KDE/Akonadi/Collection>
-#include <KDE/Akonadi/Item>
-
-#include "objects/contact.h"
+#include <libkgoogle/common.h>
 
 namespace KGoogle {
-  class KGoogleAccessManager;
-  class KGoogleAuth;
-  class KGoogleReply;
+  class AccessManager;
+  class Reply;
+  class Request;
 };
 
 class QNetworkAccessManager;
@@ -85,7 +81,6 @@ class ContactsResource: public Akonadi::ResourceBase,
      */
     virtual void configure (WId windowID);
 
-
   protected Q_SLOTS:
     /**
      * @brief Defined list of collections.
@@ -115,21 +110,23 @@ class ContactsResource: public Akonadi::ResourceBase,
     void aboutToQuit();
 
   private Q_SLOTS:
-    void slotGAMError(const QString &msg, const int errorCode);
-    void slotAuthError(const QString &msg);
+    void error(KGoogle::Error errCode, const QString &msg);
+
     void slotAbortRequested();
-    void tokensReceived();
-    void initialItemFetchJobFinished(KJob *job);
+
+    void virtualItemsFetchJobFinished(KJob *job);
+    void initialItemsFetchJobFinished(KJob *job);
+    void contactListReceived(KJob *job);
+
     void photoRequestFinished(QNetworkReply *reply);
 
-    void replyReceived(KGoogleReply *reply);
-    void commitItemsList();
+    void replyReceived(KGoogle::Reply *reply);
 
-    void contactReceived(KGoogleReply *reply);
-    void contactListReceived(KGoogleReply *reply);
-    void contactUpdated(KGoogleReply *reply);
-    void contactCreated(KGoogleReply *reply);
-    void contactRemoved(KGoogleReply *reply);
+    void groupsListReceived(KGoogle::Reply *reply);
+    void contactReceived(KGoogle::Reply *reply);
+    void contactUpdated(KGoogle::Reply *reply);
+    void contactCreated(KGoogle::Reply *reply);
+    void contactRemoved(KGoogle::Reply *reply);
 
   private:
     void abort();
@@ -137,10 +134,10 @@ class ContactsResource: public Akonadi::ResourceBase,
     void updatePhoto(Akonadi::Item &item);
     void fetchPhoto(Akonadi::Item &item, const QString &photoUrl);
 
-    KGoogle::KGoogleAccessManager *m_gam;
-    KGoogle::KGoogleAuth *m_auth;
-
+    KGoogle::AccessManager *m_gam;
     QNetworkAccessManager *m_photoNam;
+
+    Akonadi::Collection m_rootCollection;
 };
 
 #endif // CONTACTSRESOURCE_H

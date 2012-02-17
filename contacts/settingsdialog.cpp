@@ -79,6 +79,10 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget *parent):
   connect(m_ui->groupsTree, SIGNAL(itemChanged(QTreeWidgetItem*,int)),
 	  this, SLOT(groupChecked(QTreeWidgetItem*)));
 
+  KGoogle::Auth *auth = KGoogle::Auth::instance();
+  connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
+	  this, SLOT(reloadAccounts()));
+
   m_ui->addGroupBtn->setDisabled(true);
   m_ui->editGroupBtn->setDisabled(true);
   m_ui->removeGroupBtn->setDisabled(true);
@@ -95,6 +99,42 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::saveSettings()
 {
+  Settings::self()->setAccount(m_ui->accountsCombo->currentText());
+
+  QStringList groups;
+  for (int i = 0; i < m_ui->groupsTree->topLevelItemCount(); i++) {
+
+    QTreeWidgetItem *item = m_ui->groupsTree->topLevelItem(i);
+    if (item->checkState(0) != Qt::Checked)
+      continue;
+
+    Objects::ContactsGroup *group;
+
+    group = item->data(0, KGoogleObjectRole).value< KGoogle::Objects::ContactsGroup * >();
+    if (!group)
+      continue;
+
+    groups << group->id();
+
+    for (int j = 0; j < item->childCount(); j++) {
+
+      QTreeWidgetItem *child = item->child(j);
+      if (child->checkState(0) != Qt::Checked)
+	continue;
+
+      Objects::ContactsGroup *group;
+
+      group = child->data(0, KGoogleObjectRole).value< KGoogle::Objects::ContactsGroup * >();
+      if (!group)
+	continue;
+
+      groups << group->id();
+
+    }
+
+  }
+  Settings::self()->setGroups(groups);
+
   Settings::self()->writeConfig();
 }
 
@@ -135,7 +175,7 @@ void SettingsDialog::addAccountClicked()
   KGoogle::Auth *auth = KGoogle::Auth::instance();
 
   KGoogle::Account *account = new KGoogle::Account();
-  account->addScope(Services::Contacts::scopeUrl());
+  account->addScope(Services::Contacts::ScopeUrl);
 
   try {
     auth->authenticate(account, true);
@@ -172,6 +212,9 @@ void SettingsDialog::removeAccountClicked()
 void SettingsDialog::accountChanged()
 {
   reloadGroupsClicked();
+
+  Settings::self()->setAccount(m_ui->accountsCombo->currentText());
+  Settings::self()->setGroups(QStringList());
 
   m_ui->reloadGroupsBtn->setEnabled(true);
 }
@@ -340,6 +383,10 @@ void SettingsDialog::reloadGroupsClicked()
   m_ui->groupsBox->setDisabled(true);
 
   account = m_ui->accountsCombo->currentAccount();
+  if (!account) {
+    m_ui->accountsBox->setEnabled(true);
+    return;
+  }
 
   m_ui->groupsTree->clear();
   gam = new KGoogle::AccessManager;
@@ -508,31 +555,14 @@ void SettingsDialog::groupSelected(QTreeWidgetItem *item)
 
 void SettingsDialog::groupChecked(QTreeWidgetItem *item)
 {
-  Objects::ContactsGroup *group;
-
   if (!item)
-    return;
-
-  group = item->data(0, KGoogleObjectRole).value< KGoogle::Objects::ContactsGroup * >();
-  if (!group)
     return;
 
   if ((item->parent() != 0) && (item->checkState(0) == Qt::Checked))
     item->parent()->setCheckState(0, Qt::Checked);
 
-  if ((item->parent() == 0) && (item->checkState(0) == Qt::Unchecked))
+  if ((item->parent() == 0) && (item->checkState(0) == Qt::Unchecked)) {
     for (int i = 0; i < item->childCount(); i++)
       item->child(i)->setCheckState(0, Qt::Unchecked);
-
-  QStringList groups = Settings::self()->groups();
-
-  if (item->checkState(0) == Qt::Checked) {
-    if (!groups.contains(group->id()))
-      groups << group->id();
-  } else {
-    if (groups.contains(group->id()))
-      groups.removeAll(group->id());
   }
-
-  Settings::self()->setGroups(groups);
 }

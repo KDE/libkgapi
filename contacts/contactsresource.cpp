@@ -17,15 +17,19 @@
 */
 
 #include "contactsresource.h"
+#include "groupattribute.h"
 #include "settingsdialog.h"
 #include "settings.h"
+#include "fetchvirtualcontactsjob.h"
 
-#include "libkgoogle/kgoogleaccessmanager.h"
-#include "libkgoogle/kgoogleauth.h"
-#include "libkgoogle/kgooglerequest.h"
-#include "libkgoogle/kgooglereply.h"
-#include "libkgoogle/objects/contact.h"
-#include "libkgoogle/services/addressbook.h"
+#include <libkgoogle/accessmanager.h>
+#include <libkgoogle/auth.h>
+#include <libkgoogle/fetchlistjob.h>
+#include <libkgoogle/request.h>
+#include <libkgoogle/reply.h>
+#include <libkgoogle/objects/contact.h>
+#include <libkgoogle/objects/contactsgroup.h>
+#include <libkgoogle/services/contacts.h>
 
 #include <qstringlist.h>
 #include <qnetworkreply.h>
@@ -35,6 +39,7 @@
 
 #include <klocalizedstring.h>
 #include <kio/accessmanager.h>
+
 #include <akonadi/attribute.h>
 #include <akonadi/attributefactory.h>
 #include <akonadi/entitydisplayattribute.h>
@@ -44,6 +49,11 @@
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
 #include <akonadi/cachepolicy.h>
+#include <akonadi/collectionfetchscope.h>
+#include <akonadi/linkjob.h>
+#include <akonadi/unlinkjob.h>
+
+#include <boost/bind.hpp>
 
 #include <kabc/addressee.h>
 #include <kabc/picture.h>
@@ -55,45 +65,39 @@ ContactsResource::ContactsResource(const QString &id):
   ResourceBase(id)
 {
   /* Register all types we are going to use in this resource */
-  qRegisterMetaType<Service::Addressbook>("Addressbook");
-  
-  
-  setObjectName(QLatin1String("GoogleContactsResource"));
+  qRegisterMetaType<Services::Contacts>("Contacts");
+  AttributeFactory::registerAttribute<GroupAttribute>();
+
   setNeedsNetwork(true);
-  setOnline(false);  
+  setOnline(true);
 
-  m_auth = new KGoogleAuth(Settings::self()->clientId(),
-			   Settings::self()->clientSecret(),
-			   Service::Addressbook::scopeUrl());
-  connect(m_auth, SIGNAL(tokensRecevied(QString,QString)),
-	  this, SLOT(tokensReceived()));
-  connect(m_gam, SIGNAL(authError(QString)),
-          this, SLOT(authError(QString)));
+  Auth *auth = Auth::instance();
+  auth->setKWalletFolder("Akonadi Google");
 
-  m_gam = new KGoogleAccessManager(m_auth);
-  
+  m_gam = new KGoogle::AccessManager();
   m_photoNam = new KIO::Integration::AccessManager(this);
-  
-  connect(m_gam, SIGNAL(replyReceived(KGoogleReply*)),
-	  this, SLOT(replyReceived(KGoogleReply*)));
-  connect(m_gam, SIGNAL(requestFinished(KGoogleRequest*)),
-	  this, SLOT(commitItemsList()));
-  connect(m_gam, SIGNAL(error(QString,int)),
-	  this, SLOT(slotGAMError(QString,int)));
+
+  connect(m_gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+	  this, SLOT(replyReceived(KGoogle::Reply*)));
+
+  connect(m_gam, SIGNAL(error(KGoogle::Error,QString)),
+	  this, SLOT(error(KGoogle::Error,QString)));
   connect(this, SIGNAL(abortRequested()),
 	  this, SLOT(slotAbortRequested()));
   connect(m_photoNam, SIGNAL(finished(QNetworkReply*)),
 	  this, SLOT(photoRequestFinished(QNetworkReply*)));
-  
-  changeRecorder()->fetchCollection(true);
+
   changeRecorder()->itemFetchScope().fetchFullPayload(true);
+  changeRecorder()->fetchCollection(true);
+
+  if (!Settings::self()->account().isEmpty())
+    synchronize();
 }
 
 ContactsResource::~ContactsResource()
 {
   delete m_photoNam;
   delete m_gam;
-  delete m_auth;
 }
 
 void ContactsResource::aboutToQuit()
@@ -111,130 +115,131 @@ void ContactsResource::slotAbortRequested()
   abort();
 }
 
-void ContactsResource::slotGAMError(const QString &msg, const int errorCode)
+void ContactsResource::error(Error errCode, const QString &msg)
 {
   cancelTask(msg);
 
-  Q_UNUSED(errorCode);
+  if ((errCode == AuthError) || (errCode == BackendNotReady)) {
+    status(Broken, msg);
+  }
+
 }
 
-void ContactsResource::slotAuthError(const QString &error)
-{
-  cancelTask(error);
-
-  setOnline(false);
-  emit status(Broken, error);
-}
 
 void ContactsResource::configure(WId windowId)
 {
-  SettingsDialog *dlg = new SettingsDialog(windowId, m_auth);
-  dlg->exec();
+  SettingsDialog *settingsDialog = new SettingsDialog(windowId);
 
-  emit configurationDialogAccepted();
-  if (!m_auth->accessToken().isEmpty()) {
-    setOnline(true);
+  if (settingsDialog->exec() == KDialog::Accepted) {
+    emit configurationDialogAccepted();
     synchronize();
   } else {
-    setOnline(false);
+    emit configurationDialogRejected();
   }
 
-  delete dlg;
+  delete settingsDialog;
 }
 
 void ContactsResource::retrieveItems(const Akonadi::Collection& collection)
 {
-    if (collection.remoteId() == "googleContacts") {
-      emit status(Running, i18n("Preparing synchronization of contacts"));
-      ItemFetchJob *fetchJob = new ItemFetchJob(collection);
-      fetchJob->fetchScope().fetchFullPayload(false);
-      connect (fetchJob, SIGNAL(result(KJob*)),
-	       this, SLOT(initialItemFetchJobFinished(KJob*)));
-      fetchJob->start();
-    } else if (collection.remoteId() == "contactPhoto") {
-	/* TODO: Implement me! */
-    } else {
-      Q_ASSERT ("Unknown collection!");
-      cancelTask();
-    }
+  if (collection.remoteId() == m_rootCollection.remoteId()) {
+
+    ItemFetchJob *fetchJob = new ItemFetchJob(collection, this);
+    fetchJob->fetchScope().fetchFullPayload(true);
+    connect(fetchJob, SIGNAL(finished(KJob*)),
+      this, SLOT(initialItemsFetchJobFinished(KJob*)));
+
+    fetchJob->start();
+
+  } else {
+
+    FetchVirtualContactsJob *fetchJob = new FetchVirtualContactsJob(collection, m_rootCollection);
+    connect(fetchJob, SIGNAL(finished(KJob*)),
+	    this, SLOT(virtualItemsFetchJobFinished(KJob*)));
+
+    fetchJob->start();
+
+  }
 }
 
 bool ContactsResource::retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts)
 {
   Q_UNUSED (parts);
 
-  if (item.mimeType() == "text/directory") {
-    QUrl url(Service::Addressbook::fetchUrl().arg("default").arg(item.remoteId()));
-    url.addQueryItem("alt", "json");
-    if (!Settings::self()->lastSync().isEmpty())
-      url.addQueryItem("updated-min", Settings::self()->lastSync());
+  if (item.mimeType() != KABC::Addressee::mimeType())
+    return false;
 
-    KGoogleRequest *request;
-    request = new KGoogleRequest(url,
-				 KGoogle::KGoogleRequest::Fetch,
-				 "Addressbook");
-
-    request->setProperty("Item", QVariant::fromValue(item));
-    m_gam->sendRequest(request);
-
-    emit status(Running, "Fetching contact");
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
   }
+  catch (Exception::BaseException &e) {
+    emit status(Broken, e.what());
+    return false;
+  }
+
+  QUrl url(Services::Contacts::fetchContactUrl(account->accountName(), item.remoteId()));
+  if (!Settings::self()->lastSync().isEmpty())
+    url.addQueryItem("updated-min", Settings::self()->lastSync());
+
+  KGoogle::Request *request;
+  request = new KGoogle::Request(url, KGoogle::Request::Fetch, "Contacts", account);
+  request->setProperty("Item", QVariant::fromValue(item));
+
+  m_gam->sendRequest(request);
 
   return true;
 }
 
 void ContactsResource::retrieveCollections()
 {
+  Request *request;
 
-  EntityDisplayAttribute* displayAttribute = new EntityDisplayAttribute();
-  displayAttribute->setDisplayName(i18n("Google Contacts"));
-
-  Collection contacts;
-  contacts.setRemoteId("googleContacts");
-  contacts.setName(i18n("Google Contacts"));
-  contacts.setParentCollection(Akonadi::Collection::root());
-  contacts.setContentMimeTypes(QStringList() << KABC::Addressee::mimeType());
-  contacts.setRights(Collection::CanDeleteItem |
-		     Collection::CanCreateItem |
-		     Collection::CanChangeItem);
-  contacts.addAttribute(displayAttribute);
-
-  if (Settings::self()->refreshAddressbook()) {
-    Akonadi::CachePolicy policy;
-    policy.setInheritFromParent(true);
-    policy.setIntervalCheckTime(Settings::self()->refreshInterval());
-    policy.setSyncOnDemand(true);
-    contacts.setCachePolicy(policy);
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
   }
-
-  collectionsRetrieved(Collection::List() << contacts);
-
-  /* Use user-friendly name in resource configuration dialog */
-  setAgentName(i18n("Google Contacts"));
-}
-
-void ContactsResource::initialItemFetchJobFinished(KJob* job)
-{
-  ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
-
-  if (fetchJob->error()) {
-    cancelTask(i18n("Failed to fetch initial data."));
+  catch (Exception::BaseException &e) {
+    emit status(Broken, e.what());
     return;
   }
 
-  setItemStreamingEnabled(true);
+  request = new Request(Services::Contacts::fetchAllGroupsUrl(account->accountName()),
+			KGoogle::Request::FetchAll, "Contacts", account);
+  request->setProperty("isCollection", true);
+  m_gam->sendRequest(request);
+}
 
-  QUrl url(Service::Addressbook::fetchAllUrl().arg("default"));
-  url.addQueryItem("alt", "json");
+void ContactsResource::initialItemsFetchJobFinished(KJob *job)
+{
+  if (job->error()) {
+    kDebug() << "Initial item fetch failed: " << job->errorString();
+    cancelTask(i18n("Initial item fetching failed"));
+    return;
+  }
+
+  QUrl url = KGoogle::Services::Contacts::fetchAllContactsUrl(Settings::self()->account());
   if (!Settings::self()->lastSync().isEmpty())
     url.addQueryItem("updated-min", Settings::self()->lastSync());
 
-  KGoogleRequest *request = new KGoogleRequest(url,
-					       KGoogleRequest::FetchAll,
-					       "Addressbook");
-  m_gam->sendRequest(request);
+  FetchListJob *fetchJob = new FetchListJob(url, "Contacts", Settings::self()->account());
+  connect(fetchJob, SIGNAL(finished(KJob*)),
+    this, SLOT(contactListReceived(KJob*)));
+  fetchJob->start();
+}
 
-  emit status(Running, i18n("Retrieving list of contacts"));
+void ContactsResource::virtualItemsFetchJobFinished(KJob *job)
+{
+  qDebug() << "ContactsResource::virtualItemsFetchJobFinished() " << (job->error() ? "with error" : "succesfully");
+
+  if (job->error()) {
+    cancelTask(i18n("Failed to fetch virtual contacts"));
+    return;
+  }
+
+  itemsRetrievalDone();
 }
 
 void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection)
@@ -242,24 +247,34 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
   if (!item.hasPayload<KABC::Addressee>())
     return;
 
-  status(Running, i18n("Creating contact..."));
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
+  }
+  catch (Exception::BaseException &e) {
+    emit status(Broken, e.what());
+    return;
+  }
 
-  Service::Addressbook service;
-  QString url = Service::Addressbook::createUrl().arg("default");
+  Services::Contacts service;
   QByteArray data;
-  KGoogleRequest *request;
+  KGoogle::Request *request;
 
   KABC::Addressee addressee = item.payload<KABC::Addressee>();
-  Object::Contact *contact = static_cast<Object::Contact*>(&addressee);
+  Objects::Contact *contact = static_cast< Objects::Contact* >(&addressee);
+
   data = service.objectToXML(contact);
   /* Add XML header and footer */
-  data.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gd=\"http://schemas.google.com/g/2005\" xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
-	       "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" term=\"http://schemas.google.com/contact/2008#contact\"/>");
+  data.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
+			   "xmlns:gd=\"http://schemas.google.com/g/2005\" "
+			   "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
+	       "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
+			      "term=\"http://schemas.google.com/contact/2008#contact\"/>");
   data.append("</atom:entry>");
 
-  request = new KGoogleRequest(QUrl(url),
-			       KGoogleRequest::Create,
-			       "Addressbook");
+  request = new KGoogle::Request(Services::Contacts::createContactUrl(account->accountName()),
+				 Request::Create, "Contacts", account);
   request->setRequestData(data, "application/atom+xml");
   request->setProperty("Item", QVariant::fromValue(item));
 
@@ -275,23 +290,33 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
     return;
   }
 
-  status(Running, i18n("Updating contact..."));
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
+  }
+  catch (Exception::BaseException &e) {
+    emit status(Broken, e.what());
+    return;
+  }
 
-  QString url = Service::Addressbook::updateUrl().arg("default").arg(item.remoteId());
   QByteArray data;
-  Service::Addressbook service;
+  Services::Contacts service;
   KABC::Addressee addressee = item.payload<KABC::Addressee>();
-  Object::Contact *contact = static_cast<Object::Contact*>(&addressee);
+  Objects::Contact *contact = static_cast< Objects::Contact* >(&addressee);
+
   data = service.objectToXML(contact);
   /* Add XML header and footer */
-  data.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gd=\"http://schemas.google.com/g/2005\" xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
-	       "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" term=\"http://schemas.google.com/contact/2008#contact\"/>");
+  data.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
+			   "xmlns:gd=\"http://schemas.google.com/g/2005\" "
+			   "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
+	       "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
+			      "term=\"http://schemas.google.com/contact/2008#contact\"/>");
   data.append("</atom:entry>");
 
-  KGoogleRequest *request;  
-  request = new KGoogleRequest(QUrl(url),
-			       KGoogleRequest::Update,
-			       "Addressbook");
+  KGoogle::Request *request;
+  request = new KGoogle::Request(Services::Contacts::updateContactUrl(account->accountName(), item.remoteId()),
+				 Request::Update, "Contacts", account);
   request->setRequestData(data, "application/atom+xml");
   request->setProperty("Item", QVariant::fromValue(item));
 
@@ -302,48 +327,137 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 
 void ContactsResource::itemRemoved(const Akonadi::Item& item)
 {
-  emit status(Running, i18n("Removing contact"));
 
-  QString url = Service::Addressbook::removeUrl().arg("default").arg(item.remoteId());
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
+  }
+  catch (Exception::BaseException &e) {
+    emit status(Broken, e.what());
+    return;
+  }
 
-  KGoogleRequest *request;
-  request = new KGoogleRequest(QUrl(url),
-			       KGoogleRequest::Remove,
-			       "Addressbook");
+  KGoogle::Request *request;
+  request = new KGoogle::Request(Services::Contacts::removeContactUrl(account->accountName(), item.remoteId()),
+				 Request::Remove, "Contacts", account);
   request->setProperty("Item", QVariant::fromValue(item));
 
   m_gam->sendRequest(request);
 }
 
 
-void ContactsResource::replyReceived(KGoogleReply* reply)
+void ContactsResource::replyReceived(KGoogle::Reply* reply)
 {
   switch (reply->requestType()) {
-    case KGoogleRequest::FetchAll:
-      contactListReceived(reply);
-      break;
+    case Request::FetchAll: {
+      if (reply->request()->hasProperty("isCollection"))
+	groupsListReceived(reply);
+    } break;
 
-    case KGoogleRequest::Fetch:
+    case Request::Fetch:
       contactReceived(reply);
       break;
 
-    case KGoogleRequest::Create:
+    case Request::Create:
       contactCreated(reply);
       break;
 
-    case KGoogleRequest::Update:
+    case Request::Update:
       contactUpdated(reply);
       break;
 
-    case KGoogleRequest::Remove:
+    case Request::Remove:
       contactRemoved(reply);
       break;
   }
+
+  delete reply;
 }
 
-void ContactsResource::contactListReceived(KGoogleReply* reply)
+void ContactsResource::groupsListReceived(Reply *reply)
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
+  Akonadi::EntityDisplayAttribute *attr = new Akonadi::EntityDisplayAttribute();
+  attr->setDisplayName(Settings::self()->account());
+
+  Collection::List collections;
+
+  Collection::Rights rights = Collection::CanChangeItem |
+			      Collection::CanChangeItem |
+			      Collection::CanDeleteItem;
+
+  m_rootCollection.setName(identifier());
+  m_rootCollection.setRemoteId(identifier());
+  m_rootCollection.setParentCollection(Akonadi::Collection::root());
+  m_rootCollection.setContentMimeTypes(QStringList() << Collection::mimeType()
+						     << KABC::Addressee::mimeType());
+  m_rootCollection.addAttribute(attr);
+  m_rootCollection.setRights(rights);
+  /*
+  CachePolicy policy;
+  policy.setInheritFromParent(false);
+  policy.setSyncOnDemand(true);
+  policy.setIntervalCheckTime(-1);
+  m_rootCollection.setCachePolicy(policy);
+*/
+  collections << m_rootCollection;
+
+  QList< KGoogle::Object* > groups = reply->replyData();
+  QStringList checkedGroups = Settings::self()->groups();
+
+
+  Collection myContacts;
+
+  while (!groups.isEmpty()) {
+
+    Objects::ContactsGroup *group = static_cast< Objects::ContactsGroup* >(groups.first());
+
+    if (!checkedGroups.contains(group->id())) {
+      groups.removeFirst();
+      continue;
+    }
+
+    Collection collection;
+    collection.setName(group->title());
+    collection.setRemoteId(group->id());
+    collection.setRights(rights);
+
+    QStringList mime_types;
+    mime_types << KABC::Addressee::mimeType();
+    if (group->isSystemGroup()) {
+
+      mime_types << Collection::mimeType();
+      collection.setParentCollection(m_rootCollection);
+
+    } else {
+
+      collection.setParentCollection(collections.at(1));
+
+    }
+
+    collection.setContentMimeTypes(mime_types);
+
+    collections << collection;
+    groups.removeFirst();
+  }
+
+  Collection collection;
+  collection.setName(i18n("Other Contacts"));
+  collection.setRemoteId("otherContacts");
+  collection.setParentCollection(m_rootCollection);
+  collection.setContentMimeTypes(QStringList() << KABC::Addressee::mimeType());
+  collection.setRights(rights);
+  collections << collection;
+
+  collectionsRetrieved(collections);
+
+  taskDone();
+}
+
+
+void ContactsResource::contactListReceived(KJob *job)
+{
+  if (job->error()) {
     cancelTask(i18n("Failed to retrieve contacts"));
     return;
   }
@@ -351,122 +465,123 @@ void ContactsResource::contactListReceived(KGoogleReply* reply)
   Item::List removed;
   Item::List changed;
 
-  QList<KGoogleObject*> allData = reply->replyData();
-  foreach (KGoogleObject* object, allData) {
+  FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
+  QList< KGoogle::Object* > objects = fetchJob->items();
+
+  foreach (KGoogle::Object* object, objects) {
+
     Item item;
-    Object::Contact *contact = static_cast<Object::Contact*>(object);
-    item.setRemoteId(contact->id());
+    Objects::Contact *contact = static_cast< Objects::Contact* >(object);
+
+    item.setRemoteId(contact->uid());
 
     if (contact->deleted()) {
-      itemsRetrievedIncremental(Item::List(), Item::List() << item);
+      removed << item;
     } else {
+
       item.setRemoteRevision(contact->etag());
       item.setMimeType(contact->mimeType());
-      item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
+      item.setPayload< KABC::Addressee >(KABC::Addressee(*contact));
+      GroupAttribute *attr = item.attribute< GroupAttribute >(Entity::AddIfMissing);
+      attr->setGroups(contact->groups());
 
-      itemsRetrievedIncremental(Item::List() << item, Item::List());
+      changed << item;
 
       fetchPhoto(item, contact->photoUrl().toString());
     }
   }
+
+  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
+
+  itemsRetrievedIncremental(changed, removed);
 }
 
-void ContactsResource::contactReceived(KGoogleReply* reply)
+void ContactsResource::contactReceived(KGoogle::Reply* reply)
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
+  if (reply->error() != KGoogle::OK) {
     cancelTask(i18n("Failed to fetch contact"));
     return;
   }
 
-  QList<KGoogleObject*> data = reply->replyData();
+  QList< KGoogle::Object* > data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
     cancelTask(i18n("Failed to create a contact"));
     return;
   }
-  Object::Contact *contact = static_cast<Object::Contact*>(data.first());
+  Objects::Contact *contact = static_cast< Objects::Contact* >(data.first());
 
   Item item = reply->request()->property("Item").value<Item>();
-  item.setRemoteId(contact->id());
+  item.setRemoteId(contact->uid());
   item.setRemoteRevision(contact->etag());
 
   if (contact->deleted())
-    itemsRetrievedIncremental(Item::List(), Item::List() << item);  
+    itemsRetrievedIncremental(Item::List(), Item::List() << item);
   else {
-    item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
+    item.setPayload< KABC::Addressee >(KABC::Addressee(*contact));
     item.setMimeType(contact->mimeType());
 
     itemsRetrieved (Item::List() << item);
 
-    fetchPhoto(item, contact->photoUrl().toString());  
+    fetchPhoto(item, contact->photoUrl().toString());
   }
-
-  emit percent(100);
-  emit status(Idle, i18n("Contact fetched"));
-  taskDone();
 }
 
-void ContactsResource::contactCreated(KGoogleReply* reply)
+void ContactsResource::contactCreated(KGoogle::Reply* reply)
 {
-  if (reply->error() != KGoogle::KGoogleReply::Created) {
+  if (reply->error() != KGoogle::Created) {
     cancelTask(i18n("Failed to create a contact"));
     return;
   }
 
-  QList<KGoogleObject*> data = reply->replyData();
+  QList< KGoogle::Object* > data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
     cancelTask(i18n("Failed to create a contact"));
     return;
   }
-  Object::Contact *contact = (Object::Contact*) data.first();
+  Objects::Contact *contact = (Objects::Contact*) data.first();
 
   Item item = reply->request()->property("Item").value<Item>();
-  item.setRemoteId(contact->id());
+  item.setRemoteId(contact->uid());
   item.setRemoteRevision(contact->etag());
 
   changeCommitted(item);
 
-  item.setPayload<KABC::Addressee>(KABC::Addressee(*contact));
+  item.setPayload< KABC::Addressee >(KABC::Addressee(*contact));
   ItemModifyJob *modifyJob = new ItemModifyJob(item);
   connect(modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
 
   updatePhoto(item);
-
-  status(Idle, i18n("Contact created"));
-  taskDone();
 }
 
-void ContactsResource::contactUpdated(KGoogleReply* reply)
+void ContactsResource::contactUpdated(KGoogle::Reply* reply)
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
+  if (reply->error() != KGoogle::OK) {
     cancelTask(i18n("Failed to update contact"));
     return;
   }
 
-  QList<KGoogleObject*> data = reply->replyData();
+  QList< KGoogle::Object* > data = reply->replyData();
   if (data.length() != 1) {
     kWarning() << "Server send " << data.length() << "items, which is not OK";
     cancelTask(i18n("Failed to update a contact"));
     return;
   }
-  Object::Contact *contact = static_cast<Object::Contact*>(data.first());
+  Objects::Contact *contact = static_cast< Objects::Contact* >(data.first());
 
   Item item = reply->request()->property("Item").value<Item>();
-  item.setRemoteId(contact->id());
+  item.setRemoteId(contact->uid());
   item.setRemoteRevision(contact->etag());
 
   changeCommitted(item);
 
   updatePhoto(item);
-
-  status(Idle, i18n("Contact changed"));
-  taskDone();
 }
 
-void ContactsResource::contactRemoved(KGoogleReply* reply)
+void ContactsResource::contactRemoved(KGoogle::Reply* reply)
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
+  if (reply->error() != KGoogle::OK) {
     cancelTask(i18n("Failed to remove contact"));
     return;
   }
@@ -474,9 +589,6 @@ void ContactsResource::contactRemoved(KGoogleReply* reply)
   Item item = reply->request()->property("Item").value<Item>();
 
   changeCommitted(item);
-
-  status(Idle, i18n("Contact removed"));
-  taskDone();
 }
 
 void ContactsResource::photoRequestFinished(QNetworkReply* reply)
@@ -488,9 +600,9 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
 
     Item item = reply->request().attribute(QNetworkRequest::User, QVariant()).value<Item>();
 
-    KABC::Addressee addressee = item.payload<KABC::Addressee>();
+    KABC::Addressee addressee = item.payload< KABC::Addressee >();
     addressee.setPhoto(KABC::Picture(image));
-    item.setPayload<KABC::Addressee>(addressee);
+    item.setPayload< KABC::Addressee >(addressee);
 
     ItemModifyJob *modifyJob = new ItemModifyJob(item);
     connect(modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
@@ -501,9 +613,19 @@ void ContactsResource::fetchPhoto(Akonadi::Item &item, const QString &photoUrl)
 {
   QString photoId = photoUrl.mid(photoUrl.lastIndexOf("/")+1);
 
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
+  }
+  catch (Exception::BaseException &e) {
+    emit cancelTask(e.what());
+    return;
+  }
+
   QNetworkRequest request;
   request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+photoId));
-  request.setRawHeader("Authorization", "OAuth "+m_auth->accessToken().toLatin1());
+  request.setRawHeader("Authorization", "OAuth "+account->accessToken().toLatin1());
   request.setRawHeader("GData-Version", "3.0");
 
   request.setAttribute(QNetworkRequest::User, qVariantFromValue(item));
@@ -513,15 +635,25 @@ void ContactsResource::fetchPhoto(Akonadi::Item &item, const QString &photoUrl)
 
 void ContactsResource::updatePhoto(Item &item)
 {
-  KABC::Addressee addressee = item.payload<KABC::Addressee>();
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
+  }
+  catch (Exception::BaseException &e) {
+    cancelTask(e.what());
+    return;
+  }
+
+  KABC::Addressee addressee = item.payload< KABC::Addressee >();
   QNetworkRequest request;
   request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+item.remoteId()));
-  request.setRawHeader("Authorization", "OAuth "+m_auth->accessToken().toLatin1());
+  request.setRawHeader("Authorization", "OAuth "+account->accessToken().toLatin1());
   request.setRawHeader("GData-Version", "3.0");
   request.setRawHeader("If-Match", "*");
 
   if (!addressee.photo().isEmpty()) {
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "Image/*");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "image/*");
 
     QImage image = addressee.photo().data();
     QByteArray ba;
@@ -533,30 +665,6 @@ void ContactsResource::updatePhoto(Item &item)
     m_photoNam->deleteResource(request);
   }
 }
-
-void ContactsResource::tokensReceived()
-{
-  if (m_auth->accessToken().isEmpty()) {
-    emit status(Broken, i18n("Failed to fetch tokens"));
-  } else {
-    setOnline(true);
-    synchronize();
-  }
-}
-
-void ContactsResource::commitItemsList()
-{
-  itemsRetrievalDone();
-
-  Settings::self()->setLastSync(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-
-  setItemStreamingEnabled(false);
-
-  emit percent(100);
-  emit status(Idle, i18n("Collections synchronized"));
-  taskDone();
-}
-
 
 
 AKONADI_RESOURCE_MAIN (ContactsResource)
