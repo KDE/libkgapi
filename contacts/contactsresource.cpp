@@ -65,8 +65,8 @@ ContactsResource::ContactsResource(const QString &id):
   ResourceBase(id)
 {
   /* Register all types we are going to use in this resource */
-  qRegisterMetaType<Services::Contacts>("Contacts");
-  AttributeFactory::registerAttribute<GroupAttribute>();
+  qRegisterMetaType< Services::Contacts >("Contacts");
+  AttributeFactory::registerAttribute< GroupAttribute >();
 
   setNeedsNetwork(true);
   setOnline(true);
@@ -147,7 +147,7 @@ void ContactsResource::retrieveItems(const Akonadi::Collection& collection)
     ItemFetchJob *fetchJob = new ItemFetchJob(collection, this);
     fetchJob->fetchScope().fetchFullPayload(true);
     connect(fetchJob, SIGNAL(finished(KJob*)),
-      this, SLOT(initialItemsFetchJobFinished(KJob*)));
+            this, SLOT(initialItemsFetchJobFinished(KJob*)));
 
     fetchJob->start();
 
@@ -261,7 +261,7 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
   QByteArray data;
   KGoogle::Request *request;
 
-  KABC::Addressee addressee = item.payload<KABC::Addressee>();
+  KABC::Addressee addressee = item.payload< KABC::Addressee >();
   Objects::Contact *contact = static_cast< Objects::Contact* >(&addressee);
 
   data = service.objectToXML(contact);
@@ -285,7 +285,7 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
 
 void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
-  if (!item.hasPayload<KABC::Addressee>()) {
+  if (!item.hasPayload< KABC::Addressee >()) {
     cancelTask(i18n("Invalid Payload"));
     return;
   }
@@ -302,7 +302,7 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 
   QByteArray data;
   Services::Contacts service;
-  KABC::Addressee addressee = item.payload<KABC::Addressee>();
+  KABC::Addressee addressee = item.payload< KABC::Addressee >();
   Objects::Contact *contact = static_cast< Objects::Contact* >(&addressee);
 
   data = service.objectToXML(contact);
@@ -369,6 +369,9 @@ void ContactsResource::replyReceived(KGoogle::Reply* reply)
 
     case Request::Remove:
       contactRemoved(reply);
+      break;
+
+    case Request::Move:
       break;
   }
 
@@ -450,8 +453,6 @@ void ContactsResource::groupsListReceived(Reply *reply)
   collections << collection;
 
   collectionsRetrieved(collections);
-
-  taskDone();
 }
 
 
@@ -487,7 +488,7 @@ void ContactsResource::contactListReceived(KJob *job)
 
       changed << item;
 
-      fetchPhoto(item, contact->photoUrl().toString());
+      fetchPhoto(item);
     }
   }
 
@@ -511,7 +512,7 @@ void ContactsResource::contactReceived(KGoogle::Reply* reply)
   }
   Objects::Contact *contact = static_cast< Objects::Contact* >(data.first());
 
-  Item item = reply->request()->property("Item").value<Item>();
+  Item item = reply->request()->property("Item").value< Item >();
   item.setRemoteId(contact->uid());
   item.setRemoteRevision(contact->etag());
 
@@ -523,7 +524,7 @@ void ContactsResource::contactReceived(KGoogle::Reply* reply)
 
     itemsRetrieved (Item::List() << item);
 
-    fetchPhoto(item, contact->photoUrl().toString());
+    fetchPhoto(item);
   }
 }
 
@@ -542,7 +543,7 @@ void ContactsResource::contactCreated(KGoogle::Reply* reply)
   }
   Objects::Contact *contact = (Objects::Contact*) data.first();
 
-  Item item = reply->request()->property("Item").value<Item>();
+  Item item = reply->request()->property("Item").value< Item >();
   item.setRemoteId(contact->uid());
   item.setRemoteRevision(contact->etag());
 
@@ -570,7 +571,7 @@ void ContactsResource::contactUpdated(KGoogle::Reply* reply)
   }
   Objects::Contact *contact = static_cast< Objects::Contact* >(data.first());
 
-  Item item = reply->request()->property("Item").value<Item>();
+  Item item = reply->request()->property("Item").value< Item >();
   item.setRemoteId(contact->uid());
   item.setRemoteRevision(contact->etag());
 
@@ -586,7 +587,7 @@ void ContactsResource::contactRemoved(KGoogle::Reply* reply)
     return;
   }
 
-  Item item = reply->request()->property("Item").value<Item>();
+  Item item = reply->request()->property("Item").value< Item >();
 
   changeCommitted(item);
 }
@@ -598,7 +599,7 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
     QImage image;
     image.loadFromData(reply->readAll(), "JPG");
 
-    Item item = reply->request().attribute(QNetworkRequest::User, QVariant()).value<Item>();
+    Item item = reply->request().attribute(QNetworkRequest::User, QVariant()).value< Item >();
 
     KABC::Addressee addressee = item.payload< KABC::Addressee >();
     addressee.setPhoto(KABC::Picture(image));
@@ -609,10 +610,8 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
   }
 }
 
-void ContactsResource::fetchPhoto(Akonadi::Item &item, const QString &photoUrl)
+void ContactsResource::fetchPhoto(Akonadi::Item &item)
 {
-  QString photoId = photoUrl.mid(photoUrl.lastIndexOf("/")+1);
-
   Account *account;
   try {
     Auth *auth = Auth::instance();
@@ -623,8 +622,10 @@ void ContactsResource::fetchPhoto(Akonadi::Item &item, const QString &photoUrl)
     return;
   }
 
+  QString id = item.remoteId().mid(item.remoteId().lastIndexOf("/"));
+
   QNetworkRequest request;
-  request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+photoId));
+  request.setUrl(Services::Contacts::photoUrl(account->accountName(), id));
   request.setRawHeader("Authorization", "OAuth "+account->accessToken().toLatin1());
   request.setRawHeader("GData-Version", "3.0");
 
@@ -645,9 +646,11 @@ void ContactsResource::updatePhoto(Item &item)
     return;
   }
 
+  QString id = item.remoteId().mid(item.remoteId().lastIndexOf("/"));
+
   KABC::Addressee addressee = item.payload< KABC::Addressee >();
   QNetworkRequest request;
-  request.setUrl(QUrl("https://www.google.com/m8/feeds/photos/media/default/"+item.remoteId()));
+  request.setUrl(Services::Contacts::photoUrl(account->accountName(), id));
   request.setRawHeader("Authorization", "OAuth "+account->accessToken().toLatin1());
   request.setRawHeader("GData-Version", "3.0");
   request.setRawHeader("If-Match", "*");

@@ -132,7 +132,7 @@ class ContactsResource: public Akonadi::ResourceBase,
     void abort();
 
     void updatePhoto(Akonadi::Item &item);
-    void fetchPhoto(Akonadi::Item &item, const QString &photoUrl);
+    void fetchPhoto(Akonadi::Item &item);
 
     KGoogle::AccessManager *m_gam;
     QNetworkAccessManager *m_photoNam;
