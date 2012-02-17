@@ -160,6 +160,16 @@ namespace KGoogle {
 	 */
 	static QUrl removeGroupUrl(const QString &user, const QString &groupId);
 
+        /**
+         * Returns URL for modifying photo. Send KGoogle::Request::Fetch
+         * to download the photo, KGoogle::Request::Update to change photo
+         * or KGoogle::Request::Remove to remove the photo.
+         *
+         * @param user User (user@gmail.com) in whose addressbook to lok
+         * @param contactId ID of contacts whose photo to update
+         */
+        static QUrl photoUrl(const QString &user, const QString &contactId);
+
 	/**
 	 * Returns wheter service supports reading data in JSON format.
 	 * 

@@ -180,7 +180,13 @@ QUrl Contacts::fetchAllContactsUrl(const QString& user)
 
 QUrl Contacts::fetchContactUrl(const QString& user, const QString& contactID)
 {
-  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID + "?alt=json";
+  QString id;
+  if (contactID.contains("/"))
+    id = contactID.mid(contactID.lastIndexOf("/") + 1);
+  else
+    id = contactID;
+
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + id + "?alt=json";
 }
 
 QUrl Contacts::createContactUrl(const QString& user)
@@ -190,12 +196,24 @@ QUrl Contacts::createContactUrl(const QString& user)
 
 QUrl Contacts::updateContactUrl(const QString& user, const QString& contactID)
 {
-  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
+  QString id;
+  if (contactID.contains("/"))
+    id = contactID.mid(contactID.lastIndexOf("/") + 1);
+  else
+    id = contactID;
+
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + id;
 }
 
 QUrl Contacts::removeContactUrl(const QString& user, const QString& contactID)
 {
-  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + contactID;
+  QString id;
+  if (contactID.contains("/"))
+    id = contactID.mid(contactID.lastIndexOf("/") + 1);
+  else
+    id = contactID;
+
+  return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + id;
 }
 
 QUrl Contacts::fetchAllGroupsUrl(const QString &user)
@@ -205,7 +223,13 @@ QUrl Contacts::fetchAllGroupsUrl(const QString &user)
 
 QUrl Contacts::fetchGroupUrl(const QString &user, const QString &groupId)
 {
-  return "https://www.google.com/m8/feeds/groups/" + user + "/base/" + groupId + "?alt=json";
+  QString id;
+  if (groupId.contains("/"))
+    id = groupId.mid(groupId.lastIndexOf("/") + 1);
+  else
+    id = groupId;
+
+  return "https://www.google.com/m8/feeds/groups/" + user + "/base/" + id + "?alt=json";
 }
 
 QUrl Contacts::createGroupUrl(const QString &user)
@@ -215,13 +239,37 @@ QUrl Contacts::createGroupUrl(const QString &user)
 
 QUrl Contacts::updateGroupUrl(const QString &user, const QString &groupId)
 {
-  return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + groupId;
+  QString id;
+  if (groupId.contains("/"))
+    id = groupId.mid(groupId.lastIndexOf("/") + 1);
+  else
+    id = groupId;
+
+  return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + id;
 }
 
 QUrl Contacts::removeGroupUrl(const QString &user, const QString &groupId)
 {
-  return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + groupId;
+  QString id;
+  if (groupId.contains("/"))
+    id = groupId.mid(groupId.lastIndexOf("/") + 1);
+  else
+    id = groupId;
+
+  return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + id;
 }
+
+QUrl Contacts::photoUrl(const QString& user, const QString& contactID)
+{
+  QString id;
+  if (contactID.contains("/"))
+    id = contactID.mid(contactID.lastIndexOf("/") + 1);
+  else
+    id = contactID;
+
+  return "https://www.google.com/m8/feeds/photos/media/" + user + "/" + id;
+}
+
 
 QString Contacts::protocolVersion() const
 {
