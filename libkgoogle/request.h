@@ -40,12 +40,12 @@ namespace KGoogle {
 
     public:
       enum RequestType {
-	FetchAll,
-	Fetch,
-	Create,
-        Move,
-	Update,
-	Remove
+	FetchAll,       /** GET **/
+	Fetch,          /** GET **/
+	Create,         /** POST **/
+        Move,           /** POST **/
+	Update,         /** PUT **/
+	Remove          /** DELETE **/
       };
 
       /**
