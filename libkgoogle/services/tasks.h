@@ -124,8 +124,9 @@ namespace KGoogle {
          *
          * @param tasklistID ID of parent task list
          * @param taskID ID of task to move
+         * @param newParent UID of new parent item
          */
-	static QUrl moveTaskUrl(const QString &tasklistID, const QString &taskID);
+	static QUrl moveTaskUrl(const QString &tasklistID, const QString &taskID, const QString &newParent);
 
 	/**
 	 * Returns URL for KGoogle::Request::FetchAll requests for tasks lists

@@ -76,6 +76,9 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void taskListReceived(KJob *job);
     void calendarsReceived(KJob *job);
 
+    /* The actual update of task */
+    void doUpdateTask(KGoogle::Reply *reply);
+
     void taskReceived(KGoogle::Reply *reply);
     void tasksReceived(KJob *job);
     void taskCreated(KGoogle::Reply *reply);

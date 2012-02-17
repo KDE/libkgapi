@@ -145,9 +145,9 @@ QUrl Tasks::removeTaskUrl(const QString& tasklistID, const QString& taskID)
   return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID;
 }
 
-QUrl Tasks::moveTaskUrl(const QString& tasklistID, const QString& taskID)
+QUrl Tasks::moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString& newParent)
 {
-  return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID + "/move";
+  return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID + "/move?parent=" + newParent;
 }
 
 QUrl Tasks::fetchTaskListsUrl()

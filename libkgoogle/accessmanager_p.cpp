@@ -186,6 +186,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     } break;
 
     case KGoogle::Request::Remove:
+    case KGoogle::Request::Move:
       break;
   }
 
@@ -256,6 +257,7 @@ void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
       break;
 
     case KGoogle::Request::Create:
+    case KGoogle::Request::Move:
       nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
       nam->post(nr, request->requestData());
       break;

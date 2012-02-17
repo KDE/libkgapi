@@ -296,10 +296,13 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
   } else if (item.mimeType() == Todo::todoMimeType()) {
 
     TodoPtr todo = item.payload< TodoPtr >();
+    todo->setUid("");
     Objects::Task ktodo(*todo);
 
     service = "Tasks";
     url = Services::Tasks::createTaskUrl(collection.remoteId());
+    if (!todo->relatedTo(KCalCore::Incidence::RelTypeParent).isEmpty())
+      url.addQueryItem("parent", todo->relatedTo(KCalCore::Incidence::RelTypeParent));
 
     Services::Tasks service;
     data = service.objectToJSON(static_cast< KGoogle::Object* >(&ktodo));
@@ -329,36 +332,8 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
 
 void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers)
 {
-  QString service;
   QUrl url;
   QByteArray data;
-
-  if (item.mimeType() == Event::eventMimeType()) {
-
-    EventPtr event = item.payload< EventPtr >();
-    Objects::Event kevent(*event);
-
-    url = Services::Calendar::updateUrl(Settings::self()->account(), "private", item.remoteId());
-    service = "Calendar";
-
-    Services::Calendar service;
-    data = service.objectToJSON(static_cast< KGoogle::Object* >(&kevent));
-
-  } else if (item.mimeType() == Todo::todoMimeType()) {
-
-    TodoPtr todo = item.payload< TodoPtr >();
-    Objects::Task ktodo(*todo);
-
-    url = Services::Tasks::updateTaskUrl(item.parentCollection().remoteId(), item.remoteId());
-    service = "Tasks";
-
-    Services::Tasks service;
-    data = service.objectToJSON(static_cast< KGoogle::Object* >(&ktodo));
-
-  } else {
-    cancelTask(i18n("Unknown payload type '%1'").arg(item.mimeType()));
-    return;
-  }
 
   Account *account;
   try {
@@ -370,11 +345,59 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
     return;
   }
 
-  Request *request = new Request(url, Request::Update, service, account);
-  request->setRequestData(data, "application/json");
-  request->setProperty("Item", QVariant::fromValue(item));
+  if (item.mimeType() == Event::eventMimeType()) {
 
-  m_gam->sendRequest(request);
+    EventPtr event = item.payload< EventPtr >();
+    Objects::Event kevent(*event);
+
+    url = Services::Calendar::updateUrl(Settings::self()->account(), "private", item.remoteId());
+
+    Services::Calendar service;
+    data = service.objectToJSON(static_cast< KGoogle::Object* >(&kevent));
+
+    Request *request = new Request(url, Request::Update, "Calendar", account);
+    request->setRequestData(data, "application/json");
+    request->setProperty("Item", QVariant::fromValue(item));
+
+    m_gam->sendRequest(request);
+
+  } else if (item.mimeType() == Todo::todoMimeType()) {
+
+    TodoPtr todo = item.payload< TodoPtr >();
+    Objects::Task ktodo(*todo);
+
+  /* No way to tell whether item was moved or just updated, so if the item has
+   * a parent the first do "MOVE" and when it's finished then send the actual
+   * update request. Otherwise send only the update request.
+   */
+    if (!todo->relatedTo(Incidence::RelTypeParent).isEmpty()) {
+
+      QUrl moveUrl = Services::Tasks::moveTaskUrl(item.parentCollection().remoteId(),
+                      todo->uid(), todo->relatedTo(KCalCore::Incidence::RelTypeParent));
+      Request *request = new Request(moveUrl, Request::Move, "Tasks", account);
+      request->setProperty("Item", QVariant::fromValue(item));
+
+      m_gam->sendRequest(request);
+
+    } else {
+
+      url = Services::Tasks::updateTaskUrl(item.parentCollection().remoteId(), item.remoteId());
+
+      Services::Tasks service;
+      data = service.objectToJSON(static_cast< KGoogle::Object* >(&ktodo));
+
+      Request *request = new Request(url, Request::Update, "Tasks", account);
+      request->setRequestData(data, "application/json");
+      request->setProperty("Item", QVariant::fromValue(item));
+
+      m_gam->sendRequest(request);
+
+    }
+
+  } else {
+    cancelTask(i18n("Unknown payload type '%1'").arg(item.mimeType()));
+    return;
+  }
 
   Q_UNUSED (partIdentifiers);
 }
@@ -437,8 +460,40 @@ void CalendarResource::replyReceived(KGoogle::Reply* reply)
     case Request::Remove:
       itemRemoved(reply);
       break;
+
+    case Request::Move:
+      doUpdateTask(reply);
+      break;
   }
 }
+
+void CalendarResource::doUpdateTask(Reply* reply)
+{
+  Item item = reply->request()->property("Item").value< Item >();
+  TodoPtr todo = item.payload< TodoPtr >();
+  Objects::Task ktodo(*todo);
+
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
+  }
+  catch (Exception::BaseException &e) {
+    emit status(Broken, e.what());
+    return;
+  }
+
+  QUrl url = Services::Tasks::updateTaskUrl(item.parentCollection().remoteId(), item.remoteId());
+
+  Services::Tasks service;
+  QByteArray data = service.objectToJSON(static_cast< KGoogle::Object *>(&ktodo));
+
+  Request *request = new Request(url, Request::Update, "Tasks", account);
+  request->setRequestData(data, "application/json");
+  request->setProperty("Item", QVariant::fromValue(item));
+  m_gam->sendRequest(request);
+}
+
 
 void CalendarResource::itemsReceived(KJob *job)
 {

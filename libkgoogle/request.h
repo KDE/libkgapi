@@ -43,6 +43,7 @@ namespace KGoogle {
 	FetchAll,
 	Fetch,
 	Create,
+        Move,
 	Update,
 	Remove
       };
