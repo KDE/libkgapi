@@ -42,6 +42,9 @@ QByteArray Contacts::objectToJSON(KGoogle::Object* object)
 
 QByteArray Contacts::objectToXML(KGoogle::Object* object)
 {
+  if (!object)
+    return QByteArray();
+
   if (dynamic_cast< KGoogle::Objects::Contact* >(object))
     return contactToXML(object);
   else if (dynamic_cast< KGoogle::Objects::ContactsGroup* >(object))
@@ -173,9 +176,13 @@ const QUrl& Contacts::scopeUrl() const
   return Contacts::ScopeUrl;
 }
 
-QUrl Contacts::fetchAllContactsUrl(const QString& user)
+QUrl Contacts::fetchAllContactsUrl(const QString& user, const bool &showDeleted)
 {
-  return "https://www.google.com/m8/feeds/contacts/" + user + "/full?alt=json";
+  QUrl url = "https://www.google.com/m8/feeds/contacts/" + user + "/full?alt=json";
+  if (showDeleted)
+    url.addQueryItem("showdeleted", "true");
+
+  return url;
 }
 
 QUrl Contacts::fetchContactUrl(const QString& user, const QString& contactID)

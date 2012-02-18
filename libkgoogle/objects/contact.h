@@ -54,6 +54,7 @@ namespace KGoogle {
 	 */
 	Contact();
 	Contact(const Contact &other);
+        Contact(const KABC::Addressee &other);
 
 	~Contact();
 

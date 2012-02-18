@@ -93,8 +93,9 @@ namespace KGoogle {
 	 * Returns URL for KGoogle::Request::FetchAll requests.
          *
          * @param user User. "default" or user@gmail.com
+         * @param showDeleted Whether to fetch deleted contacts placeholders as well
 	 */
-	static QUrl fetchAllContactsUrl(const QString &user);
+	static QUrl fetchAllContactsUrl(const QString &user, const bool &showDeleted);
 
 	/**
 	 * Returns URL for KGoogle::Request::Fetch requests.

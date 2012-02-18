@@ -54,6 +54,11 @@ Contact::Contact(const Contact &other):
   d(other.d)
 { }
 
+Contact::Contact(const KABC::Addressee& other):
+  Addressee(other)
+{ }
+
+
 Contact::~Contact()
 { }
 
@@ -177,7 +182,9 @@ QString Contact::blogFeed() const
 void Contact::addGroup(const QString &group)
 {
   QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
-  groups << group;
+  if (!groups.contains(group))
+    groups << group;
+
   insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
 }
 
