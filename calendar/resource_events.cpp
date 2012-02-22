@@ -31,6 +31,7 @@
 
 #include <akonadi/itemmodifyjob.h>
 #include <akonadi/entitydisplayattribute.h>
+#include <akonadi/collectionmodifyjob.h>
 
 #ifdef WITH_KCAL
 #include <kcal/event.h>
@@ -160,18 +161,10 @@ void CalendarResource::eventsReceived(KJob *job)
 
   itemsRetrievedIncremental(changed, removed);
 
-  QStringList calendars = Settings::self()->calendarSync();
-  foreach (const QString &calendar, calendars) {
-
-    if (calendar.startsWith(collection.remoteId() + ',')) {
-      calendars.removeAll(calendar);
-      calendars.append(collection.remoteId() + ',' + KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-      break;
-    }
-  }
-
-  Settings::self()->setCalendarSync(calendars);
-  Settings::self()->writeConfig();
+  collection.setRemoteRevision(QString::number(KDateTime::currentUtcDateTime().toTime_t()));
+  CollectionModifyJob *modifyJob = new CollectionModifyJob(collection, this);
+  modifyJob->setAutoDelete(true);
+  modifyJob->start();
 }
 
 void CalendarResource::eventCreated(KGoogle::Reply *reply)

@@ -46,6 +46,7 @@
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
 #include <akonadi/cachepolicy.h>
+#include <akonadi/collectionmodifyjob.h>
 
 #include <kabc/addressee.h>
 #include <kabc/picture.h>
@@ -238,14 +239,13 @@ void ContactsResource::initialItemsFetchJobFinished(KJob *job)
 
   QUrl url = KGoogle::Services::Contacts::fetchAllContactsUrl(Settings::self()->account(), true);
 
-  if (collection.remoteId() == m_collections[MyContacts].remoteId()) {
-    if (!Settings::self()->lastSyncMC().isEmpty()) {
-      url.addQueryItem("updated-min", Settings::self()->lastSyncMC());
-    }
-  } else {
-    if (!Settings::self()->lastSyncOthers().isEmpty()) {
-      url.addQueryItem("updated-min", Settings::self()->lastSyncOthers());
-    }
+  QString lastSync = collection.remoteRevision();
+  if (!lastSync.isEmpty()) {
+    KDateTime dt;
+    dt.setTime_t(lastSync.toInt());
+    lastSync = AccessManager::dateToRFC3339String(dt);
+
+    url.addQueryItem("updated-min", lastSync);
   }
 
   FetchListJob *fetchJob = new FetchListJob(url, "Contacts", Settings::self()->account());
@@ -375,7 +375,7 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
            collectionDestination.remoteId() == m_collections[MyContacts].remoteId())
     contact.addGroup(collectionDestination.remoteId());
   else {
-    cancelTask(i18n("Invalid source or destination collection");
+    cancelTask(i18n("Invalid source or destination collection"));
     return;
   }
 
@@ -495,12 +495,12 @@ void ContactsResource::contactListReceived(KJob *job)
     }
   }
 
-  if (collection.remoteId() == m_collections[MyContacts].remoteId())
-    Settings::self()->setLastSyncMC(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-  else
-    Settings::self()->setLastSyncOthers(KDateTime::currentUtcDateTime().toString("%Y-%m-%dT%H:%M:%SZ"));
-
   itemsRetrievedIncremental(changed, removed);
+
+  collection.setRemoteRevision(QString::number(KDateTime::currentUtcDateTime().toTime_t()));
+  CollectionModifyJob *modifyJob = new CollectionModifyJob(collection, this);
+  modifyJob->setAutoDelete(true);
+  modifyJob->start();
 }
 
 void ContactsResource::contactReceived(KGoogle::Reply* reply)
@@ -606,7 +606,10 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
   /* We care only about retrieving a contact's photo. */
   if (reply->operation() == QNetworkAccessManager::GetOperation) {
     QImage image;
-    image.loadFromData(reply->readAll(), "JPG");
+
+    if (!image.loadFromData(reply->readAll(), "JPG"))
+      return;
+
 
     Item item = reply->request().attribute(QNetworkRequest::User, QVariant()).value< Item >();
 

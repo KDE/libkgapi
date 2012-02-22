@@ -8,10 +8,6 @@
   <group name="General">
     <entry name="Account" type="String">
     </entry>
-    <entry name="LastSyncMC" type="String">
-    </entry>
-    <entry name="LastSyncOthers" type="String">
-    </entry>
     <entry name="RefreshAddressbook" type="Bool">
       <default>true</default>
     </entry>

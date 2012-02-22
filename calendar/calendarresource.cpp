@@ -159,7 +159,7 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
 {
   QUrl url;
   QString service;
-  QStringList syncs;
+  QString lastSync;
 
   Collection collection = job->property("collection").value<Collection>();
 
@@ -171,13 +171,11 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
 
     service = "Calendar";
     url = Services::Calendar::fetchAllUrl(collection.remoteId(), "private");
-    syncs = Settings::self()->calendarSync();
 
   } else if (collection.contentMimeTypes().contains(Todo::todoMimeType())) {
 
     service = "Tasks";
     url = Services::Tasks::fetchAllTasksUrl(collection.remoteId());
-    syncs = Settings::self()->tasksSync();
 
   } else {
 
@@ -186,19 +184,14 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
 
   }
 
-  QString lastSync;
-  if (!syncs.isEmpty()) {
-    foreach (QString sync, syncs) {
-      if (sync.startsWith(collection.remoteId() + ',')) {
-        lastSync = sync.mid(sync.indexOf(',') + 1);
-        break;
-      }
-    }
-  }
+  lastSync = collection.remoteRevision();
+  if (!lastSync.isEmpty()) {
+    KDateTime dt;
+    dt.setTime_t(lastSync.toInt());
+    lastSync = AccessManager::dateToRFC3339String(dt);
 
-  if (!lastSync.isEmpty())
     url.addQueryItem("updated-min", lastSync);
-
+  }
 
   FetchListJob *fetchJob = new FetchListJob(url, service, Settings::self()->account());
   fetchJob->setProperty("collection", qVariantFromValue(collection));

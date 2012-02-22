@@ -6,12 +6,6 @@
 			  http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile/>
   <group name="General">
-    <entry name="CalendarSync" type="StringList">
-      <label>List of last-sync times of calendars in format calendarID,date</label>
-    </entry>
-    <entry name="TasksSync" type="StringList">
-      <label>List of last-sync times of tasklists in format taskListID,date</label>
-    </entry>
     <entry name="Account" type="String">
     </entry>
     <entry name="Calendars" type="StringList">
