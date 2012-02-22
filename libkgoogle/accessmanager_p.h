@@ -53,6 +53,8 @@ namespace KGoogle {
       void nam_replyReceived(QNetworkReply *reply);
       void nam_sendRequest(KGoogle::Request *request);
 
+      void authenticated();
+
       void submitCache();
 
     private:

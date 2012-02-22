@@ -47,7 +47,7 @@ AccessManagerPrivate::AccessManagerPrivate(AccessManager* const parent):
   connect(nam, SIGNAL(finished(QNetworkReply*)),
           this, SLOT(nam_replyReceived(QNetworkReply*)));
   connect(Auth::instance(), SIGNAL(authenticated(KGoogle::Account*)),
-          this, SLOT(submitCache()));
+          this, SLOT(authenticated()));
 }
 
 AccessManagerPrivate::~AccessManagerPrivate()
@@ -64,6 +64,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
   Q_Q(AccessManager);
 
   QUrl new_request;
+
   QByteArray rawData = reply->readAll();
 
 #ifdef DEBUG_RAWDATA
@@ -84,7 +85,17 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     return;
   }
 
-  switch (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()) {
+  int replyCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  if (replyCode == 0) {
+
+      /* Workaround for a bug (??), when QNetworkReply does not report HTTP/1.1 401 Unauthorized
+       * as an error. */
+      QString status = reply->rawHeaderList().first();
+      if (status.startsWith("HTTP/1.1 401"))
+        replyCode = KGoogle::Unauthorized;
+  }
+
+  switch (replyCode) {
     case KGoogle::OK:           /** << OK status (fetched, updated, removed) */
     case KGoogle::Created:      /** << OK status (created) */
     case KGoogle::NoContent:    /** << OK status (removed task using Tasks API) */
@@ -103,9 +114,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     case KGoogle::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
       /* Lock the service, add request to cache and request new tokens. */
+      cache << request;
       if (cacheSemaphore->available() == 1) {
         cacheSemaphore->acquire();
-        cache << request;
 
         int type = QMetaType::type(qPrintable(request->serviceName()));
         KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
@@ -115,6 +126,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
           request->account()->addScope(scope);
 
         KGoogle::Auth *auth = KGoogle::Auth::instance();
+        connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
+                this, SLOT(submitCache()));
         auth->authenticate(request->account(), true);
       }
       /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
@@ -273,6 +286,13 @@ void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
       nam->deleteResource(nr);
       break;
   }
+}
+
+void AccessManagerPrivate::authenticated()
+{
+  cacheSemaphore->release();;
+
+  submitCache();
 }
 
 
