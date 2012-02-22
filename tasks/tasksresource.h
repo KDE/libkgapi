@@ -63,7 +63,7 @@ class TasksResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::O
     void replyReceived(KGoogleReply *reply);
 
     void initialItemFetchJobFinished(KJob *job);
-    void taskListReceived(KGoogleReply *reply);
+    void taskListReceived(KJob *job);
     void taskReceived(KGoogleReply *reply);
     void taskCreated(KGoogleReply *reply);
     void taskUpdated(KGoogleReply *reply);

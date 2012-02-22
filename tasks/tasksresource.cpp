@@ -27,6 +27,7 @@
 #include "libkgoogle/objects/task.h"
 #include "libkgoogle/objects/tasklist.h"
 #include "libkgoogle/services/tasks.h"
+#include <fetchlistjob.h>
 
 #include <qstringlist.h>
 
@@ -155,21 +156,16 @@ bool TasksResource::retrieveItem(const Akonadi::Item& item, const QSet< QByteArr
 
 void TasksResource::initialItemFetchJobFinished(KJob* job)
 {
-  ItemFetchJob *fetchJob = dynamic_cast<ItemFetchJob*>(job);
-
-  if (fetchJob->error()) {
+  if (job->error()) {
     cancelTask(i18n("Failed to fetch initial data."));
     return;
   }
 
   QString url = Service::Tasks::fetchAllTasksUrl().arg(Settings::self()->taskListId());
-
-  KGoogleRequest *request = new KGoogleRequest(QUrl(url),
-					       KGoogleRequest::FetchAll,
-					       "Tasks");
-  m_gam->sendRequest(request);
-
-  emit status(Running, i18n("Retrieving list of tasks"));
+  FetchListJob *fetchJob = new FetchListJob(url, "Tasks", m_auth);
+  connect(fetchJob, SIGNAL(finished(KJob*)),
+          this, SLOT(taskListReceived(KJob*)));
+  fetchJob->start();
 }
 
 void TasksResource::retrieveCollections()
@@ -286,10 +282,6 @@ void TasksResource::itemRemoved(const Akonadi::Item& item)
 void TasksResource::replyReceived(KGoogleReply* reply)
 {
   switch (reply->requestType()) {
-    case KGoogleRequest::FetchAll:
-      taskListReceived(reply);
-      break;
-
     case KGoogleRequest::Fetch:
       taskReceived(reply);
       break;
@@ -305,12 +297,17 @@ void TasksResource::replyReceived(KGoogleReply* reply)
     case KGoogleRequest::Remove:
       taskRemoved(reply);
       break;
+
+    default:
+      break;
   }
 }
 
-void TasksResource::taskListReceived(KGoogleReply* reply)
+void TasksResource::taskListReceived(KJob* job)
 {
-  if (reply->error() != KGoogle::KGoogleReply::OK) {
+  FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
+
+  if (fetchJob->error()) {
     cancelTask(i18n("Failed to retrieve tasks"));
     return;
   }
@@ -319,7 +316,7 @@ void TasksResource::taskListReceived(KGoogleReply* reply)
   Item::List removed;
   Item::List changed;
 
-  QList<KGoogleObject *> allData = reply->replyData();
+  QList<KGoogleObject *> allData = fetchJob->items();
   foreach (KGoogleObject* replyData, allData) {
     Item item;
     Object::Task *task = static_cast<Object::Task*>(replyData);
