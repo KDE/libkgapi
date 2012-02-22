@@ -185,10 +185,29 @@ namespace KGoogle {
 	 */
 	void addGroup(const QString &group);
 
+        /**
+         * Remove contact from a group.
+         *
+         * Use this method to remove contact from groups, instead
+         * of setGroups(QStringList()). To clear group membership
+         * use clearGroups()
+         */
+        void removeGroup(const QString &group);
+
+        /**
+         * Removes contact from all groups it's member of.
+         */
+        void clearGroups();
+
 	/**
 	 * Returns list of groups the contact is member of.
 	 */
 	QStringList groups() const;
+
+        /**
+         * Returns whether contact has been removed from the @p group or not.
+         */
+        bool groupIsDeleted(const QString &group) const;
 
 	/**
 	 * Converts IMProtocol to Google Scheme URL.

@@ -52,11 +52,20 @@ Contact::Contact(const Contact &other):
   KGoogle::Object(other),
   KABC::Addressee(other),
   d(other.d)
-{ }
+{
+  QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+  foreach (QString group, groups)
+    d->groups.insert(group, false);
+}
 
 Contact::Contact(const KABC::Addressee& other):
-  Addressee(other)
-{ }
+  Addressee(other),
+  d(new ContactData)
+{
+  QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+  foreach (QString group, groups)
+    d->groups.insert(group, false);
+}
 
 
 Contact::~Contact()
@@ -181,9 +190,14 @@ QString Contact::blogFeed() const
 
 void Contact::addGroup(const QString &group)
 {
+  if (d->groups.contains(group))
+    return;
+
+  d->groups.insert(group, false);
+
   QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
   if (!groups.contains(group))
-    groups << group;
+    groups.append(group);
 
   insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
 }
@@ -191,11 +205,36 @@ void Contact::addGroup(const QString &group)
 void Contact::setGroups(const QStringList &groups)
 {
   insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
+
+  d->groups.clear();
+  foreach (QString group, groups)
+    d->groups.insert(group, false);
 }
 
 QStringList Contact::groups() const
 {
   return custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+}
+
+void Contact::clearGroups()
+{
+  QStringList groups = d->groups.keys();
+  foreach (QString group, groups)
+    d->groups.insert(group, true);
+}
+
+void Contact::removeGroup(const QString& group)
+{
+  if (d->groups.contains(group))
+    d->groups.insert(group, true);
+}
+
+bool Contact::groupIsDeleted(const QString& group) const
+{
+  if (d->groups.contains(group))
+    return d->groups.value(group);
+
+  return false;
 }
 
 

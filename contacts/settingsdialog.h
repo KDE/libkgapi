@@ -28,18 +28,6 @@ namespace Ui {
   class SettingsDialog;
 }
 
-namespace KGoogle {
-
-  namespace Objects {
-
-    class ContactsGroup;
-
-  }
-
-  class Reply;
-
-}
-
 class QTreeWidgetItem;
 
 class SettingsDialog : public KDialog
@@ -52,25 +40,7 @@ class SettingsDialog : public KDialog
   private Q_SLOTS:
     void addAccountClicked();
     void removeAccountClicked();
-    void accountChanged();
-
-    void addGroupClicked();
-    void editGroupClicked();
-    void removeGroupClicked();
-    void reloadGroupsClicked();
-
     void reloadAccounts();
-
-    void gam_groupCreated(KGoogle::Reply *reply);
-    void gam_groupModified(KGoogle::Reply *reply);
-    void gam_groupRemoved(KGoogle::Reply *reply);
-    void gam_groupsListReceived(KGoogle::Reply *reply);
-
-    void addGroup(KGoogle::Objects::ContactsGroup *group);
-    void editGroup(KGoogle::Objects::ContactsGroup *group);
-
-    void groupSelected(QTreeWidgetItem *item);
-    void groupChecked(QTreeWidgetItem *item);
 
     void error(KGoogle::Error errCode, const QString &msg);
     void saveSettings();

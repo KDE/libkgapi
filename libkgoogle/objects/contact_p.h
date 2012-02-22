@@ -43,7 +43,8 @@ namespace KGoogle {
 	bool deleted;
 	QUrl photoUrl;
 
-	QStringList groups;
+        /* group URI, isDeleted */
+	QMap< QString, bool > groups;
 
 	KDateTime updated;
 	KDateTime created;

@@ -51,7 +51,7 @@ using namespace KGoogle;
  * access to multiple addressbook accross multiple accounts.
  */
 class ContactsResource: public Akonadi::ResourceBase,
-			public Akonadi::AgentBase::Observer
+			public Akonadi::AgentBase::ObserverV2
 {
   Q_OBJECT
 
@@ -103,8 +103,8 @@ class ContactsResource: public Akonadi::ResourceBase,
     void itemRemoved(const Akonadi::Item& item);
     void itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection);
     void itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers);
-
-    void emitPercent(KJob *job, ulong progress) { emit percent(progress); Q_UNUSED (job) }
+    void itemMoved(const Akonadi::Item& item, const Akonadi::Collection& collectionSource,
+                   const Akonadi::Collection& collectionDestination);
 
   protected:
     void aboutToQuit();
@@ -114,7 +114,6 @@ class ContactsResource: public Akonadi::ResourceBase,
 
     void slotAbortRequested();
 
-    void virtualItemsFetchJobFinished(KJob *job);
     void initialItemsFetchJobFinished(KJob *job);
     void contactListReceived(KJob *job);
 
@@ -122,12 +121,12 @@ class ContactsResource: public Akonadi::ResourceBase,
 
     void replyReceived(KGoogle::Reply *reply);
 
-    void groupsListReceived(KGoogle::Reply *reply);
     void contactReceived(KGoogle::Reply *reply);
     void contactUpdated(KGoogle::Reply *reply);
     void contactCreated(KGoogle::Reply *reply);
     void contactRemoved(KGoogle::Reply *reply);
 
+    void emitPercent(KJob *job, ulong progress);
   private:
     void abort();
 
@@ -137,7 +136,7 @@ class ContactsResource: public Akonadi::ResourceBase,
     KGoogle::AccessManager *m_gam;
     QNetworkAccessManager *m_photoNam;
 
-    Akonadi::Collection m_rootCollection;
+    QMap< QString, Akonadi::Collection > m_collections;
 };
 
 #endif // CONTACTSRESOURCE_H

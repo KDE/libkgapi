@@ -22,9 +22,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(contactsresource_SRCS
     contactsresource.cpp
-    fetchvirtualcontactsjob.cpp
-    groupattribute.cpp
-    groupeditor.cpp
     settings.cpp
     settingsdialog.cpp
 )

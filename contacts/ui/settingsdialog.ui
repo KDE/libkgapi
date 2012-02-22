@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>470</width>
-    <height>268</height>
+    <height>68</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,80 +50,6 @@
          <iconset theme="list-remove-user">
           <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
         </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupsBox">
-     <property name="title">
-      <string>Groups</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="1">
-       <widget class="QPushButton" name="addGroupBtn">
-        <property name="text">
-         <string>Add</string>
-        </property>
-        <property name="icon">
-         <iconset theme="list-add">
-          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QPushButton" name="reloadGroupsBtn">
-        <property name="text">
-         <string>Reload</string>
-        </property>
-        <property name="icon">
-         <iconset theme="view-refresh">
-          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="editGroupBtn">
-        <property name="text">
-         <string>Edit</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="removeGroupBtn">
-        <property name="text">
-         <string>Remove</string>
-        </property>
-        <property name="icon">
-         <iconset theme="list-remove">
-          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="6">
-       <widget class="QTreeWidget" name="groupsTree">
-        <property name="headerHidden">
-         <bool>true</bool>
-        </property>
-        <column>
-         <property name="text">
-          <string>Groups</string>
-         </property>
-        </column>
        </widget>
       </item>
      </layout>

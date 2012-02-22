@@ -8,15 +8,15 @@
   <group name="General">
     <entry name="Account" type="String">
     </entry>
-    <entry name="LastSync" type="String">
+    <entry name="LastSyncMC" type="String">
+    </entry>
+    <entry name="LastSyncOthers" type="String">
     </entry>
     <entry name="RefreshAddressbook" type="Bool">
       <default>true</default>
     </entry>
     <entry name="RefreshInterval" type="Int">
       <default>30</default>
-    </entry>
-    <entry name="Groups" type="StringList">
     </entry>
   </group>
 </kcfg>
