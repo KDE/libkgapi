@@ -90,9 +90,11 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
       /* Workaround for a bug (??), when QNetworkReply does not report HTTP/1.1 401 Unauthorized
        * as an error. */
-      QString status = reply->rawHeaderList().first();
-      if (status.startsWith("HTTP/1.1 401"))
-        replyCode = KGoogle::Unauthorized;
+      if (!reply->rawHeaderList().isEmpty()) {
+        QString status = reply->rawHeaderList().first();
+        if (status.startsWith("HTTP/1.1 401"))
+          replyCode = KGoogle::Unauthorized;
+      }
   }
 
   switch (replyCode) {
