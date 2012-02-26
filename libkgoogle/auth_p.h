@@ -51,6 +51,8 @@ namespace KGoogle {
 
       static KGoogle::Auth *instance;
 
+      bool initKWallet();
+
     public Q_SLOTS:
       void fullAuthentication(KGoogle::Account *account, bool autoSave);
       void fullAuthenticationFinished(KGoogle::Account *account);

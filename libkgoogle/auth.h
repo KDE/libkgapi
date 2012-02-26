@@ -91,7 +91,7 @@ namespace KGoogle {
        * @return Returns KGoogle::Account or NULL when no such account is found in the
        *         KWallet or access to KWallet failed.
        */
-      KGoogle::Account* getAccount(const QString &account) const;
+      KGoogle::Account* getAccount(const QString &account);
 
       /**
        * Retrieves list of all accounts from KWallet.
@@ -103,7 +103,7 @@ namespace KGoogle {
        *
        * @return Returns list of all Google accounts from KWallet.
        */
-      QList< KGoogle::Account* > getAccounts() const;
+      QList< KGoogle::Account* > getAccounts();
 
       /**
        * Stores \p account in KWallet.

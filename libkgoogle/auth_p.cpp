@@ -50,6 +50,21 @@ AuthPrivate::~AuthPrivate()
   }
 }
 
+bool AuthPrivate::initKWallet()
+{
+  if (kwallet && kwallet->isOpen())
+    return true;
+
+  kwallet = Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Synchronous);
+  if (!kwallet || !kwallet->isOpen()) {
+    throw Exception::BackendNotReady();
+    return false;
+  }
+
+  return true;
+}
+
+
 void AuthPrivate::fullAuthentication (KGoogle::Account *account, bool autoSave)
 {
   Q_Q(Auth);

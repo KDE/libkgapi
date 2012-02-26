@@ -55,7 +55,7 @@ Auth::Auth():
   Q_D(Auth);
 
   d->kwalletFolder = "libkgoogle";
-  d->kwallet = Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Synchronous);
+  d->kwallet = 0;
 }
 
 
@@ -71,22 +71,22 @@ void Auth::setKWalletFolder(const QString& folder)
   d->kwalletFolder = folder;
 }
 
-KGoogle::Account *Auth::getAccount (const QString &account) const
+KGoogle::Account *Auth::getAccount (const QString &account)
 {
-  if (!d_func()->kwallet || !d_func()->kwallet->isOpen()) {
-    throw Exception::BackendNotReady();
-    return 0;
-  }
+  Q_D(Auth);
 
-  if (!d_func()->kwallet->hasFolder(d_func()->kwalletFolder)) {
+  if (!d->initKWallet())
+    return 0;
+
+  if (!d->kwallet->hasFolder(d->kwalletFolder)) {
     throw Exception::UnknownAccount(account);
     return 0;
   }
 
-  d_func()->kwallet->setFolder(d_func()->kwalletFolder);
+  d->kwallet->setFolder(d->kwalletFolder);
 
   QMap< QString, QString > map;
-  if (d_func()->kwallet->readMap(account, map) != 0) {
+  if (d->kwallet->readMap(account, map) != 0) {
     throw Exception::UnknownAccount(account);
     return 0;
   }
@@ -100,23 +100,23 @@ KGoogle::Account *Auth::getAccount (const QString &account) const
   return acc;
 }
 
-QList< KGoogle::Account * > Auth::getAccounts() const
+QList< KGoogle::Account * > Auth::getAccounts()
 {
-  if (!d_func()->kwallet || !d_func()->kwallet->isOpen()) {
-    throw Exception::BackendNotReady();
+  Q_D(Auth);
+
+  if (!d->initKWallet())
+    return QList< Account* >();
+
+  if (!d->kwallet->hasFolder(d->kwalletFolder))
     return QList< Account *>();
-  }
-
-  if (!d_func()->kwallet->hasFolder(d_func()->kwalletFolder))
-    return QList< Account *>();
 
 
-  d_func()->kwallet->setFolder(d_func()->kwalletFolder);
-  QStringList list = d_func()->kwallet->entryList();
+  d->kwallet->setFolder(d->kwalletFolder);
+  QStringList list = d->kwallet->entryList();
   QList< Account * > accounts;
   foreach (QString accName, list) {
     QMap< QString, QString > map;
-    d_func()->kwallet->readMap(accName, map);
+    d->kwallet->readMap(accName, map);
 
     QStringList scopes = map["scopes"].split(',');
     QList< QUrl > scopeUrls;
@@ -132,10 +132,8 @@ void Auth::storeAccount (const KGoogle::Account *account)
 {
   Q_D(Auth);
 
-  if (!d->kwallet || !d->kwallet->isOpen()) {
-    throw Exception::BackendNotReady();
-    return;
-  }
+  if (!d->initKWallet())
+     return;
 
   if (!account || account->accountName().isEmpty() ||
        account->accessToken().isEmpty() || account->refreshToken().isEmpty()) {
@@ -166,6 +164,9 @@ void Auth::authenticate (KGoogle::Account *account, bool autoSave)
 {
   Q_D(Auth);
 
+  if (!d->initKWallet())
+    return;
+
   if (!account) {
     throw Exception::InvalidAccount();
     return;
@@ -195,10 +196,8 @@ bool Auth::revoke (Account *account)
     return false;
   }
 
-  if (!d->kwallet || !d->kwallet->isOpen()) {
-    throw Exception::BackendNotReady();
+  if (!d->initKWallet())
     return false;
-  }
 
   if (!d->kwallet->hasFolder(d->kwalletFolder))
     return false;
