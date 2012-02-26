@@ -6,8 +6,6 @@ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/libkgoogle/cmake/modules/")
 
-find_package(LibKGoogle 0.2.90 REQUIRED)
-
 add_definitions(-DRESOURCE_VERSION="\\"${CALENDAR_RESOURCE_VERSION}\\"")
 if (XSLTPROC_EXECUTABLE)
   macro(kcfg_generate_dbus_interface _kcfg _name)
