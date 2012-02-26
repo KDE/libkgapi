@@ -49,6 +49,9 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget *parent):
   m_ui->setupUi(m_mainWidget);
   setMainWidget(m_mainWidget);
 
+  m_ui->addAccountBtn->setIcon(QIcon::fromTheme("list-add-user"));
+  m_ui->removeAccountBtn->setIcon(QIcon::fromTheme("list-remove-user"));
+
   connect(this, SIGNAL(accepted()),
 	  this, SLOT(saveSettings()));
 

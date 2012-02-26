@@ -60,6 +60,15 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
   m_ui = new ::Ui::SettingsDialog();
   m_ui->setupUi(this->mainWidget());
 
+  m_ui->addAccountBtn->setIcon(QIcon::fromTheme("list-add-user"));
+  m_ui->removeAccountBtn->setIcon(QIcon::fromTheme("list-remove-user"));
+  m_ui->reloadCalendarsBtn->setIcon(QIcon::fromTheme("view-refresh"));
+  m_ui->addCalBtn->setIcon(QIcon::fromTheme("list-add"));
+  m_ui->removeCalBtn->setIcon(QIcon::fromTheme("list-remove"));
+  m_ui->reloadTasksBtn->setIcon(QIcon::fromTheme("view-refresh"));
+  m_ui->addTasksBtn->setIcon(QIcon::fromTheme("list-add"));
+  m_ui->removeTasksBtn->setIcon(QIcon::fromTheme("list-remove"));
+
   connect(m_ui->addAccountBtn, SIGNAL(clicked()),
           this, SLOT(addAccountClicked()));
   connect(m_ui->removeAccountBtn, SIGNAL(clicked()),

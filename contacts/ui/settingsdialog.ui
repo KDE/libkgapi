@@ -35,20 +35,12 @@
         <property name="text">
          <string>Add</string>
         </property>
-        <property name="icon">
-         <iconset theme="list-add-user">
-          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
-        </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="removeAccountBtn">
         <property name="text">
          <string>Remove</string>
-        </property>
-        <property name="icon">
-         <iconset theme="list-remove-user">
-          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
         </property>
        </widget>
       </item>
