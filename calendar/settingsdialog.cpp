@@ -81,8 +81,6 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
           this, SLOT(editCalendarClicked()));
   connect(m_ui->calendarsList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
           this, SLOT(editCalendarClicked()));
-  connect(m_ui->calendarsList, SIGNAL(itemChanged(QListWidgetItem*)),
-          this, SLOT(calendarChecked(QListWidgetItem*)));
   connect(m_ui->removeCalBtn, SIGNAL(clicked()),
           this, SLOT(removeCalendarClicked()));
   connect(m_ui->reloadCalendarsBtn, SIGNAL(clicked()),
@@ -93,12 +91,13 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
           this, SLOT(editTaskListClicked()));
   connect(m_ui->tasksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
           this, SLOT(editCalendarClicked()));
-  connect(m_ui->tasksList, SIGNAL(itemChanged(QListWidgetItem*)),
-          this, SLOT(taskListChecked(QListWidgetItem*)));
   connect(m_ui->removeTasksBtn, SIGNAL(clicked()),
           this, SLOT(removeTaskListClicked()));
   connect(m_ui->reloadTasksBtn, SIGNAL(clicked()),
           this, SLOT(reloadTaskListsClicked()));
+
+  connect(this, SIGNAL(accepted()),
+          this, SLOT(saveSettings()));
 
   KGoogle::Auth *auth = KGoogle::Auth::instance();
   connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
@@ -112,6 +111,31 @@ SettingsDialog::~SettingsDialog()
   Settings::self()->writeConfig();
 
   delete m_ui;
+}
+
+void SettingsDialog::saveSettings()
+{
+  Settings::self()->setAccount(m_ui->accountsCombo->currentText());
+
+  QStringList calendars;
+  for (int i = 0; i < m_ui->calendarsList->count(); i++) {
+    QListWidgetItem *item = m_ui->calendarsList->item(i);
+
+    if (item->checkState() == Qt::Checked)
+      calendars.append(item->data(ObjectUIDRole).toString());
+  }
+  Settings::self()->setCalendars(calendars);
+
+  QStringList taskLists;
+  for (int i = 0; i < m_ui->tasksList->count(); i++) {
+    QListWidgetItem *item = m_ui->tasksList->item(i);
+
+    if (item->checkState() == Qt::Checked)
+      taskLists.append(item->data(ObjectUIDRole).toString());
+  }
+  Settings::self()->setTaskLists(taskLists);
+
+  Settings::self()->writeConfig();
 }
 
 void SettingsDialog::reloadAccounts()
@@ -190,11 +214,6 @@ void SettingsDialog::accountChanged()
 
   KGoogle::AccessManager *gam;
   KGoogle::Request *request;
-
-  Settings::self()->setAccount(m_ui->accountsCombo->currentText());
-  Settings::self()->setCalendars(QStringList());
-  Settings::self()->setTaskLists(QStringList());
-  Settings::self()->writeConfig();
 
   m_ui->calendarsList->clear();
   gam = new KGoogle::AccessManager;
@@ -369,25 +388,6 @@ void SettingsDialog::reloadCalendarsClicked()
   gam->sendRequest(request);
 }
 
-void SettingsDialog::calendarChecked(QListWidgetItem *item)
-{
-  QStringList calendars;
-  QString uid;
-
-  calendars = Settings::self()->calendars();
-  uid = item->data(ObjectUIDRole).toString();
-
-  if ((item->checkState() == Qt::Checked) && !calendars.contains(uid)) {
-    calendars.append(uid);
-  } else if ((item->checkState() == Qt::Unchecked) && calendars.contains(uid)) {
-    calendars.removeAll(uid);
-  }
-
-  Settings::self()->setCalendars(calendars);
-  Settings::self()->writeConfig();
-}
-
-
 void SettingsDialog::addTaskList(TaskList *taskList)
 {
   KGoogle::Account *account;
@@ -514,24 +514,6 @@ void SettingsDialog::reloadTaskListsClicked()
           gam, SLOT(deleteLater()));
   request = new KGoogle::Request(Services::Tasks::fetchTaskListsUrl(), Request::FetchAll, "Tasks", account);
   gam->sendRequest(request);
-}
-
-void SettingsDialog::taskListChecked(QListWidgetItem *item)
-{
-  QStringList taskLists;
-  QString uid;
-
-  taskLists = Settings::self()->taskLists();
-  uid = item->data(ObjectUIDRole).toString();
-
-  if ((item->checkState() == Qt::Checked) && !taskLists.contains(uid)) {
-    taskLists.append(uid);
-  } else if ((item->checkState() == Qt::Unchecked) && taskLists.contains(uid)) {
-    taskLists.removeAll(uid);
-  }
-
-  Settings::self()->setTaskLists(taskLists);
-  Settings::self()->writeConfig();
 }
 
 void SettingsDialog::gam_objectCreated(Reply *reply)

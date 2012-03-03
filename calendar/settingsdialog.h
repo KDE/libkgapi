@@ -57,12 +57,10 @@ class SettingsDialog : public KDialog
     void accountChanged();
     void addCalendarClicked();
     void editCalendarClicked();
-    void calendarChecked(QListWidgetItem *item);
     void removeCalendarClicked();
     void reloadCalendarsClicked();
     void addTaskListClicked();
     void editTaskListClicked();
-    void taskListChecked(QListWidgetItem *item);
     void removeTaskListClicked();
     void reloadTaskListsClicked();
 
@@ -76,6 +74,7 @@ class SettingsDialog : public KDialog
     void addTaskList(KGoogle::Objects::TaskList *taskList);
     void editTaskList(KGoogle::Objects::TaskList *taskList);
 
+    void saveSettings();
   private:
     Ui::SettingsDialog *m_ui;
     WId m_windowId;
