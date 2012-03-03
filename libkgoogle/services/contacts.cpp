@@ -668,7 +668,7 @@ QByteArray Contacts::contactToXML(const KGoogle::Object* object)
   }
 
   /* Birthday */
-  if (!contact->birthday().isNull()) {
+  if (!contact->birthday().isNull() && contact->birthday().isValid()) {
     QString birthday = contact->birthday().toString("yyyy-MM-dd");
     output.append("<gContact:birthday when='").append(birthday.toUtf8()).append("'/>");
   }
