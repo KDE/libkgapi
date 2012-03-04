@@ -399,10 +399,10 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
         dtStart = AccessManager::RFC3339StringToDate(startData["dateTime"].toString());
     }
     if (startData.contains("timeZone")) {
-        KTimeZone tz(startData["timeZone"].toString());
+        KTimeZone tz = KSystemTimeZones::zone(startData["timeZone"].toString());
         dtStart.setTimeSpec(KDateTime::Spec(tz));
     }
-    object->setDtStart(dtStart);
+    object->setDtStart(dtStart.toLocalZone());
 
     /* End date */
     QVariantMap endData = event["end"].toMap();
@@ -417,7 +417,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
         dtEnd = AccessManager::RFC3339StringToDate(endData["dateTime"].toString());
     }
     if (endData.contains("timeZone")) {
-        KTimeZone tz(endData["timeZone"].toString());
+        KTimeZone tz = KSystemTimeZones::zone(endData["timeZone"].toString());
         dtEnd.setTimeSpec(KDateTime::Spec(tz));
     }
     object->setDtEnd(dtEnd);
