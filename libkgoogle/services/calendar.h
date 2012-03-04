@@ -39,6 +39,8 @@ namespace KGoogle {
 
   namespace Services {
 
+    class CalendarPrivate;
+
     /**
     * Represents Google Calendar service.
     */
@@ -186,28 +188,11 @@ namespace KGoogle {
         */
         static bool supportsJSONWrite(QString* urlParam);
 
+      protected:
+        CalendarPrivate *d_ptr;
+
       private:
-        DateList parseRDate(const QString &rule) const;
-
-        KGoogle::Object* JSONToCalendar(const QVariantMap& calendar);
-        QVariantMap calendarToJSON(KGoogle::Object* calendar);
-        QList<KGoogle::Object*> parseCalendarJSONFeed(const QVariantList& feed);
-
-        #if 0
-        KGoogleObject* XMLToCalendar(const QDomElement& calendar);
-        QDomElement calendarToXML(const KGoogleObject *calendar);
-        QList<KGoogleObject*> parseCalendarXMLFeed(const QDomElement& feed);
-        #endif
-
-        KGoogle::Object* JSONToEvent(const QVariantMap& event);
-        QVariantMap eventToJSON(KGoogle::Object *event);
-        QList<KGoogle::Object*> parseEventJSONFeed(const QVariantList& feed);
-
-        #if 0
-        KGoogleObject* XMLToEvent(const QDomElement& event);
-        QDomElement eventToXML(const KGoogleObject *event);
-        QList<KGoogleObject*> parseEventXMLFeed(const QDomElement& feed);
-        #endif
+        Q_DECLARE_PRIVATE(Calendar);
     };
 
   } // namespace Services

@@ -46,10 +46,30 @@
 #include <ksystemtimezone.h>
 #include <klocale.h>
 
-#include <qdebug.h>
+
+namespace KGoogle {
+
+  namespace Services {
+
+    class CalendarPrivate {
+
+      public:
+        static DateList parseRDate(const QString &rule);
+
+        static KGoogle::Object* JSONToCalendar(const QVariantMap& calendar);
+        static QVariantMap calendarToJSON(KGoogle::Object* calendar);
+        static QList<KGoogle::Object*> parseCalendarJSONFeed(const QVariantList& feed);
+
+        static KGoogle::Object* JSONToEvent(const QVariantMap& event);
+        static QVariantMap eventToJSON(KGoogle::Object *event);
+        static QList<KGoogle::Object*> parseEventJSONFeed(const QVariantList& feed);
+    };
+
+  }
+
+}
 
 using namespace KGoogle;
-
 
 QUrl Services::Calendar::ScopeUrl("https://www.googleapis.com/auth/calendar");
 
@@ -62,9 +82,9 @@ KGoogle::Object* Services::Calendar::JSONToObject(const QByteArray& jsonData)
   QVariantMap object = parser.parse(jsonData).toMap();
 
   if ((object["kind"] == "calendar#calendarListEntry") || (object["kind"] == "calendar#calendar"))
-    return JSONToCalendar(object);
+    return CalendarPrivate::JSONToCalendar(object);
   else if (object["kind"] == "calendar#event")
-    return JSONToEvent(object);
+    return CalendarPrivate::JSONToEvent(object);
 
   return 0;
 }
@@ -74,9 +94,9 @@ QByteArray Services::Calendar::objectToJSON(KGoogle::Object* object)
   QVariantMap map;
 
   if (dynamic_cast< const Objects::Calendar* >(object)) {
-    map = calendarToJSON(object);
+    map = CalendarPrivate::calendarToJSON(object);
   } else if (dynamic_cast< const Objects::Event* >(object)) {
-    map = eventToJSON(object);
+    map = CalendarPrivate::eventToJSON(object);
   }
 
   QJson::Serializer serializer;
@@ -92,7 +112,7 @@ QList< KGoogle::Object* > Services::Calendar::parseJSONFeed(const QByteArray& js
   QList< KGoogle::Object* > list;
 
   if (data["kind"] == "calendar#calendarList") {
-    list = parseCalendarJSONFeed(data["items"].toList());
+    list = CalendarPrivate::parseCalendarJSONFeed(data["items"].toList());
 
     if (feedData && data.contains("nextPageToken")) {
       feedData->nextLink = fetchCalendarsUrl();
@@ -100,7 +120,7 @@ QList< KGoogle::Object* > Services::Calendar::parseJSONFeed(const QByteArray& js
     }
 
   } else if (data["kind"] == "calendar#events") {
-    list = parseEventJSONFeed(data["items"].toList());
+    list = CalendarPrivate::parseEventJSONFeed(data["items"].toList());
 
     if (feedData && data.contains("nextPageToken") && data.contains("id")) {
       feedData->nextLink = fetchEventsUrl(data["id"].toString());
@@ -243,10 +263,9 @@ bool Services::Calendar::supportsJSONWrite(QString* urlParam)
 }
 
 
+/******************************** PRIVATE ***************************************/
 
-
-/******** PRIVATE METHODS ************/
-KGoogle::Object* Services::Calendar::JSONToCalendar(const QVariantMap& calendar)
+KGoogle::Object* Services::CalendarPrivate::JSONToCalendar(const QVariantMap& calendar)
 {
   Objects::Calendar *object = new Objects::Calendar();
 
@@ -283,7 +302,7 @@ KGoogle::Object* Services::Calendar::JSONToCalendar(const QVariantMap& calendar)
   return dynamic_cast< KGoogle::Object* >(object);
 }
 
-QVariantMap Services::Calendar::calendarToJSON(KGoogle::Object* calendar)
+QVariantMap Services::CalendarPrivate::calendarToJSON(KGoogle::Object* calendar)
 {
   QVariantMap output, entry;
   Objects::Calendar *object = static_cast< Objects::Calendar* >(calendar);
@@ -300,18 +319,18 @@ QVariantMap Services::Calendar::calendarToJSON(KGoogle::Object* calendar)
   return entry;
 }
 
-QList< KGoogle::Object* > Services::Calendar::parseCalendarJSONFeed(const QVariantList& feed)
+QList< KGoogle::Object* > Services::CalendarPrivate::parseCalendarJSONFeed(const QVariantList& feed)
 {
   QList< KGoogle::Object* > output;
 
   foreach (QVariant i, feed) {
-    output.append(JSONToCalendar(i.toMap()));
+    output.append(CalendarPrivate::JSONToCalendar(i.toMap()));
   }
 
   return output;
 }
 
-KGoogle::Object* Services::Calendar::JSONToEvent(const QVariantMap& event)
+KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
 {
   Objects::Event *object = new Objects::Event();
 
@@ -496,7 +515,7 @@ KGoogle::Object* Services::Calendar::JSONToEvent(const QVariantMap& event)
   return dynamic_cast< KGoogle::Object* >(object);
 }
 
-QVariantMap Services::Calendar::eventToJSON(KGoogle::Object* event)
+QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
 {
   Objects::Event *object = static_cast<Objects::Event*>(event);
   QVariantMap output, data;
@@ -658,7 +677,7 @@ QVariantMap Services::Calendar::eventToJSON(KGoogle::Object* event)
   return data;
 }
 
-QList< KGoogle::Object* > Services::Calendar::parseEventJSONFeed(const QVariantList& feed)
+QList< KGoogle::Object* > Services::CalendarPrivate::parseEventJSONFeed(const QVariantList& feed)
 {
   QList< KGoogle::Object* > output;
 
@@ -669,8 +688,7 @@ QList< KGoogle::Object* > Services::Calendar::parseEventJSONFeed(const QVariantL
   return output;
 }
 
-
-DateList Services::Calendar::parseRDate (const QString& rule) const
+DateList Services::CalendarPrivate::parseRDate (const QString& rule)
 {
   DateList list;
   QString value;

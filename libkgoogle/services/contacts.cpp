@@ -27,6 +27,27 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
+namespace KGoogle {
+
+  namespace Services {
+
+    class ContactsPrivate {
+
+      public:
+        static KGoogle::Object* JSONToContact (const QVariantMap &data);
+        static KGoogle::Object* JSONToGroup (const QVariantMap &data);
+
+        static QByteArray contactToXML (const KGoogle::Object *object);
+        static QByteArray groupToXML (const KGoogle::Object *object);
+
+        static KGoogle::Object* XMLToContact (const QDomDocument &data);
+        static KGoogle::Object* XMLToGroup (const QDomDocument &data);
+    };
+
+  }
+
+}
+
 using namespace KGoogle;
 using namespace KGoogle::Services;
 
@@ -46,9 +67,9 @@ QByteArray Contacts::objectToXML(KGoogle::Object* object)
     return QByteArray();
 
   if (dynamic_cast< KGoogle::Objects::Contact* >(object))
-    return contactToXML(object);
+    return ContactsPrivate::contactToXML(object);
   else if (dynamic_cast< KGoogle::Objects::ContactsGroup* >(object))
-    return groupToXML(object);
+    return ContactsPrivate::groupToXML(object);
   else
     return QByteArray();
 }
@@ -72,9 +93,9 @@ QList< KGoogle::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, Fe
 
     foreach (QVariant e, entries) {
       if (groups)
-	output << JSONToGroup(e.toMap());
+        output << ContactsPrivate::JSONToGroup(e.toMap());
       else
-	output << JSONToContact(e.toMap());
+        output << ContactsPrivate::JSONToContact(e.toMap());
     }
   }
 
@@ -114,11 +135,11 @@ Object *Contacts::JSONToObject(const QByteArray &jsonData)
     QVariantMap category = c.toMap();
 
     if (category["term"].toString() == "http://schemas.google.com/contact/2008#group") {
-      return JSONToGroup(entry);
+      return ContactsPrivate::JSONToGroup(entry);
     }
 
     if (category["term"].toString() == "http://schemas.google.com/contact/2008#contact") {
-      return JSONToContact(entry);
+      return ContactsPrivate::JSONToContact(entry);
     }
   }
 
@@ -157,9 +178,9 @@ KGoogle::Object* Contacts::XMLToObject(const QByteArray& xmlData)
   }
 
   if (isGroup)
-    return XMLToGroup(doc);
+    return ContactsPrivate::XMLToGroup(doc);
   else
-    return XMLToContact(doc);
+    return ContactsPrivate::XMLToContact(doc);
 
 }
 
@@ -298,7 +319,11 @@ bool Contacts::supportsJSONWrite(QString* urlParam)
   return false;
 }
 
-KGoogle::Object *Contacts::JSONToGroup(const QVariantMap &data)
+
+
+/*********************************** PRIVATE *************************************/
+
+KGoogle::Object* ContactsPrivate::JSONToGroup(const QVariantMap &data)
 {
   Objects::ContactsGroup *object = new Objects::ContactsGroup;
 
@@ -319,7 +344,7 @@ KGoogle::Object *Contacts::JSONToGroup(const QVariantMap &data)
 }
 
 
-KGoogle::Object* Contacts::JSONToContact(const QVariantMap &data)
+KGoogle::Object* ContactsPrivate::JSONToContact(const QVariantMap &data)
 {
   Objects::Contact *object = new Objects::Contact();
 
@@ -527,7 +552,7 @@ KGoogle::Object* Contacts::JSONToContact(const QVariantMap &data)
 }
 
 
-QByteArray Contacts::contactToXML(const KGoogle::Object* object)
+QByteArray ContactsPrivate::contactToXML(const KGoogle::Object* object)
 {
   const Objects::Contact *contact = static_cast< const Objects::Contact* >(object);
 
@@ -697,7 +722,7 @@ QByteArray Contacts::contactToXML(const KGoogle::Object* object)
   return output;
 }
 
-QByteArray Contacts::groupToXML(const KGoogle::Object *object)
+QByteArray ContactsPrivate::groupToXML(const KGoogle::Object *object)
 {
   const KGoogle::Objects::ContactsGroup *group = static_cast< const KGoogle::Objects::ContactsGroup* >(object);
 
@@ -711,7 +736,7 @@ QByteArray Contacts::groupToXML(const KGoogle::Object *object)
   return output;
 }
 
-KGoogle::Object *Contacts::XMLToContact(const QDomDocument &doc)
+KGoogle::Object* ContactsPrivate::XMLToContact(const QDomDocument &doc)
 {
   Objects::Contact *contact;
   QStringList groups;
@@ -976,7 +1001,7 @@ KGoogle::Object *Contacts::XMLToContact(const QDomDocument &doc)
   return dynamic_cast< KGoogle::Object* >(contact);
 }
 
-Object *Contacts::XMLToGroup(const QDomDocument &doc)
+Object* ContactsPrivate::XMLToGroup(const QDomDocument &doc)
 {
   Objects::ContactsGroup *group;
   QStringList groups;

@@ -73,7 +73,40 @@ KGoogle::Object* AccountInfo::JSONToObject (const QByteArray &jsonData)
   return dynamic_cast< KGoogle::Object* >(object);
 }
 
+QByteArray AccountInfo::objectToJSON (Object* object)
+{
+  Q_UNUSED (object);
 
+  return QByteArray();
+}
 
+QList< Object* > AccountInfo::parseJSONFeed (const QByteArray& jsonFeed, FeedData* feedData)
+{
+  Q_UNUSED(jsonFeed);
+  Q_UNUSED(feedData);
 
+  return QList< KGoogle::Object *>();
+}
+
+QList< Object* > AccountInfo::parseXMLFeed (const QByteArray& xmlFeed, FeedData* feedData)
+{
+  Q_UNUSED(xmlFeed);
+  Q_UNUSED(feedData);
+
+  return QList< KGoogle::Object * >();
+}
+
+QByteArray AccountInfo::objectToXML (Object* object)
+{
+  Q_UNUSED(object);
+
+  return QByteArray();
+};
+
+Object* AccountInfo::XMLToObject (const QByteArray& xmlData)
+{
+  Q_UNUSED(xmlData)
+
+  return 0;
+}
 

@@ -29,6 +29,8 @@ namespace KGoogle {
 
   namespace Services {
 
+    class TasksPrivate;
+
     class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
     {
       public:
@@ -168,15 +170,10 @@ namespace KGoogle {
 	 */
 	static bool supportsJSONWrite(QString* urlParam);
 
+      protected:
+        TasksPrivate *d_ptr;
       private:
-	QList< KGoogle::Object* > parseTaskListJSONFeed(const QVariantList &items) const;
-	QList< KGoogle::Object* > parseTasksJSONFeed(const QVariantList &items) const;
-
-	KGoogle::Object* JSONToTaskList(QVariantMap jsonData) const;
-	QVariantMap taskListToJSON(KGoogle::Object *taskList) const;
-
-	KGoogle::Object* JSONToTask(QVariantMap jsonData) const;
-	QVariantMap taskToJSON(KGoogle::Object *task) const;
+        Q_DECLARE_PRIVATE(Tasks);
     };
 
   } /* namespace Services */

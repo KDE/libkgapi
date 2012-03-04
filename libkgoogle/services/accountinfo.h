@@ -50,12 +50,7 @@ namespace KGoogle {
          *
          * This method does nothing.
          */
-        QByteArray objectToJSON (KGoogle::Object *object)
-        {
-          Q_UNUSED (object);
-
-          return QByteArray();
-        }
+        QByteArray objectToJSON (KGoogle::Object *object);
 
         /**
          * Returns scope URL for AccountInfo service.
@@ -74,50 +69,28 @@ namespace KGoogle {
          *
          * This method does nothing.
          */
-        QList< KGoogle::Object * > parseJSONFeed (const QByteArray &jsonFeed, KGoogle::FeedData *feedData = 0)
-        {
-          Q_UNUSED(jsonFeed);
-          Q_UNUSED(feedData);
-
-          return QList< KGoogle::Object *>();
-        }
+        QList< KGoogle::Object * > parseJSONFeed (const QByteArray &jsonFeed, KGoogle::FeedData *feedData = 0);
 
         /**
          * The AccountInfo service supports only JSON format.
          *
          * This method does nothing.
          */
-        QList< KGoogle::Object * > parseXMLFeed (const QByteArray &xmlFeed, KGoogle::FeedData *feedData = 0)
-        {
-          Q_UNUSED(xmlFeed);
-          Q_UNUSED(feedData);
-
-          return QList< KGoogle::Object * >();
-        };
+        QList< KGoogle::Object * > parseXMLFeed (const QByteArray &xmlFeed, KGoogle::FeedData *feedData = 0);
 
         /**
          * The AccountInfo service supports only JSON format.
          *
          * This method does nothing.
          */
-        QByteArray objectToXML (KGoogle::Object *object)
-        {
-          Q_UNUSED(object);
-
-          return QByteArray();
-        };
+        QByteArray objectToXML (KGoogle::Object *object);
 
         /**
          * The AccountInfo service supports only JSON format.
          *
          * This method does nothing.
          */
-        KGoogle::Object *XMLToObject (const QByteArray &xmlData)
-        {
-          Q_UNUSED(xmlData)
-
-          return 0;
-        };
+        KGoogle::Object *XMLToObject (const QByteArray &xmlData);
 
     };
 

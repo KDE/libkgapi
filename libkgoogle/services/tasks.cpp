@@ -35,6 +35,27 @@ using namespace KCal;
 using namespace KCalCore;
 #endif
 
+namespace KGoogle {
+
+  namespace Services {
+
+    class TasksPrivate
+    {
+      public:
+        static QList< KGoogle::Object* > parseTaskListJSONFeed(const QVariantList &items);
+        static QList< KGoogle::Object* > parseTasksJSONFeed(const QVariantList &items);
+
+        static KGoogle::Object* JSONToTaskList(QVariantMap jsonData);
+        static QVariantMap taskListToJSON(KGoogle::Object *taskList);
+
+        static KGoogle::Object* JSONToTask(QVariantMap jsonData);
+        static QVariantMap taskToJSON(KGoogle::Object *task);
+    };
+
+  }
+
+}
+
 QUrl Tasks::ScopeUrl("https://www.googleapis.com/auth/tasks");
 
 QByteArray Tasks::objectToXML(KGoogle::Object* object)
@@ -67,9 +88,9 @@ QList< KGoogle::Object* > Tasks::parseJSONFeed(const QByteArray& jsonFeed, FeedD
   QVariantMap feed = parser.parse(jsonFeed).toMap();
 
   if (feed["kind"].toString() == "tasks#taskLists") {
-    list = parseTaskListJSONFeed(feed["items"].toList());
+    list = TasksPrivate::parseTaskListJSONFeed(feed["items"].toList());
   } else if (feed["kind"].toString() == "tasks#tasks") {
-    list = parseTasksJSONFeed(feed["items"].toList());
+    list = TasksPrivate::parseTasksJSONFeed(feed["items"].toList());
   }
 
   if (feedData) {
@@ -93,9 +114,9 @@ KGoogle::Object* Tasks::JSONToObject(const QByteArray& jsonData)
   QVariantMap data = parser.parse(jsonData).toMap();
 
   if (data["kind"].toString() == "tasks#taskList") {
-    object = JSONToTaskList(data);
+    object = TasksPrivate::JSONToTaskList(data);
   } else if (data["kind"].toString() == "tasks#task") {
-    object = JSONToTask(data);
+    object = TasksPrivate::JSONToTask(data);
   }
 
   return object;
@@ -106,9 +127,9 @@ QByteArray Tasks::objectToJSON(KGoogle::Object* object)
   QVariantMap map;
 
   if (dynamic_cast< const Objects::TaskList* >(object)) {
-    map = taskListToJSON(object);
+    map = TasksPrivate::taskListToJSON(object);
   } else if (dynamic_cast< const Objects::Task* >(object)) {
-    map = taskToJSON(object);
+    map = TasksPrivate::taskToJSON(object);
   }
 
   QJson::Serializer serializer;
@@ -191,7 +212,9 @@ bool Tasks::supportsJSONWrite(QString* urlParam)
   return true;
 }
 
-KGoogle::Object* Tasks::JSONToTaskList(QVariantMap jsonData) const
+/******************************* PRIVATE ******************************/
+
+KGoogle::Object* TasksPrivate::JSONToTaskList(QVariantMap jsonData)
 {
   Objects::TaskList *object = new Objects::TaskList();
 
@@ -202,7 +225,7 @@ KGoogle::Object* Tasks::JSONToTaskList(QVariantMap jsonData) const
   return dynamic_cast< KGoogle::Object* >(object);
 }
 
-KGoogle::Object* Tasks::JSONToTask(QVariantMap jsonData) const
+KGoogle::Object* TasksPrivate::JSONToTask(QVariantMap jsonData)
 {
   Objects::Task *object = new Objects::Task();
 
@@ -237,7 +260,7 @@ KGoogle::Object* Tasks::JSONToTask(QVariantMap jsonData) const
   return dynamic_cast< KGoogle::Object* >(object);
 }
 
-QVariantMap Tasks::taskListToJSON(KGoogle::Object* taskList) const
+QVariantMap TasksPrivate::taskListToJSON(KGoogle::Object* taskList)
 {
   QVariantMap output;
   Objects::TaskList *object = static_cast< Objects::TaskList* >(taskList);
@@ -250,7 +273,7 @@ QVariantMap Tasks::taskListToJSON(KGoogle::Object* taskList) const
   return output;
 }
 
-QVariantMap Tasks::taskToJSON(KGoogle::Object* task) const
+QVariantMap TasksPrivate::taskToJSON(KGoogle::Object* task)
 {
   QVariantMap output;
   Objects::Task *object = static_cast< Objects::Task* >(task);
@@ -288,7 +311,7 @@ QVariantMap Tasks::taskToJSON(KGoogle::Object* task) const
   return output;
 }
 
-QList< KGoogle::Object* > Tasks::parseTaskListJSONFeed(const QVariantList &items) const
+QList< KGoogle::Object* > TasksPrivate::parseTaskListJSONFeed(const QVariantList &items)
 {
   QList< KGoogle::Object* > list;
 
@@ -299,7 +322,7 @@ QList< KGoogle::Object* > Tasks::parseTaskListJSONFeed(const QVariantList &items
   return list;
 }
 
-QList< KGoogle::Object* > Tasks::parseTasksJSONFeed(const QVariantList &items) const
+QList< KGoogle::Object* > TasksPrivate::parseTasksJSONFeed(const QVariantList &items)
 {
   QList< KGoogle::Object* > list;
 

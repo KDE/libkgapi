@@ -26,11 +26,15 @@
 #include <qmetatype.h>
 #include <qdom.h>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
   class Object;
 
-  namespace Services {
+  namespace Services
+  {
+
+    class ContactsPrivate;
 
     /**
      * Represents Google Contacts service.
@@ -38,128 +42,128 @@ namespace KGoogle {
     class LIBKGOOGLE_EXPORT Contacts: public KGoogle::Service
     {
       public:
-	static QUrl ScopeUrl;
+        static QUrl ScopeUrl;
 
-	/**
-	 * Implementation of KGoogle::Service::JSONToObject().
-	 */
-	KGoogle::Object* JSONToObject(const QByteArray& jsonData);
+        /**
+         * Implementation of KGoogle::Service::JSONToObject().
+         */
+        KGoogle::Object* JSONToObject (const QByteArray& jsonData);
 
-	/**
-	 * Implementation of KGoogle::Service::objectToJSON().
-	 */
-	QByteArray objectToJSON(KGoogle::Object* object);
+        /**
+         * Implementation of KGoogle::Service::objectToJSON().
+         */
+        QByteArray objectToJSON (KGoogle::Object* object);
 
-	/**
-	 * Implementation of KGoogle::Service::parseJSONFeed().
-	 */
-	QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
+        /**
+         * Implementation of KGoogle::Service::parseJSONFeed().
+         */
+        QList< KGoogle::Object* > parseJSONFeed (const QByteArray& jsonFeed, FeedData* feedData = 0);
 
-	/**
-	 * Implementation of KGoogle::Service::XMLToObject().
-	 */
-	KGoogle::Object* XMLToObject(const QByteArray& xmlData);
+        /**
+         * Implementation of KGoogle::Service::XMLToObject().
+         */
+        KGoogle::Object* XMLToObject (const QByteArray& xmlData);
 
-	/**
-	 * Implementation of KGoogle::Service::objectToXML().
-	 */
-	QByteArray objectToXML(KGoogle::Object* object);
+        /**
+         * Implementation of KGoogle::Service::objectToXML().
+         */
+        QByteArray objectToXML (KGoogle::Object* object);
 
-	/**
-	 * Implementation of KGoogle::Service::parseXMLFeed().
-	 */
-	QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
+        /**
+         * Implementation of KGoogle::Service::parseXMLFeed().
+         */
+        QList< KGoogle::Object* > parseXMLFeed (const QByteArray& xmlFeed, FeedData* feedData = 0);
 
-	/**
-	 * Implementation of KGoogle::Service::protocolVersion().
-	 */
-	QString protocolVersion() const;
+        /**
+         * Implementation of KGoogle::Service::protocolVersion().
+         */
+        QString protocolVersion() const;
 
-	/**
-	 * Returns scope URL for Google Calendar service.
+        /**
+         * Returns scope URL for Google Calendar service.
          *
          * https://www.google.com/m8/feeds/
-	 */
-	const QUrl& scopeUrl() const;
+         */
+        const QUrl& scopeUrl() const;
 
-	/**
-	 * Returns URL for KGoogle::Request::Create requests.
+        /**
+         * Returns URL for KGoogle::Request::Create requests.
          *
          * @param user User. "default" or user@gmail.com}
-	 */
-	static QUrl createContactUrl(const QString &user);
+         */
+        static QUrl createContactUrl (const QString &user);
 
-	/**
-	 * Returns URL for KGoogle::Request::FetchAll requests.
+        /**
+         * Returns URL for KGoogle::Request::FetchAll requests.
          *
          * @param user User. "default" or user@gmail.com
          * @param showDeleted Whether to fetch deleted contacts placeholders as well
-	 */
-	static QUrl fetchAllContactsUrl(const QString &user, const bool &showDeleted);
+         */
+        static QUrl fetchAllContactsUrl (const QString &user, const bool &showDeleted);
 
-	/**
-	 * Returns URL for KGoogle::Request::Fetch requests.
+        /**
+         * Returns URL for KGoogle::Request::Fetch requests.
          *
          * https://www.google.com/m8/feeds/contacts/%1/full/%2
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to fetch
-	 */
-	static QUrl fetchContactUrl(const QString &user, const QString &contactID);
+         */
+        static QUrl fetchContactUrl (const QString &user, const QString &contactID);
 
-	/**
-	 * Returns URL for KGoogle::Request::Update requests.
+        /**
+         * Returns URL for KGoogle::Request::Update requests.
          *
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to update
-	 */
-	static QUrl updateContactUrl(const QString &user, const QString &contactID);
+         */
+        static QUrl updateContactUrl (const QString &user, const QString &contactID);
 
-	/**
-	 * Returns URL for KGoogle::Request::Remove requests.
+        /**
+         * Returns URL for KGoogle::Request::Remove requests.
          *
          * https://www.google.com/m8/feeds/contacts/%1/full/%2
          * @param user User. "default" or user@gmail.com
          * @param contactID ID of contact to remove
-	 */
-	static QUrl removeContactUrl(const QString &user, const QString &contactID);
+         */
+        static QUrl removeContactUrl (const QString &user, const QString &contactID);
 
-	/**
-	 * Returns URL for KGoogle::Request::FetchAll requests.
-	 *
-	 * @param user User ("default" or user@gmail.com) in whose addressbook to look.
-	 */
-	static QUrl fetchAllGroupsUrl(const QString &user);
+        /**
+         * Returns URL for KGoogle::Request::FetchAll requests.
+         *
+         * @param user User ("default" or user@gmail.com) in whose addressbook to look.
+         */
+        static QUrl fetchAllGroupsUrl (const QString &user);
 
-	/**
-	 * Returns URL for KGoogle::Request::Fetch requests.
-	 *
-	 * @param user User ("default" or user@gmail.com) in whose addressbook to look
-	 * @param groupId ID of group of which to fetch all data.
-	 */
-	static QUrl fetchGroupUrl(const QString &user, const QString &groupId);
+        /**
+         * Returns URL for KGoogle::Request::Fetch requests.
+         *
+         * @param user User ("default" or user@gmail.com) in whose addressbook to look
+         * @param groupId ID of group of which to fetch all data.
+         */
+        static QUrl fetchGroupUrl (const QString &user, const QString &groupId);
 
-	/**
-	 * Returns URL for KGoogle::Request::Create requestse.
-	 *
-	 * @param user User (user@gmail.com) in whose addressbook to create a group.
-	 */
-	static QUrl createGroupUrl(const QString &user);
+        /**
+         * Returns URL for KGoogle::Request::Create requestse.
+         *
+         * @param user User (user@gmail.com) in whose addressbook to create a group.
+         */
+        static QUrl createGroupUrl (const QString &user);
 
-	/**
-	 * Returns URL for KGoogle::Request::Update requests.
-	 *
-	 * @param user User (user@gmail.com)) in whose addressbook to look
-	 * @param groupID ID of group to update.
-	 */
-	static QUrl updateGroupUrl(const QString &user, const QString &groupId);
+        /**
+         * Returns URL for KGoogle::Request::Update requests.
+         *
+         * @param user User (user@gmail.com)) in whose addressbook to look
+         * @param groupID ID of group to update.
+         */
+        static QUrl updateGroupUrl (const QString &user, const QString &groupId);
 
-	/**
-	 * Returns URL for KGoogle::Request::Remove requests.
-	 *
-	 * @param user User (user@gmail.com) in whose addressbook to look
-	 * @param groupID ID of group to delete
-	 */
-	static QUrl removeGroupUrl(const QString &user, const QString &groupId);
+        /**
+         * Returns URL for KGoogle::Request::Remove requests.
+         *
+         * @param user User (user@gmail.com) in whose addressbook to look
+         * @param groupID ID of group to delete
+         */
+        static QUrl removeGroupUrl (const QString &user, const QString &groupId);
 
         /**
          * Returns URL for modifying photo. Send KGoogle::Request::Fetch
@@ -169,35 +173,31 @@ namespace KGoogle {
          * @param user User (user@gmail.com) in whose addressbook to lok
          * @param contactId ID of contacts whose photo to update
          */
-        static QUrl photoUrl(const QString &user, const QString &contactId);
+        static QUrl photoUrl (const QString &user, const QString &contactId);
 
-	/**
-	 * Returns wheter service supports reading data in JSON format.
-	 * 
-	 * @param urlParam Returns a value of "alt" URL query. Usually is 
-	 * "json" or "jsonc". When service does not support reading JSON
-	 * data, the value remains unchanged.
-	 */
-	static bool supportsJSONRead(QString* urlParam);
+        /**
+         * Returns wheter service supports reading data in JSON format.
+         *
+         * @param urlParam Returns a value of "alt" URL query. Usually is
+         * "json" or "jsonc". When service does not support reading JSON
+         * data, the value remains unchanged.
+         */
+        static bool supportsJSONRead (QString* urlParam);
 
-	/**
-	 * Returns wheter service supports writing data in JSON format.
-	 * 
-	 * @param urlParam Returns a value of "alt" URL query. Usually is
-	 * "json" or "jsonc". When service does not support writing JSON
-	 * data, the value remains unchanged.
-	 */
-	static bool supportsJSONWrite(QString* urlParam);
+        /**
+         * Returns wheter service supports writing data in JSON format.
+         *
+         * @param urlParam Returns a value of "alt" URL query. Usually is
+         * "json" or "jsonc". When service does not support writing JSON
+         * data, the value remains unchanged.
+         */
+        static bool supportsJSONWrite (QString* urlParam);
+
+      protected:
+        ContactsPrivate *d_ptr;
 
       private:
-	KGoogle::Object* JSONToContact(const QVariantMap &data);
-	KGoogle::Object* JSONToGroup(const QVariantMap &data);
-
-	QByteArray contactToXML(const KGoogle::Object *object);
-	QByteArray groupToXML(const KGoogle::Object *object);
-
-	KGoogle::Object* XMLToContact(const QDomDocument &data);
-	KGoogle::Object* XMLToGroup(const QDomDocument &data);
+        Q_DECLARE_PRIVATE(Contacts);
 
     };
 
@@ -205,6 +205,6 @@ namespace KGoogle {
 
 } // namespace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::Services::Contacts)
+Q_DECLARE_METATYPE (KGoogle::Services::Contacts)
 
 #endif // LIBKGOOGLE_SERVICES_CONTACTS_H
