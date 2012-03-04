@@ -33,6 +33,17 @@ namespace KGoogle
 namespace Objects
 {
 
+class ReminderData: public QSharedData
+{
+  public:
+    ReminderData();
+    ReminderData(const ReminderData &other);
+    ~ReminderData() {};
+
+    Alarm::Type type;
+    Duration offset;
+};
+
 class CalendarData: public QSharedData
 {
   public:
@@ -47,7 +58,7 @@ class CalendarData: public QSharedData
     QString location;
     bool editable;
 
-    Alarm::List alarms;
+    Reminder::List reminders;
 };
 
 } // namespace Objects

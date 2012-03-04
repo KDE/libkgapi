@@ -21,6 +21,65 @@
 
 using namespace KGoogle::Objects;
 
+ReminderData::ReminderData():
+    type(Alarm::Invalid)
+{ }
+
+ReminderData::ReminderData(const ReminderData &other):
+    QSharedData(other),
+    type(other.type),
+    offset(other.offset)
+{ }
+
+Reminder::Reminder():
+    d(new ReminderData)
+{ }
+
+Reminder::Reminder (const Alarm::Type &type, const Duration& startOffset):
+    d(new ReminderData)
+{
+    d->type = type;
+    d->offset = startOffset;
+}
+
+Reminder::Reminder (const Reminder& other):
+    d(other.d)
+{ }
+
+Reminder::~Reminder()
+{ }
+
+void Reminder::setType (const Alarm::Type& type)
+{
+    d->type = type;
+}
+
+Alarm::Type Reminder::type() const
+{
+    return d->type;
+}
+
+void Reminder::setStartOffset (const Duration& startOffset)
+{
+    d->offset = startOffset;
+}
+
+Duration Reminder::startOffset() const
+{
+    return d->offset;
+}
+
+AlarmPtr Reminder::toAlarm (Incidence* incidence) const
+{
+    AlarmPtr alarm(new Alarm(incidence));
+
+    alarm->setType(d->type);
+    alarm->setStartOffset(d->offset);
+
+    return alarm;
+}
+
+
 CalendarData::CalendarData(const CalendarData &other) :
     QSharedData(other),
     title(other.title),
@@ -28,7 +87,7 @@ CalendarData::CalendarData(const CalendarData &other) :
     timezone(other.timezone),
     location(other.location),
     editable(other.editable),
-    alarms(other.alarms)
+    reminders(other.reminders)
 { }
 
 Calendar::Calendar() :
@@ -105,18 +164,18 @@ void Calendar::setEditable(const bool editable)
     d->editable = editable;
 }
 
-void Calendar::setDefaultReminders(const Alarm::List &alarms)
+void Calendar::setDefaultReminders(const Reminder::List &reminders)
 {
-    d->alarms = alarms;
+    d->reminders = reminders;
 }
 
-void Calendar::addDefaultReminer(const Alarm::Ptr &alarm)
+void Calendar::addDefaultReminer(const Reminder::Ptr &reminder)
 {
-    d->alarms.append(alarm);
+    d->reminders.append(reminder);
 }
 
-Alarm::List Calendar::defaultReminders() const
+Reminder::List Calendar::defaultReminders() const
 {
-    return d->alarms;
+    return d->reminders;
 }
 

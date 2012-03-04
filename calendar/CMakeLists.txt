@@ -26,6 +26,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 set(calendarresource_SRCS
     calendareditor.cpp
     calendarresource.cpp
+    defaultreminderattribute.cpp
     resource_tasks.cpp
     resource_events.cpp
     settings.cpp

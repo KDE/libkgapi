@@ -28,9 +28,13 @@
 
 #ifdef WITH_KCAL
 #include <KDE/KCal/Alarm>
+#include <KDE/KCal/Incidence>
+typedef KCal::Alarm* AlarmPtr;
 using namespace KCal;
 #else
 #include <KDE/KCalCore/Alarm>
+#include <KDE/KCalCore/Incidence>
+typedef KCalCore::Alarm::Ptr AlarmPtr;
 using namespace KCalCore;
 #endif
 
@@ -39,6 +43,37 @@ namespace KGoogle
 
 namespace Objects
 {
+
+class ReminderData;
+
+/**
+ * Represents default calendar reminder.
+ */
+class LIBKGOOGLE_EXPORT Reminder
+{
+    public:
+        typedef QSharedPointer< Reminder > Ptr;
+        typedef QList< Ptr > List;
+
+        Reminder();
+        Reminder(const Alarm::Type &type, const Duration &startOffset = Duration(0));
+        Reminder(const Reminder &other);
+
+        ~Reminder();
+
+        Alarm::Type type() const;
+
+        void setType(const Alarm::Type &type);
+
+        Duration startOffset() const;
+
+        void setStartOffset(const Duration &startOffset);
+
+        AlarmPtr toAlarm(Incidence *incidence) const;
+
+    private:
+        QExplicitlySharedDataPointer < ReminderData > d;
+};
 
 class CalendarData;
 
@@ -121,17 +156,17 @@ class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Object
     /**
      * Sets default reminders for all new events in the calendar.
      */
-    void setDefaultReminders(const Alarm::List &alarms);
+    void setDefaultReminders(const Reminder::List &reminders);
 
     /**
      * Adds a default reminder for all events in the calendar.
      */
-    void addDefaultReminer(const Alarm::Ptr &alarm);
+    void addDefaultReminer(const Reminder::Ptr &reminder);
 
     /**
      * Returns defalut reminders for all events in the calendar.
      */
-    Alarm::List defaultReminders() const;
+    Reminder::List defaultReminders() const;
 
   protected:
     QExplicitlySharedDataPointer<CalendarData> d;

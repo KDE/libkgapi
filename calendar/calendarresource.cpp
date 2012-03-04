@@ -17,6 +17,7 @@
 */
 
 #include "calendarresource.h"
+#include "defaultreminderattribute.h"
 #include "settings.h"
 #include "settingsdialog.h"
 
@@ -67,6 +68,7 @@ CalendarResource::CalendarResource(const QString &id):
 {
     qRegisterMetaType< KGoogle::Services::Calendar >("Calendar");
     qRegisterMetaType< KGoogle::Services::Tasks >("Tasks");
+    AttributeFactory::registerAttribute< DefaultReminderAttribute >();
 
     Auth *auth = Auth::instance();
     auth->setKWalletFolder("Akonadi Google");

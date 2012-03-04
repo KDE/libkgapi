@@ -289,18 +289,18 @@ KGoogle::Object* Services::CalendarPrivate::JSONToCalendar(const QVariantMap& ca
     foreach(const QVariant & r, reminders) {
         QVariantMap reminder = r.toMap();
 
-        AlarmPtr alarm(new Alarm(0));
+        Objects::Reminder::Ptr rem(new Objects::Reminder());
         if (reminder["method"].toString() == "email") {
-            alarm->setType(Alarm::Email);
+            rem->setType(Alarm::Email);
         } else if (reminder["method"].toString() == "popup") {
-            alarm->setType(Alarm::Display);
+            rem->setType(Alarm::Display);
         } else {
-            alarm->setType(KCalCore::Alarm::Invalid);
+            rem->setType(Alarm::Invalid);
         }
 
-        alarm->setStartOffset(Duration(reminder["minutes"].toInt() * (-60)));
+        rem->setStartOffset(Duration(reminder["minutes"].toInt() * (-60)));
 
-        object->addDefaultReminer(alarm);
+        object->addDefaultReminer(rem);
     }
 
     return dynamic_cast< KGoogle::Object* >(object);
@@ -681,8 +681,12 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
         overrides << override;
     }
 
-    if (!overrides.isEmpty())
-        data["reminders"] = overrides;
+    QVariantMap reminders;
+    reminders["useDefault"] = false;
+    if (!overrides.isEmpty()) {
+        reminders["overrides"] = overrides;
+    }
+    data["reminders"] = reminders;
 
     /* Store categories */
     if (!object->categories().isEmpty()) {

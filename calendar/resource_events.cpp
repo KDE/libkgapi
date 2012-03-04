@@ -18,6 +18,7 @@
 
 
 #include "calendarresource.h"
+#include "defaultreminderattribute.h"
 #include "settings.h"
 
 #include <libkgoogle/fetchlistjob.h>
@@ -83,6 +84,9 @@ void CalendarResource::calendarsReceived(KJob *job)
         attr->setIconName("text-calendar");
         collection.addAttribute(attr);
 
+        DefaultReminderAttribute *reminderAttr = new DefaultReminderAttribute(calendar->defaultReminders());
+        collection.addAttribute(reminderAttr);
+
         m_collections.append(collection);
 
     }
@@ -113,9 +117,21 @@ void CalendarResource::eventReceived(KGoogle::Reply *reply)
         return;
     }
 
+    Item item = reply->request()->property("Item").value<Item>();
+
     Objects::Event *event = static_cast< Objects::Event* >(data.first());
 
-    Item item = reply->request()->property("Item").value<Item>();
+    if (event->useDefaultReminders()) {
+        Collection collection = item.parentCollection();
+        DefaultReminderAttribute *attr = dynamic_cast< DefaultReminderAttribute* >(collection.attribute("defaultReminders"));
+        if (attr) {
+            Alarm::List alarms = attr->alarms(event);
+            foreach (AlarmPtr alarm, alarms) {
+                event->addAlarm(alarm);
+            }
+        }
+    }
+
     item.setRemoteId(event->uid());
     item.setRemoteRevision(event->etag());
     item.setMimeType(Event::eventMimeType());
@@ -136,6 +152,7 @@ void CalendarResource::eventsReceived(KJob *job)
 
     FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
     Collection collection = fetchJob->property("collection").value< Collection >();
+    DefaultReminderAttribute *attr = dynamic_cast< DefaultReminderAttribute* >(collection.attribute("defaultReminders"));
 
     Item::List removed;
     Item::List changed;
@@ -145,6 +162,13 @@ void CalendarResource::eventsReceived(KJob *job)
     foreach(Object * replyData, allData) {
 
         Objects::Event *event = static_cast< Objects::Event* >(replyData);
+
+        if (event->useDefaultReminders() && attr) {
+            Alarm::List alarms = attr->alarms(event);
+            foreach (AlarmPtr alarm, alarms) {
+                event->addAlarm(alarm);
+            }
+        }
 
         /* If this is a recurrent event then put it to map and continue with
          * next event. We will return to this later... */
