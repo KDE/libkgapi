@@ -41,6 +41,7 @@
 #include <akonadi/itemfetchscope.h>
 #include <akonadi/changerecorder.h>
 #include <akonadi/cachepolicy.h>
+#include <akonadi/itemmodifyjob.h>
 
 #ifdef WITH_KCAL
 #include <kcal/todo.h>
@@ -216,11 +217,14 @@ void TasksResource::itemAdded(const Akonadi::Item& item, const Akonadi::Collecti
   task.setId("");
 
   Service::Tasks service;
-  QString url = Service::Tasks::createTaskUrl().arg(Settings::self()->taskListId());
+  QUrl url(Service::Tasks::createTaskUrl().arg(Settings::self()->taskListId()));
+  if (!todo->relatedTo(KCalCore::Incidence::RelTypeParent).isEmpty())
+    url.addQueryItem("parent", todo->relatedTo(KCalCore::Incidence::RelTypeParent));
+
   QByteArray data = service.objectToJSON(static_cast<KGoogleObject*>(&task));
 
   KGoogleRequest *request;
-  request = new KGoogleRequest(QUrl(url),
+  request = new KGoogleRequest(url,
 			       KGoogleRequest::Create,
 			       "Tasks");
   request->setRequestData(data, "application/json");
@@ -368,7 +372,7 @@ void TasksResource::taskReceived(KGoogleReply* reply)
   item.setPayload<TodoPtr>(TodoPtr(task));
 
   if (task->deleted())
-    itemsRetrievedIncremental(Item::List(), Item::List() << item);  
+    itemsRetrievedIncremental(Item::List(), Item::List() << item);
   else
     itemRetrieved(item);
 
@@ -395,11 +399,14 @@ void TasksResource::taskCreated(KGoogleReply* reply)
   Object::Task *task = static_cast<Object::Task*>(data.first());
 
   Item item = reply->request()->property("Item").value<Item>();
-  item.setRemoteId(task->id());
   item.setRemoteRevision(task->etag());
   item.setPayload<TodoPtr>(TodoPtr(task));
 
   changeCommitted(item);
+
+  item.setRemoteId(task->id());
+  ItemModifyJob *modifyJob = new ItemModifyJob(item, this);
+  modifyJob->start();
 
   status(Idle, i18n("Task created"));
   taskDone();
