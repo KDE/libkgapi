@@ -23,24 +23,24 @@
 using namespace KGoogle::Objects;
 
 ContactsGroupPrivate::ContactsGroupPrivate():
-  isSystemGroup(false)
+    isSystemGroup(false)
 { }
 
 ContactsGroupPrivate::ContactsGroupPrivate(const ContactsGroupPrivate &other):
-  QSharedData(other),
-  id(other.id),
-  title(other.title),
-  content(other.content),
-  updated(other.updated),
-  isSystemGroup(other.isSystemGroup)
+    QSharedData(other),
+    id(other.id),
+    title(other.title),
+    content(other.content),
+    updated(other.updated),
+    isSystemGroup(other.isSystemGroup)
 { }
 
 ContactsGroupPrivate::~ContactsGroupPrivate()
 { }
 
 ContactsGroup::ContactsGroup():
-  KGoogle::Object(),
-  d(new ContactsGroupPrivate)
+    KGoogle::Object(),
+    d(new ContactsGroupPrivate)
 { }
 
 ContactsGroup::~ContactsGroup()
@@ -48,57 +48,57 @@ ContactsGroup::~ContactsGroup()
 
 
 ContactsGroup::ContactsGroup(const ContactsGroup &other):
-  KGoogle::Object(other),
-  d(other.d)
+    KGoogle::Object(other),
+    d(other.d)
 { }
 
 void ContactsGroup::setId(const QString &id)
 {
-  d->id = id;
+    d->id = id;
 }
 
 QString ContactsGroup::id() const
 {
-  return d->id;
+    return d->id;
 }
 
 void ContactsGroup::setTitle(const QString &title)
 {
-  d->title = title;
+    d->title = title;
 }
 
 QString ContactsGroup::title() const
 {
-  return d->title;
+    return d->title;
 }
 
 void ContactsGroup::setContent(const QString &content)
 {
-  d->content = content;
+    d->content = content;
 }
 
 QString ContactsGroup::content() const
 {
-  return d->content;
+    return d->content;
 }
 
 void ContactsGroup::setUpdated(const QDateTime &updated)
 {
-  d->updated = updated;
+    d->updated = updated;
 }
 
 QDateTime ContactsGroup::updated() const
 {
-  return d->updated;
+    return d->updated;
 }
 
 void ContactsGroup::setIsSystemGroup(const bool isSystemGroup)
 {
-  d->isSystemGroup = isSystemGroup;
+    d->isSystemGroup = isSystemGroup;
 }
 
 bool ContactsGroup::isSystemGroup() const
 {
-  return d->isSystemGroup;
+    return d->isSystemGroup;
 }
 

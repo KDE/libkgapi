@@ -19,36 +19,37 @@
 
 #include "account.h"
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  class AccountPrivate: public QSharedData
-  {
-    public:
-      AccountPrivate();
+class AccountPrivate: public QSharedData
+{
+  public:
+    AccountPrivate();
 
-      AccountPrivate(const AccountPrivate &other);
+    AccountPrivate(const AccountPrivate &other);
 
-      virtual ~AccountPrivate();
+    virtual ~AccountPrivate();
 
-      QString accName;
-      QString accessToken;
-      QString refreshToken;
-      QList< QUrl > scopes;
-  };
+    QString accName;
+    QString accessToken;
+    QString refreshToken;
+    QList< QUrl > scopes;
+};
 }
 
 using namespace KGoogle;
 
 AccountPrivate::AccountPrivate():
-  QSharedData()
+    QSharedData()
 { }
 
 AccountPrivate::AccountPrivate(const AccountPrivate& other):
-  QSharedData(other),
-  accName(other.accName),
-  accessToken(other.accessToken),
-  refreshToken(other.refreshToken),
-  scopes(other.scopes)
+    QSharedData(other),
+    accName(other.accName),
+    accessToken(other.accessToken),
+    refreshToken(other.refreshToken),
+    scopes(other.scopes)
 { }
 
 AccountPrivate::~AccountPrivate()
@@ -56,26 +57,26 @@ AccountPrivate::~AccountPrivate()
 
 
 Account::Account():
-  d(new AccountPrivate()),
-  m_scopesChanged(false)
+    d(new AccountPrivate()),
+    m_scopesChanged(false)
 { }
 
 
 
 Account::Account(const QString &accName, const QString &accessToken,
                  const QString &refreshToken, const QList< QUrl > &scopes):
-  d(new AccountPrivate()),
-  m_scopesChanged(false)
+    d(new AccountPrivate()),
+    m_scopesChanged(false)
 {
-  d->accName = accName;
-  d->accessToken = accessToken;
-  d->refreshToken = refreshToken;
-  d->scopes = scopes;
+    d->accName = accName;
+    d->accessToken = accessToken;
+    d->refreshToken = refreshToken;
+    d->scopes = scopes;
 }
 
 Account::Account(const Account& other):
-  d(other.d),
-  m_scopesChanged(other.m_scopesChanged)
+    d(other.d),
+    m_scopesChanged(other.m_scopesChanged)
 { }
 
 
@@ -84,57 +85,57 @@ Account::~Account()
 
 QString Account::accountName() const
 {
-  return d->accName;
+    return d->accName;
 }
 
 void Account::setAccountName(const QString& accountName)
 {
-  d->accName = accountName;
+    d->accName = accountName;
 }
 
 const QString &Account::accessToken() const
 {
-  return d->accessToken;
+    return d->accessToken;
 }
 
-void Account::setAccessToken (const QString &accessToken)
+void Account::setAccessToken(const QString &accessToken)
 {
-  d->accessToken = accessToken;
+    d->accessToken = accessToken;
 }
 
 const QString &Account::refreshToken() const
 {
-  return d->refreshToken;
+    return d->refreshToken;
 }
 
-void Account::setRefreshToken (const QString &refreshToken)
+void Account::setRefreshToken(const QString &refreshToken)
 {
-  d->refreshToken = refreshToken;
+    d->refreshToken = refreshToken;
 }
 
 const QList< QUrl > &Account::scopes() const
 {
-  return d->scopes;
+    return d->scopes;
 }
 
-void Account::setScopes (const QList< QUrl > &scopes)
+void Account::setScopes(const QList< QUrl > &scopes)
 {
-  d->scopes = scopes;
-  m_scopesChanged = true;
-}
-
-void Account::addScope (const QUrl &scope)
-{
-  if (!d->scopes.contains(scope)) {
-    d->scopes.append(scope);
+    d->scopes = scopes;
     m_scopesChanged = true;
-  }
 }
 
-void Account::removeScope (const QUrl &scope)
+void Account::addScope(const QUrl &scope)
 {
-  if (d->scopes.contains(scope)) {
-    d->scopes.removeOne(scope);
-    m_scopesChanged = true;
-  }
+    if (!d->scopes.contains(scope)) {
+        d->scopes.append(scope);
+        m_scopesChanged = true;
+    }
+}
+
+void Account::removeScope(const QUrl &scope)
+{
+    if (d->scopes.contains(scope)) {
+        d->scopes.removeOne(scope);
+        m_scopesChanged = true;
+    }
 }

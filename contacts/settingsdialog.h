@@ -24,15 +24,16 @@
 
 #include <libkgoogle/common.h>
 
-namespace Ui {
-  class SettingsDialog;
+namespace Ui
+{
+class SettingsDialog;
 }
 
 class QTreeWidgetItem;
 
 class SettingsDialog : public KDialog
 {
-  Q_OBJECT
+    Q_OBJECT
   public:
     SettingsDialog(WId windowId, QWidget *parent = 0);
     ~SettingsDialog();
@@ -44,6 +45,7 @@ class SettingsDialog : public KDialog
 
     void error(KGoogle::Error errCode, const QString &msg);
     void saveSettings();
+
   private:
     Ui::SettingsDialog *m_ui;
     QWidget *m_mainWidget;

@@ -28,28 +28,28 @@
 namespace KGoogle
 {
 
-  class Account;
+class Account;
 
-  namespace Ui
-  {
+namespace Ui
+{
 
-    class LIBKGOOGLE_EXPORT AccountsCombo : public QComboBox
-    {
-        Q_OBJECT
+class LIBKGOOGLE_EXPORT AccountsCombo : public QComboBox
+{
+    Q_OBJECT
 
-      public:
-        explicit AccountsCombo (QWidget *parent = 0);
+public:
+    explicit AccountsCombo(QWidget *parent = 0);
 
-        virtual ~AccountsCombo();
+    virtual ~AccountsCombo();
 
-        KGoogle::Account* currentAccount() const;
+    KGoogle::Account* currentAccount() const;
 
-      public Q_SLOTS:
-        void reload();
+public Q_SLOTS:
+    void reload();
 
-    };
+};
 
-  }
+}
 
 }
 

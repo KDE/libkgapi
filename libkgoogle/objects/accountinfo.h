@@ -23,163 +23,165 @@
 #include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-#include <qshareddata.h>
-#include <qmetatype.h>
+#include <QtCore/QSharedData>
+#include <QtCore/QMetaType>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+namespace Objects
+{
 
-    class AccountInfoData;
+class AccountInfoData;
+
+/**
+ * AccountInfo contains informations about user's Google account.
+ *
+ * It is possible to obtain only informations about account to which
+ * we have access token.
+ *
+ * Some informations might be empty, but id and email are guaranteed to
+ * be always filled.
+ *
+ * The accountInfo service provides read-only acces.
+ */
+class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Object
+{
+  public:
+    AccountInfo();
+
+    AccountInfo(const AccountInfo &other);
+
+    virtual ~AccountInfo();
 
     /**
-     * AccountInfo contains informations about user's Google account.
-     *
-     * It is possible to obtain only informations about account to which
-     * we have access token.
-     *
-     * Some informations might be empty, but id and email are guaranteed to 
-     * be always filled.
-     *
-     * The accountInfo service provides read-only acces.
+     * Sets an account ID.
      */
-    class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Object
-    {
-      public:
-        AccountInfo();
+    void setId(const QString &id);
 
-        AccountInfo(const AccountInfo &other);
+    /**
+     * Returns account ID.
+     */
+    QString id() const;
 
-        virtual ~AccountInfo();
+    /**
+     * Sets account email.
+     */
+    void setEmail(const QString &email);
 
-        /**
-         * Sets an account ID.
-         */
-        void setId(const QString &id);
+    /**
+     * Returns account email address.
+     *
+     * The address does not have to be \@gmail.com.
+     */
+    QString email() const;
 
-        /**
-         * Returns account ID.
-         */
-        QString id() const;
+    /**
+     * Sets user's real full name.
+     */
+    void setName(const QString &name);
 
-        /**
-         * Sets account email.
-         */
-        void setEmail(const QString &email);
+    /**
+     * Returns user's real full name.
+     */
+    QString name() const;
 
-        /**
-         * Returns account email address.
-         *
-         * The address does not have to be \@gmail.com.
-         */
-        QString email() const;
+    /**
+     * Sets user's given name.
+     */
+    void setGivenName(const QString &givenName);
 
-        /**
-         * Sets user's real full name.
-         */
-        void setName(const QString &name);
+    /**
+     * Returns user's given name.
+     */
+    QString givenName() const;
 
-        /**
-         * Returns user's real full name.
-         */
-        QString name() const;
+    /**
+     * Sets user's family name (surname).
+     */
+    void setFamilyName(const QString &familyName);
 
-        /**
-         * Sets user's given name.
-         */
-        void setGivenName(const QString &givenName);
+    /**
+     * Returns user's surname.
+     */
+    QString familyName() const;
 
-        /**
-         * Returns user's given name.
-         */
-        QString givenName() const;
+    /**
+     * Sets user's birthday
+     */
+    void setBirthday(const QString &birthday);
 
-        /**
-         * Sets user's family name (surname).
-         */
-        void setFamilyName(const QString &familyName);
+    /**
+     * Returns user's birthday.
+     */
+    QString birthday() const;
 
-        /**
-         * Returns user's surname.
-         */
-        QString familyName() const;
+    /**
+     * Sets user's gender.
+     */
+    void setGender(const QString &gender);
 
-        /**
-         * Sets user's birthday
-         */
-         void setBirthday(const QString &birthday);
+    /**
+     * Returns user's gender.
+     */
+    QString gender() const;
 
-         /**
-          * Returns user's birthday.
-          */
-        QString birthday() const;
+    /**
+     * Sets link to user's profile.
+     */
+    void setLink(const QString &link);
 
-        /**
-         * Sets user's gender.
-         */
-        void setGender(const QString &gender);
+    /**
+     * Returns link to user's profile.
+     */
+    QString link() const;
 
-        /**
-         * Returns user's gender.
-         */
-        QString gender() const;
+    /**
+     * Sets users locale settings.
+     */
+    void setLocale(const QString &locale);
 
-        /**
-         * Sets link to user's profile.
-         */
-        void setLink(const QString &link);
+    /**
+     * Returns user's preffered locales.
+     */
+    QString locale() const;
 
-        /**
-         * Returns link to user's profile.
-         */
-        QString link() const;
+    /**
+     * Sets user's timezone name.
+     */
+    void setTimezone(const QString &timezone);
 
-        /**
-         * Sets users locale settings.
-         */
-        void setLocale(const QString &locale);
+    /**
+     * Returns name of user's timezone.
+     */
+    QString timezone() const;
 
-        /**
-         * Returns user's preffered locales.
-         */
-        QString locale() const;
+    /**
+     * Sets whether the email address is verified.
+     */
+    void setVerifiedEmail(const bool verifiedEmail);
 
-        /**
-         * Sets user's timezone name.
-         */
-        void setTimezone(const QString &timezone);
+    /**
+     * Returns whether the email is verified.
+     */
+    bool verifiedEmail() const;
 
-        /**
-         * Returns name of user's timezone.
-         */
-        QString timezone() const;
+    /**
+     * Sets URL of user's photo.
+     */
+    void setPhotoUrl(const QString &url);
 
-        /**
-         * Sets whether the email address is verified.
-         */
-        void setVerifiedEmail(const bool verifiedEmail);
+    /**
+     * Returns URL of user's photo.
+     */
+    const QString& photoUrl() const;
 
-        /**
-         * Returns whether the email is verified.
-         */
-        bool verifiedEmail() const;
+  private:
+    QExplicitlySharedDataPointer<AccountInfoData> d;
 
-        /**
-         * Sets URL of user's photo.
-         */
-        void setPhotoUrl(const QString &url);
+};
 
-        /**
-         * Returns URL of user's photo.
-         */
-        const QString& photoUrl() const;
-
-      private:
-        QExplicitlySharedDataPointer<AccountInfoData> d;
-
-    };
-
-  } /* namespace Objects */
+} /* namespace Objects */
 
 } /* namespace KGoogle */
 

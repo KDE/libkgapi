@@ -23,22 +23,20 @@
 #include <libkgoogle/account.h>
 #include <libkgoogle/common.h>
 
-#include <qurl.h>
-#include <qboxlayout.h>
-#include <qprogressbar.h>
-#include <qlabel.h>
-#include <qnetworkreply.h>
+#include <QtCore/QUrl>
+#include <KDE/KDialog>
 
-#include <akonadi/resourcebase.h>
+class QNetworkReply;
+class QHBoxLayout;
+class QVBoxLayout;
+class QProgressBar;
+class QLabel;
+class KWebView;
 
-#include <kdialog.h>
-#include <kwebview.h>
-#include <kpushbutton.h>
-#include <kdemacros.h>
+namespace KGoogle
+{
 
-namespace KGoogle {
-
-  class Reply;
+class Reply;
 
 };
 
@@ -57,9 +55,9 @@ namespace KGoogle {
  * This dialog is not (for now) part of public API, thus it's not in the KGoogle
  * namespace and neither is this header installed.
  */
-class KDE_EXPORT AuthDialog: public KDialog
+class LIBKGOOGLE_EXPORT AuthDialog: public KDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
     /**
@@ -81,7 +79,7 @@ class KDE_EXPORT AuthDialog: public KDialog
      *
      * @param account An account to be authenticated.
      */
-    void authenticate (KGoogle::Account *account);
+    void authenticate(KGoogle::Account *account);
 
   Q_SIGNALS:
     /**

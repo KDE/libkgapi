@@ -23,47 +23,51 @@
 #include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
+#include <QtCore/QMetaType>
+
 #ifdef WITH_KCAL
-#include <kcal/todo.h>
+#include <KDE/KCal/Todo>
 #include <boost/shared_ptr.hpp>
 typedef boost::shared_ptr<KCal::Todo> TodoPtr;
 #else
-#include <kcalcore/todo.h>
+#include <KDE/KCalCore/Todo>
 typedef KCalCore::Todo::Ptr TodoPtr;
 #endif
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+namespace Objects
+{
 
 #ifdef WITH_KCAL
-    class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCal::Todo
+class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCal::Todo
 #else
-    class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCalCore::Todo
+class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCalCore::Todo
 #endif
-    {
-      public:
-	typedef QList<Task> List;
-        typedef QSharedPointer< Task > Ptr;
+{
+  public:
+    typedef QList<Task> List;
+    typedef QSharedPointer< Task > Ptr;
 
-	Task();
-	Task(const Task& other);
+    Task();
+    Task(const Task& other);
 #ifdef WITH_KCAL
-	Task(const KCal::Todo &other);
+    Task(const KCal::Todo &other);
 #else
-	Task(const KCalCore::Todo &other);
+    Task(const KCalCore::Todo &other);
 #endif
-	virtual ~Task();
+    virtual ~Task();
 
-	void setDeleted (const bool deleted);
-	bool deleted() const;
+    void setDeleted(const bool deleted);
+    bool deleted() const;
 
-      private:
-	bool m_deleted;
+  private:
+    bool m_deleted;
 
-    };
+};
 
-  } /* namespace Objects */
+} /* namespace Objects */
 
 } /* namespace KGoogle */
 

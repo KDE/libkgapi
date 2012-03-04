@@ -19,27 +19,26 @@
 #ifndef EVENT_P_H_
 #define EVENT_P_H_
 
-#include <qshareddata.h>
-#include <qstring.h>
+#include <QtCore/QSharedData>
 
 namespace KGoogle
 {
 
-  namespace Objects
-  {
+namespace Objects
+{
 
-    class EventData: public QSharedData
-    {
-      public:
-        EventData();
-        EventData (const EventData &other);
-        ~EventData() { };
+class EventData: public QSharedData
+{
+public:
+    EventData();
+    EventData(const EventData &other);
+    ~EventData() { };
 
-        bool deleted;
-        bool useDefaultReminders;
-    };
+    bool deleted;
+    bool useDefaultReminders;
+};
 
-  } // namespace Object
+} // namespace Object
 
 } // namespace KGoogle
 

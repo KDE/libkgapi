@@ -30,113 +30,116 @@
 using namespace KGoogle;
 
 enum {
-  KGoogleObjectRole = Qt::UserRole,
-  ObjectUIDRole
+    KGoogleObjectRole = Qt::UserRole,
+    ObjectUIDRole
 };
 
 SettingsDialog::SettingsDialog(WId windowId, QWidget *parent):
-  KDialog(parent),
-  m_windowId (windowId)
+    KDialog(parent),
+    m_windowId(windowId)
 {
-  KWindowSystem::setMainWindow(this, windowId);
+    KWindowSystem::setMainWindow(this, windowId);
 
-  qRegisterMetaType<KGoogle::Services::Contacts>("Contacts");
+    qRegisterMetaType<KGoogle::Services::Contacts>("Contacts");
 
-  this->setButtons (Ok | Cancel);
+    this->setButtons(Ok | Cancel);
 
-  m_mainWidget = new QWidget();
-  m_ui = new ::Ui::SettingsDialog();
-  m_ui->setupUi(m_mainWidget);
-  setMainWidget(m_mainWidget);
+    m_mainWidget = new QWidget();
+    m_ui = new ::Ui::SettingsDialog();
+    m_ui->setupUi(m_mainWidget);
+    setMainWidget(m_mainWidget);
 
-  m_ui->addAccountBtn->setIcon(QIcon::fromTheme("list-add-user"));
-  m_ui->removeAccountBtn->setIcon(QIcon::fromTheme("list-remove-user"));
+    m_ui->addAccountBtn->setIcon(QIcon::fromTheme("list-add-user"));
+    m_ui->removeAccountBtn->setIcon(QIcon::fromTheme("list-remove-user"));
 
-  connect(this, SIGNAL(accepted()),
-	  this, SLOT(saveSettings()));
+    connect(this, SIGNAL(accepted()),
+            this, SLOT(saveSettings()));
 
-  connect(m_ui->addAccountBtn, SIGNAL(clicked(bool)),
-          this, SLOT(addAccountClicked()));
-  connect(m_ui->removeAccountBtn, SIGNAL(clicked(bool)),
-          this, SLOT(removeAccountClicked()));
+    connect(m_ui->addAccountBtn, SIGNAL(clicked(bool)),
+            this, SLOT(addAccountClicked()));
+    connect(m_ui->removeAccountBtn, SIGNAL(clicked(bool)),
+            this, SLOT(removeAccountClicked()));
 
-  KGoogle::Auth *auth = KGoogle::Auth::instance();
-  connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
-	  this, SLOT(reloadAccounts()));
+    KGoogle::Auth *auth = KGoogle::Auth::instance();
+    connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
+            this, SLOT(reloadAccounts()));
 
-  reloadAccounts();
+    reloadAccounts();
 }
 
 SettingsDialog::~SettingsDialog()
 {
-  delete m_ui;
-  delete m_mainWidget;
+    delete m_ui;
+    delete m_mainWidget;
 }
 
 void SettingsDialog::saveSettings()
 {
-  Settings::self()->setAccount(m_ui->accountsCombo->currentText());
-  Settings::self()->writeConfig();
+    Settings::self()->setAccount(m_ui->accountsCombo->currentText());
+    Settings::self()->writeConfig();
 }
 
 
 void SettingsDialog::error(KGoogle::Error errCode, const QString &msg)
 {
-  if (errCode == KGoogle::OK)
-    return;
+    if (errCode == KGoogle::OK)
+        return;
 
-  KMessageBox::error(this, msg, i18n("An error occured"));
+    KMessageBox::error(this, msg, i18n("An error occured"));
 
-  m_ui->accountsBox->setEnabled(true);
+    m_ui->accountsBox->setEnabled(true);
 }
 
 
 void SettingsDialog::reloadAccounts()
 {
-  m_ui->accountsCombo->reload();
+    m_ui->accountsCombo->reload();
 
-  QString accName = Settings::self()->account();
-  int index = m_ui->accountsCombo->findText(accName);
+    QString accName = Settings::self()->account();
+    int index = m_ui->accountsCombo->findText(accName);
 
-  if (index > -1)
-    m_ui->accountsCombo->setCurrentIndex(index);
+    if (index > -1) {
+        m_ui->accountsCombo->setCurrentIndex(index);
+    }
 }
 
 void SettingsDialog::addAccountClicked()
 {
-  KGoogle::Auth *auth = KGoogle::Auth::instance();
+    KGoogle::Auth *auth = KGoogle::Auth::instance();
 
-  KGoogle::Account *account = new KGoogle::Account();
-  account->addScope(Services::Contacts::ScopeUrl);
+    KGoogle::Account *account = new KGoogle::Account();
+    account->addScope(Services::Contacts::ScopeUrl);
 
-  try {
-    auth->authenticate(account, true);
-  } catch (KGoogle::Exception::BaseException &e) {
-    KMessageBox::error(this, e.what());
-  }
+    try {
+        auth->authenticate(account, true);
+    } catch (KGoogle::Exception::BaseException &e) {
+        KMessageBox::error(this, e.what());
+    }
 }
 
 void SettingsDialog::removeAccountClicked()
 {
-  KGoogle::Account *account = m_ui->accountsCombo->currentAccount();
+    KGoogle::Account *account = m_ui->accountsCombo->currentAccount();
 
-  if (!account)
-    return;
+    if (!account)
+        return;
 
-  if (KMessageBox::warningYesNo(this,
-                                i18n("Do you really want to revoke access to account <b>%1</b>?"
-                                     "<br>This will revoke access to all application using this account!", account->accountName()),
-                                i18n("Revoke Access?"),
-                                KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) != KMessageBox::Yes)
-    return;
+    if (KMessageBox::warningYesNo(this,
+          i18n("Do you really want to revoke access to account <b>%1</b>?"
+               "<br>This will revoke access to all application using this account!", account->accountName()),
+          i18n("Revoke Access?"),
+          KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) != KMessageBox::Yes) {
 
-  KGoogle::Auth *auth = KGoogle::Auth::instance();
+        return;
+    }
 
-  try {
-    auth->revoke(account);
-  } catch (KGoogle::Exception::BaseException &e) {
-    KMessageBox::error(this, e.what());
-  }
+    KGoogle::Auth *auth = KGoogle::Auth::instance();
 
-  reloadAccounts();
+    try {
+        auth->revoke(account);
+    } catch (KGoogle::Exception::BaseException &e) {
+        KMessageBox::error(this, e.what());
+    }
+
+    reloadAccounts();
 }

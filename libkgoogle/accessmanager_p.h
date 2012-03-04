@@ -19,48 +19,49 @@
 #ifndef LIBKGOOGLE_ACCESSMANAGER_P_H_
 #define LIBKGOOGLE_ACCESSMANAGER_P_H_
 
-#include <qobject.h>
-#include <qnetworkreply.h>
-#include <qsemaphore.h>
+#include <QtCore/QObject>
+#include <QtCore/QSemaphore>
+#include <QtNetwork/QNetworkReply>
 
-#include <kio/accessmanager.h>
+#include <KIO/AccessManager>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  class AccessManager;
+class AccessManager;
 
-  class Request;
+class Request;
 
-  /**
-   * \internal
-   */
-  class AccessManagerPrivate: public QObject
-  {
+/**
+ * \internal
+ */
+class AccessManagerPrivate: public QObject
+{
 
     Q_OBJECT
 
-    public:
-      AccessManagerPrivate(AccessManager* const parent);
+  public:
+    AccessManagerPrivate(AccessManager* const parent);
 
-      virtual ~AccessManagerPrivate();
+    virtual ~AccessManagerPrivate();
 
-      KIO::Integration::AccessManager *nam;
+    KIO::Integration::AccessManager *nam;
 
-      QList< KGoogle::Request* > cache;
-      QSemaphore *cacheSemaphore;;
+    QList< KGoogle::Request* > cache;
+    QSemaphore *cacheSemaphore;;
 
-    public Q_SLOTS:
-      void nam_replyReceived(QNetworkReply *reply);
-      void nam_sendRequest(KGoogle::Request *request);
+  public Q_SLOTS:
+    void nam_replyReceived(QNetworkReply *reply);
+    void nam_sendRequest(KGoogle::Request *request);
 
-      void authenticated();
+    void authenticated();
 
-      void submitCache();
+    void submitCache();
 
-    private:
-      AccessManager* const q_ptr;
-      Q_DECLARE_PUBLIC(AccessManager)
-  };
+  private:
+    AccessManager* const q_ptr;
+    Q_DECLARE_PUBLIC(AccessManager)
+};
 
 }
 

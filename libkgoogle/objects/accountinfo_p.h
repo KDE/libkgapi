@@ -20,39 +20,41 @@
 #ifndef LIKBGOOGLE_OBJECTS_ACCOUNTINFO_P_H
 #define LIBKGOOGLE_OBJECTS_ACCOUNTINFO_P_H
 
-#include <qshareddata.h>
-#include <qstring.h>
+#include <QtCore/QSharedData>
+#include <QtCore/QString>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+namespace Objects
+{
 
-    class AccountInfoData: public QSharedData
-    {
-      public:
-        AccountInfoData() { };
-        AccountInfoData(const AccountInfoData &other);
-        ~AccountInfoData() { };
+class AccountInfoData: public QSharedData
+{
+public:
+    AccountInfoData() { };
+    AccountInfoData(const AccountInfoData &other);
+    ~AccountInfoData() { };
 
-        QString id;
-        QString email;
-        QString name;
-        QString givenName;
-        QString familyName;
+    QString id;
+    QString email;
+    QString name;
+    QString givenName;
+    QString familyName;
 
-        QString birthday;
-        QString gender;
+    QString birthday;
+    QString gender;
 
-        QString link;
-        QString locale;
-        QString timezone;
+    QString link;
+    QString locale;
+    QString timezone;
 
-        bool verifiedEmail;
+    bool verifiedEmail;
 
-        QString pictureUrl;
-    };
+    QString pictureUrl;
+};
 
-  } /* namespace Objects */
+} /* namespace Objects */
 
 } /* namespace KGoogle */
 

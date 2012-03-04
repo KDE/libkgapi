@@ -20,19 +20,19 @@
 #ifndef CALENDARRESOURCE_H
 #define CALENDARRESOURCE_H
 
-#include <akonadi/agentbase.h>
-#include <akonadi/resourcebase.h>
-
-#include <akonadi/item.h>
-#include <akonadi/collection.h>
+#include <KDE/Akonadi/AgentBase>
+#include <KDE/Akonadi/ResourceBase>
+#include <KDE/Akonadi/Item>
+#include <KDE/Akonadi/Collection>
 
 #include <libkgoogle/common.h>
 
-namespace KGoogle {
-  class AccessManager;
-  class Account;
-  class Reply;
-  class Request;
+namespace KGoogle
+{
+class AccessManager;
+class Account;
+class Reply;
+class Request;
 }
 
 using namespace KGoogle;
@@ -40,7 +40,7 @@ using namespace KGoogle;
 class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::ObserverV2
 {
 
-  Q_OBJECT
+    Q_OBJECT
   public:
     CalendarResource(const QString &id);
     ~CalendarResource();

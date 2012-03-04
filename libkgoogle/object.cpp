@@ -19,29 +19,30 @@
 
 #include "object.h"
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  /**
-   * \internal
-   */
-  class ObjectPrivate: public QSharedData
-  {
-    public:
-      ObjectPrivate() { }
+/**
+ * \internal
+ */
+class ObjectPrivate: public QSharedData
+{
+  public:
+    ObjectPrivate() { }
 
-      QString etag;
-  };
+    QString etag;
+};
 
 }
 
 using namespace KGoogle;
 
 Object::Object():
-  d(new ObjectPrivate)
+    d(new ObjectPrivate)
 { }
 
 Object::Object(const Object& other):
-  d(other.d)
+    d(other.d)
 { }
 
 
@@ -50,10 +51,10 @@ Object::~Object()
 
 void Object::setEtag(const QString& etag)
 {
-  d->etag = etag;
+    d->etag = etag;
 }
 
 const QString& Object::etag() const
 {
-  return d->etag;
+    return d->etag;
 }

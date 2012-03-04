@@ -20,18 +20,18 @@
 #ifndef TASKLISTEDITOR_H
 #define TASKLISTEDITOR_H
 
-#include <QDialog>
+#include <QtGui/QDialog>
 
 #include <libkgoogle/objects/tasklist.h>
 
 namespace Ui
 {
-  class TaskListEditor;
+class TaskListEditor;
 }
 
 class TasklistEditor : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
     explicit TasklistEditor(KGoogle::Objects::TaskList *taskList = 0);

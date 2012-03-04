@@ -23,124 +23,122 @@
 #include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-#include <qsharedpointer.h>
-#include <qmetatype.h>
-
-#include <kdatetime.h>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QMetaType>
 
 #ifdef WITH_KCAL
-#include <kcal/alarm.h>
+#include <KDE/KCal/Alarm>
 using namespace KCal;
 #else
-#include <kcalcore/alarm.h>
+#include <KDE/KCalCore/Alarm>
 using namespace KCalCore;
 #endif
 
 namespace KGoogle
 {
 
-  namespace Objects
-  {
+namespace Objects
+{
 
-    class CalendarData;
+class CalendarData;
+
+/**
+ * Represents a calendar.
+ */
+class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Object
+{
+
+  public:
+    typedef QSharedPointer<Calendar> Ptr;
+    typedef QList<Calendar> List;
+
+    Calendar();
+
+    Calendar(const Calendar &other);
+
+    ~Calendar();
 
     /**
-     * Represents a calendar.
+     * Sets UID of the calendar.
      */
-    class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Object
-    {
+    void setUid(const QString &uid);
 
-      public:
-        typedef QSharedPointer<Calendar> Ptr;
-        typedef QList<Calendar> List;
+    /**
+     * Returns uID of the calendar.
+     */
+    QString uid() const;
 
-        Calendar();
+    /**
+     * Returns calendar title (name).
+     */
+    QString title() const;
 
-        Calendar(const Calendar &other);
+    /**
+     * Sets a calendar title (name).
+     */
+    void setTitle(const QString &title);
 
-        ~Calendar();
+    /**
+     * Returns detailed description of the calendar.
+     */
+    QString details() const;
 
-        /**
-         * Sets UID of the calendar.
-         */
-        void setUid(const QString &uid);
+    /**
+     * Sets detailed description of a calenar.
+     */
+    void setDetails(const QString &details);
 
-        /**
-         * Returns uID of the calendar.
-         */
-        QString uid() const;
+    /**
+     * Returns geographic location of the calendar.
+     */
+    QString location() const;
 
-        /**
-         * Returns calendar title (name).
-         */
-        QString title() const;
+    /**
+     * Sets geographic location of the calendar.
+     */
+    void setLocation(const QString &location);
 
-        /**
-         * Sets a calendar title (name).
-         */
-        void setTitle(const QString &title);
+    /**
+     * Returns timezone of the calendar.
+     */
+    QString timezone() const;
 
-        /**
-         * Returns detailed description of the calendar.
-         */
-        QString details() const;
+    /**
+     * Sets timezone of the calendar.
+     */
+    void setTimezone(const QString &timezone);
 
-        /**
-         * Sets detailed description of a calenar.
-         */
-        void setDetails(const QString &details);
+    /**
+     * Returns wheter calendar is editable or read-only.
+     */
+    bool editable() const;
 
-        /**
-         * Returns geographic location of the calendar.
-         */
-        QString location() const;
+    /**
+     * Sets calendar to read-only or editable.
+     */
+    void setEditable(const bool editable);
 
-        /**
-         * Sets geographic location of the calendar.
-         */
-        void setLocation(const QString &location);
+    /**
+     * Sets default reminders for all new events in the calendar.
+     */
+    void setDefaultReminders(const Alarm::List &alarms);
 
-        /**
-         * Returns timezone of the calendar.
-         */
-        QString timezone() const;
+    /**
+     * Adds a default reminder for all events in the calendar.
+     */
+    void addDefaultReminer(const Alarm::Ptr &alarm);
 
-        /**
-         * Sets timezone of the calendar.
-         */
-        void setTimezone(const QString &timezone);
+    /**
+     * Returns defalut reminders for all events in the calendar.
+     */
+    Alarm::List defaultReminders() const;
 
-        /**
-         * Returns wheter calendar is editable or read-only.
-         */
-        bool editable() const;
+  protected:
+    QExplicitlySharedDataPointer<CalendarData> d;
 
-        /**
-         * Sets calendar to read-only or editable.
-         */
-        void setEditable(const bool editable);
+};
 
-        /**
-         * Sets default reminders for all new events in the calendar.
-         */
-        void setDefaultReminders(const Alarm::List &alarms);
-
-        /**
-         * Adds a default reminder for all events in the calendar.
-         */
-        void addDefaultReminer(const Alarm::Ptr &alarm);
-
-        /**
-         * Returns defalut reminders for all events in the calendar.
-         */
-        Alarm::List defaultReminders() const;
-
-      protected:
-        QExplicitlySharedDataPointer<CalendarData> d;
-
-    };
-
-  } // namespace Objects
+} // namespace Objects
 
 } // namespace KGoogle
 

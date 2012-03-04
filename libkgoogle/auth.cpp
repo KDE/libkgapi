@@ -23,11 +23,11 @@
 #include "common.h"
 #include "services/accountinfo.h"
 
-#include <kwallet.h>
+#include <KDE/KWallet/Wallet>
+#include <KDE/KLocalizedString>
 
-#include <klocalizedstring.h>
-
-#include <qmutex.h>
+#include <QtCore/QMap>
+#include <QtCore/QMutex>
 
 using namespace KWallet;
 using namespace KGoogle;
@@ -36,190 +36,193 @@ Auth* AuthPrivate::instance = 0;
 
 Auth *Auth::instance()
 {
-  static QMutex mutex;
-  if (!AuthPrivate::instance) {
-    mutex.lock();
+    static QMutex mutex;
+    if (!AuthPrivate::instance) {
+        mutex.lock();
 
-    if (!AuthPrivate::instance)
-      AuthPrivate::instance = new Auth();
+        if (!AuthPrivate::instance)
+            AuthPrivate::instance = new Auth();
 
-    mutex.unlock();
-  }
+        mutex.unlock();
+    }
 
-  return AuthPrivate::instance;
+    return AuthPrivate::instance;
 }
 
 Auth::Auth():
-  d_ptr(new AuthPrivate(this))
+    d_ptr(new AuthPrivate(this))
 {
-  Q_D(Auth);
+    Q_D(Auth);
 
-  d->kwalletFolder = "libkgoogle";
-  d->kwallet = 0;
+    d->kwalletFolder = "libkgoogle";
+    d->kwallet = 0;
 }
 
 
 Auth::~Auth()
 {
-  delete d_ptr;
+    delete d_ptr;
 }
 
 void Auth::setKWalletFolder(const QString& folder)
 {
-  Q_D(Auth);
+    Q_D(Auth);
 
-  d->kwalletFolder = folder;
+    d->kwalletFolder = folder;
 }
 
-KGoogle::Account *Auth::getAccount (const QString &account)
+KGoogle::Account *Auth::getAccount(const QString &account)
 {
-  Q_D(Auth);
+    Q_D(Auth);
 
-  if (!d->initKWallet())
-    return 0;
+    if (!d->initKWallet())
+        return 0;
 
-  if (!d->kwallet->hasFolder(d->kwalletFolder)) {
-    throw Exception::UnknownAccount(account);
-    return 0;
-  }
+    if (!d->kwallet->hasFolder(d->kwalletFolder)) {
+        throw Exception::UnknownAccount(account);
+        return 0;
+    }
 
-  d->kwallet->setFolder(d->kwalletFolder);
+    d->kwallet->setFolder(d->kwalletFolder);
 
-  QMap< QString, QString > map;
-  if (d->kwallet->readMap(account, map) != 0) {
-    throw Exception::UnknownAccount(account);
-    return 0;
-  }
+    QMap< QString, QString > map;
+    if (d->kwallet->readMap(account, map) != 0) {
+        throw Exception::UnknownAccount(account);
+        return 0;
+    }
 
-  QStringList scopes = map["scopes"].split(',');
-  QList< QUrl > scopeUrls;
-  foreach (const QString &scope, scopes)
-    scopeUrls << QUrl(scope);
+    QStringList scopes = map["scopes"].split(',');
+    QList< QUrl > scopeUrls;
+    foreach(const QString & scope, scopes) {
+        scopeUrls << QUrl(scope);
+    }
 
-  Account *acc = new Account(account, map["accessToken"], map["refreshToken"], scopeUrls);
-  return acc;
+    Account *acc = new Account(account, map["accessToken"], map["refreshToken"], scopeUrls);
+    return acc;
 }
 
 QList< KGoogle::Account * > Auth::getAccounts()
 {
-  Q_D(Auth);
+    Q_D(Auth);
 
-  if (!d->initKWallet())
-    return QList< Account* >();
-
-  if (!d->kwallet->hasFolder(d->kwalletFolder))
-    return QList< Account *>();
-
-
-  d->kwallet->setFolder(d->kwalletFolder);
-  QStringList list = d->kwallet->entryList();
-  QList< Account * > accounts;
-  foreach (QString accName, list) {
-    QMap< QString, QString > map;
-    d->kwallet->readMap(accName, map);
-
-    QStringList scopes = map["scopes"].split(',');
-    QList< QUrl > scopeUrls;
-    foreach (const QString &scope, scopes)
-      scopeUrls << QUrl(scope);
-    accounts.append(new Account(accName, map["accessToken"], map["refreshToken"], scopeUrls));
-  }
-
-  return accounts;
-}
-
-void Auth::storeAccount (const KGoogle::Account *account)
-{
-  Q_D(Auth);
-
-  if (!d->initKWallet())
-     return;
-
-  if (!account || account->accountName().isEmpty() ||
-       account->accessToken().isEmpty() || account->refreshToken().isEmpty()) {
-    throw Exception::InvalidAccount();
-    return;
-  }
-
-  if (!d->kwallet->hasFolder(d->kwalletFolder))
-    d->kwallet->createFolder(d->kwalletFolder);
-
-  d->kwallet->setFolder(d->kwalletFolder);
-
-  if (d->kwallet->hasEntry(account->accountName()))
-    d->kwallet->removeEntry(account->accountName());
-
-  QStringList scopes;
-  foreach (const QUrl &scope, account->scopes())
-    scopes << scope.toString();
-
-  QMap< QString, QString > map;
-  map["accessToken"] = account->accessToken();
-  map["refreshToken"] = account->refreshToken();
-  map["scopes"] = scopes.join(",");
-  d->kwallet->writeMap(account->accountName(), map);
-}
-
-void Auth::authenticate (KGoogle::Account *account, bool autoSave)
-{
-  Q_D(Auth);
-
-  if (!d->initKWallet())
-    return;
-
-  if (!account) {
-    throw Exception::InvalidAccount();
-    return;
-  }
-
-  if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
-
-    account->addScope(Services::AccountInfo::EmailScopeUrl);
-    d->fullAuthentication(account, autoSave);
-
-  } else {
-
-    if (account->accountName().isEmpty()) {
-      throw Exception::InvalidAccount();
-      return;
+    if (!d->initKWallet()) {
+        return QList< Account* >();
     }
-    d->refreshTokens(account, autoSave);
 
-  }
+    if (!d->kwallet->hasFolder(d->kwalletFolder)) {
+        return QList< Account *>();
+    }
+
+    d->kwallet->setFolder(d->kwalletFolder);
+    QStringList list = d->kwallet->entryList();
+    QList< Account * > accounts;
+    foreach(QString accName, list) {
+        QMap< QString, QString > map;
+        d->kwallet->readMap(accName, map);
+
+        QStringList scopes = map["scopes"].split(',');
+        QList< QUrl > scopeUrls;
+        foreach(const QString & scope, scopes) {
+            scopeUrls << QUrl(scope);
+        }
+
+        accounts.append(new Account(accName, map["accessToken"], map["refreshToken"], scopeUrls));
+    }
+
+    return accounts;
 }
 
-bool Auth::revoke (Account *account)
+void Auth::storeAccount(const KGoogle::Account *account)
 {
-  Q_D(Auth);
+    Q_D(Auth);
 
-  if (!account || account->accountName().isEmpty()) {
-    return false;
-  }
+    if (!d->initKWallet())
+        return;
 
-  if (!d->initKWallet())
-    return false;
+    if (!account || account->accountName().isEmpty() ||
+            account->accessToken().isEmpty() || account->refreshToken().isEmpty()) {
+        throw Exception::InvalidAccount();
+        return;
+    }
 
-  if (!d->kwallet->hasFolder(d->kwalletFolder))
-    return false;
+    if (!d->kwallet->hasFolder(d->kwalletFolder))
+        d->kwallet->createFolder(d->kwalletFolder);
 
-  if (d->kwallet->hasEntry(account->accountName())) {
+    d->kwallet->setFolder(d->kwalletFolder);
 
-    if (d->kwallet->removeEntry(account->accountName()) == 0) {
+    if (d->kwallet->hasEntry(account->accountName()))
+        d->kwallet->removeEntry(account->accountName());
 
-      account->setAccessToken("");
-      account->setRefreshToken("");
-      account->setScopes(QList< QUrl >());
-      return true;
+    QStringList scopes;
+    foreach(const QUrl & scope, account->scopes()) {
+        scopes << scope.toString();
+    }
+
+    QMap< QString, QString > map;
+    map["accessToken"] = account->accessToken();
+    map["refreshToken"] = account->refreshToken();
+    map["scopes"] = scopes.join(",");
+    d->kwallet->writeMap(account->accountName(), map);
+}
+
+void Auth::authenticate(KGoogle::Account *account, bool autoSave)
+{
+    Q_D(Auth);
+
+    if (!d->initKWallet()) {
+        return;
+    }
+
+    if (!account) {
+        throw Exception::InvalidAccount();
+        return;
+    }
+
+    if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
+
+        account->addScope(Services::AccountInfo::EmailScopeUrl);
+        d->fullAuthentication(account, autoSave);
 
     } else {
 
-      return false;
+        if (account->accountName().isEmpty()) {
+            throw Exception::InvalidAccount();
+            return;
+        }
+
+        d->refreshTokens(account, autoSave);
 
     }
+}
 
-  } else {
+bool Auth::revoke(Account *account)
+{
+    Q_D(Auth);
 
-    return false;
+    if (!account || account->accountName().isEmpty()) {
+        return false;
+    }
 
-  }
+    if (!d->initKWallet())
+        return false;
+
+    if (!d->kwallet->hasFolder(d->kwalletFolder))
+        return false;
+
+    if (d->kwallet->hasEntry(account->accountName())) {
+
+        if (d->kwallet->removeEntry(account->accountName()) == 0) {
+
+            account->setAccessToken("");
+            account->setRefreshToken("");
+            account->setScopes(QList< QUrl >());
+            return true;
+
+        } else {
+            return false;
+        }
+
+    } else {
+        return false;
+    }
 }

@@ -19,29 +19,25 @@
 #include "calendar.h"
 #include "calendar_p.h"
 
-#include <qdebug.h>
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
-
 using namespace KGoogle::Objects;
 
 CalendarData::CalendarData(const CalendarData &other) :
-  QSharedData(other),
-  title(other.title),
-  details(other.details),
-  timezone(other.timezone),
-  location(other.location),
-  editable(other.editable),
-  alarms(other.alarms)
+    QSharedData(other),
+    title(other.title),
+    details(other.details),
+    timezone(other.timezone),
+    location(other.location),
+    editable(other.editable),
+    alarms(other.alarms)
 { }
 
 Calendar::Calendar() :
-  d(new CalendarData)
+    d(new CalendarData)
 { }
 
 Calendar::Calendar(const Calendar &other) :
-  KGoogle::Object(other),
-  d(other.d)
+    KGoogle::Object(other),
+    d(other.d)
 { }
 
 Calendar::~Calendar()
@@ -50,77 +46,77 @@ Calendar::~Calendar()
 
 void Calendar::setUid(const QString &uid)
 {
-  d->uid = uid;
+    d->uid = uid;
 }
 
 QString Calendar::uid() const
 {
-  return d->uid;
+    return d->uid;
 }
 
 
 QString Calendar::title() const
 {
-  return d->title.isEmpty() ? "Google Calendar" : d->title;
+    return d->title.isEmpty() ? "Google Calendar" : d->title;
 }
 
 void Calendar::setTitle(const QString &title)
 {
-  d->title = title;
+    d->title = title;
 }
 
 QString Calendar::details() const
 {
-  return d->details;
+    return d->details;
 }
 
 void Calendar::setDetails(const QString &details)
 {
-  d->details = details;
+    d->details = details;
 }
 
 QString Calendar::location() const
 {
-  return d->location;
+    return d->location;
 }
 
 void Calendar::setLocation(const QString &location)
 {
-  d->location = location;
+    d->location = location;
 }
 
 QString Calendar::timezone() const
 {
-  return d->timezone;
+    return d->timezone;
 }
 
 void Calendar::setTimezone(const QString &timezone)
 {
-  d->timezone = timezone;
+    d->timezone = timezone;
 }
 
 bool Calendar::editable() const
 {
-  return d->editable;
+    return d->editable;
 }
 
 void Calendar::setEditable(const bool editable)
 {
-  d->editable = editable;
+    d->editable = editable;
 }
 
-void Calendar::setDefaultReminders (const Alarm::List &alarms)
+void Calendar::setDefaultReminders(const Alarm::List &alarms)
 {
-  d->alarms = alarms;
+    d->alarms = alarms;
 }
 
-void Calendar::addDefaultReminer (const Alarm::Ptr &alarm)
+void Calendar::addDefaultReminer(const Alarm::Ptr &alarm)
 {
-  d->alarms.append(alarm);
+    d->alarms.append(alarm);
 }
 
 Alarm::List Calendar::defaultReminders() const
 {
-  return d->alarms;
+    return d->alarms;
 }
 

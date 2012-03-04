@@ -22,21 +22,24 @@
 
 #include <KDE/KDialog>
 #include <KDE/KJob>
-#include <Akonadi/ResourceBase>
+#include <KDE/Akonadi/ResourceBase>
 
-namespace Ui {
-  class SettingsDialog;
+namespace Ui
+{
+class SettingsDialog;
 }
 
-namespace KGoogle {
-  class Auth;
-  class Reply;
-  class AccessManager;
+namespace KGoogle
+{
+class Auth;
+class Reply;
+class AccessManager;
 
-  namespace Objects {
-    class Calendar;
-    class TaskList;
-  }
+namespace Objects
+{
+class Calendar;
+class TaskList;
+}
 }
 
 class QListWidgetItem;
@@ -45,7 +48,7 @@ using namespace KGoogle;
 
 class SettingsDialog : public KDialog
 {
-  Q_OBJECT
+    Q_OBJECT
   public:
     SettingsDialog(WId windowId, QWidget *parent = 0);
     ~SettingsDialog();
@@ -75,6 +78,7 @@ class SettingsDialog : public KDialog
     void editTaskList(KGoogle::Objects::TaskList *taskList);
 
     void saveSettings();
+
   private:
     Ui::SettingsDialog *m_ui;
     WId m_windowId;

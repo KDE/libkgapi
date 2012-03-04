@@ -22,27 +22,27 @@
 using namespace KGoogle::Objects;
 
 Task::Task():
-  m_deleted(false)
+    m_deleted(false)
 { }
 
 Task::Task(const Task& other):
-  KGoogle::Object(other),
+    KGoogle::Object(other),
 #ifdef WITH_KCAL
-  KCal::Todo(other),
+    KCal::Todo(other),
 #else
-  KCalCore::Todo(other),
+    KCalCore::Todo(other),
 #endif
-  m_deleted(other.m_deleted)
+    m_deleted(other.m_deleted)
 { }
 
 #ifdef WITH_KCAL
-Task::Task(const KCal::Todo &other): 
-  KCal::Todo(other),
+Task::Task(const KCal::Todo &other):
+    KCal::Todo(other),
 #else
 Task::Task(const KCalCore::Todo &other):
-  KCalCore::Todo(other),
+    KCalCore::Todo(other),
 #endif
-  m_deleted(false)
+    m_deleted(false)
 { }
 
 Task::~Task()
@@ -50,10 +50,10 @@ Task::~Task()
 
 void Task::setDeleted(const bool deleted)
 {
-  m_deleted = deleted;
+    m_deleted = deleted;
 }
 
 bool Task::deleted() const
 {
-  return m_deleted;
+    return m_deleted;
 }

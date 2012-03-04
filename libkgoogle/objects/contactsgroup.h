@@ -23,106 +23,106 @@
 #include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-#include <qdatetime.h>
-#include <qsharedpointer.h>
-#include <qmetatype.h>
+#include <QtCore/QDateTime>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QMetaType>
 
 namespace KGoogle
 {
 
-  namespace Objects
-  {
+namespace Objects
+{
 
-    class ContactsGroupPrivate;
+class ContactsGroupPrivate;
+
+/**
+ * Represents a single contacts group.
+ *
+ * Unlike groups in KDE (a meta-contact with list of emails and names),
+ * groups in Google represent a collection of contacts.
+ */
+class LIBKGOOGLE_EXPORT ContactsGroup : public KGoogle::Object
+{
+  public:
+    typedef QSharedPointer< ContactsGroup > Ptr;
+
+    ContactsGroup();
+
+    ContactsGroup(const ContactsGroup &other);
+
+    virtual ~ContactsGroup();
 
     /**
-     * Represents a single contacts group.
+     * Sets group ID
      *
-     * Unlike groups in KDE (a meta-contact with list of emails and names),
-     * groups in Google represent a collection of contacts.
+     * @param id ID of group.
      */
-    class LIBKGOOGLE_EXPORT ContactsGroup : public KGoogle::Object
-    {
-      public:
-	typedef QSharedPointer< ContactsGroup > Ptr;
+    void setId(const QString &id);
 
-        ContactsGroup();
+    /**
+     * Returns group ID.
+     */
+    QString id() const;
 
-	ContactsGroup(const ContactsGroup &other);
+    /**
+     * Sets group name.
+     *
+     * @param title Group name.
+     */
+    void setTitle(const QString &title);
 
-        virtual ~ContactsGroup();
+    /**
+     * Returns group name.
+     */
+    QString title() const;
 
-	/**
-	 * Sets group ID
-	 *
-	 * @param id ID of group.
-	 */
-	void setId(const QString &id);
+    /**
+     * Sets description what kind of contacts the group contains.
+     *
+     * @param content Description of group content.
+     */
+    void setContent(const QString &content);
 
-	/**
-	 * Returns group ID.
-	 */
-	QString id() const;
+    /**
+     * Returns description of group content.
+     */
+    QString content() const;
 
-	/**
-	 * Sets group name.
-	 *
-	 * @param title Group name.
-	 */
-	void setTitle(const QString &title);
+    /**
+     * Sets when was the group updated last time.
+     *
+     * @param updated Date and time of last update.
+     */
+    void setUpdated(const QDateTime &updated);
 
-	/**
-	 * Returns group name.
-	 */
-	QString title() const;
+    /**
+     * Returns date and time of last update.
+     */
+    QDateTime updated() const;
 
-	/**
-	 * Sets description what kind of contacts the group contains.
-	 *
-	 * @param content Description of group content.
-	 */
-	void setContent(const QString &content);
+    /**
+     * Sets whether this group is a system group.
+     *
+     * The system groups (Family, Co-workers, etc.)are present in all
+     * addressbooks.
+     *
+     * Default value is false.
+     *
+     * @param isSystemGroup Whether group is the system group.
+     */
+    void setIsSystemGroup(const bool isSystemGroup);
 
-	/**
-	 * Returns description of group content.
-	 */
-	QString content() const;
+    /**
+     * Returns whether the group is a system group..
+     */
+    bool isSystemGroup() const;
 
-	/**
-	 * Sets when was the group updated last time.
-	 *
-	 * @param updated Date and time of last update.
-	 */
-	void setUpdated(const QDateTime &updated);
+  private:
+    QExplicitlySharedDataPointer< ContactsGroupPrivate > d;
 
-	/**
-	 * Returns date and time of last update.
-	 */
-	QDateTime updated() const;
+};
 
-	/**
-	 * Sets whether this group is a system group.
-	 *
-	 * The system groups (Family, Co-workers, etc.)are present in all
-	 * addressbooks.
-	 *
-	 * Default value is false.
-	 *
-	 * @param isSystemGroup Whether group is the system group.
-	 */
-	void setIsSystemGroup(const bool isSystemGroup);
-
-	/**
-	 * Returns whether the group is a system group..
-	 */
-	bool isSystemGroup() const;
-
-      private:
-	QExplicitlySharedDataPointer< ContactsGroupPrivate > d;
-
-    };
-
-  } /* namespace Objects */
+} /* namespace Objects */
 
 } /* namespace KGoogle */
 

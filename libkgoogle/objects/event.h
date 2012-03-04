@@ -23,27 +23,25 @@
 #include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-#include <qmetatype.h>
-#include <qshareddata.h>
-#include <qlist.h>
-#include <kcalcore/event.h>
-
+#include <QtCore/QMetaType>
+#include <QtCore/QSharedData>
+#include <QtCore/QList>
 
 #ifdef WITH_KCAL
-#include <kcal/event.h>
-#include <kcal/person.h>
-#include <kcal/attendee.h>
-#include <kcal/alarm.h>
+#include <KDE/KCal/Event>
+#include <KDE/KCal/Person>
+#include <KDE/KCal/Attendee>
+#include <KDE/KCal/Alarm>
 #include <boost/shared_ptr.hpp>
 typedef boost::shared_ptr<KCal::Event> EventPtr;
 typedef KCal::Attendee* AttendeePtr;
 typedef KCal::Person* PersonPtr;
 typedef KCal::Alarm* AlarmPtr;
 #else
-#include <kcalcore/event.h>
-#include <kcalcore/person.h>
-#include <kcalcore/attendee.h>
-#include <kcalcore/alarm.h>
+#include <KDE/KCalCore/Event>
+#include <KDE/KCalCore/Person>
+#include <KDE/KCalCore/Attendee>
+#include <KDE/KCalCore/Alarm>
 typedef KCalCore::Event::Ptr EventPtr;
 typedef KCalCore::Attendee::Ptr AttendeePtr;
 typedef KCalCore::Person::Ptr PersonPtr;
@@ -54,73 +52,73 @@ typedef KCalCore::Alarm::Ptr AlarmPtr;
 namespace KGoogle
 {
 
-  namespace Objects
-  {
+namespace Objects
+{
 
-    class EventData;
+class EventData;
+
+/**
+ * Information about an Event.
+ */
+#ifdef WITH_KCAL
+class LIBKGOOGLE_EXPORT Event: public KGoogle::Object, public KCal::Event
+#else
+class LIBKGOOGLE_EXPORT Event: public KGoogle::Object, public KCalCore::Event
+#endif
+{
+  public:
+    typedef QList<Event> List;
+    typedef QSharedPointer<Event> Ptr;
 
     /**
-     * Information about an Event.
+     * Constructs a new event.
      */
+    Event();
+    Event(const Event& other);
 #ifdef WITH_KCAL
-    class LIBKGOOGLE_EXPORT Event: public KGoogle::Object, public KCal::Event
+    Event(const KCal::Event &event);
 #else
-    class LIBKGOOGLE_EXPORT Event: public KGoogle::Object, public KCalCore::Event
-#endif
-    {
-      public:
-        typedef QList<Event> List;
-        typedef QSharedPointer<Event> Ptr;
-
-        /**
-         * Constructs a new event.
-         */
-        Event();
-        Event (const Event& other);
-#ifdef WITH_KCAL
-        Event (const KCal::Event &event);
-#else
-        Event (const KCalCore::Event &event);
+    Event(const KCalCore::Event &event);
 #endif
 
-        ~Event();
+    ~Event();
 
-        /**
-         * Tags event as deleted on the remote server.
-         */
-        void setDeleted (const bool deleted);
+    /**
+     * Tags event as deleted on the remote server.
+     */
+    void setDeleted(const bool deleted);
 
-        /**
-         * Returns wheter the event was removed on the remote server.
-         */
-        bool deleted() const;
+    /**
+     * Returns wheter the event was removed on the remote server.
+     */
+    bool deleted() const;
 
-        /**
-         * Sets whether the event should use calendar's default reminders.
-         */
-        void setUseDefaultReminders (const bool &useDefault);
+    /**
+     * Sets whether the event should use calendar's default reminders.
+     */
+    void setUseDefaultReminders(const bool &useDefault);
 
-        /**
-         * Returns whether the event should use calendar's default reminders.
-         */
-        bool useDefaultReminders() const;
+    /**
+     * Returns whether the event should use calendar's default reminders.
+     */
+    bool useDefaultReminders() const;
 
-        /**
-         * Compares one event to another
-         */
-        Event& operator= (const Event& other);
+    /**
+     * Compares one event to another
+     */
+    Event& operator= (const Event& other);
 
-      private:
-        QExplicitlySharedDataPointer<EventData> d;
+  private:
+    QExplicitlySharedDataPointer<EventData> d;
 
-    };
+};
 
-  } // namespace Objects
+} // namespace Objects
 
 } // namepsace KGoogle
 
-Q_DECLARE_METATYPE (KGoogle::Objects::Event::Ptr)
-Q_DECLARE_METATYPE (KGoogle::Objects::Event::List)
+Q_DECLARE_METATYPE(KGoogle::Objects::Event::Ptr)
+Q_DECLARE_METATYPE(KGoogle::Objects::Event::List)
 
 
 #endif // OBJECT_EVENT_H

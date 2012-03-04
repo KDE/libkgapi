@@ -16,42 +16,40 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <qshareddata.h>
-#include <qstring.h>
-
-#include <kdatetime.h>
+#include <QtCore/QSharedData>
+#include <QtCore/QString>
 
 #ifdef WITH_KCAL
-#include <kcal/alarm.h>
+#include <KDE/KCal/Alarm>
 using namspace KCal;
 #else
-#include <kcalcore/alarm.h>
+#include <KDE/KCalCore/Alarm>
 using namespace KCalCore;
 #endif
 
 namespace KGoogle
 {
 
-  namespace Objects
-  {
+namespace Objects
+{
 
-    class CalendarData: public QSharedData
-    {
-      public:
-        CalendarData() {};
-        CalendarData (const CalendarData &other);
-        ~CalendarData() {};
+class CalendarData: public QSharedData
+{
+  public:
+    CalendarData() {};
+    CalendarData(const CalendarData &other);
+    ~CalendarData() {};
 
-        QString uid;
-        QString title;
-        QString details;
-        QString timezone;
-        QString location;
-        bool editable;
+    QString uid;
+    QString title;
+    QString details;
+    QString timezone;
+    QString location;
+    bool editable;
 
-        Alarm::List alarms;
-    };
+    Alarm::List alarms;
+};
 
-  } // namespace Objects
+} // namespace Objects
 
 } // namespace KGoogle

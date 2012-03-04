@@ -23,78 +23,80 @@
 #include <libkgoogle/service.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  class Object;
+class Object;
 
-  namespace Services {
+namespace Services
+{
 
-    class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Service
-    {
-      public:
-        static QUrl ScopeUrl;
-        static QUrl EmailScopeUrl;
+class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Service
+{
+  public:
+    static QUrl ScopeUrl;
+    static QUrl EmailScopeUrl;
 
-        /**
-         * Implements KGoogle::Service::JSONToObject().
-         */
-        KGoogle::Object *JSONToObject (const QByteArray &jsonData);
+    /**
+     * Implements KGoogle::Service::JSONToObject().
+     */
+    KGoogle::Object *JSONToObject(const QByteArray &jsonData);
 
-        /**
-         * Service version 1 is supported now.
-         */
-        QString protocolVersion() const;
+    /**
+     * Service version 1 is supported now.
+     */
+    QString protocolVersion() const;
 
-        /**
-         * The AccountInfo provides read-only access, so serializer is not implemented.
-         *
-         * This method does nothing.
-         */
-        QByteArray objectToJSON (KGoogle::Object *object);
+    /**
+     * The AccountInfo provides read-only access, so serializer is not implemented.
+     *
+     * This method does nothing.
+     */
+    QByteArray objectToJSON(KGoogle::Object *object);
 
-        /**
-         * Returns scope URL for AccountInfo service.
-         */
-        const QUrl& scopeUrl() const;
+    /**
+     * Returns scope URL for AccountInfo service.
+     */
+    const QUrl& scopeUrl() const;
 
-        /**
-         * Returns KGoogle::Request::Fetch URL.
-         *
-         * https://www.googleapis.com/oauth2/v1/userinfo
-         */
-        static QUrl fetchUrl();
+    /**
+     * Returns KGoogle::Request::Fetch URL.
+     *
+     * https://www.googleapis.com/oauth2/v1/userinfo
+     */
+    static QUrl fetchUrl();
 
-        /**
-         * The AccountInfo always returns informations about single account, never feed.
-         *
-         * This method does nothing.
-         */
-        QList< KGoogle::Object * > parseJSONFeed (const QByteArray &jsonFeed, KGoogle::FeedData *feedData = 0);
+    /**
+     * The AccountInfo always returns informations about single account, never feed.
+     *
+     * This method does nothing.
+     */
+    QList< KGoogle::Object * > parseJSONFeed(const QByteArray &jsonFeed, KGoogle::FeedData *feedData = 0);
 
-        /**
-         * The AccountInfo service supports only JSON format.
-         *
-         * This method does nothing.
-         */
-        QList< KGoogle::Object * > parseXMLFeed (const QByteArray &xmlFeed, KGoogle::FeedData *feedData = 0);
+    /**
+     * The AccountInfo service supports only JSON format.
+     *
+     * This method does nothing.
+     */
+    QList< KGoogle::Object * > parseXMLFeed(const QByteArray &xmlFeed, KGoogle::FeedData *feedData = 0);
 
-        /**
-         * The AccountInfo service supports only JSON format.
-         *
-         * This method does nothing.
-         */
-        QByteArray objectToXML (KGoogle::Object *object);
+    /**
+     * The AccountInfo service supports only JSON format.
+     *
+     * This method does nothing.
+     */
+    QByteArray objectToXML(KGoogle::Object *object);
 
-        /**
-         * The AccountInfo service supports only JSON format.
-         *
-         * This method does nothing.
-         */
-        KGoogle::Object *XMLToObject (const QByteArray &xmlData);
+    /**
+     * The AccountInfo service supports only JSON format.
+     *
+     * This method does nothing.
+     */
+    KGoogle::Object *XMLToObject(const QByteArray &xmlData);
 
-    };
+};
 
-  } /* namespace Services */
+} /* namespace Services */
 
 } /* namespace KGoogle */
 

@@ -23,14 +23,14 @@
 #include "reply.h"
 #include "service.h"
 
-#include <qnetworkreply.h>
-#include <qnetworkrequest.h>
-#include <qbytearray.h>
-#include <qurl.h>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkRequest>
+#include <QtCore/QByteArray>
+#include <QtCore/QUrl>
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-#include <kdebug.h>
+#include <KDE/KDebug>
 
 #define RequestAttribute QNetworkRequest::User
 
@@ -39,267 +39,268 @@ extern int debugArea();
 using namespace KGoogle;
 
 AccessManagerPrivate::AccessManagerPrivate(AccessManager* const parent):
-  QObject(),
-  nam(new KIO::Integration::AccessManager(this)),
-  cacheSemaphore(new QSemaphore(1)),
-  q_ptr(parent)
+    QObject(),
+    nam(new KIO::Integration::AccessManager(this)),
+    cacheSemaphore(new QSemaphore(1)),
+    q_ptr(parent)
 {
-  connect(nam, SIGNAL(finished(QNetworkReply*)),
-          this, SLOT(nam_replyReceived(QNetworkReply*)));
-  connect(Auth::instance(), SIGNAL(authenticated(KGoogle::Account*)),
-          this, SLOT(authenticated()));
+    connect(nam, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(nam_replyReceived(QNetworkReply*)));
+    connect(Auth::instance(), SIGNAL(authenticated(KGoogle::Account*)),
+            this, SLOT(authenticated()));
 }
 
 AccessManagerPrivate::~AccessManagerPrivate()
 {
-  if (nam)
-    delete nam;
+    if (nam)
+        delete nam;
 
-  if (cacheSemaphore)
-    delete cacheSemaphore;
+    if (cacheSemaphore)
+        delete cacheSemaphore;
 }
 
 void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 {
-  Q_Q(AccessManager);
+    Q_Q(AccessManager);
 
-  QUrl new_request;
+    QUrl new_request;
 
-  QByteArray rawData = reply->readAll();
+    QByteArray rawData = reply->readAll();
 
 #ifdef DEBUG_RAWDATA
-  QStringList headers;
-  foreach (QString str, reply->rawHeaderList()) {
-    headers << str + ": " + reply->rawHeader(str.toLatin1());
-  }
-  kDebug() << headers;
-  kDebug() << rawData;
+    QStringList headers;
+    foreach(QString str, reply->rawHeaderList()) {
+        headers << str + ": " + reply->rawHeader(str.toLatin1());
+    }
+    kDebug() << headers;
+    kDebug() << rawData;
 #endif
 
-  int processedItems = -1;
-  int totalItems = -1;
+    int processedItems = -1;
+    int totalItems = -1;
 
-  KGoogle::Request *request = reply->request().attribute(RequestAttribute).value<KGoogle::Request*>();
-  if (!request) {
-    emit q->error(KGoogle::InvalidResponse, i18n("No valid reply received"));
-    return;
-  }
+    KGoogle::Request *request = reply->request().attribute(RequestAttribute).value<KGoogle::Request*>();
+    if (!request) {
+        emit q->error(KGoogle::InvalidResponse, i18n("No valid reply received"));
+        return;
+    }
 
-  int replyCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-  if (replyCode == 0) {
+    int replyCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (replyCode == 0) {
 
-      /* Workaround for a bug (??), when QNetworkReply does not report HTTP/1.1 401 Unauthorized
-       * as an error. */
-      if (!reply->rawHeaderList().isEmpty()) {
-        QString status = reply->rawHeaderList().first();
-        if (status.startsWith("HTTP/1.1 401"))
-          replyCode = KGoogle::Unauthorized;
-      }
-  }
+        /* Workaround for a bug (??), when QNetworkReply does not report HTTP/1.1 401 Unauthorized
+         * as an error. */
+        if (!reply->rawHeaderList().isEmpty()) {
+            QString status = reply->rawHeaderList().first();
+            if (status.startsWith("HTTP/1.1 401"))
+                replyCode = KGoogle::Unauthorized;
+        }
+    }
 
-  switch (replyCode) {
+    switch (replyCode) {
     case KGoogle::OK:           /** << OK status (fetched, updated, removed) */
     case KGoogle::Created:      /** << OK status (created) */
     case KGoogle::NoContent:    /** << OK status (removed task using Tasks API) */
-      break;
+        break;
 
     case KGoogle::TemporarilyMoved:  /** << Temporarily moved - Google provides a new URL where to send the request */
-      kDebug() << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
-      request->setUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
-      nam_sendRequest(request);
-      return;
+        kDebug() << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
+        request->setUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
+        nam_sendRequest(request);
+        return;
 
     case KGoogle::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
-      kWarning() << "Bad request, Google replied '" << rawData << "'";
-      emit q->error(KGoogle::BadRequest, i18n("Bad request."));
-      return;
+        kWarning() << "Bad request, Google replied '" << rawData << "'";
+        emit q->error(KGoogle::BadRequest, i18n("Bad request."));
+        return;
 
     case KGoogle::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
-      /* Lock the service, add request to cache and request new tokens. */
-      cache << request;
-      if (cacheSemaphore->available() == 1) {
-        cacheSemaphore->acquire();
+        /* Lock the service, add request to cache and request new tokens. */
+        cache << request;
+        if (cacheSemaphore->available() == 1) {
+            cacheSemaphore->acquire();
 
-        int type = QMetaType::type(qPrintable(request->serviceName()));
-        KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
-        QUrl scope = service->scopeUrl();
+            int type = QMetaType::type(qPrintable(request->serviceName()));
+            KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
+            QUrl scope = service->scopeUrl();
 
-        if (!request->account()->scopes().contains(scope))
-          request->account()->addScope(scope);
+            if (!request->account()->scopes().contains(scope))
+                request->account()->addScope(scope);
 
-        KGoogle::Auth *auth = KGoogle::Auth::instance();
-        connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
-                this, SLOT(submitCache()));
-        auth->authenticate(request->account(), true);
-      }
-      /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
-      return;
+            KGoogle::Auth *auth = KGoogle::Auth::instance();
+            connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
+                    this, SLOT(submitCache()));
+            auth->authenticate(request->account(), true);
+        }
+        /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
+        return;
 
     default: /** Something went wrong, there's nothing we can do about it */
-      kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
-                 << ", Google replied '" << rawData << "'";
-      emit q->error(KGoogle::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", QString(rawData)));
-      return;
-  }
+        kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
+                   << ", Google replied '" << rawData << "'";
+        emit q->error(KGoogle::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", QString(rawData)));
+        return;
+    }
 
-  QList< KGoogle::Object* > replyData;
+    QList< KGoogle::Object* > replyData;
 
-  int type = QMetaType::type(qPrintable(request->serviceName()));
-  KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
+    int type = QMetaType::type(qPrintable(request->serviceName()));
+    KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
 
-  switch (request->requestType()) {
-    /* For fetch-all request parse the XML/JSON reply and split it to individual
-     * <entry>/entry blocks which then convert to QList of KGoogleObjects */
+    switch (request->requestType()) {
+        /* For fetch-all request parse the XML/JSON reply and split it to individual
+         * <entry>/entry blocks which then convert to QList of KGoogleObjects */
     case KGoogle::Request::FetchAll: {
-      KGoogle::FeedData* feedData = new KGoogle::FeedData;
+        KGoogle::FeedData* feedData = new KGoogle::FeedData;
 
-      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
-          reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
+        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
 
-        replyData = service->parseJSONFeed(rawData, feedData);
+            replyData = service->parseJSONFeed(rawData, feedData);
 
-      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
-                 reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
+        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
+                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
 
-        replyData = service->parseXMLFeed(rawData, feedData);
+            replyData = service->parseXMLFeed(rawData, feedData);
 
-      } else {
-        kDebug() << "Unknown reply content type!";
-      }
+        } else {
+            kDebug() << "Unknown reply content type!";
+        }
 
-      processedItems = feedData->startIndex;
-      totalItems = feedData->totalResults;
+        processedItems = feedData->startIndex;
+        totalItems = feedData->totalResults;
 
-      if (feedData->nextLink.isValid()) {
-        QUrl url(feedData->nextLink);
-        new_request.setUrl(request->url().toString());
-        new_request.removeAllQueryItems("start-index");
-        new_request.removeAllQueryItems("max-results");
-        new_request.addQueryItem("start-index", url.queryItemValue("start-index"));
-        new_request.addQueryItem("max-results", url.queryItemValue("max-results"));
+        if (feedData->nextLink.isValid()) {
+            QUrl url(feedData->nextLink);
+            new_request.setUrl(request->url().toString());
+            new_request.removeAllQueryItems("start-index");
+            new_request.removeAllQueryItems("max-results");
+            new_request.addQueryItem("start-index", url.queryItemValue("start-index"));
+            new_request.addQueryItem("max-results", url.queryItemValue("max-results"));
 
-        delete feedData;
+            delete feedData;
 
-        break;
-      }
+            break;
+        }
     } break;
 
     case KGoogle::Request::Fetch:
     case KGoogle::Request::Create:
     case KGoogle::Request::Update: {
-      if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
-          reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
+        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
 
-        replyData.append(service->JSONToObject(rawData));
+            replyData.append(service->JSONToObject(rawData));
 
-      } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
-                 reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
+        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
+                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
 
-        replyData.append(service->XMLToObject(rawData));
+            replyData.append(service->XMLToObject(rawData));
 
-      }
+        }
     } break;
 
     case KGoogle::Request::Remove:
     case KGoogle::Request::Move:
-      break;
-  }
+        break;
+    }
 
-  KGoogle::Reply *greply;
-  greply = new KGoogle::Reply(request->requestType(),
-                              (KGoogle::Error) reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
-                              request->serviceName(), replyData, request, rawData);
+    KGoogle::Reply *greply;
+    greply = new KGoogle::Reply(request->requestType(),
+                                (KGoogle::Error) reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
+                                request->serviceName(), replyData, request, rawData);
 
-  emit q->replyReceived(greply);
+    emit q->replyReceived(greply);
 
-  /* Re-send the request on a new URL */
-  if (new_request.isValid()) {
-    request->setUrl(new_request);
-    nam_sendRequest(request);
+    /* Re-send the request on a new URL */
+    if (new_request.isValid()) {
+        request->setUrl(new_request);
+        nam_sendRequest(request);
 
-    if ((processedItems > -1) && (totalItems > -1))
-      emit q->requestProgress(request, processedItems, totalItems);
+        if ((processedItems > -1) && (totalItems > -1)) {
+            emit q->requestProgress(request, processedItems, totalItems);
+        }
 
-  } else {
-    emit q->requestFinished(request);
-  }
+    } else {
+        emit q->requestFinished(request);
+    }
 
-  delete service;
+    delete service;
 }
 
 void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
 {
-  Q_Q(AccessManager);
+    Q_Q(AccessManager);
 
-  QNetworkRequest nr;
+    QNetworkRequest nr;
 
-  kDebug() << "Sending request to " << request->url();
-
-#ifdef DEBUG_RAWDATA
-  kDebug() << request->requestData();
-#endif
-
-  int type = QMetaType::type(qPrintable(request->serviceName()));
-  KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
-  if (!service) {
-    kWarning() << "Failed to resolve service " << request->serviceName();
-    emit q->error(KGoogle::UnknownService, i18n("Invalid request, service %1 is not registered.", request->serviceName()));
-    return;
-  }
-
-  nr.setRawHeader("Authorization","Bearer " + request->account()->accessToken().toLatin1());
-  nr.setRawHeader("GData-Version", service->protocolVersion().toLatin1());
-  nr.setUrl(request->url());
-  nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
+    kDebug() << "Sending request to " << request->url();
 
 #ifdef DEBUG_RAWDATA
-  QStringList headers;
-  foreach (QString str, nr.rawHeaderList()) {
-    headers << str + ": " + nr.rawHeader(str.toLatin1());
-  }
-  kDebug() << headers;
+    kDebug() << request->requestData();
 #endif
 
-  delete service;
+    int type = QMetaType::type(qPrintable(request->serviceName()));
+    KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
+    if (!service) {
+        kWarning() << "Failed to resolve service " << request->serviceName();
+        emit q->error(KGoogle::UnknownService, i18n("Invalid request, service %1 is not registered.", request->serviceName()));
+        return;
+    }
 
-  switch (request->requestType()) {
+    nr.setRawHeader("Authorization", "Bearer " + request->account()->accessToken().toLatin1());
+    nr.setRawHeader("GData-Version", service->protocolVersion().toLatin1());
+    nr.setUrl(request->url());
+    nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
+
+#ifdef DEBUG_RAWDATA
+    QStringList headers;
+    foreach(QString str, nr.rawHeaderList()) {
+        headers << str + ": " + nr.rawHeader(str.toLatin1());
+    }
+    kDebug() << headers;
+#endif
+
+    delete service;
+
+    switch (request->requestType()) {
     case KGoogle::Request::FetchAll:
-      nam->get(nr);
-      break;
+        nam->get(nr);
+        break;
 
     case KGoogle::Request::Fetch:
-      nam->get(nr);
-      break;
+        nam->get(nr);
+        break;
 
     case KGoogle::Request::Create:
     case KGoogle::Request::Move:
-      nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
-      nam->post(nr, request->requestData());
-      break;
+        nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
+        nam->post(nr, request->requestData());
+        break;
 
     case KGoogle::Request::Update:
-      nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
-      nr.setRawHeader("If-Match", "*");
-      nam->put(nr, request->requestData());
-      break;
+        nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
+        nr.setRawHeader("If-Match", "*");
+        nam->put(nr, request->requestData());
+        break;
 
     case KGoogle::Request::Remove:
-      nr.setRawHeader("If-Match", "*");
-      nam->deleteResource(nr);
-      break;
-  }
+        nr.setRawHeader("If-Match", "*");
+        nam->deleteResource(nr);
+        break;
+    }
 }
 
 void AccessManagerPrivate::authenticated()
 {
-  cacheSemaphore->release();;
+    cacheSemaphore->release();;
 
-  submitCache();
+    submitCache();
 }
 
 
 void AccessManagerPrivate::submitCache()
 {
-  while (!cache.isEmpty() && cacheSemaphore->available())
-    nam_sendRequest(cache.takeFirst());
+    while (!cache.isEmpty() && cacheSemaphore->available())
+        nam_sendRequest(cache.takeFirst());
 }

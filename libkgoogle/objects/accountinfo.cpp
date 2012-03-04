@@ -23,31 +23,31 @@
 using namespace KGoogle::Objects;
 
 AccountInfoData::AccountInfoData(const AccountInfoData &other):
-  QSharedData(other),
-  id(other.id),
-  email(other.email),
-  name(other.name),
-  givenName(other.givenName),
-  familyName(other.familyName),
-  birthday(other.birthday),
-  gender(other.gender),
-  link(other.link),
-  locale(other.locale),
-  timezone(other.timezone),
-  verifiedEmail(other.verifiedEmail),
-  pictureUrl(other.pictureUrl)
+    QSharedData(other),
+    id(other.id),
+    email(other.email),
+    name(other.name),
+    givenName(other.givenName),
+    familyName(other.familyName),
+    birthday(other.birthday),
+    gender(other.gender),
+    link(other.link),
+    locale(other.locale),
+    timezone(other.timezone),
+    verifiedEmail(other.verifiedEmail),
+    pictureUrl(other.pictureUrl)
 { }
 
 AccountInfo::AccountInfo():
-  KGoogle::Object(),
-  d(new AccountInfoData)
+    KGoogle::Object(),
+    d(new AccountInfoData)
 {
 
 }
 
-AccountInfo::AccountInfo (const AccountInfo &other):
-  KGoogle::Object(other),
-  d(other.d)
+AccountInfo::AccountInfo(const AccountInfo &other):
+    KGoogle::Object(other),
+    d(other.d)
 { }
 
 AccountInfo::~AccountInfo()
@@ -55,122 +55,122 @@ AccountInfo::~AccountInfo()
 
 }
 
-void AccountInfo::setId (const QString &id)
+void AccountInfo::setId(const QString &id)
 {
-  d->id = id;
+    d->id = id;
 }
 
 QString AccountInfo::id() const
 {
-  return d->id;
+    return d->id;
 }
 
-void AccountInfo::setEmail (const QString &email)
+void AccountInfo::setEmail(const QString &email)
 {
-  d->email = email;
+    d->email = email;
 }
 
 QString AccountInfo::email() const
 {
-  return d->email;
+    return d->email;
 }
 
-void AccountInfo::setName (const QString &name)
+void AccountInfo::setName(const QString &name)
 {
-  d->name = name;
+    d->name = name;
 }
 
 QString AccountInfo::name() const
 {
-  return d->name;
+    return d->name;
 }
 
-void AccountInfo::setGivenName (const QString &givenName)
+void AccountInfo::setGivenName(const QString &givenName)
 {
-  d->givenName = givenName;
+    d->givenName = givenName;
 }
 
 QString AccountInfo::givenName() const
 {
-  return d->givenName;
+    return d->givenName;
 }
 
-void AccountInfo::setFamilyName (const QString &familyName)
+void AccountInfo::setFamilyName(const QString &familyName)
 {
-  d->familyName = familyName;
+    d->familyName = familyName;
 }
 
 QString AccountInfo::familyName() const
 {
-  return d->familyName;
+    return d->familyName;
 }
 
-void AccountInfo::setBirthday (const QString &birthday)
+void AccountInfo::setBirthday(const QString &birthday)
 {
-  d->birthday = birthday;
+    d->birthday = birthday;
 }
 
 QString AccountInfo::birthday() const
 {
-  return d->birthday;
+    return d->birthday;
 }
 
-void AccountInfo::setGender (const QString &gender)
+void AccountInfo::setGender(const QString &gender)
 {
-  d->gender = gender;
+    d->gender = gender;
 }
 
 QString AccountInfo::gender() const
 {
-  return d->gender;
+    return d->gender;
 }
 
-void AccountInfo::setLink (const QString &link)
+void AccountInfo::setLink(const QString &link)
 {
-  d->link = link;
+    d->link = link;
 }
 
 QString AccountInfo::link() const
 {
-  return d->link;
+    return d->link;
 }
 
-void AccountInfo::setLocale (const QString &locale)
+void AccountInfo::setLocale(const QString &locale)
 {
-  d->locale = locale;
+    d->locale = locale;
 }
 
 QString AccountInfo::locale() const
 {
-  return d->locale;
+    return d->locale;
 }
 
-void AccountInfo::setTimezone (const QString &timezone)
+void AccountInfo::setTimezone(const QString &timezone)
 {
-  d->timezone = timezone;
+    d->timezone = timezone;
 }
 
 QString AccountInfo::timezone() const
 {
-  return d->timezone;
+    return d->timezone;
 }
 
-void AccountInfo::setVerifiedEmail (const bool verifiedEmail)
+void AccountInfo::setVerifiedEmail(const bool verifiedEmail)
 {
-  d->verifiedEmail = verifiedEmail;
+    d->verifiedEmail = verifiedEmail;
 }
 
 bool AccountInfo::verifiedEmail() const
 {
-  return d->verifiedEmail;
+    return d->verifiedEmail;
 }
 
-void AccountInfo::setPhotoUrl (const QString &url)
+void AccountInfo::setPhotoUrl(const QString &url)
 {
-  d->pictureUrl = url;
+    d->pictureUrl = url;
 }
 
 const QString &AccountInfo::photoUrl() const
 {
-  return d->pictureUrl;
+    return d->pictureUrl;
 }

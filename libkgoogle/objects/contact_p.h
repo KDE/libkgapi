@@ -19,38 +19,38 @@
 #ifndef CONTACT_P_H
 #define CONTACT_P_H
 
-#include "qshareddata.h"
-#include "qstring.h"
-#include "qstringlist.h"
-#include "qurl.h"
+#include <QtCore/QSharedData>
+#include <QtCore/QMap>
+#include <QtCore/QString>
+#include <QtCore/QUrl>
 
-#include "kabc/address.h"
-#include "kabc/phonenumber.h"
-#include "kdatetime.h"
+#include <KDE/KDateTime>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+namespace Objects
+{
 
-    class ContactData : public QSharedData
-    {
+class ContactData : public QSharedData
+{
 
-      public:
-	ContactData() { };
-	ContactData(const ContactData &other);
-	~ContactData() { };
+  public:
+    ContactData() { };
+    ContactData(const ContactData &other);
+    ~ContactData() { };
 
-	bool deleted;
-	QUrl photoUrl;
+    bool deleted;
+    QUrl photoUrl;
 
-        /* group URI, isDeleted */
-	QMap< QString, bool > groups;
+    /* group URI, isDeleted */
+    QMap< QString, bool > groups;
 
-	KDateTime updated;
-	KDateTime created;
-    };
+    KDateTime updated;
+    KDateTime created;
+};
 
-  } // namespace Objects
+} // namespace Objects
 
 } // namespace KGoogle
 

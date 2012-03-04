@@ -20,9 +20,8 @@
 #include "event.h"
 #include "event_p.h"
 
-#include <qvariant.h>
-#include <qstring.h>
-#include <qdebug.h>
+#include <QtCore/QVariant>
+#include <QtCore/QString>
 
 using namespace KGoogle;
 
@@ -33,8 +32,8 @@ using namespace KCalCore;
 #endif
 
 Objects::EventData::EventData():
-  deleted(false),
-  useDefaultReminders(false)
+    deleted(false),
+    useDefaultReminders(false)
 { }
 
 Objects::EventData::EventData(const Objects::EventData &other):
@@ -43,60 +42,56 @@ Objects::EventData::EventData(const Objects::EventData &other):
     useDefaultReminders(other.useDefaultReminders)
 { }
 
-
 Objects::Event::Event()
 {
     d = new EventData;
 }
 
 Objects::Event::Event(const Objects::Event &other):
-  KGoogle::Object(other),
+    KGoogle::Object(other),
 #ifdef WITH_KCAL
-  KCal::Event(other),
+    KCal::Event(other),
 #else
-  KCalCore::Event(other),
+    KCalCore::Event(other),
 #endif
-  d(other.d)
+    d(other.d)
 { }
 
 #ifdef WITH_KCAL
 Objects::Event::Event(const KCal::Event &event):
-  KCal::Event(event),
+    KCal::Event(event),
 #else
 Objects::Event::Event(const KCalCore::Event &event):
-  KCalCore::Event(event),
+    KCalCore::Event(event),
 #endif
-  d(new EventData)
+    d(new EventData)
 { }
-
 
 Objects::Event::~Event()
 { }
 
 void Objects::Event::setDeleted(const bool deleted)
 {
-  d->deleted = deleted;
+    d->deleted = deleted;
 }
 
 bool Objects::Event::deleted() const
 {
-  return d->deleted;
+    return d->deleted;
 }
 
-void Objects::Event::setUseDefaultReminders (const bool& useDefault)
+void Objects::Event::setUseDefaultReminders(const bool& useDefault)
 {
-  d->useDefaultReminders = useDefault;
+    d->useDefaultReminders = useDefault;
 }
 
 bool Objects::Event::useDefaultReminders() const
 {
-  return d->useDefaultReminders;
+    return d->useDefaultReminders;
 }
 
-
-
-Objects::Event& Objects::Event::operator=( const Objects::Event& other )
+Objects::Event& Objects::Event::operator=(const Objects::Event& other)
 {
-  d = other.d;
-  return *this;
+    d = other.d;
+    return *this;
 }

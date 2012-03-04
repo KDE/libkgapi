@@ -21,49 +21,51 @@
 
 #include <qobject.h>
 
-namespace KWallet {
-  class Wallet;
+namespace KWallet
+{
+class Wallet;
 }
 
 class QNetworkReply;
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  class Account;
+class Account;
 
-  class Auth;
+class Auth;
 
-  /**
-   * \internal
-   */
-  class AuthPrivate: public QObject
-  {
+/**
+ * \internal
+ */
+class AuthPrivate: public QObject
+{
 
     Q_OBJECT
 
-    public:
-      AuthPrivate(Auth* const parent);
+  public:
+    AuthPrivate(Auth* const parent);
 
-      virtual ~AuthPrivate();
+    virtual ~AuthPrivate();
 
-      QString kwalletFolder;
-      KWallet::Wallet *kwallet;
+    QString kwalletFolder;
+    KWallet::Wallet *kwallet;
 
-      static KGoogle::Auth *instance;
+    static KGoogle::Auth *instance;
 
-      bool initKWallet();
+    bool initKWallet();
 
-    public Q_SLOTS:
-      void fullAuthentication(KGoogle::Account *account, bool autoSave);
-      void fullAuthenticationFinished(KGoogle::Account *account);
+  public Q_SLOTS:
+    void fullAuthentication(KGoogle::Account *account, bool autoSave);
+    void fullAuthenticationFinished(KGoogle::Account *account);
 
-      void refreshTokens(KGoogle::Account *account, bool autoSave);
-      void refreshTokensFinished(QNetworkReply *reply);
+    void refreshTokens(KGoogle::Account *account, bool autoSave);
+    void refreshTokensFinished(QNetworkReply *reply);
 
-    private:
-      Auth* const q_ptr;
-      Q_DECLARE_PUBLIC(Auth)
-  };
+  private:
+    Auth* const q_ptr;
+    Q_DECLARE_PUBLIC(Auth)
+};
 
 }
 

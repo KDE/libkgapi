@@ -23,123 +23,126 @@
 #include <kdebug.h>
 #include <qglobal.h>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  /**
-   * \internal
-   */
-  class RequestPrivate {
+/**
+ * \internal
+ */
+class RequestPrivate
+{
 
-    public:
-      RequestPrivate() { }
+public:
+    RequestPrivate() { }
 
-      Request::RequestType requestType;
-      QString serviceName;
-      QByteArray requestData;
-      QString contentType;
-      QMap< QString,QVariant > properties;
-      KGoogle::Account *account;
-  };
+    Request::RequestType requestType;
+    QString serviceName;
+    QByteArray requestData;
+    QString contentType;
+    QMap< QString, QVariant > properties;
+    KGoogle::Account *account;
+};
 
 }
 
 using namespace KGoogle;
 
 Request::Request():
-  QNetworkRequest(),
-  d_ptr(new RequestPrivate)
+    QNetworkRequest(),
+    d_ptr(new RequestPrivate)
 {
 
 }
 
 Request::Request(const QUrl &url, const KGoogle::Request::RequestType requestType,
                  const QString &serviceName, KGoogle::Account *account):
-  QNetworkRequest(url),
-  d_ptr(new RequestPrivate)
+    QNetworkRequest(url),
+    d_ptr(new RequestPrivate)
 {
-  Q_D(Request);
+    Q_D(Request);
 
-  d->requestType = requestType;
-  d->serviceName = serviceName;
-  d->account = account;
+    d->requestType = requestType;
+    d->serviceName = serviceName;
+    d->account = account;
 }
 
 Request::~Request()
 {
-  delete d_ptr;
+    delete d_ptr;
 }
 
 
 void Request::setRequestType(const KGoogle::Request::RequestType requestType)
 {
-  Q_D(Request);
+    Q_D(Request);
 
-  d->requestType = requestType;
+    d->requestType = requestType;
 }
 
 Request::RequestType Request::requestType() const
 {
-  return d_func()->requestType;
+    return d_func()->requestType;
 }
 
 bool Request::setServiceName(const QString& serviceName)
 {
-  Q_D(Request);
+    Q_D(Request);
 
-  if (QMetaType::type(qPrintable(serviceName)) == 0) {
-    kWarning() << "Trying to use unregistered service " << serviceName;
-    return false;
-  }
+    if (QMetaType::type(qPrintable(serviceName)) == 0) {
+        kWarning() << "Trying to use unregistered service " << serviceName;
+        return false;
+    }
 
-  d->serviceName = serviceName;
+    d->serviceName = serviceName;
 
-  return true;
+    return true;
 }
 
 const QString& Request::serviceName() const
 {
-  return d_func()->serviceName;
+    return d_func()->serviceName;
 }
 
 void Request::setRequestData(const QByteArray& data, const QString &contentType)
 {
-  Q_D(Request);
+    Q_D(Request);
 
-  d->requestData = data;
-  d->contentType = contentType;
+    d->requestData = data;
+    d->contentType = contentType;
 }
 
 const QByteArray& Request::requestData(QString *contentType) const
 {
 
-  if (contentType)
-    *contentType = d_func()->contentType;
+    if (contentType) {
+        *contentType = d_func()->contentType;
+    }
 
-  return d_func()->requestData;
+    return d_func()->requestData;
 }
 
 const QString& Request::contentType() const
 {
-  return d_func()->contentType;
+    return d_func()->contentType;
 }
 
 KGoogle::Account* Request::account() const
 {
-  return d_func()->account;
+    return d_func()->account;
 }
 
 void Request::setProperty(const QString& name, const QVariant& value)
 {
-  Q_D(Request);
-  d->properties.insert(name, value);
+    Q_D(Request);
+    d->properties.insert(name, value);
 }
 
 QVariant Request::property(const QString& name) const
 {
-  return d_func()->properties.value(name);
+    return d_func()->properties.value(name);
 }
 
 bool Request::hasProperty(const QString& name) const
 {
-  return d_func()->properties.contains(name);
+    return d_func()->properties.contains(name);
 }

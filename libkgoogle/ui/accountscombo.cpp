@@ -24,10 +24,10 @@
 
 using namespace KGoogle::Ui;
 
-AccountsCombo::AccountsCombo (QWidget *parent):
-  QComboBox (parent)
+AccountsCombo::AccountsCombo(QWidget *parent):
+    QComboBox(parent)
 {
-  reload();
+    reload();
 }
 
 AccountsCombo::~AccountsCombo()
@@ -37,29 +37,28 @@ AccountsCombo::~AccountsCombo()
 
 KGoogle::Account *AccountsCombo::currentAccount() const
 {
-  int index = currentIndex();
+    int index = currentIndex();
 
-  if (index == -1)
-    return 0;
+    if (index == -1)
+        return 0;
 
-  return qVariantValue< KGoogle::Account* >(itemData(index, Qt::UserRole));
+    return qVariantValue< KGoogle::Account* >(itemData(index, Qt::UserRole));
 }
 
 void AccountsCombo::reload()
 {
-  KGoogle::Auth *auth = KGoogle::Auth::instance();
-  QList< KGoogle::Account* > accounts;
-  clear();
+    KGoogle::Auth *auth = KGoogle::Auth::instance();
+    QList< KGoogle::Account* > accounts;
+    clear();
 
-  try {
-    accounts = auth->getAccounts();
-  }
-  catch (KGoogle::Exception::BackendNotReady &e) {
-    /* Slot must not throw an exception, application might not be ready for that */
-    return;
-  }
+    try {
+        accounts = auth->getAccounts();
+    } catch (KGoogle::Exception::BackendNotReady &e) {
+        /* Slot must not throw an exception, application might not be ready for that */
+        return;
+    }
 
-  foreach (KGoogle::Account *account, accounts) {
-    addItem(account->accountName(), qVariantFromValue(account));
-  }
+    foreach(KGoogle::Account * account, accounts) {
+        addItem(account->accountName(), qVariantFromValue(account));
+    }
 }

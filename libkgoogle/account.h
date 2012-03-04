@@ -20,32 +20,33 @@
 #ifndef LIBKGOOGLE_ACCOUNT_H
 #define LIBKGOOGLE_ACCOUNT_H
 
-#include <qstring.h>
-#include <qurl.h>
-#include <qstringlist.h>
-#include <qmetatype.h>
-#include <qshareddata.h>
-#include <qsharedpointer.h>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QUrl>
+#include <QtCore/QMetaType>
+#include <QtCore/QSharedData>
+#include <QtCore/QSharedPointer>
 
 #include <libkgoogle/libkgoogle_export.h>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  class AccountPrivate;
+class AccountPrivate;
 
-  /**
-   * Account class represents a single Google account.
-   *
-   * Note that any change in the Account (new access token, new refresh token,
-   * changed scopes...), must be stored in the KWallet via
-   * KGoogle::Auth::storeAccount().
-   *
-   * Any change to scopes (adding or removing) requires passing the Account object
-   * to KGoogle::Auth::authenticate() to retrieve new tokens that would grant access
-   * to the new set of scopes only
-   */
-  class LIBKGOOGLE_EXPORT Account
-  {
+/**
+ * Account class represents a single Google account.
+ *
+ * Note that any change in the Account (new access token, new refresh token,
+ * changed scopes...), must be stored in the KWallet via
+ * KGoogle::Auth::storeAccount().
+ *
+ * Any change to scopes (adding or removing) requires passing the Account object
+ * to KGoogle::Auth::authenticate() to retrieve new tokens that would grant access
+ * to the new set of scopes only
+ */
+class LIBKGOOGLE_EXPORT Account
+{
 
     /**
      * Grants access of KGoogle::Auth to KGoogle::Account::m_scopesChanged
@@ -53,121 +54,121 @@ namespace KGoogle {
     friend class AuthPrivate;
     friend class Auth;
 
-    public:
+  public:
 
-      typedef QSharedPointer< Account > Ptr;
+    typedef QSharedPointer< Account > Ptr;
 
-      /**
-       * Creates any empty account.
-       *
-       * Such object represents invalid account.
-       */
-      Account();
+    /**
+     * Creates any empty account.
+     *
+     * Such object represents invalid account.
+     */
+    Account();
 
-      /**
-       * Constructs a new account
-       *
-       * @param account Google account name (usually user.name@gmail.com)
-       * @param accessToken Access token to \p scopes for \p account
-       * @param refreshToken Refres token
-       * @param scopes List of scopes
-       */
-      Account(const QString &account, const QString &accessToken = QString(),
-              const QString &refreshToken = QString(),
-              const QList< QUrl > &scopes = QList< QUrl >());
+    /**
+     * Constructs a new account
+     *
+     * @param account Google account name (usually user.name@gmail.com)
+     * @param accessToken Access token to \p scopes for \p account
+     * @param refreshToken Refres token
+     * @param scopes List of scopes
+     */
+    Account(const QString &account, const QString &accessToken = QString(),
+            const QString &refreshToken = QString(),
+            const QList< QUrl > &scopes = QList< QUrl >());
 
-      Account(const Account &other);
+    Account(const Account &other);
 
-      virtual ~Account();
+    virtual ~Account();
 
-      /**
-       * @return Returns account name (user.name@gmail.com).
-       */
-      QString accountName() const;
+    /**
+     * @return Returns account name (user.name@gmail.com).
+     */
+    QString accountName() const;
 
-      /**
-       * Sets name of account.
-       *
-       * @param accountName Account name.
-       */
-      void setAccountName(const QString &accountName);
+    /**
+     * Sets name of account.
+     *
+     * @param accountName Account name.
+     */
+    void setAccountName(const QString &accountName);
 
-      /**
-       * @return Returns access token for the account.
-       */
-      const QString& accessToken() const;
+    /**
+     * @return Returns access token for the account.
+     */
+    const QString& accessToken() const;
 
-      /**
-       * Sets a new access token for account.
-       *
-       * @param accessToken The new access token.
-       */
-      void setAccessToken(const QString &accessToken);
+    /**
+     * Sets a new access token for account.
+     *
+     * @param accessToken The new access token.
+     */
+    void setAccessToken(const QString &accessToken);
 
-      /**
-       * @return Returns refresh token.
-       */
-      const QString& refreshToken() const;
+    /**
+     * @return Returns refresh token.
+     */
+    const QString& refreshToken() const;
 
-      /**
-       * Sets a new refresh token for the access token.
-       *
-       * @param refreshToken The new refresh token.
-       */
-      void setRefreshToken(const QString &refreshToken);
+    /**
+     * Sets a new refresh token for the access token.
+     *
+     * @param refreshToken The new refresh token.
+     */
+    void setRefreshToken(const QString &refreshToken);
 
-      /**
-       * @return Returns list of scopes the account is authenticated against.
-       */
-      const QList< QUrl > &scopes() const;
+    /**
+     * @return Returns list of scopes the account is authenticated against.
+     */
+    const QList< QUrl > &scopes() const;
 
-      /**
-       * Sets new scopes. Use must re-authenticate to allow access to the new scopes.
-       *
-       * @note Note that user must re-authenticate via KGoogle::Auth::authenticate() to
-       * receive a new token that will grant access to the new list of scopes.
-       *
-       * @param scopes List of the new scopes.
-       */
-      void setScopes(const QList< QUrl > &scopes);
+    /**
+     * Sets new scopes. Use must re-authenticate to allow access to the new scopes.
+     *
+     * @note Note that user must re-authenticate via KGoogle::Auth::authenticate() to
+     * receive a new token that will grant access to the new list of scopes.
+     *
+     * @param scopes List of the new scopes.
+     */
+    void setScopes(const QList< QUrl > &scopes);
 
-      /**
-       * Adds a single scope to account scopes.
-       *
-       * @note Note that user must re-authenticate in KGoogle::Auth::authenticate() to
-       * receive a new token that will grant access to the new list of scopes.
-       *
-       * @param scope The new scope to be added.
-       */
-      void addScope(const QUrl &scope);
+    /**
+     * Adds a single scope to account scopes.
+     *
+     * @note Note that user must re-authenticate in KGoogle::Auth::authenticate() to
+     * receive a new token that will grant access to the new list of scopes.
+     *
+     * @param scope The new scope to be added.
+     */
+    void addScope(const QUrl &scope);
 
-      /**
-       * Removes scope from the list.
-       *
-       * @note Note that user must re-authenticate KGoogle::Auth::authenticate() to
-       * receive a new token that will grant access only to the new subset of scopes.
-       *
-       * @param scope The scope to be removed.
-       */
-      void removeScope(const QUrl &scope);
+    /**
+     * Removes scope from the list.
+     *
+     * @note Note that user must re-authenticate KGoogle::Auth::authenticate() to
+     * receive a new token that will grant access only to the new subset of scopes.
+     *
+     * @param scope The scope to be removed.
+     */
+    void removeScope(const QUrl &scope);
 
-    private:
-      QExplicitlySharedDataPointer< AccountPrivate > d;
+  private:
+    QExplicitlySharedDataPointer< AccountPrivate > d;
 
-      /**
-       * Whether scopes were changed or not.
-       *
-       * KGoogle::Auth reads this attribute when Account is passed to
-       * KGoogle::Auth::authenticate() to determine whether completely new
-       * process of authentication is needed, or wheter just refreshing tokens
-       * is enough.
-       *
-       * When m_scopesChanged is TRUE and KGoogle::Auth::authenticate() successffuly
-       * performs full re-authentication it sets this attribute to FALSE and next time it
-       * will just refresh existing tokens until the scopes are changed again.
-       */
-      bool m_scopesChanged;
-  };
+    /**
+     * Whether scopes were changed or not.
+     *
+     * KGoogle::Auth reads this attribute when Account is passed to
+     * KGoogle::Auth::authenticate() to determine whether completely new
+     * process of authentication is needed, or wheter just refreshing tokens
+     * is enough.
+     *
+     * When m_scopesChanged is TRUE and KGoogle::Auth::authenticate() successffuly
+     * performs full re-authentication it sets this attribute to FALSE and next time it
+     * will just refresh existing tokens until the scopes are changed again.
+     */
+    bool m_scopesChanged;
+};
 
 } /* namespace KGoogle */
 

@@ -27,24 +27,25 @@
 
 #include <klocalizedstring.h>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
 
-  /**
-   * ClientID token for Google API.
-   */
-  const QString APIClientID = "554041944266.apps.googleusercontent.com";
+/**
+ * ClientID token for Google API.
+ */
+const QString APIClientID = "554041944266.apps.googleusercontent.com";
 
-  /**
-   * ClientSecret token for Google API.
-   */
-  const QString APIClientSecret = "mdT1DjzohxN3npUUzkENT0gO";
+/**
+ * ClientSecret token for Google API.
+ */
+const QString APIClientSecret = "mdT1DjzohxN3npUUzkENT0gO";
 
-  /**
-   * Error codes for asynchronous operations. When an error occurs, a signal
-   * with one of following error codes is emitted.
-   */
-  enum Error {
+/**
+ * Error codes for asynchronous operations. When an error occurs, a signal
+ * with one of following error codes is emitted.
+ */
+enum Error {
     /* Internal libKGoogle errors */
     UnknownError = 1,        /// libKGoogle error - a general unidentified error.
     AuthError = 2,           /// libKGoogle error - authentication process failed.
@@ -68,113 +69,135 @@ namespace KGoogle {
     Conflict = 409,          /// Object on the remote site differs from the submitted one. See KGoogle::Object::setEtag().
     Gone = 410,              /// The requested does not exist anymore on the remote site
     InternalError = 500      /// An unexpected error on the Google service occuerd
-  };
+};
 
-  namespace Exception {
+namespace Exception
+{
 
+/**
+* Base class for libKGoogle exceptions.
+*
+* Exceptions are used for synchronous operations. Errors in
+* asynchronous operations are reported via signal with KGoogle::Error code.
+*
+* Exceptions are available only for libkgoogle errors. Errors returned by Google
+* service will be always notified about asynchronously via error() signal.
+*/
+class BaseException: public std::runtime_error
+{
+public:
+    BaseException(const QString &what):
+        std::runtime_error(what.toUtf8().constData()) { };
     /**
-    * Base class for libKGoogle exceptions.
+    * Returns KGoogle::Error code of the exception.
     *
-    * Exceptions are used for synchronous operations. Errors in
-    * asynchronous operations are reported via signal with KGoogle::Error code.
-    *
-    * Exceptions are available only for libkgoogle errors. Errors returned by Google
-    * service will be always notified about asynchronously via error() signal.
+    * @return Returns code of the exception.
     */
-    class BaseException: public std::runtime_error
-    {
-      public:
-        BaseException(const QString &what):
-          std::runtime_error(what.toUtf8().constData()) { };
-        /**
-        * Returns KGoogle::Error code of the exception.
-        *
-        * @return Returns code of the exception.
-        */
-        virtual KGoogle::Error code() const = 0;
+    virtual KGoogle::Error code() const = 0;
+};
+
+/**
+* @see KGoogle::Error::UnknownError
+*/
+class UnknownError: public BaseException
+{
+  public:
+    UnknownError():
+        BaseException(i18n("An unknown error has occured.")) { };
+    KGoogle::Error code() const {
+        return KGoogle::UnknownError;
     };
+};
 
-    /**
-    * @see KGoogle::Error::UnknownError
-    */
-    class UnknownError: public BaseException {
-      public:
-        UnknownError():
-          BaseException(i18n("An unknown error has occured.")) { };
-        KGoogle::Error code() const { return KGoogle::UnknownError; };
+/**
+* @see KGoogle::Error::AuthError
+*/
+class AuthError: public BaseException
+{
+  public:
+    AuthError(const QString &what = QString()):
+        BaseException(what) { };
+    KGoogle::Error code() const {
+        return KGoogle::AuthError;
     };
+};
 
-    /**
-    * @see KGoogle::Error::AuthError
-    */
-    class AuthError: public BaseException {
-      public:
-        AuthError(const QString &what = QString()):
-          BaseException(what) { };
-        KGoogle::Error code() const { return KGoogle::AuthError; };
+/**
+* @see KGoogle::Error::UnknownAccount
+*/
+class UnknownAccount: public BaseException
+{
+  public:
+    UnknownAccount(const QString &accName = QString()):
+        BaseException(i18n("Unknown account '%1'", accName)) { };
+    KGoogle::Error code() const {
+        return KGoogle::UnknownAccount;
     };
+};
 
-    /**
-    * @see KGoogle::Error::UnknownAccount
-    */
-    class UnknownAccount: public BaseException {
-      public:
-        UnknownAccount(const QString &accName = QString()):
-          BaseException(i18n("Unknown account '%1'", accName)) { };
-        KGoogle::Error code() const { return KGoogle::UnknownAccount; };
+/**
+* @see KGoogle::Error::UnknownService
+*/
+class UnknownService: public BaseException
+{
+  public:
+    UnknownService(const QString &serviceName = QString()):
+        BaseException(i18n("Unknown service '%1'", serviceName)) { };
+    KGoogle::Error code() const {
+        return KGoogle::UnknownService;
     };
+};
 
-    /**
-    * @see KGoogle::Error::UnknownService
-    */
-    class UnknownService: public BaseException {
-      public:
-        UnknownService(const QString &serviceName = QString()):
-          BaseException(i18n("Unknown service '%1'", serviceName)) { };
-        KGoogle::Error code() const { return KGoogle::UnknownService; };
+/**
+* @see KGoogle::Error::InvalidResponse
+*/
+class InvalidResponse: public BaseException
+{
+  public:
+    InvalidResponse(const QString &what = QString()):
+        BaseException(what) { };
+    KGoogle::Error code() const {
+        return KGoogle::InvalidResponse;
     };
+};
 
-    /**
-    * @see KGoogle::Error::InvalidResponse
-    */
-    class InvalidResponse: public BaseException {
-      public:
-        InvalidResponse(const QString &what = QString()):
-          BaseException(what) { };
-        KGoogle::Error code() const { return KGoogle::InvalidResponse; };
+/**
+* @see KGoogle::Error::BackendNotReady
+*/
+class BackendNotReady: public BaseException
+{
+  public:
+    BackendNotReady():
+        BaseException(i18n("KWallet is not opened.")) { };
+    KGoogle::Error code() const {
+        return KGoogle::BackendNotReady;
     };
+};
 
-    /**
-    * @see KGoogle::Error::BackendNotReady
-    */
-    class BackendNotReady: public BaseException {
-      public:
-        BackendNotReady():
-          BaseException(i18n("KWallet is not opened.")) { };
-        KGoogle::Error code() const { return KGoogle::BackendNotReady; };
+/**
+* @see KGoogle::Error::InvalidAccount
+*/
+class InvalidAccount: public BaseException
+{
+  public:
+    InvalidAccount():
+        BaseException(i18n("The account is invalid.")) { };
+    KGoogle::Error code() const {
+        return KGoogle::InvalidAccount;
     };
+};
 
-    /**
-    * @see KGoogle::Error::InvalidAccount
-    */
-    class InvalidAccount: public BaseException {
-      public:
-        InvalidAccount():
-          BaseException(i18n("The account is invalid.")) { };
-        KGoogle::Error code() const { return KGoogle::InvalidAccount; };
-    };
+} /* namespace Exception */
 
-  } /* namespace Exception */
-
-  /**
-   * Struct to store additional informations about a feed.
-   */
-  typedef struct FeedData {
+/**
+ * Struct to store additional informations about a feed.
+ */
+typedef struct FeedData {
     int startIndex;     /// Index of first item on current feed page.
     int itemsPerPage;   /// Number of items per feed page. This will be same  for all pages (except for the last one which can be shorter).
     int totalResults;   /// Number of all items.
     QUrl nextLink;      /// Link to next page of feed.
-  } FeedData;
+} FeedData;
 
 
 } /* namespace KGoogle */

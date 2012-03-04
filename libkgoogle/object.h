@@ -20,48 +20,49 @@
 #ifndef LIBKGOOGLE_OBJECT_H
 #define LIBKGOOGLE_OBJECT_H
 
-#include <qstring.h>
-#include <qshareddata.h>
+#include <QtCore/QString>
+#include <QtCore/QSharedData>
 
 #include <libkgoogle/libkgoogle_export.h>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  class ObjectPrivate;
+class ObjectPrivate;
 
-  /**
-   * Base class for Google objects.
-   *
-   * Google object represents data received
-   * from a Google service.
-   */
-  class LIBKGOOGLE_EXPORT Object
-  {
-    public:
-      Object();
+/**
+ * Base class for Google objects.
+ *
+ * Google object represents data received
+ * from a Google service.
+ */
+class LIBKGOOGLE_EXPORT Object
+{
+  public:
+    Object();
 
-      Object(const Object &other);
+    Object(const Object &other);
 
-      virtual ~Object();
+    virtual ~Object();
 
-      /**
-       * Sets etag of this object.
-       *
-       * Etag represents a revision of an object.
-       * When object is changed on the remote side
-       * is given a new etag.
-       */
-      void setEtag (const QString &etag);
+    /**
+     * Sets etag of this object.
+     *
+     * Etag represents a revision of an object.
+     * When object is changed on the remote side
+     * is given a new etag.
+     */
+    void setEtag(const QString &etag);
 
-      /**
-       * Returns tag of this object.
-       */
-      const QString& etag() const;
+    /**
+     * Returns tag of this object.
+     */
+    const QString& etag() const;
 
-    private:
-      QExplicitlySharedDataPointer< ObjectPrivate > d;
+  private:
+    QExplicitlySharedDataPointer< ObjectPrivate > d;
 
-  };
+};
 
 } // namespace KGoogle
 

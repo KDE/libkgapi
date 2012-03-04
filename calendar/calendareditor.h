@@ -20,20 +20,20 @@
 #ifndef CALENDAREDITOR_H
 #define CALENDAREDITOR_H
 
-#include <QDialog>
+#include <QtGui/QDialog>
 
 #include <libkgoogle/objects/calendar.h>
 
 namespace Ui
 {
-  class CalendarEditor;
+class CalendarEditor;
 }
 
 using namespace KGoogle::Objects;
 
 class CalendarEditor: public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
     explicit CalendarEditor(Calendar *calendar = 0);

@@ -1,5 +1,5 @@
 /*
- *    libKGoogle - Objects - ContactsGroup*
+ *    libKGoogle - Objects - ContactsGroup
  *    Copyright (C) 2012  Dan Vratil <dan@progdan.cz>
  *
  *    This program is free software: you can redistribute it and/or modify
@@ -16,32 +16,34 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <qshareddata.h>
-#include <qstring.h>
-#include <qdatetime.h>
+#include <QtCore/QSharedData>
+#include <QtCore/QString>
+#include <QtCore/QDateTime>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+namespace Objects
+{
 
-    class ContactsGroupPrivate: public QSharedData
-    {
+class ContactsGroupPrivate: public QSharedData
+{
 
-      public:
-	ContactsGroupPrivate();
+public:
+    ContactsGroupPrivate();
 
-	ContactsGroupPrivate(const ContactsGroupPrivate &other);
+    ContactsGroupPrivate(const ContactsGroupPrivate &other);
 
-	~ContactsGroupPrivate();
+    ~ContactsGroupPrivate();
 
-	QString id;
-	QString title;
-	QString content;
-	QDateTime updated;
-	bool isSystemGroup;
+    QString id;
+    QString title;
+    QString content;
+    QDateTime updated;
+    bool isSystemGroup;
 
-    };
+};
 
-  } /* namespace Objects */
+} /* namespace Objects */
 
 } /* namespace KGoogle */

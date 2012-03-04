@@ -22,77 +22,80 @@
 
 #include <libkgoogle/services/calendar.h>
 
-#include <qfile.h>
-#include <kstandarddirs.h>
-#include <ksystemtimezone.h>
+#include <QtCore/QFile>
+#include <KDE/KStandardDirs>
+#include <KDE/KSystemTimeZone>
 
 using namespace KGoogle::Objects;
 
 CalendarEditor::CalendarEditor(Calendar *calendar) :
-  QDialog(),
-  m_calendar(calendar)
+    QDialog(),
+    m_calendar(calendar)
 {
-  m_ui = new Ui::CalendarEditor();
-  m_ui->setupUi(this);
+    m_ui = new Ui::CalendarEditor();
+    m_ui->setupUi(this);
 
-  initTimezones();
+    initTimezones();
 
-  if (calendar) {
-    initWidgets();
-  } else {
-    int i = m_ui->timezoneCombo->findText(KSystemTimeZones::local().name(), Qt::MatchContains);
-    if (i > -1)
-      m_ui->timezoneCombo->setCurrentIndex(i);
-  }
+    if (calendar) {
+        initWidgets();
+    } else {
+        int i = m_ui->timezoneCombo->findText(KSystemTimeZones::local().name(), Qt::MatchContains);
+        if (i > -1) {
+            m_ui->timezoneCombo->setCurrentIndex(i);
+        }
+    }
 
-  connect(m_ui->buttons, SIGNAL(accepted()),
-          this, SLOT(accepted()));
+    connect(m_ui->buttons, SIGNAL(accepted()),
+            this, SLOT(accepted()));
 }
 
 CalendarEditor::~CalendarEditor()
 {
-  delete m_ui;
+    delete m_ui;
 }
 
 void CalendarEditor::accepted()
 {
-  if (!m_calendar)
-    m_calendar = new KGoogle::Objects::Calendar();
+    if (!m_calendar) {
+        m_calendar = new KGoogle::Objects::Calendar();
+    }
 
-  m_calendar->setTitle(m_ui->nameEdit->text());
-  m_calendar->setDetails(m_ui->descriptionEdit->toPlainText());
-  m_calendar->setLocation(m_ui->locationEdit->text());
-  m_calendar->setTimezone(m_ui->timezoneCombo->currentText());
+    m_calendar->setTitle(m_ui->nameEdit->text());
+    m_calendar->setDetails(m_ui->descriptionEdit->toPlainText());
+    m_calendar->setLocation(m_ui->locationEdit->text());
+    m_calendar->setTimezone(m_ui->timezoneCombo->currentText());
 
-  emit accepted(m_calendar);
+    emit accepted(m_calendar);
 }
 
 
 void CalendarEditor::initTimezones()
 {
 
-  foreach(const KTimeZone tz, KSystemTimeZones::zones())
-  {
-    QIcon icon;
+    foreach(const KTimeZone tz, KSystemTimeZones::zones()) {
+        QIcon icon;
 
-    QString flag = KStandardDirs::locate("locale", QString("l10n/%1/flag.png").arg(tz.countryCode().toLower()));
+        QString flag = KStandardDirs::locate("locale", QString("l10n/%1/flag.png").arg(tz.countryCode().toLower()));
 
-    if (QFile::exists(flag))
-      icon = QIcon(flag);
+        if (QFile::exists(flag)) {
+            icon = QIcon(flag);
+        }
 
-    m_ui->timezoneCombo->addItem(icon, tz.name());
-  }
+        m_ui->timezoneCombo->addItem(icon, tz.name());
+    }
 }
 
 void CalendarEditor::initWidgets()
 {
 
-  m_ui->nameEdit->setText(m_calendar->title());
-  m_ui->descriptionEdit->setText(m_calendar->details());
-  m_ui->locationEdit->setText(m_calendar->location());
+    m_ui->nameEdit->setText(m_calendar->title());
+    m_ui->descriptionEdit->setText(m_calendar->details());
+    m_ui->locationEdit->setText(m_calendar->location());
 
-  int tzIndex = m_ui->timezoneCombo->findText(m_calendar->timezone(), Qt::MatchContains);
+    int tzIndex = m_ui->timezoneCombo->findText(m_calendar->timezone(), Qt::MatchContains);
 
-  if (tzIndex > -1)
-    m_ui->timezoneCombo->setCurrentIndex(tzIndex);
+    if (tzIndex > -1) {
+        m_ui->timezoneCombo->setCurrentIndex(tzIndex);
+    }
 }

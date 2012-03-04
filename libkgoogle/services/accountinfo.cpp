@@ -21,6 +21,8 @@
 #include "objects/accountinfo.h"
 #include "common.h"
 
+#include <QtCore/QVariantMap>
+
 #include <qjson/parser.h>
 
 using namespace KGoogle;
@@ -31,82 +33,82 @@ QUrl AccountInfo::EmailScopeUrl("https://www.googleapis.com/auth/userinfo.email"
 
 QString AccountInfo::protocolVersion() const
 {
-  return "1";
+    return "1";
 }
 
 const QUrl& AccountInfo::scopeUrl() const
 {
-  return AccountInfo::ScopeUrl;
+    return AccountInfo::ScopeUrl;
 }
 
 QUrl AccountInfo::fetchUrl()
 {
-  return QUrl("https://www.googleapis.com/oauth2/v1/userinfo");
+    return QUrl("https://www.googleapis.com/oauth2/v1/userinfo");
 }
 
-KGoogle::Object* AccountInfo::JSONToObject (const QByteArray &jsonData)
+KGoogle::Object* AccountInfo::JSONToObject(const QByteArray &jsonData)
 {
-  QJson::Parser parser;
-  QVariantMap data;
-  bool ok;
+    QJson::Parser parser;
+    QVariantMap data;
+    bool ok;
 
-  data = parser.parse(jsonData, &ok).toMap();
-  if (!ok) {
-    throw Exception::InvalidResponse();
-    return 0;
-  }
+    data = parser.parse(jsonData, &ok).toMap();
+    if (!ok) {
+        throw Exception::InvalidResponse();
+        return 0;
+    }
 
-  Objects::AccountInfo *object = new Objects::AccountInfo();
-  object->setId(data["id"].toString());
-  object->setEmail(data["email"].toString());
-  object->setName(data["name"].toString());
-  object->setGivenName(data["giveName"].toString());
-  object->setFamilyName(data["familyName"].toString());
-  object->setBirthday(data["birthday"].toString());
-  object->setGender(data["gender"].toString());
-  object->setLink(data["link"].toString());
-  object->setLocale(data["locale"].toString());
-  object->setTimezone(data["timezone"].toString());
-  object->setPhotoUrl(data["picture"].toString());
-  object->setVerifiedEmail(data["verified_email"].toBool());
+    Objects::AccountInfo *object = new Objects::AccountInfo();
+    object->setId(data["id"].toString());
+    object->setEmail(data["email"].toString());
+    object->setName(data["name"].toString());
+    object->setGivenName(data["giveName"].toString());
+    object->setFamilyName(data["familyName"].toString());
+    object->setBirthday(data["birthday"].toString());
+    object->setGender(data["gender"].toString());
+    object->setLink(data["link"].toString());
+    object->setLocale(data["locale"].toString());
+    object->setTimezone(data["timezone"].toString());
+    object->setPhotoUrl(data["picture"].toString());
+    object->setVerifiedEmail(data["verified_email"].toBool());
 
-  return dynamic_cast< KGoogle::Object* >(object);
+    return dynamic_cast< KGoogle::Object* >(object);
 }
 
-QByteArray AccountInfo::objectToJSON (Object* object)
+QByteArray AccountInfo::objectToJSON(Object* object)
 {
-  Q_UNUSED (object);
+    Q_UNUSED(object);
 
-  return QByteArray();
+    return QByteArray();
 }
 
-QList< Object* > AccountInfo::parseJSONFeed (const QByteArray& jsonFeed, FeedData* feedData)
+QList< Object* > AccountInfo::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
 {
-  Q_UNUSED(jsonFeed);
-  Q_UNUSED(feedData);
+    Q_UNUSED(jsonFeed);
+    Q_UNUSED(feedData);
 
-  return QList< KGoogle::Object *>();
+    return QList< KGoogle::Object *>();
 }
 
-QList< Object* > AccountInfo::parseXMLFeed (const QByteArray& xmlFeed, FeedData* feedData)
+QList< Object* > AccountInfo::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
 {
-  Q_UNUSED(xmlFeed);
-  Q_UNUSED(feedData);
+    Q_UNUSED(xmlFeed);
+    Q_UNUSED(feedData);
 
-  return QList< KGoogle::Object * >();
+    return QList< KGoogle::Object * >();
 }
 
-QByteArray AccountInfo::objectToXML (Object* object)
+QByteArray AccountInfo::objectToXML(Object* object)
 {
-  Q_UNUSED(object);
+    Q_UNUSED(object);
 
-  return QByteArray();
+    return QByteArray();
 };
 
-Object* AccountInfo::XMLToObject (const QByteArray& xmlData)
+Object* AccountInfo::XMLToObject(const QByteArray& xmlData)
 {
-  Q_UNUSED(xmlData)
+    Q_UNUSED(xmlData)
 
-  return 0;
+    return 0;
 }
 

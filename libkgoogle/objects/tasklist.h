@@ -23,33 +23,35 @@
 #include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-#include <qmetatype.h>
+#include <QtCore/QMetaType>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+namespace Objects
+{
 
-    class LIBKGOOGLE_EXPORT TaskList: public KGoogle::Object
-    {
-      public:
-	typedef QList<TaskList> List;
+class LIBKGOOGLE_EXPORT TaskList: public KGoogle::Object
+{
+public:
+    typedef QList<TaskList> List;
 
-	TaskList();
-	virtual ~TaskList();
+    TaskList();
+    virtual ~TaskList();
 
-        void setUid(const QString &uid);
-        QString uid() const;
+    void setUid(const QString &uid);
+    QString uid() const;
 
-	void setTitle(const QString &title);
-	QString title() const;
+    void setTitle(const QString &title);
+    QString title() const;
 
-      private:
-	QString m_title;
-        QString m_uid;
+private:
+    QString m_title;
+    QString m_uid;
 
-    };
+};
 
-  } /* namespace Objects */
+} /* namespace Objects */
 
 } /* namespace KGoogle */
 

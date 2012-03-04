@@ -19,28 +19,30 @@
 #include "reply.h"
 #include "object.h"
 
-#include <qmetatype.h>
-#include <qglobal.h>
+#include <QtCore/QMetaType>
+#include <QtCore/qglobal.h>
 
-#include <kdebug.h>
+#include <KDE/KDebug>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  /**
-   * \internal
-   */
-  class ReplyPrivate {
+/**
+ * \internal
+ */
+class ReplyPrivate
+{
 
-    public:
-      KGoogle::Request::RequestType requestType;
-      KGoogle::Error errorCode;
-      QString serviceName;
-      QList< KGoogle::Object* > replyData;
-      KGoogle::Request *request;
-      FeedData *feedData;
+  public:
+    KGoogle::Request::RequestType requestType;
+    KGoogle::Error errorCode;
+    QString serviceName;
+    QList< KGoogle::Object* > replyData;
+    KGoogle::Request *request;
+    FeedData *feedData;
 
-      QByteArray rawData;
-  };
+    QByteArray rawData;
+};
 
 }
 
@@ -49,18 +51,18 @@ using namespace KGoogle;
 KGoogle::Reply::Reply(const KGoogle::Request::RequestType requestType, const KGoogle::Error error,
                       const QString &serviceName, const QList< KGoogle::Object* > &replyData,
                       KGoogle::Request *request, const QByteArray &rawData):
-  d_ptr(new ReplyPrivate)
+    d_ptr(new ReplyPrivate)
 {
-  Q_D(Reply);
+    Q_D(Reply);
 
-  d->requestType = requestType;
-  d->errorCode = error;
-  d->replyData = replyData;
-  d->request = request;
-  d->rawData = rawData;
+    d->requestType = requestType;
+    d->errorCode = error;
+    d->replyData = replyData;
+    d->request = request;
+    d->rawData = rawData;
 
-  if (QMetaType::type(qPrintable(serviceName)))
-    d->serviceName = serviceName;
+    if (QMetaType::type(qPrintable(serviceName)))
+        d->serviceName = serviceName;
 }
 
 KGoogle::Reply::~Reply()
@@ -68,40 +70,40 @@ KGoogle::Reply::~Reply()
 
 KGoogle::Request::RequestType KGoogle::Reply::requestType() const
 {
-  return d_func()->requestType;
+    return d_func()->requestType;
 }
 
 KGoogle::Error KGoogle::Reply::error() const
 {
-  return d_func()->errorCode;
+    return d_func()->errorCode;
 }
 
 const QString& KGoogle::Reply::serviceName() const
 {
-  return d_func()->serviceName;
+    return d_func()->serviceName;
 }
 
 const QList< KGoogle::Object* >& KGoogle::Reply::replyData() const
 {
-  return d_func()->replyData;
+    return d_func()->replyData;
 }
 
 KGoogle::Request* KGoogle::Reply::request() const
 {
-  return d_func()->request;
+    return d_func()->request;
 }
 
 qint64 KGoogle::Reply::readData(char* data, qint64 maxSize)
 {
-  return read(data, maxSize);
+    return read(data, maxSize);
 }
 
 void KGoogle::Reply::abort()
 {
-  QNetworkReply::close();
+    QNetworkReply::close();
 }
 
 QByteArray Reply::readAll() const
 {
-  return d_func()->rawData;
+    return d_func()->rawData;
 }
