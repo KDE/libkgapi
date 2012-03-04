@@ -139,11 +139,30 @@ void CalendarResource::eventsReceived(KJob *job)
 
   Item::List removed;
   Item::List changed;
+  QMap< QString, Objects::Event* > recurrentEvents;
 
   QList< Object *> allData = fetchJob->items();
   foreach (Object* replyData, allData) {
 
     Objects::Event *event = static_cast< Objects::Event* >(replyData);
+
+    /* If this is a recurrent event then put it to map and continue with
+     * next event. We will return to this later... */
+    if (event->recurs() && !event->deleted()) {
+      recurrentEvents.insert(event->uid(), event);
+      continue;
+    }
+
+    /* If the event is deleted, but it has same ID as some of the recurrent
+     * events stored in the map, then take the original recurrent event from the map
+     * and set date of this particular instance as an exception date and continue.
+     * We will process content of the map later */
+    if (event->deleted() && recurrentEvents.contains(event->uid())) {
+      Objects::Event *rEvent = recurrentEvents.value(event->uid());
+
+      rEvent->recurrence()->addExDate(event->dtStart().date());
+      continue;
+    }
 
     Item item;
     item.setRemoteId(event->uid());
@@ -157,6 +176,19 @@ void CalendarResource::eventsReceived(KJob *job)
     else
       changed << item;
 
+  }
+
+  /* Now process the recurrent events */
+  foreach (Objects::Event *event, recurrentEvents.values()) {
+
+    Item item;
+    item.setRemoteId(event->uid());
+    item.setRemoteRevision(event->etag());
+    item.setPayload< EventPtr >(EventPtr(event));
+    item.setMimeType(Event::eventMimeType());
+    item.setParentCollection(collection);
+
+    changed << item;
   }
 
   itemsRetrievedIncremental(changed, removed);

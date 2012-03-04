@@ -324,13 +324,18 @@ KGoogle::Object* Services::Calendar::JSONToEvent(const QVariantMap& event)
   /* Status */
   if (event["status"].toString() == "confirmed") {
     object->setStatus(Incidence::StatusConfirmed);
-  } else if (event["status"].toString() == "canceled") {
+  } else if (event["status"].toString() == "cancelled") {
     object->setStatus(Incidence::StatusCanceled);
     object->setDeleted(true);
   } else if (event["status"].toString() == "tentative") {
     object->setStatus(Incidence::StatusTentative);
   } else {
     object->setStatus(Incidence::StatusNone);
+  }
+
+  /* Canceled instance of recurring event. Set ID of the instance to match ID of the event */
+  if (event.contains("recurringEventId") && object->deleted()) {
+    object->setUid(QUrl::fromPercentEncoding(event["recurringEventId"].toByteArray()));
   }
 
   /* Created */

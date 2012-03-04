@@ -193,6 +193,8 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
     url.addQueryItem("updated-min", lastSync);
   }
 
+  url.addQueryItem("showDeleted", "true");
+
   FetchListJob *fetchJob = new FetchListJob(url, service, Settings::self()->account());
   fetchJob->setProperty("collection", qVariantFromValue(collection));
   connect(fetchJob, SIGNAL(finished(KJob*)),
