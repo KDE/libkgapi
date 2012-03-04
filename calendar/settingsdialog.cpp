@@ -280,8 +280,13 @@ void SettingsDialog::editCalendarClicked()
 {
     Objects::Calendar *calendar;
     QListWidgetItem *item;
+    QList< QListWidgetItem* > selected;
 
-    item = m_ui->calendarsList->selectedItems().first();
+    selected = m_ui->calendarsList->selectedItems();
+    if (selected.isEmpty())
+        return;
+
+    item = selected.first();
     if (!item)
         return;
 
