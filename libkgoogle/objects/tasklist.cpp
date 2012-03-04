@@ -19,12 +19,45 @@
 
 #include "tasklist.h"
 
-using namespace KGoogle::Objects;
-
-TaskList::TaskList()
+namespace KGoogle
 {
 
+namespace Objects
+{
+
+class TaskListData: public QSharedData
+{
+  public:
+    TaskListData();
+    TaskListData(const TaskListData &other);
+    QString title;
+    QString uid;
+};
+
 }
+
+}
+
+using namespace KGoogle::Objects;
+
+TaskListData::TaskListData()
+{ }
+
+TaskListData::TaskListData (const TaskListData& other):
+    QSharedData(other),
+    title(other.title),
+    uid(other.uid)
+{ }
+
+TaskList::TaskList():
+    d(new TaskListData)
+{ }
+
+TaskList::TaskList (const TaskList& other):
+    Object(other),
+    d(other.d)
+{ }
+
 
 TaskList::~TaskList()
 {
@@ -33,21 +66,21 @@ TaskList::~TaskList()
 
 void TaskList::setUid(const QString &uid)
 {
-    m_uid = uid;
+    d->uid = uid;
 }
 
 QString TaskList::uid() const
 {
-    return m_uid;
+    return d->uid;
 }
 
 void TaskList::setTitle(const QString& title)
 {
-    m_title = title;
+    d->title = title;
 }
 
 QString TaskList::title() const
 {
-    return m_title;
+    return d->title;
 }
 

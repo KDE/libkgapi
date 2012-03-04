@@ -19,10 +19,42 @@
 
 #include "task.h"
 
+#include <QtCore/QSharedData>
+
+namespace KGoogle
+{
+
+namespace Objects
+{
+
+class TaskData: public QSharedData
+{
+
+  public:
+    TaskData();
+    TaskData (const TaskData&);
+
+    bool deleted;
+};
+
+}
+
+}
+
 using namespace KGoogle::Objects;
 
+TaskData::TaskData():
+    QSharedData(),
+    deleted(false)
+{ }
+
+TaskData::TaskData (const TaskData &other):
+    QSharedData(other),
+    deleted(other.deleted)
+{ }
+
 Task::Task():
-    m_deleted(false)
+    d(new TaskData)
 { }
 
 Task::Task(const Task& other):
@@ -32,7 +64,7 @@ Task::Task(const Task& other):
 #else
     KCalCore::Todo(other),
 #endif
-    m_deleted(other.m_deleted)
+    d(other.d)
 { }
 
 #ifdef WITH_KCAL
@@ -42,7 +74,7 @@ Task::Task(const KCal::Todo &other):
 Task::Task(const KCalCore::Todo &other):
     KCalCore::Todo(other),
 #endif
-    m_deleted(false)
+    d(new TaskData)
 { }
 
 Task::~Task()
@@ -50,10 +82,10 @@ Task::~Task()
 
 void Task::setDeleted(const bool deleted)
 {
-    m_deleted = deleted;
+    d->deleted = deleted;
 }
 
 bool Task::deleted() const
 {
-    return m_deleted;
+    return d->deleted;
 }

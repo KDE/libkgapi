@@ -79,57 +79,57 @@ class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
 
     /**
      * Returns scope URL for Google Tasks service.
-         *
-         * https://www.googleapis.com/auth/tasks
+     *
+     * https://www.googleapis.com/auth/tasks
      */
     const QUrl& scopeUrl() const;
 
     /**
      * Returns URL for KGoogle::Request::Create requests for tasks.
-         *
-         * @param tasklistID ID of parent task list
+     *
+     * @param tasklistID ID of parent task list
      */
     static QUrl createTaskUrl(const QString &tasklistID);
 
     /**
-    * Returns URL for KGoogle::Request::FetchAll requests for tasks.
-           *
-           * @param tasklistID ID of parent task list
+     * Returns URL for KGoogle::Request::FetchAll requests for tasks.
+     *
+     * @param tasklistID ID of parent task list
      */
     static QUrl fetchAllTasksUrl(const QString &tasklistID);
 
     /**
      * Returns URL for KGoogle::Request::Fetch requests for tasks.
-         *
-         * @param tasklistID ID of parent task list
-         * @param taskID ID of task to fetch
+     *
+     * @param tasklistID ID of parent task list
+     * @param taskID ID of task to fetch
      */
     static QUrl fetchTaskUrl(const QString &tasklistID, const QString &taskID);
 
     /**
      * Returns URL for KGoogle::Request::Update requests for tasks.
-         *
-         * @param tasklistID ID of parent task list
-         * @param taskID ID of task to update
+     *
+     * @param tasklistID ID of parent task list
+     * @param taskID ID of task to update
      */
     static QUrl updateTaskUrl(const QString &tasklistID, const QString &taskID);
 
     /**
      * Returns URL for KGoogle::Request::Remove requests for tasks.
-         *
-         * @param tasklistID ID of parent task list
-         * @param taskID ID of task to remove
+     *
+     * @param tasklistID ID of parent task list
+     * @param taskID ID of task to remove
      */
     static QUrl removeTaskUrl(const QString &tasklistID, const QString &taskID);
 
     /**
      * Returns URL for KGoogle::Request::Update request for tasks.
      * This URL is used specially for moving tasks to another parents.
-         *
-         * @param tasklistID ID of parent task list
-         * @param taskID ID of task to move
-         * @param newParent UID of new parent item
-         */
+     *
+     * @param tasklistID ID of parent task list
+     * @param taskID ID of task to move
+     * @param newParent UID of new parent item
+     */
     static QUrl moveTaskUrl(const QString &tasklistID, const QString &taskID, const QString &newParent);
 
     /**

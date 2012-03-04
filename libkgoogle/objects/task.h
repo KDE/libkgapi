@@ -24,6 +24,7 @@
 #include <libkgoogle/libkgoogle_export.h>
 
 #include <QtCore/QMetaType>
+#include <QtCore/QSharedPointer>
 
 #ifdef WITH_KCAL
 #include <KDE/KCal/Todo>
@@ -39,6 +40,8 @@ namespace KGoogle
 
 namespace Objects
 {
+
+class TaskData;
 
 #ifdef WITH_KCAL
 class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCal::Todo
@@ -63,6 +66,7 @@ class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCalCore::Todo
     bool deleted() const;
 
   private:
+    QExplicitlySharedDataPointer< TaskData > d;
     bool m_deleted;
 
 };

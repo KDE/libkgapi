@@ -24,6 +24,7 @@
 #include <libkgoogle/libkgoogle_export.h>
 
 #include <QtCore/QMetaType>
+#include <QtCore/QSharedPointer>
 
 namespace KGoogle
 {
@@ -31,12 +32,17 @@ namespace KGoogle
 namespace Objects
 {
 
+class TaskListData;
+
 class LIBKGOOGLE_EXPORT TaskList: public KGoogle::Object
 {
-public:
-    typedef QList<TaskList> List;
+  public:
+    typedef QSharedPointer< TaskList > Ptr;
+    typedef QList< TaskList > List;
 
     TaskList();
+    TaskList (const TaskList& other);
+
     virtual ~TaskList();
 
     void setUid(const QString &uid);
@@ -45,9 +51,8 @@ public:
     void setTitle(const QString &title);
     QString title() const;
 
-private:
-    QString m_title;
-    QString m_uid;
+  private:
+    QExplicitlySharedDataPointer< TaskListData > d;
 
 };
 
@@ -55,7 +60,7 @@ private:
 
 } /* namespace KGoogle */
 
-Q_DECLARE_METATYPE(KGoogle::Objects::TaskList)
+Q_DECLARE_METATYPE(KGoogle::Objects::TaskList::Ptr)
 Q_DECLARE_METATYPE(KGoogle::Objects::TaskList*)
 Q_DECLARE_METATYPE(KGoogle::Objects::TaskList::List)
 
