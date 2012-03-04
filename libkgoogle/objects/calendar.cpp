@@ -28,13 +28,11 @@ using namespace KGoogle::Objects;
 CalendarData::CalendarData(const CalendarData &other) :
   QSharedData(other),
   title(other.title),
-  color(other.color),
   details(other.details),
   timezone(other.timezone),
   location(other.location),
   editable(other.editable),
-  created(other.created),
-  updated(other.updated)
+  alarms(other.alarms)
 { }
 
 Calendar::Calendar() :
@@ -69,16 +67,6 @@ QString Calendar::title() const
 void Calendar::setTitle(const QString &title)
 {
   d->title = title;
-}
-
-QString Calendar::color() const
-{
-  return d->color.isEmpty() ? "#000000" : d->color;
-}
-
-void Calendar::setColor(const QString &color)
-{
-  d->color = color;
 }
 
 QString Calendar::details() const
@@ -121,22 +109,18 @@ void Calendar::setEditable(const bool editable)
   d->editable = editable;
 }
 
-KDateTime Calendar::created() const
+void Calendar::setDefaultReminders (const Alarm::List &alarms)
 {
-  return d->created;
+  d->alarms = alarms;
 }
 
-void Calendar::setCreated(const KDateTime &created)
+void Calendar::addDefaultReminer (const Alarm::Ptr &alarm)
 {
-  d->created = created;
+  d->alarms.append(alarm);
 }
 
-KDateTime Calendar::updated() const
+Alarm::List Calendar::defaultReminders() const
 {
-  return d->updated;
+  return d->alarms;
 }
 
-void Calendar::setUpdated(const KDateTime &updated)
-{
-  d->updated = updated;
-}

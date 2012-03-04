@@ -20,6 +20,8 @@
 #include "calendarresource.h"
 #include "settings.h"
 
+#include <libkgoogle/accessmanager.h>
+#include <libkgoogle/auth.h>
 #include <libkgoogle/fetchlistjob.h>
 #include <libkgoogle/reply.h>
 #include <libkgoogle/objects/task.h>
@@ -50,6 +52,35 @@ using namespace KCal;
 #else
 using namespace KCalCore;
 #endif
+
+
+void CalendarResource::taskDoUpdate(Reply* reply)
+{
+  Item item = reply->request()->property("Item").value< Item >();
+  TodoPtr todo = item.payload< TodoPtr >();
+  Objects::Task ktodo(*todo);
+
+  Account *account;
+  try {
+    Auth *auth = Auth::instance();
+    account = auth->getAccount(Settings::self()->account());
+  }
+  catch (Exception::BaseException &e) {
+    emit status(Broken, e.what());
+    return;
+  }
+
+  QUrl url = Services::Tasks::updateTaskUrl(item.parentCollection().remoteId(), item.remoteId());
+
+  Services::Tasks service;
+  QByteArray data = service.objectToJSON(static_cast< KGoogle::Object *>(&ktodo));
+
+  Request *request = new Request(url, Request::Update, "Tasks", account);
+  request->setRequestData(data, "application/json");
+  request->setProperty("Item", QVariant::fromValue(item));
+  m_gam->sendRequest(request);
+}
+
 
 void CalendarResource::taskListReceived(KJob *job)
 {

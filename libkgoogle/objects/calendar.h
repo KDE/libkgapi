@@ -28,6 +28,14 @@
 
 #include <kdatetime.h>
 
+#ifdef WITH_KCAL
+#include <kcal/alarm.h>
+using namespace KCal;
+#else
+#include <kcalcore/alarm.h>
+using namespace KCalCore;
+#endif
+
 namespace KGoogle
 {
 
@@ -73,16 +81,6 @@ namespace KGoogle
         void setTitle(const QString &title);
 
         /**
-         * Returns color of the remote calendar.
-         */
-        QString color() const;
-
-        /**
-         * Sets color of the remote calendar.
-         */
-        void setColor(const QString &color);
-
-        /**
          * Returns detailed description of the calendar.
          */
         QString details() const;
@@ -123,32 +121,19 @@ namespace KGoogle
         void setEditable(const bool editable);
 
         /**
-         * Returns date and time when the calendar was created
-         * on the remote server.
+         * Sets default reminders for all new events in the calendar.
          */
-        KDateTime created() const;
+        void setDefaultReminders(const Alarm::List &alarms);
 
         /**
-         * Sets date and time when the calendar was created on
-         * the remote server.
+         * Adds a default reminder for all events in the calendar.
          */
-        void setCreated(const KDateTime &created);
+        void addDefaultReminer(const Alarm::Ptr &alarm);
 
         /**
-         * Returns date and time when the calendar was last
-         * updated on the remote server.
-         *
-         * This value does not reflect last update of calendar content,
-         * but just it's properties.
+         * Returns defalut reminders for all events in the calendar.
          */
-        KDateTime updated() const;
-
-        /**
-         * Sets date and time when the calendar properties were last
-         * updated on the remote server. This does not include updated
-         * of calendar content.
-         */
-        void setUpdated(const KDateTime &updated);
+        Alarm::List defaultReminders() const;
 
       protected:
         QExplicitlySharedDataPointer<CalendarData> d;

@@ -76,7 +76,7 @@ void CalendarResource::calendarsReceived(KJob *job)
       collection.setParentCollection(m_collections.first());
       collection.setContentMimeTypes(QStringList() << Event::eventMimeType());
       collection.setName(calendar->title());
-      collection.setRights(Collection::AllRights);
+      collection.setRights(Collection::CanCreateItem | Collection::CanChangeItem | Collection::CanDeleteItem);
 
       EntityDisplayAttribute *attr = new EntityDisplayAttribute;
       attr->setDisplayName(calendar->title());
@@ -223,6 +223,17 @@ void CalendarResource::eventRemoved(KGoogle::Reply *reply)
 {
   if (reply->error() != OK) {
     cancelTask(i18n("Failed to delete event: %1").arg(reply->errorString()));
+    return;
+  }
+
+  Item item = reply->request()->property("Item").value<Item>();
+  changeCommitted(item);
+}
+
+void CalendarResource::eventMoved(KGoogle::Reply *reply)
+{
+  if (reply->error() != OK) {
+    cancelTask(i18n("Failed to move event: %1").arg(reply->errorString()));
     return;
   }
 

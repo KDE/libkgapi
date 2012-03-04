@@ -25,6 +25,14 @@
 
 #include "qvariant.h"
 
+#ifdef WITH_KCAL
+  #include <kcal/incidencebase.h>
+  using namespace KCal;
+#else
+  #include <kcalcore/incidencebase.h>
+  using namespace KCalCore;
+#endif
+
 namespace KGoogle {
 
   class Object;
@@ -32,138 +40,174 @@ namespace KGoogle {
   namespace Services {
 
     /**
-     * Represents Google Calendar service.
-     */
+    * Represents Google Calendar service.
+    */
     class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Service
     {
       public:
-	static QUrl ScopeUrl;
+        static QUrl ScopeUrl;
 
-	/**
-	 * Implementation of KGoogle::Service::JSONToObject().
-	 */
-	KGoogle::Object* JSONToObject(const QByteArray& jsonData);
+        /**
+        * Implementation of KGoogle::Service::JSONToObject().
+        */
+        KGoogle::Object* JSONToObject(const QByteArray& jsonData);
 
-	/**
-	 * Implementation of KGoogle::Service::objectToJSON().
-	 */
-	QByteArray objectToJSON(KGoogle::Object* object);
+        /**
+        * Implementation of KGoogle::Service::objectToJSON().
+        */
+        QByteArray objectToJSON(KGoogle::Object* object);
 
-	/**
-	 * Implementation of KGoogle::Service::parseJSONFeed().
-	 */
-	QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
+        /**
+        * Implementation of KGoogle::Service::parseJSONFeed().
+        */
+        QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
 
-	/**
-	 * Implementation of KGoogle::Service::XMLToObject().
-	 */
-	KGoogle::Object* XMLToObject(const QByteArray& xmlData);
+        /**
+        * Implementation of KGoogle::Service::XMLToObject().
+        */
+        KGoogle::Object* XMLToObject(const QByteArray& xmlData);
 
-	/**
-	 * Implementation of KGoogle::Service::objecttoXML().
-	 */
-	QByteArray objectToXML(KGoogle::Object* object);
+        /**
+        * Implementation of KGoogle::Service::objecttoXML().
+        */
+        QByteArray objectToXML(KGoogle::Object* object);
 
-	/**
-	 * Implementation of KGoogle::Service::parseXMLFeed().
-	 */
-	QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
+        /**
+        * Implementation of KGoogle::Service::parseXMLFeed().
+        */
+        QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
 
-	/**
-	 * Implementation of KGoogle::Service::protocolVersion().
-	 */
-	QString protocolVersion() const;
+        /**
+        * Implementation of KGoogle::Service::protocolVersion().
+        */
+        QString protocolVersion() const;
 
-	/**
-	 * Returns URL for KGoogle::Request::FetchAll requests.
+        /**
+        * Returns URL for fetching calendars list.
+        */
+        static QUrl fetchCalendarsUrl();
+
+        /**
+        * Returns URL for fetching single calendar.
+        *
+        * @param calendarID calendar ID
+        */
+        static QUrl fetchCalendarUrl(const QString &calendarID);
+
+        /**
+        * Returns URL for updating existing calendar.
+        *
+        * @param user "default" or user@gmail.com
+        * @param calendarID ID of calendar to modify
+        */
+        static QUrl updateCalendarUrl(const QString &calendarID);
+
+        /**
+        * Returns URL for creating a new calendar.
+        */
+        static QUrl createCalendarUrl();
+
+        /**
+        * Returns URL for removing an existing calendar.
+        *
+        * @param calendarID ID of calendar to remove
+        */
+        static QUrl removeCalendarUrl(const QString &calendarID);
+
+        /**
+        * Returns URL for fetching all events from a specific calendar
+        *
+        * @param calendarID ID of calendar from which to fetch events
+        */
+        static QUrl fetchEventsUrl(const QString &calendarID);
+
+        /**
+        * Returns URL for fetching a single event from a specific calendar.
+        *
+        * @param calendarID ID of calendar from which to fetch the event
+        * @param eventID ID of event to fetch
+        */
+        static QUrl fetchEventUrl(const QString &calendarID, const QString &eventID);
+
+        /**
+        * Returns URL for updating a single event
+        *
+        * @param calendarID ID of calendar in which the event is
+        * @param eventID ID of event to update
+        */
+        static QUrl updateEventUrl(const QString &calendarID, const QString &eventID);
+
+        /**
+        * Returns URL creating new events.
+        *
+        * @param calendarID ID of calendar in which to create the event
+        */
+        static QUrl createEventUrl(const QString &calendarID);
+
+        /**
+        * Returns URL for removing events
+        *
+        * @param calendarID ID of parent calendar
+        * @param eventID ID of event to remove.
+        */
+        static QUrl removeEventUrl(const QString &calendarID, const QString &eventID);
+
+        /**
+         * Returns URL for moving event between calendars.
          *
-         * @param user "default" or user@gmail.com
-         * @param visibility "allcalendars" for list of calendars, "private" for list of events
-	 */
-	static QUrl fetchAllUrl(const QString &user, const QString &visibility);
+         * @param sourceCalendar ID of calendar from which to remove the event
+         * @param destCalendar ID of calendar to which to move the even
+         * @param eventID ID of event in the \p sourceCalendar to move
+         */
+        static QUrl moveEventUrl(const QString &sourceCalendar, const QString &destCalendar, const QString &eventID);
 
-	/**
-	 * Returns URL for KGoogle::Requests::Fetch requests.
-         *
-         * @param user "default" or user@gmail.com
-         * @param visibility "allcalendars" for calendar, "private" for event
-         * @param objID event ID or calendar ID (depending on \p visibility)
-	 */
-	static QUrl fetchUrl(const QString &user, const QString &visibility, const QString objID);
+        /**
+        * Returns service scope URL
+        *
+        * https://www.google.com/calendar/feeds/
+        */
+        const QUrl& scopeUrl() const;
 
-	/**
-	 * Returns URL for KGoogle::Request::Create requests.
-         *
-         * @param user "default" or user@gmail.com
-         * @param visibility "allcalendars" when creating a calendar, "private" when creating an event
-	 */
-	static QUrl createUrl(const QString &user, const QString &visibility);
+        /**
+        * Returns wheter service supports reading data in JSON format.
+        *
+        * @param urlParam Returns value of "alt" query. Usually is
+        * "json" or "jsonc". When service does not support reading JSON
+        * data, the value remains unchanged.
+        */
+        static bool supportsJSONRead(QString* urlParam);
 
-	/**
-	 * Returns URL for KGoogle::Requests::Update requests.
-         *
-         * @param user "default" or user@gmail.com
-         * @param visibility "allcalendars" when updating a calendar, "private" when updating an event
-         * @param objID event ID or calendar ID (depending on \p visibility)
-	 */
-	static QUrl updateUrl(const QString &user, const QString &visibility, const QString &objID);
-
-	/**
-	 * Returns URL for KGoogle::Requests::Remove requests.
-         *
-         * @param user "default" or user@gmail.com
-         * @param visibility "allcalendars" when removing a calendar, "private" when removing an event
-         * @param objID event ID of calendar ID (depending on \p visiblity)
-	 */
-	static QUrl removeUrl(const QString &user, const QString &visibility, const QString &objID);
-
-	/**
-	 * Returns service scope URL
-         *
-         * https://www.google.com/calendar/feeds/
-	 */
-	const QUrl& scopeUrl() const;
-
-	/**
-	 * Returns wheter service supports reading data in JSON format.
-	 *
-	 * @param urlParam Returns value of "alt" query. Usually is 
-	 * "json" or "jsonc". When service does not support reading JSON
-	 * data, the value remains unchanged.
-	 */
-	static bool supportsJSONRead(QString* urlParam);
-
-	/**
-	 * Returns wheter service supports writing data in JSON format.
-	 *
-	 * @param urlParam Returns value of "alt" query. Usually is
-	 * "json" or "jsonc". When service does not support writing JSON
-	 * data, the value remains unchanged.
-	 */
-	static bool supportsJSONWrite(QString* urlParam);
+        /**
+        * Returns wheter service supports writing data in JSON format.
+        *
+        * @param urlParam Returns value of "alt" query. Usually is
+        * "json" or "jsonc". When service does not support writing JSON
+        * data, the value remains unchanged.
+        */
+        static bool supportsJSONWrite(QString* urlParam);
 
       private:
-	KDateTime parseRecurrenceDT(const QString &dt, bool *allday);
+        DateList parseRDate(const QString &rule) const;
 
-	KGoogle::Object* JSONToCalendar(const QVariantMap& calendar);
-	QVariantMap calendarToJSON(KGoogle::Object* calendar);
-	QList<KGoogle::Object*> parseCalendarJSONFeed(const QVariantList& feed);
+        KGoogle::Object* JSONToCalendar(const QVariantMap& calendar);
+        QVariantMap calendarToJSON(KGoogle::Object* calendar);
+        QList<KGoogle::Object*> parseCalendarJSONFeed(const QVariantList& feed);
 
-#if 0
-	KGoogleObject* XMLToCalendar(const QDomElement& calendar);
-	QDomElement calendarToXML(const KGoogleObject *calendar);
-	QList<KGoogleObject*> parseCalendarXMLFeed(const QDomElement& feed);
-#endif
+        #if 0
+        KGoogleObject* XMLToCalendar(const QDomElement& calendar);
+        QDomElement calendarToXML(const KGoogleObject *calendar);
+        QList<KGoogleObject*> parseCalendarXMLFeed(const QDomElement& feed);
+        #endif
 
-	KGoogle::Object* JSONToEvent(const QVariantMap& event);
-	QVariantMap eventToJSON(KGoogle::Object *event);
-	QList<KGoogle::Object*> parseEventJSONFeed(const QVariantList& feed);
+        KGoogle::Object* JSONToEvent(const QVariantMap& event);
+        QVariantMap eventToJSON(KGoogle::Object *event);
+        QList<KGoogle::Object*> parseEventJSONFeed(const QVariantList& feed);
 
-#if 0
-	KGoogleObject* XMLToEvent(const QDomElement& event);
-	QDomElement eventToXML(const KGoogleObject *event);
-	QList<KGoogleObject*> parseEventXMLFeed(const QDomElement& feed);
-#endif
+        #if 0
+        KGoogleObject* XMLToEvent(const QDomElement& event);
+        QDomElement eventToXML(const KGoogleObject *event);
+        QList<KGoogleObject*> parseEventXMLFeed(const QDomElement& feed);
+        #endif
     };
 
   } // namespace Services

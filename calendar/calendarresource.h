@@ -37,7 +37,7 @@ namespace KGoogle {
 
 using namespace KGoogle;
 
-class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::Observer
+class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase::ObserverV2
 {
 
   Q_OBJECT
@@ -56,6 +56,7 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection);
     void itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers);
     void itemRemoved(const Akonadi::Item& item);
+    void itemMoved(const Akonadi::Item& item, const Akonadi::Collection& collectionSource, const Akonadi::Collection& collectionDestination);
 
   protected:
     void aboutToQuit();
@@ -72,12 +73,13 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void itemCreated(KGoogle::Reply *reply);
     void itemUpdated(KGoogle::Reply *reply);
     void itemRemoved(KGoogle::Reply *reply);
+    void itemMoved(KGoogle::Reply *reply);
 
     void taskListReceived(KJob *job);
     void calendarsReceived(KJob *job);
 
     /* The actual update of task */
-    void doUpdateTask(KGoogle::Reply *reply);
+    void taskDoUpdate(KGoogle::Reply *reply);
 
     void taskReceived(KGoogle::Reply *reply);
     void tasksReceived(KJob *job);
@@ -90,6 +92,7 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void eventCreated(KGoogle::Reply *reply);
     void eventUpdated(KGoogle::Reply *reply);
     void eventRemoved(KGoogle::Reply *reply);
+    void eventMoved(KGoogle::Reply *reply);
 
     void emitPercent(KJob* job, ulong percent);
 

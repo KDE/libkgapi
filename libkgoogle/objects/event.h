@@ -51,9 +51,11 @@ typedef KCalCore::Alarm::Ptr AlarmPtr;
 #endif
 
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+  namespace Objects
+  {
 
     class EventData;
 
@@ -67,39 +69,49 @@ namespace KGoogle {
 #endif
     {
       public:
-	typedef QList<Event> List;
-	typedef QSharedPointer<Event> Ptr;
+        typedef QList<Event> List;
+        typedef QSharedPointer<Event> Ptr;
 
-	/**
-	 * Constructs a new event.
-	 */
-	Event();
-	Event(const Event& other);
+        /**
+         * Constructs a new event.
+         */
+        Event();
+        Event (const Event& other);
 #ifdef WITH_KCAL
-	Event(const KCal::Event &event);
+        Event (const KCal::Event &event);
 #else
-	Event(const KCalCore::Event &event);
+        Event (const KCalCore::Event &event);
 #endif
 
-	~Event();
+        ~Event();
 
-	/**
-	 * Tags event as deleted on the remote server.
-	 */
-	void setDeleted(const bool deleted);
+        /**
+         * Tags event as deleted on the remote server.
+         */
+        void setDeleted (const bool deleted);
 
-	/**
-	 * Returns wheter the event was removed on the remote server.
-	 */
-	bool deleted() const;
+        /**
+         * Returns wheter the event was removed on the remote server.
+         */
+        bool deleted() const;
 
-	/**
-	 * Compares one event to another
-	 */
-	Event& operator=( const Event& other );
+        /**
+         * Sets whether the event should use calendar's default reminders.
+         */
+        void setUseDefaultReminders (const bool &useDefault);
+
+        /**
+         * Returns whether the event should use calendar's default reminders.
+         */
+        bool useDefaultReminders() const;
+
+        /**
+         * Compares one event to another
+         */
+        Event& operator= (const Event& other);
 
       private:
-	QExplicitlySharedDataPointer<EventData> d;
+        QExplicitlySharedDataPointer<EventData> d;
 
     };
 
@@ -107,8 +119,8 @@ namespace KGoogle {
 
 } // namepsace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::Objects::Event::Ptr)
-Q_DECLARE_METATYPE(KGoogle::Objects::Event::List)
+Q_DECLARE_METATYPE (KGoogle::Objects::Event::Ptr)
+Q_DECLARE_METATYPE (KGoogle::Objects::Event::List)
 
 
 #endif // OBJECT_EVENT_H

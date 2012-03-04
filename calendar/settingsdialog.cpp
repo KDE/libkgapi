@@ -221,8 +221,7 @@ void SettingsDialog::accountChanged()
           this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
-  request = new KGoogle::Request(Services::Calendar::fetchAllUrl("default", "allcalendars"), 
-                                 Request::FetchAll, "Calendar", account);
+  request = new KGoogle::Request(Services::Calendar::fetchCalendarsUrl(), Request::FetchAll, "Calendar", account);
   gam->sendRequest(request);
 
   m_ui->tasksList->clear();
@@ -265,7 +264,7 @@ void SettingsDialog::addCalendar(KGoogle::Objects::Calendar *calendar)
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  request = new KGoogle::Request(Services::Calendar::createUrl("default", "owncalendars"),
+  request = new KGoogle::Request(Services::Calendar::createCalendarUrl(),
                                  Request::Create, "Calendar", account);
   data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(calendar));
   request->setRequestData(data, "application/json");
@@ -279,7 +278,10 @@ void SettingsDialog::editCalendarClicked()
   Objects::Calendar *calendar;
   QListWidgetItem *item;
 
-  item = m_ui->calendarsList->currentItem();
+  item = m_ui->calendarsList->selectedItems().first();
+  if (!item)
+    return;
+
   calendar = item->data(KGoogleObjectRole).value< KGoogle::Objects::Calendar* >();
 
   CalendarEditor *editor = new CalendarEditor(calendar);
@@ -310,7 +312,7 @@ void SettingsDialog::editCalendar(KGoogle::Objects::Calendar *calendar)
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  request = new KGoogle::Request(Services::Calendar::updateUrl("default", "owncalendars", calendar->uid()),
+  request = new KGoogle::Request(Services::Calendar::updateCalendarUrl(calendar->uid()),
                                  Request::Update, "Calendar", account);
   data = parser.objectToJSON(dynamic_cast< KGoogle::Object* >(calendar));
   request->setRequestData(data, "application/json");
@@ -349,7 +351,7 @@ void SettingsDialog::removeCalendarClicked()
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  request = new KGoogle::Request(Services::Calendar::removeUrl("default", "owncalendars", calendar->uid()),
+  request = new KGoogle::Request(Services::Calendar::removeCalendarUrl(calendar->uid()),
                                  Request::Remove, "Calendar", account);
   gam->sendRequest(request);
 }
@@ -383,8 +385,7 @@ void SettingsDialog::reloadCalendarsClicked()
   connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
           gam, SLOT(deleteLater()));
 
-  request = new KGoogle::Request(Services::Calendar::fetchAllUrl("default", "allcalendars"),
-                                 Request::FetchAll, "Calendar", account);
+  request = new KGoogle::Request(Services::Calendar::fetchCalendarsUrl(), Request::FetchAll, "Calendar", account);
   gam->sendRequest(request);
 }
 
@@ -627,24 +628,20 @@ void SettingsDialog::gam_objectModified(Reply *reply)
       for (int i = 0; i < m_ui->calendarsList->count(); i++) {
         QListWidgetItem *t= m_ui->calendarsList->item(i);
 
-        if (t->data(ObjectUIDRole).toString() == calendar->uid())
+        if (t->data(ObjectUIDRole).toString() == calendar->uid()) {
           item = t;
+          break;
+        }
       }
 
-      if (item) {
-        KGoogle::Objects::Calendar *oldCal;
-
-        oldCal = item->data(KGoogleObjectRole).value< KGoogle::Objects::Calendar* >();
-        delete oldCal;
-        item->setText(calendar->uid());
-        item->setData(KGoogleObjectRole, qVariantFromValue(calendar));
-
-      } else {
+      if (!item) {
         item = new QListWidgetItem;
-        item->setText(calendar->uid());
-        item->setData(KGoogleObjectRole, qVariantFromValue(calendar));
         m_ui->calendarsList->addItem(item);
       }
+
+      item->setText(calendar->title());
+      item->setData(ObjectUIDRole, calendar->uid());
+      item->setData(KGoogleObjectRole, qVariantFromValue(calendar));
     }
 
     m_ui->calendarsBox->setEnabled(true);
@@ -659,24 +656,21 @@ void SettingsDialog::gam_objectModified(Reply *reply)
       for (int i = 0; i < m_ui->tasksList->count(); i++) {
         QListWidgetItem *t= m_ui->tasksList->item(i);
 
-        if (t->data(ObjectUIDRole).toString() == taskList->uid())
+        if (t->data(ObjectUIDRole).toString() == taskList->uid()) {
           item = t;
+          break;
+        }
       }
 
-      if (item) {
-        KGoogle::Objects::TaskList *oldTL;
-
-        oldTL = item->data(KGoogleObjectRole).value< KGoogle::Objects::TaskList* >();
-        delete oldTL;
-        item->setText(taskList->uid());
-        item->setData(KGoogleObjectRole, qVariantFromValue(taskList));
-
-      } else {
+      if (!item) {
         item = new QListWidgetItem;
-        item->setText(taskList->uid());
-        item->setData(KGoogleObjectRole, qVariantFromValue(taskList));
         m_ui->tasksList->addItem(item);
       }
+
+      item->setText(taskList->title());
+      item->setData(ObjectUIDRole, taskList->uid());
+      item->setData(KGoogleObjectRole, qVariantFromValue(taskList));
+
     }
     m_ui->tasksBox->setEnabled(true);
     m_ui->accountsBox->setEnabled(true);

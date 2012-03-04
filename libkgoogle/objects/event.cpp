@@ -32,11 +32,15 @@ using namespace KCal;
 using namespace KCalCore;
 #endif
 
+Objects::EventData::EventData():
+  deleted(false),
+  useDefaultReminders(false)
+{ }
+
 Objects::EventData::EventData(const Objects::EventData &other):
     QSharedData(other),
     deleted(other.deleted),
-    id(other.id),
-    etag(other.etag)
+    useDefaultReminders(other.useDefaultReminders)
 { }
 
 
@@ -56,7 +60,7 @@ Objects::Event::Event(const Objects::Event &other):
 { }
 
 #ifdef WITH_KCAL
-Objects::Event::Event(const KCal::Event &event): 
+Objects::Event::Event(const KCal::Event &event):
   KCal::Event(event),
 #else
 Objects::Event::Event(const KCalCore::Event &event):
@@ -78,6 +82,18 @@ bool Objects::Event::deleted() const
 {
   return d->deleted;
 }
+
+void Objects::Event::setUseDefaultReminders (const bool& useDefault)
+{
+  d->useDefaultReminders = useDefault;
+}
+
+bool Objects::Event::useDefaultReminders() const
+{
+  return d->useDefaultReminders;
+}
+
+
 
 Objects::Event& Objects::Event::operator=( const Objects::Event& other )
 {

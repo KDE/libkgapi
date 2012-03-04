@@ -22,9 +22,9 @@
 
 #include <libkgoogle/services/calendar.h>
 
-#include <kstandarddirs.h>
-#include <ktimezone.h>
 #include <qfile.h>
+#include <kstandarddirs.h>
+#include <ksystemtimezone.h>
 
 using namespace KGoogle::Objects;
 
@@ -36,10 +36,14 @@ CalendarEditor::CalendarEditor(Calendar *calendar) :
   m_ui->setupUi(this);
 
   initTimezones();
-  initColors();
 
-  if (calendar)
+  if (calendar) {
     initWidgets();
+  } else {
+    int i = m_ui->timezoneCombo->findText(KSystemTimeZones::local().name(), Qt::MatchContains);
+    if (i > -1)
+      m_ui->timezoneCombo->setCurrentIndex(i);
+  }
 
   connect(m_ui->buttons, SIGNAL(accepted()),
           this, SLOT(accepted()));
@@ -59,7 +63,6 @@ void CalendarEditor::accepted()
   m_calendar->setDetails(m_ui->descriptionEdit->toPlainText());
   m_calendar->setLocation(m_ui->locationEdit->text());
   m_calendar->setTimezone(m_ui->timezoneCombo->currentText());
-  m_calendar->setColor(m_ui->colorCombo->color().name());
 
   emit accepted(m_calendar);
 }
@@ -67,9 +70,8 @@ void CalendarEditor::accepted()
 
 void CalendarEditor::initTimezones()
 {
-  KTimeZones timeZones;
 
-  foreach(const KTimeZone tz, timeZones.zones())
+  foreach(const KTimeZone tz, KSystemTimeZones::zones())
   {
     QIcon icon;
 
@@ -80,28 +82,6 @@ void CalendarEditor::initTimezones()
 
     m_ui->timezoneCombo->addItem(icon, tz.name());
   }
-}
-
-void CalendarEditor::initColors()
-{
-  /* http://code.google.com/apis/calendar/data/2.0/reference.html#gCalcolor */
-  QList< QColor > colors;
-  colors << QColor("#A32929") << QColor("#B1365F") << QColor("#7A367A")
-         << QColor("#5229A3") << QColor("#29527A") << QColor("#2952A3")
-         << QColor("#1B887A") << QColor("#28754E") << QColor("#0D7813")
-         << QColor("#528800") << QColor("#88880E") << QColor("#AB8B00")
-         << QColor("#BE6D00") << QColor("#B1440E") << QColor("#865A5A")
-         << QColor("#705770") << QColor("#4E5D6C") << QColor("#5A6986")
-         << QColor("#4A716C") << QColor("#6E6E41") << QColor("#8D6F47")
-         << QColor("#853104") << QColor("#691426") << QColor("#5C1158")
-         << QColor("#23164E") << QColor("#182C57") << QColor("#060D5E")
-         << QColor("#125A12") << QColor("#2F6213") << QColor("#2F6309")
-         << QColor("#5F6B02") << QColor("#8C500B") << QColor("#8C500B")
-         << QColor("#754916") << QColor("#6B3304") << QColor("#5B123B")
-         << QColor("#42104A") << QColor("#113F47") << QColor("#333333")
-         << QColor("#0F4B38") << QColor("#856508") << QColor("#711616");
-
-  m_ui->colorCombo->setColors(colors);
 }
 
 void CalendarEditor::initWidgets()
@@ -115,6 +95,4 @@ void CalendarEditor::initWidgets()
 
   if (tzIndex > -1)
     m_ui->timezoneCombo->setCurrentIndex(tzIndex);
-
-  m_ui->colorCombo->setColor(QColor(m_calendar->color()));
 }

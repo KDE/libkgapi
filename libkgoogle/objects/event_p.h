@@ -22,20 +22,21 @@
 #include <qshareddata.h>
 #include <qstring.h>
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  namespace Objects {
+  namespace Objects
+  {
 
     class EventData: public QSharedData
     {
       public:
-	EventData() { };
-	EventData(const EventData &other);
-	~EventData() { };
+        EventData();
+        EventData (const EventData &other);
+        ~EventData() { };
 
-	bool deleted;
-	QString id;
-	QString etag;
+        bool deleted;
+        bool useDefaultReminders;
     };
 
   } // namespace Object

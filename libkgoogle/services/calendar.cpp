@@ -23,35 +23,35 @@
 #include "objects/event.h"
 
 #ifdef WITH_KCAL
-#include <kcal/event.h>
-#include <kcal/attendee.h>
-#include <kcal/alarm.h>
-#include <kcal/recurrence.h>
-#include <kcal/recurrencerule.h>
-#include <kcal/icalformat.h>
+  #include <kcal/event.h>
+  #include <kcal/attendee.h>
+  #include <kcal/alarm.h>
+  #include <kcal/recurrence.h>
+  #include <kcal/recurrencerule.h>
+  #include <kcal/icalformat.h>
+  using namespace KCal;
 #else
-#include <kcalcore/event.h>
-#include <kcalcore/attendee.h>
-#include <kcalcore/alarm.h>
-#include <kcalcore/recurrence.h>
-#include <kcalcore/recurrencerule.h>
-#include <kcalcore/icalformat.h>
+  #include <kcalcore/event.h>
+  #include <kcalcore/attendee.h>
+  #include <kcalcore/alarm.h>
+  #include <kcalcore/recurrence.h>
+  #include <kcalcore/recurrencerule.h>
+  #include <kcalcore/icalformat.h>
+  using namespace KCalCore;
 #endif
 
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 #include <kcalcore/alarm.h>
 #include <ksystemtimezone.h>
+#include <klocale.h>
+
+#include <qdebug.h>
 
 using namespace KGoogle;
 
-#ifdef WITH_KCAL
-using namespace KCal;
-#else
-using namespace KCalCore;
-#endif
 
-QUrl Services::Calendar::ScopeUrl("https://www.google.com/calendar/feeds/");
+QUrl Services::Calendar::ScopeUrl("https://www.googleapis.com/auth/calendar");
 
 /********** PUBLIC JSON INTERFACE ************/
 
@@ -60,17 +60,13 @@ KGoogle::Object* Services::Calendar::JSONToObject(const QByteArray& jsonData)
   QJson::Parser parser;
 
   QVariantMap object = parser.parse(jsonData).toMap();
-  QVariantMap data = object["data"].toMap();
 
-  if ((object["kind"] == "calendar#calendar") || (data["kind"] == "calendar#calendar"))
-    return JSONToCalendar(data);
-  else if ((object["kind"] == "calendar#event") || (data["kind"] == "calendar#event"))
-    return JSONToEvent(data);
-  else {
-    /* FIXME: This is a very very wild assumption */
-    return JSONToEvent(data);
-  }
+  if ((object["kind"] == "calendar#calendarListEntry") || (object["kind"] == "calendar#calendar"))
+    return JSONToCalendar(object);
+  else if (object["kind"] == "calendar#event")
+    return JSONToEvent(object);
 
+  return 0;
 }
 
 QByteArray Services::Calendar::objectToJSON(KGoogle::Object* object)
@@ -91,22 +87,25 @@ QList< KGoogle::Object* > Services::Calendar::parseJSONFeed(const QByteArray& js
 {
   QJson::Parser parser;
 
-  QVariantMap map = parser.parse(jsonFeed).toMap();
-  QVariantMap data = map["data"].toMap();
+  QVariantMap data = parser.parse(jsonFeed).toMap();
 
   QList< KGoogle::Object* > list;
 
-  if (data["kind"] == "calendar#calendarFeed") {
+  if (data["kind"] == "calendar#calendarList") {
     list = parseCalendarJSONFeed(data["items"].toList());
-  } else if (data["kind"] == "calendar#eventFeed") {
-    list = parseEventJSONFeed(data["items"].toList());
-  }
 
-  if (feedData) {
-    feedData->itemsPerPage = data["itemsPerPage"].toInt();
-    feedData->startIndex = data["startIndex"].toInt();
-    feedData->totalResults = data["totalResults"].toInt();
-    feedData->nextLink = data["nextLink"].toUrl();
+    if (feedData && data.contains("nextPageToken")) {
+      feedData->nextLink = fetchCalendarsUrl();
+      feedData->nextLink.addQueryItem("pageToken", data["nextPageToken"].toString());
+    }
+
+  } else if (data["kind"] == "calendar#events") {
+    list = parseEventJSONFeed(data["items"].toList());
+
+    if (feedData && data.contains("nextPageToken") && data.contains("id")) {
+      feedData->nextLink = fetchEventsUrl(data["id"].toString());
+      feedData->nextLink.addQueryItem("pageToken", data["nextPageToken"].toString());
+    }
   }
 
   return list;
@@ -145,50 +144,102 @@ const QUrl& Services::Calendar::scopeUrl() const
   return Services::Calendar::ScopeUrl;
 }
 
-QUrl Services::Calendar::fetchAllUrl(const QString& user, const QString& visibility)
+QUrl Services::Calendar::fetchCalendarsUrl()
 {
-  return "https://www.google.com/calendar/feeds/" + user + "/" + visibility + "/full?alt=jsonc";
+  return QUrl("https://www.googleapis.com/calendar/v3/users/me/calendarList");
 }
 
-QUrl Services::Calendar::fetchUrl(const QString& user, const QString& visibility, const QString objID)
+QUrl Services::Calendar::fetchCalendarUrl(const QString& calendarID)
 {
-  return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
+  QByteArray ba("https://www.googleapis.com/calendar/v3/users/me/calendarList/");
+  ba.append(QUrl::toPercentEncoding(calendarID));
+  return QUrl::fromEncoded(ba);
 }
 
-QUrl Services::Calendar::createUrl(const QString& user, const QString& visibility)
+QUrl Services::Calendar::updateCalendarUrl(const QString &calendarID)
 {
-  return "https://www.google.com/calendar/feeds/" + user + "/" + visibility + "/full?alt=jsonc";
+  QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
+  ba.append(QUrl::toPercentEncoding(calendarID));
+  return QUrl::fromEncoded(ba);
 }
 
-QUrl Services::Calendar::updateUrl(const QString& user, const QString& visibility, const QString& objID)
+QUrl Services::Calendar::createCalendarUrl()
 {
-  return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
+  return QUrl("https://www.googleapis.com/calendar/v3/calendars");
 }
 
-QUrl Services::Calendar::removeUrl(const QString& user, const QString& visibility, const QString& objID)
+QUrl Services::Calendar::removeCalendarUrl(const QString& calendarID)
 {
-  return "https://www.google.com/calendar/feeds/"  +user +"/" + visibility + "/full/" + objID + "?alt=jsonc";
+  QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
+  ba.append(QUrl::toPercentEncoding(calendarID));
+  return QUrl::fromEncoded(ba);
 }
+
+QUrl Services::Calendar::fetchEventsUrl(const QString& calendarID)
+{
+  QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
+  ba.append(QUrl::toPercentEncoding(calendarID));
+  ba.append("/events");
+  return QUrl::fromEncoded(ba);
+}
+
+QUrl Services::Calendar::fetchEventUrl(const QString& calendarID, const QString& eventID)
+{
+  QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
+  ba.append(QUrl::toPercentEncoding(calendarID)).append("/events/").append(eventID.toLatin1());
+  return QUrl::fromEncoded(ba);
+}
+
+QUrl Services::Calendar::updateEventUrl(const QString& calendarID, const QString& eventID)
+{
+  QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
+  ba.append(QUrl::toPercentEncoding(calendarID)).append("/events/").append(eventID.toLatin1());
+  return QUrl::fromEncoded(ba);
+}
+
+QUrl Services::Calendar::createEventUrl(const QString& calendarID)
+{
+  QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
+  ba.append(QUrl::toPercentEncoding(calendarID)).append("/events");
+  return QUrl::fromEncoded(ba);
+}
+
+QUrl Services::Calendar::removeEventUrl(const QString& calendarID, const QString& eventID)
+{
+  QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
+  ba.append(QUrl::toPercentEncoding(calendarID)).append("/events/").append(eventID.toLatin1());
+  return QUrl::fromEncoded(ba);
+}
+
+QUrl Services::Calendar::moveEventUrl (const QString& sourceCalendar, const QString& destCalendar, const QString& eventID)
+{
+  QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
+  ba.append(QUrl::toPercentEncoding(sourceCalendar))
+    .append(QString("/events/").toLatin1())
+    .append(eventID.toLatin1())
+    .append(QString("?destination=").toLatin1())
+    .append(destCalendar.toLatin1());
+  return QUrl::fromEncoded(ba);
+}
+
 
 QString Services::Calendar::protocolVersion() const
 {
-  return "2";
+  return "3";
 }
 
 bool Services::Calendar::supportsJSONRead(QString* urlParam)
 {
-  if (urlParam)
-    *urlParam = "jsonc";
-
   return true;
+
+  Q_UNUSED(urlParam)
 }
 
 bool Services::Calendar::supportsJSONWrite(QString* urlParam)
 {
-  if (urlParam)
-    *urlParam = "jsonc";
-
   return true;
+
+  Q_UNUSED(urlParam)
 }
 
 
@@ -199,19 +250,35 @@ KGoogle::Object* Services::Calendar::JSONToCalendar(const QVariantMap& calendar)
 {
   Objects::Calendar *object = new Objects::Calendar();
 
-  QString id = calendar["id"].toString().replace("%40", "@");
-  id.remove("http://www.google.com/calendar/feeds/default/calendars/"); // Remove the URL prefix
-
+  QString id = QUrl::fromPercentEncoding(calendar["id"].toByteArray());
   object->setUid(id);
   object->setEtag(calendar["etag"].toString());
-  object->setTitle(calendar["title"].toString());
-  object->setColor(calendar["color"].toString());
-  object->setDetails(calendar["details"].toString());
-  object->setEditable(calendar["editable"].toBool());
+  object->setTitle(calendar["summary"].toString());
+  object->setDetails(calendar["description"].toString());
   object->setLocation(calendar["location"].toString());
   object->setTimezone(calendar["timeZone"].toString());
-  object->setCreated(AccessManager::RFC3339StringToDate(calendar["created"].toString()));
-  object->setUpdated(AccessManager::RFC3339StringToDate(calendar["created"].toString()));
+
+  if ((calendar["accessRole"].toString() == "writer") || (calendar["acessRole"].toString() == "owner"))
+    object->setEditable(true);
+  else
+    object->setEditable(false);
+
+  QVariantList reminders = calendar["defaultReminders"].toList();
+  foreach (const QVariant &r, reminders) {
+    QVariantMap reminder = r.toMap();
+
+    AlarmPtr alarm(new Alarm(0));
+    if (reminder["method"].toString() == "email")
+      alarm->setType(Alarm::Email);
+    else if (reminder["method"].toString() == "popup")
+      alarm->setType(Alarm::Display);
+    else
+      alarm->setType(KCalCore::Alarm::Invalid);
+
+    alarm->setStartOffset(Duration(reminder["minutes"].toInt()*(-60)));
+
+    object->addDefaultReminer(alarm);
+  }
 
   return dynamic_cast< KGoogle::Object* >(object);
 }
@@ -222,20 +289,15 @@ QVariantMap Services::Calendar::calendarToJSON(KGoogle::Object* calendar)
   Objects::Calendar *object = static_cast< Objects::Calendar* >(calendar);
 
   if (!object->uid().isEmpty())
-    entry["id"] = "http://www.google.com/calendar/feeds/default/calendars/" + object->uid();
+    entry["id"] = object->uid();
 
-  entry["title"] = object->title();
-  entry["color"] = object->color();
-  entry["details"] = object->details();
+  entry["summary"] = object->title();
+    entry["description"] = object->details();
   entry["location"] = object->location();
   if (!object->timezone().isEmpty())
     entry["timeZone"] = object->timezone();
-  entry["hidden"] = false;
 
-  output["apiVersion"] = "2.3";
-  output["data"] = entry;
-
-  return output;
+  return entry;
 }
 
 QList< KGoogle::Object* > Services::Calendar::parseCalendarJSONFeed(const QVariantList& feed)
@@ -254,28 +316,10 @@ KGoogle::Object* Services::Calendar::JSONToEvent(const QVariantMap& event)
   Objects::Event *object = new Objects::Event();
 
   /* ID */
-  object->setUid(event["id"].toString());
+  object->setUid(QUrl::fromPercentEncoding(event["id"].toByteArray()));
 
   /* ETAG */
   object->setEtag(event["etag"].toString());
-
-  /* Deleted? */
-  object->setDeleted(event["deleted"].toBool());
-
-  /* Can edit? */
-  object->setReadOnly(!event["canEdit"].toBool());
-
-  /* Summary */
-  object->setSummary(event["title"].toString());
-
-  /* Description */
-  object->setDescription(event["details"].toString());
-
-  /* Created */
-  object->setCreated(AccessManager::RFC3339StringToDate(event["created"].toString()));
-
-  /* Last updated */
-  object->setLastModified(AccessManager::RFC3339StringToDate(event["updated"].toString()));
 
   /* Status */
   if (event["status"].toString() == "confirmed") {
@@ -289,6 +333,65 @@ KGoogle::Object* Services::Calendar::JSONToEvent(const QVariantMap& event)
     object->setStatus(Incidence::StatusNone);
   }
 
+  /* Created */
+  object->setCreated(AccessManager::RFC3339StringToDate(event["created"].toString()));
+
+  /* Last updated */
+  object->setLastModified(AccessManager::RFC3339StringToDate(event["updated"].toString()));
+
+  /* Summary */
+  object->setSummary(event["summary"].toString());
+
+  /* Description */
+  object->setDescription(event["description"].toString());
+
+  /* Location */
+  object->setLocation(event["location"].toString());
+
+  /* Organizer */
+  PersonPtr organizer(new Person);
+  QVariantMap organizerData = event["organizer"].toMap();
+  organizer->setName(organizerData["displayName"].toString());
+  organizer->setEmail(organizerData["email"].toString());
+#ifdef WITH_KCAL
+  object->setOrganizer(*organizer);
+#else
+  object->setOrganizer(organizer);
+#endif
+
+  /* Start date */
+  QVariantMap startData = event["start"].toMap();
+  KDateTime dtStart;
+  if (startData.contains("date")) {
+    dtStart = KDateTime::fromString(startData["date"].toString(), KDateTime::ISODate);
+    object->setAllDay(true);
+  } else if (startData.contains("dateTime")) {
+    dtStart = AccessManager::RFC3339StringToDate(startData["dateTime"].toString());
+  }
+  if (startData.contains("timeZone")) {
+    KTimeZone tz(startData["timeZone"].toString());
+    dtStart.setTimeSpec(KDateTime::Spec(tz));
+  }
+  object->setDtStart(dtStart);
+
+  /* End date */
+  QVariantMap endData = event["end"].toMap();
+  KDateTime dtEnd;
+  if (endData.contains("date")) {
+    dtEnd = KDateTime::fromString(endData["date"].toString(), KDateTime::ISODate);
+    /* For Google, all-day events starts on Monday and ends on Tuesday, 
+     * while in KDE, it both starts and ends on Monday. */
+    dtEnd = dtEnd.addDays(-1);
+    object->setAllDay(true);
+  } else if (endData.contains("dateTime")) {
+    dtEnd = AccessManager::RFC3339StringToDate(endData["dateTime"].toString());
+  }
+  if (endData.contains("timeZone")) {
+    KTimeZone tz(endData["timeZone"].toString());
+    dtEnd.setTimeSpec(KDateTime::Spec(tz));
+  }
+  object->setDtEnd(dtEnd);
+
   /* Transparency */
   if (event["transparency"].toString() == "transparent") {
     object->setTransparency(Event::Transparent);
@@ -296,137 +399,94 @@ KGoogle::Object* Services::Calendar::JSONToEvent(const QVariantMap& event)
     object->setTransparency(Event::Opaque);
   }
 
-  /* Location */
-  object->setLocation(event["location"].toString());
-
   /* Attendees */
   QVariantList attendees = event["attendees"].toList();
   foreach (const QVariant &a, attendees) {
     QVariantMap att = a.toMap();
-    AttendeePtr attendee(new Attendee(att["displayName"].toString(),
-				      att["email"].toString()));
-    if (att["status"].toString() == "accepted")
+    AttendeePtr attendee(
+      new Attendee(att["displayName"].toString(),
+                   att["email"].toString()));
+
+    if (att["responseStatus"].toString() == "accepted")
       attendee->setStatus(Attendee::Accepted);
-    else if (att["status"].toString() == "invited")
-      attendee->setStatus(Attendee::None);
-    else if (att["status"].toString() == "declined")
+    else if (att["responseStatus"].toString() == "declined")
       attendee->setStatus(Attendee::Declined);
-    else if (att["status"].toString() == "tentative")
+    else if (att["responseStatus"].toString() == "tentative")
       attendee->setStatus(Attendee::Tentative);
     else
-      attendee->setStatus(Attendee::None);
+      attendee->setStatus(Attendee::NeedsAction);
 
-    if (att["type"] == "required")
-      attendee->setRole(Attendee::ReqParticipant);
-    else if (att["type"] == "optional")
-      attendee->setRole(Attendee::OptParticipant);
-    /* No further roles supported by Google */
-
-    /* Google sends organizer as one of attendees with rel="organizer" attribute */
-    if (att["rel"] == "organizer") {
-      PersonPtr person(new Person(att["displayName"].toString(),
-				  att["email"].toString()));
-#ifdef WITH_KCAL
-      object->setOrganizer(*person);
-#else
-      object->setOrganizer(person);
-#endif
-    }
+    if (att["optional"].toBool())
+      attendee->setRole(KCalCore::Attendee::OptParticipant);
 
     object->addAttendee(attendee, true);
   }
 
-  /* Start, End, all-day event */
-  QVariantList whens = event["when"].toList();
-  foreach (const QVariant &w, whens) {
-    QVariantMap when = w.toMap();
-    KDateTime dtStart, dtEnd;
-    /* When dtStart and dtEnd are only dates without times, than assume all-day event */
-    if ((when["start"].toString().length() == 10) &&
-       (when["end"].toString().length() == 10)) {
-      object->setAllDay(true);
-      dtStart = KDateTime::fromString(when["start"].toString(), "%Y-%m-%d");
-      dtEnd = KDateTime::fromString(when["end"].toString(), "%Y-%m-%d").addDays(-1);
-    } else {
-      dtStart = AccessManager::RFC3339StringToDate(when["start"].toString());
-      dtEnd = AccessManager::RFC3339StringToDate(when["end"].toString());
-
-      if (!dtStart.isLocalZone())
-	dtStart = dtStart.toLocalZone();
-
-      if (!dtEnd.isLocalZone())
-	dtEnd = dtEnd.toLocalZone();
-    }
-
-    object->setDtStart(dtStart);
-    object->setDtEnd(dtEnd);
-  }
-
   /* Recurrence */
-  QStringList recrs = event["recurrence"].toString().split("\r\n");
+  QStringList recrs = event["recurrence"].toStringList();
   foreach (const QString &rec, recrs) {
-    if (rec.left(7) == "DTSTART") {
-      bool allday;
-      KDateTime dt = parseRecurrenceDT(rec.mid(8), &allday);
-      object->setDtStart(dt);
-      object->setAllDay(allday);
-    } else  if (rec.left(5) == "DTEND") {
-      bool allday;
-      KDateTime dt = parseRecurrenceDT(rec.mid(6), &allday);
-      object->setDtEnd(dt);
-      object->setAllDay(allday);
-    } else if (rec.left(5) == "RRULE") {
-      ICalFormat format;
-      RecurrenceRule *recurrenceRule = object->recurrence()->defaultRRule(true);
+    ICalFormat format;
+    if (rec.left(5) == "RRULE") {
+      RecurrenceRule *recurrenceRule = new RecurrenceRule();
       format.fromString(recurrenceRule, rec.mid(6));
-    } else if (rec == "BEGIN:VTIMEZONE") {
-      /* TODO: Implement time-zone dependent recurrences. For now take only the "standard"
-       * and leave when it comes to any other */
-      break;
+      object->recurrence()->addRRule(recurrenceRule);
+    } else if (rec.left(6) == "EXRULE") {
+      RecurrenceRule *recurrenceRule = new RecurrenceRule();
+      format.fromString(recurrenceRule, rec.mid(7));
+      object->recurrence()->addExRule(recurrenceRule);
+    } else if (rec.left(6) == "EXDATE") {
+      DateList exdates = parseRDate(rec);
+      object->recurrence()->setExDates(exdates);
+    } else if (rec.left(5) == "RDATE") {
+      DateList rdates = parseRDate(rec);
+      object->recurrence()->setRDates(rdates);
     }
   }
 
-  /* Reminders - the recurrence and/or start/end must be set BEFORE alarms 
-   * because alarms must already know dtStart! */
-  QVariantList reminders = event["reminders"].toList();
-  foreach (const QVariant &r, reminders) {
-    QVariantMap reminder = r.toMap();
+  QVariantMap reminders = event["reminders"].toMap();
+  if (reminders.contains("useDefault") && reminders["useDefault"].toBool())
+    object->setUseDefaultReminders(true);
+  else
+    object->setUseDefaultReminders(false);
+
+  QVariantList overrides = reminders["overrides"].toList();
+  foreach (const QVariant &r, overrides) {
+    QVariantMap override = r.toMap();
     AlarmPtr alarm(new Alarm(object));
     alarm->setTime(object->dtStart());
 
-    if (reminder["method"].toString() == "alert")
+    if (override["method"].toString() == "alert")
       alarm->setType(Alarm::Display);
-    else if (reminder["method"].toString() == "email")
+    else if (override["method"].toString() == "email")
       alarm->setType(Alarm::Email);
     else {
+      alarm->setType(KCalCore::Alarm::Invalid);
       continue;
     }
 
-    if (!reminder["minutes"].toString().isEmpty()) {
-      /* Start offset is in seconds and must be negative, so that the alarm trigger times
-       * is BEFORE the event start. When alarm should trigger AFTER the event start, 
-       * it is specified as "absoluteTime" */
-      alarm->setStartOffset(Duration(reminder["minutes"].toInt()*(-60)));
-    } else if (!reminder["absoluteTime"].toString().isEmpty()) {
-      alarm->setTime(KDateTime::fromString(reminder["absoluteTime"].toString(), "%Y-%m-%dT%H:%M:%S"));
-    } else {
-      continue;
-    }
+    alarm->setStartOffset(Duration(override["minutes"].toInt()*(-60)));
     alarm->setEnabled(true);
     object->addAlarm(alarm);
   }
 
   /* Extended properties */
-  QVariantList extendedProperties = event["extendedProperties"].toList();
-  foreach (const QVariant &p, extendedProperties) {
-    QVariantMap property = p.toMap();
-    if (property["name"].toString() == "categories") {
-	object->setCategories(property["value"].toString());
+  QVariantMap extendedProperties = event["extendedProperties"].toMap();
+  QVariantMap privateProperties = extendedProperties["private"].toMap();
+
+  foreach (const QString &key, privateProperties.keys()) {
+
+    if (key == "categories") {
+      object->setCategories(privateProperties.value(key).toString());
     }
   }
-  /* TODO: Implement support for additional features:
-   * http://code.google.com/apis/gdata/docs/2.0/elements.html
-   */
+
+  QVariantMap sharedProperties = extendedProperties["shared"].toMap();
+  foreach (const QString &key, sharedProperties.keys()) {
+
+    if (key == "categories") {
+      object->setCategories(sharedProperties.value(key).toString());
+    }
+  }
 
   return dynamic_cast< KGoogle::Object* >(object);
 }
@@ -436,26 +496,12 @@ QVariantMap Services::Calendar::eventToJSON(KGoogle::Object* event)
   Objects::Event *object = static_cast<Objects::Event*>(event);
   QVariantMap output, data;
 
+  /* Type */
+  data["type"] = "calendar#event";
+
   /* ID */
-  data["id"] = object->uid();
-
-  /* Deleted? */
-  data["deleted"] = object->deleted();
-
-  /* Can edit? */
-  data["canEdit"] = object->isReadOnly();
-
-  /* Summary */
-  data["title"] = object->summary();
-
-  /* Description */
-  data["details"] = object->description();
-
-  /* Created */
-  data["created"] = AccessManager::dateToRFC3339String(object->created());
-
-  /* Last updated */
-  data["updated"] = AccessManager::dateToRFC3339String(object->lastModified());
+  if (!object->uid().isEmpty())
+    data["id"] = object->uid();
 
   /* Status */
   if (object->status() == Incidence::StatusConfirmed)
@@ -465,14 +511,85 @@ QVariantMap Services::Calendar::eventToJSON(KGoogle::Object* event)
   else if (object->status() == Incidence::StatusTentative)
     data["status"] = "tentative";
 
+  /* Summary */
+  data["summary"] = object->summary();
+
+  /* Description */
+  data["description"] = object->description();
+
+  /* Location */
+  data["location"] = object->location();
+
+  /* Organizer */
+  if (!object->organizer()->isEmpty()) {
+      QVariantMap organizer;
+      organizer["displayName"] = object->organizer()->fullName();
+      organizer["email"] = object->organizer()->email();
+      data["organizer"] = organizer;
+  }
+
+  /* Recurrence */
+  QVariantList recurrence;
+  ICalFormat format;
+  foreach (RecurrenceRule *rRule, object->recurrence()->rRules())
+    recurrence << format.toString(rRule).remove("\r\n");
+
+  foreach (RecurrenceRule *rRule, object->recurrence()->exRules())
+    recurrence << format.toString(rRule).remove("\r\n");
+
+  QStringList dates;
+  foreach (const QDate &rDate, object->recurrence()->rDates())
+    dates << rDate.toString("yyyyMMdd");
+
+  if (!dates.isEmpty())
+    recurrence << "RDATE;VALUE=DATA:" + dates.join(",");
+
+  dates.clear();
+  foreach (const QDate &exDate, object->recurrence()->exDates())
+    dates << exDate.toString("yyyyMMdd");
+
+  if (!dates.isEmpty())
+    recurrence << "EXDATE;VALUE=DATE:" + dates.join(",");
+
+  if (!recurrence.isEmpty())
+    data["recurrence"] = recurrence;
+
+  /* Start */
+  QVariantMap start;
+  if (object->allDay()) {
+    start["date"] = object->dtStart().toString("%Y-%m-%d");
+    QString tz = object->dtStart().timeZone().name();
+    if (!recurrence.isEmpty() && tz.isEmpty())
+      tz = KTimeZone::utc().name();
+    if (!tz.isEmpty())
+      start["timeZone"] = tz;
+  } else {
+    start["dateTime"] = AccessManager::dateToRFC3339String(object->dtStart());
+  }
+  data["start"] = start;
+
+  /* End */
+  QVariantMap end;
+  if (object->allDay()) {
+    /* For Google, all-day events starts on Monday and ends on Tuesday, 
+     * while in KDE, it both starts and ends on Monday. */
+    KDateTime dtEnd = object->dtEnd().addDays(1);
+    end["date"] = dtEnd.toString("%Y-%m-%d");
+    QString tz = object->dtEnd().timeZone().name();
+    if (!recurrence.isEmpty() && tz.isEmpty())
+      tz = KTimeZone::utc().name();
+    if (!tz.isEmpty())
+      end["timeZone"] = tz;
+  } else {
+    end["dateTime"] = AccessManager::dateToRFC3339String(object->dtEnd());
+  }
+  data["end"] = end;
+
   /* Transparency */
   if (object->transparency() == Event::Transparent)
     data["transparency"] = "transparent";
   else
     data["transparency"] = "opaque";
-
-  /* Location */
-  data["location"] = object->location();
 
   /* Attendees */
   QVariantList atts;
@@ -483,113 +600,57 @@ QVariantMap Services::Calendar::eventToJSON(KGoogle::Object* event)
     att["email"] = attee->email();
 
     if (attee->status() == Attendee::Accepted)
-      att["status"] = "accepted";
-    else if (attee->status() == Attendee::None)
-      att["status"] = "invited";
+      att["responseStatus"] = "accepted";
     else if (attee->status() == Attendee::Declined)
-      att["status"] = "declined";
+      att["responseStatus"] = "declined";
     else if (attee->status() == Attendee::Tentative)
-      att["status"] == "tentative";
+      att["responseStatus"] = "tentative";
+    else
+      att["responseStatus"] = "needsAction";
 
-    if (attee->role() == Attendee::ReqParticipant)
-      att["type"] = "required";
-    else if (attee->role() == Attendee::OptParticipant)
-      att["type"] = "optional";
-    /* No further roles supported by Google */
+    if (attee->role() == Attendee::OptParticipant)
+      att["optional"] = true;
 
     atts.append(att);
   }
 
-  /* Organizer. Google expects organizator as one of attendees. */
-  QVariantMap org;
-#ifdef WITH_KCAL
-  PersonPtr organizer = new Person(object->organizer());
-#else
-  PersonPtr organizer = object->organizer();
-#endif
-  org["displayName"] = organizer->name();
-  org["email"] = organizer->email();
-  org["rel"] = "organizer";
-  atts.append(org);
-
-  data["attendees"] = atts;
-
-
-  /* Start, end, reminders */
-  QVariantMap when;
+  if (!atts.isEmpty())
+    data["attendees"] = atts;
 
   /* Reminders */
-  QVariantList reminders;
-  foreach (AlarmPtr a, object->alarms()) {
-    QVariantMap alarm;
-    if (a->type() == Alarm::Display)
-      alarm["method"] = "alert";
-    else if (a->type() == Alarm::Email)
-      alarm["method"] = "email";
+  QVariantList overrides;
+  foreach (AlarmPtr alarm, object->alarms()) {
+    QVariantMap override;
 
-    if (a->startOffset().asSeconds() < 0)
-      alarm["minutes"] = a->startOffset().asSeconds()/(-60);
+    if (alarm->type() == Alarm::Display)
+      override["method"] = "popup";
+    else if (alarm->type() == Alarm::Email)
+      override["method"] = "email";
     else
-      alarm["absoluteTime"] = a->time().toString(KDateTime::RFCDate);
+      continue;
 
-    reminders.append(alarm);
+    override["minutes"] = (int) (alarm->startOffset().asSeconds() / -60);
+
+    overrides << override;
   }
 
-  /* Recurrence */
-  ICalFormat format;
-  QString recStr;
-  QString start, end;
-  if (object->allDay()) {
-    start = "VALUE=DATE:" + object->dtStart().toUtc().toString("%Y%m%d");
-    end = "VALUE=DATE:" + object->dtEnd().toUtc().toString("%Y%m%d");
-  } else {
-    start = "TZID=" + object->dtStart().timeZone().name() + ":" + object->dtStart().toLocalZone().toString("%Y%m%dT%H%M%S");
-    end = "TZID=" + object->dtEnd().timeZone().name() + ":" + object->dtEnd().toLocalZone().toString("%Y%m%dT%H%M%S");
-  }
-  recStr = "DTSTART;" + start + "\r\n" +
-	   "DTEND;" + end;
-  foreach (RecurrenceRule *rrule, object->recurrence()->rRules())
-    recStr += "\r\n" + format.toString(rrule);
-
-  if (object->recurrence()->rRules().length() > 0) {
-    data["recurrence"] = recStr;
-
-    /* For recurrent events, reminders must be set outside "gd:when"
-     * elements. */
-    if (reminders.length() > 0)
-      data["reminders"] = reminders;
-
-  } else {
-
-    /* When no recurrence is set, we can set dtStart and dtEnd */    
-    if (object->allDay()) {
-      when["start"] = object->dtStart().toString("%Y-%m-%d");
-      when["end"] = object->dtEnd().addDays(1).toString("%Y-%m-%d");
-    } else {
-      when["start"] = AccessManager::dateToRFC3339String(object->dtStart());
-      when["end"] = AccessManager::dateToRFC3339String(object->dtEnd());
-    }
-    when["reminders"] = reminders;
-    data["when"] = QVariantList() << when;
-  }
-
+  if (!overrides.isEmpty())
+    data["reminders"] = overrides;
 
   /* Store categories */
   if (!object->categories().isEmpty()) {
-    QVariantMap categories;
-    categories["name"] = "categories";
-    categories["value"] = object->categoriesStr();
-    data["extendedProperties"] = QVariantList() << categories;
+    QVariantMap extendedProperties;
+    QVariantMap sharedProperties;
+    sharedProperties["categories"] = object->categoriesStr();
+    extendedProperties["shared"] = sharedProperties;
+    data["extendedProperties"] = extendedProperties;
   }
 
   /* TODO: Implement support for additional features:
    * http://code.google.com/apis/gdata/docs/2.0/elements.html
    */
 
-  output["apiVersion"] = "2.3";
-  output["data"] = data;
-
-  return output;
+  return data;
 }
 
 QList< KGoogle::Object* > Services::Calendar::parseEventJSONFeed(const QVariantList& feed)
@@ -603,39 +664,48 @@ QList< KGoogle::Object* > Services::Calendar::parseEventJSONFeed(const QVariantL
   return output;
 }
 
-KDateTime Services::Calendar::parseRecurrenceDT(const QString& dt, bool *allDay)
+
+DateList Services::Calendar::parseRDate (const QString& rule) const
 {
-    KDateTime out;
-    KTimeZone tz;
-    QString s, tzid;
-    int p;
+  DateList list;
+  QString value;
+  KTimeZone tz;
 
-    p = dt.indexOf(";");
-    s = dt.mid(p + 1);
+  QString left = rule.left(rule.indexOf(":"));
+  QStringList params = left.split(";");
+  foreach (const QString &param, params) {
+    if (param.startsWith("VALUE")) {
+      value = param.mid(param.indexOf("=") + 1);
+    } else if (param.startsWith("TZID")) {
+      QString tzname = param.mid(param.indexOf("=") + 1);
+      tz = KSystemTimeZones::zone(tzname);
+    }
+  }
 
-    if (s.startsWith("TZID=")) {
-	int i;
+  QString datesStr = rule.mid(rule.lastIndexOf(":") + 1);
+  QStringList dates = datesStr.split(",");
+  foreach (QString date, dates) {
+    QDate dt;
 
-	s.remove("TZID=");
-	i = s.indexOf(":");
+    if (value == "DATE") {
+      dt = QDate::fromString(date, "yyyyMMdd");
+    } else if (value == "PERIOD") {
+      QString start = date.left(date.indexOf("/"));
+      KDateTime kdt = AccessManager::RFC3339StringToDate(start);
+      if (tz.isValid())
+        kdt.setTimeSpec(tz);
 
-	tz = KSystemTimeZones::zone(s.left(i));
-	s = s.mid(i + 1);
+      dt = kdt.date();
     } else {
-	tz = KSystemTimeZones::local();
+      KDateTime kdt = AccessManager::RFC3339StringToDate(date);
+      if (tz.isValid())
+        kdt.setTimeSpec(tz);
+
+      dt = kdt.date();
     }
 
-    if (s.length() == 8) {
-      out.fromString(s, KDateTime::ISODate);
-      if (allDay) 
-	  *allDay = true;
-    } else {
-      out = KDateTime::fromString(s, KDateTime::ISODate);
-      out.setTimeSpec(tz);
-      if (allDay)
-	  *allDay = false;
-    }
+    list << dt;
+  }
 
-    return out;
+  return list;
 }
-

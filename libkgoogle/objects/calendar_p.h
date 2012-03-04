@@ -21,27 +21,35 @@
 
 #include <kdatetime.h>
 
-namespace KGoogle {
+#ifdef WITH_KCAL
+#include <kcal/alarm.h>
+using namspace KCal;
+#else
+#include <kcalcore/alarm.h>
+using namespace KCalCore;
+#endif
 
-  namespace Objects {
+namespace KGoogle
+{
+
+  namespace Objects
+  {
 
     class CalendarData: public QSharedData
     {
       public:
-	CalendarData() {};
-	CalendarData(const CalendarData &other);
-	~CalendarData() {};
+        CalendarData() {};
+        CalendarData (const CalendarData &other);
+        ~CalendarData() {};
 
         QString uid;
-	QString title;
-	QString color;
-	QString details;
-	QString timezone;
+        QString title;
+        QString details;
+        QString timezone;
         QString location;
-	bool editable;
+        bool editable;
 
-	KDateTime created;
-	KDateTime updated;
+        Alarm::List alarms;
     };
 
   } // namespace Objects
