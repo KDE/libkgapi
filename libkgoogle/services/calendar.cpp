@@ -378,7 +378,7 @@ KGoogleObject* Service::Calendar::JSONToEvent(const QVariantMap& event)
     } else  if (rec.left(5) == "DTEND") {
       bool allday;
       KDateTime dt = parseRecurrenceDT(rec.mid(6), &allday);
-      if (allDay)
+      if (allday)
         dt = dt.addDays(-1);
       object->setDtEnd(dt);
       object->setAllDay(allday);
