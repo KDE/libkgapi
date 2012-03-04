@@ -610,37 +610,39 @@ QList< KGoogleObject* > Service::Calendar::parseEventJSONFeed(const QVariantList
 
 KDateTime Service::Calendar::parseRecurrenceDT(const QString& dt, bool *allDay)
 {
-    KDateTime out;
-    KTimeZone tz;
-    QString s, tzid;
-    int p;
+  QString value;
+  KTimeZone tz;
+  KDateTime date;
 
-    p = dt.indexOf(";");
-    s = dt.mid(p + 1);
-
-    if (s.startsWith("TZID=")) {
-	int i;
-
-	s.remove("TZID=");
-	i = s.indexOf(":");
-
-	tz = KSystemTimeZones::zone(s.left(i));
-	s = s.mid(i + 1);
-    } else {
-	tz = KSystemTimeZones::local();
+  QString left = dt.left(dt.indexOf(":"));
+  QStringList params = left.split(";");
+  foreach (const QString &param, params) {
+    if (param.startsWith("VALUE")) {
+      value = param.mid(param.indexOf("=") + 1);
+    } else if (param.startsWith("TZID")) {
+      QString tzname = param.mid(param.indexOf("=") + 1);
+      tz = KSystemTimeZones::zone(tzname);
     }
+  }
 
-    if (s.length() == 8) {
-      out.fromString(s, KDateTime::ISODate);
-      if (allDay) 
-	  *allDay = true;
-    } else {
-      out = KDateTime::fromString(s, KDateTime::ISODate);
-      out.setTimeSpec(tz);
-      if (allDay)
-	  *allDay = false;
-    }
+  QString dateStr = dt.mid(dt.lastIndexOf(":") + 1);
 
-    return out;
+  if (value == "DATE") {
+    date = KDateTime::fromString(dateStr, "%Y%m%d");
+    *allDay = true;
+  } else if (value == "PERIOD") {
+    QString start = dateStr.left(dateStr.indexOf("/"));
+    date = KGoogleAccessManager::RFC3339StringToDate(start);
+    if (tz.isValid())
+      date.setTimeSpec(tz);
+    *allDay = false;
+  } else {
+    date = KGoogleAccessManager::RFC3339StringToDate(dateStr);
+    if (tz.isValid())
+      date.setTimeSpec(tz);
+
+    *allDay = false;
+  }
+
+  return date;
 }
-
