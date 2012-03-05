@@ -109,7 +109,7 @@ class LIBKGOOGLE_EXPORT Event: public KGoogle::Object, public KCalCore::Event
     Event& operator= (const Event& other);
 
   private:
-    QExplicitlySharedDataPointer<EventData> d;
+    QSharedDataPointer<EventData> d;
 
 };
 

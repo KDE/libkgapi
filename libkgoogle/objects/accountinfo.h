@@ -177,7 +177,7 @@ class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Object
     const QString& photoUrl() const;
 
   private:
-    QExplicitlySharedDataPointer<AccountInfoData> d;
+    QSharedDataPointer<AccountInfoData> d;
 
 };
 

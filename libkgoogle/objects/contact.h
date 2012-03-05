@@ -251,7 +251,7 @@ class LIBKGOOGLE_EXPORT Contact : public KGoogle::Object, public KABC::Addressee
     static KABC::Address::Type addressSchemeToType(const QString &scheme, const bool primary = false);
 
   private:
-    QExplicitlySharedDataPointer<ContactData> d;
+    QSharedDataPointer<ContactData> d;
 
 };
 

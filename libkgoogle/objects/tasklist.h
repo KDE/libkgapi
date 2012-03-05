@@ -52,7 +52,7 @@ class LIBKGOOGLE_EXPORT TaskList: public KGoogle::Object
     QString title() const;
 
   private:
-    QExplicitlySharedDataPointer< TaskListData > d;
+    QSharedDataPointer< TaskListData > d;
 
 };
 

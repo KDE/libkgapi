@@ -118,7 +118,7 @@ class LIBKGOOGLE_EXPORT ContactsGroup : public KGoogle::Object
     bool isSystemGroup() const;
 
   private:
-    QExplicitlySharedDataPointer< ContactsGroupPrivate > d;
+    QSharedDataPointer< ContactsGroupPrivate > d;
 
 };
 

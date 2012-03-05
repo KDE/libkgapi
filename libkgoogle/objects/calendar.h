@@ -169,7 +169,7 @@ class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Object
     Reminder::List defaultReminders() const;
 
   protected:
-    QExplicitlySharedDataPointer<CalendarData> d;
+    QSharedDataPointer<CalendarData> d;
 
 };
 

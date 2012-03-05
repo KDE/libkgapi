@@ -66,8 +66,7 @@ class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCalCore::Todo
     bool deleted() const;
 
   private:
-    QExplicitlySharedDataPointer< TaskData > d;
-    bool m_deleted;
+    QSharedDataPointer< TaskData > d;
 
 };
 
