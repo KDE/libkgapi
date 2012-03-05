@@ -117,8 +117,17 @@ QList< KGoogle::Account * > Auth::getAccounts()
     QStringList list = d->kwallet->entryList();
     QList< Account * > accounts;
     foreach(QString accName, list) {
+
         QMap< QString, QString > map;
         d->kwallet->readMap(accName, map);
+
+        /* Make sure we ignore authentication entries from libkgoogle 0.2 */
+        if (!map.contains("accessToken")
+            || !map.contains("refreshToken")
+            || !map.contains("scopes")) {
+
+            continue;
+        }
 
         QStringList scopes = map["scopes"].split(',');
         QList< QUrl > scopeUrls;
