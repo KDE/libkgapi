@@ -51,12 +51,21 @@ AccessManager::~AccessManager()
     delete d_ptr;
 }
 
+void AccessManager::queueRequest (Request* request)
+{
+    Q_D(AccessManager);
+
+    if (request)
+        d->cache.enqueue(request);
+}
+
+
 void KGoogle::AccessManager::sendRequest(KGoogle::Request *request)
 {
     Q_D(AccessManager);
 
     /* Queue to cache */
-    d->cache.append(request);
+    queueRequest(request);
 
     if (d->cacheSemaphore->available()) {
         d->submitCache();

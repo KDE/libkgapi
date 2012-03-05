@@ -20,6 +20,7 @@
 #define LIBKGOOGLE_ACCESSMANAGER_P_H_
 
 #include <QtCore/QObject>
+#include <QtCore/QQueue>
 #include <QtCore/QSemaphore>
 #include <QtNetwork/QNetworkReply>
 
@@ -47,7 +48,7 @@ class AccessManagerPrivate: public QObject
 
     KIO::Integration::AccessManager *nam;
 
-    QList< KGoogle::Request* > cache;
+    QQueue< KGoogle::Request* > cache;
     QSemaphore *cacheSemaphore;;
 
   public Q_SLOTS:

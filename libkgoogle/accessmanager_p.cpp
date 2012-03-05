@@ -116,21 +116,37 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     case KGoogle::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
         /* Lock the service, add request to cache and request new tokens. */
-        cache << request;
-        if (cacheSemaphore->available() == 1) {
-            cacheSemaphore->acquire();
+        cache.enqueue(request);
+        if (cacheSemaphore->tryAcquire()) {
+            Account::Ptr account = request->account();
+            QString accName = account->accountName();
 
-            int type = QMetaType::type(qPrintable(request->serviceName()));
-            KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
-            QUrl scope = service->scopeUrl();
+            QList< QUrl> scopes = account->scopes();
 
-            if (!request->account()->scopes().contains(scope))
-                request->account()->addScope(scope);
+            /* Go through the entire cache, check if there are another
+             * requests with the same account waiting, but for different 
+             * services. */
+            foreach (KGoogle::Request *r, cache) {
+                if (r->account()->accountName() == accName) {
+
+                    int type = QMetaType::type(qPrintable(r->serviceName()));
+                    KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
+
+                    if (!scopes.contains(service->scopeUrl()))
+                        scopes << service->scopeUrl();
+                }
+            }
+
+            /* Authenticate the account not just for this, but for all other
+             * services for which the account has pending requests. 
+             * This is purely for user's comfort. It ensures that there won't be
+             * a new dialog for each service the account has pending requests.
+             * Obviously this works only for requests that are already in the cache.
+             */
+            account->setScopes(scopes);
 
             KGoogle::Auth *auth = KGoogle::Auth::instance();
-            connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
-                    this, SLOT(submitCache()));
-            auth->authenticate(request->account(), true);
+            auth->authenticate(account, true);
         }
         /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
         return;
@@ -223,6 +239,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     } else {
         emit q->requestFinished(request);
+
+        /* Send next request from the cache */
+        submitCache();
     }
 
     delete service;
@@ -301,6 +320,7 @@ void AccessManagerPrivate::authenticated()
 
 void AccessManagerPrivate::submitCache()
 {
+    kDebug() << "Cache contains" << cache.size() << "requests";
     while (!cache.isEmpty() && cacheSemaphore->available())
-        nam_sendRequest(cache.takeFirst());
+        nam_sendRequest(cache.dequeue());
 }

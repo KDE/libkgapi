@@ -85,8 +85,23 @@ class LIBKGOOGLE_EXPORT AccessManager: public QObject
      */
     static QString dateToRFC3339String(const KDateTime &datetime);
 
-
   public Q_SLOTS:
+
+    /**
+     * Queues the \p request in cache but does not send it to Google.
+     *
+     * This is useful when you want to send more requests at once.
+     * You can add all requests by queueing them to cache and then
+     * submit them all at once by passing the very last request via
+     * sendRequest().
+     *
+     * This allows libkgoogle to do some optimizations, like using
+     * batch requests or unify authentication.
+     *
+     * @param request A request to queueing
+     */
+    void queueRequest(KGoogle::Request *request);
+
     /**
      * Sends a \p request to a Google service.
      *
@@ -96,9 +111,14 @@ class LIBKGOOGLE_EXPORT AccessManager: public QObject
      * the reply to multiple smaller replies) the requestFinished()
      * signal is emitted after the last reply is received.
      *
+     * Calling this method without any request or with null request
+     * will cause all items in the internal cache to be send to
+     * Google. It is not guaranteed that the cache will be submitted
+     * immidiatelly with this call though.
+     *
      * @param request A request to be send
      */
-    void sendRequest(KGoogle::Request *request);
+    void sendRequest(KGoogle::Request *request = 0);
 
 
   Q_SIGNALS:
