@@ -71,16 +71,16 @@ void Auth::setKWalletFolder(const QString& folder)
     d->kwalletFolder = folder;
 }
 
-KGoogle::Account *Auth::getAccount(const QString &account)
+KGoogle::Account::Ptr Auth::getAccount(const QString &account)
 {
     Q_D(Auth);
 
     if (!d->initKWallet())
-        return 0;
+        return Account::Ptr();
 
     if (!d->kwallet->hasFolder(d->kwalletFolder)) {
         throw Exception::UnknownAccount(account);
-        return 0;
+        return Account::Ptr();
     }
 
     d->kwallet->setFolder(d->kwalletFolder);
@@ -88,7 +88,7 @@ KGoogle::Account *Auth::getAccount(const QString &account)
     QMap< QString, QString > map;
     if (d->kwallet->readMap(account, map) != 0) {
         throw Exception::UnknownAccount(account);
-        return 0;
+        return Account::Ptr();
     }
 
     QStringList scopes = map["scopes"].split(',');
@@ -97,25 +97,24 @@ KGoogle::Account *Auth::getAccount(const QString &account)
         scopeUrls << QUrl(scope);
     }
 
-    Account *acc = new Account(account, map["accessToken"], map["refreshToken"], scopeUrls);
-    return acc;
+    return Account::Ptr(new Account(account, map["accessToken"], map["refreshToken"], scopeUrls));
 }
 
-QList< KGoogle::Account * > Auth::getAccounts()
+QList< KGoogle::Account::Ptr > Auth::getAccounts()
 {
     Q_D(Auth);
 
     if (!d->initKWallet()) {
-        return QList< Account* >();
+        return QList< Account::Ptr >();
     }
 
     if (!d->kwallet->hasFolder(d->kwalletFolder)) {
-        return QList< Account *>();
+        return QList< Account::Ptr >();
     }
 
     d->kwallet->setFolder(d->kwalletFolder);
     QStringList list = d->kwallet->entryList();
-    QList< Account * > accounts;
+    QList< Account::Ptr > accounts;
     foreach(QString accName, list) {
 
         QMap< QString, QString > map;
@@ -135,21 +134,22 @@ QList< KGoogle::Account * > Auth::getAccounts()
             scopeUrls << QUrl(scope);
         }
 
-        accounts.append(new Account(accName, map["accessToken"], map["refreshToken"], scopeUrls));
+        accounts.append(Account::Ptr(new Account(accName, map["accessToken"], map["refreshToken"], scopeUrls)));
     }
 
     return accounts;
 }
 
-void Auth::storeAccount(const KGoogle::Account *account)
+void Auth::storeAccount(const KGoogle::Account::Ptr &account)
 {
     Q_D(Auth);
 
     if (!d->initKWallet())
         return;
 
-    if (!account || account->accountName().isEmpty() ||
-            account->accessToken().isEmpty() || account->refreshToken().isEmpty()) {
+    if (account.isNull() || account->accountName().isEmpty()
+        || account->accessToken().isEmpty() || account->refreshToken().isEmpty()) {
+
         throw Exception::InvalidAccount();
         return;
     }
@@ -174,7 +174,7 @@ void Auth::storeAccount(const KGoogle::Account *account)
     d->kwallet->writeMap(account->accountName(), map);
 }
 
-void Auth::authenticate(KGoogle::Account *account, bool autoSave)
+void Auth::authenticate(KGoogle::Account::Ptr &account, bool autoSave)
 {
     Q_D(Auth);
 
@@ -182,7 +182,7 @@ void Auth::authenticate(KGoogle::Account *account, bool autoSave)
         return;
     }
 
-    if (!account) {
+    if (account.isNull()) {
         throw Exception::InvalidAccount();
         return;
     }
@@ -204,11 +204,11 @@ void Auth::authenticate(KGoogle::Account *account, bool autoSave)
     }
 }
 
-bool Auth::revoke(Account *account)
+bool Auth::revoke(Account::Ptr &account)
 {
     Q_D(Auth);
 
-    if (!account || account->accountName().isEmpty()) {
+    if (account.isNull() || account->accountName().isEmpty()) {
         return false;
     }
 

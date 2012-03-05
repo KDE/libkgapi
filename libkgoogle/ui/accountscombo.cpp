@@ -35,20 +35,20 @@ AccountsCombo::~AccountsCombo()
 
 }
 
-KGoogle::Account *AccountsCombo::currentAccount() const
+KGoogle::Account::Ptr AccountsCombo::currentAccount() const
 {
     int index = currentIndex();
 
     if (index == -1)
-        return 0;
+        return KGoogle::Account::Ptr();
 
-    return qVariantValue< KGoogle::Account* >(itemData(index, Qt::UserRole));
+    return qVariantValue< KGoogle::Account::Ptr >(itemData(index, Qt::UserRole));
 }
 
 void AccountsCombo::reload()
 {
     KGoogle::Auth *auth = KGoogle::Auth::instance();
-    QList< KGoogle::Account* > accounts;
+    QList< KGoogle::Account::Ptr > accounts;
     clear();
 
     try {
@@ -58,7 +58,7 @@ void AccountsCombo::reload()
         return;
     }
 
-    foreach(KGoogle::Account * account, accounts) {
+    foreach(const KGoogle::Account::Ptr &account, accounts) {
         addItem(account->accountName(), qVariantFromValue(account));
     }
 }

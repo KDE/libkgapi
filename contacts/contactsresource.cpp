@@ -157,7 +157,7 @@ bool ContactsResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
     if (item.mimeType() != KABC::Addressee::mimeType())
         return false;
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -256,7 +256,7 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
     if (!item.hasPayload< KABC::Addressee >())
         return;
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -306,7 +306,7 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
         return;
     }
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -350,7 +350,7 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
         return;
     }
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -398,7 +398,7 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
 void ContactsResource::itemRemoved(const Akonadi::Item& item)
 {
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -621,7 +621,7 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
 
 void ContactsResource::fetchPhoto(Akonadi::Item &item)
 {
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -644,7 +644,7 @@ void ContactsResource::fetchPhoto(Akonadi::Item &item)
 
 void ContactsResource::updatePhoto(Item &item)
 {
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());

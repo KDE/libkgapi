@@ -65,7 +65,7 @@ bool AuthPrivate::initKWallet()
 }
 
 
-void AuthPrivate::fullAuthentication(KGoogle::Account *account, bool autoSave)
+void AuthPrivate::fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave)
 {
     Q_Q(Auth);
 
@@ -74,8 +74,8 @@ void AuthPrivate::fullAuthentication(KGoogle::Account *account, bool autoSave)
 
     connect(dlg, SIGNAL(error(KGoogle::Error, QString)),
             q, SIGNAL(error(KGoogle::Error, QString)));
-    connect(dlg, SIGNAL(authenticated(KGoogle::Account*)),
-            this, SLOT(fullAuthenticationFinished(KGoogle::Account*)));
+    connect(dlg, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
+            this, SLOT(fullAuthenticationFinished(KGoogle::Account::Ptr&)));
     connect(dlg, SIGNAL(accepted()),
             dlg, SLOT(deleteLater()));
 
@@ -83,7 +83,7 @@ void AuthPrivate::fullAuthentication(KGoogle::Account *account, bool autoSave)
     dlg->authenticate(account);
 }
 
-void AuthPrivate::fullAuthenticationFinished(KGoogle::Account *account)
+void AuthPrivate::fullAuthenticationFinished(KGoogle::Account::Ptr &account)
 {
     Q_Q(Auth);
 
@@ -111,7 +111,7 @@ void AuthPrivate::fullAuthenticationFinished(KGoogle::Account *account)
 }
 
 
-void AuthPrivate::refreshTokens(KGoogle::Account *account, bool autoSave)
+void AuthPrivate::refreshTokens(KGoogle::Account::Ptr &account, bool autoSave)
 {
     QNetworkAccessManager *nam = new KIO::Integration::AccessManager(this);
     QNetworkRequest request;
@@ -124,7 +124,7 @@ void AuthPrivate::refreshTokens(KGoogle::Account *account, bool autoSave)
     request.setUrl(QUrl("https://accounts.google.com/o/oauth2/token"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setAttribute(QNetworkRequest::User, QVariant(autoSave));
-    request.setAttribute(QNetworkRequest::UserMax, qVariantFromValue<Account*>(account));
+    request.setAttribute(QNetworkRequest::UserMax, qVariantFromValue< Account::Ptr >(account));
 
     QUrl params;
     params.addQueryItem("client_id", APIClientID);
@@ -151,7 +151,7 @@ void AuthPrivate::refreshTokensFinished(QNetworkReply *reply)
 
     QNetworkRequest request = reply->request();
     bool autoSave = request.attribute(QNetworkRequest::User).toBool();
-    Account *account = qVariantValue<Account*>(request.attribute(QNetworkRequest::UserMax));
+    Account::Ptr account = qVariantValue< Account::Ptr >(request.attribute(QNetworkRequest::UserMax));
 
     QByteArray rawData = reply->readAll();
     QJson::Parser parser;

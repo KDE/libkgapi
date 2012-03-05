@@ -79,7 +79,7 @@ class LIBKGOOGLE_EXPORT AuthDialog: public KDialog
      *
      * @param account An account to be authenticated.
      */
-    void authenticate(KGoogle::Account *account);
+    void authenticate(KGoogle::Account::Ptr &account);
 
   Q_SIGNALS:
     /**
@@ -90,7 +90,7 @@ class LIBKGOOGLE_EXPORT AuthDialog: public KDialog
      *
      * @param account Successfully authenticated account with name tokens set
      */
-    void authenticated(KGoogle::Account *account);
+    void authenticated(KGoogle::Account::Ptr &account);
 
     /**
      * Emitted whenever an error occurs during the authentication.
@@ -119,7 +119,7 @@ class LIBKGOOGLE_EXPORT AuthDialog: public KDialog
     KWebView *m_webiew;
     QLabel *m_label;
 
-    KGoogle::Account *m_account;
+    KGoogle::Account::Ptr m_account;
 };
 
 #endif // AUTHDIALOG_H

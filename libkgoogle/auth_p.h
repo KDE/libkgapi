@@ -21,6 +21,8 @@
 
 #include <qobject.h>
 
+#include "account.h"
+
 namespace KWallet
 {
 class Wallet;
@@ -30,8 +32,6 @@ class QNetworkReply;
 
 namespace KGoogle
 {
-
-class Account;
 
 class Auth;
 
@@ -56,10 +56,10 @@ class AuthPrivate: public QObject
     bool initKWallet();
 
   public Q_SLOTS:
-    void fullAuthentication(KGoogle::Account *account, bool autoSave);
-    void fullAuthenticationFinished(KGoogle::Account *account);
+    void fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave);
+    void fullAuthenticationFinished(KGoogle::Account::Ptr &account);
 
-    void refreshTokens(KGoogle::Account *account, bool autoSave);
+    void refreshTokens(KGoogle::Account::Ptr &account, bool autoSave);
     void refreshTokensFinished(QNetworkReply *reply);
 
   private:

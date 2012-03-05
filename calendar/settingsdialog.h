@@ -31,9 +31,7 @@ class SettingsDialog;
 
 namespace KGoogle
 {
-class Auth;
 class Reply;
-class AccessManager;
 
 namespace Objects
 {

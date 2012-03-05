@@ -93,7 +93,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      * @return Returns KGoogle::Account or NULL when no such account is found in the
      *         KWallet or access to KWallet failed.
      */
-    KGoogle::Account* getAccount(const QString &account);
+    KGoogle::Account::Ptr getAccount(const QString &account);
 
     /**
      * Retrieves list of all accounts from KWallet.
@@ -105,7 +105,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      *
      * @return Returns list of all Google accounts from KWallet.
      */
-    QList< KGoogle::Account* > getAccounts();
+    QList< KGoogle::Account::Ptr > getAccounts();
 
     /**
      * Stores \p account in KWallet.
@@ -123,7 +123,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      *
      * @param account Account to store in KWallet
      */
-    void storeAccount(const KGoogle::Account *account);
+    void storeAccount(const KGoogle::Account::Ptr &account);
 
     /**
      * Authenticates \p account against Google services.
@@ -149,7 +149,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      *                 call KGoogle::Auth::storeAccount() to save changes
      *                 to KWallet.
      */
-    void authenticate(KGoogle::Account *account, bool autoSave = true);
+    void authenticate(KGoogle::Account::Ptr &account, bool autoSave = true);
 
     /**
      * Revokes tokens for \p account and removes it from KWallet.
@@ -163,7 +163,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      * @return Returns \p true when account is succesfully removed, \p false
      *         when account does not exist or something fails.
      */
-    bool revoke(KGoogle::Account *account);
+    bool revoke(KGoogle::Account::Ptr &account);
 
   Q_SIGNALS:
     /**
@@ -180,7 +180,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      * This signal is emitted when \p account was succesfully authenticated
      * (for the first time), or when just tokens were refreshed.
      */
-    void authenticated(KGoogle::Account *account);
+    void authenticated(KGoogle::Account::Ptr &account);
 
   private:
     AuthPrivate* const d_ptr;

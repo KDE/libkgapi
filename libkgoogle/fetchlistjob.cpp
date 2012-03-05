@@ -60,7 +60,7 @@ void FetchListJob::start()
     Q_D(FetchListJob);
 
     KGoogle::Auth *auth = KGoogle::Auth::instance();
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     try {
         account = auth->getAccount(d->accountName);
     } catch (KGoogle::Exception::BaseException &e) {

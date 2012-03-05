@@ -25,11 +25,10 @@
 #include <QtCore/QUrl>
 
 #include <libkgoogle/libkgoogle_export.h>
+#include <libkgoogle/account.h>
 
 namespace KGoogle
 {
-
-class Account;
 
 class RequestPrivate;
 
@@ -62,7 +61,7 @@ class LIBKGOOGLE_EXPORT Request: public QNetworkRequest
      * @param serviceName Name of service this request belongs to.
      * @param account Google Account to which the request should be sent
      */
-    Request(const QUrl &url, const RequestType requestType, const QString &serviceName, KGoogle::Account *account);
+    Request(const QUrl &url, const RequestType requestType, const QString &serviceName, const KGoogle::Account::Ptr &account);
 
 
     virtual ~Request();
@@ -118,7 +117,7 @@ class LIBKGOOGLE_EXPORT Request: public QNetworkRequest
     /**
      * Returns account to which the request is sent.
      */
-    KGoogle::Account* account() const;
+    KGoogle::Account::Ptr account() const;
 
     /**
      * Set a value of an objects property.

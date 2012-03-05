@@ -40,7 +40,7 @@ public:
     QByteArray requestData;
     QString contentType;
     QMap< QString, QVariant > properties;
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
 };
 
 }
@@ -55,7 +55,7 @@ Request::Request():
 }
 
 Request::Request(const QUrl &url, const KGoogle::Request::RequestType requestType,
-                 const QString &serviceName, KGoogle::Account *account):
+                 const QString &serviceName, const KGoogle::Account::Ptr &account):
     QNetworkRequest(url),
     d_ptr(new RequestPrivate)
 {
@@ -126,7 +126,7 @@ const QString& Request::contentType() const
     return d_func()->contentType;
 }
 
-KGoogle::Account* Request::account() const
+KGoogle::Account::Ptr Request::account() const
 {
     return d_func()->account;
 }

@@ -166,8 +166,8 @@ void AuthDialog::accountInfoReceived(KGoogle::Reply* reply)
 
     delete reply;
 
-    accept();
     emit authenticated(m_account);
+    accept();
 }
 
 
@@ -226,10 +226,10 @@ AuthDialog::~AuthDialog()
     delete m_widget;
 }
 
-void AuthDialog::authenticate(KGoogle::Account *account)
+void AuthDialog::authenticate(KGoogle::Account::Ptr &account)
 {
 
-    if (!account || account->scopes().isEmpty()) {
+    if (account.isNull() || account->scopes().isEmpty()) {
         throw KGoogle::Exception::InvalidAccount();
         return;
     }

@@ -51,7 +51,7 @@ void CalendarResource::taskDoUpdate(Reply* reply)
     TodoPtr todo = item.payload< TodoPtr >();
     Objects::Task ktodo(*todo);
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());

@@ -99,7 +99,7 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
             this, SLOT(saveSettings()));
 
     KGoogle::Auth *auth = KGoogle::Auth::instance();
-    connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
+    connect(auth, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
             this, SLOT(reloadAccounts()));
 
     reloadAccounts();
@@ -162,7 +162,7 @@ void SettingsDialog::addAccountClicked()
 {
     KGoogle::Auth *auth = KGoogle::Auth::instance();
 
-    KGoogle::Account *account = new KGoogle::Account();
+    KGoogle::Account::Ptr account(new KGoogle::Account());
     account->addScope(Services::Calendar::ScopeUrl);
     account->addScope(Services::Tasks::ScopeUrl);
 
@@ -175,8 +175,8 @@ void SettingsDialog::addAccountClicked()
 
 void SettingsDialog::removeAccountClicked()
 {
-    KGoogle::Account *account = m_ui->accountsCombo->currentAccount();
-    if (!account)
+    KGoogle::Account::Ptr account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull())
         return;
 
     if (KMessageBox::warningYesNo(
@@ -205,8 +205,8 @@ void SettingsDialog::accountChanged()
     m_ui->calendarsBox->setDisabled(true);
     m_ui->tasksBox->setDisabled(true);
 
-    Account *account = m_ui->accountsCombo->currentAccount();
-    if (account == 0) {
+    Account::Ptr account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull()) {
         m_ui->accountsBox->setEnabled(true);
         m_ui->calendarsList->clear();
         m_ui->calendarsBox->setEnabled(true);
@@ -225,7 +225,7 @@ void SettingsDialog::accountChanged()
     connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
             gam, SLOT(deleteLater()));
     request = new KGoogle::Request(Services::Calendar::fetchCalendarsUrl(), Request::FetchAll, "Calendar", account);
-    gam->sendRequest(request);
+    gam->queueRequest(request);
 
     m_ui->tasksList->clear();
     gam = new KGoogle::AccessManager;
@@ -250,7 +250,7 @@ void SettingsDialog::addCalendarClicked()
 
 void SettingsDialog::addCalendar(KGoogle::Objects::Calendar *calendar)
 {
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     KGoogle::AccessManager *gam;
     KGoogle::Request *request;
     Services::Calendar parser;
@@ -303,7 +303,7 @@ void SettingsDialog::editCalendarClicked()
 
 void SettingsDialog::editCalendar(KGoogle::Objects::Calendar *calendar)
 {
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     KGoogle::AccessManager *gam;
     KGoogle::Request *request;
     Services::Calendar parser;
@@ -346,7 +346,7 @@ void SettingsDialog::removeCalendarClicked()
         return;
     }
 
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     KGoogle::AccessManager *gam;
     KGoogle::Request *request;
 
@@ -380,7 +380,7 @@ void SettingsDialog::addTaskListClicked()
 void SettingsDialog::reloadCalendarsClicked()
 {
     KGoogle::AccessManager *gam;
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     KGoogle::Request *request;
 
     m_ui->accountsBox->setDisabled(true);
@@ -401,7 +401,7 @@ void SettingsDialog::reloadCalendarsClicked()
 
 void SettingsDialog::addTaskList(TaskList *taskList)
 {
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     KGoogle::AccessManager *gam;
     KGoogle::Request *request;
     Services::Tasks parser;
@@ -445,7 +445,7 @@ void SettingsDialog::editTaskListClicked()
 
 void SettingsDialog::editTaskList(TaskList *taskList)
 {
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     KGoogle::AccessManager *gam;
     KGoogle::Request *request;
     Services::Tasks parser;
@@ -488,7 +488,7 @@ void SettingsDialog::removeTaskListClicked()
         return;
     }
 
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     KGoogle::AccessManager *gam;
     KGoogle::Request *request;
 
@@ -511,7 +511,7 @@ void SettingsDialog::removeTaskListClicked()
 void SettingsDialog::reloadTaskListsClicked()
 {
     KGoogle::AccessManager *gam;
-    KGoogle::Account *account;
+    KGoogle::Account::Ptr account;
     KGoogle::Request *request;
 
     m_ui->accountsBox->setDisabled(true);

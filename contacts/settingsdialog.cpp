@@ -61,7 +61,7 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget *parent):
             this, SLOT(removeAccountClicked()));
 
     KGoogle::Auth *auth = KGoogle::Auth::instance();
-    connect(auth, SIGNAL(authenticated(KGoogle::Account*)),
+    connect(auth, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
             this, SLOT(reloadAccounts()));
 
     reloadAccounts();
@@ -107,7 +107,7 @@ void SettingsDialog::addAccountClicked()
 {
     KGoogle::Auth *auth = KGoogle::Auth::instance();
 
-    KGoogle::Account *account = new KGoogle::Account();
+    KGoogle::Account::Ptr account(new KGoogle::Account());
     account->addScope(Services::Contacts::ScopeUrl);
 
     try {
@@ -119,9 +119,9 @@ void SettingsDialog::addAccountClicked()
 
 void SettingsDialog::removeAccountClicked()
 {
-    KGoogle::Account *account = m_ui->accountsCombo->currentAccount();
+    KGoogle::Account::Ptr account = m_ui->accountsCombo->currentAccount();
 
-    if (!account)
+    if (account.isNull())
         return;
 
     if (KMessageBox::warningYesNo(this,

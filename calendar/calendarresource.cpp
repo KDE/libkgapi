@@ -218,7 +218,7 @@ bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
 
     }
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -301,7 +301,7 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
         return;
     }
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -323,7 +323,7 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
     QUrl url;
     QByteArray data;
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -409,7 +409,7 @@ void CalendarResource::itemRemoved(const Akonadi::Item& item)
         return;
     }
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
@@ -433,7 +433,7 @@ void CalendarResource::itemMoved(const Item& item, const Collection& collectionS
     if (item.mimeType() != Event::eventMimeType())
         return;
 
-    Account *account;
+    Account::Ptr account;
     try {
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());

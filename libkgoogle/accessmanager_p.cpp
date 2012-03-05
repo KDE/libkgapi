@@ -46,7 +46,7 @@ AccessManagerPrivate::AccessManagerPrivate(AccessManager* const parent):
 {
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(nam_replyReceived(QNetworkReply*)));
-    connect(Auth::instance(), SIGNAL(authenticated(KGoogle::Account*)),
+    connect(Auth::instance(), SIGNAL(authenticated(KGoogle::Account::Ptr&)),
             this, SLOT(authenticated()));
 }
 
@@ -293,7 +293,7 @@ void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
 
 void AccessManagerPrivate::authenticated()
 {
-    cacheSemaphore->release();;
+    cacheSemaphore->release();
 
     submitCache();
 }

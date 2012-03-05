@@ -24,6 +24,7 @@
 #include <qstandarditemmodel.h>
 
 #include <libkgoogle/libkgoogle_export.h>
+#include <libkgoogle/account.h>
 
 namespace KGoogle
 {
@@ -42,7 +43,7 @@ public:
 
     virtual ~AccountsCombo();
 
-    KGoogle::Account* currentAccount() const;
+    KGoogle::Account::Ptr currentAccount() const;
 
 public Q_SLOTS:
     void reload();
