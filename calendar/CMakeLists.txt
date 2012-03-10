@@ -4,8 +4,6 @@ set(CALENDAR_RESOURCE_VERSION 0.2)
 
 cmake_minimum_required(VERSION 2.8)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/libkgoogle/cmake/modules/")
-
 add_definitions(-DRESOURCE_VERSION="\\"${CALENDAR_RESOURCE_VERSION}\\"")
 if (XSLTPROC_EXECUTABLE)
   macro(kcfg_generate_dbus_interface _kcfg _name)
@@ -58,8 +56,11 @@ target_link_libraries(akonadi_googlecalendar_resource
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
 		      ${QJSON_LIBRARIES}
-		      ${LIBKGOOGLE_LIBRARY}
+		      kgoogle
 )
+
+add_dependencies(akonadi_googlecalendar_resource libkgoogle)
+
 
 install(TARGETS akonadi_googlecalendar_resource ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES googlecalendarresource.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akonadi/agents" )

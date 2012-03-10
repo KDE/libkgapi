@@ -45,5 +45,7 @@ target_link_libraries(akonadi_googlecontacts_resource
 		      kgoogle
 )
 
+add_dependencies(akonadi_googlecontacts_resource libkgoogle)
+
 install(TARGETS akonadi_googlecontacts_resource ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES googlecontactsresource.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akonadi/agents" )
