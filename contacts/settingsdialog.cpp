@@ -96,7 +96,10 @@ void SettingsDialog::reloadAccounts()
     m_ui->accountsCombo->reload();
 
     QString accName = Settings::self()->account();
-    int index = m_ui->accountsCombo->findText(accName);
+    int index = -1;
+
+    if (!accName.isEmpty())
+        index = m_ui->accountsCombo->findText(accName);
 
     if (index > -1) {
         m_ui->accountsCombo->setCurrentIndex(index);

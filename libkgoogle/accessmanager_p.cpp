@@ -119,6 +119,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         cache.enqueue(request);
         if (cacheSemaphore->tryAcquire()) {
             Account::Ptr account = request->account();
+            if (account.isNull())
+                return;
+
             QString accName = account->accountName();
 
             QList< QUrl> scopes = account->scopes();

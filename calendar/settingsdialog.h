@@ -24,6 +24,8 @@
 #include <KDE/KJob>
 #include <KDE/Akonadi/ResourceBase>
 
+#include <libkgoogle/common.h>
+
 namespace Ui
 {
 class SettingsDialog;
@@ -32,6 +34,7 @@ class SettingsDialog;
 namespace KGoogle
 {
 class Reply;
+class AccessManager;
 
 namespace Objects
 {
@@ -77,9 +80,14 @@ class SettingsDialog : public KDialog
 
     void saveSettings();
 
+    void error (KGoogle::Error code, const QString &msg);
+
   private:
     Ui::SettingsDialog *m_ui;
     WId m_windowId;
+    AccessManager *m_gam;
+
+
 };
 
 #endif // SETTINGSDIALOG_H

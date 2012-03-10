@@ -29,6 +29,7 @@
 #include <KDE/KMessageBox>
 #include <KDE/KWindowSystem>
 #include <KDE/KLocalizedString>
+#include <KDE/KMessageBox>
 
 #include <libkgoogle/accessmanager.h>
 #include <libkgoogle/request.h>
@@ -98,6 +99,12 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
     connect(this, SIGNAL(accepted()),
             this, SLOT(saveSettings()));
 
+    m_gam = new KGoogle::AccessManager;
+    connect(m_gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+            this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
+    connect(m_gam, SIGNAL(error(KGoogle::Error,QString)),
+            this, SLOT(error(KGoogle::Error,QString)));
+
     KGoogle::Auth *auth = KGoogle::Auth::instance();
     connect(auth, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
             this, SLOT(reloadAccounts()));
@@ -109,8 +116,22 @@ SettingsDialog::~SettingsDialog()
 {
     Settings::self()->writeConfig();
 
+    delete m_gam;
+
     delete m_ui;
 }
+
+void SettingsDialog::error (KGoogle::Error code, const QString &msg)
+{
+    KMessageBox::sorry(this, msg, i18n("Error while talking to Google"));
+
+    m_ui->accountsBox->setEnabled(true);
+    m_ui->calendarsBox->setEnabled(true);
+    m_ui->tasksBox->setEnabled(true);
+
+    Q_UNUSED(code)
+}
+
 
 void SettingsDialog::saveSettings()
 {
@@ -144,6 +165,7 @@ void SettingsDialog::reloadAccounts()
     disconnect(m_ui->accountsCombo, SIGNAL(currentIndexChanged(int)),
                this, SLOT(accountChanged()));
 
+    int accCnt = m_ui->accountsCombo->count();
     m_ui->accountsCombo->reload();
 
     QString accName = Settings::self()->account();
@@ -152,7 +174,8 @@ void SettingsDialog::reloadAccounts()
         m_ui->accountsCombo->setCurrentIndex(index);
     }
 
-    accountChanged();
+    if (accCnt != m_ui->accountsCombo->count())
+        accountChanged();
 
     connect(m_ui->accountsCombo, SIGNAL(currentIndexChanged(int)),
             this, SLOT(accountChanged()));
@@ -215,26 +238,15 @@ void SettingsDialog::accountChanged()
         return;
     }
 
-    KGoogle::AccessManager *gam;
     KGoogle::Request *request;
 
     m_ui->calendarsList->clear();
-    gam = new KGoogle::AccessManager;
-    connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
-            this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
-    connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
-            gam, SLOT(deleteLater()));
     request = new KGoogle::Request(Services::Calendar::fetchCalendarsUrl(), Request::FetchAll, "Calendar", account);
-    gam->queueRequest(request);
+    m_gam->queueRequest(request);
 
     m_ui->tasksList->clear();
-    gam = new KGoogle::AccessManager;
-    connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
-            this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
-    connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
-            gam, SLOT(deleteLater()));
     request = new KGoogle::Request(Services::Tasks::fetchTaskListsUrl(), Request::FetchAll, "Tasks", account);
-    gam->sendRequest(request);
+    m_gam->sendRequest(request);
 }
 
 void SettingsDialog::addCalendarClicked()
@@ -257,6 +269,8 @@ void SettingsDialog::addCalendar(KGoogle::Objects::Calendar *calendar)
     QByteArray data;
 
     account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull())
+        return;
 
     m_ui->accountsBox->setDisabled(true);
     m_ui->calendarsBox->setDisabled(true);
@@ -310,6 +324,8 @@ void SettingsDialog::editCalendar(KGoogle::Objects::Calendar *calendar)
     QByteArray data;
 
     account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull())
+        return;
 
     m_ui->accountsBox->setDisabled(true);
     m_ui->calendarsBox->setDisabled(true);
@@ -351,6 +367,8 @@ void SettingsDialog::removeCalendarClicked()
     KGoogle::Request *request;
 
     account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull())
+        return;
 
     m_ui->accountsBox->setDisabled(true);
     m_ui->calendarsBox->setDisabled(true);
@@ -383,10 +401,12 @@ void SettingsDialog::reloadCalendarsClicked()
     KGoogle::Account::Ptr account;
     KGoogle::Request *request;
 
+    account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull())
+        return;
+
     m_ui->accountsBox->setDisabled(true);
     m_ui->calendarsBox->setDisabled(true);
-
-    account = m_ui->accountsCombo->currentAccount();
 
     m_ui->calendarsList->clear();
     gam = new KGoogle::AccessManager;
@@ -408,6 +428,8 @@ void SettingsDialog::addTaskList(TaskList *taskList)
     QByteArray data;
 
     account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull())
+        return;
 
     m_ui->accountsBox->setDisabled(true);
     m_ui->tasksBox->setDisabled(true);
@@ -452,6 +474,8 @@ void SettingsDialog::editTaskList(TaskList *taskList)
     QByteArray data;
 
     account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull())
+        return;
 
     m_ui->accountsBox->setDisabled(true);
     m_ui->tasksBox->setDisabled(true);
@@ -493,6 +517,8 @@ void SettingsDialog::removeTaskListClicked()
     KGoogle::Request *request;
 
     account = m_ui->accountsCombo->currentAccount();
+    if (account.isNull())
+        return;
 
     m_ui->accountsBox->setDisabled(true);
     m_ui->tasksBox->setDisabled(true);
@@ -514,17 +540,21 @@ void SettingsDialog::reloadTaskListsClicked()
     KGoogle::Account::Ptr account;
     KGoogle::Request *request;
 
+    account = m_ui->accountsCombo->currentAccount();
+    if (!account)
+        return;
+
     m_ui->accountsBox->setDisabled(true);
     m_ui->tasksBox->setDisabled(true);
 
-    account = m_ui->accountsCombo->currentAccount();
-
     m_ui->tasksList->clear();
+
     gam = new KGoogle::AccessManager;
     connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
             this, SLOT(gam_objectsListReceived(KGoogle::Reply*)));
     connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
             gam, SLOT(deleteLater()));
+
     request = new KGoogle::Request(Services::Tasks::fetchTaskListsUrl(), Request::FetchAll, "Tasks", account);
     gam->sendRequest(request);
 }

@@ -244,6 +244,8 @@ void ContactsResource::initialItemsFetchJobFinished(KJob *job)
         url.addQueryItem("updated-min", lastSync);
     }
 
+    emit percent(0);
+
     FetchListJob *fetchJob = new FetchListJob(url, "Contacts", Settings::self()->account());
     fetchJob->setProperty("Collection", qVariantFromValue(collection));
     connect(fetchJob, SIGNAL(finished(KJob*)), this, SLOT(contactListReceived(KJob*)));
@@ -497,7 +499,6 @@ void ContactsResource::contactListReceived(KJob *job)
     collection.setRemoteRevision(QString::number(KDateTime::currentUtcDateTime().toTime_t()));
     CollectionModifyJob *modifyJob = new CollectionModifyJob(collection, this);
     modifyJob->setAutoDelete(true);
-    modifyJob->start();
 }
 
 void ContactsResource::contactReceived(KGoogle::Reply* reply)
@@ -556,7 +557,7 @@ void ContactsResource::contactCreated(KGoogle::Reply* reply)
 
     item.setPayload< KABC::Addressee >(KABC::Addressee(*contact));
     ItemModifyJob *modifyJob = new ItemModifyJob(item);
-    connect(modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
+    modifyJob->setAutoDelete(true);
 
     updatePhoto(item);
 }
@@ -615,7 +616,7 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
         item.setPayload< KABC::Addressee >(addressee);
 
         ItemModifyJob *modifyJob = new ItemModifyJob(item);
-        connect(modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
+        modifyJob->setAutoDelete(true);
     }
 }
 
@@ -626,7 +627,6 @@ void ContactsResource::fetchPhoto(Akonadi::Item &item)
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
     } catch (Exception::BaseException &e) {
-        emit cancelTask(e.what());
         return;
     }
 
@@ -649,7 +649,6 @@ void ContactsResource::updatePhoto(Item &item)
         Auth *auth = Auth::instance();
         account = auth->getAccount(Settings::self()->account());
     } catch (Exception::BaseException &e) {
-        cancelTask(e.what());
         return;
     }
 

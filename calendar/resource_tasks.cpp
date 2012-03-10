@@ -215,7 +215,8 @@ void CalendarResource::taskCreated(KGoogle::Reply *reply)
     changeCommitted(item);
 
     Akonadi::ItemModifyJob *modifyJob = new Akonadi::ItemModifyJob(item);
-    connect(modifyJob, SIGNAL(finished(KJob*)), modifyJob, SLOT(deleteLater()));
+    modifyJob->setAutoDelete(true);
+    modifyJob->start();
 }
 
 void CalendarResource::taskUpdated(KGoogle::Reply *reply)

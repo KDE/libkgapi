@@ -40,6 +40,7 @@ class FetchListJobPrivate: public QObject
   public:
     explicit FetchListJobPrivate(FetchListJob* const parent):
         QObject(0),
+        request(0),
         q_ptr(parent)
     {
         gam = new AccessManager();
@@ -57,8 +58,11 @@ class FetchListJobPrivate: public QObject
 
     virtual ~FetchListJobPrivate()
     {
-        delete gam;
-        delete request;
+        if (gam)
+            delete gam;
+
+        if (request)
+            delete request;
     }
 
     KGoogle::Request *request;

@@ -158,8 +158,10 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
     Collection collection = job->property("collection").value<Collection>();
 
     /* Can't fetch items for root collection. */
-    if (collection == Akonadi::Collection::root())
+    if (collection == Akonadi::Collection::root()) {
+        itemsRetrievalDone();
         return;
+    }
 
     if (collection.contentMimeTypes().contains(Event::eventMimeType())) {
 

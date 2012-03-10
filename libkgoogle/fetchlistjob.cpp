@@ -64,7 +64,9 @@ void FetchListJob::start()
     try {
         account = auth->getAccount(d->accountName);
     } catch (KGoogle::Exception::BaseException &e) {
-        throw;
+        setError(e.code());
+        setErrorText(e.what());
+        emitResult();
         return;
     }
 
