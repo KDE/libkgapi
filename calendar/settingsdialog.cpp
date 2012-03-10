@@ -109,6 +109,7 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
     connect(auth, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
             this, SLOT(reloadAccounts()));
 
+    m_ui->accountsCombo->clear();
     reloadAccounts();
 }
 
