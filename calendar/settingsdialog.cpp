@@ -90,7 +90,7 @@ SettingsDialog::SettingsDialog(WId windowId, QWidget* parent):
     connect(m_ui->editTasksBtn, SIGNAL(clicked()),
             this, SLOT(editTaskListClicked()));
     connect(m_ui->tasksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-            this, SLOT(editCalendarClicked()));
+            this, SLOT(editTaskListClicked()));
     connect(m_ui->removeTasksBtn, SIGNAL(clicked()),
             this, SLOT(removeTaskListClicked()));
     connect(m_ui->reloadTasksBtn, SIGNAL(clicked()),
@@ -349,8 +349,16 @@ void SettingsDialog::removeCalendarClicked()
 {
     Objects::Calendar *calendar;
     QListWidgetItem *item;
+    QList< QListWidgetItem* > selected;
 
-    item = m_ui->calendarsList->currentItem();
+    selected = m_ui->calendarsList->selectedItems();
+    if (selected.isEmpty())
+        return;
+
+    item = selected.first();
+    if (!item)
+        return;
+
     calendar = item->data(KGoogleObjectRole).value< KGoogle::Objects::Calendar* >();
 
     if (KMessageBox::warningYesNo(this,
@@ -452,8 +460,16 @@ void SettingsDialog::editTaskListClicked()
 {
     Objects::TaskList *taskList;
     QListWidgetItem *item;
+    QList< QListWidgetItem* > selected;
 
-    item = m_ui->tasksList->currentItem();
+    selected = m_ui->tasksList->selectedItems();
+    if (selected.isEmpty())
+        return;
+
+    item = selected.first();
+    if (!item)
+        return;
+
     taskList = item->data(KGoogleObjectRole).value< KGoogle::Objects::TaskList* >();
 
     TasklistEditor *editor = new TasklistEditor(taskList);
@@ -499,8 +515,16 @@ void SettingsDialog::removeTaskListClicked()
 {
     Objects::TaskList *taskList;
     QListWidgetItem *item;
+    QList< QListWidgetItem* > selected;
 
-    item = m_ui->tasksList->currentItem();
+    selected = m_ui->calendarsList->selectedItems();
+    if (selected.isEmpty())
+        return;
+
+    item = selected.first();
+    if (!item)
+        return;
+
     taskList = item->data(KGoogleObjectRole).value< KGoogle::Objects::TaskList* >();
 
     if (KMessageBox::warningYesNo(this,
