@@ -102,8 +102,8 @@ QList< KGoogle::Object* > Tasks::parseJSONFeed(const QByteArray& jsonFeed, FeedD
         feedData->startIndex = 0;
         feedData->totalResults = 0;
         if (feed.contains("nextPageToken")) {
-            feedData->nextLink = fetchTaskListsUrl();
-            feedData->nextLink.addQueryItem("pageToken", feed["nextPageToken"].toString());
+            feedData->nextPageUrl = fetchTaskListsUrl();
+            feedData->nextPageUrl.addQueryItem("pageToken", feed["nextPageToken"].toString());
         }
     }
 

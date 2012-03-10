@@ -189,8 +189,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         processedItems = feedData->startIndex;
         totalItems = feedData->totalResults;
 
-        if (feedData->nextLink.isValid()) {
-            QUrl url(feedData->nextLink);
+        if (feedData->nextPageUrl.isValid()) {
+            QUrl url(feedData->nextPageUrl);
             new_request.setUrl(request->url().toString());
             new_request.removeAllQueryItems("start-index");
             new_request.removeAllQueryItems("max-results");

@@ -196,7 +196,7 @@ typedef struct FeedData {
     int startIndex;     /// Index of first item on current feed page.
     int itemsPerPage;   /// Number of items per feed page. This will be same  for all pages (except for the last one which can be shorter).
     int totalResults;   /// Number of all items.
-    QUrl nextLink;      /// Link to next page of feed.
+    QUrl nextPageUrl;   /// Link to next page of feed.
 } FeedData;
 
 

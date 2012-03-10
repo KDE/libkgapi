@@ -117,16 +117,16 @@ QList< KGoogle::Object* > Services::Calendar::parseJSONFeed(const QByteArray& js
         list = CalendarPrivate::parseCalendarJSONFeed(data["items"].toList());
 
         if (feedData && data.contains("nextPageToken")) {
-            feedData->nextLink = fetchCalendarsUrl();
-            feedData->nextLink.addQueryItem("pageToken", data["nextPageToken"].toString());
+            feedData->nextPageUrl = fetchCalendarsUrl();
+            feedData->nextPageUrl.addQueryItem("pageToken", data["nextPageToken"].toString());
         }
 
     } else if (data["kind"] == "calendar#events") {
         list = CalendarPrivate::parseEventJSONFeed(data["items"].toList());
 
         if (feedData && data.contains("nextPageToken") && data.contains("id")) {
-            feedData->nextLink = fetchEventsUrl(data["id"].toString());
-            feedData->nextLink.addQueryItem("pageToken", data["nextPageToken"].toString());
+            feedData->nextPageUrl = fetchEventsUrl(data["id"].toString());
+            feedData->nextPageUrl.addQueryItem("pageToken", data["nextPageToken"].toString());
         }
     }
 
