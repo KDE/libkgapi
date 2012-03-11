@@ -306,6 +306,8 @@ void SettingsDialog::editCalendarClicked()
         return;
 
     calendar = item->data(KGoogleObjectRole).value< KGoogle::Objects::Calendar* >();
+    if (!calendar)
+        return;
 
     CalendarEditor *editor = new CalendarEditor(calendar);
     connect(editor, SIGNAL(accepted(KGoogle::Objects::Calendar*)),
@@ -361,6 +363,8 @@ void SettingsDialog::removeCalendarClicked()
         return;
 
     calendar = item->data(KGoogleObjectRole).value< KGoogle::Objects::Calendar* >();
+    if (!calendar)
+        return;
 
     if (KMessageBox::warningYesNo(this,
           i18n("Do you really want to remove calendar <b>%1</b>?<br>"
@@ -472,6 +476,8 @@ void SettingsDialog::editTaskListClicked()
         return;
 
     taskList = item->data(KGoogleObjectRole).value< KGoogle::Objects::TaskList* >();
+    if (!taskList)
+        return;
 
     TasklistEditor *editor = new TasklistEditor(taskList);
     connect(editor, SIGNAL(accepted(KGoogle::Objects::TaskList*)),
@@ -527,6 +533,8 @@ void SettingsDialog::removeTaskListClicked()
         return;
 
     taskList = item->data(KGoogleObjectRole).value< KGoogle::Objects::TaskList* >();
+    if (!taskList)
+        return;
 
     if (KMessageBox::warningYesNo(this,
           i18n("Do you really want to remove tasklist <b>%1</b>?<br>"
