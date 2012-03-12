@@ -30,17 +30,6 @@
 namespace KGoogle
 {
 
-
-/**
- * ClientID token for Google API.
- */
-const QString APIClientID = "554041944266.apps.googleusercontent.com";
-
-/**
- * ClientSecret token for Google API.
- */
-const QString APIClientSecret = "mdT1DjzohxN3npUUzkENT0gO";
-
 /**
  * Error codes for asynchronous operations. When an error occurs, a signal
  * with one of following error codes is emitted.

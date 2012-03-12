@@ -71,7 +71,7 @@ CalendarResource::CalendarResource(const QString &id):
     AttributeFactory::registerAttribute< DefaultReminderAttribute >();
 
     Auth *auth = Auth::instance();
-    auth->setKWalletFolder("Akonadi Google");
+    auth->init("Akonadi Google", Settings::self()->clientId(), Settings::self()->clientSecret());
 
     setNeedsNetwork(true);
     setOnline(true);

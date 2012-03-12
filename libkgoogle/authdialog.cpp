@@ -39,6 +39,7 @@
 #include <qjson/parser.h>
 
 #include "accessmanager.h"
+#include "auth.h"
 #include "reply.h"
 #include "request.h"
 #include "services/accountinfo.h"
@@ -102,8 +103,8 @@ void AuthDialog::webviewFinished()
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
         QUrl params;
-        params.addQueryItem("client_id", KGoogle::APIClientID);
-        params.addQueryItem("client_secret", KGoogle::APIClientSecret);
+        params.addQueryItem("client_id", KGoogle::Auth::instance()->apiKey());
+        params.addQueryItem("client_secret", KGoogle::Auth::instance()->apiSecret());
         params.addQueryItem("code", token);
         params.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
         params.addQueryItem("grant_type", "authorization_code");
@@ -242,7 +243,7 @@ void AuthDialog::authenticate(KGoogle::Account::Ptr &account)
     }
 
     QUrl url("https://accounts.google.com/o/oauth2/auth");
-    url.addQueryItem("client_id", KGoogle::APIClientID);
+    url.addQueryItem("client_id", KGoogle::Auth::instance()->apiKey());
     url.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
     url.addQueryItem("scope", scopes.join(" "));
     url.addQueryItem("response_type", "code");

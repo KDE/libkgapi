@@ -66,10 +66,21 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
     virtual ~Auth();
 
     /**
-     * Sets KWallet folder in which libkgoogle should store tokens
+     * Initialize the authentication framework.
      *
      * Every application should call this before using Auth for the first
-     * time. When there is no folder set libKGoogle will use default "libkgoogle"
+     * time.
+     *
+     * @param folder Default KWallet folder, @see setKWalletFolder()
+     * @param apiClient Client's API key
+     * @param apiSecret Client's sercret API key
+     */
+    void init(const QString &folder, const QString &apiKey, const QString &apiSecret);
+
+    /**
+     * Sets KWallet folder in which libkgoogle should store tokens
+     *
+     * When there is no folder set libKGoogle will use default "libkgoogle"
      * folder. There is no problem storing tokens in the "libkgoogle" folder but
      * remember that then the tokens will be shared accross all applications that
      * won't set the folder either. It is strongly recommended for each application
@@ -79,6 +90,27 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      *               should be stored. If the \p folder does not exist, it will be created.
      */
     void setKWalletFolder(const QString &folder);
+
+    /**
+     * Returns current KWallet folder.
+     *
+     * @return Returns current KWallet folder
+     */
+    QString kwalletFolder() const;
+
+    /**
+     * Returns API key set during module initialization.
+     *
+     * @return Returns client's API key.
+     */
+    const QString &apiKey() const;
+
+    /**
+     * Returns API secret key set during module initialization.
+     *
+     * @return Returns client's secret API key.
+     */
+    const QString &apiSecret() const;
 
     /**
      * Retrieves \p account from KWallet.

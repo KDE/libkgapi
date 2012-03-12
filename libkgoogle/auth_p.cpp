@@ -127,8 +127,8 @@ void AuthPrivate::refreshTokens(KGoogle::Account::Ptr &account, bool autoSave)
     request.setAttribute(QNetworkRequest::UserMax, qVariantFromValue< Account::Ptr >(account));
 
     QUrl params;
-    params.addQueryItem("client_id", APIClientID);
-    params.addQueryItem("client_secret", APIClientSecret);
+    params.addQueryItem("client_id", apiKey);
+    params.addQueryItem("client_secret", apiSecret);
     params.addQueryItem("refresh_token", account->refreshToken());
     params.addQueryItem("grant_type", "refresh_token");
 

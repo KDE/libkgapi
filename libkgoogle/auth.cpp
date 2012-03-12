@@ -64,11 +64,36 @@ Auth::~Auth()
     delete d_ptr;
 }
 
+void Auth::init (const QString& folder, const QString& apiKey, const QString& apiSecret)
+{
+    Q_D(Auth);
+
+    d->kwalletFolder = folder;
+    d->apiKey = apiKey;
+    d->apiSecret = apiSecret;
+
+}
+
 void Auth::setKWalletFolder(const QString& folder)
 {
     Q_D(Auth);
 
     d->kwalletFolder = folder;
+}
+
+QString Auth::kwalletFolder() const
+{
+    return d_func()->kwalletFolder;
+}
+
+const QString& Auth::apiKey() const
+{
+    return d_func()->apiKey;
+}
+
+const QString& Auth::apiSecret() const
+{
+    return d_func()->apiSecret;
 }
 
 KGoogle::Account::Ptr Auth::getAccount(const QString &account)

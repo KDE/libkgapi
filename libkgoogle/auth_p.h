@@ -53,6 +53,9 @@ class AuthPrivate: public QObject
 
     static KGoogle::Auth *instance;
 
+    QString apiKey;
+    QString apiSecret;
+
     bool initKWallet();
 
   public Q_SLOTS:

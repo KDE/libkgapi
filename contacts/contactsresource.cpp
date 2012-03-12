@@ -66,7 +66,7 @@ ContactsResource::ContactsResource(const QString &id):
     setOnline(true);
 
     Auth *auth = Auth::instance();
-    auth->setKWalletFolder("Akonadi Google");
+    auth->init("Akonadi Google", Settings::self()->clientId(), Settings::self()->clientSecret());
 
     m_gam = new KGoogle::AccessManager();
     m_photoNam = new KIO::Integration::AccessManager(this);
