@@ -208,7 +208,7 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
         dt.setTime_t(lastSync.toInt());
         lastSync = AccessManager::dateToRFC3339String(dt);
 
-        url.addQueryItem("updated-min", lastSync);
+        url.addQueryItem("updatedMin", lastSync);
     }
 
     url.addQueryItem("showDeleted", "true");
