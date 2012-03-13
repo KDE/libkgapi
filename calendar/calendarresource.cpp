@@ -142,6 +142,12 @@ void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
     connect(fetchJob, SIGNAL(finished(KJob*)),
             fetchJob, SLOT(deleteLater()));
 
+    /* Can't fetch any items for the top-level collection */
+    if (collection.contentMimeTypes().contains(Collection::mimeType())) {
+        itemsRetrievalDone();
+        return;
+    }
+
     fetchJob->fetchScope().fetchFullPayload(false);
     fetchJob->setProperty("collection", qVariantFromValue(collection));
     fetchJob->start();
@@ -156,12 +162,6 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
     QString lastSync;
 
     Collection collection = job->property("collection").value<Collection>();
-
-    /* Can't fetch items for root collection. */
-    if (collection == Akonadi::Collection::root()) {
-        itemsRetrievalDone();
-        return;
-    }
 
     if (collection.contentMimeTypes().contains(Event::eventMimeType())) {
 
@@ -245,7 +245,9 @@ void CalendarResource::retrieveCollections()
     collection.setName(identifier());
     collection.setRemoteId(identifier());
     collection.setParentCollection(Akonadi::Collection::root());
-    collection.setContentMimeTypes(QStringList() << Collection::mimeType());
+    collection.setContentMimeTypes(QStringList() << Collection::mimeType()
+                                                 << Event::eventMimeType()
+                                                 << Todo::todoMimeType());
     collection.addAttribute(attr);
     collection.setRights(Collection::ReadOnly);
 

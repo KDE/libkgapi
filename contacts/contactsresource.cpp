@@ -186,7 +186,8 @@ void ContactsResource::retrieveCollections()
     rootCollection.setName(identifier());
     rootCollection.setRemoteId(identifier());
     rootCollection.setParentCollection(Akonadi::Collection::root());
-    rootCollection.setContentMimeTypes(QStringList() << Collection::mimeType());
+    rootCollection.setContentMimeTypes(QStringList() << Collection::mimeType()
+                                                     << KABC::Addressee::mimeType());
     rootCollection.addAttribute(attr);
     rootCollection.setRights(Collection::ReadOnly);
     m_collections[RootCollection] = rootCollection;
