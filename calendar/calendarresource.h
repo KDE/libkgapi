@@ -26,6 +26,7 @@
 #include <KDE/Akonadi/Collection>
 
 #include <libkgoogle/common.h>
+#include <libkgoogle/account.h>
 
 namespace KGoogle
 {
@@ -100,6 +101,8 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void abort();
 
     AccessManager *m_gam;
+
+    Account::Ptr m_account;
 
     Akonadi::Collection::List m_collections;
     bool m_fetchedCalendars;

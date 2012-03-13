@@ -84,8 +84,16 @@ ContactsResource::ContactsResource(const QString &id):
     changeRecorder()->itemFetchScope().fetchFullPayload(true);
     changeRecorder()->fetchCollection(true);
 
-    if (!Settings::self()->account().isEmpty())
+    if (!Settings::self()->account().isEmpty()) {
+        try {
+            m_account = auth->getAccount(Settings::self()->account());
+        } catch (Exception::BaseException &e) {
+            emit status(Broken, e.what());
+            return;
+        }
+
         synchronize();
+    }
 }
 
 ContactsResource::~ContactsResource()
@@ -125,7 +133,18 @@ void ContactsResource::configure(WId windowId)
 
     if (settingsDialog->exec() == KDialog::Accepted) {
         emit configurationDialogAccepted();
+
+        try {
+            Auth *auth = Auth::instance();
+            m_account = auth->getAccount(Settings::self()->account());
+        } catch (Exception::BaseException &e) {
+            emit status(Broken, e.what());
+            delete settingsDialog;
+            return;
+        }
+
         synchronize();
+
     } else {
         emit configurationDialogRejected();
     }
@@ -157,19 +176,10 @@ bool ContactsResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
     if (item.mimeType() != KABC::Addressee::mimeType())
         return false;
 
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
-        return false;
-    }
-
-    QUrl url(Services::Contacts::fetchContactUrl(account->accountName(), item.remoteId()));
+    QUrl url(Services::Contacts::fetchContactUrl(m_account->accountName(), item.remoteId()));
 
     KGoogle::Request *request;
-    request = new KGoogle::Request(url, KGoogle::Request::Fetch, "Contacts", account);
+    request = new KGoogle::Request(url, KGoogle::Request::Fetch, "Contacts", m_account);
     request->setProperty("Item", QVariant::fromValue(item));
 
     m_gam->sendRequest(request);
@@ -259,15 +269,6 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
     if (!item.hasPayload< KABC::Addressee >())
         return;
 
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
-        return;
-    }
-
     KABC::Addressee addressee = item.payload< KABC::Addressee >();
     Objects::Contact contact(addressee);
 
@@ -292,8 +293,8 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
     data.append("</atom:entry>");
 
     KGoogle::Request *request;
-    request = new KGoogle::Request(Services::Contacts::createContactUrl(account->accountName()),
-                                   Request::Create, "Contacts", account);
+    request = new KGoogle::Request(Services::Contacts::createContactUrl(m_account->accountName()),
+                                   Request::Create, "Contacts", m_account);
     request->setRequestData(data, "application/atom+xml");
     request->setProperty("Item", QVariant::fromValue(item));
 
@@ -306,15 +307,6 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 {
     if (!item.hasPayload< KABC::Addressee >()) {
         cancelTask(i18n("Invalid Payload"));
-        return;
-    }
-
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
         return;
     }
 
@@ -336,8 +328,8 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
     data.append("</atom:entry>");
 
     KGoogle::Request *request;
-    request = new KGoogle::Request(Services::Contacts::updateContactUrl(account->accountName(), item.remoteId()),
-                                   Request::Update, "Contacts", account);
+    request = new KGoogle::Request(Services::Contacts::updateContactUrl(m_account->accountName(), item.remoteId()),
+                                   Request::Update, "Contacts", m_account);
     request->setRequestData(data, "application/atom+xml");
     request->setProperty("Item", QVariant::fromValue(item));
 
@@ -350,15 +342,6 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
 {
     if (!item.hasPayload< KABC::Addressee >()) {
         cancelTask(i18n("Invalid payload"));
-        return;
-    }
-
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
         return;
     }
 
@@ -389,8 +372,8 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
     data.append("</atom:entry>");
 
     KGoogle::Request *request;
-    request = new KGoogle::Request(Services::Contacts::updateContactUrl(account->accountName(), item.remoteId()),
-                                   Request::Update, "Contacts", account);
+    request = new KGoogle::Request(Services::Contacts::updateContactUrl(m_account->accountName(), item.remoteId()),
+                                   Request::Update, "Contacts", m_account);
     request->setRequestData(data, "application/atom+xml");
     request->setProperty("Item", QVariant::fromValue(item));
 
@@ -400,19 +383,9 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
 
 void ContactsResource::itemRemoved(const Akonadi::Item& item)
 {
-
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
-        return;
-    }
-
     KGoogle::Request *request;
-    request = new KGoogle::Request(Services::Contacts::removeContactUrl(account->accountName(), item.remoteId()),
-                                   Request::Remove, "Contacts", account);
+    request = new KGoogle::Request(Services::Contacts::removeContactUrl(m_account->accountName(), item.remoteId()),
+                                   Request::Remove, "Contacts", m_account);
     request->setProperty("Item", QVariant::fromValue(item));
 
     m_gam->sendRequest(request);
@@ -623,19 +596,11 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
 
 void ContactsResource::fetchPhoto(Akonadi::Item &item)
 {
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        return;
-    }
-
     QString id = item.remoteId().mid(item.remoteId().lastIndexOf("/"));
 
     QNetworkRequest request;
-    request.setUrl(Services::Contacts::photoUrl(account->accountName(), id));
-    request.setRawHeader("Authorization", "OAuth " + account->accessToken().toLatin1());
+    request.setUrl(Services::Contacts::photoUrl(m_account->accountName(), id));
+    request.setRawHeader("Authorization", "OAuth " + m_account->accessToken().toLatin1());
     request.setRawHeader("GData-Version", "3.0");
 
     request.setAttribute(QNetworkRequest::User, qVariantFromValue(item));
@@ -645,20 +610,12 @@ void ContactsResource::fetchPhoto(Akonadi::Item &item)
 
 void ContactsResource::updatePhoto(Item &item)
 {
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        return;
-    }
-
     QString id = item.remoteId().mid(item.remoteId().lastIndexOf("/"));
 
     KABC::Addressee addressee = item.payload< KABC::Addressee >();
     QNetworkRequest request;
-    request.setUrl(Services::Contacts::photoUrl(account->accountName(), id));
-    request.setRawHeader("Authorization", "OAuth " + account->accessToken().toLatin1());
+    request.setUrl(Services::Contacts::photoUrl(m_account->accountName(), id));
+    request.setRawHeader("Authorization", "OAuth " + m_account->accessToken().toLatin1());
     request.setRawHeader("GData-Version", "3.0");
     request.setRawHeader("If-Match", "*");
 

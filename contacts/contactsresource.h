@@ -27,6 +27,7 @@
 #include <KDE/KDateTime>
 
 #include <libkgoogle/common.h>
+#include <libkgoogle/account.h>
 
 namespace KGoogle
 {
@@ -134,6 +135,8 @@ class ContactsResource: public Akonadi::ResourceBase,
 
     void updatePhoto(Akonadi::Item &item);
     void fetchPhoto(Akonadi::Item &item);
+
+    KGoogle::Account::Ptr m_account;
 
     KGoogle::AccessManager *m_gam;
     QNetworkAccessManager *m_photoNam;

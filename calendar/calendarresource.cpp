@@ -89,6 +89,17 @@ CalendarResource::CalendarResource(const QString &id):
     changeRecorder()->itemFetchScope().setAncestorRetrieval(ItemFetchScope::All);
     changeRecorder()->fetchCollection(true);
     changeRecorder()->collectionFetchScope().setAncestorRetrieval(CollectionFetchScope::All);
+
+    if (!Settings::self()->account().isEmpty()) {
+        try {
+            m_account = auth->getAccount(Settings::self()->account());
+        } catch (KGoogle::Exception::BaseException &e) {
+            emit status(Broken, e.what());
+            return;
+        }
+
+        synchronize();
+    }
 }
 
 CalendarResource::~CalendarResource()
@@ -126,7 +137,18 @@ void CalendarResource::configure(WId windowId)
 
     if (settingsDialog->exec() == KDialog::Accepted) {
         emit configurationDialogAccepted();
+
+        try {
+            Auth *auth = Auth::instance();
+            m_account = auth->getAccount(Settings::self()->account());
+        } catch (Exception::BaseException &e) {
+            emit status(Broken, e.what());
+            delete settingsDialog;
+            return;
+        }
+
         synchronize();
+
     } else {
         emit configurationDialogRejected();
     }
@@ -220,16 +242,7 @@ bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
 
     }
 
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BackendNotReady &e) {
-        emit status(Broken, e.what());
-        return false;
-    }
-
-    Request *request = new Request(url, KGoogle::Request::Fetch, service, account);
+    Request *request = new Request(url, KGoogle::Request::Fetch, service, m_account);
     request->setProperty("Item", QVariant::fromValue(item));
     m_gam->sendRequest(request);
 
@@ -305,16 +318,7 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
         return;
     }
 
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
-        return;
-    }
-
-    Request *request = new Request(url, Request::Create, service, account);
+    Request *request = new Request(url, Request::Create, service, m_account);
     request->setRequestData(data, "application/json");
     request->setProperty("Item", QVariant::fromValue(item));
     request->setProperty("Collection", QVariant::fromValue(collection));
@@ -327,15 +331,6 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
     QUrl url;
     QByteArray data;
 
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
-        return;
-    }
-
     if (item.mimeType() == Event::eventMimeType()) {
 
         EventPtr event = item.payload< EventPtr >();
@@ -346,7 +341,7 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
         Services::Calendar service;
         data = service.objectToJSON(static_cast< KGoogle::Object* >(&kevent));
 
-        Request *request = new Request(url, Request::Update, "Calendar", account);
+        Request *request = new Request(url, Request::Update, "Calendar", m_account);
         request->setRequestData(data, "application/json");
         request->setProperty("Item", QVariant::fromValue(item));
 
@@ -365,7 +360,7 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 
             QUrl moveUrl = Services::Tasks::moveTaskUrl(item.parentCollection().remoteId(),
                            todo->uid(), todo->relatedTo(KCalCore::Incidence::RelTypeParent));
-            Request *request = new Request(moveUrl, Request::Move, "Tasks", account);
+            Request *request = new Request(moveUrl, Request::Move, "Tasks", m_account);
             request->setProperty("Item", QVariant::fromValue(item));
 
             m_gam->sendRequest(request);
@@ -377,7 +372,7 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
             Services::Tasks service;
             data = service.objectToJSON(static_cast< KGoogle::Object* >(&ktodo));
 
-            Request *request = new Request(url, Request::Update, "Tasks", account);
+            Request *request = new Request(url, Request::Update, "Tasks", m_account);
             request->setRequestData(data, "application/json");
             request->setProperty("Item", QVariant::fromValue(item));
 
@@ -413,16 +408,7 @@ void CalendarResource::itemRemoved(const Akonadi::Item& item)
         return;
     }
 
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
-        return;
-    }
-
-    Request *request = new Request(url, Request::Remove, service, account);
+    Request *request = new Request(url, Request::Remove, service, m_account);
     request->setProperty("Item", QVariant::fromValue(item));
 
     m_gam->sendRequest(request);
@@ -437,17 +423,8 @@ void CalendarResource::itemMoved(const Item& item, const Collection& collectionS
     if (item.mimeType() != Event::eventMimeType())
         return;
 
-    Account::Ptr account;
-    try {
-        Auth *auth = Auth::instance();
-        account = auth->getAccount(Settings::self()->account());
-    } catch (Exception::BaseException &e) {
-        emit status(Broken, e.what());
-        return;
-    }
-
     url = Services::Calendar::moveEventUrl(collectionSource.remoteId(), collectionDestination.remoteId(), item.remoteId());
-    Request *request = new Request(url, KGoogle::Request::Move, "Calendar", account);
+    Request *request = new Request(url, KGoogle::Request::Move, "Calendar", m_account);
     request->setProperty("Item", qVariantFromValue(item));
 
     m_gam->sendRequest(request);
