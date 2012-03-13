@@ -125,6 +125,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
             QString accName = account->accountName();
 
             QList< QUrl> scopes = account->scopes();
+            bool scopesChanged = false;
 
             /* Go through the entire cache, check if there are another
              * requests with the same account waiting, but for different 
@@ -135,8 +136,10 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
                     int type = QMetaType::type(qPrintable(r->serviceName()));
                     KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
 
-                    if (!scopes.contains(service->scopeUrl()))
+                    if (!scopes.contains(service->scopeUrl())) {
                         scopes << service->scopeUrl();
+                        scopesChanged = true;
+                    }
                 }
             }
 
@@ -146,7 +149,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
              * a new dialog for each service the account has pending requests.
              * Obviously this works only for requests that are already in the cache.
              */
-            account->setScopes(scopes);
+            if (scopesChanged) {
+                account->setScopes(scopes);
+            }
 
             KGoogle::Auth *auth = KGoogle::Auth::instance();
             auth->authenticate(account, true);
