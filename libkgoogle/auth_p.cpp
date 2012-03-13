@@ -55,14 +55,39 @@ bool AuthPrivate::initKWallet()
     if (kwallet && kwallet->isOpen())
         return true;
 
+    if (kwallet)
+        disconnect(kwallet, SIGNAL(folderUpdated(QString)));
+
     kwallet = Wallet::openWallet(Wallet::NetworkWallet(), 0, Wallet::Synchronous);
     if (!kwallet || !kwallet->isOpen()) {
         throw Exception::BackendNotReady();
         return false;
     }
+    connect(kwallet, SIGNAL(folderUpdated(QString)),
+            this, SLOT(kwalletFolderChanged(QString)));
 
     return true;
 }
+
+Account::Ptr AuthPrivate::getAccountFromWallet(const QString& account)
+{
+    QMap< QString, QString > map;
+    if (kwallet->readMap(account, map) != 0) {
+        throw Exception::UnknownAccount(account);
+        return Account::Ptr();
+    }
+
+    QStringList scopes = map["scopes"].split(',');
+    QList< QUrl > scopeUrls;
+    foreach(const QString & scope, scopes) {
+        scopeUrls << QUrl(scope);
+    }
+
+    /* Create new item from data in KWallet and store it in cache before returning it
+     * to user */
+    return Account::Ptr(new Account(account, map["accessToken"], map["refreshToken"], scopeUrls));
+}
+
 
 
 void AuthPrivate::fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave)
@@ -180,3 +205,36 @@ void AuthPrivate::refreshTokensFinished(QNetworkReply *reply)
 
     emit q->authenticated(account);
 }
+
+void AuthPrivate::kwalletFolderChanged (const QString& folder)
+{
+    if (folder != kwalletFolder)
+        return;
+
+    kDebug() << "KWallet folder" << folder << "changed, checking if any of" << accountsCache.size()<< "cached accounts needs updating";
+
+    /* Go through all cached accounts (this assumes the cache will be usually
+     * really small - 1 or 2 accounts) and update changed values.
+     *
+     * We can't copy the new account over the old because that would not update
+     * the value in all other copies of the cachedAcc object. */
+    foreach (const QString &accName, accountsCache.keys()) {
+
+        Account::Ptr walletAcc = getAccountFromWallet(accName);
+        Account::Ptr cachedAcc = accountsCache.value(accName);
+
+        if (walletAcc->accessToken() != cachedAcc->accessToken()) {
+            cachedAcc->setAccessToken(walletAcc->accessToken());
+        }
+
+        if (walletAcc->refreshToken() != cachedAcc->refreshToken()) {
+            cachedAcc->setRefreshToken(walletAcc->refreshToken());
+        }
+
+        if (walletAcc->scopes() != cachedAcc->scopes()) {
+            cachedAcc->setScopes(walletAcc->scopes());
+            cachedAcc->m_scopesChanged = false;
+        }
+    }
+}
+

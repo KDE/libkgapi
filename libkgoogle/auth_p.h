@@ -19,7 +19,8 @@
 #ifndef LIBKGOOGLE_AUTH_P_H_
 #define LIBKGOOGLE_AUTH_P_H_
 
-#include <qobject.h>
+#include <QtCore/QObject>
+#include <QtCore/QMap>
 
 #include "account.h"
 
@@ -53,10 +54,14 @@ class AuthPrivate: public QObject
 
     static KGoogle::Auth *instance;
 
+    QMap< QString, Account::Ptr > accountsCache;
+
     QString apiKey;
     QString apiSecret;
 
     bool initKWallet();
+
+    Account::Ptr getAccountFromWallet(const QString &account);
 
   public Q_SLOTS:
     void fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave);
@@ -64,6 +69,8 @@ class AuthPrivate: public QObject
 
     void refreshTokens(KGoogle::Account::Ptr &account, bool autoSave);
     void refreshTokensFinished(QNetworkReply *reply);
+
+    void kwalletFolderChanged(const QString &folder);
 
   private:
     Auth* const q_ptr;

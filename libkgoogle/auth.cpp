@@ -100,6 +100,11 @@ KGoogle::Account::Ptr Auth::getAccount(const QString &account)
 {
     Q_D(Auth);
 
+    /* First try to lookup the account in cache */
+    if (d->accountsCache.contains(account)) {
+        return d->accountsCache.value(account);
+    }
+
     if (!d->initKWallet())
         return Account::Ptr();
 
@@ -110,24 +115,19 @@ KGoogle::Account::Ptr Auth::getAccount(const QString &account)
 
     d->kwallet->setFolder(d->kwalletFolder);
 
-    QMap< QString, QString > map;
-    if (d->kwallet->readMap(account, map) != 0) {
-        throw Exception::UnknownAccount(account);
-        return Account::Ptr();
-    }
+    Account::Ptr acc = d->getAccountFromWallet(account);
+    d->accountsCache.insert(account, acc);
 
-    QStringList scopes = map["scopes"].split(',');
-    QList< QUrl > scopeUrls;
-    foreach(const QString & scope, scopes) {
-        scopeUrls << QUrl(scope);
-    }
-
-    return Account::Ptr(new Account(account, map["accessToken"], map["refreshToken"], scopeUrls));
+    return acc;
 }
 
 QList< KGoogle::Account::Ptr > Auth::getAccounts()
 {
     Q_D(Auth);
+
+    /* Initially get all cached accounts */
+    QList< Account::Ptr > accounts;
+    accounts = d->accountsCache.values();
 
     if (!d->initKWallet()) {
         return QList< Account::Ptr >();
@@ -139,7 +139,6 @@ QList< KGoogle::Account::Ptr > Auth::getAccounts()
 
     d->kwallet->setFolder(d->kwalletFolder);
     QStringList list = d->kwallet->entryList();
-    QList< Account::Ptr > accounts;
     foreach(QString accName, list) {
 
         QMap< QString, QString > map;
@@ -153,13 +152,22 @@ QList< KGoogle::Account::Ptr > Auth::getAccounts()
             continue;
         }
 
+        /* If this account was already added to the list fom cache,
+         * then don't insert it again! */
+        if (d->accountsCache.contains(accName)) {
+            continue;
+        }
+
         QStringList scopes = map["scopes"].split(',');
         QList< QUrl > scopeUrls;
         foreach(const QString & scope, scopes) {
             scopeUrls << QUrl(scope);
         }
 
-        accounts.append(Account::Ptr(new Account(accName, map["accessToken"], map["refreshToken"], scopeUrls)));
+        Account::Ptr account(new Account(accName, map["accessToken"], map["refreshToken"], scopeUrls));
+
+        accounts.append(account);
+        d->accountsCache.insert(account->accountName(), account);
     }
 
     return accounts;
@@ -197,6 +205,13 @@ void Auth::storeAccount(const KGoogle::Account::Ptr &account)
     map["refreshToken"] = account->refreshToken();
     map["scopes"] = scopes.join(",");
     d->kwallet->writeMap(account->accountName(), map);
+
+    /* If the account is not yet in cache then put it in there. Otherwise
+     * the @param account is already a copy of an account that's in cache
+     * and thus it has already been updated globally */
+    if (!d->accountsCache.contains(account->accountName())) {
+        d->accountsCache.insert(account->accountName(), account);
+    }
 }
 
 void Auth::authenticate(KGoogle::Account::Ptr &account, bool autoSave)
@@ -250,6 +265,11 @@ bool Auth::revoke(Account::Ptr &account)
             account->setAccessToken("");
             account->setRefreshToken("");
             account->setScopes(QList< QUrl >());
+
+            if (d->accountsCache.contains(account->accountName())) {
+                d->accountsCache.remove(account->accountName());
+            }
+
             return true;
 
         } else {
