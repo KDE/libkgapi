@@ -158,23 +158,25 @@ void CalendarResource::configure(WId windowId)
 
 void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
 {
-    ItemFetchJob *fetchJob = new ItemFetchJob(collection, this);
-    connect(fetchJob, SIGNAL(finished(KJob*)),
-            this, SLOT(cachedItemsRetrieved(KJob*)));
-    connect(fetchJob, SIGNAL(finished(KJob*)),
-            fetchJob, SLOT(deleteLater()));
+    /* Do not initiate item-retrieval for the root collection as this
+     * collection is only used to authenticate agains google and to hold
+     * all the calendars associated with this account. There are no items
+     * to be fetched from this collection! */
+    if (collection.parentCollection() != Akonadi::Collection::root()) {
+        ItemFetchJob *fetchJob = new ItemFetchJob(collection, this);
+        connect(fetchJob, SIGNAL(finished(KJob*)),
+                this, SLOT(cachedItemsRetrieved(KJob*)));
+        connect(fetchJob, SIGNAL(finished(KJob*)),
+                fetchJob, SLOT(deleteLater()));
 
-    /* Can't fetch any items for the top-level collection */
-    if (collection.contentMimeTypes().contains(Collection::mimeType())) {
+        fetchJob->fetchScope().fetchFullPayload(false);
+        fetchJob->setProperty("collection", qVariantFromValue(collection));
+        fetchJob->start();
+
+        emit percent(0);
+    } else {
         itemsRetrievalDone();
-        return;
     }
-
-    fetchJob->fetchScope().fetchFullPayload(false);
-    fetchJob->setProperty("collection", qVariantFromValue(collection));
-    fetchJob->start();
-
-    emit percent(0);
 }
 
 void CalendarResource::cachedItemsRetrieved(KJob* job)
@@ -262,7 +264,14 @@ void CalendarResource::retrieveCollections()
                                                  << Event::eventMimeType()
                                                  << Todo::todoMimeType());
     collection.addAttribute(attr);
-    collection.setRights(Collection::ReadOnly);
+
+    /* For korganizer v4.4.11 a supercollection may not be read-only as korganizer obviously didn't check
+     * if there are subcollections which are not read-only. A read-only supercollection and all its sub-
+     * collections, regardless of their permissions, are not displayed by korganizer in all relevant dialogs. 
+     *
+     * FIXME Allow only read-only access when merging to kdepim-runtime (see bug #295739)
+     */
+    collection.setRights(Collection::CanCreateItem | Collection::CanChangeItem | Collection::CanDeleteItem);
 
     m_collections.clear();
     m_collections.append(collection);
@@ -274,8 +283,7 @@ void CalendarResource::retrieveCollections()
             this, SLOT(calendarsReceived(KJob*)));
     fetchJob->start();
 
-    fetchJob = new FetchListJob(Services::Tasks::fetchTaskListsUrl(),
-                                "Tasks", Settings::self()->account());
+    fetchJob = new FetchListJob(Services::Tasks::fetchTaskListsUrl(), "Tasks", Settings::self()->account());
     connect(fetchJob, SIGNAL(finished(KJob*)),
             this, SLOT(taskListReceived(KJob*)));
     fetchJob->start();
@@ -286,6 +294,11 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
     QString service;
     QUrl url;
     QByteArray data;
+
+    if (collection.parent() == Collection::root()) {
+        cancelTask(i18n("The top-level collection cannot contain any tasks or events"));
+        return;
+    }
 
     if (item.mimeType() == Event::eventMimeType()) {
 
@@ -418,6 +431,11 @@ void CalendarResource::itemMoved(const Item& item, const Collection& collectionS
 {
     QString service;
     QUrl url;
+
+    if (collectionDestination.parent() == Collection::root()) {
+        cancelTask(i18n("The top-level collection cannot contain any tasks or events"));
+        return;
+    }
 
     /* Moving tasks between task lists is not supported */
     if (item.mimeType() != Event::eventMimeType())
