@@ -598,16 +598,15 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
     QVariantMap start;
     if (object->allDay()) {
         start["date"] = object->dtStart().toString("%Y-%m-%d");
-        QString tz = object->dtStart().timeZone().name();
-
-        if (!recurrence.isEmpty() && tz.isEmpty()) {
-            tz = KTimeZone::utc().name();
-        }
-        if (!tz.isEmpty()) {
-            start["timeZone"] = tz;
-        }
     } else {
         start["dateTime"] = AccessManager::dateToRFC3339String(object->dtStart());
+    }
+    QString tzStart = object->dtStart().timeZone().name();
+    if (!recurrence.isEmpty() && tzStart.isEmpty()) {
+        tzStart = KTimeZone::utc().name();
+    }
+    if (!tzStart.isEmpty()) {
+        start["timeZone"] = tzStart;
     }
     data["start"] = start;
 
@@ -618,15 +617,15 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
          * while in KDE, it both starts and ends on Monday. */
         KDateTime dtEnd = object->dtEnd().addDays(1);
         end["date"] = dtEnd.toString("%Y-%m-%d");
-        QString tz = object->dtEnd().timeZone().name();
-        if (!recurrence.isEmpty() && tz.isEmpty()) {
-            tz = KTimeZone::utc().name();
-        }
-        if (!tz.isEmpty()) {
-            end["timeZone"] = tz;
-        }
     } else {
         end["dateTime"] = AccessManager::dateToRFC3339String(object->dtEnd());
+    }
+    QString tzEnd = object->dtEnd().timeZone().name();
+    if (!recurrence.isEmpty() && tzEnd.isEmpty()) {
+        tzEnd = KTimeZone::utc().name();
+    }
+    if (!tzEnd.isEmpty()) {
+        end["timeZone"] = tzEnd;
     }
     data["end"] = end;
 
