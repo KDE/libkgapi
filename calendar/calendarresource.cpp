@@ -267,7 +267,7 @@ void CalendarResource::retrieveCollections()
 
     /* For korganizer v4.4.11 a supercollection may not be read-only as korganizer obviously didn't check
      * if there are subcollections which are not read-only. A read-only supercollection and all its sub-
-     * collections, regardless of their permissions, are not displayed by korganizer in all relevant dialogs. 
+     * collections, regardless of their permissions, are not displayed by korganizer in all relevant dialogs.
      *
      * FIXME Allow only read-only access when merging to kdepim-runtime (see bug #295739)
      */
@@ -295,7 +295,7 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
     QUrl url;
     QByteArray data;
 
-    if (collection.parent() == Collection::root()) {
+    if (collection.parentCollection() == Akonadi::Collection::root()) {
         cancelTask(i18n("The top-level collection cannot contain any tasks or events"));
         return;
     }
@@ -432,7 +432,7 @@ void CalendarResource::itemMoved(const Item& item, const Collection& collectionS
     QString service;
     QUrl url;
 
-    if (collectionDestination.parent() == Collection::root()) {
+    if (collectionDestination.parentCollection() == Akonadi::Collection::root()) {
         cancelTask(i18n("The top-level collection cannot contain any tasks or events"));
         return;
     }
