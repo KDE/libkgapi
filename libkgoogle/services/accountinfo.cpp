@@ -82,7 +82,7 @@ QByteArray AccountInfo::objectToJSON(Object* object)
     return QByteArray();
 }
 
-QList< Object* > AccountInfo::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
+QList< Object* > AccountInfo::parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
     Q_UNUSED(jsonFeed);
     Q_UNUSED(feedData);
@@ -90,7 +90,7 @@ QList< Object* > AccountInfo::parseJSONFeed(const QByteArray& jsonFeed, FeedData
     return QList< KGoogle::Object *>();
 }
 
-QList< Object* > AccountInfo::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
+QList< Object* > AccountInfo::parseXMLFeed(const QByteArray& xmlFeed, FeedData& feedData)
 {
     Q_UNUSED(xmlFeed);
     Q_UNUSED(feedData);

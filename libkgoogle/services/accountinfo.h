@@ -71,14 +71,14 @@ class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Service
      *
      * This method does nothing.
      */
-    QList< KGoogle::Object * > parseJSONFeed(const QByteArray &jsonFeed, KGoogle::FeedData *feedData = 0);
+    QList< KGoogle::Object * > parseJSONFeed(const QByteArray &jsonFeed, KGoogle::FeedData& feedData);
 
     /**
      * The AccountInfo service supports only JSON format.
      *
      * This method does nothing.
      */
-    QList< KGoogle::Object * > parseXMLFeed(const QByteArray &xmlFeed, KGoogle::FeedData *feedData = 0);
+    QList< KGoogle::Object * > parseXMLFeed(const QByteArray &xmlFeed, KGoogle::FeedData& feedData);
 
     /**
      * The AccountInfo service supports only JSON format.

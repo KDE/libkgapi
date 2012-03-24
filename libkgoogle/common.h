@@ -181,12 +181,21 @@ class InvalidAccount: public BaseException
 /**
  * Struct to store additional informations about a feed.
  */
-typedef struct FeedData {
+class FeedData {
+
+  public:
+    FeedData():
+        startIndex(0),
+        itemsPerPage(0),
+        totalResults(0)
+    { };
+
     int startIndex;     /// Index of first item on current feed page.
     int itemsPerPage;   /// Number of items per feed page. This will be same  for all pages (except for the last one which can be shorter).
     int totalResults;   /// Number of all items.
     QUrl nextPageUrl;   /// Link to next page of feed.
-} FeedData;
+    QUrl requestUrl;    /// Original URL of the request. This value is filled by AccessManager when passing the structure to a service
+};
 
 
 } /* namespace KGoogle */

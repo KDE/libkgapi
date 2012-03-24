@@ -105,7 +105,7 @@ QByteArray Services::Calendar::objectToJSON(KGoogle::Object* object)
     return serializer.serialize(map);
 }
 
-QList< KGoogle::Object* > Services::Calendar::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
+QList< KGoogle::Object* > Services::Calendar::parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
     QJson::Parser parser;
 
@@ -116,17 +116,24 @@ QList< KGoogle::Object* > Services::Calendar::parseJSONFeed(const QByteArray& js
     if (data["kind"] == "calendar#calendarList") {
         list = CalendarPrivate::parseCalendarJSONFeed(data["items"].toList());
 
-        if (feedData && data.contains("nextPageToken")) {
-            feedData->nextPageUrl = fetchCalendarsUrl();
-            feedData->nextPageUrl.addQueryItem("pageToken", data["nextPageToken"].toString());
+        if (data.contains("nextPageToken")) {
+            feedData.nextPageUrl = fetchCalendarsUrl();
+            feedData.nextPageUrl.addQueryItem("pageToken", data["nextPageToken"].toString());
+            if (feedData.nextPageUrl.queryItemValue("maxResults").isEmpty()) {
+                feedData.nextPageUrl.addQueryItem("maxResults","20");
+            }
         }
 
     } else if (data["kind"] == "calendar#events") {
         list = CalendarPrivate::parseEventJSONFeed(data["items"].toList());
-
-        if (feedData && data.contains("nextPageToken") && data.contains("id")) {
-            feedData->nextPageUrl = fetchEventsUrl(data["id"].toString());
-            feedData->nextPageUrl.addQueryItem("pageToken", data["nextPageToken"].toString());
+        if (data.contains("nextPageToken")) {
+            QString calendarId = feedData.requestUrl.toString().remove("https://www.googleapis.com/calendar/v3/calendars/");
+            calendarId = calendarId.left(calendarId.indexOf("/"));
+            feedData.nextPageUrl = fetchEventsUrl(calendarId);
+            feedData.nextPageUrl.addQueryItem("pageToken", data["nextPageToken"].toString());
+            if (feedData.nextPageUrl.queryItemValue("maxResults").isEmpty()) {
+                feedData.nextPageUrl.addQueryItem("maxResults","20");
+            }
         }
     }
 
@@ -150,7 +157,7 @@ QByteArray Services::Calendar::objectToXML(KGoogle::Object* object)
     return QByteArray();
 }
 
-QList< KGoogle::Object* > Services::Calendar::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
+QList< KGoogle::Object* > Services::Calendar::parseXMLFeed(const QByteArray& xmlFeed, FeedData& feedData)
 {
     Q_UNUSED(xmlFeed);
     Q_UNUSED(feedData);
@@ -201,7 +208,7 @@ QUrl Services::Calendar::fetchEventsUrl(const QString& calendarID)
 {
     QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
     ba.append(QUrl::toPercentEncoding(calendarID));
-    ba.append("/events");
+    ba.append("/events?maxResults=20");
     return QUrl::fromEncoded(ba);
 }
 

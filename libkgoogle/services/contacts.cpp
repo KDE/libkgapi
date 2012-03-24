@@ -78,7 +78,7 @@ QByteArray Contacts::objectToXML(KGoogle::Object* object)
 }
 
 
-QList< KGoogle::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
+QList< KGoogle::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
     QList< KGoogle::Object* > output;
     QJson::Parser parser;
@@ -102,25 +102,23 @@ QList< KGoogle::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, Fe
         }
     }
 
-    if (feedData) {
-        QVariantList links = feed["link"].toList();
-        foreach(QVariant l, links) {
-            QVariantMap link = l.toMap();
-            if (link["rel"].toString() == "next") {
-                feedData->nextPageUrl = link["href"].toUrl();
-                break;
-            }
+    QVariantList links = feed["link"].toList();
+    foreach(QVariant l, links) {
+        QVariantMap link = l.toMap();
+        if (link["rel"].toString() == "next") {
+            feedData.nextPageUrl = link["href"].toUrl();
+            break;
         }
-
-        QVariantMap tmp = feed["openSearch$totalResults"].toMap();
-        feedData->totalResults = tmp["$t"].toInt();
-
-        tmp = feed["openSearch$startIndex"].toMap();
-        feedData->startIndex = tmp["$t"].toInt();
-
-        tmp = feed["openSearch$itemsPerPage"].toMap();
-        feedData->itemsPerPage = tmp["$t"].toInt();
     }
+
+    QVariantMap tmp = feed["openSearch$totalResults"].toMap();
+    feedData.totalResults = tmp["$t"].toInt();
+
+    tmp = feed["openSearch$startIndex"].toMap();
+    feedData.startIndex = tmp["$t"].toInt();
+
+    tmp = feed["openSearch$itemsPerPage"].toMap();
+    feedData.itemsPerPage = tmp["$t"].toInt();
 
     return output;
 }
@@ -187,7 +185,7 @@ KGoogle::Object* Contacts::XMLToObject(const QByteArray& xmlData)
 
 }
 
-QList< KGoogle::Object* > Contacts::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
+QList< KGoogle::Object* > Contacts::parseXMLFeed(const QByteArray& xmlFeed, FeedData& feedData)
 {
     Q_UNUSED(xmlFeed);
     Q_UNUSED(feedData);

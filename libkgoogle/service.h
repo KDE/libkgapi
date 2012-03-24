@@ -59,7 +59,7 @@ class LIBKGOOGLE_EXPORT Service
     /**
      * Parses raw JSON feed data into list of KGoogleObject objects.
      */
-    virtual QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, KGoogle::FeedData* feedData = 0) = 0;
+    virtual QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, KGoogle::FeedData& feedData) = 0;
 
     /**
      * Parsers raw \p xmlData into a KGoogleObject.
@@ -74,7 +74,7 @@ class LIBKGOOGLE_EXPORT Service
     /**
      * Parses raw JSON feed data into list of KGoogleObject objects.
      */
-    virtual QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, KGoogle::FeedData* feedData = 0) = 0;
+    virtual QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, KGoogle::FeedData& feedData) = 0;
 
     /**
      * Returns version of the services protocol.

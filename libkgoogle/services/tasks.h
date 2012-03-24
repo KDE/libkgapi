@@ -52,7 +52,7 @@ class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
     /**
      * Implementation of KGoogle::Service::parseJSONFeed()
      */
-    QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
+    QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
      * Does nothing since Google Tasks API does not support XML.
@@ -62,7 +62,7 @@ class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
     /**
      * Does nothing since Google Tasks API does not support XML.
      */
-    QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
+    QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData& feedData);
 
     /**
      * Does nothing since Google Tasks API does not support XML.

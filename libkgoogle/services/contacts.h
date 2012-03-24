@@ -57,7 +57,7 @@ public:
     /**
      * Implementation of KGoogle::Service::parseJSONFeed().
      */
-    QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
+    QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
      * Implementation of KGoogle::Service::XMLToObject().
@@ -72,7 +72,7 @@ public:
     /**
      * Implementation of KGoogle::Service::parseXMLFeed().
      */
-    QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
+    QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData& feedData);
 
     /**
      * Implementation of KGoogle::Service::protocolVersion().

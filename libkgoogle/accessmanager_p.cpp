@@ -175,7 +175,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         /* For fetch-all request parse the XML/JSON reply and split it to individual
          * <entry>/entry blocks which then convert to QList of KGoogleObjects */
     case KGoogle::Request::FetchAll: {
-        KGoogle::FeedData* feedData = new KGoogle::FeedData;
+        KGoogle::FeedData feedData;
+        feedData.requestUrl = reply->request().url();
 
         if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
                 reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
@@ -191,20 +192,11 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
             kDebug() << "Unknown reply content type!";
         }
 
-        processedItems = feedData->startIndex;
-        totalItems = feedData->totalResults;
+        processedItems = feedData.startIndex;
+        totalItems = feedData.totalResults;
 
-        if (feedData->nextPageUrl.isValid()) {
-            QUrl url(feedData->nextPageUrl);
-            new_request.setUrl(request->url().toString());
-            new_request.removeAllQueryItems("start-index");
-            new_request.removeAllQueryItems("max-results");
-            new_request.addQueryItem("start-index", url.queryItemValue("start-index"));
-            new_request.addQueryItem("max-results", url.queryItemValue("max-results"));
-
-            delete feedData;
-
-            break;
+        if (feedData.nextPageUrl.isValid()) {
+            new_request = feedData.nextPageUrl;
         }
     } break;
 

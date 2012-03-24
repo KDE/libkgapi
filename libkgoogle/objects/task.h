@@ -75,6 +75,7 @@ class LIBKGOOGLE_EXPORT Task: public KGoogle::Object, public KCalCore::Todo
 } /* namespace KGoogle */
 
 Q_DECLARE_METATYPE(KGoogle::Objects::Task::Ptr)
+Q_DECLARE_METATYPE(KGoogle::Objects::Task*)
 Q_DECLARE_METATYPE(KGoogle::Objects::Task::List)
 
 

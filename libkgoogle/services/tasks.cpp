@@ -76,7 +76,7 @@ KGoogle::Object* Tasks::XMLToObject(const QByteArray& xmlData)
     return 0;
 }
 
-QList< KGoogle::Object* > Tasks::parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData)
+QList< KGoogle::Object* > Tasks::parseXMLFeed(const QByteArray& xmlFeed, FeedData& feedData)
 {
     Q_UNUSED(xmlFeed);
     Q_UNUSED(feedData);
@@ -84,7 +84,7 @@ QList< KGoogle::Object* > Tasks::parseXMLFeed(const QByteArray& xmlFeed, FeedDat
     return QList< KGoogle::Object* >();
 }
 
-QList< KGoogle::Object* > Tasks::parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData)
+QList< KGoogle::Object* > Tasks::parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
     QJson::Parser parser;
 
@@ -93,19 +93,30 @@ QList< KGoogle::Object* > Tasks::parseJSONFeed(const QByteArray& jsonFeed, FeedD
 
     if (feed["kind"].toString() == "tasks#taskLists") {
         list = TasksPrivate::parseTaskListJSONFeed(feed["items"].toList());
+
+        if (feed.contains("nextPageToken")) {
+            feedData.nextPageUrl = fetchTaskListsUrl();
+            feedData.nextPageUrl.addQueryItem("pageToken", feed["nextPageToken"].toString());
+            if (feedData.nextPageUrl.queryItemValue("maxResults").isEmpty()) {
+                feedData.nextPageUrl.addQueryItem("maxResults", "20");
+            }
+        }
+
     } else if (feed["kind"].toString() == "tasks#tasks") {
         list = TasksPrivate::parseTasksJSONFeed(feed["items"].toList());
-    }
 
-    if (feedData) {
-        feedData->itemsPerPage = 0;
-        feedData->startIndex = 0;
-        feedData->totalResults = 0;
         if (feed.contains("nextPageToken")) {
-            feedData->nextPageUrl = fetchTaskListsUrl();
-            feedData->nextPageUrl.addQueryItem("pageToken", feed["nextPageToken"].toString());
+            QString taskListId = feedData.requestUrl.toString().remove("https://www.googleapis.com/tasks/v1/lists/");
+            taskListId = taskListId.left(taskListId.indexOf("/"));
+
+            feedData.nextPageUrl = fetchAllTasksUrl(taskListId);
+            feedData.nextPageUrl.addQueryItem("pageToken", feed["nextPageToken"].toString());
+            if (feedData.nextPageUrl.queryItemValue("maxResults").isEmpty()) {
+                feedData.nextPageUrl.addQueryItem("maxResults", "20");
+            }
         }
     }
+
 
     return list;
 }
@@ -172,7 +183,8 @@ QUrl Tasks::removeTaskUrl(const QString& tasklistID, const QString& taskID)
 
 QUrl Tasks::moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString& newParent)
 {
-    return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID + "/move?parent=" + newParent;
+    QString parent = (newParent.isEmpty()) ? "?parent=" + newParent : "";
+    return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID + "/move" + parent;
 }
 
 QUrl Tasks::fetchTaskListsUrl()
