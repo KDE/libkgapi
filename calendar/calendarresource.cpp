@@ -365,33 +365,13 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
         TodoPtr todo = item.payload< TodoPtr >();
         Objects::Task ktodo(*todo);
 
-        /* No way to tell whether item was moved or just updated, so if the item has
-         * a parent the first do "MOVE" and when it's finished then send the actual
-         * update request. Otherwise send only the update request.
-         */
-        if (!todo->relatedTo(Incidence::RelTypeParent).isEmpty()) {
+        QUrl moveUrl = Services::Tasks::moveTaskUrl(item.parentCollection().remoteId(),
+                                                    todo->uid(),
+                                                    todo->relatedTo(KCalCore::Incidence::RelTypeParent));
+        Request *request = new Request(moveUrl, Request::Move, "Tasks", m_account);
+        request->setProperty("Item", QVariant::fromValue(item));
 
-            QUrl moveUrl = Services::Tasks::moveTaskUrl(item.parentCollection().remoteId(),
-                           todo->uid(), todo->relatedTo(KCalCore::Incidence::RelTypeParent));
-            Request *request = new Request(moveUrl, Request::Move, "Tasks", m_account);
-            request->setProperty("Item", QVariant::fromValue(item));
-
-            m_gam->sendRequest(request);
-
-        } else {
-
-            url = Services::Tasks::updateTaskUrl(item.parentCollection().remoteId(), item.remoteId());
-
-            Services::Tasks service;
-            data = service.objectToJSON(static_cast< KGoogle::Object* >(&ktodo));
-
-            Request *request = new Request(url, Request::Update, "Tasks", m_account);
-            request->setRequestData(data, "application/json");
-            request->setProperty("Item", QVariant::fromValue(item));
-
-            m_gam->sendRequest(request);
-
-        }
+        m_gam->sendRequest(request);
 
     } else {
         cancelTask(i18n("Unknown payload type '%1'").arg(item.mimeType()));
