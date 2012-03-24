@@ -88,6 +88,9 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
     void taskUpdated(KGoogle::Reply *reply);
     void taskRemoved(KGoogle::Reply *reply);
 
+    void removeTaskFetchJobFinished(KJob *job);
+    void doRemoveTask(KJob *job);
+
     void eventReceived(KGoogle::Reply *reply);
     void eventsReceived(KJob *job);
     void eventCreated(KGoogle::Reply *reply);

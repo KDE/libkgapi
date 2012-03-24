@@ -388,23 +388,32 @@ void CalendarResource::itemRemoved(const Akonadi::Item& item)
 
     if (item.mimeType() == Event::eventMimeType()) {
 
-        service = "Calendar";
         url = Services::Calendar::removeEventUrl(item.parentCollection().remoteId(), item.remoteId());
+        Request *request = new Request(url, Request::Remove, "Calendar", m_account);
+        request->setProperty("Item", QVariant::fromValue(item));
+        m_gam->sendRequest(request);
 
     } else if (item.mimeType() == Todo::todoMimeType()) {
 
-        service = "Tasks";
-        url = Services::Tasks::removeTaskUrl(item.parentCollection().remoteId(), item.remoteId());
+        /* Google always automatically removes tasks with all their subtasks. In KOrganizer
+         * by default we only remove the item we are given. For this reason we have to first
+         * fetch all tasks, find all sub-tasks for the task being removed and detach them
+         * from the task. Only then the task can be safely removed.
+         */
+
+        ItemFetchJob *fetchJob = new ItemFetchJob(item.parentCollection());
+        fetchJob->setAutoDelete(true);
+        fetchJob->fetchScope().fetchFullPayload(true);
+        fetchJob->setProperty("Item", qVariantFromValue(item));
+        connect(fetchJob, SIGNAL(finished(KJob*)),
+                this, SLOT(removeTaskFetchJobFinished(KJob*)));
+        fetchJob->start();
 
     } else {
         cancelTask(i18n("Unknown payload type '%1'").arg(item.mimeType()));
         return;
     }
 
-    Request *request = new Request(url, Request::Remove, service, m_account);
-    request->setProperty("Item", QVariant::fromValue(item));
-
-    m_gam->sendRequest(request);
 }
 
 void CalendarResource::itemMoved(const Item& item, const Collection& collectionSource, const Collection& collectionDestination)

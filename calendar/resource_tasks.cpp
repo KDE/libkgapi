@@ -32,8 +32,11 @@
 #include <KDE/KDebug>
 
 #include <KDE/Akonadi/ItemModifyJob>
+#include <KDE/Akonadi/ItemFetchJob>
 #include <KDE/Akonadi/EntityDisplayAttribute>
 #include <KDE/Akonadi/CollectionModifyJob>
+#include <KDE/Akonadi/ItemFetchScope>
+
 
 using namespace Akonadi;
 using namespace KGoogle;
@@ -233,10 +236,71 @@ void CalendarResource::taskUpdated(KGoogle::Reply *reply)
     changeCommitted(item);
 }
 
+void CalendarResource::removeTaskFetchJobFinished(KJob *job)
+{
+    if (job->error()) {
+        cancelTask(i18n("Failed to delete task (1): %1").arg(job->errorString()));
+        return;
+    }
+
+    ItemFetchJob *fetchJob = dynamic_cast< ItemFetchJob* >(job);
+    Item removedItem = fetchJob->property("Item").value< Item >();
+
+    Item::List detachItems;
+
+    Item::List items = fetchJob->items();
+    foreach (Item item, items)
+    {
+        if (!item.hasPayload< TodoPtr >()) {
+            kDebug() << "Item " << item.remoteId() << " does not have Todo payload";
+            continue;
+        }
+
+        TodoPtr todo = item.payload< TodoPtr >();
+        /* If this item is child of the item we want to remove then add it to detach list */
+        if (todo->relatedTo(KCalCore::Incidence::RelTypeParent) == removedItem.remoteId()) {
+            todo->setRelatedTo(QString(), KCalCore::Incidence::RelTypeParent);
+            item.setPayload(todo);
+            detachItems << item;
+        }
+    }
+
+    /* If there are no items do detach, then delete the task right now */
+    if (detachItems.isEmpty()) {
+        doRemoveTask(job);
+        return;
+    }
+
+    /* Send modify request to detach all the sub-tasks from the task that is about to be
+     * removed. */
+
+    ItemModifyJob *modifyJob = new ItemModifyJob(detachItems);
+    modifyJob->setProperty("Item", qVariantFromValue(removedItem));
+    modifyJob->setAutoDelete(true);
+    connect(modifyJob, SIGNAL(finished(KJob*)), this, SLOT(doRemoveTask(KJob*)));
+    modifyJob->start();
+}
+
+void CalendarResource::doRemoveTask(KJob *job)
+{
+    if (job->error()) {
+        cancelTask(i18n("Failed to delete task (2): %").arg(job->errorString()));
+        return;
+    }
+
+    Item item = job->property("Item").value< Item >();
+
+    /* Now finally we can safely remove the task we wanted to */
+    Request *request = new Request(Services::Tasks::removeTaskUrl(item.parentCollection().remoteId(), item.remoteId()),
+                                   KGoogle::Request::Remove, "Tasks", m_account);
+    request->setProperty("Item", qVariantFromValue(item));
+    m_gam->sendRequest(request);
+}
+
 void CalendarResource::taskRemoved(KGoogle::Reply *reply)
 {
-    if (reply->error() != OK) {
-        cancelTask(i18n("Failed to delete task: %1").arg(reply->errorString()));
+    if (reply->error() != NoContent) {
+        cancelTask(i18n("Failed to delete task (5): %1").arg(reply->errorString()));
         return;
     }
 
