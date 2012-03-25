@@ -106,7 +106,7 @@ QList< KGoogle::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, Fe
     foreach(QVariant l, links) {
         QVariantMap link = l.toMap();
         if (link["rel"].toString() == "next") {
-            feedData.nextPageUrl = link["href"].toUrl();
+            feedData.nextPageUrl = QUrl::fromEncoded(link["href"].toByteArray());
             break;
         }
     }
