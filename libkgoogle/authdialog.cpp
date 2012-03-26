@@ -78,6 +78,29 @@ void AuthDialog::webviewFinished()
 {
     QUrl url = m_webiew->url();
 
+    if (url.host() == "accounts.google.com" && url.path() == "/ServiceLogin") {
+        if (m_username.isEmpty() && m_password.isEmpty()) {
+            return;
+        }
+
+        QWebFrame *frame = m_webiew->page()->mainFrame();
+        if (!m_username.isEmpty()) {
+            QWebElement email = frame->findFirstElement("input#Email");
+            if (!email.isNull()) {
+                email.setAttribute("value", m_username);
+            }
+        }
+
+        if (!m_password.isEmpty()) {
+            QWebElement passd = frame->findFirstElement("input#Passwd");
+            if (!passd.isNull()) {
+                passd.setAttribute("value", m_password);
+            }
+        }
+
+        return;
+    }
+
     if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
         QWebElement el = m_webiew->page()->mainFrame()->findFirstElement("textarea");
         if (el.isNull()) {
@@ -253,4 +276,20 @@ void AuthDialog::authenticate(KGoogle::Account::Ptr &account)
 #endif
 
     m_webiew->setUrl(url);
+}
+
+void AuthDialog::setUsername(const QString& username)
+{
+    m_username = username;
+}
+
+void AuthDialog::setPassword(const QString& password)
+{
+    m_password = password;
+}
+
+void AuthDialog::clearCredentials()
+{
+    m_username = QString();
+    m_password = QString();
 }

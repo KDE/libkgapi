@@ -197,6 +197,44 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      */
     bool revoke(KGoogle::Account::Ptr &account);
 
+    /**
+     * Set the username that will be used when authenticate is called
+     *
+     * When \sa authenticate is called and the dialog to introduce the
+     * credentials is open, the username input field will be automatically
+     * filled with the string set here.
+     *
+     * Be aware that the username will be set every time \sa authenticate is
+     * called so if you want to change or remove it call \sa setUsername again
+     * with empty string or \sa clearCredentials.
+     *
+     * @param QString username to use
+     */
+    void setUsername(const QString &username);
+
+    /**
+     * Set the password that will be used when authenticate is called
+     *
+     * When \sa authenticate is called and the dialog to introduce the
+     * credentials is open, the password input field will be automatically
+     * filled with the string set here.
+     *
+     * Be aware that the password will be set every time \sa authenticate is
+     * called so if you want to change or remove it call \sa setPassword again
+     * with empty string or \sa clearCredentials.
+     *
+     * @param QString username to use
+     */
+    void setPassword(const QString &password);
+
+    /**
+     * Sets to empty username and password
+     *
+     * Sets to empty the username and the password which were set by
+     * calling \sa setUsername and \sa setPassword.
+     */
+    void clearCredentials();
+
   Q_SIGNALS:
     /**
      * Emitted when an error occurs

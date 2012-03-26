@@ -104,6 +104,8 @@ void AuthPrivate::fullAuthentication(KGoogle::Account::Ptr &account, bool autoSa
     connect(dlg, SIGNAL(accepted()),
             dlg, SLOT(deleteLater()));
 
+    dlg->setUsername(username);
+    dlg->setPassword(password);
     dlg->show();
     dlg->authenticate(account);
 }

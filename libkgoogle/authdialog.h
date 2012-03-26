@@ -31,7 +31,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QProgressBar;
 class QLabel;
-class KWebView;
+class QWebView;
 
 namespace KGoogle
 {
@@ -81,6 +81,25 @@ class LIBKGOOGLE_EXPORT AuthDialog: public KDialog
      */
     void authenticate(KGoogle::Account::Ptr &account);
 
+    /**
+     * The passed username will be injected in the OAuth form
+     *
+     * @param QString The username to use
+     */
+    void setUsername(const QString &username);
+
+    /**
+     * The passed password will be injected in the OAuth form
+     *
+     * @param QString The password to use
+     */
+    void setPassword(const QString &password);
+
+    /**
+     * Remove any previously set username or password
+     */
+    void clearCredentials();
+
   Q_SIGNALS:
     /**
      * This signal is emitted when access token and refresh token were successfully retrieved.
@@ -119,6 +138,8 @@ class LIBKGOOGLE_EXPORT AuthDialog: public KDialog
     KWebView *m_webiew;
     QLabel *m_label;
 
+    QString m_username;
+    QString m_password;
     KGoogle::Account::Ptr m_account;
 };
 

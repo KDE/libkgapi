@@ -58,6 +58,8 @@ class AuthPrivate: public QObject
 
     QString apiKey;
     QString apiSecret;
+    QString username;
+    QString password;
 
     bool initKWallet();
 

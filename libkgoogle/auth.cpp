@@ -280,3 +280,22 @@ bool Auth::revoke(Account::Ptr &account)
         return false;
     }
 }
+
+void Auth::setUsername(const QString& username)
+{
+    Q_D(Auth);
+    d->username = username;
+}
+
+void Auth::setPassword(const QString& password)
+{
+    Q_D(Auth);
+    d->password = password;
+}
+
+void Auth::clearCredentials()
+{
+    Q_D(Auth);
+    d->username = QString();
+    d->password = QString();
+}
