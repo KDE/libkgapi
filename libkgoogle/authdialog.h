@@ -31,7 +31,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QProgressBar;
 class QLabel;
-class QWebView;
+class KWebView;
 
 namespace KGoogle
 {
