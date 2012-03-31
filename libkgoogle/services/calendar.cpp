@@ -494,7 +494,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
         AlarmPtr alarm(new Alarm(object));
         alarm->setTime(object->dtStart());
 
-        if (override["method"].toString() == "alert") {
+        if (override["method"].toString() == "popup") {
             alarm->setType(Alarm::Display);
         } else if (override["method"].toString() == "email") {
             alarm->setType(Alarm::Email);
