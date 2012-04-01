@@ -183,7 +183,7 @@ QUrl Tasks::removeTaskUrl(const QString& tasklistID, const QString& taskID)
 
 QUrl Tasks::moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString& newParent)
 {
-    QString parent = (newParent.isEmpty()) ? "?parent=" + newParent : "";
+    QString parent = (!newParent.isEmpty()) ? "?parent=" + newParent : "";
     return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID + "/move" + parent;
 }
 
