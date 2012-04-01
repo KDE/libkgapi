@@ -413,6 +413,7 @@ void ContactsResource::replyReceived(KGoogle::Reply* reply)
 
     case Request::FetchAll:
     case Request::Move:
+    case Request::Patch:
         break;
     }
 

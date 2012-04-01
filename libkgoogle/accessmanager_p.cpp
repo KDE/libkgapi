@@ -27,6 +27,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtCore/QByteArray>
 #include <QtCore/QUrl>
+#include <QBuffer>
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
@@ -202,7 +203,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     case KGoogle::Request::Fetch:
     case KGoogle::Request::Create:
-    case KGoogle::Request::Update: {
+    case KGoogle::Request::Update:
+    case KGoogle::Request::Patch: {
         if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
                 reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
 
@@ -307,6 +309,15 @@ void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
         nr.setRawHeader("If-Match", "*");
         nam->deleteResource(nr);
         break;
+
+    case KGoogle::Request::Patch: {
+        QBuffer *buffer = new QBuffer(this);
+        buffer->setData(request->requestData());
+        buffer->open(QIODevice::ReadOnly);
+        nr.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
+        QNetworkReply *reply = nam->sendCustomRequest(nr, "PATCH", buffer);
+        connect(reply, SIGNAL(finished()), buffer, SLOT(deleteLater()));
+        } break;
     }
 }
 

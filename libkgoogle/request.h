@@ -45,7 +45,8 @@ class LIBKGOOGLE_EXPORT Request: public QNetworkRequest
         Create,         /** POST **/
         Move,           /** POST **/
         Update,         /** PUT **/
-        Remove          /** DELETE **/
+        Remove,         /** DELETE **/
+        Patch           /** PATCH **/
     };
 
     /**

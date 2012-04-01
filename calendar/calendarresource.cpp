@@ -354,7 +354,7 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
         Services::Calendar service;
         data = service.objectToJSON(static_cast< KGoogle::Object* >(&kevent));
 
-        Request *request = new Request(url, Request::Update, "Calendar", m_account);
+        Request *request = new Request(url, Request::Patch, "Calendar", m_account);
         request->setRequestData(data, "application/json");
         request->setProperty("Item", QVariant::fromValue(item));
 
@@ -454,6 +454,7 @@ void CalendarResource::replyReceived(KGoogle::Reply* reply)
         break;
 
     case Request::Update:
+    case Request::Patch:
         itemUpdated(reply);
         break;
 
