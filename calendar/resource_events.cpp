@@ -243,11 +243,11 @@ void CalendarResource::eventCreated(KGoogle::Reply *reply)
     item.setRemoteId(event->uid());
     item.setRemoteRevision(event->etag());
     item.setMimeType(Event::eventMimeType());
-    item.setPayload< EventPtr >(EventPtr(event));
     item.setParentCollection(reply->request()->property("Collection").value<Collection>());
 
     changeCommitted(item);
 
+    item.setPayload< EventPtr >(EventPtr(event));
     Akonadi::ItemModifyJob *modifyJob = new Akonadi::ItemModifyJob(item);
     modifyJob->setAutoDelete(true);
     modifyJob->start();
@@ -271,7 +271,6 @@ void CalendarResource::eventUpdated(KGoogle::Reply *reply)
 
     Item item = reply->request()->property("Item").value<Item>();
     item.setRemoteRevision(event->etag());
-    item.setPayload< EventPtr >(EventPtr(event));
 
     changeCommitted(item);
 }

@@ -203,11 +203,11 @@ void CalendarResource::taskCreated(KGoogle::Reply *reply)
     item.setRemoteId(task->uid());
     item.setRemoteRevision(task->etag());
     item.setMimeType(Todo::todoMimeType());
-    item.setPayload< TodoPtr >(TodoPtr(task));
     item.setParentCollection(reply->request()->property("Collection").value<Collection>());
 
     changeCommitted(item);
 
+    item.setPayload< TodoPtr >(TodoPtr(task));
     Akonadi::ItemModifyJob *modifyJob = new Akonadi::ItemModifyJob(item);
     modifyJob->setAutoDelete(true);
     modifyJob->start();
@@ -231,7 +231,6 @@ void CalendarResource::taskUpdated(KGoogle::Reply *reply)
 
     Item item = reply->request()->property("Item").value<Item>();
     item.setRemoteRevision(task->etag());
-    item.setPayload< TodoPtr >(TodoPtr(task));
 
     changeCommitted(item);
 }
