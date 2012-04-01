@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject - Calendar
+    libKGoogle - Objects - Calendar
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,32 +16,51 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <qshareddata.h>
-#include <qstring.h>
+#include <QtCore/QSharedData>
+#include <QtCore/QString>
 
-#include <kdatetime.h>
+#ifdef WITH_KCAL
+#include <KDE/KCal/Alarm>
+using namspace KCal;
+#else
+#include <KDE/KCalCore/Alarm>
+using namespace KCalCore;
+#endif
 
-namespace KGoogle {
-  
-  namespace Object {
-  
-    class CalendarData: public QSharedData
-    {
-      public:
-	CalendarData() {};
-	CalendarData(const CalendarData &other);
-	~CalendarData() {};
-	
-	QString title;
-	QString color;
-	QString details;
-	QString timezone;
-	bool editable;   
-	
-	KDateTime created;
-	KDateTime updated;
-    };
-    
-  } // namespace Object
-  
+namespace KGoogle
+{
+
+namespace Objects
+{
+
+class ReminderData: public QSharedData
+{
+  public:
+    ReminderData();
+    ReminderData(const ReminderData &other);
+    ~ReminderData() {};
+
+    Alarm::Type type;
+    Duration offset;
+};
+
+class CalendarData: public QSharedData
+{
+  public:
+    CalendarData() {};
+    CalendarData(const CalendarData &other);
+    ~CalendarData() {};
+
+    QString uid;
+    QString title;
+    QString details;
+    QString timezone;
+    QString location;
+    bool editable;
+
+    Reminder::List reminders;
+};
+
+} // namespace Objects
+
 } // namespace KGoogle

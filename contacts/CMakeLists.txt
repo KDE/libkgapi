@@ -26,7 +26,7 @@ set(contactsresource_SRCS
     settingsdialog.cpp
 )
 
-kde4_add_ui_files(contactsresource_SRCS settingsdialog.ui)
+kde4_add_ui_files(contactsresource_SRCS ui/settingsdialog.ui ui/groupeditor.ui)
 kde4_add_kcfg_files(contactsresource_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/settingsbase.kcfgc)
 kcfg_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/settingsbase.kcfg org.kde.Akonadi.GoogleContacts.Settings)
 qt4_add_dbus_adaptor(contactsresource_SRCS
@@ -44,6 +44,8 @@ target_link_libraries(akonadi_googlecontacts_resource
 		      ${KDE4_KIO_LIBS}
 		      kgoogle
 )
+
+add_dependencies(akonadi_googlecontacts_resource libkgoogle)
 
 install(TARGETS akonadi_googlecontacts_resource ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES googlecontactsresource.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akonadi/agents" )

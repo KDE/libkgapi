@@ -19,179 +19,277 @@
 
 #include "authdialog.h"
 
-#include <kwindowsystem.h>
-#include <klocalizedstring.h>
-#include <kio/accessmanager.h>
+#include <KDE/KDebug>
+#include <KDE/KLocalizedString>
+#include <KDE/KWindowSystem>
+#include <KDE/KWebView>
+#include <KIO/AccessManager>
 
-#include <qbytearray.h>
-#include <qurl.h>
-#include <qstring.h>
-
-#include <qwebframe.h>
-#include <qwebelement.h>
-#include <qnetworkreply.h>
+#include <QtCore/QByteArray>
+#include <QtCore/QUrl>
+#include <QtCore/QString>
+#include <QtGui/QLabel>
+#include <QtGui/QProgressBar>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtNetwork/QNetworkReply>
+#include <QtWebKit/QWebFrame>
+#include <QtWebKit/QWebElement>
 
 #include <qjson/parser.h>
 
+#include "accessmanager.h"
+#include "auth.h"
+#include "reply.h"
+#include "request.h"
+#include "services/accountinfo.h"
+#include "objects/accountinfo.h"
+
+extern int debugArea();
 
 /****************** Private implementation *****************/
 
-void AuthDialog::setError(const QString& error)
+void AuthDialog::emitError(const KGoogle::Error errCode, const QString& msg)
 {
-  m_label->setVisible(true);
-  m_webiew->setVisible(false);
-  m_progressbar->setVisible(false);
-  
-  m_label->setText(error);
+    m_label->setVisible(true);
+    m_webiew->setVisible(false);
+    m_progressbar->setVisible(false);
+
+    m_label->setText("<b>" + msg + "</b>");
+
+    emit error(errCode, msg);
 }
 
 
-void AuthDialog::webviewUrlChanged(const QUrl &url) 
+void AuthDialog::webviewUrlChanged(const QUrl &url)
 {
-  QString token, verifier;
-    
-  /* Access token here - hide browser and tell user to wait until we 
-   * finish the authentication process ourselves */
-  if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
-    m_webiew->setVisible(false);
-    m_progressbar->setVisible(false);
-    m_label->setVisible(true);      
-  } 
+    QString token, verifier;
+
+    /* Access token here - hide browser and tell user to wait until we
+     * finish the authentication process ourselves */
+    if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
+        m_webiew->setVisible(false);
+        m_progressbar->setVisible(false);
+        m_label->setVisible(true);
+    }
 }
 
 void AuthDialog::webviewFinished()
 {
-  QUrl url = m_webiew->url();
-  
-  if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
-    QWebElement el = m_webiew->page()->mainFrame()->findFirstElement("textarea");
-    if (el.isNull()) {
-      setError("<b>Parsing token page failed.</b>");
-      return;
+    QUrl url = m_webiew->url();
+
+    if (url.host() == "accounts.google.com" && url.path() == "/ServiceLogin") {
+        if (m_username.isEmpty() && m_password.isEmpty()) {
+            return;
+        }
+
+        QWebFrame *frame = m_webiew->page()->mainFrame();
+        if (!m_username.isEmpty()) {
+            QWebElement email = frame->findFirstElement("input#Email");
+            if (!email.isNull()) {
+                email.setAttribute("value", m_username);
+            }
+        }
+
+        if (!m_password.isEmpty()) {
+            QWebElement passd = frame->findFirstElement("input#Passwd");
+            if (!passd.isNull()) {
+                passd.setAttribute("value", m_password);
+            }
+        }
+
+        return;
     }
 
-    QString token = el.toInnerXml();
-    if (token.isEmpty()) {
-      setError("<b>Failed to obtain token.</b>");
-      return;
+    if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
+        QWebElement el = m_webiew->page()->mainFrame()->findFirstElement("textarea");
+        if (el.isNull()) {
+            emitError(KGoogle::AuthError, i18n("Parsing token page failed."));
+            return;
+        }
+
+        QString token = el.toInnerXml();
+        if (token.isEmpty()) {
+            emitError(KGoogle::AuthError, i18n("Failed to obtain token."));
+            return;
+        }
+
+        QNetworkAccessManager *nam = new KIO::Integration::AccessManager(this);
+        QNetworkRequest request;
+
+        connect(nam, SIGNAL(finished(QNetworkReply*)),
+                this, SLOT(networkRequestFinished(QNetworkReply*)));
+        connect(nam, SIGNAL(finished(QNetworkReply*)),
+                nam, SLOT(deleteLater()));
+
+        request.setUrl(QUrl("https://accounts.google.com/o/oauth2/token"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+        QUrl params;
+        params.addQueryItem("client_id", KGoogle::Auth::instance()->apiKey());
+        params.addQueryItem("client_secret", KGoogle::Auth::instance()->apiSecret());
+        params.addQueryItem("code", token);
+        params.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
+        params.addQueryItem("grant_type", "authorization_code");
+
+#ifdef DEBUG_RAWDATA
+        kDebug() << "Authorizing token:" << params;
+#endif
+
+        nam->post(request, params.encodedQuery());
     }
-
-    QNetworkAccessManager *nam = new KIO::Integration::AccessManager(this);
-    QNetworkRequest request;
-    QByteArray data;
-
-    connect (nam, SIGNAL(finished(QNetworkReply*)),
-	     this, SLOT(networkRequestFinished(QNetworkReply*)));
-    connect (nam, SIGNAL(finished(QNetworkReply*)),
-	     nam, SLOT(deleteLater()));
-
-    request.setUrl(QUrl("https://accounts.google.com/o/oauth2/token"));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-
-    data.append("client_id="+m_clientId.toLatin1()+"&");
-    data.append("client_secret="+m_clientSecret.toLatin1()+"&");
-    data.append("code="+token.toLatin1()+"&");
-    data.append("redirect_uri=urn:ietf:wg:oauth:2.0:oob&");
-    data.append("grant_type=authorization_code");
-
-    nam->post(request, data);    
-  }
 }
 
 void AuthDialog::networkRequestFinished(QNetworkReply* reply)
 {
-  if (reply->error() != QNetworkReply::NoError) {
-    setError("<b>Authentization failed:</b><br>"+reply->errorString());
-    return;
-  }
-  
-  QJson::Parser parser;
-  bool ok;
-  
-  QVariantMap parsed_data = parser.parse(reply->readAll(), &ok).toMap();
-  if (!ok) {
-    setError("<b>Failed to parse server response.</b>");
-    return;
-  }
-  
-  QString access_token = parsed_data["access_token"].toString();
-  QString refresh_token = parsed_data["refresh_token"].toString();
-  
-  m_accessToken = access_token;
-  m_refreshToken = refresh_token;
-  
-  emit finished(m_accessToken, m_refreshToken);
-  accept();
-  
-  qDebug() << "Received new tokens";
+    if (reply->error() != QNetworkReply::NoError) {
+        emitError(KGoogle::AuthError, i18n("Authentization failed:<br>%1", reply->errorString()));
+        return;
+    }
+
+    QJson::Parser parser;
+    bool ok;
+
+    QVariantMap parsed_data = parser.parse(reply->readAll(), &ok).toMap();
+    if (!ok) {
+        emitError(KGoogle::AuthError, i18n("Failed to parse server response."));
+        return;
+    }
+
+#ifdef DEBUG_RAWDATA
+    kDebug() << "Retrieved new tokens pair:" << parsed_data;
+#endif
+
+    m_account->setAccessToken(parsed_data["access_token"].toString());
+    m_account->setRefreshToken(parsed_data["refresh_token"].toString());
+
+    KGoogle::AccessManager *gam = new KGoogle::AccessManager;
+    connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+            this, SLOT(accountInfoReceived(KGoogle::Reply*)));
+    connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+            gam, SLOT(deleteLater()));
+
+    KGoogle::Request *request;
+    request = new KGoogle::Request(KGoogle::Services::AccountInfo::fetchUrl(),
+                                   KGoogle::Request::Fetch, "AccountInfo", m_account);
+
+    gam->sendRequest(request);
 }
+
+void AuthDialog::accountInfoReceived(KGoogle::Reply* reply)
+{
+    if (reply->error() != KGoogle::OK) {
+        emitError(reply->error(), reply->errorString());
+        return;
+    }
+
+    QList< KGoogle::Object* > data = reply->replyData();
+    KGoogle::Objects::AccountInfo *accountInfo = static_cast< KGoogle::Objects::AccountInfo* >(data.first());
+
+    m_account->setAccountName(accountInfo->email());
+
+    delete reply;
+
+    emit authenticated(m_account);
+    accept();
+}
+
 
 /********************* Public implementation ***************/
 
-AuthDialog::AuthDialog(WId windowId): 
-  KDialog()
+AuthDialog::AuthDialog(WId windowId):
+    KDialog()
 {
-  KWindowSystem::setMainWindow(this, windowId);
-  
-  setModal(true);
-  
-  m_widget = new QWidget(this);
-  setMainWidget(m_widget);
-  
-  m_vbox = new QVBoxLayout(m_widget);
-  m_widget->setLayout(m_vbox);
+    KWindowSystem::setMainWindow(this, windowId);
 
-  m_label = new QLabel(m_widget);
-  m_label->setText(tr("<b>Authorizing token. This should take just a moment...</b>"));
-  m_label->setWordWrap(true);
-  m_label->setAlignment(Qt::AlignCenter);
-  m_label->setVisible(false);
-  m_vbox->addWidget(m_label);
-  
-  m_progressbar = new QProgressBar (m_widget);
-  m_progressbar->setMinimum(0);
-  m_progressbar->setMaximum(100);
-  m_progressbar->setValue(0);
-  m_vbox->addWidget(m_progressbar);
-  
-  m_webiew = new KWebView(m_widget, true);
-  m_vbox->addWidget(m_webiew);
-  connect (m_webiew, SIGNAL(loadProgress(int)),
-	   m_progressbar, SLOT(setValue(int)));
-  connect (m_webiew, SIGNAL(urlChanged(QUrl)),
-	   this, SLOT (webviewUrlChanged(QUrl)));
-  connect (m_webiew, SIGNAL (loadFinished(bool)),
-	   this, SLOT (webviewFinished()));
-  
-  m_hbox = new QHBoxLayout(m_widget);
-  m_vbox->addLayout(m_hbox);
-  
-  setButtons(KDialog::Cancel);  
+    qRegisterMetaType< KGoogle::Services::AccountInfo >("AccountInfo");
+
+    setModal(true);
+
+    m_widget = new QWidget(this);
+    setMainWidget(m_widget);
+
+    m_vbox = new QVBoxLayout(m_widget);
+    m_widget->setLayout(m_vbox);
+
+    m_label = new QLabel(m_widget);
+    m_label->setText("<b>" + i18n("Authorizing token. This should take just a moment...") + "</b>");
+    m_label->setWordWrap(true);
+    m_label->setAlignment(Qt::AlignCenter);
+    m_label->setVisible(false);
+    m_vbox->addWidget(m_label);
+
+    m_progressbar = new QProgressBar(m_widget);
+    m_progressbar->setMinimum(0);
+    m_progressbar->setMaximum(100);
+    m_progressbar->setValue(0);
+    m_vbox->addWidget(m_progressbar);
+
+    m_webiew = new KWebView(m_widget, true);
+    m_vbox->addWidget(m_webiew);
+    connect(m_webiew, SIGNAL(loadProgress(int)),
+            m_progressbar, SLOT(setValue(int)));
+    connect(m_webiew, SIGNAL(urlChanged(QUrl)),
+            this, SLOT(webviewUrlChanged(QUrl)));
+    connect(m_webiew, SIGNAL(loadFinished(bool)),
+            this, SLOT(webviewFinished()));
+
+    m_hbox = new QHBoxLayout(m_widget);
+    m_vbox->addLayout(m_hbox);
+
+    setButtons(KDialog::Cancel);
 }
 
 AuthDialog::~AuthDialog()
 {
-  delete m_label;
-  delete m_progressbar;
-  delete m_webiew;
-  delete m_hbox;
-  delete m_vbox;
-  delete m_widget;
+    delete m_label;
+    delete m_progressbar;
+    delete m_webiew;
+    delete m_hbox;
+    delete m_vbox;
+    delete m_widget;
 }
 
-void AuthDialog::setScopes(const QStringList& scopes)
+void AuthDialog::authenticate(KGoogle::Account::Ptr &account)
 {
-  m_scopes << scopes;
+
+    if (account.isNull() || account->scopes().isEmpty()) {
+        throw KGoogle::Exception::InvalidAccount();
+        return;
+    }
+
+    m_account = account;
+
+    QStringList scopes;
+    foreach(const QUrl & scope, account->scopes()) {
+        scopes << scope.toString();
+    }
+
+    QUrl url("https://accounts.google.com/o/oauth2/auth");
+    url.addQueryItem("client_id", KGoogle::Auth::instance()->apiKey());
+    url.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
+    url.addQueryItem("scope", scopes.join(" "));
+    url.addQueryItem("response_type", "code");
+
+#ifdef DEBUG_RAWDATA
+    kDebug() << "Requesting new token:" << url;
+#endif
+
+    m_webiew->setUrl(url);
 }
 
-void AuthDialog::auth(const QString& clientId, const QString& clientSecret)
+void AuthDialog::setUsername(const QString& username)
 {
-  m_clientId = clientId;
-  m_clientSecret = clientSecret;
+    m_username = username;
+}
 
-  m_webiew->setUrl(QUrl("https://accounts.google.com/o/oauth2/auth?"
-			"client_id="+clientId+"&"
-			"redirect_uri=urn:ietf:wg:oauth:2.0:oob&"
-			"scope="+m_scopes.join(" ")+"&"
-			"response_type=code"));
+void AuthDialog::setPassword(const QString& password)
+{
+    m_password = password;
+}
+
+void AuthDialog::clearCredentials()
+{
+    m_username = QString();
+    m_password = QString();
 }

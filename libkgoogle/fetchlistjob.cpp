@@ -20,103 +20,112 @@
 #include "fetchlistjob.h"
 #include "fetchlistjob_p.h"
 
-#include "kgoogleaccessmanager.h"
-#include "kgoogleauth.h"
-#include "kgooglerequest.h"
-#include "kgooglereply.h"
+#include "accessmanager.h"
+#include "request.h"
+#include "reply.h"
 
 using namespace KGoogle;
 
-FetchListJob::FetchListJob(const QUrl &url, const QString &service, KGoogleAuth *auth):
-  KJob(),
-  d_ptr(new FetchListJobPrivate(this, auth))
+FetchListJob::FetchListJob(const QUrl &url, const QString &service, const QString &accountName):
+    KJob(),
+    d_ptr(new FetchListJobPrivate(this))
 {
-  Q_D(FetchListJob);
+    Q_D(FetchListJob);
 
-  d->auth = auth;
-  d->service = service;
-  d->url = url;
+    d->accountName = accountName;
+    d->service = service;
+    d->url = url;
 }
 
 FetchListJob::FetchListJob(const FetchListJob &other):
-  KJob(),
-  d_ptr(new FetchListJobPrivate(this, d_func()->auth))
+    KJob(),
+    d_ptr(new FetchListJobPrivate(this))
 {
-  Q_D(FetchListJob);
+    Q_D(FetchListJob);
 
-  d->auth = other.auth();
-  d->service = other.service();
-  d->url = other.url();
+    d->accountName = other.accountName();
+    d->service = other.service();
+    d->url = other.url();
 }
 
 
 FetchListJob::~FetchListJob()
 {
-  delete d_ptr;
+    delete d_ptr;
 }
 
 
 void FetchListJob::start()
 {
-  Q_D(FetchListJob);
+    Q_D(FetchListJob);
 
-  d->request = new KGoogleRequest(d->url, KGoogleRequest::FetchAll, d->service);
+    KGoogle::Auth *auth = KGoogle::Auth::instance();
+    KGoogle::Account::Ptr account;
+    try {
+        account = auth->getAccount(d->accountName);
+    } catch (KGoogle::Exception::BaseException &e) {
+        setError(e.code());
+        setErrorText(e.what());
+        emitResult();
+        return;
+    }
 
-  d->isRunning = true;
-  d->items.clear();
-  d->gam->sendRequest(d->request);
+    d->request = new Request(d->url, Request::FetchAll, d->service, account);
+
+    d->isRunning = true;
+    d->items.clear();
+    d->gam->sendRequest(d->request);
 }
 
-QList< KGoogleObject* > FetchListJob::items() const
+QList< KGoogle::Object* > FetchListJob::items() const
 {
-  Q_D(const FetchListJob);
+    Q_D(const FetchListJob);
 
-  if (!d->isRunning)
-    return d->items;
+    if (!d->isRunning)
+        return d->items;
 
-  return QList< KGoogleObject* >();
+    return QList< KGoogle::Object* >();
 }
 
-void FetchListJob::setAuth(KGoogleAuth *auth)
+void FetchListJob::setAccountName(const QString &accountName)
 {
-  Q_D(FetchListJob);
+    Q_D(FetchListJob);
 
-  d->auth = auth;
+    d->accountName = accountName;
 }
 
-KGoogleAuth *FetchListJob::auth() const
+QString FetchListJob::accountName() const
 {
-  Q_D(const FetchListJob);
+    Q_D(const FetchListJob);
 
-  return d->auth;
+    return d->accountName;
 }
-
 
 
 void FetchListJob::setUrl(const QUrl &url)
 {
-  Q_D(FetchListJob);
+    Q_D(FetchListJob);
 
-  d->url = url;
+    d->url = url;
 }
 
 QUrl FetchListJob::url() const
 {
-  Q_D(const FetchListJob);
+    Q_D(const FetchListJob);
 
-  return d->url;
+    return d->url;
 }
 
 void FetchListJob::setService(const QString &service)
 {
-  Q_D(FetchListJob);
+    Q_D(FetchListJob);
 
-  d->service = service;
+    d->service = service;
 }
 
 QString FetchListJob::service() const
 {
-  Q_D(const FetchListJob);
+    Q_D(const FetchListJob);
 
-  return d->service;
+    return d->service;
 }

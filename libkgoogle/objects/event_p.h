@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject - EventData
+    libKGoogle - Objects - EventData
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -19,27 +19,27 @@
 #ifndef EVENT_P_H_
 #define EVENT_P_H_
 
-#include <qshareddata.h>
-#include <qstring.h>
+#include <QtCore/QSharedData>
 
-namespace KGoogle {
-  
-  namespace Object {
-  
-    class EventData: public QSharedData
-    {
-      public:
-	EventData() { };
-	EventData(const EventData &other);
-	~EventData() { };
-      
-	bool deleted;
-	QString id;
-	QString etag;
-    };
+namespace KGoogle
+{
 
-  } // namespace Object
-  
+namespace Objects
+{
+
+class EventData: public QSharedData
+{
+public:
+    EventData();
+    EventData(const EventData &other);
+    ~EventData() { };
+
+    bool deleted;
+    bool useDefaultReminders;
+};
+
+} // namespace Object
+
 } // namespace KGoogle
 
 

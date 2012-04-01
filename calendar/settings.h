@@ -26,30 +26,30 @@
 
 /**
  * @brief Settings object
- * 
+ *
  * Provides read-only access to application clientId and
- * clientSecret and read-write access to accessToken and 
+ * clientSecret and read-write access to accessToken and
  * refreshToken.
  */
 class Settings: public SettingsBase
 {
-  Q_OBJECT
-  Q_CLASSINFO( "D-Bus Interface", "org.kde.Akonadi.GoogleCalendar.ExtendedSettings" )
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.Akonadi.GoogleCalendar.ExtendedSettings")
   public:
     Settings();
-    void setWindowId (WId id);
+    void setWindowId(WId id);
     void setResourceId(const QString &resourceIdentifier);
     static Settings* self();
-    
+
     QString appId() const;
-    
+
     QString clientId() const;
     QString clientSecret() const;
-    
+
   private:
     WId m_winId;
     QString m_resourceId;
-   
+
 };
 
 #endif // SETTINGS_H

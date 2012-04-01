@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Google Calendars
+Name=Google Calendars and Tasks
 Name[da]=Google kalendere
 Name[de]=Google-Kalender
 Name[es]=Calendarios de Google
@@ -14,7 +14,7 @@ Name[pt_BR]=Calendários do Google
 Name[sv]=Google-kalendrar
 Name[uk]=Календарі Google
 Name[x-test]=xxGoogle Calendarsxx
-Comment=Access your Google Calendars from KDE
+Comment=Access your Google Calendars and Tasks from KDE
 Comment[da]=Tilgå dine Google kalendere fra KDE
 Comment[de]=Greifen Sie von KDE auf Ihre Google-Kalender zu
 Comment[es]=Acceda a sus calendarios de Google desde KDE
@@ -31,6 +31,6 @@ Comment[uk]=Доступ до ваших календарів Google з KDE
 Comment[x-test]=xxAccess your Google Calendars from KDExx
 Type=AkonadiResource
 Exec=akonadi_googlecalendar_resource
-X-Akonadi-MimeTypes=text/calendar,application/x-vnd.akonadi.calendar.event
+X-Akonadi-MimeTypes=text/calendar,application/x-vnd.akonadi.calendar.event,application/x-vnd.akonadi.calendar.todo
 X-Akonadi-Capabilities=Resource
 X-Akonadi-Identifier=akonadi_googlecalendar_resource

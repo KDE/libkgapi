@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Task List
+    libKGoogle - Objects - Task List
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,51 @@
 */
 
 
-#ifndef OBJECT_TASKLIST_H
-#define OBJECT_TASKLIST_H
+#ifndef LIBKGOOGLE_OBJECTS_TASKLIST_H
+#define LIBKGOOGLE_OBJECTS_TASKLIST_H
 
-#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-#include <qmetatype.h>
+#include <QtCore/QMetaType>
+#include <QtCore/QSharedPointer>
 
-namespace KGoogle {
-  
-  namespace Object {
+namespace KGoogle
+{
 
-    class LIBKGOOGLE_EXPORT TaskList: public KGoogleObject
-    {
-      public:
-	typedef QList<TaskList> List;
-	
-	TaskList();
-	virtual ~TaskList();
+namespace Objects
+{
 
-	void setTitle(const QString &title);
-	QString title();
+class TaskListData;
 
-      private:
-	QString m_title;
+class LIBKGOOGLE_EXPORT TaskList: public KGoogle::Object
+{
+  public:
+    typedef QSharedPointer< TaskList > Ptr;
+    typedef QList< TaskList > List;
 
-    };
-  } /* namespace Object */
+    TaskList();
+    TaskList (const TaskList& other);
+
+    virtual ~TaskList();
+
+    void setUid(const QString &uid);
+    QString uid() const;
+
+    void setTitle(const QString &title);
+    QString title() const;
+
+  private:
+    QSharedDataPointer< TaskListData > d;
+
+};
+
+} /* namespace Objects */
+
 } /* namespace KGoogle */
 
-Q_DECLARE_METATYPE(KGoogle::Object::TaskList)
-Q_DECLARE_METATYPE(KGoogle::Object::TaskList*)
-Q_DECLARE_METATYPE(KGoogle::Object::TaskList::List)
+Q_DECLARE_METATYPE(KGoogle::Objects::TaskList::Ptr)
+Q_DECLARE_METATYPE(KGoogle::Objects::TaskList*)
+Q_DECLARE_METATYPE(KGoogle::Objects::TaskList::List)
 
 #endif // OBJECT_TASKLIST_H

@@ -1,7 +1,8 @@
 project(libkgoogle)
 set(KGOOGLE_VERSION_MAJOR 0)
-set(KGOOGLE_VESRION_MINOR 2)
-set(KGOOGLE_VERSION 0.2)
+set(KGOOGLE_VERSION_MINOR 2)
+set(KGOOGLE_VERSION_RELEASE 90)
+set(KGOOGLE_VERSION 0.2.90)
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -18,44 +19,59 @@ add_definitions(-DLIBKGOOGLE_LIBRARY)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 set(libkgoogle_SRCS
+    accessmanager.cpp
+    accessmanager_p.cpp
+    account.cpp
+    auth.cpp
+    auth_p.cpp
     authdialog.cpp
     fetchlistjob.cpp
-    kgoogleaccessmanager.cpp 
-    kgoogleauth.cpp
-    kgoogleobject.cpp
-    kgooglereply.cpp
-    kgooglerequest.cpp 
+    object.cpp
+    request.cpp
+    reply.cpp
+    objects/accountinfo.cpp
     objects/calendar.cpp
     objects/contact.cpp
+    objects/contactsgroup.cpp
     objects/event.cpp
     objects/task.cpp
     objects/tasklist.cpp
-    services/addressbook.cpp
+    services/accountinfo.cpp
     services/calendar.cpp
+    services/contacts.cpp
     services/tasks.cpp
+    ui/accountscombo.cpp
 )
 
 set(libkgoogle_HDRS
     libkgoogle_export.h
+    accessmanager.h
+    account.h
+    auth.h
+    common.h
     fetchlistjob.h
-    kgoogleaccessmanager.h
-    kgoogleauth.h
-    kgoogleobject.h
-    kgooglereply.h
-    kgooglerequest.h
-    kgoogleservice.h)
+    object.h
+    reply.h
+    request.h
+    service.h)
 
 set(services_HDRS
-    services/addressbook.h
+    services/accountinfo.h
     services/calendar.h
+    services/contacts.h
     services/tasks.h)
 
 set(objects_HDRS
+    objects/accountinfo.h
     objects/calendar.h
     objects/contact.h
+    objects/contactsgroup.h
     objects/event.h
     objects/task.h
     objects/tasklist.h)
+
+set(ui_HDRS
+    ui/accountscombo.h)
 
 add_subdirectory(cmake)
 
@@ -67,7 +83,6 @@ target_link_libraries(kgoogle
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
 		      ${KDE4_KDEUI_LIBS}
-		      ${KDE4_KIO_LIBS}
 		      ${KDEPIMLIBS_KABC_LIBS}
 		      ${KDEPIMLIBS_KMIME_LIBS}
 		      ${qjson_LIBRARIES}	# for Debian
@@ -89,3 +104,4 @@ install(TARGETS kgoogle ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES ${libkgoogle_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle)
 install(FILES ${services_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/services)
 install(FILES ${objects_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/objects)
+install(FILES ${ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/ui)

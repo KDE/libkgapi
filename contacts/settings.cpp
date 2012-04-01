@@ -21,18 +21,19 @@
 #include "settingsadaptor.h"
 
 #include <KDE/KGlobal>
-#include <kwallet.h>
+#include <KDE/KWallet/Wallet>
 
 #include <QtDBus/QDBusConnection>
 
-class SettingsHelper {
+class SettingsHelper
+{
   public:
     SettingsHelper(): q(0) {};
     ~SettingsHelper() {
-      delete q;
-      q = 0;
+        delete q;
+        q = 0;
     }
-    
+
     Settings *q;
 };
 
@@ -40,41 +41,41 @@ K_GLOBAL_STATIC(SettingsHelper, s_globalSettings)
 
 Settings::Settings()
 {
-  Q_ASSERT (!s_globalSettings->q);
-  s_globalSettings->q = this;
-  
-  new SettingsAdaptor(this);
-  QDBusConnection::sessionBus().registerObject(QLatin1String("/Settings"), this,
-		  QDBusConnection::ExportAdaptors | QDBusConnection::ExportScriptableContents);
+    Q_ASSERT(!s_globalSettings->q);
+    s_globalSettings->q = this;
+
+    new SettingsAdaptor(this);
+    QDBusConnection::sessionBus().registerObject(QLatin1String("/Settings"), this,
+            QDBusConnection::ExportAdaptors | QDBusConnection::ExportScriptableContents);
 }
 
 Settings* Settings::self()
 {
-  if (!s_globalSettings->q) {
-    new Settings;
-    s_globalSettings->q->readConfig();
-  }
-    
-  return s_globalSettings->q;
-	
+    if (!s_globalSettings->q) {
+        new Settings;
+        s_globalSettings->q->readConfig();
+    }
+
+    return s_globalSettings->q;
+
 }
 
 QString Settings::clientId() const
 {
-  return "554041944266.apps.googleusercontent.com";
+    return "554041944266.apps.googleusercontent.com";
 }
 
 QString Settings::clientSecret() const
 {
-  return "mdT1DjzohxN3npUUzkENT0gO";
+    return "mdT1DjzohxN3npUUzkENT0gO";
 }
 
 void Settings::setWindowId(WId id)
 {
-  m_winId = id;
+    m_winId = id;
 }
 
 void Settings::setResourceId(const QString &resourceIdentificator)
 {
-  m_resourceId = resourceIdentificator;
+    m_resourceId = resourceIdentificator;
 }

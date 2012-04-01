@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Task
+    libKGoogle - Objects - Task
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -19,31 +19,62 @@
 
 #include "task.h"
 
-using namespace KGoogle;
-using namespace Object;
+#include <QtCore/QSharedData>
+
+namespace KGoogle
+{
+
+namespace Objects
+{
+
+class TaskData: public QSharedData
+{
+
+  public:
+    TaskData();
+    TaskData (const TaskData&);
+
+    bool deleted;
+};
+
+}
+
+}
+
+using namespace KGoogle::Objects;
+
+TaskData::TaskData():
+    QSharedData(),
+    deleted(false)
+{ }
+
+TaskData::TaskData (const TaskData &other):
+    QSharedData(other),
+    deleted(other.deleted)
+{ }
 
 Task::Task():
-  m_deleted(false)
+    d(new TaskData)
 { }
 
 Task::Task(const Task& other):
-  KGoogleObject(other),
+    KGoogle::Object(other),
 #ifdef WITH_KCAL
-  KCal::Todo(other),
+    KCal::Todo(other),
 #else
-  KCalCore::Todo(other),
+    KCalCore::Todo(other),
 #endif
-  m_deleted(other.m_deleted)
+    d(other.d)
 { }
 
 #ifdef WITH_KCAL
-Task::Task(const KCal::Todo &other): 
-  KCal::Todo(other),
+Task::Task(const KCal::Todo &other):
+    KCal::Todo(other),
 #else
 Task::Task(const KCalCore::Todo &other):
-  KCalCore::Todo(other),
+    KCalCore::Todo(other),
 #endif
-  m_deleted(false)
+    d(new TaskData)
 { }
 
 Task::~Task()
@@ -51,21 +82,10 @@ Task::~Task()
 
 void Task::setDeleted(const bool deleted)
 {
-  m_deleted = deleted;
+    d->deleted = deleted;
 }
 
-bool Task::deleted()
+bool Task::deleted() const
 {
-  return m_deleted;
+    return d->deleted;
 }
-
-void Task::setId(const QString& id)
-{
-  setUid(id);
-}
-
-QString Task::id()
-{
-  return uid();
-}
-

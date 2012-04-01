@@ -19,102 +19,163 @@
 #include "calendar.h"
 #include "calendar_p.h"
 
-#include <qdebug.h>
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+using namespace KGoogle::Objects;
 
-using namespace KGoogle::Object;
-
-CalendarData::CalendarData(const CalendarData &other):
-  QSharedData(other),
-  title(other.title),
-  color(other.color),
-  details(other.details),
-  timezone(other.timezone),
-  editable(other.editable),
-  created(other.created),
-  updated(other.updated)
+ReminderData::ReminderData():
+    type(Alarm::Invalid)
 { }
 
-Calendar::Calendar():
-  d(new CalendarData)
+ReminderData::ReminderData(const ReminderData &other):
+    QSharedData(other),
+    type(other.type),
+    offset(other.offset)
 { }
 
-Calendar::Calendar(const Calendar &other):
-  KGoogleObject(other),
-  d(other.d)
+Reminder::Reminder():
+    d(new ReminderData)
+{ }
+
+Reminder::Reminder (const Alarm::Type &type, const Duration& startOffset):
+    d(new ReminderData)
+{
+    d->type = type;
+    d->offset = startOffset;
+}
+
+Reminder::Reminder (const Reminder& other):
+    d(other.d)
+{ }
+
+Reminder::~Reminder()
+{ }
+
+void Reminder::setType (const Alarm::Type& type)
+{
+    d->type = type;
+}
+
+Alarm::Type Reminder::type() const
+{
+    return d->type;
+}
+
+void Reminder::setStartOffset (const Duration& startOffset)
+{
+    d->offset = startOffset;
+}
+
+Duration Reminder::startOffset() const
+{
+    return d->offset;
+}
+
+AlarmPtr Reminder::toAlarm (Incidence* incidence) const
+{
+    AlarmPtr alarm(new Alarm(incidence));
+
+    alarm->setType(d->type);
+    alarm->setStartOffset(d->offset);
+
+    return alarm;
+}
+
+
+CalendarData::CalendarData(const CalendarData &other) :
+    QSharedData(other),
+    title(other.title),
+    details(other.details),
+    timezone(other.timezone),
+    location(other.location),
+    editable(other.editable),
+    reminders(other.reminders)
+{ }
+
+Calendar::Calendar() :
+    d(new CalendarData)
+{ }
+
+Calendar::Calendar(const Calendar &other) :
+    KGoogle::Object(other),
+    d(other.d)
 { }
 
 Calendar::~Calendar()
 { }
 
 
-QString Calendar::title()
+void Calendar::setUid(const QString &uid)
 {
-  return d->title.isEmpty() ? "Google Calendar" : d->title;
+    d->uid = uid;
+}
+
+QString Calendar::uid() const
+{
+    return d->uid;
+}
+
+
+QString Calendar::title() const
+{
+    return d->title.isEmpty() ? "Google Calendar" : d->title;
 }
 
 void Calendar::setTitle(const QString &title)
 {
-  d->title = title;
+    d->title = title;
 }
 
-QString Calendar::color()
+QString Calendar::details() const
 {
-  return d->color.isEmpty() ? "#000000" : d->color;
+    return d->details;
 }
 
-void Calendar::setColor(const QString &color)
+void Calendar::setDetails(const QString &details)
 {
-  d->color = color;
+    d->details = details;
 }
 
-QString Calendar::details()
+QString Calendar::location() const
 {
-  return d->details;
+    return d->location;
 }
 
-void Calendar::setDetails(const QString& details)
+void Calendar::setLocation(const QString &location)
 {
-  d->details = details;
+    d->location = location;
 }
 
-QString Calendar::timezone()
+QString Calendar::timezone() const
 {
-  return d->timezone;
+    return d->timezone;
 }
 
-void Calendar::setTimezone(const QString& timezone)
+void Calendar::setTimezone(const QString &timezone)
 {
-  d->timezone = timezone;
+    d->timezone = timezone;
 }
 
-bool Calendar::editable()
+bool Calendar::editable() const
 {
-  return d->editable;
+    return d->editable;
 }
 
 void Calendar::setEditable(const bool editable)
 {
-  d->editable = editable;
+    d->editable = editable;
 }
 
-KDateTime Calendar::created()
+void Calendar::setDefaultReminders(const Reminder::List &reminders)
 {
-  return d->created;
+    d->reminders = reminders;
 }
 
-void Calendar::setCreated(const KDateTime& created)
+void Calendar::addDefaultReminer(const Reminder::Ptr &reminder)
 {
-  d->created = created;
+    d->reminders.append(reminder);
 }
 
-KDateTime Calendar::updated()
+Reminder::List Calendar::defaultReminders() const
 {
-  return d->updated;
+    return d->reminders;
 }
 
-void Calendar::setUpdated(const KDateTime& updated)
-{
-  d->updated = updated;
-}

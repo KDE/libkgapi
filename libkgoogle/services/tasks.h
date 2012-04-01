@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Tasks service
+    libKGoogle - Services - Tasks
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,129 +17,168 @@
 */
 
 
-#ifndef SERVICE_TASKS_H
-#define SERVICE_TASKS_H
+#ifndef LIBKGOOGLE_SERVICES_TASKS_H
+#define LIBKGOOGLE_SERVICES_TASKS_H
 
-#include <libkgoogle/kgoogleservice.h>
+#include <libkgoogle/service.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-namespace KGoogle {
-  
-  class KGoogleObject;
-  
-  namespace Service {
+namespace KGoogle
+{
 
-    class LIBKGOOGLE_EXPORT Tasks: public KGoogleService
-    {
-      public:
-	~Tasks();
-	
-	/**
-	 * Implementation of KGoogleService::JSONToObject()
-	 */
-	KGoogleObject* JSONToObject(const QByteArray& jsonData);
-	
-	/**
-	 * Implementation of KGoogleService::objectTOJSON()
-	 */
-	QByteArray objectToJSON(KGoogleObject* object);
-	
-	/**
-	 * Implementation of KGoogleService::parseJSONFeed()
-	 */
-	QList< KGoogleObject* > parseJSONFeed(const QByteArray& jsonFeed, FeedData* feedData = 0);
-	
-	/**
-	 * Does nothing since Google Tasks API does not support XML.
-	 */
-	QByteArray objectToXML(KGoogleObject* object);
-	
-	/**
-	 * Does nothing since Google Tasks API does not support XML.
-	 */	
-	QList< KGoogleObject* > parseXMLFeed(const QByteArray& xmlFeed, FeedData* feedData = 0);
-	
-	/**
-	 * Does nothing since Google Tasks API does not support XML.
-	 */	
-	KGoogleObject* XMLToObject(const QByteArray& xmlData);
-      
-	/**
-	 * Implementation of KGoogleService::protocolVersion().
-	 * 
-	 * Tasks API does not have any version number, thus this function
-	 * returns an empty string.
-	 */
-	const QString protocolVersion();
+class Object;
 
-	/**
-	 * Returns scope URL for Google Tasks service.
-	 */
-	static QString scopeUrl();
-	
-	/**
-	 * Returns URL for KGoogleRequest::Create requests for tasks.
-	 */
-	static QString createTaskUrl();
-	
-	/**
-	 * Returns URL for KGoogleRequest::FetchAll requests for tasks.
-	 */
-	static QString fetchAllTasksUrl();
-	
-	/**
-	 * Returns URL for KGoogleRequest::Fetch requests for tasks.
-	 */
-	static QString fetchTaskUrl();
-	
-	/**
-	 * Returns URL for KGoogleRequest::Update requests for tasks.
-	 */
-	static QString updateTaskUrl();
-	
-	/**
-	 * Returns URL for KGoogleRequest::Remove requests for tasks.
-	 */
-	static QString removeTaskUrl();
-	
-	/**
-	 * Returns URL for KGoogleRequest::Update request for tasks.
-	 * This URL is used specially for moving tasks to another parents.
-	 */
-	static QString moveTaskUrl();
-	
-	/**
-	 * Returns URL for KGoogleRequest::FetchAll requests for tasks lists
-	 */
-	static QString fetchTaskListsUrl();
-	
-	/**
-	 * Returns wheter service supports reading data in JSON format.
-	 * 
-	 * @param urlParam Returns empty string, because Tasks API supports
-	 * only JSON, so there's no need for explicit parameter for it.
-	 */
-	static bool supportsJSONRead(QString* urlParam);
-	
-	/**
-	 * Returns wheter service supports writing data in JSON format.
-	 * 
-	 * @param urlParam Returns empty string, because Tasks API supports
-	 * only JSON, so there's no need for explicit parameter for it.
-	 */
-	static bool supportsJSONWrite(QString* urlParam);
-	
-      private:
-	QList< KGoogleObject* > parseTaskListJSONFeed(QVariantList items);
-	QList< KGoogleObject* > parseTasksJSONFeed(QVariantList items);
-	
-	KGoogleObject* JSONToTaskList(QVariantMap jsonData);
-	QVariantMap taskListToJSON(KGoogleObject *taskList);
-	
-	KGoogleObject* JSONToTask(QVariantMap jsonData);
-	QVariantMap taskToJSON(KGoogleObject *task);
-    };
-  } /* namespace Service */
+namespace Services
+{
+
+class TasksPrivate;
+
+class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
+{
+  public:
+
+    static QUrl ScopeUrl;
+
+    /**
+     * Implementation of KGoogle::Service::JSONToObject()
+     */
+    KGoogle::Object* JSONToObject(const QByteArray& jsonData);
+
+    /**
+     * Implementation of KGoogle::Service::objectTOJSON()
+     */
+    QByteArray objectToJSON(KGoogle::Object* object);
+
+    /**
+     * Implementation of KGoogle::Service::parseJSONFeed()
+     */
+    QList< KGoogle::Object* > parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
+
+    /**
+     * Does nothing since Google Tasks API does not support XML.
+     */
+    QByteArray objectToXML(KGoogle::Object* object);
+
+    /**
+     * Does nothing since Google Tasks API does not support XML.
+     */
+    QList< KGoogle::Object* > parseXMLFeed(const QByteArray& xmlFeed, FeedData& feedData);
+
+    /**
+     * Does nothing since Google Tasks API does not support XML.
+     */
+    KGoogle::Object* XMLToObject(const QByteArray& xmlData);
+
+    /**
+     * Implementation of KGoogle::Service::protocolVersion().
+     *
+     * Tasks API does not have any version number, thus this function
+     * returns an empty string.
+     */
+    QString protocolVersion() const;
+
+    /**
+     * Returns scope URL for Google Tasks service.
+     *
+     * https://www.googleapis.com/auth/tasks
+     */
+    const QUrl& scopeUrl() const;
+
+    /**
+     * Returns URL for KGoogle::Request::Create requests for tasks.
+     *
+     * @param tasklistID ID of parent task list
+     */
+    static QUrl createTaskUrl(const QString &tasklistID);
+
+    /**
+     * Returns URL for KGoogle::Request::FetchAll requests for tasks.
+     *
+     * @param tasklistID ID of parent task list
+     */
+    static QUrl fetchAllTasksUrl(const QString &tasklistID);
+
+    /**
+     * Returns URL for KGoogle::Request::Fetch requests for tasks.
+     *
+     * @param tasklistID ID of parent task list
+     * @param taskID ID of task to fetch
+     */
+    static QUrl fetchTaskUrl(const QString &tasklistID, const QString &taskID);
+
+    /**
+     * Returns URL for KGoogle::Request::Update requests for tasks.
+     *
+     * @param tasklistID ID of parent task list
+     * @param taskID ID of task to update
+     */
+    static QUrl updateTaskUrl(const QString &tasklistID, const QString &taskID);
+
+    /**
+     * Returns URL for KGoogle::Request::Remove requests for tasks.
+     *
+     * @param tasklistID ID of parent task list
+     * @param taskID ID of task to remove
+     */
+    static QUrl removeTaskUrl(const QString &tasklistID, const QString &taskID);
+
+    /**
+     * Returns URL for KGoogle::Request::Update request for tasks.
+     * This URL is used specially for moving tasks to another parents.
+     *
+     * @param tasklistID ID of parent task list
+     * @param taskID ID of task to move
+     * @param newParent UID of new parent item
+     */
+    static QUrl moveTaskUrl(const QString &tasklistID, const QString &taskID, const QString &newParent);
+
+    /**
+     * Returns URL for KGoogle::Request::FetchAll requests for tasks lists
+     */
+    static QUrl fetchTaskListsUrl();
+
+    /**
+     * Returns URL for KGoogle::Request::Creata requests for tasks lists.
+     */
+    static QUrl createTaskListUrl();
+
+    /**
+     * Returns URL for KGoogle::Request::Update requests for task lists.
+     *
+     * @param tasklistID ID of task list to update
+     */
+    static QUrl updateTaskListUrl(const QString &tasklistID);
+
+    /**
+     * Returns URL for KGoogle::Request::Remove requests for task lists.
+     *
+     * @param tasklistID ID of task list to remove
+     */
+    static QUrl removeTaskListUrl(const QString &tasklistID);
+
+    /**
+     * Returns wheter service supports reading data in JSON format.
+     *
+     * @param urlParam Returns empty string, because Tasks API supports
+     * only JSON, so there's no need for explicit parameter for it.
+     */
+    static bool supportsJSONRead(QString* urlParam);
+
+    /**
+     * Returns wheter service supports writing data in JSON format.
+     *
+     * @param urlParam Returns empty string, because Tasks API supports
+     * only JSON, so there's no need for explicit parameter for it.
+     */
+    static bool supportsJSONWrite(QString* urlParam);
+
+  private:
+    TasksPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(Tasks);
+};
+
+} /* namespace Services */
+
 } /* namespace KGoogle */
 
 #endif // SERVICE_TASKS_H

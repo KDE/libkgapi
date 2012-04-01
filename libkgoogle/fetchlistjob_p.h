@@ -19,88 +19,107 @@
 #ifndef LIBKGOOGLE_FETCHLISTJOB_P_H
 #define LIBKGOOGLE_FETCHLISTJOB_P_H
 
-#include <qobject.h>
+#include <QtCore/QObject>
 
 #include "fetchlistjob.h"
 
-#include "kgoogleaccessmanager.h"
-#include "kgooglereply.h"
-#include "kgoogleauth.h"
+#include "accessmanager.h"
+#include "reply.h"
+#include "auth.h"
 
-namespace KGoogle {
+namespace KGoogle
+{
 
-  class FetchListJobPrivate: public QObject
-  {
+/**
+ * \internal
+ */
+class FetchListJobPrivate: public QObject
+{
     Q_OBJECT
 
   public:
-    explicit FetchListJobPrivate(FetchListJob* const parent, KGoogleAuth *auth):
-    QObject(0),
-    q_ptr(parent)
+    explicit FetchListJobPrivate(FetchListJob* const parent):
+        QObject(0),
+        request(0),
+        q_ptr(parent)
     {
-      gam = new KGoogleAccessManager(auth);
-      connect(gam, SIGNAL(replyReceived(KGoogleReply*)),
-	      this, SLOT(replyReceived(KGoogleReply*)));
-      connect(gam, SIGNAL(requestFinished(KGoogleRequest*)),
-	      this, SLOT(requestFinished(KGoogleRequest*)));
-      connect(gam, SIGNAL(error(QString,int)),
-	      this, SLOT(error(QString,int)));
+        gam = new AccessManager();
+        connect(gam, SIGNAL(replyReceived(KGoogle::Reply*)),
+                this, SLOT(replyReceived(KGoogle::Reply*)));
+        connect(gam, SIGNAL(requestFinished(KGoogle::Request*)),
+                this, SLOT(requestFinished(KGoogle::Request*)));
+        connect(gam, SIGNAL(error(KGoogle::Error, QString)),
+                this, SLOT(error(KGoogle::Error, QString)));
+        connect(gam, SIGNAL(requestProgress(KGoogle::Request*, int, int)),
+                this, SLOT(gamRequestProgress(KGoogle::Request*, int, int)));
 
-      isRunning = false;
+        isRunning = false;
     }
 
     virtual ~FetchListJobPrivate()
     {
-      delete gam;
-      delete request;
+        if (gam)
+            delete gam;
+
+        if (request)
+            delete request;
     }
 
-    KGoogleRequest *request;
-    KGoogleAccessManager *gam;
-    QList< KGoogleObject* > items;
+    KGoogle::Request *request;
+    KGoogle::AccessManager *gam;
+    QList< KGoogle::Object* > items;
 
     QUrl url;
-    KGoogleRequest::RequestType requestType;
+    KGoogle::Request::RequestType requestType;
     QString service;
-    KGoogleAuth *auth;
+    QString accountName;
 
     bool isRunning;
 
   private Q_SLOTS:
-    void replyReceived(KGoogleReply *reply)
+    void replyReceived(KGoogle::Reply *reply)
     {
-      items << reply->replyData();
+        items << reply->replyData();
 
-      delete reply;
+        delete reply;
     }
 
-    void requestFinished(KGoogleRequest *request)
+    void requestFinished(KGoogle::Request *request)
     {
-      Q_Q(FetchListJob);
+        Q_Q(FetchListJob);
 
-      isRunning = false;
+        isRunning = false;
 
-      q->emitResult();
+        q->emitResult();
 
-      Q_UNUSED(request);
+        Q_UNUSED(request);
     }
 
-    void error(const QString &err, int code)
+    void error(KGoogle::Error errCode, const QString &msg)
     {
-      Q_Q(FetchListJob);
+        Q_Q(FetchListJob);
 
-      if (code == KGoogleReply::OK)
-	return;
+        if (errCode == KGoogle::OK)
+            return;
 
-      q->setError(code);
-      q->setErrorText(err);
+        q->setError(errCode);
+        q->setErrorText(msg);
+    }
+
+    void gamRequestProgress(KGoogle::Request *request, int processed, int total)
+    {
+        Q_Q(FetchListJob);
+
+        q->emitPercent(processed, total);
+
+        Q_UNUSED(request);
     }
 
   private:
     KGoogle::FetchListJob * const q_ptr;
     Q_DECLARE_PUBLIC(FetchListJob);
 
-  };
+};
 
 }
 

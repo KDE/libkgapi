@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject - Event
+    libKGoogle - Objects - Event
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,8 @@
 #include "event.h"
 #include "event_p.h"
 
-#include <qvariant.h>
-#include <qstring.h>
-#include <qdebug.h>
+#include <QtCore/QVariant>
+#include <QtCore/QString>
 
 using namespace KGoogle;
 
@@ -32,67 +31,67 @@ using namespace KCal;
 using namespace KCalCore;
 #endif
 
-Object::EventData::EventData(const Object::EventData &other):
-    QSharedData(other),
-    deleted(other.deleted),
-    id(other.id),
-    etag(other.etag)
+Objects::EventData::EventData():
+    deleted(false),
+    useDefaultReminders(false)
 { }
 
+Objects::EventData::EventData(const Objects::EventData &other):
+    QSharedData(other),
+    deleted(other.deleted),
+    useDefaultReminders(other.useDefaultReminders)
+{ }
 
-Object::Event::Event()
+Objects::Event::Event()
 {
     d = new EventData;
 }
 
-Object::Event::Event(const Object::Event &other):
-  KGoogleObject(other),
+Objects::Event::Event(const Objects::Event &other):
+    KGoogle::Object(other),
 #ifdef WITH_KCAL
-  KCal::Event(other),
+    KCal::Event(other),
 #else
-  KCalCore::Event(other),
+    KCalCore::Event(other),
 #endif
-  d(other.d)
+    d(other.d)
 { }
 
 #ifdef WITH_KCAL
-Object::Event::Event(const KCal::Event &event): 
-  KCal::Event(event),
+Objects::Event::Event(const KCal::Event &event):
+    KCal::Event(event),
 #else
-Object::Event::Event(const KCalCore::Event &event):
-  KCalCore::Event(event),
+Objects::Event::Event(const KCalCore::Event &event):
+    KCalCore::Event(event),
 #endif
-  d(new EventData)
+    d(new EventData)
 { }
 
-
-Object::Event::~Event()
+Objects::Event::~Event()
 { }
 
-void Object::Event::setDeleted(const bool deleted)
+void Objects::Event::setDeleted(const bool deleted)
 {
-  d->deleted = deleted;
+    d->deleted = deleted;
 }
 
-bool Object::Event::deleted()
+bool Objects::Event::deleted() const
 {
-  return d->deleted;
+    return d->deleted;
 }
 
-void Object::Event::setId(const QString& id)
+void Objects::Event::setUseDefaultReminders(const bool& useDefault)
 {
-  setUid(id);
+    d->useDefaultReminders = useDefault;
 }
 
-QString Object::Event::id()
+bool Objects::Event::useDefaultReminders() const
 {
-  return uid();
+    return d->useDefaultReminders;
 }
 
-
-
-Object::Event& Object::Event::operator=( const Object::Event& other )
+Objects::Event& Objects::Event::operator=(const Objects::Event& other)
 {
-  d = other.d;
-  return *this;
+    d = other.d;
+    return *this;
 }

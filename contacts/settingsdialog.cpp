@@ -23,84 +23,126 @@
 #include "ui_settingsdialog.h"
 #include "settings.h"
 
-#include "libkgoogle/kgoogleauth.h"
+#include <libkgoogle/auth.h>
+#include <libkgoogle/services/contacts.h>
+
 
 using namespace KGoogle;
 
-SettingsDialog::SettingsDialog(WId windowId, KGoogleAuth *googleAuth, QWidget* parent):
-  KDialog(parent),
-  m_windowId (windowId),
-  m_googleAuth(googleAuth)
-{
-  KWindowSystem::setMainWindow(this, windowId);
+enum {
+    KGoogleObjectRole = Qt::UserRole,
+    ObjectUIDRole
+};
 
-  this->setButtons (Close);
-  
-  connect(m_googleAuth, SIGNAL(tokensRecevied(QString,QString)),
-	  this, SLOT(authenticated(QString,QString)));
-  
-  m_mainWidget = new QWidget();
-  m_ui = new Ui::SettingsDialog();
-  m_ui->setupUi(m_mainWidget);
-  setMainWidget(m_mainWidget);
-  
-  connect(m_ui->revokeAccessButton, SIGNAL(clicked(bool)),
-	  this, SLOT(revokeTokens()));
-  connect(m_ui->authenticateButton, SIGNAL(clicked(bool)),
-	  this, SLOT(authenticate()));
-  connect(m_ui->refreshAddressbookCheckBox, SIGNAL(clicked(bool)),
-	  m_ui->refreshIntervalSpinBox, SLOT(setEnabled(bool)));
-  
-  m_ui->refreshAddressbookCheckBox->setChecked(Settings::self()->refreshAddressbook());
-  m_ui->refreshIntervalSpinBox->setEnabled(m_ui->refreshAddressbookCheckBox->isChecked());
-  m_ui->refreshIntervalSpinBox->setValue(Settings::self()->refreshInterval());
-  
-  if (m_googleAuth->accessToken().isEmpty()) {
-    setAuthenticated(false);
-  } else {
-    setAuthenticated(true);
-  }
+SettingsDialog::SettingsDialog(WId windowId, QWidget *parent):
+    KDialog(parent),
+    m_windowId(windowId)
+{
+    KWindowSystem::setMainWindow(this, windowId);
+
+    qRegisterMetaType<KGoogle::Services::Contacts>("Contacts");
+
+    this->setButtons(Ok | Cancel);
+
+    m_mainWidget = new QWidget();
+    m_ui = new ::Ui::SettingsDialog();
+    m_ui->setupUi(m_mainWidget);
+    setMainWidget(m_mainWidget);
+
+    m_ui->addAccountBtn->setIcon(QIcon::fromTheme("list-add-user"));
+    m_ui->removeAccountBtn->setIcon(QIcon::fromTheme("list-remove-user"));
+
+    connect(this, SIGNAL(accepted()),
+            this, SLOT(saveSettings()));
+
+    connect(m_ui->addAccountBtn, SIGNAL(clicked(bool)),
+            this, SLOT(addAccountClicked()));
+    connect(m_ui->removeAccountBtn, SIGNAL(clicked(bool)),
+            this, SLOT(removeAccountClicked()));
+
+    KGoogle::Auth *auth = KGoogle::Auth::instance();
+    connect(auth, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
+            this, SLOT(reloadAccounts()));
+
+    reloadAccounts();
 }
 
 SettingsDialog::~SettingsDialog()
 {
-  Settings::self()->setRefreshAddressbook(m_ui->refreshAddressbookCheckBox->isChecked());
-  Settings::self()->setRefreshInterval(m_ui->refreshIntervalSpinBox->value());
-  Settings::self()->writeConfig();  
-  
-  delete m_ui;
-  delete m_mainWidget;
+    delete m_ui;
+    delete m_mainWidget;
 }
 
-void SettingsDialog::setAuthenticated(bool authenticated)
+void SettingsDialog::saveSettings()
 {
-  m_ui->authenticateButton->setVisible(!authenticated);
-  m_ui->authenticateLabel->setVisible(!authenticated);
-  
-  m_ui->revokeAccessButton->setVisible(authenticated);
-  m_ui->revokeAccessLabel->setVisible(authenticated);
+    Settings::self()->setAccount(m_ui->accountsCombo->currentText());
+    Settings::self()->writeConfig();
 }
 
 
-void SettingsDialog::authenticated(QString accessToken, QString refreshToken)
+void SettingsDialog::error(KGoogle::Error errCode, const QString &msg)
 {
-  if (!accessToken.isEmpty() && !refreshToken.isEmpty()) {
-    setAuthenticated(true);
-  } else {
-    setAuthenticated(false);
-  }
+    if (errCode == KGoogle::OK)
+        return;
+
+    KMessageBox::error(this, msg, i18n("An error occured"));
+
+    m_ui->accountsBox->setEnabled(true);
 }
 
-void SettingsDialog::authenticate()
+
+void SettingsDialog::reloadAccounts()
 {
-  m_googleAuth->requestToken(0);
+    m_ui->accountsCombo->reload();
+
+    QString accName = Settings::self()->account();
+    int index = -1;
+
+    if (!accName.isEmpty())
+        index = m_ui->accountsCombo->findText(accName);
+
+    if (index > -1) {
+        m_ui->accountsCombo->setCurrentIndex(index);
+    }
 }
 
-void SettingsDialog::revokeTokens()
+void SettingsDialog::addAccountClicked()
 {
-  m_googleAuth->revokeTokens();
-  
-  Settings::self()->lastSync().clear();
+    KGoogle::Auth *auth = KGoogle::Auth::instance();
 
-  setAuthenticated(false);
+    KGoogle::Account::Ptr account(new KGoogle::Account());
+    account->addScope(Services::Contacts::ScopeUrl);
+
+    try {
+        auth->authenticate(account, true);
+    } catch (KGoogle::Exception::BaseException &e) {
+        KMessageBox::error(this, e.what());
+    }
+}
+
+void SettingsDialog::removeAccountClicked()
+{
+    KGoogle::Account::Ptr account = m_ui->accountsCombo->currentAccount();
+
+    if (account.isNull())
+        return;
+
+    if (KMessageBox::warningYesNo(this,
+          i18n("Do you really want to revoke access to account <b>%1</b>?"
+               "<br>This will revoke access to all application using this account!", account->accountName()),
+          i18n("Revoke Access?"),
+          KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) != KMessageBox::Yes) {
+
+        return;
+    }
+
+    KGoogle::Auth *auth = KGoogle::Auth::instance();
+
+    try {
+        auth->revoke(account);
+    } catch (KGoogle::Exception::BaseException &e) {
+        KMessageBox::error(this, e.what());
+    }
+
+    reloadAccounts();
 }

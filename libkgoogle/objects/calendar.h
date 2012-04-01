@@ -1,5 +1,5 @@
 /*
-    libKGoogle - KGoogleObject - Calendar
+    libKGoogle - Objects - Calendar
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,129 +17,169 @@
 */
 
 
-#ifndef OBJECT_CALENDAR_H
-#define OBJECT_CALENDAR_H
+#ifndef LIBKGOOGLE_OBJECTS_CALENDAR_H
+#define LIBKGOOGLE_OBJECTS_CALENDAR_H
 
-#include <libkgoogle/kgoogleobject.h>
+#include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-#include <qsharedpointer.h>
-#include <qmetatype.h>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QMetaType>
 
-#include <kdatetime.h>
+#ifdef WITH_KCAL
+#include <KDE/KCal/Alarm>
+#include <KDE/KCal/Incidence>
+typedef KCal::Alarm* AlarmPtr;
+using namespace KCal;
+#else
+#include <KDE/KCalCore/Alarm>
+#include <KDE/KCalCore/Incidence>
+typedef KCalCore::Alarm::Ptr AlarmPtr;
+using namespace KCalCore;
+#endif
 
-namespace KGoogle {
-  
-  namespace Object {
+namespace KGoogle
+{
 
-    class CalendarData;    
-    
+namespace Objects
+{
+
+class ReminderData;
+
+/**
+ * Represents default calendar reminder.
+ */
+class LIBKGOOGLE_EXPORT Reminder
+{
+    public:
+        typedef QSharedPointer< Reminder > Ptr;
+        typedef QList< Ptr > List;
+
+        Reminder();
+        Reminder(const Alarm::Type &type, const Duration &startOffset = Duration(0));
+        Reminder(const Reminder &other);
+
+        ~Reminder();
+
+        Alarm::Type type() const;
+
+        void setType(const Alarm::Type &type);
+
+        Duration startOffset() const;
+
+        void setStartOffset(const Duration &startOffset);
+
+        AlarmPtr toAlarm(Incidence *incidence) const;
+
+    private:
+        QExplicitlySharedDataPointer < ReminderData > d;
+};
+
+class CalendarData;
+
+/**
+ * Represents a calendar.
+ */
+class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Object
+{
+
+  public:
+    typedef QSharedPointer<Calendar> Ptr;
+    typedef QList<Calendar> List;
+
+    Calendar();
+
+    Calendar(const Calendar &other);
+
+    ~Calendar();
+
     /**
-     * Represents a calendar.
+     * Sets UID of the calendar.
      */
-    class LIBKGOOGLE_EXPORT Calendar: public KGoogleObject
-    {
-      
-      public:
-	typedef QSharedPointer<Calendar> Ptr;
-	typedef QList<Calendar> List;
+    void setUid(const QString &uid);
 
-	Calendar();
+    /**
+     * Returns uID of the calendar.
+     */
+    QString uid() const;
 
-	Calendar(const Calendar &other);
+    /**
+     * Returns calendar title (name).
+     */
+    QString title() const;
 
-	~Calendar();
-    
-	/**
-	 * Returns calendar title (name).
-	 */
-	QString title();
-	
-	/**
-	 * Sets a calendar title (name).
-	 */
-	void setTitle(const QString &title);
-    
-	/**
-	 * Returns color of the remote calendar. 
-	 */
-	QString color();
-	
-	/**
-	 * Sets color of the remote calendar.
-	 */
-	void setColor(const QString &color);
+    /**
+     * Sets a calendar title (name).
+     */
+    void setTitle(const QString &title);
 
-	/**
-	 * Returns detailed description of the calendar.
-	 */
-	QString details();
-	
-	/**
-	 * Sets detailed description of a calenar.
-	 */
-	void setDetails(const QString &details);
+    /**
+     * Returns detailed description of the calendar.
+     */
+    QString details() const;
 
-	/**
-	 * Returns timezone of the calendar.
-	 */
-	QString timezone();
-	
-	/**
-	 * Sets timezone of the calendar.
-	 */
-	void setTimezone(const QString &timezone);
+    /**
+     * Sets detailed description of a calenar.
+     */
+    void setDetails(const QString &details);
 
-	/**
-	 * Returns wheter calendar is editable or read-only.
-	 */
-	bool editable();
-	
-	/**
-	 * Sets calendar to read-only or editable.
-	 */
-	void setEditable(const bool editable);
+    /**
+     * Returns geographic location of the calendar.
+     */
+    QString location() const;
 
-	/**
-	 * Returns date and time when the calendar was created
-	 * on the remote server.
-	 */
-	KDateTime created();
-	
-	/**
-	 * Sets date and time when the calendar was created on
-	 * the remote server.
-	 */
-	void setCreated(const KDateTime &created);
-     
-	/**
-	 * Returns date and time when the calendar was last
-	 * updated on the remote server. 
-	 * 
-	 * This value does not reflect last update of calendar content,
-	 * but just it's properties.
-	 */
-	KDateTime updated();
+    /**
+     * Sets geographic location of the calendar.
+     */
+    void setLocation(const QString &location);
 
-	/**
-	 * Sets date and time when the calendar properties were last
-	 * updated on the remote server. This does not include updated
-	 * of calendar content.
-	 */
-	void setUpdated(const KDateTime &updated);
+    /**
+     * Returns timezone of the calendar.
+     */
+    QString timezone() const;
 
-      protected:
-	QExplicitlySharedDataPointer<CalendarData> d;
+    /**
+     * Sets timezone of the calendar.
+     */
+    void setTimezone(const QString &timezone);
 
-    };
-    
-  } // namespace Object
-  
+    /**
+     * Returns wheter calendar is editable or read-only.
+     */
+    bool editable() const;
+
+    /**
+     * Sets calendar to read-only or editable.
+     */
+    void setEditable(const bool editable);
+
+    /**
+     * Sets default reminders for all new events in the calendar.
+     */
+    void setDefaultReminders(const Reminder::List &reminders);
+
+    /**
+     * Adds a default reminder for all events in the calendar.
+     */
+    void addDefaultReminer(const Reminder::Ptr &reminder);
+
+    /**
+     * Returns defalut reminders for all events in the calendar.
+     */
+    Reminder::List defaultReminders() const;
+
+  protected:
+    QSharedDataPointer<CalendarData> d;
+
+};
+
+} // namespace Objects
+
 } // namespace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::Object::Calendar)
-Q_DECLARE_METATYPE(KGoogle::Object::Calendar*)
-Q_DECLARE_METATYPE(KGoogle::Object::Calendar::Ptr)
-Q_DECLARE_METATYPE(KGoogle::Object::Calendar::List)
+Q_DECLARE_METATYPE(KGoogle::Objects::Calendar)
+Q_DECLARE_METATYPE(KGoogle::Objects::Calendar*)
+Q_DECLARE_METATYPE(KGoogle::Objects::Calendar::Ptr)
+Q_DECLARE_METATYPE(KGoogle::Objects::Calendar::List)
 
-#endif // OBJECT_CALENDAR_H
+#endif // LIBKGOOGLE_OBJECTS_CALENDAR_H

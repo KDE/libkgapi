@@ -1,5 +1,5 @@
 /*
-    libKGoogle - Task List
+    libKGoogle - Objects - Task List
     Copyright (C) 2011  Dan Vratil <dan@progdan.cz>
 
     This program is free software: you can redistribute it and/or modify
@@ -19,26 +19,68 @@
 
 #include "tasklist.h"
 
-using namespace KGoogle;
-using namespace Object;
-
-TaskList::TaskList()
+namespace KGoogle
 {
 
+namespace Objects
+{
+
+class TaskListData: public QSharedData
+{
+  public:
+    TaskListData();
+    TaskListData(const TaskListData &other);
+    QString title;
+    QString uid;
+};
+
 }
+
+}
+
+using namespace KGoogle::Objects;
+
+TaskListData::TaskListData()
+{ }
+
+TaskListData::TaskListData (const TaskListData& other):
+    QSharedData(other),
+    title(other.title),
+    uid(other.uid)
+{ }
+
+TaskList::TaskList():
+    d(new TaskListData)
+{ }
+
+TaskList::TaskList (const TaskList& other):
+    Object(other),
+    d(other.d)
+{ }
+
 
 TaskList::~TaskList()
 {
 
 }
 
-void TaskList::setTitle(const QString& title)
+void TaskList::setUid(const QString &uid)
 {
-  m_title = title;
+    d->uid = uid;
 }
 
-QString TaskList::title()
+QString TaskList::uid() const
 {
-  return m_title;
+    return d->uid;
+}
+
+void TaskList::setTitle(const QString& title)
+{
+    d->title = title;
+}
+
+QString TaskList::title() const
+{
+    return d->title;
 }
 

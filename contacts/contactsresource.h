@@ -20,22 +20,20 @@
 #ifndef CONTACTSRESOURCE_H
 #define CONTACTSRESOURCE_H
 
-#include <QtCore/QPointer>
-#include <QtCore/QMap>
-#include <QtCore/QList>
-
-#include <KDE/KDateTime>
 #include <KDE/Akonadi/ResourceBase>
 #include <KDE/Akonadi/AgentBase>
 #include <KDE/Akonadi/Collection>
 #include <KDE/Akonadi/Item>
+#include <KDE/KDateTime>
 
-#include "objects/contact.h"
+#include <libkgoogle/common.h>
+#include <libkgoogle/account.h>
 
-namespace KGoogle {
-  class KGoogleAccessManager;
-  class KGoogleAuth;
-  class KGoogleReply;
+namespace KGoogle
+{
+class AccessManager;
+class Reply;
+class Request;
 };
 
 class QNetworkAccessManager;
@@ -45,27 +43,27 @@ using namespace KGoogle;
 
 /**
  * @brief An Akonadi resource for retrieving contacts from
- * 	  Google Contacts service.
- * 
+ *    Google Contacts service.
+ *
  * The resource is using asynchronous KJobs for retrieving, inserting,
  * updating and removing contacts from remote address book.
- * 
+ *
  * As each Google account can have only one address book, one resource
- * for each Google accounts has to be created if user wants to have 
+ * for each Google accounts has to be created if user wants to have
  * access to multiple addressbook accross multiple accounts.
  */
 class ContactsResource: public Akonadi::ResourceBase,
-			public Akonadi::AgentBase::Observer
+    public Akonadi::AgentBase::ObserverV2
 {
-  Q_OBJECT
+    Q_OBJECT
 
   public:
     /**
      * @brief Creates new resource.
-     * 
+     *
      * @param id Unique identificator of the resource assigned by Akonadi
      */
-    ContactsResource (const QString &id);
+    ContactsResource(const QString &id);
 
     ~ContactsResource();
 
@@ -74,17 +72,16 @@ class ContactsResource: public Akonadi::ResourceBase,
   public Q_SLOTS:
     /**
      * @brief Opens configuration dialog
-     * 
+     *
      * As of now, the AuthDialog is invoked without any
      * other settings dialog informing about what's going
      * on or allowing to revoke the tokens.
-     * 
+     *
      * @todo Display a dialog with options to revoke tokens
-     * 	     or authenticate and with an information about
-     * 	     account to which the resource is authenticated
+     *       or authenticate and with an information about
+     *       account to which the resource is authenticated
      */
-    virtual void configure (WId windowID);
-
+    virtual void configure(WId windowID);
 
   protected Q_SLOTS:
     /**
@@ -94,9 +91,9 @@ class ContactsResource: public Akonadi::ResourceBase,
 
     /**
      * @brief Retrieves all items from remote server.
-     * 
+     *
      * @todo Don't fetch all items every time from remote server,
-     * 	     ask only for items updated since last synchronization.
+     *       ask only for items updated since last synchronization.
      */
     void retrieveItems(const Akonadi::Collection& collection);
 
@@ -108,38 +105,43 @@ class ContactsResource: public Akonadi::ResourceBase,
     void itemRemoved(const Akonadi::Item& item);
     void itemAdded(const Akonadi::Item& item, const Akonadi::Collection& collection);
     void itemChanged(const Akonadi::Item& item, const QSet< QByteArray >& partIdentifiers);
-
-    void emitPercent(KJob *job, ulong progress) { emit percent(progress); Q_UNUSED (job) }
+    void itemMoved(const Akonadi::Item& item, const Akonadi::Collection& collectionSource,
+                   const Akonadi::Collection& collectionDestination);
 
   protected:
     void aboutToQuit();
 
   private Q_SLOTS:
-    void slotGAMError(const QString &msg, const int errorCode);
-    void slotAuthError(const QString &msg);
+    void error(KGoogle::Error errCode, const QString &msg);
+
     void slotAbortRequested();
-    void tokensReceived();
-    void initialItemFetchJobFinished(KJob *job);
+
+    void initialItemsFetchJobFinished(KJob *job);
     void contactListReceived(KJob *job);
+
     void photoRequestFinished(QNetworkReply *reply);
 
-    void replyReceived(KGoogleReply *reply);
+    void replyReceived(KGoogle::Reply *reply);
 
-    void contactReceived(KGoogleReply *reply);
-    void contactUpdated(KGoogleReply *reply);
-    void contactCreated(KGoogleReply *reply);
-    void contactRemoved(KGoogleReply *reply);
+    void contactReceived(KGoogle::Reply *reply);
+    void contactUpdated(KGoogle::Reply *reply);
+    void contactCreated(KGoogle::Reply *reply);
+    void contactRemoved(KGoogle::Reply *reply);
+
+    void emitPercent(KJob *job, ulong progress);
 
   private:
     void abort();
 
     void updatePhoto(Akonadi::Item &item);
-    void fetchPhoto(Akonadi::Item &item, const QString &photoUrl);
+    void fetchPhoto(Akonadi::Item &item);
 
-    KGoogle::KGoogleAccessManager *m_gam;
-    KGoogle::KGoogleAuth *m_auth;
+    KGoogle::Account::Ptr m_account;
 
+    KGoogle::AccessManager *m_gam;
     QNetworkAccessManager *m_photoNam;
+
+    QMap< QString, Akonadi::Collection > m_collections;
 };
 
 #endif // CONTACTSRESOURCE_H
