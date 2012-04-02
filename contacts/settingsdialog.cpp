@@ -85,7 +85,7 @@ void SettingsDialog::error(KGoogle::Error errCode, const QString &msg)
     if (errCode == KGoogle::OK)
         return;
 
-    KMessageBox::error(this, msg, i18n("An error occured"));
+    KMessageBox::error(this, msg, i18n("An error occurred"));
 
     m_ui->accountsBox->setEnabled(true);
 }

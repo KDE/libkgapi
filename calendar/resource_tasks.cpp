@@ -283,7 +283,7 @@ void CalendarResource::removeTaskFetchJobFinished(KJob *job)
 void CalendarResource::doRemoveTask(KJob *job)
 {
     if (job->error()) {
-        cancelTask(i18n("Failed to delete task (2): %").arg(job->errorString()));
+        cancelTask(i18n("Failed to delete task (2): %1").arg(job->errorString()));
         return;
     }
 

@@ -480,7 +480,7 @@ void CalendarResource::itemMoved(Reply* reply)
 
     } else {
 
-        cancelTask(i18n("Received invalir reply"));
+        cancelTask(i18n("Received invalid reply"));
 
     }
 }

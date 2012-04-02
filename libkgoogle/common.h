@@ -92,7 +92,7 @@ class UnknownError: public BaseException
 {
   public:
     UnknownError():
-        BaseException(i18n("An unknown error has occured.")) { };
+        BaseException(i18n("An unknown error has occurred.")) { };
     KGoogle::Error code() const {
         return KGoogle::UnknownError;
     };
