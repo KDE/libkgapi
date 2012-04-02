@@ -87,7 +87,7 @@ ContactsResource::ContactsResource(const QString &id):
     if (!Settings::self()->account().isEmpty()) {
         try {
             m_account = auth->getAccount(Settings::self()->account());
-        } catch (Exception::BaseException &e) {
+        } catch (KGoogle::Exception::BaseException &e) {
             emit status(Broken, e.what());
             return;
         }
@@ -137,7 +137,7 @@ void ContactsResource::configure(WId windowId)
         try {
             Auth *auth = Auth::instance();
             m_account = auth->getAccount(Settings::self()->account());
-        } catch (Exception::BaseException &e) {
+        } catch (KGoogle::Exception::BaseException &e) {
             emit status(Broken, e.what());
             delete settingsDialog;
             return;
