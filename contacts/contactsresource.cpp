@@ -57,7 +57,8 @@ using namespace KGoogle;
 #define OtherContacts  "otherContacts"
 
 ContactsResource::ContactsResource(const QString &id):
-    ResourceBase(id)
+    ResourceBase(id),
+    m_account(0)
 {
     /* Register all types we are going to use in this resource */
     qRegisterMetaType< Services::Contacts >("Contacts");
@@ -85,14 +86,9 @@ ContactsResource::ContactsResource(const QString &id):
     changeRecorder()->fetchCollection(true);
 
     if (!Settings::self()->account().isEmpty()) {
-        try {
-            m_account = auth->getAccount(Settings::self()->account());
-        } catch (KGoogle::Exception::BaseException &e) {
-            emit status(Broken, e.what());
-            return;
+        if (!getAccount().isNull()) {
+            synchronize();
         }
-
-        synchronize();
     }
 }
 
@@ -134,23 +130,36 @@ void ContactsResource::configure(WId windowId)
     if (settingsDialog->exec() == KDialog::Accepted) {
         emit configurationDialogAccepted();
 
-        try {
-            Auth *auth = Auth::instance();
-            m_account = auth->getAccount(Settings::self()->account());
-        } catch (KGoogle::Exception::BaseException &e) {
-            emit status(Broken, e.what());
-            delete settingsDialog;
-            return;
+        delete settingsDialog;
+
+        if (!getAccount().isNull()) {
+            synchronize();
         }
 
-        synchronize();
-
     } else {
+
         emit configurationDialogRejected();
+
+        delete settingsDialog;
+    }
+}
+
+Account::Ptr ContactsResource::getAccount()
+{
+    if (!m_account.isNull())
+        return m_account;
+
+    Auth *auth = Auth::instance();
+    try {
+        m_account = auth->getAccount(Settings::self()->account());
+    } catch (KGoogle::Exception::BaseException &e) {
+        emit status(Broken, e.what());
+        return Account::Ptr();
     }
 
-    delete settingsDialog;
+    return m_account;
 }
+
 
 void ContactsResource::retrieveItems(const Akonadi::Collection& collection)
 {
@@ -176,10 +185,16 @@ bool ContactsResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
     if (item.mimeType() != KABC::Addressee::mimeType())
         return false;
 
-    QUrl url(Services::Contacts::fetchContactUrl(m_account->accountName(), item.remoteId()));
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return true;
+    }
+
+    QUrl url(Services::Contacts::fetchContactUrl(account->accountName(), item.remoteId()));
 
     KGoogle::Request *request;
-    request = new KGoogle::Request(url, KGoogle::Request::Fetch, "Contacts", m_account);
+    request = new KGoogle::Request(url, KGoogle::Request::Fetch, "Contacts", account);
     request->setProperty("Item", QVariant::fromValue(item));
 
     m_gam->sendRequest(request);
@@ -242,9 +257,15 @@ void ContactsResource::initialItemsFetchJobFinished(KJob *job)
         return;
     }
 
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     Collection collection = job->property("Collection").value< Collection >();
 
-    QUrl url = KGoogle::Services::Contacts::fetchAllContactsUrl(Settings::self()->account(), true);
+    QUrl url = KGoogle::Services::Contacts::fetchAllContactsUrl(account->accountName(), true);
 
     QString lastSync = collection.remoteRevision();
     if (!lastSync.isEmpty()) {
@@ -257,7 +278,7 @@ void ContactsResource::initialItemsFetchJobFinished(KJob *job)
 
     emit percent(0);
 
-    FetchListJob *fetchJob = new FetchListJob(url, "Contacts", Settings::self()->account());
+    FetchListJob *fetchJob = new FetchListJob(url, "Contacts", account->accountName());
     fetchJob->setProperty("Collection", qVariantFromValue(collection));
     connect(fetchJob, SIGNAL(finished(KJob*)), this, SLOT(contactListReceived(KJob*)));
     connect(fetchJob, SIGNAL(percent(KJob*, ulong)), this, SLOT(emitPercent(KJob*, ulong)));
@@ -268,6 +289,12 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
 {
     if (!item.hasPayload< KABC::Addressee >())
         return;
+
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
 
     KABC::Addressee addressee = item.payload< KABC::Addressee >();
     Objects::Contact contact(addressee);
@@ -293,8 +320,8 @@ void ContactsResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
     data.append("</atom:entry>");
 
     KGoogle::Request *request;
-    request = new KGoogle::Request(Services::Contacts::createContactUrl(m_account->accountName()),
-                                   Request::Create, "Contacts", m_account);
+    request = new KGoogle::Request(Services::Contacts::createContactUrl(account->accountName()),
+                                   Request::Create, "Contacts", account);
     request->setRequestData(data, "application/atom+xml");
     request->setProperty("Item", QVariant::fromValue(item));
 
@@ -307,6 +334,12 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 {
     if (!item.hasPayload< KABC::Addressee >()) {
         cancelTask(i18n("Invalid Payload"));
+        return;
+    }
+
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
         return;
     }
 
@@ -328,8 +361,8 @@ void ContactsResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
     data.append("</atom:entry>");
 
     KGoogle::Request *request;
-    request = new KGoogle::Request(Services::Contacts::updateContactUrl(m_account->accountName(), item.remoteId()),
-                                   Request::Update, "Contacts", m_account);
+    request = new KGoogle::Request(Services::Contacts::updateContactUrl(account->accountName(), item.remoteId()),
+                                   Request::Update, "Contacts", account);
     request->setRequestData(data, "application/atom+xml");
     request->setProperty("Item", QVariant::fromValue(item));
 
@@ -342,6 +375,12 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
 {
     if (!item.hasPayload< KABC::Addressee >()) {
         cancelTask(i18n("Invalid payload"));
+        return;
+    }
+
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
         return;
     }
 
@@ -372,8 +411,8 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
     data.append("</atom:entry>");
 
     KGoogle::Request *request;
-    request = new KGoogle::Request(Services::Contacts::updateContactUrl(m_account->accountName(), item.remoteId()),
-                                   Request::Update, "Contacts", m_account);
+    request = new KGoogle::Request(Services::Contacts::updateContactUrl(account->accountName(), item.remoteId()),
+                                   Request::Update, "Contacts", account);
     request->setRequestData(data, "application/atom+xml");
     request->setProperty("Item", QVariant::fromValue(item));
 
@@ -383,9 +422,15 @@ void ContactsResource::itemMoved(const Item& item, const Collection& collectionS
 
 void ContactsResource::itemRemoved(const Akonadi::Item& item)
 {
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     KGoogle::Request *request;
-    request = new KGoogle::Request(Services::Contacts::removeContactUrl(m_account->accountName(), item.remoteId()),
-                                   Request::Remove, "Contacts", m_account);
+    request = new KGoogle::Request(Services::Contacts::removeContactUrl(account->accountName(), item.remoteId()),
+                                   Request::Remove, "Contacts", account);
     request->setProperty("Item", QVariant::fromValue(item));
 
     m_gam->sendRequest(request);
@@ -597,11 +642,17 @@ void ContactsResource::photoRequestFinished(QNetworkReply* reply)
 
 void ContactsResource::fetchPhoto(Akonadi::Item &item)
 {
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     QString id = item.remoteId().mid(item.remoteId().lastIndexOf("/"));
 
     QNetworkRequest request;
-    request.setUrl(Services::Contacts::photoUrl(m_account->accountName(), id));
-    request.setRawHeader("Authorization", "OAuth " + m_account->accessToken().toLatin1());
+    request.setUrl(Services::Contacts::photoUrl(account->accountName(), id));
+    request.setRawHeader("Authorization", "OAuth " + account->accessToken().toLatin1());
     request.setRawHeader("GData-Version", "3.0");
 
     request.setAttribute(QNetworkRequest::User, qVariantFromValue(item));
@@ -611,12 +662,18 @@ void ContactsResource::fetchPhoto(Akonadi::Item &item)
 
 void ContactsResource::updatePhoto(Item &item)
 {
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     QString id = item.remoteId().mid(item.remoteId().lastIndexOf("/"));
 
     KABC::Addressee addressee = item.payload< KABC::Addressee >();
     QNetworkRequest request;
-    request.setUrl(Services::Contacts::photoUrl(m_account->accountName(), id));
-    request.setRawHeader("Authorization", "OAuth " + m_account->accessToken().toLatin1());
+    request.setUrl(Services::Contacts::photoUrl(account->accountName(), id));
+    request.setRawHeader("Authorization", "OAuth " + account->accessToken().toLatin1());
     request.setRawHeader("GData-Version", "3.0");
     request.setRawHeader("If-Match", "*");
 

@@ -136,6 +136,8 @@ class ContactsResource: public Akonadi::ResourceBase,
     void updatePhoto(Akonadi::Item &item);
     void fetchPhoto(Akonadi::Item &item);
 
+    Account::Ptr getAccount();
+
     KGoogle::Account::Ptr m_account;
 
     KGoogle::AccessManager *m_gam;

@@ -102,6 +102,7 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
 
   private:
     void abort();
+    Account::Ptr getAccount();
 
     AccessManager *m_gam;
 

@@ -50,6 +50,12 @@ using namespace KCalCore;
 
 void CalendarResource::taskDoUpdate(Reply* reply)
 {
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     Item item = reply->request()->property("Item").value< Item >();
     TodoPtr todo = item.payload< TodoPtr >();
     Objects::Task ktodo(*todo);
@@ -59,7 +65,7 @@ void CalendarResource::taskDoUpdate(Reply* reply)
     Services::Tasks service;
     QByteArray data = service.objectToJSON(static_cast< KGoogle::Object *>(&ktodo));
 
-    Request *request = new Request(url, Request::Update, "Tasks", m_account);
+    Request *request = new Request(url, Request::Update, "Tasks", account);
     request->setRequestData(data, "application/json");
     request->setProperty("Item", QVariant::fromValue(item));
     m_gam->sendRequest(request);
@@ -287,11 +293,17 @@ void CalendarResource::doRemoveTask(KJob *job)
         return;
     }
 
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     Item item = job->property("Item").value< Item >();
 
     /* Now finally we can safely remove the task we wanted to */
     Request *request = new Request(Services::Tasks::removeTaskUrl(item.parentCollection().remoteId(), item.remoteId()),
-                                   KGoogle::Request::Remove, "Tasks", m_account);
+                                   KGoogle::Request::Remove, "Tasks", account);
     request->setProperty("Item", qVariantFromValue(item));
     m_gam->sendRequest(request);
 }

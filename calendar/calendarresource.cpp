@@ -63,6 +63,7 @@ using namespace KGoogle;
 
 CalendarResource::CalendarResource(const QString &id):
     ResourceBase(id),
+    m_account(0),
     m_fetchedCalendars(false),
     m_fetchedTaskLists(false)
 {
@@ -91,14 +92,9 @@ CalendarResource::CalendarResource(const QString &id):
     changeRecorder()->collectionFetchScope().setAncestorRetrieval(CollectionFetchScope::All);
 
     if (!Settings::self()->account().isEmpty()) {
-        try {
-            m_account = auth->getAccount(Settings::self()->account());
-        } catch (KGoogle::Exception::BaseException &e) {
-            emit status(Broken, e.what());
-            return;
+        if (!getAccount().isNull()) {
+            synchronize();
         }
-
-        synchronize();
     }
 }
 
@@ -138,22 +134,33 @@ void CalendarResource::configure(WId windowId)
     if (settingsDialog->exec() == KDialog::Accepted) {
         emit configurationDialogAccepted();
 
-        try {
-            Auth *auth = Auth::instance();
-            m_account = auth->getAccount(Settings::self()->account());
-        } catch (KGoogle::Exception::BaseException &e) {
-            emit status(Broken, e.what());
-            delete settingsDialog;
-            return;
-        }
+        delete settingsDialog;
 
-        synchronize();
+        if (!getAccount().isNull()) {
+            synchronize();
+        }
 
     } else {
         emit configurationDialogRejected();
+
+        delete settingsDialog;
+    }
+}
+
+Account::Ptr CalendarResource::getAccount()
+{
+    if (!m_account.isNull())
+        return m_account;
+
+    Auth *auth = Auth::instance();
+    try {
+        m_account = auth->getAccount(Settings::self()->account());
+    } catch (KGoogle::Exception::BaseException &e) {
+        emit status(Broken, e.what());
+        return Account::Ptr();
     }
 
-    delete settingsDialog;
+    return m_account;
 }
 
 void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
@@ -215,7 +222,13 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
 
     url.addQueryItem("showDeleted", "true");
 
-    FetchListJob *fetchJob = new FetchListJob(url, service, Settings::self()->account());
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
+    FetchListJob *fetchJob = new FetchListJob(url, service, account->accountName());
     fetchJob->setProperty("collection", qVariantFromValue(collection));
     connect(fetchJob, SIGNAL(finished(KJob*)),
             this, SLOT(itemsReceived(KJob*)));
@@ -244,7 +257,13 @@ bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
 
     }
 
-    Request *request = new Request(url, KGoogle::Request::Fetch, service, m_account);
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return true;
+    }
+
+    Request *request = new Request(url, KGoogle::Request::Fetch, service, account);
     request->setProperty("Item", QVariant::fromValue(item));
     m_gam->sendRequest(request);
 
@@ -253,8 +272,14 @@ bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
 
 void CalendarResource::retrieveCollections()
 {
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     Akonadi::EntityDisplayAttribute *attr = new Akonadi::EntityDisplayAttribute();
-    attr->setDisplayName(Settings::self()->account());
+    attr->setDisplayName(account->accountName());
 
     Collection collection;
     collection.setName(identifier());
@@ -278,12 +303,12 @@ void CalendarResource::retrieveCollections()
 
     FetchListJob *fetchJob;
 
-    fetchJob = new FetchListJob(Services::Calendar::fetchCalendarsUrl(), "Calendar", Settings::self()->account());
+    fetchJob = new FetchListJob(Services::Calendar::fetchCalendarsUrl(), "Calendar", account->accountName());
     connect(fetchJob, SIGNAL(finished(KJob*)),
             this, SLOT(calendarsReceived(KJob*)));
     fetchJob->start();
 
-    fetchJob = new FetchListJob(Services::Tasks::fetchTaskListsUrl(), "Tasks", Settings::self()->account());
+    fetchJob = new FetchListJob(Services::Tasks::fetchTaskListsUrl(), "Tasks", account->accountName());
     connect(fetchJob, SIGNAL(finished(KJob*)),
             this, SLOT(taskListReceived(KJob*)));
     fetchJob->start();
@@ -297,6 +322,12 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
 
     if (collection.parentCollection() == Akonadi::Collection::root()) {
         cancelTask(i18n("The top-level collection cannot contain any tasks or events"));
+        return;
+    }
+
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
         return;
     }
 
@@ -331,7 +362,7 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
         return;
     }
 
-    Request *request = new Request(url, Request::Create, service, m_account);
+    Request *request = new Request(url, Request::Create, service, account);
     request->setRequestData(data, "application/json");
     request->setProperty("Item", QVariant::fromValue(item));
     request->setProperty("Collection", QVariant::fromValue(collection));
@@ -344,6 +375,12 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
     QUrl url;
     QByteArray data;
 
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     if (item.mimeType() == Event::eventMimeType()) {
 
         EventPtr event = item.payload< EventPtr >();
@@ -354,7 +391,7 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
         Services::Calendar service;
         data = service.objectToJSON(static_cast< KGoogle::Object* >(&kevent));
 
-        Request *request = new Request(url, Request::Patch, "Calendar", m_account);
+        Request *request = new Request(url, Request::Patch, "Calendar", account);
         request->setRequestData(data, "application/json");
         request->setProperty("Item", QVariant::fromValue(item));
 
@@ -368,7 +405,7 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
         QUrl moveUrl = Services::Tasks::moveTaskUrl(item.parentCollection().remoteId(),
                                                     todo->uid(),
                                                     todo->relatedTo(KCalCore::Incidence::RelTypeParent));
-        Request *request = new Request(moveUrl, Request::Move, "Tasks", m_account);
+        Request *request = new Request(moveUrl, Request::Move, "Tasks", account);
         request->setProperty("Item", QVariant::fromValue(item));
 
         m_gam->sendRequest(request);
@@ -386,10 +423,17 @@ void CalendarResource::itemRemoved(const Akonadi::Item& item)
     QString service;
     QUrl url;
 
+
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     if (item.mimeType() == Event::eventMimeType()) {
 
         url = Services::Calendar::removeEventUrl(item.parentCollection().remoteId(), item.remoteId());
-        Request *request = new Request(url, Request::Remove, "Calendar", m_account);
+        Request *request = new Request(url, Request::Remove, "Calendar", account);
         request->setProperty("Item", QVariant::fromValue(item));
         m_gam->sendRequest(request);
 
@@ -426,12 +470,18 @@ void CalendarResource::itemMoved(const Item& item, const Collection& collectionS
         return;
     }
 
+    Account::Ptr account = getAccount();
+    if (account.isNull()) {
+        deferTask();
+        return;
+    }
+
     /* Moving tasks between task lists is not supported */
     if (item.mimeType() != Event::eventMimeType())
         return;
 
     url = Services::Calendar::moveEventUrl(collectionSource.remoteId(), collectionDestination.remoteId(), item.remoteId());
-    Request *request = new Request(url, KGoogle::Request::Move, "Calendar", m_account);
+    Request *request = new Request(url, KGoogle::Request::Move, "Calendar", account);
     request->setProperty("Item", qVariantFromValue(item));
 
     m_gam->sendRequest(request);
