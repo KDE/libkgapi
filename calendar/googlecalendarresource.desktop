@@ -2,6 +2,7 @@
 Name=Google Calendars and Tasks
 Name[es]=Calendarios y tareas de Google
 Name[it]=Calendari e attività di Google
+Name[nl]=Google agenda's en taken
 Name[pt]=Calendários e Tarefas do Google
 Name[pt_BR]=Calendários e tarefas do Google
 Name[sv]=Google-kalendrar och uppgifter
@@ -10,6 +11,7 @@ Name[x-test]=xxGoogle Calendars and Tasksxx
 Comment=Access your Google Calendars and Tasks from KDE
 Comment[es]=Acceda a sus calendarios y tareas de Google desde KDE
 Comment[it]=Accedi ai tuoi calendari e alle tue attività di Google da KDE
+Comment[nl]=Heb toegang tot uw Google agenda's en taken vanuit KDE 
 Comment[pt]=Aceda aos seus calendários e tarefas da Google a partir do KDE
 Comment[pt_BR]=Acesse seus calendários e tarefas do Google a partir do KDE
 Comment[sv]=Kom åt dina Google-kalendrar och uppgifter från KDE
