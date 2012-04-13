@@ -454,7 +454,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
             attendee->setStatus(Attendee::NeedsAction);
 
         if (att["optional"].toBool()) {
-            attendee->setRole(KCalCore::Attendee::OptParticipant);
+            attendee->setRole(Attendee::OptParticipant);
         }
 
         object->addAttendee(attendee, true);
@@ -499,7 +499,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
         } else if (override["method"].toString() == "email") {
             alarm->setType(Alarm::Email);
         } else {
-            alarm->setType(KCalCore::Alarm::Invalid);
+            alarm->setType(Alarm::Invalid);
             continue;
         }
 
@@ -561,11 +561,16 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
     data["location"] = object->location();
 
     /* Organizer */
-    if (!object->organizer()->isEmpty()) {
-        QVariantMap organizer;
-        organizer["displayName"] = object->organizer()->fullName();
-        organizer["email"] = object->organizer()->email();
-        data["organizer"] = organizer;
+#ifdef WITH_KCAL
+    PersonPtr organizer = new Person(object->organizer());
+#else
+    PersonPtr organizer = object->organizer;
+#endif
+    if (!organizer->isEmpty()) {
+        QVariantMap org;
+        org["displayName"] = organizer->fullName();
+        org["email"] = organizer->email();
+        data["organizer"] = org;
     }
 
     /* Recurrence */

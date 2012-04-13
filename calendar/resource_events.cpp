@@ -48,8 +48,10 @@ using namespace KGoogle;
 
 #ifdef WITH_KCAL
 using namespace KCal;
+#define EVENT_MIMETYPE "application/x-vnd.akonadi.calendar.event"
 #else
 using namespace KCalCore;
+#define EVENT_MIMETYPE Event::eventMimeType()
 #endif
 
 void CalendarResource::calendarsReceived(KJob *job)
@@ -75,7 +77,7 @@ void CalendarResource::calendarsReceived(KJob *job)
         Collection collection;
         collection.setRemoteId(calendar->uid());
         collection.setParentCollection(m_collections.first());
-        collection.setContentMimeTypes(QStringList() << Event::eventMimeType());
+        collection.setContentMimeTypes(QStringList() << EVENT_MIMETYPE);
         collection.setName(calendar->title());
         collection.setRights(Collection::CanCreateItem | Collection::CanChangeItem | Collection::CanDeleteItem);
 
@@ -134,7 +136,7 @@ void CalendarResource::eventReceived(KGoogle::Reply *reply)
 
     item.setRemoteId(event->uid());
     item.setRemoteRevision(event->etag());
-    item.setMimeType(Event::eventMimeType());
+    item.setMimeType(EVENT_MIMETYPE);
     item.setPayload< EventPtr >(EventPtr(event));
 
     if (event->deleted())
@@ -192,7 +194,7 @@ void CalendarResource::eventsReceived(KJob *job)
         item.setRemoteId(event->uid());
         item.setRemoteRevision(event->etag());
         item.setPayload< EventPtr >(EventPtr(event));
-        item.setMimeType(Event::eventMimeType());
+        item.setMimeType(EVENT_MIMETYPE);
         item.setParentCollection(collection);
 
         if (event->deleted())
@@ -209,7 +211,7 @@ void CalendarResource::eventsReceived(KJob *job)
         item.setRemoteId(event->uid());
         item.setRemoteRevision(event->etag());
         item.setPayload< EventPtr >(EventPtr(event));
-        item.setMimeType(Event::eventMimeType());
+        item.setMimeType(EVENT_MIMETYPE);
         item.setParentCollection(collection);
 
         changed << item;
@@ -242,7 +244,7 @@ void CalendarResource::eventCreated(KGoogle::Reply *reply)
     Item item = reply->request()->property("Item").value<Item>();
     item.setRemoteId(event->uid());
     item.setRemoteRevision(event->etag());
-    item.setMimeType(Event::eventMimeType());
+    item.setMimeType(EVENT_MIMETYPE);
     item.setParentCollection(reply->request()->property("Collection").value<Collection>());
 
     changeCommitted(item);

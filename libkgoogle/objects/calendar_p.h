@@ -21,7 +21,7 @@
 
 #ifdef WITH_KCAL
 #include <KDE/KCal/Alarm>
-using namspace KCal;
+using namespace KCal;
 #else
 #include <KDE/KCalCore/Alarm>
 using namespace KCalCore;

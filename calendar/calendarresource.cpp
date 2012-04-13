@@ -52,10 +52,14 @@
 #ifdef WITH_KCAL
 #include <KDE/KCal/Calendar>
 using namespace KCal;
+#define EVENT_MIMETYPE "application/x-vnd.akonadi.calendar.event"
+#define TODO_MIMETYPE "application/x-vnd.akonadi.calendar.todo"
 #else
 #include <KDE/KCalCore/Calendar>
 #include <libkgoogle/services/tasks.h>
 using namespace KCalCore;
+#define EVENT_MIMETYPE EVENT_MIMETYPE
+#define TODO_MIMETYPE TODO_MIMETYPE
 #endif
 
 using namespace Akonadi;
@@ -194,12 +198,12 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
 
     Collection collection = job->property("collection").value<Collection>();
 
-    if (collection.contentMimeTypes().contains(Event::eventMimeType())) {
+    if (collection.contentMimeTypes().contains(EVENT_MIMETYPE)) {
 
         service = "Calendar";
         url = Services::Calendar::fetchEventsUrl(collection.remoteId());
 
-    } else if (collection.contentMimeTypes().contains(Todo::todoMimeType())) {
+    } else if (collection.contentMimeTypes().contains(TODO_MIMETYPE)) {
 
         service = "Tasks";
         url = Services::Tasks::fetchAllTasksUrl(collection.remoteId());
@@ -245,12 +249,12 @@ bool CalendarResource::retrieveItem(const Akonadi::Item& item, const QSet< QByte
     QString service;
     QUrl url;
 
-    if (item.parentCollection().contentMimeTypes().contains(Event::eventMimeType())) {
+    if (item.parentCollection().contentMimeTypes().contains(EVENT_MIMETYPE)) {
 
         service = "Calendar";
         url = Services::Calendar::fetchEventUrl(item.parentCollection().remoteId(), item.remoteId());
 
-    } else if (item.parentCollection().contentMimeTypes().contains(Todo::todoMimeType())) {
+    } else if (item.parentCollection().contentMimeTypes().contains(TODO_MIMETYPE)) {
 
         service = "Tasks";
         url = Services::Tasks::fetchTaskUrl(item.parentCollection().remoteId(), item.remoteId());
@@ -286,8 +290,8 @@ void CalendarResource::retrieveCollections()
     collection.setRemoteId(identifier());
     collection.setParentCollection(Akonadi::Collection::root());
     collection.setContentMimeTypes(QStringList() << Collection::mimeType()
-                                                 << Event::eventMimeType()
-                                                 << Todo::todoMimeType());
+                                                 << EVENT_MIMETYPE
+                                                 << TODO_MIMETYPE);
     collection.addAttribute(attr);
 
     /* For korganizer v4.4.11 a supercollection may not be read-only as korganizer obviously didn't check
@@ -331,7 +335,7 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
         return;
     }
 
-    if (item.mimeType() == Event::eventMimeType()) {
+    if (item.mimeType() == EVENT_MIMETYPE) {
 
         EventPtr event = item.payload< EventPtr >();
         Objects::Event kevent(*event);
@@ -343,7 +347,7 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
         kevent.setUid("");
         data = service.objectToJSON(static_cast< KGoogle::Object* >(&kevent));
 
-    } else if (item.mimeType() == Todo::todoMimeType()) {
+    } else if (item.mimeType() == TODO_MIMETYPE) {
 
         TodoPtr todo = item.payload< TodoPtr >();
         todo->setUid("");
@@ -351,8 +355,13 @@ void CalendarResource::itemAdded(const Akonadi::Item& item, const Akonadi::Colle
 
         service = "Tasks";
         url = Services::Tasks::createTaskUrl(collection.remoteId());
-        if (!todo->relatedTo(KCalCore::Incidence::RelTypeParent).isEmpty())
-            url.addQueryItem("parent", todo->relatedTo(KCalCore::Incidence::RelTypeParent));
+#ifdef WITH_KCAL
+        if (!todo->relatedToUid().isEmpty())
+            url.addQueryItem("parent", todo->relatedToUid());
+#else
+        if (!todo->relatedTo(Incidence::RelTypeParent).isEmpty())
+            url.addQueryItem("parent", todo->relatedTo(Incidence::RelTypeParent));
+#endif
 
         Services::Tasks service;
         data = service.objectToJSON(static_cast< KGoogle::Object* >(&ktodo));
@@ -381,7 +390,7 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
         return;
     }
 
-    if (item.mimeType() == Event::eventMimeType()) {
+    if (item.mimeType() == EVENT_MIMETYPE) {
 
         EventPtr event = item.payload< EventPtr >();
         Objects::Event kevent(*event);
@@ -397,14 +406,19 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 
         m_gam->sendRequest(request);
 
-    } else if (item.mimeType() == Todo::todoMimeType()) {
+    } else if (item.mimeType() == TODO_MIMETYPE) {
 
         TodoPtr todo = item.payload< TodoPtr >();
         Objects::Task ktodo(*todo);
 
+#ifdef WITH_KCAL
+        QString parentUid = todo->relatedToUid();
+#else
+        QString parentUid = todo->relatedTo(KCalCore::Incidence::RelTypeParent);
+#endif
         QUrl moveUrl = Services::Tasks::moveTaskUrl(item.parentCollection().remoteId(),
                                                     todo->uid(),
-                                                    todo->relatedTo(KCalCore::Incidence::RelTypeParent));
+                                                    parentUid);
         Request *request = new Request(moveUrl, Request::Move, "Tasks", account);
         request->setProperty("Item", QVariant::fromValue(item));
 
@@ -430,14 +444,14 @@ void CalendarResource::itemRemoved(const Akonadi::Item& item)
         return;
     }
 
-    if (item.mimeType() == Event::eventMimeType()) {
+    if (item.mimeType() == EVENT_MIMETYPE) {
 
         url = Services::Calendar::removeEventUrl(item.parentCollection().remoteId(), item.remoteId());
         Request *request = new Request(url, Request::Remove, "Calendar", account);
         request->setProperty("Item", QVariant::fromValue(item));
         m_gam->sendRequest(request);
 
-    } else if (item.mimeType() == Todo::todoMimeType()) {
+    } else if (item.mimeType() == TODO_MIMETYPE) {
 
         /* Google always automatically removes tasks with all their subtasks. In KOrganizer
          * by default we only remove the item we are given. For this reason we have to first
@@ -477,7 +491,7 @@ void CalendarResource::itemMoved(const Item& item, const Collection& collectionS
     }
 
     /* Moving tasks between task lists is not supported */
-    if (item.mimeType() != Event::eventMimeType())
+    if (item.mimeType() != EVENT_MIMETYPE)
         return;
 
     url = Services::Calendar::moveEventUrl(collectionSource.remoteId(), collectionDestination.remoteId(), item.remoteId());

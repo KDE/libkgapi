@@ -43,8 +43,10 @@ using namespace KGoogle;
 
 #ifdef WITH_KCAL
 using namespace KCal;
+#define TODO_MIMETYPE "application/x-vnd.akonadi.calendar.todo"
 #else
 using namespace KCalCore;
+#define TODO_MIMETYPE TODO_MIMETYPE
 #endif
 
 
@@ -95,7 +97,7 @@ void CalendarResource::taskListReceived(KJob *job)
         Collection collection;
         collection.setRemoteId(taskList->uid());
         collection.setParentCollection(m_collections.first());
-        collection.setContentMimeTypes(QStringList() << Todo::todoMimeType());
+        collection.setContentMimeTypes(QStringList() << TODO_MIMETYPE);
         collection.setName(taskList->title());
         collection.setRights(Collection::AllRights);
 
@@ -138,7 +140,7 @@ void CalendarResource::taskReceived(KGoogle::Reply *reply)
     Item item = reply->request()->property("Item").value<Item>();
     item.setRemoteId(task->uid());
     item.setRemoteRevision(task->etag());
-    item.setMimeType(Todo::todoMimeType());
+    item.setMimeType(TODO_MIMETYPE);
     item.setPayload< TodoPtr >(TodoPtr(task));
 
     if (static_cast< Objects::Task* >(task)->deleted()) {
@@ -170,7 +172,7 @@ void CalendarResource::tasksReceived(KJob *job)
         item.setRemoteId(task->uid());
         item.setRemoteRevision(task->etag());
         item.setPayload< TodoPtr >(TodoPtr(task));
-        item.setMimeType(Todo::todoMimeType());
+        item.setMimeType(TODO_MIMETYPE);
         item.setParentCollection(collection);
 
         if (task->deleted()) {
@@ -208,7 +210,7 @@ void CalendarResource::taskCreated(KGoogle::Reply *reply)
     Item item = reply->request()->property("Item").value<Item>();
     item.setRemoteId(task->uid());
     item.setRemoteRevision(task->etag());
-    item.setMimeType(Todo::todoMimeType());
+    item.setMimeType(TODO_MIMETYPE);
     item.setParentCollection(reply->request()->property("Collection").value<Collection>());
 
     changeCommitted(item);
@@ -263,11 +265,19 @@ void CalendarResource::removeTaskFetchJobFinished(KJob *job)
 
         TodoPtr todo = item.payload< TodoPtr >();
         /* If this item is child of the item we want to remove then add it to detach list */
+#ifdef WITH_KCAL
+        if (todo->relatedToUid() == removedItem.remoteId()) {
+            todo->setRelatedToUid(QString());
+            item.setPayload(todo);
+            detachItems << item;
+        }
+#else
         if (todo->relatedTo(KCalCore::Incidence::RelTypeParent) == removedItem.remoteId()) {
             todo->setRelatedTo(QString(), KCalCore::Incidence::RelTypeParent);
             item.setPayload(todo);
             detachItems << item;
         }
+#endif
     }
 
     /* If there are no items do detach, then delete the task right now */
