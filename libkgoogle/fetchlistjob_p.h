@@ -104,6 +104,10 @@ class FetchListJobPrivate: public QObject
 
         q->setError(errCode);
         q->setErrorText(msg);
+
+        isRunning = false;
+
+        emit q->emitResult();
     }
 
     void gamRequestProgress(KGoogle::Request *request, int processed, int total)
