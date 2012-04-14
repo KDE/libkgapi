@@ -46,7 +46,7 @@ using namespace KCal;
 #define TODO_MIMETYPE "application/x-vnd.akonadi.calendar.todo"
 #else
 using namespace KCalCore;
-#define TODO_MIMETYPE TODO_MIMETYPE
+#define TODO_MIMETYPE Todo::todoMimeType()
 #endif
 
 

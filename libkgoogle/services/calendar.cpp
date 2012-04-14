@@ -564,7 +564,7 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
 #ifdef WITH_KCAL
     PersonPtr organizer = new Person(object->organizer());
 #else
-    PersonPtr organizer = object->organizer;
+    PersonPtr organizer = object->organizer();
 #endif
     if (!organizer->isEmpty()) {
         QVariantMap org;

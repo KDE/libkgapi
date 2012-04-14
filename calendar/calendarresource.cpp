@@ -58,9 +58,10 @@ using namespace KCal;
 #include <KDE/KCalCore/Calendar>
 #include <libkgoogle/services/tasks.h>
 using namespace KCalCore;
-#define EVENT_MIMETYPE EVENT_MIMETYPE
-#define TODO_MIMETYPE TODO_MIMETYPE
+#define EVENT_MIMETYPE Event::eventMimeType()
+#define TODO_MIMETYPE Todo::todoMimeType()
 #endif
+
 
 using namespace Akonadi;
 using namespace KGoogle;
