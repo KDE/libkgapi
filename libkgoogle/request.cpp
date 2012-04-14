@@ -32,7 +32,7 @@ namespace KGoogle
 class RequestPrivate
 {
 
-public:
+  public:
     RequestPrivate() { }
 
     Request::RequestType requestType;
@@ -41,6 +41,15 @@ public:
     QString contentType;
     QMap< QString, QVariant > properties;
     KGoogle::Account::Ptr account;
+
+    /* Internal request URL. KGoogle::AccessManager actually uses this url
+     * for the requests instead of not QNetworkRequest::url().
+     *
+     * This allows users to see the original URL (the URL they set) at all times,
+     * and AccessManager uses this to track "progress" in multi-paged requests.
+     */
+    QUrl _requestUrl;
+
 };
 
 }
@@ -64,6 +73,8 @@ Request::Request(const QUrl &url, const KGoogle::Request::RequestType requestTyp
     d->requestType = requestType;
     d->serviceName = serviceName;
     d->account = account;
+
+    d->_requestUrl = url;
 }
 
 Request::~Request()
@@ -146,3 +157,27 @@ bool Request::hasProperty(const QString& name) const
 {
     return d_func()->properties.contains(name);
 }
+
+void Request::setUrl(const QUrl &url)
+{
+    Q_D(Request);
+
+    /* Reset the internall process-tracking URL */
+    d->_requestUrl = url;
+
+    QNetworkRequest::setUrl(url);
+}
+
+/*== Private methods ==*/
+QUrl Request::realUrl() const
+{
+    return d_func()->_requestUrl;
+}
+
+void Request::setRealUrl(const QUrl &url)
+{
+    Q_D(Request);
+
+    d->_requestUrl = url;
+}
+

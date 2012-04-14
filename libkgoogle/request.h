@@ -37,8 +37,10 @@ class AccessManagerPrivate;
 /**
  * Represents a request to be send to a Google service.
  */
-class LIBKGOOGLE_EXPORT Request: public QNetworkRequest
+class LIBKGOOGLE_EXPORT Request: public QObject, public QNetworkRequest
 {
+
+    Q_OBJECT
 
   public:
     enum RequestType {
@@ -144,6 +146,11 @@ class LIBKGOOGLE_EXPORT Request: public QNetworkRequest
      */
     bool hasProperty(const QString &name) const;
 
+    /**
+     * Sets the URL this request is referring to to be \p url
+     */
+    void setUrl(const QUrl &url);
+
   Q_SIGNALS:
     void error(const KGoogle::Error errCode, const QString &message);
 
@@ -151,13 +158,15 @@ class LIBKGOOGLE_EXPORT Request: public QNetworkRequest
     RequestPrivate* const d_ptr;
     Q_DECLARE_PRIVATE(Request)
 
+    QUrl realUrl() const;
+    void setRealUrl(const QUrl &url);
+
     friend class KGoogle::AccessManagerPrivate;
 
 };
 
 } // namespace KGoogle
 
-Q_DECLARE_METATYPE(KGoogle::Request)
 Q_DECLARE_METATYPE(KGoogle::Request*)
 
 #endif // LIBKGOOGLE_REQUEST_H

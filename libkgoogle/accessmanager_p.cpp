@@ -106,7 +106,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     case KGoogle::TemporarilyMoved:  /** << Temporarily moved - Google provides a new URL where to send the request */
         kDebug() << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
-        request->setUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
+        request->setRealUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
         nam_sendRequest(request);
         return;
 
@@ -275,7 +275,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     /* Re-send the request on a new URL */
     if (new_request.isValid()) {
-        request->setUrl(new_request);
+        request->setRealUrl(new_request);
         nam_sendRequest(request);
 
         if ((processedItems > -1) && (totalItems > -1)) {
@@ -314,7 +314,7 @@ void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
 
     nr.setRawHeader("Authorization", "Bearer " + request->account()->accessToken().toLatin1());
     nr.setRawHeader("GData-Version", service->protocolVersion().toLatin1());
-    nr.setUrl(request->url());
+    nr.setUrl(request->realUrl());
     nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
 
 #ifdef DEBUG_RAWDATA
