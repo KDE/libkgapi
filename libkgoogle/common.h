@@ -57,7 +57,8 @@ enum Error {
     NotFound = 404,          /// Requested object was not found on the remote side
     Conflict = 409,          /// Object on the remote site differs from the submitted one. See KGoogle::Object::setEtag().
     Gone = 410,              /// The requested does not exist anymore on the remote site
-    InternalError = 500      /// An unexpected error on the Google service occuerd
+    InternalError = 500,     /// An unexpected error on the Google service occuerd
+    QuotaExceeded = 503      /// User quota has been exceeded, the request should be send again later.
 };
 
 namespace Exception

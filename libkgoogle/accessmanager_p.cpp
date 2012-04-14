@@ -160,10 +160,53 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
         return;
 
+    case KGoogle::Forbidden:
+        kWarning() << "Requested resource is forbidden.";
+        kWarning() << rawData;
+        emit q->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", QString(rawData)));
+        emit request->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", QString(rawData)));
+        return;
+
+    case KGoogle::NotFound:
+        kWarning() << "Requested resource does not exist";
+        kWarning() << rawData;
+        emit q->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", QString(rawData)));
+        emit request->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", QString(rawData)));
+        return;
+
+    case KGoogle::Conflict:
+        kWarning() << "Conflict. Remote resource is newer then local.";
+        kWarning() << rawData;
+        emit q->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", QString(rawData)));
+        emit request->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", QString(rawData)));
+        return;
+
+    case KGoogle::Gone:
+        kWarning() << "Requested resource does not exist anymore.";
+        kWarning() << rawData;
+        emit q->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", QString(rawData)));
+        emit request->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", QString(rawData)));
+        return;
+
+    case KGoogle::InternalError:
+        kWarning() << "Internal server error.";
+        kWarning() << rawData;
+        emit q->error(KGoogle::InternalError, i18n("Internal server error. Try again laster.\n\nGoogle replied '%1'", QString(rawData)));
+        emit request->error(KGoogle::InternalError, i18n("Internal server error. Try again laster.\n\nGoogle replied '%1'", QString(rawData)));
+        return;
+
+    case KGoogle::QuotaExceeded:
+        kWarning() << "User quota exceeded.";
+        kWarning() << rawData;
+        emit q->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        emit request->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        return;
+
     default: /** Something went wrong, there's nothing we can do about it */
         kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
                    << ", Google replied '" << rawData << "'";
         emit q->error(KGoogle::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", QString(rawData)));
+        emit request->error(KGoogle::UnknownError, QString(rawData));
         return;
     }
 

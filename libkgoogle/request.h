@@ -26,11 +26,13 @@
 
 #include <libkgoogle/libkgoogle_export.h>
 #include <libkgoogle/account.h>
+#include <libkgoogle/common.h>
 
 namespace KGoogle
 {
 
 class RequestPrivate;
+class AccessManagerPrivate;
 
 /**
  * Represents a request to be send to a Google service.
@@ -142,9 +144,14 @@ class LIBKGOOGLE_EXPORT Request: public QNetworkRequest
      */
     bool hasProperty(const QString &name) const;
 
+  Q_SIGNALS:
+    void error(const KGoogle::Error errCode, const QString &message);
+
   private:
     RequestPrivate* const d_ptr;
     Q_DECLARE_PRIVATE(Request)
+
+    friend class KGoogle::AccessManagerPrivate;
 
 };
 
