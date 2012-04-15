@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Google Calendars and Tasks
+Name[da]=Google kalendere og opgaver
 Name[es]=Calendarios y tareas de Google
 Name[it]=Calendari e attività di Google
 Name[nl]=Google agenda's en taken
@@ -9,6 +10,7 @@ Name[sv]=Google-kalendrar och uppgifter
 Name[uk]=Календарі та записи завдань Google
 Name[x-test]=xxGoogle Calendars and Tasksxx
 Comment=Access your Google Calendars and Tasks from KDE
+Comment[da]=Tilgå dine Google kalendere og opgaver fra KDE
 Comment[es]=Acceda a sus calendarios y tareas de Google desde KDE
 Comment[it]=Accedi ai tuoi calendari e alle tue attività di Google da KDE
 Comment[nl]=Heb toegang tot uw Google agenda's en taken vanuit KDE 
