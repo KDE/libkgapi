@@ -191,8 +191,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     case KGoogle::InternalError:
         kWarning() << "Internal server error.";
         kWarning() << rawData;
-        emit q->error(KGoogle::InternalError, i18n("Internal server error. Try again laster.\n\nGoogle replied '%1'", QString(rawData)));
-        emit request->error(KGoogle::InternalError, i18n("Internal server error. Try again laster.\n\nGoogle replied '%1'", QString(rawData)));
+        emit q->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        emit request->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
         return;
 
     case KGoogle::QuotaExceeded:
