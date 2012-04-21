@@ -279,7 +279,7 @@ void CalendarResource::eventUpdated(KGoogle::Reply *reply)
 
 void CalendarResource::eventRemoved(KGoogle::Reply *reply)
 {
-    if (reply->error() != OK) {
+    if (reply->error() != NoContent) {
         cancelTask(i18n("Failed to delete event: %1").arg(reply->errorString()));
         return;
     }
