@@ -249,10 +249,6 @@ void CalendarResource::eventCreated(KGoogle::Reply *reply)
     item.setParentCollection(reply->request()->property("Collection").value<Collection>());
 
     changeCommitted(item);
-
-    Akonadi::ItemModifyJob *modifyJob = new Akonadi::ItemModifyJob(item);
-    modifyJob->setAutoDelete(true);
-    modifyJob->start();
 }
 
 void CalendarResource::eventUpdated(KGoogle::Reply *reply)

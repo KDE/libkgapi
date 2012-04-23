@@ -214,11 +214,6 @@ void CalendarResource::taskCreated(KGoogle::Reply *reply)
     item.setParentCollection(reply->request()->property("Collection").value<Collection>());
 
     changeCommitted(item);
-
-    item.setPayload< TodoPtr >(TodoPtr(task));
-    Akonadi::ItemModifyJob *modifyJob = new Akonadi::ItemModifyJob(item);
-    modifyJob->setAutoDelete(true);
-    modifyJob->start();
 }
 
 void CalendarResource::taskUpdated(KGoogle::Reply *reply)

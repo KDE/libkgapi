@@ -396,6 +396,15 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
         EventPtr event = item.payload< EventPtr >();
         Objects::Event kevent(*event);
 
+        /* Akonadi stores the event with it's own UID when it's created,
+         * but we need to make it same as remoteId, which is the event's
+         * original UID on Google.
+         *
+         * We could update the UID of newly created event after receiving it's
+         * proper remoteId (and thus Google's UID), but KOrganizer does not cope
+         * well with it (see bug #298518). */
+        kevent.setUid(item.remoteId());
+
         url = Services::Calendar::updateEventUrl(item.parentCollection().remoteId(), item.remoteId());
 
         Services::Calendar service;
@@ -411,6 +420,9 @@ void CalendarResource::itemChanged(const Akonadi::Item& item, const QSet< QByteA
 
         TodoPtr todo = item.payload< TodoPtr >();
         Objects::Task ktodo(*todo);
+
+        /* See the comment above for explanation why we do this here */
+        ktodo.setUid(item.remoteId());
 
 #ifdef WITH_KCAL
         QString parentUid = todo->relatedToUid();
