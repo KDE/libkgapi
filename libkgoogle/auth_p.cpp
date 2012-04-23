@@ -149,6 +149,7 @@ void AuthPrivate::authDialogCancelled()
 void AuthPrivate::refreshTokens(KGoogle::Account::Ptr &account, bool autoSave)
 {
     QNetworkAccessManager *nam = new KIO::Integration::AccessManager(this);
+    nam->setCookieJar(new QNetworkCookieJar());
     QNetworkRequest request;
 
     connect(nam, SIGNAL(finished(QNetworkReply*)),
@@ -210,7 +211,11 @@ void AuthPrivate::refreshTokensFinished(QNetworkReply *reply)
     account->setAccessToken(map["access_token"].toString());
 
     if (autoSave) {
-        q->storeAccount(account);
+        try {
+            q->storeAccount(account);
+        } catch (Exception::BaseException &e) {
+            emit q->error(e.code(), e.what());
+        }
     }
 
     emit q->authenticated(account);

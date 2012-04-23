@@ -155,7 +155,13 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
             }
 
             KGoogle::Auth *auth = KGoogle::Auth::instance();
-            auth->authenticate(account, true);
+            try {
+                auth->authenticate(account, true);
+            } catch (KGoogle::Exception::BaseException &e) {
+                emit q->error(KGoogle::InvalidAccount, e.what());
+                emit request->error(KGoogle::InvalidAccount, e.what());
+                return;
+            }
         }
         /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
         return;
