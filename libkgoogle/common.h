@@ -44,7 +44,7 @@ enum Error {
     BackendNotReady = 6,     /// libKGoogle error - backend is not ready (for example KWallet is not opened).
     InvalidAccount = 7,      /// libKGoogle error - the KGoogle::Account object is invalid.
     NetworkError = 8,        /// libKGoogle error - standard network request returned other code then 200.
-    AuthCanceled = 9,        /// libKGoogle error - when authentication dialog is canceled
+    AuthCancelled = 9,        /// libKGoogle error - when authentication dialog is canceled
 
     /* Following error codes identify Google errors */
     OK = 200,                /// Request succesfully executed.
