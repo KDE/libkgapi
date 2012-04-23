@@ -142,7 +142,7 @@ void AuthPrivate::fullAuthenticationFinished(KGoogle::Account::Ptr &account)
 void AuthPrivate::authDialogCancelled()
 {
     Q_Q(Auth);
-    q->error(AuthCancelled, i18n("Authentication cancelled"));
+    emit q->error(AuthCancelled, i18n("Authentication cancelled"));
 }
 
 
