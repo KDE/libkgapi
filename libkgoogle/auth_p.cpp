@@ -103,6 +103,8 @@ void AuthPrivate::fullAuthentication(KGoogle::Account::Ptr &account, bool autoSa
             this, SLOT(fullAuthenticationFinished(KGoogle::Account::Ptr&)));
     connect(dlg, SIGNAL(accepted()),
             dlg, SLOT(deleteLater()));
+    connect(dlg, SIGNAL(cancelClicked()),
+            SLOT(authDialogCancelled()));
 
     dlg->setUsername(username);
     dlg->setPassword(password);
@@ -135,6 +137,12 @@ void AuthPrivate::fullAuthenticationFinished(KGoogle::Account::Ptr &account)
     account->m_scopesChanged = false;
 
     emit q->authenticated(account);
+}
+
+void AuthPrivate::authDialogCancelled()
+{
+    Q_Q(Auth);
+    q->error(AuthError, i18n("Authentication cancelled"));
 }
 
 

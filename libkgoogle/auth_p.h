@@ -68,6 +68,7 @@ class AuthPrivate: public QObject
   public Q_SLOTS:
     void fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave);
     void fullAuthenticationFinished(KGoogle::Account::Ptr &account);
+    void authDialogCancelled();
 
     void refreshTokens(KGoogle::Account::Ptr &account, bool autoSave);
     void refreshTokensFinished(QNetworkReply *reply);
