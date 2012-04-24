@@ -60,6 +60,7 @@ class AuthPrivate: public QObject
     QString apiSecret;
     QString username;
     QString password;
+    bool dialogAutoClose;
 
     bool initKWallet();
 

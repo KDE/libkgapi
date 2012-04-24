@@ -39,6 +39,7 @@ AuthPrivate::AuthPrivate(KGoogle::Auth* const parent):
     QObject(),
     kwalletFolder("libkgoogle"),
     kwallet(0),
+    dialogAutoClose(false),
     q_ptr(parent)
 { }
 
@@ -105,6 +106,10 @@ void AuthPrivate::fullAuthentication(KGoogle::Account::Ptr &account, bool autoSa
             dlg, SLOT(deleteLater()));
     connect(dlg, SIGNAL(cancelClicked()),
             SLOT(authDialogCancelled()));
+
+    if (dialogAutoClose) {
+        connect(dlg, SIGNAL(error(KGoogle::Error,QString)), dlg, SLOT(close()));
+    }
 
     dlg->setUsername(username);
     dlg->setPassword(password);

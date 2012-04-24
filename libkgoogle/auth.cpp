@@ -293,6 +293,12 @@ void Auth::setPassword(const QString& password)
     d->password = password;
 }
 
+void Auth::setDialogAutoClose(bool close)
+{
+    Q_D(Auth);
+    d->dialogAutoClose = close;
+}
+
 void Auth::clearCredentials()
 {
     Q_D(Auth);

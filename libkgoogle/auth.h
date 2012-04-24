@@ -228,6 +228,19 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
     void setPassword(const QString &password);
 
     /**
+     * Set wether to auto close the authentication dialog on success or error
+     *
+     * When \sa authenticate is called a dialog will appear to authenticate against
+     * Google auth system, if set to true the dialog will be autoclosed in either
+     * on success or on error.
+     *
+     * By default the value is false.
+     *
+     * @param bool Wether auto close or not the dialog
+     */
+    void setDialogAutoClose(bool close);
+
+    /**
      * Sets to empty username and password
      *
      * Sets to empty the username and the password which were set by
