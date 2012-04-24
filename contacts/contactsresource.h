@@ -83,6 +83,8 @@ class ContactsResource: public Akonadi::ResourceBase,
      */
     virtual void configure(WId windowID);
 
+    void reloadConfig();
+
   protected Q_SLOTS:
     /**
      * @brief Defined list of collections.

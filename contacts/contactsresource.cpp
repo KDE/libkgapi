@@ -79,6 +79,8 @@ ContactsResource::ContactsResource(const QString &id):
             this, SLOT(error(KGoogle::Error, QString)));
     connect(this, SIGNAL(abortRequested()),
             this, SLOT(slotAbortRequested()));
+    connect(this, SIGNAL(reloadConfiguration()),
+            this, SLOT(reloadConfig()));
     connect(m_photoNam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(photoRequestFinished(QNetworkReply*)));
 
@@ -142,6 +144,15 @@ void ContactsResource::configure(WId windowId)
 
         delete settingsDialog;
     }
+}
+
+void ContactsResource::reloadConfig()
+{
+    if (getAccount().isNull()) {
+        return;
+    }
+
+    synchronize();
 }
 
 Account::Ptr ContactsResource::getAccount()

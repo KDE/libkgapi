@@ -90,6 +90,8 @@ CalendarResource::CalendarResource(const QString &id):
 
     connect(this, SIGNAL(abortRequested()),
             this, SLOT(slotAbortRequested()));
+    connect(this, SIGNAL(reloadConfiguration()),
+            this, SLOT(reloadConfig()));
 
     changeRecorder()->itemFetchScope().fetchFullPayload(true);
     changeRecorder()->itemFetchScope().setAncestorRetrieval(ItemFetchScope::All);
@@ -150,6 +152,15 @@ void CalendarResource::configure(WId windowId)
 
         delete settingsDialog;
     }
+}
+
+void CalendarResource::reloadConfig()
+{
+    if (getAccount().isNull()) {
+        return;
+    }
+
+    synchronize();
 }
 
 Account::Ptr CalendarResource::getAccount()

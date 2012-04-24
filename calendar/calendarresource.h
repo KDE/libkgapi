@@ -50,6 +50,7 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
 
 
   public Q_SLOTS:
+    void reloadConfig();
     void retrieveCollections();
     void retrieveItems(const Akonadi::Collection& collection);
     bool retrieveItem(const Akonadi::Item& item, const QSet< QByteArray >& parts);
