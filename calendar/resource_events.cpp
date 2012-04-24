@@ -57,7 +57,7 @@ using namespace KCalCore;
 void CalendarResource::calendarsReceived(KJob *job)
 {
     if (job->error()) {
-        emit status(Broken, i18n("Failed to fetch calendars: %1").arg(job->errorString()));
+        Q_EMIT status(Broken, i18n("Failed to fetch calendars: %1").arg(job->errorString()));
         cancelTask();
         return;
     }
@@ -67,7 +67,7 @@ void CalendarResource::calendarsReceived(KJob *job)
     QStringList calendars = Settings::self()->calendars();
 
     QList< KGoogle::Object *> allData = fetchJob->items();
-    foreach(KGoogle::Object * replyData, allData) {
+    Q_FOREACH(KGoogle::Object * replyData, allData) {
 
         Objects::Calendar *calendar = static_cast< Objects::Calendar* >(replyData);
 
@@ -108,7 +108,7 @@ void CalendarResource::eventReceived(KGoogle::Reply *reply)
 {
     if (reply->error() != OK) {
         cancelTask();
-        emit status(Broken, i18n("Failed to fetch event: %1").arg(reply->errorString()));
+        Q_EMIT status(Broken, i18n("Failed to fetch event: %1").arg(reply->errorString()));
         return;
     }
 
@@ -128,7 +128,7 @@ void CalendarResource::eventReceived(KGoogle::Reply *reply)
         DefaultReminderAttribute *attr = dynamic_cast< DefaultReminderAttribute* >(collection.attribute("defaultReminders"));
         if (attr) {
             Alarm::List alarms = attr->alarms(event);
-            foreach (AlarmPtr alarm, alarms) {
+            Q_FOREACH (AlarmPtr alarm, alarms) {
                 event->addAlarm(alarm);
             }
         }
@@ -161,13 +161,13 @@ void CalendarResource::eventsReceived(KJob *job)
     QMap< QString, Objects::Event* > recurrentEvents;
 
     QList< Object *> allData = fetchJob->items();
-    foreach(Object * replyData, allData) {
+    Q_FOREACH(Object * replyData, allData) {
 
         Objects::Event *event = static_cast< Objects::Event* >(replyData);
 
         if (event->useDefaultReminders() && attr) {
             Alarm::List alarms = attr->alarms(event);
-            foreach (AlarmPtr alarm, alarms) {
+            Q_FOREACH (AlarmPtr alarm, alarms) {
                 event->addAlarm(alarm);
             }
         }
@@ -205,7 +205,7 @@ void CalendarResource::eventsReceived(KJob *job)
     }
 
     /* Now process the recurrent events */
-    foreach(Objects::Event * event, recurrentEvents.values()) {
+    Q_FOREACH(Objects::Event * event, recurrentEvents.values()) {
 
         Item item;
         item.setRemoteId(event->uid());

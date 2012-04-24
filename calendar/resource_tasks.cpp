@@ -78,7 +78,7 @@ void CalendarResource::taskListReceived(KJob *job)
 {
     if (job->error()) {
         cancelTask();
-        emit status(Broken, i18n("Failed to fetch task lists"));
+        Q_EMIT status(Broken, i18n("Failed to fetch task lists"));
         return;
     }
 
@@ -87,7 +87,7 @@ void CalendarResource::taskListReceived(KJob *job)
     QStringList taskLists = Settings::self()->taskLists();
 
     QList< Object* > data = fetchJob->items();
-    foreach(Object * replyData, data) {
+    Q_FOREACH(Object * replyData, data) {
 
         Objects::TaskList *taskList = static_cast< Objects::TaskList* >(replyData);
 
@@ -164,7 +164,7 @@ void CalendarResource::tasksReceived(KJob *job)
     Item::List changed;
 
     QList< Object* > data = fetchJob->items();
-    foreach(Object * replyData, data) {
+    Q_FOREACH(Object * replyData, data) {
 
         Objects::Task *task = static_cast< Objects::Task* >(replyData);
 
@@ -251,7 +251,7 @@ void CalendarResource::removeTaskFetchJobFinished(KJob *job)
     Item::List detachItems;
 
     Item::List items = fetchJob->items();
-    foreach (Item item, items)
+    Q_FOREACH (Item item, items)
     {
         if (!item.hasPayload< TodoPtr >()) {
             kDebug() << "Item " << item.remoteId() << " does not have Todo payload";

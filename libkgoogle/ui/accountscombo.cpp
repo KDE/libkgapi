@@ -58,7 +58,7 @@ void AccountsCombo::reload()
         return;
     }
 
-    foreach(const KGoogle::Account::Ptr &account, accounts) {
+    Q_FOREACH(const KGoogle::Account::Ptr &account, accounts) {
         addItem(account->accountName(), qVariantFromValue(account));
     }
 }

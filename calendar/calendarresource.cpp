@@ -139,7 +139,7 @@ void CalendarResource::configure(WId windowId)
     SettingsDialog *settingsDialog = new SettingsDialog(windowId);
 
     if (settingsDialog->exec() == KDialog::Accepted) {
-        emit configurationDialogAccepted();
+        Q_EMIT configurationDialogAccepted();
 
         delete settingsDialog;
 
@@ -148,7 +148,7 @@ void CalendarResource::configure(WId windowId)
         }
 
     } else {
-        emit configurationDialogRejected();
+        Q_EMIT configurationDialogRejected();
 
         delete settingsDialog;
     }
@@ -172,7 +172,7 @@ Account::Ptr CalendarResource::getAccount()
     try {
         m_account = auth->getAccount(Settings::self()->account());
     } catch (KGoogle::Exception::BaseException &e) {
-        emit status(Broken, e.what());
+        Q_EMIT status(Broken, e.what());
         return Account::Ptr();
     }
 
@@ -196,7 +196,7 @@ void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
         fetchJob->setProperty("collection", qVariantFromValue(collection));
         fetchJob->start();
 
-        emit percent(0);
+        Q_EMIT percent(0);
     } else {
         itemsRetrievalDone();
     }
@@ -222,7 +222,7 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
 
     } else {
 
-        emit cancelTask(i18n("Invalid collection"));
+        Q_EMIT cancelTask(i18n("Invalid collection"));
         return;
 
     }
@@ -675,7 +675,7 @@ void CalendarResource::emitPercent(KJob* job, ulong progress)
 {
     Q_UNUSED(job);
 
-    emit percent(progress);
+    Q_EMIT percent(progress);
 }
 
 

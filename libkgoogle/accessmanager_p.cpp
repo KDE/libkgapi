@@ -70,7 +70,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
 #ifdef DEBUG_RAWDATA
     QStringList headers;
-    foreach(QString str, reply->rawHeaderList()) {
+    Q_FOREACH(QString str, reply->rawHeaderList()) {
         headers << str + ": " + reply->rawHeader(str.toLatin1());
     }
     kDebug() << headers;
@@ -82,7 +82,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     KGoogle::Request *request = reply->request().attribute(RequestAttribute).value<KGoogle::Request*>();
     if (!request) {
-        emit q->error(KGoogle::InvalidResponse, i18n("No valid reply received"));
+        Q_EMIT q->error(KGoogle::InvalidResponse, i18n("No valid reply received"));
         return;
     }
 
@@ -112,7 +112,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     case KGoogle::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
         kWarning() << "Bad request, Google replied '" << rawData << "'";
-        emit q->error(KGoogle::BadRequest, i18n("Bad request."));
+        Q_EMIT q->error(KGoogle::BadRequest, i18n("Bad request."));
         return;
 
     case KGoogle::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
@@ -129,9 +129,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
             bool scopesChanged = false;
 
             /* Go through the entire cache, check if there are another
-             * requests with the same account waiting, but for different 
+             * requests with the same account waiting, but for different
              * services. */
-            foreach (KGoogle::Request *r, cache) {
+            Q_FOREACH (KGoogle::Request *r, cache) {
                 if (r->account()->accountName() == accName) {
 
                     int type = QMetaType::type(qPrintable(r->serviceName()));
@@ -145,7 +145,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
             }
 
             /* Authenticate the account not just for this, but for all other
-             * services for which the account has pending requests. 
+             * services for which the account has pending requests.
              * This is purely for user's comfort. It ensures that there won't be
              * a new dialog for each service the account has pending requests.
              * Obviously this works only for requests that are already in the cache.
@@ -158,8 +158,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
             try {
                 auth->authenticate(account, true);
             } catch (KGoogle::Exception::BaseException &e) {
-                emit q->error(KGoogle::InvalidAccount, e.what());
-                emit request->error(KGoogle::InvalidAccount, e.what());
+                Q_EMIT q->error(KGoogle::InvalidAccount, e.what());
+                Q_EMIT request->error(KGoogle::InvalidAccount, e.what());
                 return;
             }
         }
@@ -169,50 +169,50 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     case KGoogle::Forbidden:
         kWarning() << "Requested resource is forbidden.";
         kWarning() << rawData;
-        emit q->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", QString(rawData)));
-        emit request->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT q->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT request->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", QString(rawData)));
         return;
 
     case KGoogle::NotFound:
         kWarning() << "Requested resource does not exist";
         kWarning() << rawData;
-        emit q->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", QString(rawData)));
-        emit request->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT q->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT request->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", QString(rawData)));
         return;
 
     case KGoogle::Conflict:
         kWarning() << "Conflict. Remote resource is newer then local.";
         kWarning() << rawData;
-        emit q->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", QString(rawData)));
-        emit request->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT q->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT request->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", QString(rawData)));
         return;
 
     case KGoogle::Gone:
         kWarning() << "Requested resource does not exist anymore.";
         kWarning() << rawData;
-        emit q->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", QString(rawData)));
-        emit request->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT q->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT request->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", QString(rawData)));
         return;
 
     case KGoogle::InternalError:
         kWarning() << "Internal server error.";
         kWarning() << rawData;
-        emit q->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
-        emit request->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT q->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT request->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
         return;
 
     case KGoogle::QuotaExceeded:
         kWarning() << "User quota exceeded.";
         kWarning() << rawData;
-        emit q->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
-        emit request->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT q->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT request->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
         return;
 
     default: /** Something went wrong, there's nothing we can do about it */
         kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
                    << ", Google replied '" << rawData << "'";
-        emit q->error(KGoogle::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", QString(rawData)));
-        emit request->error(KGoogle::UnknownError, QString(rawData));
+        Q_EMIT q->error(KGoogle::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", QString(rawData)));
+        Q_EMIT request->error(KGoogle::UnknownError, QString(rawData));
         return;
     }
 
@@ -277,7 +277,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
                                 (KGoogle::Error) reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
                                 request->serviceName(), replyData, request, rawData);
 
-    emit q->replyReceived(greply);
+    Q_EMIT q->replyReceived(greply);
 
     /* Re-send the request on a new URL */
     if (new_request.isValid()) {
@@ -285,11 +285,11 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         nam_sendRequest(request);
 
         if ((processedItems > -1) && (totalItems > -1)) {
-            emit q->requestProgress(request, processedItems, totalItems);
+            Q_EMIT q->requestProgress(request, processedItems, totalItems);
         }
 
     } else {
-        emit q->requestFinished(request);
+        Q_EMIT q->requestFinished(request);
 
         /* Send next request from the cache */
         submitCache();
@@ -314,7 +314,7 @@ void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
     KGoogle::Service *service = static_cast<KGoogle::Service*>(QMetaType::construct(type));
     if (!service) {
         kWarning() << "Failed to resolve service " << request->serviceName();
-        emit q->error(KGoogle::UnknownService, i18n("Invalid request, service %1 is not registered.", request->serviceName()));
+        Q_EMIT q->error(KGoogle::UnknownService, i18n("Invalid request, service %1 is not registered.", request->serviceName()));
         return;
     }
 
@@ -325,7 +325,7 @@ void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
 
 #ifdef DEBUG_RAWDATA
     QStringList headers;
-    foreach(QString str, nr.rawHeaderList()) {
+    Q_FOREACH(QString str, nr.rawHeaderList()) {
         headers << str + ": " + nr.rawHeader(str.toLatin1());
     }
     kDebug() << headers;

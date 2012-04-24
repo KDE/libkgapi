@@ -139,7 +139,7 @@ QList< KGoogle::Account::Ptr > Auth::getAccounts()
 
     d->kwallet->setFolder(d->kwalletFolder);
     QStringList list = d->kwallet->entryList();
-    foreach(QString accName, list) {
+    Q_FOREACH(QString accName, list) {
 
         QMap< QString, QString > map;
         d->kwallet->readMap(accName, map);
@@ -160,7 +160,7 @@ QList< KGoogle::Account::Ptr > Auth::getAccounts()
 
         QStringList scopes = map["scopes"].split(',');
         QList< QUrl > scopeUrls;
-        foreach(const QString & scope, scopes) {
+        Q_FOREACH(const QString & scope, scopes) {
             scopeUrls << QUrl(scope);
         }
 
@@ -196,7 +196,7 @@ void Auth::storeAccount(const KGoogle::Account::Ptr &account)
         d->kwallet->removeEntry(account->accountName());
 
     QStringList scopes;
-    foreach(const QUrl & scope, account->scopes()) {
+    Q_FOREACH(const QUrl & scope, account->scopes()) {
         scopes << scope.toString();
     }
 

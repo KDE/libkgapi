@@ -66,14 +66,14 @@ void CalendarEditor::accepted()
     m_calendar->setLocation(m_ui->locationEdit->text());
     m_calendar->setTimezone(m_ui->timezoneCombo->currentText());
 
-    emit accepted(m_calendar);
+    Q_EMIT accepted(m_calendar);
 }
 
 
 void CalendarEditor::initTimezones()
 {
 
-    foreach(const KTimeZone tz, KSystemTimeZones::zones()) {
+    Q_FOREACH(const KTimeZone tz, KSystemTimeZones::zones()) {
         QIcon icon;
 
         QString flag = KStandardDirs::locate("locale", QString("l10n/%1/flag.png").arg(tz.countryCode().toLower()));

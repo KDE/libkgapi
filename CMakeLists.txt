@@ -17,7 +17,7 @@ macro_log_feature(XSLTPROC_EXECUTABLE "xsltproc" "The command line XSLT processo
 find_package(QJSON REQUIRED)
 macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http://qjson.sourceforge.net/" TRUE)
 
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS} -DQT_NO_KEYWORDS)
 
 
 option(USE_KCAL "Use deprecated KCal API instead of KCalCore API. Provides backwards compatibility for KDE PIM 4.4" FALSE)

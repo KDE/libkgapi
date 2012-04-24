@@ -52,7 +52,7 @@ void DefaultReminderAttribute::deserialize (const QByteArray& data)
     QVariantList list;
 
     list = parser.parse(data).toList();
-    foreach (const QVariant &l, list) {
+    Q_FOREACH (const QVariant &l, list) {
         QVariantMap reminder = l.toMap();
 
         Reminder::Ptr rem(new Reminder);
@@ -73,7 +73,7 @@ QByteArray DefaultReminderAttribute::serialized() const
 {
     QVariantList list;
 
-    foreach (Reminder::Ptr rem, m_reminders) {
+    Q_FOREACH (Reminder::Ptr rem, m_reminders) {
         QVariantMap reminder;
 
         if (rem->type() == Alarm::Display) {
@@ -95,7 +95,7 @@ Alarm::List DefaultReminderAttribute::alarms(Incidence *incidence) const
 {
     Alarm::List alarms;
 
-    foreach (const Reminder::Ptr &reminder, m_reminders) {
+    Q_FOREACH (const Reminder::Ptr &reminder, m_reminders) {
         AlarmPtr alarm(new Alarm(incidence));
 
         alarm->setType(reminder->type());

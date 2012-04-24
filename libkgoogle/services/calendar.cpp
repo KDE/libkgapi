@@ -293,7 +293,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToCalendar(const QVariantMap& ca
     }
 
     QVariantList reminders = calendar["defaultReminders"].toList();
-    foreach(const QVariant & r, reminders) {
+    Q_FOREACH(const QVariant & r, reminders) {
         QVariantMap reminder = r.toMap();
 
         Objects::Reminder::Ptr rem(new Objects::Reminder());
@@ -336,7 +336,7 @@ QList< KGoogle::Object* > Services::CalendarPrivate::parseCalendarJSONFeed(const
 {
     QList< KGoogle::Object* > output;
 
-    foreach(QVariant i, feed) {
+    Q_FOREACH(QVariant i, feed) {
         output.append(CalendarPrivate::JSONToCalendar(i.toMap()));
     }
 
@@ -438,7 +438,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
 
     /* Attendees */
     QVariantList attendees = event["attendees"].toList();
-    foreach(const QVariant & a, attendees) {
+    Q_FOREACH(const QVariant & a, attendees) {
         QVariantMap att = a.toMap();
         AttendeePtr attendee(
             new Attendee(att["displayName"].toString(),
@@ -462,7 +462,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
 
     /* Recurrence */
     QStringList recrs = event["recurrence"].toStringList();
-    foreach(const QString & rec, recrs) {
+    Q_FOREACH(const QString & rec, recrs) {
         ICalFormat format;
         if (rec.left(5) == "RRULE") {
             RecurrenceRule *recurrenceRule = new RecurrenceRule();
@@ -489,7 +489,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
     }
 
     QVariantList overrides = reminders["overrides"].toList();
-    foreach(const QVariant & r, overrides) {
+    Q_FOREACH(const QVariant & r, overrides) {
         QVariantMap override = r.toMap();
         AlarmPtr alarm(new Alarm(object));
         alarm->setTime(object->dtStart());
@@ -512,7 +512,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
     QVariantMap extendedProperties = event["extendedProperties"].toMap();
     QVariantMap privateProperties = extendedProperties["private"].toMap();
 
-    foreach(const QString & key, privateProperties.keys()) {
+    Q_FOREACH(const QString & key, privateProperties.keys()) {
 
         if (key == "categories") {
             object->setCategories(privateProperties.value(key).toString());
@@ -520,7 +520,7 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
     }
 
     QVariantMap sharedProperties = extendedProperties["shared"].toMap();
-    foreach(const QString & key, sharedProperties.keys()) {
+    Q_FOREACH(const QString & key, sharedProperties.keys()) {
 
         if (key == "categories") {
             object->setCategories(sharedProperties.value(key).toString());
@@ -576,16 +576,16 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
     /* Recurrence */
     QVariantList recurrence;
     ICalFormat format;
-    foreach(RecurrenceRule * rRule, object->recurrence()->rRules()) {
+    Q_FOREACH(RecurrenceRule * rRule, object->recurrence()->rRules()) {
         recurrence << format.toString(rRule).remove("\r\n");
     }
 
-    foreach(RecurrenceRule * rRule, object->recurrence()->exRules()) {
+    Q_FOREACH(RecurrenceRule * rRule, object->recurrence()->exRules()) {
         recurrence << format.toString(rRule).remove("\r\n");
     }
 
     QStringList dates;
-    foreach(const QDate & rDate, object->recurrence()->rDates()) {
+    Q_FOREACH(const QDate & rDate, object->recurrence()->rDates()) {
         dates << rDate.toString("yyyyMMdd");
     }
 
@@ -594,7 +594,7 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
     }
 
     dates.clear();
-    foreach(const QDate & exDate, object->recurrence()->exDates()) {
+    Q_FOREACH(const QDate & exDate, object->recurrence()->exDates()) {
         dates << exDate.toString("yyyyMMdd");
     }
 
@@ -649,7 +649,7 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
 
     /* Attendees */
     QVariantList atts;
-    foreach(const AttendeePtr attee, object->attendees()) {
+    Q_FOREACH(const AttendeePtr attee, object->attendees()) {
         QVariantMap att;
 
         att["displayName"] = attee->name();
@@ -676,7 +676,7 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
 
     /* Reminders */
     QVariantList overrides;
-    foreach(AlarmPtr alarm, object->alarms()) {
+    Q_FOREACH(AlarmPtr alarm, object->alarms()) {
         QVariantMap override;
 
         if (alarm->type() == Alarm::Display) {
@@ -719,7 +719,7 @@ QList< KGoogle::Object* > Services::CalendarPrivate::parseEventJSONFeed(const QV
 {
     QList< KGoogle::Object* > output;
 
-    foreach(QVariant i, feed) {
+    Q_FOREACH(QVariant i, feed) {
         output.append(JSONToEvent(i.toMap()));
     }
 
@@ -734,7 +734,7 @@ DateList Services::CalendarPrivate::parseRDate(const QString& rule)
 
     QString left = rule.left(rule.indexOf(":"));
     QStringList params = left.split(";");
-    foreach(const QString & param, params) {
+    Q_FOREACH(const QString & param, params) {
         if (param.startsWith("VALUE")) {
             value = param.mid(param.indexOf("=") + 1);
         } else if (param.startsWith("TZID")) {
@@ -745,7 +745,7 @@ DateList Services::CalendarPrivate::parseRDate(const QString& rule)
 
     QString datesStr = rule.mid(rule.lastIndexOf(":") + 1);
     QStringList dates = datesStr.split(",");
-    foreach(QString date, dates) {
+    Q_FOREACH(QString date, dates) {
         QDate dt;
 
         if (value == "DATE") {

@@ -598,7 +598,7 @@ void SettingsDialog::gam_objectCreated(Reply *reply)
 
     if (reply->serviceName() == "Calendar") {
 
-        foreach(KGoogle::Object * object, objects) {
+        Q_FOREACH(KGoogle::Object * object, objects) {
             KGoogle::Objects::Calendar *calendar = static_cast< KGoogle::Objects::Calendar* >(object);
 
             QListWidgetItem *item = new QListWidgetItem(calendar->title());
@@ -614,7 +614,7 @@ void SettingsDialog::gam_objectCreated(Reply *reply)
 
     } else if (reply->serviceName() == "Tasks") {
 
-        foreach(KGoogle::Object * object, objects) {
+        Q_FOREACH(KGoogle::Object * object, objects) {
             KGoogle::Objects::TaskList *taskList = static_cast< KGoogle::Objects::TaskList* >(object);
 
             QListWidgetItem *item = new QListWidgetItem(taskList->title());
@@ -640,7 +640,7 @@ void SettingsDialog::gam_objectsListReceived(Reply *reply)
 
     if (reply->serviceName() == "Calendar") {
 
-        foreach(KGoogle::Object * object, objects) {
+        Q_FOREACH(KGoogle::Object * object, objects) {
             Objects::Calendar *calendar;
             QListWidgetItem *item;
 
@@ -663,7 +663,7 @@ void SettingsDialog::gam_objectsListReceived(Reply *reply)
 
     } else if (reply->serviceName() == "Tasks") {
 
-        foreach(KGoogle::Object * object, objects) {
+        Q_FOREACH(KGoogle::Object * object, objects) {
             Objects::TaskList *taskList;
             QListWidgetItem *item;
 
@@ -696,7 +696,7 @@ void SettingsDialog::gam_objectModified(Reply *reply)
 
     if (reply->serviceName() == "Calendar") {
 
-        foreach(KGoogle::Object * object, objects) {
+        Q_FOREACH(KGoogle::Object * object, objects) {
             KGoogle::Objects::Calendar *calendar = static_cast< KGoogle::Objects::Calendar* >(object);
             QListWidgetItem *item = 0;
 
@@ -724,7 +724,7 @@ void SettingsDialog::gam_objectModified(Reply *reply)
 
     } else if (reply->serviceName() == "Tasks") {
 
-        foreach(KGoogle::Object * object, objects) {
+        Q_FOREACH(KGoogle::Object * object, objects) {
             KGoogle::Objects::TaskList *taskList = static_cast< KGoogle::Objects::TaskList* >(object);
             QListWidgetItem *item = 0;
 

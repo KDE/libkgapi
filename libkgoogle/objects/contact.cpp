@@ -51,7 +51,7 @@ Contact::Contact(const Contact &other):
     d(other.d)
 {
     QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
-    foreach(QString group, groups) {
+    Q_FOREACH(QString group, groups) {
         d->groups.insert(group, false);
     }
 }
@@ -61,7 +61,7 @@ Contact::Contact(const KABC::Addressee& other):
     d(new ContactData)
 {
     QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
-    foreach(QString group, groups) {
+    Q_FOREACH(QString group, groups) {
         d->groups.insert(group, false);
     }
 }
@@ -204,7 +204,7 @@ void Contact::setGroups(const QStringList &groups)
     insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
 
     d->groups.clear();
-    foreach(QString group, groups) {
+    Q_FOREACH(QString group, groups) {
         d->groups.insert(group, false);
     }
 }
@@ -217,7 +217,7 @@ QStringList Contact::groups() const
 void Contact::clearGroups()
 {
     QStringList groups = d->groups.keys();
-    foreach(QString group, groups) {
+    Q_FOREACH(QString group, groups) {
         d->groups.insert(group, true);
     }
 }

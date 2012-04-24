@@ -57,7 +57,7 @@ void AuthDialog::emitError(const KGoogle::Error errCode, const QString& msg)
 
     m_label->setText("<b>" + msg + "</b>");
 
-    emit error(errCode, msg);
+    Q_EMIT error(errCode, msg);
 }
 
 
@@ -190,7 +190,7 @@ void AuthDialog::accountInfoReceived(KGoogle::Reply* reply)
 
     delete reply;
 
-    emit authenticated(m_account);
+    Q_EMIT authenticated(m_account);
     accept();
 }
 
@@ -261,7 +261,7 @@ void AuthDialog::authenticate(KGoogle::Account::Ptr &account)
     m_account = account;
 
     QStringList scopes;
-    foreach(const QUrl & scope, account->scopes()) {
+    Q_FOREACH(const QUrl & scope, account->scopes()) {
         scopes << scope.toString();
     }
 

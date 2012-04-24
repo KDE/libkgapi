@@ -79,7 +79,7 @@ Account::Ptr AuthPrivate::getAccountFromWallet(const QString& account)
 
     QStringList scopes = map["scopes"].split(',');
     QList< QUrl > scopeUrls;
-    foreach(const QString & scope, scopes) {
+    Q_FOREACH(const QString & scope, scopes) {
         scopeUrls << QUrl(scope);
     }
 
@@ -128,7 +128,7 @@ void AuthPrivate::fullAuthenticationFinished(KGoogle::Account::Ptr &account)
         try {
             q->storeAccount(account);
         } catch (Exception::BaseException &e) {
-            emit q->error(e.code(), e.what());
+            Q_EMIT q->error(e.code(), e.what());
             return;
         }
     }
@@ -136,13 +136,13 @@ void AuthPrivate::fullAuthenticationFinished(KGoogle::Account::Ptr &account)
     /* Reset scopesChanged flag */
     account->m_scopesChanged = false;
 
-    emit q->authenticated(account);
+    Q_EMIT q->authenticated(account);
 }
 
 void AuthPrivate::authDialogCancelled()
 {
     Q_Q(Auth);
-    emit q->error(AuthCancelled, i18n("Authentication cancelled"));
+    Q_EMIT q->error(AuthCancelled, i18n("Authentication cancelled"));
 }
 
 
@@ -181,7 +181,7 @@ void AuthPrivate::refreshTokensFinished(QNetworkReply *reply)
     Q_Q(Auth);
 
     if (reply->error()) {
-        emit q->error(NetworkError, reply->errorString());
+        Q_EMIT q->error(NetworkError, reply->errorString());
         return;
     }
 
@@ -196,7 +196,7 @@ void AuthPrivate::refreshTokensFinished(QNetworkReply *reply)
     QVariantMap map = parser.parse(rawData, &ok).toMap();
 
     if (!ok) {
-        emit q->error(InvalidResponse, i18n("Failed to parse newly fetched tokens"));
+        Q_EMIT q->error(InvalidResponse, i18n("Failed to parse newly fetched tokens"));
         return;
     }
 
@@ -214,11 +214,11 @@ void AuthPrivate::refreshTokensFinished(QNetworkReply *reply)
         try {
             q->storeAccount(account);
         } catch (Exception::BaseException &e) {
-            emit q->error(e.code(), e.what());
+            Q_EMIT q->error(e.code(), e.what());
         }
     }
 
-    emit q->authenticated(account);
+    Q_EMIT q->authenticated(account);
 }
 
 void AuthPrivate::kwalletFolderChanged (const QString& folder)
@@ -233,7 +233,7 @@ void AuthPrivate::kwalletFolderChanged (const QString& folder)
      *
      * We can't copy the new account over the old because that would not update
      * the value in all other copies of the cachedAcc object. */
-    foreach (const QString &accName, accountsCache.keys()) {
+    Q_FOREACH (const QString &accName, accountsCache.keys()) {
 
         Account::Ptr walletAcc = getAccountFromWallet(accName);
         Account::Ptr cachedAcc = accountsCache.value(accName);

@@ -48,7 +48,7 @@ void TasklistEditor::accepted()
 
     m_taskList->setTitle(m_ui->nameEdit->text());
 
-    emit accepted(m_taskList);
+    Q_EMIT accepted(m_taskList);
 }
 
 

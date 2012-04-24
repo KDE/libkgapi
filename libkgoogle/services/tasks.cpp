@@ -336,7 +336,7 @@ QList< KGoogle::Object* > TasksPrivate::parseTaskListJSONFeed(const QVariantList
 {
     QList< KGoogle::Object* > list;
 
-    foreach(QVariant item, items) {
+    Q_FOREACH(QVariant item, items) {
         list.append(JSONToTaskList(item.toMap()));
     }
 
@@ -347,7 +347,7 @@ QList< KGoogle::Object* > TasksPrivate::parseTasksJSONFeed(const QVariantList &i
 {
     QList< KGoogle::Object* > list;
 
-    foreach(QVariant item, items) {
+    Q_FOREACH(QVariant item, items) {
         list.append(JSONToTask(item.toMap()));
     }
 

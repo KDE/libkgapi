@@ -130,7 +130,7 @@ void ContactsResource::configure(WId windowId)
     SettingsDialog *settingsDialog = new SettingsDialog(windowId);
 
     if (settingsDialog->exec() == KDialog::Accepted) {
-        emit configurationDialogAccepted();
+        Q_EMIT configurationDialogAccepted();
 
         delete settingsDialog;
 
@@ -140,7 +140,7 @@ void ContactsResource::configure(WId windowId)
 
     } else {
 
-        emit configurationDialogRejected();
+        Q_EMIT configurationDialogRejected();
 
         delete settingsDialog;
     }
@@ -164,7 +164,7 @@ Account::Ptr ContactsResource::getAccount()
     try {
         m_account = auth->getAccount(Settings::self()->account());
     } catch (KGoogle::Exception::BaseException &e) {
-        emit status(Broken, e.what());
+        Q_EMIT status(Broken, e.what());
         return Account::Ptr();
     }
 
@@ -287,7 +287,7 @@ void ContactsResource::initialItemsFetchJobFinished(KJob *job)
         url.addQueryItem("updated-min", lastSync);
     }
 
-    emit percent(0);
+    Q_EMIT percent(0);
 
     FetchListJob *fetchJob = new FetchListJob(url, "Contacts", account->accountName());
     fetchJob->setProperty("Collection", qVariantFromValue(collection));
@@ -491,7 +491,7 @@ void ContactsResource::contactListReceived(KJob *job)
     FetchListJob *fetchJob = dynamic_cast< FetchListJob* >(job);
     QList< KGoogle::Object* > objects = fetchJob->items();
 
-    foreach(KGoogle::Object * object, objects) {
+    Q_FOREACH(KGoogle::Object * object, objects) {
 
         Item item;
         Objects::Contact *contact = static_cast< Objects::Contact* >(object);
@@ -704,7 +704,7 @@ void ContactsResource::updatePhoto(Item &item)
 
 void ContactsResource::emitPercent(KJob* job, ulong progress)
 {
-    emit percent(progress);
+    Q_EMIT percent(progress);
 
     Q_UNUSED(job)
 }
