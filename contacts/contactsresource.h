@@ -83,6 +83,17 @@ class ContactsResource: public Akonadi::ResourceBase,
      */
     virtual void configure(WId windowID);
 
+    /**
+     * @brief Reloads the configuration
+     *
+     * When external applications modify the configuration of
+     * the resource the configuration needs to be reloaded.
+     * Right now what this method is is check if there is a valid
+     * account configured and if so, @see synchronize is called
+     *
+     * The AgentBase::reloadConfiguration signal is or should be
+     * connected to this slot.
+     */
     void reloadConfig();
 
   protected Q_SLOTS:
