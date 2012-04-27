@@ -112,6 +112,7 @@ CalendarResource::~CalendarResource()
 
 void CalendarResource::aboutToQuit()
 {
+    cancelCurrentFetchJobs();
     slotAbortRequested();
 }
 
@@ -123,6 +124,15 @@ void CalendarResource::abort()
 void CalendarResource::slotAbortRequested()
 {
     abort();
+}
+
+void CalendarResource::cancelCurrentFetchJobs()
+{
+    Q_FOREACH(KJob *job, m_jobList) {
+        job->disconnect(this); //We don't want to handle any response
+        job->kill();
+    }
+    m_jobList.clear();
 }
 
 void CalendarResource::error(const KGoogle::Error errCode, const QString &msg)
@@ -179,6 +189,12 @@ Account::Ptr CalendarResource::getAccount()
     return m_account;
 }
 
+void CalendarResource::addFetchJob(KJob* job)
+{
+    connect(job, SIGNAL(finished(KJob*)), this, SLOT(jobFinished(KJob*)));
+    m_jobList.append(job);
+}
+
 void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
 {
     /* Do not initiate item-retrieval for the root collection as this
@@ -192,6 +208,7 @@ void CalendarResource::retrieveItems(const Akonadi::Collection& collection)
         connect(fetchJob, SIGNAL(finished(KJob*)),
                 fetchJob, SLOT(deleteLater()));
 
+        addFetchJob(fetchJob);
         fetchJob->fetchScope().fetchFullPayload(false);
         fetchJob->setProperty("collection", qVariantFromValue(collection));
         fetchJob->start();
@@ -250,6 +267,8 @@ void CalendarResource::cachedItemsRetrieved(KJob* job)
             this, SLOT(itemsReceived(KJob*)));
     connect(fetchJob, SIGNAL(percent(KJob*, ulong)),
             this, SLOT(emitPercent(KJob*, ulong)));
+
+    addFetchJob(fetchJob);
     fetchJob->start();
 }
 
@@ -322,11 +341,13 @@ void CalendarResource::retrieveCollections()
     fetchJob = new FetchListJob(Services::Calendar::fetchCalendarsUrl(), "Calendar", account->accountName());
     connect(fetchJob, SIGNAL(finished(KJob*)),
             this, SLOT(calendarsReceived(KJob*)));
+    addFetchJob(fetchJob);
     fetchJob->start();
 
     fetchJob = new FetchListJob(Services::Tasks::fetchTaskListsUrl(), "Tasks", account->accountName());
     connect(fetchJob, SIGNAL(finished(KJob*)),
             this, SLOT(taskListReceived(KJob*)));
+    addFetchJob(fetchJob);
     fetchJob->start();
 }
 
@@ -489,6 +510,7 @@ void CalendarResource::itemRemoved(const Akonadi::Item& item)
         fetchJob->setProperty("Item", qVariantFromValue(item));
         connect(fetchJob, SIGNAL(finished(KJob*)),
                 this, SLOT(removeTaskFetchJobFinished(KJob*)));
+        addFetchJob(fetchJob);
         fetchJob->start();
 
     } else {
@@ -678,5 +700,9 @@ void CalendarResource::emitPercent(KJob* job, ulong progress)
     Q_EMIT percent(progress);
 }
 
+void CalendarResource::jobFinished(KJob* job)
+{
+    m_jobList.removeOne(job);
+}
 
 AKONADI_RESOURCE_MAIN(CalendarResource);

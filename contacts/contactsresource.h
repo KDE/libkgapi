@@ -117,6 +117,7 @@ class ContactsResource: public Akonadi::ResourceBase,
     void error(KGoogle::Error errCode, const QString &msg);
 
     void slotAbortRequested();
+    void cancelCurrentFetchJobs();
 
     void initialItemsFetchJobFinished(KJob *job);
     void contactListReceived(KJob *job);
@@ -132,11 +133,14 @@ class ContactsResource: public Akonadi::ResourceBase,
 
     void emitPercent(KJob *job, ulong progress);
 
+    void jobFinished(KJob *job);
+
   private:
     void abort();
 
     void updatePhoto(Akonadi::Item &item);
     void fetchPhoto(Akonadi::Item &item);
+    void addFetchJob(KJob *job);
 
     Account::Ptr getAccount();
 
@@ -144,8 +148,8 @@ class ContactsResource: public Akonadi::ResourceBase,
 
     KGoogle::AccessManager *m_gam;
     QNetworkAccessManager *m_photoNam;
-
     QMap< QString, Akonadi::Collection > m_collections;
+    QList<KJob*> m_jobList;
 };
 
 #endif // CONTACTSRESOURCE_H

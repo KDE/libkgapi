@@ -102,6 +102,7 @@ ContactsResource::~ContactsResource()
 
 void ContactsResource::aboutToQuit()
 {
+    cancelCurrentFetchJobs();
     slotAbortRequested();
 }
 
@@ -113,6 +114,15 @@ void ContactsResource::abort()
 void ContactsResource::slotAbortRequested()
 {
     abort();
+}
+
+void ContactsResource::cancelCurrentFetchJobs()
+{
+    Q_FOREACH(KJob *job, m_jobList) {
+        job->disconnect(this); //We don't want to handle any response
+        job->kill();
+    }
+    m_jobList.clear();
 }
 
 void ContactsResource::error(Error errCode, const QString &msg)
@@ -185,6 +195,8 @@ void ContactsResource::retrieveItems(const Akonadi::Collection& collection)
     fetchJob->setProperty("Collection", qVariantFromValue(collection));
     connect(fetchJob, SIGNAL(finished(KJob*)),
             this, SLOT(initialItemsFetchJobFinished(KJob*)));
+
+    addFetchJob(fetchJob);
 
     fetchJob->start();
 }
@@ -293,6 +305,9 @@ void ContactsResource::initialItemsFetchJobFinished(KJob *job)
     fetchJob->setProperty("Collection", qVariantFromValue(collection));
     connect(fetchJob, SIGNAL(finished(KJob*)), this, SLOT(contactListReceived(KJob*)));
     connect(fetchJob, SIGNAL(percent(KJob*, ulong)), this, SLOT(emitPercent(KJob*, ulong)));
+
+    addFetchJob(fetchJob);
+
     fetchJob->start();
 }
 
@@ -670,6 +685,11 @@ void ContactsResource::fetchPhoto(Akonadi::Item &item)
     m_photoNam->get(request);
 }
 
+void ContactsResource::addFetchJob(KJob* job)
+{
+    connect(job, SIGNAL(finished(KJob*)), this, SLOT(jobFinished(KJob*)));
+    m_jobList.append(job);
+}
 
 void ContactsResource::updatePhoto(Item &item)
 {
@@ -709,5 +729,9 @@ void ContactsResource::emitPercent(KJob* job, ulong progress)
     Q_UNUSED(job)
 }
 
+void ContactsResource::jobFinished(KJob* job)
+{
+    m_jobList.removeOne(job);
+}
 
 AKONADI_RESOURCE_MAIN(ContactsResource)

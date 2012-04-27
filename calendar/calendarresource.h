@@ -66,6 +66,7 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
   private Q_SLOTS:
     void error(const KGoogle::Error, const QString&);
     void slotAbortRequested();
+    void cancelCurrentFetchJobs();
 
     void cachedItemsRetrieved(KJob *job);
     void replyReceived(KGoogle::Reply *reply);
@@ -101,15 +102,20 @@ class CalendarResource : public Akonadi::ResourceBase, public Akonadi::AgentBase
 
     void emitPercent(KJob* job, ulong percent);
 
+    void jobFinished(KJob *job);
+
   private:
     void abort();
     Account::Ptr getAccount();
+    void addFetchJob(KJob *job);
 
     AccessManager *m_gam;
 
     Account::Ptr m_account;
 
     Akonadi::Collection::List m_collections;
+    QList<KJob*> m_jobList;
+
     bool m_fetchedCalendars;
     bool m_fetchedTaskLists;
 };
