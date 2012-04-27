@@ -31,6 +31,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QProgressBar;
 class QLabel;
+class QWebView;
 class KWebView;
 
 namespace KGoogle
@@ -135,7 +136,7 @@ class LIBKGOOGLE_EXPORT AuthDialog: public KDialog
     QProgressBar *m_progressbar;
     QHBoxLayout *m_hbox;
     QVBoxLayout *m_vbox;
-    KWebView *m_webiew;
+    QWebView *m_webiew;
     QLabel *m_label;
 
     QString m_username;

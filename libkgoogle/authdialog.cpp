@@ -22,13 +22,13 @@
 #include <KDE/KDebug>
 #include <KDE/KLocalizedString>
 #include <KDE/KWindowSystem>
-#include <KDE/KWebView>
 #include <KIO/AccessManager>
 
 #include <QtCore/QByteArray>
 #include <QtCore/QUrl>
 #include <QtCore/QString>
 #include <QtGui/QLabel>
+#include <QtWebKit/QWebView>
 #include <QtGui/QProgressBar>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
@@ -225,7 +225,7 @@ AuthDialog::AuthDialog(WId windowId):
     m_progressbar->setValue(0);
     m_vbox->addWidget(m_progressbar);
 
-    m_webiew = new KWebView(m_widget, true);
+    m_webiew = new QWebView(m_widget);
     m_vbox->addWidget(m_webiew);
     connect(m_webiew, SIGNAL(loadProgress(int)),
             m_progressbar, SLOT(setValue(int)));
