@@ -1,17 +1,14 @@
-Akonadi Google 
+LibKGoogle
 ========================
 
-Akonadi Google is a set of Akonadi resources providing access
-to various Google services like Google Contacts or Google Calendar
-from KDE PIM applications.
-
+LibKGoogle is a C++ library that implements APIs for various Google
+services, including Google Contacts, Google Calendars and Google Tasks.
 
 Dependencies:
 -------------
   - KDE Libraries >= 4.7.0
   - KDEPIM Libraries >= 4.6 (version >= 4.4 supported with -DUSE_KCAL=TRUE switch, see below)
   - QJSON
-  - libxslt
   - Boost (when using -DUSE_KCAL=TRUE switch)
 
 
@@ -24,10 +21,6 @@ Compiling:
   make
   # As root:
   make install
-
-To disable calendar resource, use -DBUILD_CALENDAR=OFF.
-To disable contacts resource, use -DBUILD_CONTACTS=OFF.
-To disable tasks resource, use -DBUILD_TASKS=OFF.
 
 BUGS:
 -----

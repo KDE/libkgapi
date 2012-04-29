@@ -1,24 +1,35 @@
-cmake_minimum_required(VERSION  2.8)
+project(libkgoogle)
+set(KGOOGLE_VERSION_MAJOR 0)
+set(KGOOGLE_VERSION_MINOR 3)
+set(KGOOGLE_VERSION_RELEASE 1)
+set(KGOOGLE_VERSION 0.3.1)
+
+cmake_minimum_required(VERSION 2.8)
 
 if(POLICY CMP0017)
   cmake_policy(SET CMP0017 NEW)
 endif()
 
 find_package(Qt4 4.7.0 REQUIRED) 
+option(DEBUG_RAWDATA "Log raw data send and received from Google service (enables CMAKE_BUILD_TYPE=Debug)" FALSE)
+if (DEBUG_RAWDATA)
+  SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
+  add_definitions(-DDEBUG_RAWDATA)
+else (DEBUG_RAWDATA)
+  SET(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel.")
+endif (DEBUG_RAWDATA)
+
 find_package(KDE4 4.6.0 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
 
 find_package(KdepimLibs 4.5.63 REQUIRED)
 
-find_program(XSLTPROC_EXECUTABLE xsltproc)
-macro_log_feature(XSLTPROC_EXECUTABLE "xsltproc" "The command line XSLT processor from libxslt" "http://xmlsoft.org/XSLT/" TRUE)
-
 find_package(QJSON REQUIRED)
 macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http://qjson.sourceforge.net/" TRUE)
 
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS} -DQT_NO_KEYWORDS)
-
+add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS} -DQT_NO_KEYWORDS -DLIBKGOOGLE_LIBRARY)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 option(USE_KCAL "Use deprecated KCal API instead of KCalCore API. Provides backwards compatibility for KDE PIM 4.4" FALSE)
 if (USE_KCAL)
@@ -43,8 +54,3 @@ include_directories(
 )
 
 add_subdirectory(libkgoogle)
-
-macro_optional_add_subdirectory(calendar)
-macro_optional_add_subdirectory(contacts)
-
-macro_display_feature_log()
