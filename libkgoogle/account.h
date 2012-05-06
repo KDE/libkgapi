@@ -172,7 +172,7 @@ class LIBKGOOGLE_EXPORT Account
 
 } /* namespace KGoogle */
 
-Q_DECLARE_METATYPE(KGoogle::Account::Ptr);
-Q_DECLARE_METATYPE(KGoogle::Account*);
+Q_DECLARE_METATYPE(KGoogle::Account::Ptr)
+Q_DECLARE_METATYPE(KGoogle::Account*)
 
 #endif // LIBKGOOGLE_ACCOUNT_H
