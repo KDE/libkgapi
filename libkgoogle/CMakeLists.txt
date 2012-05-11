@@ -53,8 +53,6 @@ set(objects_HDRS
 set(ui_HDRS
     ui/accountscombo.h)
 
-add_subdirectory(cmake)
-
 kde4_add_library(kgoogle SHARED ${libkgoogle_SRCS})
 
 set_target_properties(kgoogle PROPERTIES VERSION ${KGOOGLE_VERSION} SOVERSION ${KGOOGLE_VERSION_MAJOR} )
@@ -79,9 +77,9 @@ if(NOT WIN32)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgoogle.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig )
 endif(NOT WIN32)
 
-
-install(TARGETS kgoogle ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kgoogle EXPORT kgoogleLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES ${libkgoogle_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle)
 install(FILES ${services_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/services)
 install(FILES ${objects_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/objects)
 install(FILES ${ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgoogle/ui)
+

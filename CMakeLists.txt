@@ -54,3 +54,19 @@ include_directories(
 )
 
 add_subdirectory(libkgoogle)
+
+configure_file(${libkgoogle_SOURCE_DIR}/LibKGoogleConfig.cmake.in
+               ${libkgoogle_BINARY_DIR}/LibKGoogleConfig.cmake
+               @ONLY
+)
+# this file is used by to check if the installed version can be used.
+macro_write_basic_cmake_version_file(${libkgoogle_BINARY_DIR}/LibKGoogleConfigVersion.cmake
+                                     ${KGOOGLE_VERSION_MAJOR} ${KGOOGLE_VERSION_MINOR} ${KGOOGLE_VERSION_RELEASE})
+
+install(FILES ${libkgoogle_BINARY_DIR}/LibKGoogleConfig.cmake ${libkgoogle_BINARY_DIR}/LibKGoogleConfigVersion.cmake
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGoogle)
+
+# Install the file with the exported targets
+install(EXPORT kgoogleLibraryTargets
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGoogle
+        FILE LibKGoogleTargetsWithPrefix.cmake)
