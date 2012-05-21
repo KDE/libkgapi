@@ -35,15 +35,15 @@ namespace Objects
 class AccountInfoData;
 
 /**
- * AccountInfo contains informations about user's Google account.
+ * AccountInfo contains information about user's Google account.
  *
- * It is possible to obtain only informations about account to which
+ * It is possible to obtain only information about account to which
  * we have access token.
  *
- * Some informations might be empty, but id and email are guaranteed to
+ * Some information might be empty, but id and email are guaranteed to
  * be always filled.
  *
- * The accountInfo service provides read-only acces.
+ * The accountInfo service provides read-only access.
  */
 class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Object
 {

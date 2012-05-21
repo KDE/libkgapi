@@ -171,7 +171,7 @@ class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Service
     const QUrl& scopeUrl() const;
 
     /**
-     * Returns wheter service supports reading data in JSON format.
+     * Returns whether service supports reading data in JSON format.
      *
      * @param urlParam Returns value of "alt" query. Usually is
      * "json" or "jsonc". When service does not support reading JSON
@@ -180,7 +180,7 @@ class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Service
     static bool supportsJSONRead(QString* urlParam);
 
     /**
-     * Returns wheter service supports writing data in JSON format.
+     * Returns whether service supports writing data in JSON format.
      *
      * @param urlParam Returns value of "alt" query. Usually is
      * "json" or "jsonc". When service does not support writing JSON

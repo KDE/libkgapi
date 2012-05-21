@@ -176,7 +176,7 @@ public:
     static QUrl photoUrl(const QString &user, const QString &contactId);
 
     /**
-     * Returns wheter service supports reading data in JSON format.
+     * Returns whether service supports reading data in JSON format.
      *
      * @param urlParam Returns a value of "alt" URL query. Usually is
      * "json" or "jsonc". When service does not support reading JSON
@@ -185,7 +185,7 @@ public:
     static bool supportsJSONRead(QString* urlParam);
 
     /**
-     * Returns wheter service supports writing data in JSON format.
+     * Returns whether service supports writing data in JSON format.
      *
      * @param urlParam Returns a value of "alt" URL query. Usually is
      * "json" or "jsonc". When service does not support writing JSON

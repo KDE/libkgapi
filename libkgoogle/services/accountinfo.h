@@ -67,7 +67,7 @@ class LIBKGOOGLE_EXPORT AccountInfo : public KGoogle::Service
     static QUrl fetchUrl();
 
     /**
-     * The AccountInfo always returns informations about single account, never feed.
+     * The AccountInfo always returns information about single account, never feed.
      *
      * This method does nothing.
      */

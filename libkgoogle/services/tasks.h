@@ -157,7 +157,7 @@ class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
     static QUrl removeTaskListUrl(const QString &tasklistID);
 
     /**
-     * Returns wheter service supports reading data in JSON format.
+     * Returns whether service supports reading data in JSON format.
      *
      * @param urlParam Returns empty string, because Tasks API supports
      * only JSON, so there's no need for explicit parameter for it.
@@ -165,7 +165,7 @@ class LIBKGOOGLE_EXPORT Tasks: public KGoogle::Service
     static bool supportsJSONRead(QString* urlParam);
 
     /**
-     * Returns wheter service supports writing data in JSON format.
+     * Returns whether service supports writing data in JSON format.
      *
      * @param urlParam Returns empty string, because Tasks API supports
      * only JSON, so there's no need for explicit parameter for it.

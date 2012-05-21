@@ -128,7 +128,7 @@ class LIBKGOOGLE_EXPORT Request: public QObject, public QNetworkRequest
      * Set a value of an objects property.
      *
      * This mimics functionality of QObject::setProperty(). It
-     * allows user to store additional informations as object's
+     * allows user to store additional information as object's
      * properties.
      *
      * @param name Name of a property.
@@ -142,7 +142,7 @@ class LIBKGOOGLE_EXPORT Request: public QObject, public QNetworkRequest
     QVariant property(const QString &name) const;
 
     /**
-     * Returns wheter request has a property \p name.
+     * Returns whether request has a property \p name.
      */
     bool hasProperty(const QString &name) const;
 

@@ -65,7 +65,7 @@ class LIBKGOOGLE_EXPORT Contact : public KGoogle::Object, public KABC::Addressee
     void setDeleted(const bool deleted);
 
     /**
-     * Returns wheter contact was deleted on the remote server.
+     * Returns whether contact was deleted on the remote server.
      */
     bool deleted() const;
 

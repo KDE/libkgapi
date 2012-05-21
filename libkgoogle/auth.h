@@ -82,7 +82,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      *
      * When there is no folder set libKGoogle will use default "libkgoogle"
      * folder. There is no problem storing tokens in the "libkgoogle" folder but
-     * remember that then the tokens will be shared accross all applications that
+     * remember that the tokens will then be shared across all applications that
      * won't set the folder either. It is strongly recommended for each application
      * to use it's own folder.
      *
@@ -192,7 +192,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      * or connection fails (for any reason).
      *
      * @param account Account to which revoke access.
-     * @return Returns \p true when account is succesfully removed, \p false
+     * @return Returns \p true when account is successfully removed, \p false
      *         when account does not exist or something fails.
      */
     bool revoke(KGoogle::Account::Ptr &account);
@@ -228,7 +228,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
     void setPassword(const QString &password);
 
     /**
-     * Set wether to auto close the authentication dialog on success or error
+     * Set whether to auto close the authentication dialog on success or error
      *
      * When \sa authenticate is called a dialog will appear to authenticate against
      * Google auth system, if set to true the dialog will be autoclosed in either
@@ -236,7 +236,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      *
      * By default the value is false.
      *
-     * @param bool Wether auto close or not the dialog
+     * @param bool Whether auto close or not the dialog
      */
     void setDialogAutoClose(bool close);
 
@@ -258,9 +258,9 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
     void error(KGoogle::Error errCode, QString msg);
 
     /**
-     * Account was succesfully (re-)authenticated.
+     * Account was successfully (re-)authenticated.
      *
-     * This signal is emitted when \p account was succesfully authenticated
+     * This signal is emitted when \p account was successfully authenticated
      * (for the first time), or when just tokens were refreshed.
      */
     void authenticated(KGoogle::Account::Ptr &account);

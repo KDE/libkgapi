@@ -144,7 +144,7 @@ class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Object
     void setTimezone(const QString &timezone);
 
     /**
-     * Returns wheter calendar is editable or read-only.
+     * Returns whether calendar is editable or read-only.
      */
     bool editable() const;
 

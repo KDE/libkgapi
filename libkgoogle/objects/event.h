@@ -89,7 +89,7 @@ class LIBKGOOGLE_EXPORT Event: public KGoogle::Object, public KCalCore::Event
     void setDeleted(const bool deleted);
 
     /**
-     * Returns wheter the event was removed on the remote server.
+     * Returns whether the event was removed on the remote server.
      */
     bool deleted() const;
 

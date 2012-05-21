@@ -36,7 +36,7 @@ class Object;
 /**
  * A base class for all services.
  *
- * Service is a class that provides additional informations
+ * Service is a class that provides additional information
  * about a Google service and implements parsers for objects
  * from service.
  */

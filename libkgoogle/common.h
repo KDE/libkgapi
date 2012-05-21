@@ -47,18 +47,18 @@ enum Error {
     AuthCancelled = 9,        /// libKGoogle error - when authentication dialog is canceled
 
     /* Following error codes identify Google errors */
-    OK = 200,                /// Request succesfully executed.
-    Created = 201,           /// Create request successfuly executed.
-    NoContent = 204,         /// Tasks API returns 204 when task is sucessfully removed.
+    OK = 200,                /// Request successfully executed.
+    Created = 201,           /// Create request successfully executed.
+    NoContent = 204,         /// Tasks API returns 204 when task is successfully removed.
     TemporarilyMoved = 302,  /// The object is located on a different URL provided in reply.
-    NotModified = 304,       /// Request was successfull, but no data were updated.
+    NotModified = 304,       /// Request was successful, but no data were updated.
     BadRequest = 400,        /// Invalid (malformed) request.
     Unauthorized = 401,      /// Invalid or expired token. See KGoogleAccount::refreshTokens().
     Forbidden = 403,         /// The requested data are not accessible to this account
     NotFound = 404,          /// Requested object was not found on the remote side
     Conflict = 409,          /// Object on the remote site differs from the submitted one. See KGoogle::Object::setEtag().
     Gone = 410,              /// The requested does not exist anymore on the remote site
-    InternalError = 500,     /// An unexpected error on the Google service occuerd
+    InternalError = 500,     /// An unexpected error on the Google service occurred
     QuotaExceeded = 503      /// User quota has been exceeded, the request should be send again later.
 };
 
@@ -181,7 +181,7 @@ class InvalidAccount: public BaseException
 } /* namespace Exception */
 
 /**
- * Struct to store additional informations about a feed.
+ * Struct to store additional information about a feed.
  */
 class FeedData {
 
