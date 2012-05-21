@@ -367,7 +367,7 @@ KGoogle::Object* ContactsPrivate::JSONToContact(const QVariantMap &data)
      * itself. */
     QVariantList links = data["link"].toList();
     Q_FOREACH(const QVariant & link, links) {
-        if (link.toMap()["type"] == "image/*") {
+        if (link.toMap()["rel"] == "http://schemas.google.com/contacts/2008/rel#photo") {
             object->setPhotoUrl(link.toMap()["href"].toString());
         }
     }
