@@ -24,7 +24,7 @@
 #include <QtCore/QString>
 #include <QtCore/QUrl>
 
-#include <KDE/KDateTime>
+#include <KDateTime>
 
 namespace KGoogle
 {

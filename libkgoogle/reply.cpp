@@ -22,7 +22,7 @@
 #include <QtCore/QMetaType>
 #include <QtCore/qglobal.h>
 
-#include <KDE/KDebug>
+#include <KDebug>
 
 namespace KGoogle
 {

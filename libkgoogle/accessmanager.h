@@ -23,7 +23,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 
-#include <KDE/KDateTime>
+#include <KDateTime>
 
 #include <libkgoogle/common.h>
 #include <libkgoogle/libkgoogle_export.h>

@@ -20,10 +20,10 @@
 #include <QtCore/QString>
 
 #ifdef WITH_KCAL
-#include <KDE/KCal/Alarm>
+#include <KCal/Alarm>
 using namespace KCal;
 #else
-#include <KDE/KCalCore/Alarm>
+#include <KCalCore/Alarm>
 using namespace KCalCore;
 #endif
 

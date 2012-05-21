@@ -23,8 +23,8 @@
 #include <libkgoogle/object.h>
 #include <libkgoogle/libkgoogle_export.h>
 
-#include <KDE/KABC/Addressee>
-#include <KDE/KDateTime>
+#include <KABC/Addressee>
+#include <KDateTime>
 
 #include <QtCore/QList>
 #include <QtCore/QMetaType>

@@ -20,7 +20,7 @@
 #ifndef LIBKGOOGLE_FETCHLISTJOB_H
 #define LIBKGOOGLE_FETCHLISTJOB_H
 
-#include <KDE/KJob>
+#include <KJob>
 
 #include <QtCore/QUrl>
 

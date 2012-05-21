@@ -27,13 +27,13 @@
 #include <QtCore/QMetaType>
 
 #ifdef WITH_KCAL
-#include <KDE/KCal/Alarm>
-#include <KDE/KCal/Incidence>
+#include <KCal/Alarm>
+#include <KCal/Incidence>
 typedef KCal::Alarm* AlarmPtr;
 using namespace KCal;
 #else
-#include <KDE/KCalCore/Alarm>
-#include <KDE/KCalCore/Incidence>
+#include <KCalCore/Alarm>
+#include <KCalCore/Incidence>
 typedef KCalCore::Alarm::Ptr AlarmPtr;
 using namespace KCalCore;
 #endif

@@ -27,8 +27,8 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QDateTime>
 
-#include <KDE/KDebug>
-#include <KDE/KSystemTimeZones>
+#include <KDebug>
+#include <KSystemTimeZones>
 #include <kdeversion.h>
 
 int debugArea()

@@ -28,20 +28,20 @@
 #include <QtCore/QList>
 
 #ifdef WITH_KCAL
-#include <KDE/KCal/Event>
-#include <KDE/KCal/Person>
-#include <KDE/KCal/Attendee>
-#include <KDE/KCal/Alarm>
+#include <KCal/Event>
+#include <KCal/Person>
+#include <KCal/Attendee>
+#include <KCal/Alarm>
 #include <boost/shared_ptr.hpp>
 typedef boost::shared_ptr<KCal::Event> EventPtr;
 typedef KCal::Attendee* AttendeePtr;
 typedef KCal::Person* PersonPtr;
 typedef KCal::Alarm* AlarmPtr;
 #else
-#include <KDE/KCalCore/Event>
-#include <KDE/KCalCore/Person>
-#include <KDE/KCalCore/Attendee>
-#include <KDE/KCalCore/Alarm>
+#include <KCalCore/Event>
+#include <KCalCore/Person>
+#include <KCalCore/Attendee>
+#include <KCalCore/Alarm>
 typedef KCalCore::Event::Ptr EventPtr;
 typedef KCalCore::Attendee::Ptr AttendeePtr;
 typedef KCalCore::Person::Ptr PersonPtr;

@@ -27,11 +27,11 @@
 #include <QtCore/QSharedPointer>
 
 #ifdef WITH_KCAL
-#include <KDE/KCal/Todo>
+#include <KCal/Todo>
 #include <boost/shared_ptr.hpp>
 typedef boost::shared_ptr<KCal::Todo> TodoPtr;
 #else
-#include <KDE/KCalCore/Todo>
+#include <KCalCore/Todo>
 typedef KCalCore::Todo::Ptr TodoPtr;
 #endif
 

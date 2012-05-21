@@ -16,15 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "object.h"
 #include "contact.h"
 #include "contact_p.h"
+#include "object.h"
 #include "services/contacts.h"
 
 #include <QStringList>
 
-#include <KDE/KABC/Address>
-#include <KDE/KABC/PhoneNumber>
+#include <KABC/Address>
+#include <KABC/PhoneNumber>
 
 using namespace KGoogle::Objects;
 
@@ -50,7 +50,7 @@ Contact::Contact(const Contact &other):
     KABC::Addressee(other),
     d(other.d)
 {
-    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
     Q_FOREACH(QString group, groups) {
         d->groups.insert(group, false);
     }
@@ -60,7 +60,7 @@ Contact::Contact(const KABC::Addressee& other):
     Addressee(other),
     d(new ContactData)
 {
-    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
     Q_FOREACH(QString group, groups) {
         d->groups.insert(group, false);
     }
@@ -191,7 +191,7 @@ void Contact::addGroup(const QString &group)
 
     d->groups.insert(group, false);
 
-    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
     if (!groups.contains(group)) {
         groups.append(group);
     }
@@ -211,7 +211,7 @@ void Contact::setGroups(const QStringList &groups)
 
 QStringList Contact::groups() const
 {
-    return custom("GCALENDAR", "groupMembershipInfo").split(",", QString::SkipEmptyParts);
+    return custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
 }
 
 void Contact::clearGroups()

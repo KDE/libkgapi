@@ -23,8 +23,8 @@
 #include "common.h"
 #include "services/accountinfo.h"
 
-#include <KDE/KWallet/Wallet>
-#include <KDE/KLocalizedString>
+#include <KWallet/Wallet>
+#include <KLocalizedString>
 
 #include <QtCore/QMap>
 #include <QtCore/QMutex>

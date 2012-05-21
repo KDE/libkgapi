@@ -19,9 +19,9 @@
 
 #include "authdialog.h"
 
-#include <KDE/KDebug>
-#include <KDE/KLocalizedString>
-#include <KDE/KWindowSystem>
+#include <KDebug>
+#include <KLocalizedString>
+#include <KWindowSystem>
 #include <KIO/AccessManager>
 
 #include <QtCore/QByteArray>

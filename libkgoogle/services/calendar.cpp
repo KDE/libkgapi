@@ -23,25 +23,25 @@
 #include "objects/event.h"
 
 #ifdef WITH_KCAL
-#include <KDE/KCal/Event>
-#include <KDE/KCal/Attendee>
-#include <KDE/KCal/Recurrence>
-#include <KDE/KCal/RecurrenceRule>
-#include <KDE/KCal/ICalFormat>
+#include <KCal/Event>
+#include <KCal/Attendee>
+#include <KCal/Recurrence>
+#include <KCal/RecurrenceRule>
+#include <KCal/ICalFormat>
 using namespace KCal;
 #else
-#include <KDE/KCalCore/Event>
-#include <KDE/KCalCore/Attendee>
-#include <KDE/KCalCore/Recurrence>
-#include <KDE/KCalCore/RecurrenceRule>
-#include <KDE/KCalCore/ICalFormat>
+#include <KCalCore/Event>
+#include <KCalCore/Attendee>
+#include <KCalCore/Recurrence>
+#include <KCalCore/RecurrenceRule>
+#include <KCalCore/ICalFormat>
 using namespace KCalCore;
 #endif
 
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-#include <KDE/KSystemTimeZones>
+#include <KSystemTimeZones>
 
 #include <QtCore/QVariant>
 
@@ -733,7 +733,7 @@ DateList Services::CalendarPrivate::parseRDate(const QString& rule)
     KTimeZone tz;
 
     QString left = rule.left(rule.indexOf(":"));
-    QStringList params = left.split(";");
+    QStringList params = left.split(';');
     Q_FOREACH(const QString & param, params) {
         if (param.startsWith("VALUE")) {
             value = param.mid(param.indexOf("=") + 1);
@@ -744,7 +744,7 @@ DateList Services::CalendarPrivate::parseRDate(const QString& rule)
     }
 
     QString datesStr = rule.mid(rule.lastIndexOf(":") + 1);
-    QStringList dates = datesStr.split(",");
+    QStringList dates = datesStr.split(',');
     Q_FOREACH(QString date, dates) {
         QDate dt;
 

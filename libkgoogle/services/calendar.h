@@ -24,10 +24,10 @@
 #include <libkgoogle/libkgoogle_export.h>
 
 #ifdef WITH_KCAL
-#include <KDE/KCal/IncidenceBase>
+#include <KCal/IncidenceBase>
 using namespace KCal;
 #else
-#include <KDE/KCalCore/IncidenceBase>
+#include <KCalCore/IncidenceBase>
 using namespace KCalCore;
 #endif
 

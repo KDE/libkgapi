@@ -699,7 +699,7 @@ QByteArray ContactsPrivate::contactToXML(const KGoogle::Object* object)
         output.append("<gContact:birthday when='").append(birthday.toUtf8()).append("'/>");
     }
 
-    QStringList groups = contact->custom("GCALENDAR", "groupMembershipInfo").split(",");
+    QStringList groups = contact->custom("GCALENDAR", "groupMembershipInfo").split(',');
     if ((groups.length() > 0) && !groups.at(0).isEmpty()) {
         Q_FOREACH(const QString & group, groups) {
             bool removed = contact->groupIsDeleted(group);

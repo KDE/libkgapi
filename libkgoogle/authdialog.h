@@ -24,7 +24,7 @@
 #include <libkgoogle/common.h>
 
 #include <QtCore/QUrl>
-#include <KDE/KDialog>
+#include <KDialog>
 
 class QNetworkReply;
 class QHBoxLayout;

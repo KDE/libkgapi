@@ -31,7 +31,7 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-#include <KDE/KDebug>
+#include <KDebug>
 
 #define RequestAttribute QNetworkRequest::User
 
