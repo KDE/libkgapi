@@ -385,17 +385,6 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
     /* Location */
     object->setLocation(event["location"].toString());
 
-    /* Organizer */
-    PersonPtr organizer(new Person);
-    QVariantMap organizerData = event["organizer"].toMap();
-    organizer->setName(organizerData["displayName"].toString());
-    organizer->setEmail(organizerData["email"].toString());
-#ifdef WITH_KCAL
-    object->setOrganizer(*organizer);
-#else
-    object->setOrganizer(organizer);
-#endif
-
     /* Start date */
     QVariantMap startData = event["start"].toMap();
     KDateTime dtStart;
@@ -458,6 +447,20 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
         }
 
         object->addAttendee(attendee, true);
+    }
+
+    /* According to RFC, only events with attendees can have an organizer.
+     * Google seems to ignore it, so we must take care of it here */
+    if (object->attendeeCount() > 0) {
+        PersonPtr organizer(new Person);
+        QVariantMap organizerData = event["organizer"].toMap();
+        organizer->setName(organizerData["displayName"].toString());
+        organizer->setEmail(organizerData["email"].toString());
+    #ifdef WITH_KCAL
+        object->setOrganizer(*organizer);
+    #else
+        object->setOrganizer(organizer);
+    #endif
     }
 
     /* Recurrence */
@@ -560,19 +563,6 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
     /* Location */
     data["location"] = object->location();
 
-    /* Organizer */
-#ifdef WITH_KCAL
-    PersonPtr organizer = new Person(object->organizer());
-#else
-    PersonPtr organizer = object->organizer();
-#endif
-    if (!organizer->isEmpty()) {
-        QVariantMap org;
-        org["displayName"] = organizer->fullName();
-        org["email"] = organizer->email();
-        data["organizer"] = org;
-    }
-
     /* Recurrence */
     QVariantList recurrence;
     ICalFormat format;
@@ -671,8 +661,23 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGoogle::Object* event)
         atts.append(att);
     }
 
-    if (!atts.isEmpty())
+    if (!atts.isEmpty()) {
         data["attendees"] = atts;
+
+        /* According to RFC, event without attendees should not have
+         * any organizer. */
+    #ifdef WITH_KCAL
+        PersonPtr organizer = new Person(object->organizer());
+    #else
+        PersonPtr organizer = object->organizer();
+    #endif
+        if (!organizer->isEmpty()) {
+            QVariantMap org;
+            org["displayName"] = organizer->fullName();
+            org["email"] = organizer->email();
+            data["organizer"] = org;
+        }
+    }
 
     /* Reminders */
     QVariantList overrides;
