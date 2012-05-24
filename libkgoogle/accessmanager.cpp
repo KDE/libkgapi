@@ -30,6 +30,9 @@
 #include <KDebug>
 #include <KSystemTimeZones>
 #include <kdeversion.h>
+#include <kglobal.h>
+
+static const KCatalogLoader loader("libkgoogle");
 
 int debugArea()
 {
