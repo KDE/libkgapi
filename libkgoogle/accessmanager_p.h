@@ -60,6 +60,8 @@ class AccessManagerPrivate: public QObject
     void submitCache();
 
   private:
+    QString parseErrorMessage(const QByteArray &json) const;
+
     AccessManager* const q_ptr;
     Q_DECLARE_PUBLIC(AccessManager)
 };

@@ -166,54 +166,68 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         /* Don't emit error here, user should not know that we need to re-negotiate tokens again. */
         return;
 
-    case KGoogle::Forbidden:
+    case KGoogle::Forbidden: {
         kWarning() << "Requested resource is forbidden.";
         kWarning() << rawData;
-        Q_EMIT q->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", QString(rawData)));
-        Q_EMIT request->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", QString(rawData)));
+        QString msg = parseErrorMessage(rawData);
+        Q_EMIT q->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", msg));
+        Q_EMIT request->error(KGoogle::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", msg));
         return;
+    }
 
-    case KGoogle::NotFound:
+    case KGoogle::NotFound: {
         kWarning() << "Requested resource does not exist";
         kWarning() << rawData;
-        Q_EMIT q->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", QString(rawData)));
-        Q_EMIT request->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", QString(rawData)));
+        QString msg = parseErrorMessage(rawData);
+        Q_EMIT q->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", msg));
+        Q_EMIT request->error(KGoogle::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", msg));
         return;
+    }
 
-    case KGoogle::Conflict:
+    case KGoogle::Conflict: {
         kWarning() << "Conflict. Remote resource is newer then local.";
         kWarning() << rawData;
-        Q_EMIT q->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", QString(rawData)));
-        Q_EMIT request->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", QString(rawData)));
+        QString msg = parseErrorMessage(rawData);
+        Q_EMIT q->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", msg));
+        Q_EMIT request->error(KGoogle::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", msg));
         return;
+    }
 
-    case KGoogle::Gone:
+    case KGoogle::Gone: {
         kWarning() << "Requested resource does not exist anymore.";
         kWarning() << rawData;
-        Q_EMIT q->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", QString(rawData)));
-        Q_EMIT request->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", QString(rawData)));
+        QString msg = parseErrorMessage(rawData);
+        Q_EMIT q->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", msg));
+        Q_EMIT request->error(KGoogle::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", msg));
         return;
+    }
 
-    case KGoogle::InternalError:
+    case KGoogle::InternalError: {
         kWarning() << "Internal server error.";
         kWarning() << rawData;
-        Q_EMIT q->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
-        Q_EMIT request->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        QString msg = parseErrorMessage(rawData);
+        Q_EMIT q->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", msg));
+        Q_EMIT request->error(KGoogle::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", msg));
         return;
+    }
 
-    case KGoogle::QuotaExceeded:
+    case KGoogle::QuotaExceeded: {
         kWarning() << "User quota exceeded.";
         kWarning() << rawData;
-        Q_EMIT q->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
-        Q_EMIT request->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", QString(rawData)));
+        QString msg = parseErrorMessage(rawData);
+        Q_EMIT q->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", msg));
+        Q_EMIT request->error(KGoogle::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", msg));
         return;
+    }
 
-    default: /** Something went wrong, there's nothing we can do about it */
+    default:{  /** Something went wrong, there's nothing we can do about it */
         kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
                    << ", Google replied '" << rawData << "'";
-        Q_EMIT q->error(KGoogle::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", QString(rawData)));
-        Q_EMIT request->error(KGoogle::UnknownError, QString(rawData));
+        QString msg = parseErrorMessage(rawData);
+        Q_EMIT q->error(KGoogle::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", msg));
+        Q_EMIT request->error(KGoogle::UnknownError, msg);
         return;
+    }
     }
 
     QList< KGoogle::Object* > replyData;
@@ -240,6 +254,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
         } else {
             kDebug() << "Unknown reply content type!";
+            Q_EMIT q->error(KGoogle::InvalidResponse, i18n("Unknown reply content type!"));
+            Q_EMIT request->error(KGoogle::InvalidResponse, i18n("Unknown reply content type!"));
+            return;
         }
 
         processedItems = feedData.startIndex;
@@ -383,4 +400,31 @@ void AccessManagerPrivate::submitCache()
     kDebug() << "Cache contains" << cache.size() << "requests";
     while (!cache.isEmpty() && cacheSemaphore->available())
         nam_sendRequest(cache.dequeue());
+}
+
+QString AccessManagerPrivate::parseErrorMessage(const QByteArray &json) const
+{
+    QJson::Parser parser;
+    bool ok;
+
+    QVariant data = parser.parse(json, &ok);
+    if (ok) {
+        QString message;
+        QVariantMap map = data.toMap();
+
+        if (map.contains("error")) {
+            map = map["error"].toMap();
+        }
+
+        if (map.contains("message")) {
+            message.append(map["message"].toString());
+        } else {
+            message = QString(json);
+        }
+
+        return message;
+
+    } else {
+        return QString(json);
+    }
 }
