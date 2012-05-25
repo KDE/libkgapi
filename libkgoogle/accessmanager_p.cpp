@@ -68,6 +68,9 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
     QByteArray rawData = reply->readAll();
 
+    /* Delete the reply after we leave this method */
+    reply->deleteLater();
+
 #ifdef DEBUG_RAWDATA
     QStringList headers;
     Q_FOREACH(QString str, reply->rawHeaderList()) {
