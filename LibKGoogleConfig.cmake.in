@@ -23,8 +23,3 @@ include(${_currentDir}/LibKGoogleTargetsWithPrefix.cmake)
 
 # Set the library variable
 set(LibKGoogle_LIBRARY kgoogle)
-
-# Compat with older versions:
-set(LIBKGOOGLE_INCLUDE_DIR ${LibKGoogle_INCLUDE_DIR})
-set(LIBKGOOGLE_LIBRARY ${LibKGoogle_LIBRARY})
-set(LIBKGOOGLE_FOUND TRUE)
