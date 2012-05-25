@@ -19,12 +19,14 @@
 
 #include "auth.h"
 #include "auth_p.h"
-
 #include "common.h"
 #include "services/accountinfo.h"
+#include "ui/authwidget.h"
 
 #include <KWallet/Wallet>
 #include <KLocalizedString>
+#include <KDialog>
+#include <KWindowSystem>
 
 #include <QtCore/QMap>
 #include <QtCore/QMutex>
@@ -218,31 +220,42 @@ void Auth::authenticate(KGoogle::Account::Ptr &account, bool autoSave)
 {
     Q_D(Auth);
 
-    if (!d->initKWallet()) {
-        return;
-    }
+    AuthWidget *widget;
+    KDialog *dlg;
 
-    if (account.isNull()) {
-        throw Exception::InvalidAccount();
-        return;
-    }
+    widget = d->authenticate(account, autoSave);
 
-    if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
+    if (widget) {
+        dlg = new KDialog();
+        dlg->setModal(true);
+        KWindowSystem::setMainWindow(dlg, KWindowSystem::activeWindow());
 
-        account->addScope(Services::AccountInfo::EmailScopeUrl);
-        d->fullAuthentication(account, autoSave);
+        dlg->setMainWidget(widget);
+        connect(widget, SIGNAL(error(KGoogle::Error, QString)),
+                this, SIGNAL(error(KGoogle::Error,QString)));
+        connect(dlg, SIGNAL(cancelClicked()), dlg, SLOT(delayedDestruct()));
 
-    } else {
-
-        if (account->accountName().isEmpty()) {
-            throw Exception::InvalidAccount();
-            return;
+        if (d->dialogAutoClose) {
+            connect(widget, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
+                    dlg, SLOT(delayedDestruct()));
+            connect(widget, SIGNAL(error(KGoogle::Error,QString)),
+                    dlg, SLOT(delayedDestruct()));
         }
 
-        d->refreshTokens(account, autoSave);
-
+        dlg->show();
+        dlg->setButtons(KDialog::Cancel);
+        widget->authenticate();
     }
 }
+
+
+KGoogle::AuthWidget* Auth::authenticateWithWidget(Account::Ptr& account, bool autoSave)
+{
+    Q_D(Auth);
+
+    return d->authenticate(account, autoSave);
+}
+
 
 bool Auth::revoke(Account::Ptr &account)
 {
@@ -302,6 +315,6 @@ void Auth::setDialogAutoClose(bool close)
 void Auth::clearCredentials()
 {
     Q_D(Auth);
-    d->username = QString();
-    d->password = QString();
+    d->username.clear();
+    d->password.clear();
 }

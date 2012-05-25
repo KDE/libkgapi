@@ -30,6 +30,8 @@
 #include <libkgoogle/common.h>
 #include <libkgoogle/account.h>
 
+#include <kdemacros.h>
+
 namespace KWallet
 {
 class Wallet;
@@ -41,6 +43,7 @@ namespace KGoogle
 {
 
 class AuthPrivate;
+class AuthWidget;
 
 /**
  * Auth provides API for authentication against Google services.
@@ -184,6 +187,32 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
     void authenticate(KGoogle::Account::Ptr &account, bool autoSave = true);
 
     /**
+     * @see authenticate()
+     * @since 0.3.2
+     *
+     * Behaves exactly like Auth::authneticate(), but instead of displaying
+     * a dialog for full authentication, the method returns a AuthWidget,
+     * which can be simply embedded into an another application.
+     *
+     * If there is no need to display a widget (like only refreshing
+     * authentication tokens), the method will return null and continue
+     * like authenticate().
+     *
+     * To start the actual process of authentication, user must call
+     * Kgoogle::AuthWidget::authneticate().
+     *
+     * It's up to user to hide and destroy the widget when the authentication
+     * is finished (authneticated() or error() is emitted).
+     *
+     * @param account Account whose token is to be refreshed.
+     * @param autoSave Whether KGoogle::Auth should automatically
+     *                 call KGoogle::Auth::storeAccount() to save changes
+     *                 to KWallet.
+     * @return Returns a KGoogle::AuthWidget or null if there is no need for user interaction.
+     */
+    KGoogle::AuthWidget* authenticateWithWidget(KGoogle::Account::Ptr &account, bool autoSave = true);
+
+    /**
      * Revokes tokens for \p account and removes it from KWallet.
      *
      * This method will not throw any exception when the account
@@ -223,7 +252,7 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      * called so if you want to change or remove it call \sa setPassword again
      * with empty string or \sa clearCredentials.
      *
-     * @param QString username to use
+     * @param QString password to use
      */
     void setPassword(const QString &password);
 
@@ -234,11 +263,15 @@ class LIBKGOOGLE_EXPORT Auth: public QObject
      * Google auth system, if set to true the dialog will be autoclosed in either
      * on success or on error.
      *
-     * By default the value is false.
+     * By default the value is true.
+     *
+     * As of 0.3.2 this method is deprecated and will be removed in 0.4 release.
+     * If you want to prevent the dialog from closing, use your own
+     * KDialog and use authenticateWithWidget() method to obtain an AuthWidget.
      *
      * @param bool Whether auto close or not the dialog
      */
-    void setDialogAutoClose(bool close);
+    void KDE_DEPRECATED setDialogAutoClose(bool close);
 
     /**
      * Sets to empty username and password

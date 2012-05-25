@@ -30,7 +30,8 @@
 #include <qnetworkrequest.h>
 
 #include "auth.h"
-#include "authdialog.h"
+#include "ui/authwidget.h"
+#include "services/accountinfo.h"
 
 using namespace KGoogle;
 using namespace KWallet;
@@ -39,7 +40,7 @@ AuthPrivate::AuthPrivate(KGoogle::Auth* const parent):
     QObject(),
     kwalletFolder("libkgoogle"),
     kwallet(0),
-    dialogAutoClose(false),
+    dialogAutoClose(true),
     q_ptr(parent)
 { }
 
@@ -89,32 +90,51 @@ Account::Ptr AuthPrivate::getAccountFromWallet(const QString& account)
     return Account::Ptr(new Account(account, map["accessToken"], map["refreshToken"], scopeUrls));
 }
 
+KGoogle::AuthWidget* AuthPrivate::authenticate(Account::Ptr& account, bool autoSave)
+{
+    if (!initKWallet()) {
+        return 0;
+    }
 
+    if (account.isNull()) {
+        throw Exception::InvalidAccount();
+        return 0;
+    }
 
-void AuthPrivate::fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave)
+    if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
+
+        account->addScope(Services::AccountInfo::EmailScopeUrl);
+        return fullAuthentication(account, autoSave);
+
+    } else {
+
+        if (account->accountName().isEmpty()) {
+            throw Exception::InvalidAccount();
+            return 0;
+        }
+
+        refreshTokens(account, autoSave);
+        return 0;
+    }
+}
+
+KGoogle::AuthWidget* AuthPrivate::fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave)
 {
     Q_Q(Auth);
 
-    AuthDialog *dlg = new AuthDialog(KWindowSystem::activeWindow());
-    dlg->setProperty("autoSaveAccount", QVariant(autoSave));
+    AuthWidget *widget =  new AuthWidget();
+    widget->setProperty("autoSaveAccount", QVariant(autoSave));
 
-    connect(dlg, SIGNAL(error(KGoogle::Error, QString)),
-            q, SIGNAL(error(KGoogle::Error, QString)));
-    connect(dlg, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
+    connect(widget, SIGNAL(error(KGoogle::Error, QString)),
+            q, SIGNAL(error(KGoogle::Error,QString)));
+    connect(widget, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
             this, SLOT(fullAuthenticationFinished(KGoogle::Account::Ptr&)));
-    connect(dlg, SIGNAL(accepted()),
-            dlg, SLOT(deleteLater()));
-    connect(dlg, SIGNAL(cancelClicked()),
-            SLOT(authDialogCancelled()));
 
-    if (dialogAutoClose) {
-        connect(dlg, SIGNAL(error(KGoogle::Error,QString)), dlg, SLOT(close()));
-    }
+    widget->setUsername(username);
+    widget->setPassword(password);
+    widget->setAccount(account);
 
-    dlg->setUsername(username);
-    dlg->setPassword(password);
-    dlg->show();
-    dlg->authenticate(account);
+    return widget;
 }
 
 void AuthPrivate::fullAuthenticationFinished(KGoogle::Account::Ptr &account)
@@ -125,7 +145,7 @@ void AuthPrivate::fullAuthenticationFinished(KGoogle::Account::Ptr &account)
 
     /* Actually this slot shouldn't be invoked by anything else but
      * AuthDialog, but just to make sure... */
-    if (sender() && qobject_cast< AuthDialog* >(sender())) {
+    if (sender() && qobject_cast< AuthWidget* >(sender())) {
         autoSave = sender()->property("autoSaveAccount").toBool();
     }
 

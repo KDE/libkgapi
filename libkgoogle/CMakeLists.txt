@@ -4,7 +4,6 @@ set(libkgoogle_SRCS
     account.cpp
     auth.cpp
     auth_p.cpp
-    authdialog.cpp
     fetchlistjob.cpp
     object.cpp
     request.cpp
@@ -21,6 +20,8 @@ set(libkgoogle_SRCS
     services/contacts.cpp
     services/tasks.cpp
     ui/accountscombo.cpp
+    ui/authwidget.cpp
+    ui/authwidget_p.cpp
 )
 
 set(libkgoogle_HDRS
@@ -51,7 +52,8 @@ set(objects_HDRS
     objects/tasklist.h)
 
 set(ui_HDRS
-    ui/accountscombo.h)
+    ui/accountscombo.h
+    ui/authwidget.h)
 
 kde4_add_library(kgoogle SHARED ${libkgoogle_SRCS})
 

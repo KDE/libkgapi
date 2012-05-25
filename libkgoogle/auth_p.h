@@ -35,6 +35,7 @@ namespace KGoogle
 {
 
 class Auth;
+class AuthWidget;
 
 /**
  * \internal
@@ -67,16 +68,18 @@ class AuthPrivate: public QObject
     Account::Ptr getAccountFromWallet(const QString &account);
 
   public Q_SLOTS:
-    void fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave);
-    void fullAuthenticationFinished(KGoogle::Account::Ptr &account);
-    void authDialogCancelled();
-
+    KGoogle::AuthWidget* authenticate(KGoogle::Account::Ptr &account, bool autoSave);
     void refreshTokens(KGoogle::Account::Ptr &account, bool autoSave);
-    void refreshTokensFinished(QNetworkReply *reply);
 
+  private Q_SLOTS:
+    void authDialogCancelled();
+    void refreshTokensFinished(QNetworkReply *reply);
     void kwalletFolderChanged(const QString &folder);
+    void fullAuthenticationFinished(KGoogle::Account::Ptr &account);
 
   private:
+    KGoogle::AuthWidget* fullAuthentication(KGoogle::Account::Ptr &account, bool autoSave);
+
     Auth* const q_ptr;
     Q_DECLARE_PUBLIC(Auth)
 };
