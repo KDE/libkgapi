@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EVENT_P_H_
-#define EVENT_P_H_
+#ifndef LIBKGOOGLE_OBJECTS_EVENT_P_H
+#define LIBKGOOGLE_OBJECTS_EVENT_P_H
 
 #include <QtCore/QSharedData>
 
@@ -43,4 +43,4 @@ public:
 } // namespace KGoogle
 
 
-#endif /* EVENT_P_H_ */
+#endif /* LIBKGOOGLE_OBJECTS_EVENT_P_H */

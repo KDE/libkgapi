@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef LIBKGOOGLE_OBJECTS_CALENDAR_P_H
+#define LIBKGOOGLE_OBJECTS_CALENDAR_P_H
+
 #include <QtCore/QSharedData>
 #include <QtCore/QString>
 
@@ -64,3 +67,5 @@ class CalendarData: public QSharedData
 } // namespace Objects
 
 } // namespace KGoogle
+
+#endif /* LIBKGOOGLE_OBJECTS_CALENDAR_P_H */

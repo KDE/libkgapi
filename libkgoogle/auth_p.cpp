@@ -125,10 +125,10 @@ KGoogle::AuthWidget* AuthPrivate::fullAuthentication(KGoogle::Account::Ptr &acco
     AuthWidget *widget =  new AuthWidget();
     widget->setProperty("autoSaveAccount", QVariant(autoSave));
 
-    connect(widget, SIGNAL(error(KGoogle::Error, QString)),
+    connect(widget, SIGNAL(error(KGoogle::Error,QString)),
             q, SIGNAL(error(KGoogle::Error,QString)));
-    connect(widget, SIGNAL(authenticated(KGoogle::Account::Ptr&)),
-            this, SLOT(fullAuthenticationFinished(KGoogle::Account::Ptr&)));
+    connect(widget, SIGNAL(authenticated(KGoogle::Account::Ptr)),
+            this, SLOT(fullAuthenticationFinished(KGoogle::Account::Ptr)));
 
     widget->setUsername(username);
     widget->setPassword(password);
@@ -258,10 +258,11 @@ void AuthPrivate::kwalletFolderChanged (const QString& folder)
      *
      * We can't copy the new account over the old because that would not update
      * the value in all other copies of the cachedAcc object. */
-    Q_FOREACH (const QString &accName, accountsCache.keys()) {
+    QMap< QString, Account::Ptr >::const_iterator iter = accountsCache.begin();
+    while (iter != accountsCache.end()) {
 
-        Account::Ptr walletAcc = getAccountFromWallet(accName);
-        Account::Ptr cachedAcc = accountsCache.value(accName);
+        Account::Ptr walletAcc = getAccountFromWallet(iter.key());
+        Account::Ptr cachedAcc = iter.value();
 
         if (walletAcc->accessToken() != cachedAcc->accessToken()) {
             cachedAcc->setAccessToken(walletAcc->accessToken());
@@ -275,6 +276,8 @@ void AuthPrivate::kwalletFolderChanged (const QString& folder)
             cachedAcc->setScopes(walletAcc->scopes());
             cachedAcc->m_scopesChanged = false;
         }
+
+        ++iter;
     }
 }
 

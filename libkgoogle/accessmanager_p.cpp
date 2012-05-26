@@ -73,7 +73,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
 #ifdef DEBUG_RAWDATA
     QStringList headers;
-    Q_FOREACH(QString str, reply->rawHeaderList()) {
+    Q_FOREACH(const QString &str, reply->rawHeaderList()) {
         headers << str + ": " + reply->rawHeader(str.toLatin1());
     }
     kDebug() << headers;
@@ -96,7 +96,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
          * as an error. */
         if (!reply->rawHeaderList().isEmpty()) {
             QString status = reply->rawHeaderList().first();
-            if (status.startsWith("HTTP/1.1 401"))
+            if (status.startsWith(QLatin1String("HTTP/1.1 401")))
                 replyCode = KGoogle::Unauthorized;
         }
     }
@@ -345,7 +345,7 @@ void AccessManagerPrivate::nam_sendRequest(KGoogle::Request* request)
 
 #ifdef DEBUG_RAWDATA
     QStringList headers;
-    Q_FOREACH(QString str, nr.rawHeaderList()) {
+    Q_FOREACH(const QString &str, nr.rawHeaderList()) {
         headers << str + ": " + nr.rawHeader(str.toLatin1());
     }
     kDebug() << headers;

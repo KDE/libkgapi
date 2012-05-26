@@ -45,8 +45,8 @@ using namespace KGoogle;
 AccessManager::AccessManager():
     d_ptr(new AccessManagerPrivate(this))
 {
-    connect(Auth::instance(), SIGNAL(error(KGoogle::Error, QString)),
-            this, SIGNAL(error(KGoogle::Error, QString)));
+    connect(Auth::instance(), SIGNAL(error(KGoogle::Error,QString)),
+            this, SIGNAL(error(KGoogle::Error,QString)));
 }
 
 AccessManager::~AccessManager()
@@ -171,7 +171,7 @@ QString KGoogle::AccessManager::dateToRFC3339String(const KDateTime& datetime)
         return result + QLatin1Char('Z');
     if (datetime.timeType() == KDateTime::ClockTime)
         tz = KSystemTimeZones::local();
-    tzcolon = ":";
+    tzcolon = ':';
 
     // Return the string with UTC offset ±hhmm appended
     if (datetime.timeType() == KDateTime::OffsetFromUTC  ||  datetime.timeType() == KDateTime::TimeZone  ||  tz.isValid()) {

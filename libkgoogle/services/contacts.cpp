@@ -88,13 +88,13 @@ QList< KGoogle::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, Fe
 
     QVariantMap feed = head["feed"].toMap();
 
-    Q_FOREACH(QVariant c, feed["category"].toList()) {
+    Q_FOREACH(const QVariant &c, feed["category"].toList()) {
         QVariantMap category = c.toMap();
         bool groups = (category["term"].toString() == "http://schemas.google.com/contact/2008#group");
 
         QVariantList entries = feed["entry"].toList();
 
-        Q_FOREACH(QVariant e, entries) {
+        Q_FOREACH(const QVariant &e, entries) {
             if (groups)
                 output << ContactsPrivate::JSONToGroup(e.toMap());
             else
@@ -103,10 +103,10 @@ QList< KGoogle::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, Fe
     }
 
     QVariantList links = feed["link"].toList();
-    Q_FOREACH(QVariant l, links) {
+    Q_FOREACH(const QVariant &l, links) {
         QVariantMap link = l.toMap();
         if (link["rel"].toString() == "next") {
-            feedData.nextPageUrl = QUrl::fromEncoded(link["href"].toByteArray());
+            feedData.nextPageUrl = KUrl(link["href"].toString());
             break;
         }
     }
@@ -132,7 +132,7 @@ Object *Contacts::JSONToObject(const QByteArray &jsonData)
 
     entry = data["entry"].toMap();
 
-    Q_FOREACH(QVariant c, entry["category"].toList()) {
+    Q_FOREACH(const QVariant &c, entry["category"].toList()) {
         QVariantMap category = c.toMap();
 
         if (category["term"].toString() == "http://schemas.google.com/contact/2008#group") {
@@ -427,7 +427,7 @@ KGoogle::Object* ContactsPrivate::JSONToContact(const QVariantMap &data)
 
     /* Relationships */
     if (data.contains("gContact$relation")) {
-        Q_FOREACH(QVariant r, data["gContact$relation"].toList()) {
+        Q_FOREACH(const QVariant &r, data["gContact$relation"].toList()) {
             QVariantMap relation = r.toMap();
             if (relation["rel"].toString() == "spouse") {
                 object->setSpousesName(relation["$t"].toString());
@@ -448,7 +448,7 @@ KGoogle::Object* ContactsPrivate::JSONToContact(const QVariantMap &data)
 
     /* Anniversary */
     if (data.contains("gContact$event")) {
-        Q_FOREACH(QVariant e, data["gContact$event"].toList()) {
+        Q_FOREACH(const QVariant &e, data["gContact$event"].toList()) {
             QVariantMap event = e.toMap();
 
             if (event["rel"].toString() == "anniversary") {
@@ -460,7 +460,7 @@ KGoogle::Object* ContactsPrivate::JSONToContact(const QVariantMap &data)
 
     /* Websites */
     if (data.contains("gContact$website")) {
-        Q_FOREACH(QVariant w, data["gContact$website"].toList()) {
+        Q_FOREACH(const QVariant &w, data["gContact$website"].toList()) {
             QVariantMap web = w.toMap();
 
             if (web["rel"].toString() == "home-page") {
@@ -647,14 +647,14 @@ QByteArray ContactsPrivate::contactToXML(const KGoogle::Object* object)
     }
 
     /* Emails */
-    Q_FOREACH(QString email, contact->emails()) {
+    Q_FOREACH(const QString &email, contact->emails()) {
         output.append("<gd:email rel='http://schemas.google.com/g/2005#home' address='").append(email.toUtf8()).append("' />");
     }
 
     /* IMs */
     QString im_str("<gd:im address=\"%1\" protocol=\"%2\" rel=\"http://schemas.google.com/g/2005#other\" primary=\"%3\"/>");
-    Q_FOREACH(QString im, contact->customs()) {
-        if (im.startsWith("messaging/")) {
+    Q_FOREACH(const QString &im, contact->customs()) {
+        if (im.startsWith(QLatin1String("messaging/"))) {
             QString key = im.left(im.indexOf(':'));
             QString value = im.mid(im.indexOf(':') + 1);
             QString proto = key.mid(10);
@@ -668,12 +668,12 @@ QByteArray ContactsPrivate::contactToXML(const KGoogle::Object* object)
 
     /* Phone numbers */
     QString phone_str("<gd:phoneNumber rel=\"%1\">%2</gd:phoneNumber>");
-    Q_FOREACH(KABC::PhoneNumber number, contact->phoneNumbers()) {
+    Q_FOREACH(const KABC::PhoneNumber &number, contact->phoneNumbers()) {
         output.append(phone_str.arg(Objects::Contact::phoneTypeToScheme(number.type()), number.number()).toUtf8());
     }
 
     /* Address */
-    Q_FOREACH(KABC::Address address, contact->addresses()) {
+    Q_FOREACH(const KABC::Address &address, contact->addresses()) {
         output.append("<gd:structuredPostalAddress rel='")
         .append(Objects::Contact::addressTypeToScheme(address.type()).toUtf8())
         .append("'>");
@@ -712,7 +712,7 @@ QByteArray ContactsPrivate::contactToXML(const KGoogle::Object* object)
     /* User-defined fields */
     QStringList customs = contact->customs();
     QString defined_str("<gContact:userDefinedField key=\"%1\" value=\"%2\" />");
-    Q_FOREACH(QString customStr, customs) {
+    Q_FOREACH(const QString &customStr, customs) {
         QString key = customStr.left(customStr.indexOf(':'));
         if (!parsedCustoms.contains(key)) {
             QString value = customStr.mid(customStr.indexOf(':') + 1);

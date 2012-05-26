@@ -42,6 +42,7 @@ using namespace KCalCore;
 #include <qjson/serializer.h>
 
 #include <KSystemTimeZones>
+#include <KUrl>
 
 #include <QtCore/QVariant>
 
@@ -180,16 +181,18 @@ QUrl Services::Calendar::fetchCalendarsUrl()
 
 QUrl Services::Calendar::fetchCalendarUrl(const QString& calendarID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/users/me/calendarList/");
-    ba.append(QUrl::toPercentEncoding(calendarID));
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/users/me/calendarList/");
+    url.addPath(calendarID);
+
+    return url;
 }
 
 QUrl Services::Calendar::updateCalendarUrl(const QString &calendarID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
-    ba.append(QUrl::toPercentEncoding(calendarID));
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    url.addPath(calendarID);
+
+    return url;
 }
 
 QUrl Services::Calendar::createCalendarUrl()
@@ -199,56 +202,70 @@ QUrl Services::Calendar::createCalendarUrl()
 
 QUrl Services::Calendar::removeCalendarUrl(const QString& calendarID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
-    ba.append(QUrl::toPercentEncoding(calendarID));
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    url.addPath(calendarID);
+
+    return url;
 }
 
 QUrl Services::Calendar::fetchEventsUrl(const QString& calendarID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
-    ba.append(QUrl::toPercentEncoding(calendarID));
-    ba.append("/events?maxResults=20");
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    url.addPath(calendarID);
+    url.addPath("events");
+    url.addQueryItem("maxResults", "20");
+
+    return url;
 }
 
 QUrl Services::Calendar::fetchEventUrl(const QString& calendarID, const QString& eventID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
-    ba.append(QUrl::toPercentEncoding(calendarID)).append("/events/").append(eventID.toLatin1());
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    url.addPath(calendarID);
+    url.addPath("events");
+    url.addPath(eventID);
+
+    return url;
 }
 
 QUrl Services::Calendar::updateEventUrl(const QString& calendarID, const QString& eventID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
-    ba.append(QUrl::toPercentEncoding(calendarID)).append("/events/").append(eventID.toLatin1());
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    url.addPath(calendarID);
+    url.addPath("events");
+    url.addPath(eventID);
+
+    return url;
 }
 
 QUrl Services::Calendar::createEventUrl(const QString& calendarID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
-    ba.append(QUrl::toPercentEncoding(calendarID)).append("/events");
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    url.addPath(calendarID);
+    url.addPath("events");
+
+    return url;
 }
 
 QUrl Services::Calendar::removeEventUrl(const QString& calendarID, const QString& eventID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
-    ba.append(QUrl::toPercentEncoding(calendarID)).append("/events/").append(eventID.toLatin1());
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    url.addPath(calendarID);
+    url.addPath("events");
+    url.addPath(eventID);
+
+    return url;
 }
 
 QUrl Services::Calendar::moveEventUrl(const QString& sourceCalendar, const QString& destCalendar, const QString& eventID)
 {
-    QByteArray ba("https://www.googleapis.com/calendar/v3/calendars/");
-    ba.append(QUrl::toPercentEncoding(sourceCalendar))
-      .append(QString("/events/").toLatin1())
-      .append(eventID.toLatin1())
-      .append(QString("?destination=").toLatin1())
-      .append(destCalendar.toLatin1());
-    return QUrl::fromEncoded(ba);
+    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    url.addPath(sourceCalendar);
+    url.addPath("events");
+    url.addPath(eventID);
+    url.addQueryItem("destination", destCalendar);
+
+    return url;
 }
 
 
@@ -336,7 +353,7 @@ QList< KGoogle::Object* > Services::CalendarPrivate::parseCalendarJSONFeed(const
 {
     QList< KGoogle::Object* > output;
 
-    Q_FOREACH(QVariant i, feed) {
+    Q_FOREACH(const QVariant &i, feed) {
         output.append(CalendarPrivate::JSONToCalendar(i.toMap()));
     }
 
@@ -513,21 +530,25 @@ KGoogle::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event
 
     /* Extended properties */
     QVariantMap extendedProperties = event["extendedProperties"].toMap();
+
     QVariantMap privateProperties = extendedProperties["private"].toMap();
-
-    Q_FOREACH(const QString & key, privateProperties.keys()) {
-
-        if (key == "categories") {
-            object->setCategories(privateProperties.value(key).toString());
+    QMap< QString, QVariant >::const_iterator iter = privateProperties.begin();
+    while (iter != privateProperties.end()) {
+        if (iter.key() == "categories") {
+            object->setCategories(iter.value().toString());
         }
+
+        ++iter;
     }
 
     QVariantMap sharedProperties = extendedProperties["shared"].toMap();
-    Q_FOREACH(const QString & key, sharedProperties.keys()) {
-
-        if (key == "categories") {
-            object->setCategories(sharedProperties.value(key).toString());
+    iter = sharedProperties.begin();
+    while (iter != sharedProperties.end()) {
+        if (iter.key() == "categories") {
+            object->setCategories(iter.value().toString());
         }
+
+        ++iter;
     }
 
     return dynamic_cast< KGoogle::Object* >(object);
@@ -724,7 +745,7 @@ QList< KGoogle::Object* > Services::CalendarPrivate::parseEventJSONFeed(const QV
 {
     QList< KGoogle::Object* > output;
 
-    Q_FOREACH(QVariant i, feed) {
+    Q_FOREACH(const QVariant &i, feed) {
         output.append(JSONToEvent(i.toMap()));
     }
 
@@ -737,26 +758,26 @@ DateList Services::CalendarPrivate::parseRDate(const QString& rule)
     QString value;
     KTimeZone tz;
 
-    QString left = rule.left(rule.indexOf(":"));
+    QString left = rule.left(rule.indexOf(':'));
     QStringList params = left.split(';');
     Q_FOREACH(const QString & param, params) {
-        if (param.startsWith("VALUE")) {
-            value = param.mid(param.indexOf("=") + 1);
-        } else if (param.startsWith("TZID")) {
-            QString tzname = param.mid(param.indexOf("=") + 1);
+        if (param.startsWith(QLatin1String("VALUE"))) {
+            value = param.mid(param.indexOf('=') + 1);
+        } else if (param.startsWith(QLatin1String("TZID"))) {
+            QString tzname = param.mid(param.indexOf('=') + 1);
             tz = KSystemTimeZones::zone(tzname);
         }
     }
 
     QString datesStr = rule.mid(rule.lastIndexOf(":") + 1);
     QStringList dates = datesStr.split(',');
-    Q_FOREACH(QString date, dates) {
+    Q_FOREACH(const QString &date, dates) {
         QDate dt;
 
         if (value == "DATE") {
             dt = QDate::fromString(date, "yyyyMMdd");
         } else if (value == "PERIOD") {
-            QString start = date.left(date.indexOf("/"));
+            QString start = date.left(date.indexOf('/'));
             KDateTime kdt = AccessManager::RFC3339StringToDate(start);
             if (tz.isValid()) {
                 kdt.setTimeSpec(tz);

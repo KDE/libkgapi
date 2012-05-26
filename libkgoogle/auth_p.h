@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBKGOOGLE_AUTH_P_H_
-#define LIBKGOOGLE_AUTH_P_H_
+#ifndef LIBKGOOGLE_AUTH_P_H
+#define LIBKGOOGLE_AUTH_P_H
 
 #include <QtCore/QObject>
 #include <QtCore/QMap>
@@ -86,4 +86,4 @@ class AuthPrivate: public QObject
 
 }
 
-#endif /* LIBKGOOGLE_AUTH_P_H_ */
+#endif /* LIBKGOOGLE_AUTH_P_H */

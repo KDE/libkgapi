@@ -189,7 +189,7 @@ void AuthWidgetPrivate::webviewFinished()
 void AuthWidgetPrivate::networkRequestFinished(QNetworkReply* reply)
 {
     if (reply->error() != QNetworkReply::NoError) {
-        emitError(KGoogle::AuthError, i18n("Authentization failed:<br>%1", reply->errorString()));
+        emitError(KGoogle::AuthError, i18n("Authentization failed:\n%1", reply->errorString()));
         return;
     }
 

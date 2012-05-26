@@ -136,7 +136,7 @@ class LIBKGOOGLE_EXPORT AuthWidget : public QWidget
     /**
      * Account was successfully authenticated.
      *
-     * This signal is emitted when the authentication was successfull
+     * This signal is emitted when the authentication was successful
      * and tokens were stored within the \p account
      */
     void authenticated(KGoogle::Account::Ptr &account);

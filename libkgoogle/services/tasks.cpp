@@ -215,7 +215,7 @@ QString Tasks::protocolVersion() const
 bool Tasks::supportsJSONRead(QString* urlParam)
 {
     if (urlParam)
-        *urlParam = QString();
+        urlParam->clear();
 
     return true;
 }
@@ -223,7 +223,7 @@ bool Tasks::supportsJSONRead(QString* urlParam)
 bool Tasks::supportsJSONWrite(QString* urlParam)
 {
     if (urlParam)
-        *urlParam = QString();
+        urlParam->clear();
 
     return true;
 }
@@ -336,7 +336,7 @@ QList< KGoogle::Object* > TasksPrivate::parseTaskListJSONFeed(const QVariantList
 {
     QList< KGoogle::Object* > list;
 
-    Q_FOREACH(QVariant item, items) {
+    Q_FOREACH(const QVariant &item, items) {
         list.append(JSONToTaskList(item.toMap()));
     }
 
@@ -347,7 +347,7 @@ QList< KGoogle::Object* > TasksPrivate::parseTasksJSONFeed(const QVariantList &i
 {
     QList< KGoogle::Object* > list;
 
-    Q_FOREACH(QVariant item, items) {
+    Q_FOREACH(const QVariant &item, items) {
         list.append(JSONToTask(item.toMap()));
     }
 

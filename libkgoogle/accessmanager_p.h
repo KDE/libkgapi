@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBKGOOGLE_ACCESSMANAGER_P_H_
-#define LIBKGOOGLE_ACCESSMANAGER_P_H_
+#ifndef LIBKGOOGLE_ACCESSMANAGER_P_H
+#define LIBKGOOGLE_ACCESSMANAGER_P_H
 
 #include <QtCore/QObject>
 #include <QtCore/QQueue>
@@ -68,4 +68,4 @@ class AccessManagerPrivate: public QObject
 
 }
 
-#endif /* LIBKGOOGLE_ACCESSMANAGER_P_H_ */
+#endif /* LIBKGOOGLE_ACCESSMANAGER_P_H */

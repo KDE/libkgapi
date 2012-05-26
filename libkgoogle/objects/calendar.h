@@ -55,11 +55,11 @@ class LIBKGOOGLE_EXPORT Reminder
         typedef QSharedPointer< Reminder > Ptr;
         typedef QList< Ptr > List;
 
-        Reminder();
-        Reminder(const Alarm::Type &type, const Duration &startOffset = Duration(0));
+        explicit Reminder(const Alarm::Type &type, const Duration &startOffset = Duration(0));
         Reminder(const Reminder &other);
+        Reminder();
 
-        ~Reminder();
+        virtual ~Reminder();
 
         Alarm::Type type() const;
 
@@ -87,11 +87,11 @@ class LIBKGOOGLE_EXPORT Calendar: public KGoogle::Object
     typedef QSharedPointer<Calendar> Ptr;
     typedef QList<Calendar> List;
 
-    Calendar();
+    explicit Calendar();
 
     Calendar(const Calendar &other);
 
-    ~Calendar();
+    virtual ~Calendar();
 
     /**
      * Sets UID of the calendar.

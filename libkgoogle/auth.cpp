@@ -141,7 +141,7 @@ QList< KGoogle::Account::Ptr > Auth::getAccounts()
 
     d->kwallet->setFolder(d->kwalletFolder);
     QStringList list = d->kwallet->entryList();
-    Q_FOREACH(QString accName, list) {
+    Q_FOREACH(const QString &accName, list) {
 
         QMap< QString, QString > map;
         d->kwallet->readMap(accName, map);
@@ -231,7 +231,7 @@ void Auth::authenticate(KGoogle::Account::Ptr &account, bool autoSave)
         KWindowSystem::setMainWindow(dlg, KWindowSystem::activeWindow());
 
         dlg->setMainWidget(widget);
-        connect(widget, SIGNAL(error(KGoogle::Error, QString)),
+        connect(widget, SIGNAL(error(KGoogle::Error,QString)),
                 this, SIGNAL(error(KGoogle::Error,QString)));
         connect(dlg, SIGNAL(cancelClicked()), dlg, SLOT(delayedDestruct()));
 

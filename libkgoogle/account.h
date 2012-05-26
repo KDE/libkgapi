@@ -73,9 +73,9 @@ class LIBKGOOGLE_EXPORT Account
      * @param refreshToken Refres token
      * @param scopes List of scopes
      */
-    Account(const QString &account, const QString &accessToken = QString(),
-            const QString &refreshToken = QString(),
-            const QList< QUrl > &scopes = QList< QUrl >());
+    explicit Account(const QString &account, const QString &accessToken = QString(),
+                     const QString &refreshToken = QString(),
+                     const QList< QUrl > &scopes = QList< QUrl >());
 
     Account(const Account &other);
 
@@ -160,7 +160,7 @@ class LIBKGOOGLE_EXPORT Account
      *
      * KGoogle::Auth reads this attribute when Account is passed to
      * KGoogle::Auth::authenticate() to determine whether completely new
-     * process of authentication is needed, or wheter just refreshing tokens
+     * process of authentication is needed, or whether just refreshing tokens
      * is enough.
      *
      * When m_scopesChanged is TRUE and KGoogle::Auth::authenticate() successffuly
