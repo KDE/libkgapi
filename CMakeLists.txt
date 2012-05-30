@@ -1,8 +1,8 @@
-project(libkgoogle)
-set(KGOOGLE_VERSION_MAJOR 0)
-set(KGOOGLE_VERSION_MINOR 3)
-set(KGOOGLE_VERSION_RELEASE 2)
-set(KGOOGLE_VERSION 0.3.2)
+project(libkgapi)
+set(KGAPI_VERSION_MAJOR 0)
+set(KGAPI_VERSION_MINOR 3)
+set(KGAPI_VERSION_RELEASE 2)
+set(KGAPI_VERSION 0.3.2)
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -28,7 +28,7 @@ find_package(KdepimLibs 4.5.63 REQUIRED)
 find_package(QJSON REQUIRED)
 macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http://qjson.sourceforge.net/" TRUE)
 
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS} -DQT_NO_KEYWORDS -DLIBKGOOGLE_LIBRARY)
+add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS} -DQT_NO_KEYWORDS -DLIBKGAPI_LIBRARY)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
 option(USE_KCAL "Use deprecated KCal API instead of KCalCore API. Provides backwards compatibility for KDE PIM 4.4" FALSE)
@@ -45,7 +45,7 @@ endif (USE_KCAL)
 include_directories(
 	  ${QT_INCLUDE_DIR}
 	  ${CMAKE_SOURCE_DIR}
-	  ${CMAKE_SOURCE_DIR}/libkgoogle
+	  ${CMAKE_SOURCE_DIR}/libkgapi
 	  ${CMAKE_BINARY_DIR}
 	  ${KDEPIMLIBS_INCLUDE_DIRS}
 	  ${KDE4_INCLUDES}
@@ -53,20 +53,20 @@ include_directories(
 	  ${Boost_INCLUDE_DIR}
 )
 
-add_subdirectory(libkgoogle)
+add_subdirectory(libkgapi)
 
-configure_file(${libkgoogle_SOURCE_DIR}/LibKGoogleConfig.cmake.in
-               ${libkgoogle_BINARY_DIR}/LibKGoogleConfig.cmake
+configure_file(${libkgapi_SOURCE_DIR}/LibKGAPIConfig.cmake.in
+               ${libkgapi_BINARY_DIR}/LibKGAPIConfig.cmake
                @ONLY
 )
 # this file is used by to check if the installed version can be used.
-macro_write_basic_cmake_version_file(${libkgoogle_BINARY_DIR}/LibKGoogleConfigVersion.cmake
-                                     ${KGOOGLE_VERSION_MAJOR} ${KGOOGLE_VERSION_MINOR} ${KGOOGLE_VERSION_RELEASE})
+macro_write_basic_cmake_version_file(${libkgapi_BINARY_DIR}/LibKGAPIConfigVersion.cmake
+                                     ${KGAPI_VERSION_MAJOR} ${KGAPI_VERSION_MINOR} ${KGAPI_VERSION_RELEASE})
 
-install(FILES ${libkgoogle_BINARY_DIR}/LibKGoogleConfig.cmake ${libkgoogle_BINARY_DIR}/LibKGoogleConfigVersion.cmake
-        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGoogle)
+install(FILES ${libkgapi_BINARY_DIR}/LibKGAPIConfig.cmake ${libkgapi_BINARY_DIR}/LibKGAPIConfigVersion.cmake
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI)
 
 # Install the file with the exported targets
-install(EXPORT kgoogleLibraryTargets
-        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGoogle
-        FILE LibKGoogleTargetsWithPrefix.cmake)
+install(EXPORT kgapiLibraryTargets
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI
+        FILE LibKGAPITargetsWithPrefix.cmake)

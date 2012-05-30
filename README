@@ -1,8 +1,14 @@
-LibKGoogle
+LibKGAPI
 ========================
 
-LibKGoogle is a C++ library that implements APIs for various Google
-services, including Google Contacts, Google Calendars and Google Tasks.
+LibKGAPI (previously called LibKGoogle) is a C++ library that implements APIs for
+various Google services.
+
+Currently supported APIs:
+  - Calendar API v3 (https://developers.google.com/google-apps/calendar)
+  - Contacts API v3 (https://developers.google.com/google-apps/contacts/v3/)
+  - Tasks API v1 (https://developers.google.com/google-apps/tasks)
+
 
 Dependencies:
 -------------
@@ -24,9 +30,9 @@ Compiling:
 
 BUGS:
 -----
-Submit bugs and feature requests to KDE bugzilla, product libkgoogle:
+Submit bugs and feature requests to KDE bugzilla, product libkgapi:
 
-https://bugs.kde.org/enter_bug.cgi?product=libkgoogle
+https://bugs.kde.org/enter_bug.cgi?product=libkgapi
 
 
 Backwards compatibility with KDEPIM 4.4:

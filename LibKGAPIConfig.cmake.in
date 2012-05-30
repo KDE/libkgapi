@@ -1,0 +1,25 @@
+# Do not modify this file. Any change will be overwritten by CMake.
+
+# Config file for LibKGAPI. This file will define:
+# LibKGAPI_INCLUDE_DIR - The LibKGAPI include directory
+# LibKGAPI_LIBRARY - The library needed to use LibKGAPI
+# LibKGAPI_VERSION - The LibKGAPI version
+
+get_filename_component(_currentDir ${CMAKE_CURRENT_LIST_FILE} PATH) # The current directory
+get_filename_component(rootDir ${_currentDir}/@relInstallDir@ ABSOLUTE) # The install prefix
+
+# The library version
+set(LibKGAPI_VERSION_MAJOR @KGAPI_VERSION_MAJOR@)
+set(LibKGAPI_VERSION_MINOR @KGAPI_VERSION_MINOR@)
+set(LibKGAPI_VERSION_RELEASE @KGAPI_VERSION_RELEASE@)
+set(LibKGAPI_VERSION ${LibKGAPI_VERSION_MAJOR}.${LibKGAPI_VERSION_MINOR}.${LibKGAPI_VERSION_RELEASE})
+
+# Include directory
+set(LibKGAPI_INSTALL_PREFIX "${rootDir}")
+set(LibKGAPI_INCLUDE_DIR "@INCLUDE_INSTALL_DIR@")
+
+# import the exported targets
+include(${_currentDir}/LibKGAPITargetsWithPrefix.cmake)
+
+# Set the library variable
+set(LibKGAPI_LIBRARY kgapi)
