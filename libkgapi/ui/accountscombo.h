@@ -18,7 +18,7 @@
 #ifndef LIBKGAPI_UI_ACCOUNTSCOMBO_H
 #define LIBKGAPI_UI_ACCOUNTSCOMBO_H
 
-#include <qcombobox.h>
+#include <kcombobox.h>
 #include <qstandarditemmodel.h>
 
 #include <libkgapi/libkgapi_export.h>
@@ -32,7 +32,7 @@ class Account;
 namespace Ui
 {
 
-class LIBKGAPI_EXPORT AccountsCombo : public QComboBox
+class LIBKGAPI_EXPORT AccountsCombo : public KComboBox
 {
     Q_OBJECT
 

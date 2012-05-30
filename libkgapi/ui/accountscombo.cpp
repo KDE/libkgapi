@@ -23,7 +23,7 @@
 using namespace KGAPI::Ui;
 
 AccountsCombo::AccountsCombo(QWidget *parent):
-    QComboBox(parent)
+    KComboBox(parent)
 {
     reload();
 }
