@@ -88,7 +88,7 @@ Account::Ptr AuthPrivate::getAccountFromWallet(const QString& account)
     return Account::Ptr(new Account(account, map["accessToken"], map["refreshToken"], scopeUrls));
 }
 
-KGAPI::AuthWidget* AuthPrivate::authenticate(Account::Ptr& account, bool autoSave)
+KGAPI::Ui::AuthWidget* AuthPrivate::authenticate(Account::Ptr& account, bool autoSave)
 {
     if (!initKWallet()) {
         return 0;
@@ -116,17 +116,17 @@ KGAPI::AuthWidget* AuthPrivate::authenticate(Account::Ptr& account, bool autoSav
     }
 }
 
-KGAPI::AuthWidget* AuthPrivate::fullAuthentication(KGAPI::Account::Ptr &account, bool autoSave)
+KGAPI::Ui::AuthWidget* AuthPrivate::fullAuthentication(KGAPI::Account::Ptr &account, bool autoSave)
 {
     Q_Q(Auth);
 
-    AuthWidget *widget =  new AuthWidget();
+    Ui::AuthWidget *widget =  new Ui::AuthWidget();
     widget->setProperty("autoSaveAccount", QVariant(autoSave));
 
     connect(widget, SIGNAL(error(KGAPI::Error,QString)),
             q, SIGNAL(error(KGAPI::Error,QString)));
-    connect(widget, SIGNAL(authenticated(KGAPI::Account::Ptr)),
-            this, SLOT(fullAuthenticationFinished(KGAPI::Account::Ptr)));
+    connect(widget, SIGNAL(authenticated(KGAPI::Account::Ptr&)),
+            this, SLOT(fullAuthenticationFinished(KGAPI::Account::Ptr&)));
 
     widget->setUsername(username);
     widget->setPassword(password);
@@ -143,7 +143,7 @@ void AuthPrivate::fullAuthenticationFinished(KGAPI::Account::Ptr &account)
 
     /* Actually this slot shouldn't be invoked by anything else but
      * AuthDialog, but just to make sure... */
-    if (sender() && qobject_cast< AuthWidget* >(sender())) {
+    if (sender() && qobject_cast< Ui::AuthWidget* >(sender())) {
         autoSave = sender()->property("autoSaveAccount").toBool();
     }
 

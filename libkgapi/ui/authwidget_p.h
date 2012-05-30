@@ -33,6 +33,8 @@ namespace KGAPI {
 
 class Reply;
 
+namespace Ui {
+
 class AuthWidgetPrivate: public QObject {
 
     Q_OBJECT
@@ -68,6 +70,8 @@ class AuthWidgetPrivate: public QObject {
     AuthWidget *q_ptr;
     Q_DECLARE_PUBLIC(AuthWidget);
 };
+
+} /* namespace Ui */
 
 } /* namespace KGAPI */
 

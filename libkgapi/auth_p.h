@@ -34,7 +34,10 @@ namespace KGAPI
 {
 
 class Auth;
+
+namespace Ui {
 class AuthWidget;
+}
 
 /**
  * \internal
@@ -67,7 +70,7 @@ class AuthPrivate: public QObject
     Account::Ptr getAccountFromWallet(const QString &account);
 
   public Q_SLOTS:
-    KGAPI::AuthWidget* authenticate(KGAPI::Account::Ptr &account, bool autoSave);
+    KGAPI::Ui::AuthWidget* authenticate(KGAPI::Account::Ptr &account, bool autoSave);
     void refreshTokens(KGAPI::Account::Ptr &account, bool autoSave);
 
   private Q_SLOTS:
@@ -77,7 +80,7 @@ class AuthPrivate: public QObject
     void fullAuthenticationFinished(KGAPI::Account::Ptr &account);
 
   private:
-    KGAPI::AuthWidget* fullAuthentication(KGAPI::Account::Ptr &account, bool autoSave);
+    KGAPI::Ui::AuthWidget* fullAuthentication(KGAPI::Account::Ptr &account, bool autoSave);
 
     Auth* const q_ptr;
     Q_DECLARE_PUBLIC(Auth)

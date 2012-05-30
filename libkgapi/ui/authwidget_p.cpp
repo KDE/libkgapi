@@ -33,6 +33,7 @@
 
 
 using namespace KGAPI;
+using namespace KGAPI::Ui;
 
 AuthWidgetPrivate::AuthWidgetPrivate(AuthWidget *parent):
     QObject(),

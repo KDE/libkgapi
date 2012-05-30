@@ -41,7 +41,10 @@ namespace KGAPI
 {
 
 class AuthPrivate;
+
+namespace Ui {
 class AuthWidget;
+}
 
 /**
  * Auth provides API for authentication against Google services.
@@ -208,7 +211,7 @@ class LIBKGAPI_EXPORT Auth: public QObject
      *                 to KWallet.
      * @return Returns a KGAPI::AuthWidget or null if there is no need for user interaction.
      */
-    KGAPI::AuthWidget* authenticateWithWidget(KGAPI::Account::Ptr &account, bool autoSave = true);
+    KGAPI::Ui::AuthWidget* authenticateWithWidget(KGAPI::Account::Ptr &account, bool autoSave = true);
 
     /**
      * Revokes tokens for \p account and removes it from KWallet.

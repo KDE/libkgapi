@@ -23,6 +23,7 @@
 
 
 using namespace KGAPI;
+using namespace KGAPI::Ui;
 
 AuthWidget::AuthWidget(QWidget* parent):
     QWidget(parent),

@@ -218,7 +218,7 @@ void Auth::authenticate(KGAPI::Account::Ptr &account, bool autoSave)
 {
     Q_D(Auth);
 
-    AuthWidget *widget;
+    Ui::AuthWidget *widget;
     KDialog *dlg;
 
     widget = d->authenticate(account, autoSave);
@@ -247,7 +247,7 @@ void Auth::authenticate(KGAPI::Account::Ptr &account, bool autoSave)
 }
 
 
-KGAPI::AuthWidget* Auth::authenticateWithWidget(Account::Ptr& account, bool autoSave)
+KGAPI::Ui::AuthWidget* Auth::authenticateWithWidget(Account::Ptr& account, bool autoSave)
 {
     Q_D(Auth);
 

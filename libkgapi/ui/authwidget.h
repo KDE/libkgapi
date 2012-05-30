@@ -26,6 +26,8 @@
 
 namespace KGAPI {
 
+namespace Ui {
+
 class AuthWidgetPrivate;
 
 /**
@@ -151,12 +153,14 @@ class LIBKGAPI_EXPORT AuthWidget : public QWidget
      *
      * @param progress The new state of authentication
      */
-    void progress(KGAPI::AuthWidget::Progress progress);
+    void progress(KGAPI::Ui::AuthWidget::Progress progress);
 
   private:
     AuthWidgetPrivate *d_ptr;
     Q_DECLARE_PRIVATE(AuthWidget);
 };
+
+} /* namespace Ui */
 
 } /* namespace KGAPI */
 
