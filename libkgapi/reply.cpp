@@ -65,7 +65,9 @@ KGAPI::Reply::Reply(const KGAPI::Request::RequestType requestType, const KGAPI::
 }
 
 KGAPI::Reply::~Reply()
-{ }
+{
+   delete d_ptr;	
+}
 
 KGAPI::Request::RequestType KGAPI::Reply::requestType() const
 {
