@@ -147,13 +147,18 @@ void AuthWidgetPrivate::webviewFinished()
     }
 
     if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
-        QWebElement el = webview->page()->mainFrame()->findFirstElement("textarea");
-        if (el.isNull()) {
+        QString title = webview->title();
+        QString token;
+
+        if (title.startsWith(QLatin1String("success"), Qt::CaseInsensitive)) {
+            int pos = title.indexOf(QLatin1String("code="));
+            /* Skip the 'code=' string as well */
+            token = title.mid (pos + 5);
+        } else {
             emitError(KGAPI::AuthError, i18n("Parsing token page failed."));
             return;
         }
 
-        QString token = el.toInnerXml();
         if (token.isEmpty()) {
             emitError(KGAPI::AuthError, i18n("Failed to obtain token."));
             return;
