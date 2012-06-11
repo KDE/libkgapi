@@ -530,8 +530,8 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     QVariantMap extendedProperties = event["extendedProperties"].toMap();
 
     QVariantMap privateProperties = extendedProperties["private"].toMap();
-    QMap< QString, QVariant >::const_iterator iter = privateProperties.begin();
-    while (iter != privateProperties.end()) {
+    QMap< QString, QVariant >::const_iterator iter = privateProperties.constBegin();
+    while (iter != privateProperties.constEnd()) {
         if (iter.key() == "categories") {
             object->setCategories(iter.value().toString());
         }
@@ -540,8 +540,8 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     }
 
     QVariantMap sharedProperties = extendedProperties["shared"].toMap();
-    iter = sharedProperties.begin();
-    while (iter != sharedProperties.end()) {
+    iter = sharedProperties.constBegin();
+    while (iter != sharedProperties.constEnd()) {
         if (iter.key() == "categories") {
             object->setCategories(iter.value().toString());
         }

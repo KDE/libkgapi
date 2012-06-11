@@ -256,8 +256,8 @@ void AuthPrivate::kwalletFolderChanged (const QString& folder)
      *
      * We can't copy the new account over the old because that would not update
      * the value in all other copies of the cachedAcc object. */
-    QMap< QString, Account::Ptr >::const_iterator iter = accountsCache.begin();
-    while (iter != accountsCache.end()) {
+    QMap< QString, Account::Ptr >::const_iterator iter = accountsCache.constBegin();
+    while (iter != accountsCache.constEnd()) {
 
         Account::Ptr walletAcc = getAccountFromWallet(iter.key());
         Account::Ptr cachedAcc = iter.value();
