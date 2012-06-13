@@ -718,9 +718,7 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGAPI::Object* event)
 
     QVariantMap reminders;
     reminders["useDefault"] = false;
-    if (!overrides.isEmpty()) {
-        reminders["overrides"] = overrides;
-    }
+    reminders["overrides"] = overrides;
     data["reminders"] = reminders;
 
     /* Store categories */
