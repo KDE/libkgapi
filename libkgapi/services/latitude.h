@@ -23,6 +23,8 @@
 #include <libkgapi/service.h>
 #include <libkgapi/libkgapi_export.h>
 
+#include <QVariantMap>
+
 namespace KGAPI
 {
     
@@ -84,7 +86,7 @@ public:
     /**
      *  Returns URL for KGAPI::Request::Fetch requests.
      */
-    static QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity);
+    static QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity = City);
     
     /**
      *  Returns URL for KGAPI::Request::Remove requests.
@@ -96,6 +98,29 @@ public:
      */
     static QUrl insertCurrentLocationUrl();
     
+    /**
+     * Returns URL for KGAPI::Request::FetchAll requests.
+     * */
+    static QUrl locationHistoryUrl(const Latitude::Granularity granularity, const int maxResults = 0,
+                                const int maxTime = 0, const int minTime = 0);
+    
+    /**
+     * Returns URL for KGAPI::Request::Fetch requests.
+     */
+    static QUrl retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granularity = City);
+    
+    /**
+     * Returns URL for KGAPI::Request::Create requests.
+     */
+    static QUrl insertLocationUrl();
+    
+    /**
+     * Returns URL for KGAPI::Request::Remove requests.
+     */
+    static QUrl deleteLocationUrl(const qlonglong id);
+    
+private:
+    KGAPI::Object* parseLocation(const QVariantMap map);
 };
 
 } // namespace Services
