@@ -10,7 +10,7 @@ if(POLICY CMP0017)
   cmake_policy(SET CMP0017 NEW)
 endif()
 
-find_package(Qt4 4.7.0 REQUIRED QtCore QtWebKit QtNetwork QtXML)
+find_package(Qt4 4.7.0 REQUIRED QtCore QtWebKit QtNetwork QtXML QtTest)
 include(${QT_USE_FILE})
 option(DEBUG_RAWDATA "Log raw data send and received from Google service (enables CMAKE_BUILD_TYPE=Debug)" FALSE)
 if (DEBUG_RAWDATA)
@@ -55,6 +55,7 @@ include_directories(
 )
 
 add_subdirectory(libkgapi)
+add_subdirectory(tests)
 
 configure_file(${libkgapi_SOURCE_DIR}/LibKGAPIConfig.cmake.in
                ${libkgapi_BINARY_DIR}/LibKGAPIConfig.cmake
@@ -71,3 +72,4 @@ install(FILES ${libkgapi_BINARY_DIR}/LibKGAPIConfig.cmake ${libkgapi_BINARY_DIR}
 install(EXPORT kgapiLibraryTargets
         DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI
         FILE LibKGAPITargetsWithPrefix.cmake)
+
