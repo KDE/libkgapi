@@ -185,7 +185,7 @@ void ObjectsContactTests::testPhoneTypeConversion()
     QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Fax),
              QString("http://schemas.google.com/g/2005#fax"));
     QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Cell),
-             QString("http://schemas.google.com/g/2005#cell"));
+             QString("http://schemas.google.com/g/2005#mobile"));
     QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Pager),
              QString("http://schemas.google.com/g/2005#pager"));
 }

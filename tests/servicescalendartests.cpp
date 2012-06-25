@@ -21,6 +21,7 @@
 
 #include <KDateTime>
 #include <KCalCore/Event>
+#include <KCalCore/ICalFormat>
 #include <KDebug>
 
 typedef QMap< QByteArray, QString > ByteArrayStringMap;
@@ -111,8 +112,10 @@ void ServicesCalendarTests::testJSONParser_data()
                "    \"sequence\": 1\n"
                "}").toUtf8();
 
+    ICalFormat format;
     KCalCore::Recurrence *recurrence = new KCalCore::Recurrence();
     recurrence->defaultRRule(true)->setRRule("RRULE:FREQ=MONTHLY;UNTIL=20150521");
+    format.fromString(recurrence->defaultRRule(), "FREQ=MONTHLY;UNTIL=20150521");
     QTest::newRow("test2")
             << "9dnk2k6bspeoo19c95k9510reo"
             << false
@@ -208,12 +211,20 @@ void ServicesCalendarTests::testJSONParser()
     QCOMPARE(event->location(), location);
     /* We want to compare KCalCore::Persons, not pointers */
     QCOMPARE(*event->organizer(), *organizer);
-    kDebug() << event->dtStart();
-    kDebug() << dtStart;
-    QCOMPARE(event->dtStart(), dtStart);
-    QCOMPARE(event->dtEnd(), dtEnd);
     QCOMPARE(event->allDay(), allDay);
-    QCOMPARE(event->recurrence()->rRules(), recurrence->rRules());
+
+    if (allDay) {
+        QCOMPARE(event->dtStart(), KDateTime(dtStart.date()));
+        QCOMPARE(event->dtEnd(), KDateTime(dtEnd.date()));
+    } else {
+        QCOMPARE(event->dtStart(), dtStart);
+        QCOMPARE(event->dtEnd(), dtEnd);
+    }
+
+    QCOMPARE(event->recurrence()->rRules().count(), recurrence->rRules().count());
+    for (int i = 0; i < recurrence->rRules().count(); i++) {
+        QCOMPARE(*event->recurrence()->rRules().at(i), *recurrence->rRules().at(i));
+    };
     QCOMPARE(event->transparency(), transparency);
     QCOMPARE(event->attendees(), attendees);
     QCOMPARE(event->alarms(), reminders);

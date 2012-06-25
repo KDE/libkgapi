@@ -57,7 +57,7 @@ void ServicesAccountInfoTests::testJSONParser_data()
            "    \"given_name\": \"John\",\n"
            "    \"family_name\": \"Doe\",\n"
            "    \"birthday\": \"1991-05-20\",\n"
-           "    \"link\": \"https://plus.google.com/1234568909876543210\",\n"
+           "    \"link\": \"https://plus.google.com/12345678909876543210\",\n"
            "    \"picture\": \"https://lh3.googleusercontent.com/--ABCD/XXXX/XXXXy/1234-9876/photo.jpg\",\n"
            "    \"gender\": \"male\",\n"
            "    \"timezone\": \"Europe/Prague\",\n"
