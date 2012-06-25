@@ -80,7 +80,6 @@ QList< KGAPI::Object* > Contacts::parseJSONFeed(const QByteArray& jsonFeed, Feed
 {
     QList< KGAPI::Object* > output;
     QJson::Parser parser;
-    QJson::Serializer serializer;
 
     QVariantMap head = parser.parse(jsonFeed).toMap();
 
