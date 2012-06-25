@@ -157,12 +157,12 @@ const QUrl & Latitude::scopeUrl() const
 
 QUrl Latitude::retrieveCurrentLocationUrl(const Latitude::Granularity granularity)
 {
-    QString url = "https://www.googleapis.com/latitude/v1/currentLocation";
+    KUrl url("https://www.googleapis.com/latitude/v1/currentLocation");
     
     if (granularity == City)
-        url += "?granularity=city";
+        url.addQueryItem("granularity", "city");
     else if (granularity == Best)
-        url += "?granularity=best";
+        url.addQueryItem("granularity", "best");
         
     return QUrl(url);
 }
@@ -180,34 +180,34 @@ QUrl Latitude::insertCurrentLocationUrl()
 QUrl Latitude::locationHistoryUrl(const Latitude::Granularity granularity, 
                                const int maxResults, const int maxTime, const int minTime)
 {
-    QString url = "https://www.googleapis.com/latitude/v1/location";
+    KUrl url("https://www.googleapis.com/latitude/v1/location");
     
-    if (granularity == Best)
-        url += "?granularity=best";
-    else
-        url += "?granularity=city";
+    if (granularity == City)
+        url.addQueryItem("granularity", "city");
+    else if (granularity == Best)
+        url.addQueryItem("granularity", "best");
     
     if (maxResults > 0)
-        url += "&max-results=" + QString::number(maxResults);
+        url.addQueryItem("max-results",QString::number(maxResults));
     if (maxTime > 0 && maxTime > minTime)
-        url += "&max-time=" + QString::number(maxTime);
+        url.addQueryItem("max-time", QString::number(maxTime));
     if (minTime > 0 && minTime < maxTime)
-        url += "&min-time=" + QString::number(minTime);
+        url.addQueryItem("min-time", QString::number(minTime));
     
-    return QUrl(url);
+    return url;
 }
 
 QUrl Latitude::retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granularity)
 {
-    QString url = "https://www.googleapis.com/latitude/v1/location/";
-    url += QString::number(id);
+    KUrl url("https://www.googleapis.com/latitude/v1/location/");
+    url.addPath(QString::number(id));
     
-    if (granularity == Best)
-        url += "?granularity=best";
-    else
-        url += "?granularity=city";
+     if (granularity == City)
+        url.addQueryItem("granularity", "city");
+     else if (granularity == Best)
+        url.addQueryItem("granularity", "best");
     
-    return QUrl(url);
+    return url;
 }
 
 QUrl Latitude::insertLocationUrl()
@@ -217,7 +217,8 @@ QUrl Latitude::insertLocationUrl()
 
 QUrl Latitude::deleteLocationUrl(const qlonglong id)
 {
-    QString url = "https://www.googleapis.com/latitude/v1/location/" + QString::number(id);
+    KUrl url("https://www.googleapis.com/latitude/v1/location/");
+    url.addPath(QString::number(id));
     
-    return QUrl(url);
+    return url;
 }
