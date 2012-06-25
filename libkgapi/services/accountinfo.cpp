@@ -52,7 +52,6 @@ KGAPI::Object* AccountInfo::JSONToObject(const QByteArray &jsonData)
 
     data = parser.parse(jsonData, &ok).toMap();
     if (!ok) {
-        throw Exception::InvalidResponse();
         return 0;
     }
 
