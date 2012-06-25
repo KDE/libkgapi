@@ -31,7 +31,7 @@ QUrl AccountInfo::EmailScopeUrl("https://www.googleapis.com/auth/userinfo.email"
 
 QString AccountInfo::protocolVersion() const
 {
-    return "1";
+    return "2";
 }
 
 const QUrl& AccountInfo::scopeUrl() const
@@ -59,8 +59,8 @@ KGAPI::Object* AccountInfo::JSONToObject(const QByteArray &jsonData)
     object->setId(data["id"].toString());
     object->setEmail(data["email"].toString());
     object->setName(data["name"].toString());
-    object->setGivenName(data["giveName"].toString());
-    object->setFamilyName(data["familyName"].toString());
+    object->setGivenName(data["given_name"].toString());
+    object->setFamilyName(data["family_name"].toString());
     object->setBirthday(data["birthday"].toString());
     object->setGender(data["gender"].toString());
     object->setLink(data["link"].toString());

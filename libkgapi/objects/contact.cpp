@@ -345,17 +345,17 @@ QString Contact::phoneTypeToScheme(const KABC::PhoneNumber::Type type)
 {
     QString typeName;
 
-    if (type & (KABC::PhoneNumber::Work & KABC::PhoneNumber::Cell))
+    if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell))
         typeName = "work_mobile";
-    else if (type & (KABC::PhoneNumber::Work & KABC::PhoneNumber::Fax))
+    else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax))
         typeName = "work_fax";
-    else if (type & (KABC::PhoneNumber::Work & KABC::PhoneNumber::Pager))
+    else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager))
         typeName = "work_pager";
-    else if (type & (KABC::PhoneNumber::Work & KABC::PhoneNumber::Pref))
+    else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref))
         typeName = "company_main";
     else if (type & KABC::PhoneNumber::Work)
         typeName = "work";
-    else if (type & (KABC::PhoneNumber::Home & KABC::PhoneNumber::Fax))
+    else if ((type & (KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax)) == (KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax))
         typeName = "home_fax";
     else if (type & KABC::PhoneNumber::Home)
         typeName = "home";
@@ -380,36 +380,36 @@ QString Contact::phoneTypeToScheme(const KABC::PhoneNumber::Type type)
 KABC::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
 {
     QString typeName = scheme.mid(scheme.lastIndexOf("#") + 1);
-    KABC::PhoneNumber::Type type;
+    KABC::PhoneNumber::Type type = 0;
 
     if (typeName == "car")
-        type = KABC::PhoneNumber::Car;
+        type |= KABC::PhoneNumber::Car;
     else if (typeName == "fax")
-        type = KABC::PhoneNumber::Fax;
+        type |= KABC::PhoneNumber::Fax;
     else if (typeName == "isdn")
-        type = KABC::PhoneNumber::Isdn;
+        type |= KABC::PhoneNumber::Isdn;
     else if (typeName == "mobile")
-        type = KABC::PhoneNumber::Cell;
+        type |= KABC::PhoneNumber::Cell;
     else if (typeName == "pager")
-        type = KABC::PhoneNumber::Pager;
+        type |= KABC::PhoneNumber::Pager;
     else if (typeName == "main")
-        type = KABC::PhoneNumber::Pref;
+        type |= KABC::PhoneNumber::Pref;
     else if (typeName == "home")
-        type = KABC::PhoneNumber::Home;
+        type |= KABC::PhoneNumber::Home;
     else if (typeName == "home_fax")
-        type = KABC::PhoneNumber::Home & KABC::PhoneNumber::Fax;
+        type |= KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax;
     else if (typeName == "work")
-        type = KABC::PhoneNumber::Work;
+        type |= KABC::PhoneNumber::Work;
     else if (typeName == "work_fax")
-        type = KABC::PhoneNumber::Work & KABC::PhoneNumber::Fax;
+        type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax;
     else if (typeName == "work_mobile")
-        type = KABC::PhoneNumber::Work & KABC::PhoneNumber::Cell;
+        type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell;
     else if (typeName == "work_pager")
-        type = KABC::PhoneNumber::Work & KABC::PhoneNumber::Pager;
+        type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager;
     else if (typeName == "company_main")
-        type = KABC::PhoneNumber::Work & KABC::PhoneNumber::Pref;
+        type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref;
     else
-        type = KABC::PhoneNumber::Home;
+        type |= KABC::PhoneNumber::Home;
 
     return type;
 }

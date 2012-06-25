@@ -409,11 +409,11 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     } else if (startData.contains("dateTime")) {
         dtStart = AccessManager::RFC3339StringToDate(startData["dateTime"].toString());
     }
-    if (startData.contains("timeZone")) {
+    /*if (startData.contains("timeZone")) {
         KTimeZone tz = KSystemTimeZones::zone(startData["timeZone"].toString());
         dtStart.setTimeSpec(KDateTime::Spec(tz));
-    }
-    object->setDtStart(dtStart.toLocalZone());
+    }*/
+    object->setDtStart(dtStart);
 
     /* End date */
     QVariantMap endData = event["end"].toMap();
@@ -427,10 +427,10 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     } else if (endData.contains("dateTime")) {
         dtEnd = AccessManager::RFC3339StringToDate(endData["dateTime"].toString());
     }
-    if (endData.contains("timeZone")) {
+    /*if (endData.contains("timeZone")) {
         KTimeZone tz = KSystemTimeZones::zone(endData["timeZone"].toString());
         dtEnd.setTimeSpec(KDateTime::Spec(tz));
-    }
+    }*/
     object->setDtEnd(dtEnd);
 
     /* Transparency */
@@ -485,10 +485,12 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
         if (rec.left(5) == "RRULE") {
             RecurrenceRule *recurrenceRule = new RecurrenceRule();
             format.fromString(recurrenceRule, rec.mid(6));
+            recurrenceRule->setRRule(rec);
             object->recurrence()->addRRule(recurrenceRule);
         } else if (rec.left(6) == "EXRULE") {
             RecurrenceRule *recurrenceRule = new RecurrenceRule();
             format.fromString(recurrenceRule, rec.mid(7));
+            recurrenceRule->setRRule(rec);
             object->recurrence()->addExRule(recurrenceRule);
         } else if (rec.left(6) == "EXDATE") {
             DateList exdates = parseRDate(rec);
