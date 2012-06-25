@@ -8,6 +8,7 @@ Currently supported APIs:
   - Calendar API v3 (https://developers.google.com/google-apps/calendar)
   - Contacts API v3 (https://developers.google.com/google-apps/contacts/v3/)
   - Tasks API v1 (https://developers.google.com/google-apps/tasks)
+  - Latitude API v1 (https://developers.google.com/latitude/v1/)
 
 
 Dependencies:
