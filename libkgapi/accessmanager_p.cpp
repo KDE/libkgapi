@@ -245,7 +245,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         feedData.requestUrl = reply->request().url();
 
         if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain") ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/javascript")) {
 
             replyData = service->parseJSONFeed(rawData, feedData);
 
@@ -274,7 +275,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     case KGAPI::Request::Update:
     case KGAPI::Request::Patch: {
         if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain")) {
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain") ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/javascript")) {
 
             replyData.append(service->JSONToObject(rawData));
 
