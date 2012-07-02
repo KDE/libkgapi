@@ -23,9 +23,11 @@
 #include <KCalCore/Event>
 #include <KCalCore/ICalFormat>
 #include <KDebug>
+#include <parser.h>
 
 typedef QMap< QByteArray, QString > ByteArrayStringMap;
 
+Q_DECLARE_METATYPE(KGAPI::Objects::Event*);
 Q_DECLARE_METATYPE(KCalCore::Event::Status);
 Q_DECLARE_METATYPE(KCalCore::Recurrence*);
 Q_DECLARE_METATYPE(KCalCore::Event::Transparency);
@@ -236,18 +238,237 @@ void ServicesCalendarTests::testJSONParser()
 
 void ServicesCalendarTests::testJSONSerializer_data()
 {
+    QTest::addColumn< KGAPI::Objects::Event* >("event");
 
+    KGAPI::Objects::Event *event = new KGAPI::Objects::Event();
+    event->setUid("h@0203488aeaa000f7e787fef631d12bc0d7325ef2");
+    event->setDeleted(false);
+    event->setStatus(KCalCore::Incidence::StatusConfirmed);
+    event->setCreated(KDateTime::fromString("2012-06-12T20:28:34.000Z", KDateTime::RFC3339Date));
+    event->setSummary("Den vzniku samostatného československého státu");
+    event->setDtStart(KDateTime::fromString("2012-10-28", KDateTime::ISODate));
+    event->setDtEnd(KDateTime::fromString("2012-10-28", KDateTime::ISODate));
+    event->setAllDay(true);
+    event->setTransparency(KCalCore::Event::Opaque);
+
+    QTest::newRow("test1")
+            << event;
 }
 
 void ServicesCalendarTests::testJSONSerializer()
 {
+    KGAPI::Services::Calendar service;
 
+    QFETCH(KGAPI::Objects::Event*, event);
+
+    QByteArray raw = service.objectToJSON(dynamic_cast< KGAPI::Object* >(event));
+    QJson::Parser parser;
+    bool ok;
+
+    QVariant data = parser.parse(raw, &ok);
+    QVERIFY(ok == true);
+
+    QVariantMap map = data.toMap();
+
+    QVERIFY(map.contains("type"));
+    QVERIFY(map.contains("id"));
+    QVERIFY(map.contains("status"));
+    QVERIFY(map.contains("summary"));
+    QVERIFY(map.contains("description"));
+    QVERIFY(map.contains("location"));
+
+    if (event->recurrence()->rRules().count() > 0) {
+        QVERIFY(map.contains("recurrence"));
+    } else {
+        QVERIFY(! map.contains("recurrence"));
+    }
+
+    QVERIFY(map.contains("start"));
+    QVariantMap start = map["start"].toMap();
+    if (event->allDay()) {
+        QVERIFY(start.contains("date"));
+        QVERIFY( ! start.contains("dateTime"));
+    } else {
+        QVERIFY(start.contains("dateTime"));
+        QVERIFY( ! start.contains("date"));
+    }
+
+    QVERIFY(map.contains("end"));
+    QVariantMap end = map["end"].toMap();
+    if (event->allDay()) {
+        QVERIFY(end.contains("date"));
+        QVERIFY( ! end.contains("dateTime"));
+    } else {
+        QVERIFY(end.contains("dateTime"));
+        QVERIFY( ! end.contains("date"));
+    }
+
+    QVERIFY(map.contains("transparency"));
+    if (event->attendeeCount() > 0) {
+        QVERIFY(map.contains("attendees"));
+    } else {
+        QVERIFY( ! map.contains("attendees"));
+
+        /* Check that event without attendees does not have
+         * organizer set */
+        QVERIFY( ! map.contains("organizer"));
+    }
+
+    QVERIFY(map.contains("reminders"));
+
+    if (event->categories().count() > 0) {
+        QVERIFY(map.contains("extendedProperties"));
+    } else {
+        QVERIFY( ! map.contains("extendedProperties"));
+    }
+
+    QCOMPARE(map["type"].toString(), QString("calendar#event"));
+    QCOMPARE(map["id"].toString(), event->uid());
+    QCOMPARE(map["summary"].toString(), event->summary());
+    QCOMPARE(map["description"].toString(), event->description());
+    QCOMPARE(map["location"].toString(), event->location());
+
+    switch (event->status()) {
+        case KCalCore::Incidence::StatusConfirmed:
+            QCOMPARE(map["status"].toString(), QString("confirmed"));
+            break;
+        case KCalCore::Incidence::StatusCanceled:
+            QCOMPARE(map["status"].toString(), QString("cancelled"));
+            break;
+        case KCalCore::Incidence::StatusTentative:
+            QCOMPARE(map["status"].toString(), QString("tentative"));
+            break;
+        default:
+            QFAIL(QString("Invalid incidence status ").append(map["status"].toString()).toLatin1().constData());
+            break;
+    }
+
+    if (map.contains("recurrence")) {
+        QVariantList recurrences = map["recurrence"].toList();
+        QCOMPARE(recurrences.count(), event->recurrence()->rRules().count());
+        for (int i = 0; i < recurrences.count(); i++) {
+            QCOMPARE(recurrences.at(i).toString(),
+                     event->recurrence()->rRules().at(i)->rrule());
+        }
+    }
+
+    start = map["start"].toMap();
+    if (event->allDay()) {
+        QCOMPARE(start["date"].toString(), event->dtStart().toString(KDateTime::ISODate));
+    } else {
+        QCOMPARE(start["dateTime"].toString(), event->dtStart().toString(KDateTime::RFC3339Date));
+    }
+
+    end = map["end"].toMap();
+    if (event->allDay()) {
+        /* Note the one-day correction in allday event ending! */
+        QCOMPARE(end["date"].toString(), event->dtEnd().addDays(1).toString(KDateTime::ISODate));
+    } else {
+        QCOMPARE(end["dateTime"].toString(), event->dtEnd().toString(KDateTime::RFC3339Date));
+    }
+
+    QCOMPARE(map["transparency"].toString(),
+             ((event->transparency() == KCalCore::Event::Opaque) ?
+                QString("opaque") : QString("transparent")));
+
+    QVariantList attendees = map["attendees"].toList();
+    QCOMPARE(attendees.count(), event->attendeeCount());
+    for (int i = 0; i < attendees.count(); i++) {
+        QVariantMap attendee = attendees.at(i).toMap();
+
+        QCOMPARE(attendee["displayName"].toString(), event->attendees().at(i)->name());
+        QCOMPARE(attendee["email"].toString(), event->attendees().at(i)->email());
+
+        switch (event->attendees().at(i)->status()) {
+            case KCalCore::Attendee::Accepted:
+                QCOMPARE(attendee["responseStatus"].toString(), QString("accepted"));
+                break;
+            case KCalCore::Attendee::Declined:
+                QCOMPARE(attendee["responseStatus"].toString(), QString("declined"));
+                break;
+            case KCalCore::Attendee::Tentative:
+                QCOMPARE(attendee["responseStatus"].toString(), QString("tentative"));
+                break;
+            default:
+                QCOMPARE(attendee["responseStatus"].toString(), QString("needsAction"));
+                break;
+        }
+
+        QCOMPARE(attendee["optional"].toBool(),
+                 (event->attendees().at(i)->role() == KCalCore::Attendee::OptParticipant));
+    }
+
+    if (!attendees.isEmpty() && !event->organizer()->isEmpty()) {
+        QVariantMap organizer = map["organizer"].toMap();
+
+        QCOMPARE(organizer["displayName"].toString(),
+                 event->organizer()->fullName());
+        QCOMPARE(organizer["email"].toString(),
+                 event->organizer()->email());
+    }
+
+    QVariantMap reminders = map["reminders"].toMap();
+    QCOMPARE(reminders["useDefault"].toBool(), false);
+
+    QVariantList overrides = reminders["overrides"].toList();
+    QCOMPARE(overrides.count(), event->alarms().count());
+    for (int i = 0; i < overrides.count(); i++) {
+        QVariantMap override = overrides.at(i).toMap();
+
+        QCOMPARE(override["minutes"].toInt(),
+                 (int)(event->alarms().at(i)->startOffset().asSeconds()));
+        switch (event->alarms().at(i)->type()) {
+            case KCalCore::Alarm::Display:
+                QCOMPARE(override["method"].toString(), QString("popup"));
+                break;
+            case KCalCore::Alarm::Email:
+                QCOMPARE(override["method"].toString(), QString("email"));
+                break;
+            default:
+                QFAIL("Alarm of type other then Display or Email defined!");
+                break;
+        }
+    }
+
+    if (map.contains("extendedProperties")) {
+        QVariantMap extendedProperties = map["extendedProperties"].toMap();
+        QVERIFY(extendedProperties.contains("shared"));
+
+        QVariantMap sharedProperties = extendedProperties["shared"].toMap();
+        QVERIFY(sharedProperties.contains("categories"));
+
+        QCOMPARE(sharedProperties["categories"].toString(),
+                 event->categoriesStr());
+    }
 }
 
 
 void ServicesCalendarTests::testUrls()
 {
-
+    QCOMPARE(KGAPI::Services::Calendar::fetchCalendarsUrl().toString(),
+             QString("https://www.googleapis.com/calendar/v3/users/me/calendarList"));
+    QCOMPARE(KGAPI::Services::Calendar::fetchCalendarUrl("1234abcd").toString(),
+             QString("https://www.googleapis.com/calendar/v3/users/me/calendarList/1234abcd"));
+    QCOMPARE(KGAPI::Services::Calendar::updateCalendarUrl("1234abcd").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd"));
+    QCOMPARE(KGAPI::Services::Calendar::createCalendarUrl().toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars"));
+    QCOMPARE(KGAPI::Services::Calendar::updateCalendarUrl("1234abcd").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd"));
+    QCOMPARE(KGAPI::Services::Calendar::removeCalendarUrl("1234abcd").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd"));
+    QCOMPARE(KGAPI::Services::Calendar::fetchEventsUrl("1234abcd").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd/events?maxResults=20"));
+    QCOMPARE(KGAPI::Services::Calendar::fetchEventUrl("1234abcd", "5678efgh").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd/events/5678efgh"));
+    QCOMPARE(KGAPI::Services::Calendar::createEventUrl("1234abcd").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd/events"));
+    QCOMPARE(KGAPI::Services::Calendar::updateEventUrl("1234abcd", "5678efgh").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd/events/5678efgh"));
+    QCOMPARE(KGAPI::Services::Calendar::removeEventUrl("1234abcd", "5678efgh").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd/events/5678efgh"));
+    QCOMPARE(KGAPI::Services::Calendar::moveEventUrl("1234abcd", "dcba4321", "5678efgh").toString(),
+             QString("https://www.googleapis.com/calendar/v3/calendars/1234abcd/events/5678efgh?destination=dcba4321"));
 }
 
 
