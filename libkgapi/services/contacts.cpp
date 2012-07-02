@@ -168,8 +168,8 @@ KGAPI::Object* Contacts::XMLToObject(const QByteArray& xmlData)
         QDomNode n = data.at(i);
         QDomElement e = n.toElement();
 
-        if ((e.tagName() == "category") &&
-                (e.attribute("term") == "http://schemas.google.com/contact/2008#group")) {
+        if (((e.tagName() == "category") && (e.attribute("term") == "http://schemas.google.com/contact/2008#group")) ||
+            ((e.tagName() == "atom:category") && (e.attribute("term") == "http://schemas.google.com/g/2005#group"))) {
             isGroup = true;
             break;
         }
@@ -197,7 +197,10 @@ const QUrl& Contacts::scopeUrl() const
 
 QUrl Contacts::fetchAllContactsUrl(const QString& user, const bool &showDeleted)
 {
-    QUrl url = "https://www.google.com/m8/feeds/contacts/" + user + "/full?alt=json";
+    KUrl url("https://www.google.com/m8/feeds/contacts/");
+    url.addPath(user);
+    url.addPath("full");
+    url.addQueryItem("alt", "json");
     if (showDeleted)
         url.addQueryItem("showdeleted", "true");
 
@@ -212,12 +215,22 @@ QUrl Contacts::fetchContactUrl(const QString& user, const QString& contactID)
     else
         id = contactID;
 
-    return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + id + "?alt=json";
+    KUrl url("https://www.google.com/m8/feeds/contacts/");
+    url.addPath(user);
+    url.addPath("full");
+    url.addPath(id);
+    url.addQueryItem("alt", "json");
+
+    return url;
 }
 
 QUrl Contacts::createContactUrl(const QString& user)
 {
-    return "https://www.google.com/m8/feeds/contacts/" + user + "/full";
+    KUrl url("https://www.google.com/m8/feeds/contacts/");
+    url.addPath(user);
+    url.addPath("full");
+
+    return url;
 }
 
 QUrl Contacts::updateContactUrl(const QString& user, const QString& contactID)
@@ -228,7 +241,12 @@ QUrl Contacts::updateContactUrl(const QString& user, const QString& contactID)
     else
         id = contactID;
 
-    return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + id;
+    KUrl url("https://www.google.com/m8/feeds/contacts/");
+    url.addPath(user);
+    url.addPath("full");
+    url.addPath(id);
+
+    return url;
 }
 
 QUrl Contacts::removeContactUrl(const QString& user, const QString& contactID)
@@ -239,12 +257,22 @@ QUrl Contacts::removeContactUrl(const QString& user, const QString& contactID)
     else
         id = contactID;
 
-    return "https://www.google.com/m8/feeds/contacts/" + user + "/full/" + id;
+    KUrl url("https://www.google.com/m8/feeds/contacts/");
+    url.addPath(user);
+    url.addPath("full");
+    url.addPath(id);
+
+    return url;
 }
 
 QUrl Contacts::fetchAllGroupsUrl(const QString &user)
 {
-    return "https://www.google.com/m8/feeds/groups/" + user + "/full?alt=json";
+    KUrl url("https://www.google.com/m8/feeds/groups/");
+    url.addPath(user);
+    url.addPath("full");
+    url.addQueryItem("alt", "json");
+
+    return url;
 }
 
 QUrl Contacts::fetchGroupUrl(const QString &user, const QString &groupId)
@@ -255,12 +283,22 @@ QUrl Contacts::fetchGroupUrl(const QString &user, const QString &groupId)
     else
         id = groupId;
 
-    return "https://www.google.com/m8/feeds/groups/" + user + "/base/" + id + "?alt=json";
+    KUrl url("https://www.google.com/m8/feeds/groups/");
+    url.addPath(user);
+    url.addPath("base");
+    url.addPath(id);
+    url.addQueryItem("alt", "json");
+
+    return url;
 }
 
 QUrl Contacts::createGroupUrl(const QString &user)
 {
-    return "https://www.google.com/m8/feeds/groups/" + user + "/full";
+    KUrl url("https://www.google.com/m8/feeds/groups/");
+    url.addPath(user);
+    url.addPath("full");
+
+    return url;
 }
 
 QUrl Contacts::updateGroupUrl(const QString &user, const QString &groupId)
@@ -271,7 +309,12 @@ QUrl Contacts::updateGroupUrl(const QString &user, const QString &groupId)
     else
         id = groupId;
 
-    return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + id;
+    KUrl url("https://www.google.com/m8/feeds/groups/");
+    url.addPath(user);
+    url.addPath("full");
+    url.addPath(id);
+
+    return url;
 }
 
 QUrl Contacts::removeGroupUrl(const QString &user, const QString &groupId)
@@ -282,7 +325,12 @@ QUrl Contacts::removeGroupUrl(const QString &user, const QString &groupId)
     else
         id = groupId;
 
-    return "https://www.google.com/m8/feeds/groups/" + user + "/full/" + id;
+    KUrl url("https://www.google.com/m8/feeds/groups/");
+    url.addPath(user);
+    url.addPath("full");
+    url.addPath(id);
+
+    return url;
 }
 
 QUrl Contacts::photoUrl(const QString& user, const QString& contactID)
@@ -293,7 +341,11 @@ QUrl Contacts::photoUrl(const QString& user, const QString& contactID)
     else
         id = contactID;
 
-    return "https://www.google.com/m8/feeds/photos/media/" + user + "/" + id;
+    KUrl url("https://www.google.com/m8/feeds/photos/media/");
+    url.addPath(user);
+    url.addPath(id);
+
+    return url;
 }
 
 
@@ -1028,12 +1080,14 @@ Object* ContactsPrivate::XMLToGroup(const QDomDocument &doc)
             continue;
         }
 
-        if (e.tagName() == "title") {
+        if ((e.tagName() == "title") ||
+            (e.tagName() == "atom:title")) {
             group->setTitle(e.text());
             continue;
         }
 
-        if (e.tagName() == "content") {
+        if ((e.tagName() == "content") ||
+            (e.tagName() == "atom:content")) {
             group->setContent(e.text());
             continue;
         }
