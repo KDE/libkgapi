@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom" xmlns:gContact="http://schemas.google.com/contact/2008" xmlns:batch="http://schemas.google.com/gdata/batch" xmlns:gd="http://schemas.google.com/g/2005" gd:etag="&quot;RHc7cTVSLyt7I2A9WhVbEkQKRA0.&quot;">
+  <id>http://www.google.com/m8/feeds/contacts/xyz%40no.where/base/1234abcd</id>
+  <updated>2012-05-29T11:19:55.909Z</updated>
+  <app:edited xmlns:app="http://www.w3.org/2007/app">2012-05-29T11:19:55.909Z</app:edited>
+  <category scheme="http://schemas.google.com/g/2005#kind" term="http://schemas.google.com/contact/2008#contact"/>
+  <title>Complete Contact</title>
+  <link rel="http://schemas.google.com/contacts/2008/rel#photo" type="image/*" href="https://www.google.com/m8/feeds/photos/media/xyz%40no.where/abcd1234" gd:etag="&quot;a28rNHkCSit7I2BNBRYQYwxOBXoADz8gMjo.&quot;"/>
+  <link rel="self" type="application/atom+xml" href="https://www.google.com/m8/feeds/photos/media/xyz@no.where/9876dcba"/>
+  <link rel="edit" type="application/atom+xml" href="https://www.google.com/m8/feeds/photos/media/xyz@no.where/9876dcba"/>
+  <gd:name>
+    <gd:fullName>Complete Contact</gd:fullName>
+    <gd:givenName>Complete</gd:givenName>
+    <gd:familyName>Contact</gd:familyName>
+  </gd:name>
+  <gContact:nickname>Blah :) blah^2</gContact:nickname>
+  <gd:email rel="http://schemas.google.com/g/2005#home" address="xyz@no.where"/>
+  <gd:email rel="http://schemas.google.com/g/2005#home" address="xyz@some.where"/>
+  <gd:im address="myskypeaccount" protocol="http://schemas.google.com/g/2005#SKYPE" rel="http://schemas.google.com/g/2005#other"/>
+  <gd:im address="jabber@some.where" protocol="http://schemas.google.com/g/2005#XMPP" rel="http://schemas.google.com/g/2005#other"/>
+  <gd:im address="09876543210987654321" protocol="http://schemas.google.com/g/2005#ICQ" rel="http://schemas.google.com/g/2005#other"/>
+  <gd:phoneNumber rel="http://schemas.google.com/g/2005#mobile" uri="tel:098765432109876432">098765432109876432</gd:phoneNumber>
+  <gd:phoneNumber rel="http://schemas.google.com/g/2005#work">243534655262476</gd:phoneNumber>
+  <gd:structuredPostalAddress rel="http://schemas.google.com/g/2005#home">
+    <gd:formattedAddress>Complete Street
+Complete City,  Complete Code
+
+COMPLETE COUNTRY</gd:formattedAddress>
+    <gd:street>Complete Street</gd:street>
+    <gd:postcode>Complete Code</gd:postcode>
+    <gd:city>Complete City</gd:city>
+    <gd:country>Complete Country</gd:country>
+  </gd:structuredPostalAddress>
+  <gContact:relation rel="spouse">Some spouse2</gContact:relation>
+  <gContact:relation rel="manager">some manager</gContact:relation>
+  <gContact:relation rel="assistant">some assistent</gContact:relation>
+  <gContact:website href="http://www.my-stupid.homepage" rel="home-page"/>
+  <gContact:website href="http://www.my-stupid.blog" rel="blog"/>
+  <gContact:groupMembershipInfo deleted="false" href="http://www.google.com/m8/feeds/groups/xyz%40no.where/base/6"/>
+  <gContact:occupation>someprofession</gContact:occupation>
+  <gd:organization rel="http://schemas.google.com/g/2005#work">
+    <gd:orgName>My Organization</gd:orgName>
+    <gd:orgDepartment>My Department</gd:orgDepartment>
+    <gd:orgTitle>Smartass</gd:orgTitle>
+    <gd:where>A galaxy far away</gd:where>
+  </gd:organization>
+  <gContact:event rel="anniversary">
+      <gd:when startTime="2010-05-20" />
+  </gContact:event>
+</entry>

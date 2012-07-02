@@ -1,0 +1,166 @@
+{
+    "version": "1.0",
+    "encoding": "UTF-8",
+    "entry": {
+        "xmlns": "http://www.w3.org/2005/Atom",
+        "xmlns$gContact": "http://schemas.google.com/contact/2008",
+        "xmlns$batch": "http://schemas.google.com/gdata/batch",
+        "xmlns$gd": "http://schemas.google.com/g/2005",
+        "gd$etag": "\"RHc7cTVSLyt7I2A9WhVbEkQKRA0.\"",
+        "id": {
+            "$t": "http://www.google.com/m8/feeds/contacts/xyz%40no.where/base/1234abcd"
+        },
+        "updated": {
+            "$t": "2012-05-29T11:19:55.909Z"
+        },
+        "app$edited": {
+            "xmlns$app": "http://www.w3.org/2007/app",
+            "$t": "2012-05-29T11:19:55.909Z"
+        },
+        "category": [
+            {
+                "scheme": "http://schemas.google.com/g/2005#kind",
+                "term": "http://schemas.google.com/contact/2008#contact"
+            }
+        ],
+        "title": {
+            "$t": "Complete Contact"
+        },
+        "link": [
+            {
+                "rel": "http://schemas.google.com/contacts/2008/rel#photo",
+                "type": "image/*",
+                "href": "https://www.google.com/m8/feeds/photos/media/xyz%40no.where/9876dcba",
+                "gd$etag": "\"a28rNHkCSit7I2BNBRYQYwxOBXoADz8gMjo.\""
+            },
+            {
+                "rel": "self",
+                "type": "application/atom+xml",
+                "href": "https://www.google.com/m8/feeds/contacts/xyz%40no.where/full/9876dcba"
+            },
+            {
+                "rel": "edit",
+                "type": "application/atom+xml",
+                "href": "https://www.google.com/m8/feeds/contacts/xyz%40no.where/full/9876dcba"
+            }
+        ],
+        "gd$name": {
+            "gd$fullName": {
+                "$t": "Complete Contact"
+            },
+            "gd$givenName": {
+                "$t": "Complete"
+            },
+            "gd$familyName": {
+                "$t": "Contact"
+            }
+        },
+        "gContact$nickname": {
+            "$t": "Blah :) blah^2"
+        },
+        "gContact$occupation": {
+            "$t": "someprofession"
+        },
+        "gd$email": [
+            {
+                "rel": "http://schemas.google.com/g/2005#home",
+                "address": "xyz@no.where"
+            },
+            {
+                "rel": "http://schemas.google.com/g/2005#work",
+                "address": "xyz@some.where"
+            }
+        ],
+        "gd$im": [
+            {
+                "address": "danvratil",
+                "protocol": "http://schemas.google.com/g/2005#SKYPE",
+                "rel": "http://schemas.google.com/g/2005#other"
+            }
+        ],
+        "gd$phoneNumber": [
+            {
+                "rel": "http://schemas.google.com/g/2005#mobile",
+                "$t": "098765432109876432"
+            },
+            {
+                "rel": "http://schemas.google.com/g/2005#work",
+                "$t": "243534655262476"
+            }
+        ],
+        "gd$structuredPostalAddress": [
+            {
+                "rel": "http://schemas.google.com/g/2005#home",
+                "gd$formattedAddress": {
+                    "$t": "Complete Street\nComplete City,  Complete Code\n\nCOMPLETE COUNTRY"
+                },
+                "gd$street": {
+                    "$t": "Complete Street"
+                },
+                "gd$postcode": {
+                    "$t": "Complete Code"
+                },
+                "gd$city": {
+                    "$t": "Complete City"
+                },
+                "gd$country": {
+                    "$t": "Complete Country"
+                }
+            }
+        ],
+        "gContact$relation": [
+            {
+                "rel": "spouse",
+                "$t": "Some spouse2"
+            },
+            {
+                "rel": "manager",
+                "$t": "some manager"
+            },
+            {
+                "rel": "assistant",
+                "$t": "some assistent"
+            }
+        ],
+        "gContact$website": [
+            {
+                "href": "http://www.my-stupid.homepage",
+                "rel": "home-page"
+            },
+            {
+                "href": "http://www.my-stupid.blog",
+                "rel": "blog"
+            }
+        ],
+        "gContact$groupMembershipInfo": [
+            {
+                "deleted": "false",
+                "href": "http://www.google.com/m8/feeds/groups/xyz%40no.where/base/6"
+            }
+        ],
+        "gd$organization": [
+            {
+                "gd$orgName": {
+                    "$t": "My Organization"
+                },
+                "gd$orgDepartment": {
+                    "$t": "My Department"
+                },
+                "gd$orgTitle": {
+                    "$t": "Smartass"
+                },
+                "gd$where": {
+                    "$t": "A galaxy far away"
+                }
+            }
+        ],
+        "gContact$event": [
+            {
+                "rel": "anniversary",
+                "gd$when": {
+                    "startTime": "2010-05-20"
+                }
+            }
+        ]
+    }
+}
