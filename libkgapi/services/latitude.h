@@ -27,7 +27,6 @@
 
 namespace KGAPI
 {
-    
 class Object;
 
 namespace Services
@@ -36,11 +35,10 @@ namespace Services
 class LIBKGAPI_EXPORT Latitude : public KGAPI::Service
 {
 public:
-    
     enum Granularity {
         City, Best
     };
-    
+
     static QUrl ScopeUrl;
 
     /**
@@ -82,43 +80,47 @@ public:
      * Returns service scope URL for Google Latitude service
      */
     const QUrl& scopeUrl() const;
-    
+
     /**
      *  Returns URL for KGAPI::Request::Fetch requests.
      */
     static QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity = City);
-    
+
     /**
      *  Returns URL for KGAPI::Request::Remove requests.
      */
     static QUrl deleteCurrentLocationUrl();
-    
+
     /**
      *  Returns URL for KGAPI::Request::Create requests.
      */
     static QUrl insertCurrentLocationUrl();
-    
+
     /**
      * Returns URL for KGAPI::Request::FetchAll requests.
-     * */
+     *
+     * @param maxResult Maximum amount of results to return
+     * @param maxTime Maximum timestamp since epoch (in ms)
+     * @param minTime Minimum timestamp since epoch (in ms)
+     */
     static QUrl locationHistoryUrl(const Latitude::Granularity granularity, const int maxResults = 0,
-                                const int maxTime = 0, const int minTime = 0);
-    
+                                   const qlonglong maxTime = 0, const qlonglong minTime = 0);
+
     /**
      * Returns URL for KGAPI::Request::Fetch requests.
      */
     static QUrl retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granularity = City);
-    
+
     /**
      * Returns URL for KGAPI::Request::Create requests.
      */
     static QUrl insertLocationUrl();
-    
+
     /**
      * Returns URL for KGAPI::Request::Remove requests.
      */
     static QUrl deleteLocationUrl(const qlonglong id);
-    
+
 private:
     KGAPI::Object* parseLocation(const QVariantMap map);
 };
