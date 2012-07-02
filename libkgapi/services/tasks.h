@@ -38,6 +38,11 @@ class LIBKGAPI_EXPORT Tasks: public KGAPI::Service
     static QUrl ScopeUrl;
 
     /**
+     * Implementation of KGAPI::Service::name().
+     */
+    static const QString& serviceName();
+
+    /**
      * Implementation of KGAPI::Service::JSONToObject()
      */
     KGAPI::Object* JSONToObject(const QByteArray& jsonData);

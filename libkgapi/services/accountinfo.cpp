@@ -29,6 +29,8 @@ using namespace Services;
 QUrl AccountInfo::ScopeUrl("https://www.googleapis.com/auth/userinfo.profile");
 QUrl AccountInfo::EmailScopeUrl("https://www.googleapis.com/auth/userinfo.email");
 
+static const QString serviceNameStr("KGAPI::Services::AccountInfo");
+
 QString AccountInfo::protocolVersion() const
 {
     return "2";
@@ -43,6 +45,16 @@ QUrl AccountInfo::fetchUrl()
 {
     return QUrl("https://www.googleapis.com/oauth2/v1/userinfo");
 }
+
+const QString& AccountInfo::serviceName()
+{
+    if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
+        qRegisterMetaType< KGAPI::Services::AccountInfo >(serviceNameStr.toLatin1().constData());
+    }
+
+    return serviceNameStr;
+}
+
 
 KGAPI::Object* AccountInfo::JSONToObject(const QByteArray &jsonData)
 {

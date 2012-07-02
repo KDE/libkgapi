@@ -60,6 +60,19 @@ class TasksPrivate
 
 QUrl Tasks::ScopeUrl("https://www.googleapis.com/auth/tasks");
 
+static const QString serviceNameStr("KGAPI::Services::Tasks");
+
+
+const QString& Tasks::serviceName()
+{
+    if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
+        qRegisterMetaType< KGAPI::Services::Tasks >(serviceNameStr.toLatin1().constData());
+    }
+
+    return serviceNameStr;
+}
+
+
 QByteArray Tasks::objectToXML(KGAPI::Object* object)
 {
     Q_UNUSED(object);

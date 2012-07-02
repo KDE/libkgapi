@@ -65,6 +65,11 @@ class LIBKGAPI_EXPORT AccountInfo : public KGAPI::Service
     static QUrl fetchUrl();
 
     /**
+     * Implements KGAPI::Service::name()
+     */
+    static const QString& serviceName();
+
+    /**
      * The AccountInfo always returns information about single account, never feed.
      *
      * This method does nothing.

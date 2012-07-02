@@ -34,6 +34,19 @@ using namespace Services;
 
 QUrl Latitude::ScopeUrl("https://www.googleapis.com/auth/latitude.all.best");
 
+static const QString serviceNameStr("KGAPI::Services::Latitude");
+
+
+const QString& Latitude::serviceName()
+{
+    if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
+        qRegisterMetaType< KGAPI::Services::Latitude >(serviceNameStr.toLatin1().constData());
+    }
+
+    return serviceNameStr;
+}
+
+
 Object * Latitude::JSONToObject(const QByteArray & jsonData)
 {
     QJson::Parser parser;

@@ -54,6 +54,18 @@ using namespace KGAPI::Services;
 
 QUrl Contacts::ScopeUrl("https://www.google.com/m8/feeds/");
 
+static const QString serviceNameStr("KGAPI::Services::Contacts");
+
+
+const QString& Contacts::serviceName()
+{
+    if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
+        qRegisterMetaType< KGAPI::Services::Contacts >(serviceNameStr.toLatin1().constData());
+    }
+
+    return serviceNameStr;
+}
+
 QByteArray Contacts::objectToJSON(KGAPI::Object* object)
 {
     /* Google allows writing only XML data */

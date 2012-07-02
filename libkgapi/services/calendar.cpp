@@ -73,6 +73,18 @@ using namespace KGAPI;
 
 QUrl Services::Calendar::ScopeUrl("https://www.googleapis.com/auth/calendar");
 
+static const QString serviceNameStr("KGAPI::Services::Calendar");
+
+
+const QString& Services::Calendar::serviceName()
+{
+    if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
+        qRegisterMetaType< KGAPI::Services::Calendar >(serviceNameStr.toLatin1().constData());
+    }
+
+    return serviceNameStr;
+}
+
 /********** PUBLIC JSON INTERFACE ************/
 
 KGAPI::Object* Services::Calendar::JSONToObject(const QByteArray& jsonData)
