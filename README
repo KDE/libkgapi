@@ -29,6 +29,9 @@ Compiling:
   # As root:
   make install
 
+To compile example applications, run cmake with -DBUILD_EXAMPLES=TRUE argument.
+To compile automated tests, run 'make buildtests'. To run automated tests, run 'make test'
+
 BUGS:
 -----
 Submit bugs and feature requests to KDE bugzilla, product libkgapi:

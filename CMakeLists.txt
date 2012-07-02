@@ -43,6 +43,11 @@ else (USE_KCAL)
   set(KCALENDAR_LIBRARIES ${KDEPIMLIBS_KCALCORE_LIBS})
 endif (USE_KCAL)
 
+option(BUILD_EXAMPLES "Build example applications" FALSE)
+if (BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif(BUILD_EXAMPLES)
+
 include_directories(
 	  ${QT_INCLUDE_DIR}
 	  ${CMAKE_SOURCE_DIR}
