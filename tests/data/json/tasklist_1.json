@@ -1,0 +1,8 @@
+{
+ "kind": "tasks#taskList",
+ "id": "1234abcd",
+ "etag": "\"-kSxjsniVV6Hn53-kChReeLNJUE/Dr82p80Fbre2M7CBAvmyAOJ__zI\"",
+ "title": "Todo",
+ "updated": "2012-06-13T05:30:03.000Z",
+ "selfLink": "https://www.googleapis.com/tasks/v1/users/@me/lists/1234abcd"
+}

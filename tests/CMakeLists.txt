@@ -29,4 +29,5 @@ LIBKGOOGLE_TESTS(
     servicescalendartests
     servicescontactstests
     serviceslatitudetests
+    servicestaskstests
 )

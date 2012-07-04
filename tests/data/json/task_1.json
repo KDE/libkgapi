@@ -1,0 +1,12 @@
+{
+ "kind": "tasks#task",
+ "id": "5678efgh",
+ "etag": "\"-kSxjsniVV6Hn53-kChReeLNJUE/LTE0ODYxNDQ5OTY\"",
+ "title": "Do something!",
+ "updated": "2012-06-13T05:30:03.000Z",
+ "selfLink": "https://www.googleapis.com/tasks/v1/lists/1234abcd/tasks/5678efgh",
+ "position": "00000000000027889397",
+ "notes": "Don't be lazy, just do something!",
+ "status": "completed",
+ "completed": "2012-06-13T05:30:03.000Z"
+}
