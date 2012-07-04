@@ -1,0 +1,54 @@
+/** @mainpage LibKGAPI
+
+\section purpos Purpos
+
+LibKGAPI is a library that implements various Google APIs so that
+3rd party applications can easily integrate with Google services.
+
+\section desc Description
+
+<h1>Architecture</h1>
+
+<h2> Objects</h2>
+Every entity (Contact, Calendar, Event, ...) is represented by it's own
+object. Objects are encapsulated in KGAPI::Objects namespace. Where possible,
+the objects are subclasses from already available KDE classes to provide even
+more easy and simple integration. KGAPI::Objects::Event is subclassed from
+KCalCore::Event, KGAPI::Objects::Task from KCalCore::Task etc. All objects
+are implicitly shared, so you can copy the objects without much of an overhead.
+
+<h2>Services</h2>
+Each Google's API is represented by a service. Services are located in KGAPI::Services
+namespace. Usually, users don't need to use KGAPI::Services, as the AccessManager handles
+parsing and serialization on it's own.
+
+<h2>Core</h2>
+The core part of the library consits of KGAPI::AccessManager, KGAPI::Request, KGAPI::Reply
+The AccessManager, Request and Reply are inspired by QNetworkAccessManager, QNetworkRequest
+and QNetworkReply and are even used the same way. Only one instance of KGAPI::AccessManager
+per application is usually needed and users then send requests by passing KGAPI::Request
+to an instance of the manager. When request is processed and manager receives reply from
+Google, it automatically parses the response and through replyReceived() signal provides
+KGAPI::Reply with already parsed data to user.
+
+<h2>Authentication</h2>
+Authentication is handeled by KGAPI::Auth and KGAPI::Account. KGAPI::Auth is a singleton
+that provides access to password-storage backend - at this moment it's on KWallet.
+KGAPI::Account represents a user account on Google and stores tokens to authorize requests
+sent to Google.
+
+<h1>Examples</h1>
+For examples of how to use LibKGAPI in KDE applications, please refer to example programs in
+the /examples folder. To compile examples, pass -DBUILD_EXAMPLES=TRUE to CMake.
+
+@authors
+Dan Vratil \<dan@progdan.cz\>
+Jan Grulich \<grulja@gmail.com\>
+
+@maintainers
+Dan Vratil \<dan@progdan.cz\>
+
+@licenses
+@gplv2
+
+// DOXYGEN_PROJECTNAME=LibKGAPI
