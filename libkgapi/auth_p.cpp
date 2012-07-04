@@ -102,6 +102,12 @@ KGAPI::Ui::AuthWidget* AuthPrivate::authenticate(Account::Ptr& account, bool aut
     if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
 
         account->addScope(Services::AccountInfo::EmailScopeUrl);
+
+        /* Pre-fill the username in the dialog so that user knows what account
+         * (s)he is re-authenticating for */
+        if (!account->accountName().isEmpty() && username.isEmpty())
+            username = account->accountName();
+
         return fullAuthentication(account, autoSave);
 
     } else {
