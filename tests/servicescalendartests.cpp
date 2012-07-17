@@ -23,7 +23,7 @@
 #include <KCalCore/Event>
 #include <KCalCore/ICalFormat>
 #include <KDebug>
-#include <parser.h>
+#include <qjson/parser.h>
 
 typedef QMap< QByteArray, QString > ByteArrayStringMap;
 
