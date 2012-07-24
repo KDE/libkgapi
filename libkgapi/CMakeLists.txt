@@ -65,7 +65,8 @@ target_link_libraries(kgapi
 		      ${KDE4_KDEUI_LIBS}
 		      ${KDEPIMLIBS_KABC_LIBS}
 		      ${KDEPIMLIBS_KMIME_LIBS}
-              ${qjson_LIBRARIES}        # for Debian
+                      ${qjson_LIBRARIES}        # for Debian
+                      ${QJSON_LIBRARY}          # for Mac OSX
 		      ${QJSON_LIBRARIES}
 		      ${QT_QTCORE_LIBRARY}
 		      ${QT_QTWEBKIT_LIBRARY}
