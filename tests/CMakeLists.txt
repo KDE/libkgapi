@@ -9,6 +9,7 @@ MACRO(LIBKGOOGLE_TESTS)
                                      ${KDEPIMLIBS_KMIME_LIBS}
                                      ${KDEPIMLIBS_KCALCORE_LIBS}
                                      ${qjson_LIBRARIES}        # for Debian
+                                     ${QJSON_LIBRARY}          # for Mac OSX
                                      ${QJSON_LIBRARIES}
                                      ${KDE4_KIO_LIBS}
                                      ${KDE4_KDEUI_LIBS}
