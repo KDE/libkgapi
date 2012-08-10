@@ -190,8 +190,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         kWarning() << "Conflict. Remote resource is newer then local.";
         kWarning() << rawData;
         QString msg = parseErrorMessage(rawData);
-        Q_EMIT q->error(KGAPI::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", msg));
-        Q_EMIT request->error(KGAPI::Conflict, i18n("Conflict. Remote resource is newer then local.\n\nGoogle replied '%1'", msg));
+        Q_EMIT q->error(KGAPI::Conflict, i18n("Conflict. Remote resource is newer than local.\n\nGoogle replied '%1'", msg));
+        Q_EMIT request->error(KGAPI::Conflict, i18n("Conflict. Remote resource is newer than local.\n\nGoogle replied '%1'", msg));
         return;
     }
 
@@ -257,8 +257,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
         } else {
             kDebug() << "Unknown reply content type!";
-            Q_EMIT q->error(KGAPI::InvalidResponse, i18n("Unknown reply content type!"));
-            Q_EMIT request->error(KGAPI::InvalidResponse, i18n("Unknown reply content type!"));
+            Q_EMIT q->error(KGAPI::InvalidResponse, i18n("Unknown reply content type."));
+            Q_EMIT request->error(KGAPI::InvalidResponse, i18n("Unknown reply content type."));
             return;
         }
 
