@@ -692,9 +692,10 @@ QByteArray ContactsPrivate::contactToXML(const KGAPI::Object* object)
     }
 
     /* Birthday */
-    if (!contact->birthday().isNull() && contact->birthday().isValid()) {
-        QString birthday = contact->birthday().toString("yyyy-MM-dd");
-        output.append("<gContact:birthday when='").append(birthday.toUtf8()).append("'/>");
+    QDate birthday = contact->birthday().date();
+    if (birthday.isValid()) {
+        QString birthdayStr = birthday.toString("yyyy-MM-dd");
+        output.append("<gContact:birthday when='").append(birthdayStr.toUtf8()).append("'/>");
     }
 
     QStringList groups = contact->custom("GCALENDAR", "groupMembershipInfo").split(',');
