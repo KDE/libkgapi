@@ -381,7 +381,7 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     }
 
     /* Canceled instance of recurring event. Set ID of the instance to match ID of the event */
-    if (event.contains("recurringEventId") && object->deleted()) {
+    if (event.contains("recurringEventId")) {
         object->setUid(QUrl::fromPercentEncoding(event["recurringEventId"].toByteArray()));
     }
 
