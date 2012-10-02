@@ -313,7 +313,7 @@ KGAPI::Object* Services::CalendarPrivate::JSONToCalendar(const QVariantMap& cale
     object->setLocation(calendar["location"].toString());
     object->setTimezone(calendar["timeZone"].toString());
 
-    if ((calendar["accessRole"].toString() == "writer") || (calendar["acessRole"].toString() == "owner")) {
+    if ((calendar["accessRole"].toString() == "writer") || (calendar["accessRole"].toString() == "owner")) {
         object->setEditable(true);
     } else {
         object->setEditable(false);
