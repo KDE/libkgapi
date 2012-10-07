@@ -16,34 +16,14 @@
 */
 
 #include "account.h"
-
-namespace KGAPI
-{
-
-class AccountPrivate: public QSharedData
-{
-  public:
-    AccountPrivate();
-
-    AccountPrivate(const AccountPrivate &other);
-
-    virtual ~AccountPrivate();
-
-    QString accName;
-    QString accessToken;
-    QString refreshToken;
-    QList< QUrl > scopes;
-};
-}
+#include "account_p.h"
 
 using namespace KGAPI;
 
-AccountPrivate::AccountPrivate():
-    QSharedData()
+AccountPrivate::AccountPrivate()
 { }
 
 AccountPrivate::AccountPrivate(const AccountPrivate& other):
-    QSharedData(other),
     accName(other.accName),
     accessToken(other.accessToken),
     refreshToken(other.refreshToken),
@@ -73,13 +53,15 @@ Account::Account(const QString &accName, const QString &accessToken,
 }
 
 Account::Account(const Account& other):
-    d(other.d),
+    d(new AccountPrivate(*(other.d))),
     m_scopesChanged(other.m_scopesChanged)
 { }
 
 
 Account::~Account()
-{ }
+{
+    delete d;
+}
 
 QString Account::accountName() const
 {

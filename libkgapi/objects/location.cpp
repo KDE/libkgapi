@@ -22,7 +22,7 @@
 
 using namespace KGAPI::Objects;
 
-LocationData::LocationData():
+LocationPrivate::LocationPrivate():
     timestamp(0),
     accuracy(-1),
     speed(-1),
@@ -31,30 +31,31 @@ LocationData::LocationData():
     altitudeAccuracy(-1)
 { }
 
-LocationData::LocationData(const LocationData &other):
-    QSharedData(other),
+LocationPrivate::LocationPrivate(const LocationPrivate &other):
     timestamp(other.timestamp),
     accuracy(other.accuracy)
 { }
 
 Location::Location():
     KGAPI::Object(),
-    d(new LocationData)
+    d(new LocationPrivate)
 { }
 
 Location::Location(const Location & other):
     KGAPI::Object(other),
     KABC::Geo(other),
-    d(other.d)
+    d(new LocationPrivate(*(other.d)))
 { }
 
 Location::Location(float latitude, float longitude):
     Geo(latitude, longitude),
-    d(new LocationData)
+    d(new LocationPrivate)
 { }
 
 Location::~Location()
-{ }
+{
+    delete d;
+}
 
 qulonglong Location::timestamp() const
 {

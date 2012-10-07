@@ -20,67 +20,7 @@
 
 using namespace KGAPI::Objects;
 
-ReminderData::ReminderData():
-    type(Alarm::Invalid)
-{ }
-
-ReminderData::ReminderData(const ReminderData &other):
-    QSharedData(other),
-    type(other.type),
-    offset(other.offset)
-{ }
-
-Reminder::Reminder():
-    d(new ReminderData)
-{ }
-
-Reminder::Reminder (const Alarm::Type &type, const Duration& startOffset):
-    d(new ReminderData)
-{
-    d->type = type;
-    d->offset = startOffset;
-}
-
-Reminder::Reminder (const Reminder& other):
-    d(other.d)
-{ }
-
-Reminder::~Reminder()
-{ }
-
-void Reminder::setType (const Alarm::Type& type)
-{
-    d->type = type;
-}
-
-Alarm::Type Reminder::type() const
-{
-    return d->type;
-}
-
-void Reminder::setStartOffset (const Duration& startOffset)
-{
-    d->offset = startOffset;
-}
-
-Duration Reminder::startOffset() const
-{
-    return d->offset;
-}
-
-AlarmPtr Reminder::toAlarm (Incidence* incidence) const
-{
-    AlarmPtr alarm(new Alarm(incidence));
-
-    alarm->setType(d->type);
-    alarm->setStartOffset(d->offset);
-
-    return alarm;
-}
-
-
-CalendarData::CalendarData(const CalendarData &other) :
-    QSharedData(other),
+CalendarPrivate::CalendarPrivate(const CalendarPrivate &other) :
     title(other.title),
     details(other.details),
     timezone(other.timezone),
@@ -90,16 +30,18 @@ CalendarData::CalendarData(const CalendarData &other) :
 { }
 
 Calendar::Calendar() :
-    d(new CalendarData)
+    d(new CalendarPrivate)
 { }
 
 Calendar::Calendar(const Calendar &other) :
     KGAPI::Object(other),
-    d(other.d)
+    d(new CalendarPrivate(*(other.d)))
 { }
 
 Calendar::~Calendar()
-{ }
+{
+    delete d;
+}
 
 
 void Calendar::setUid(const QString &uid)

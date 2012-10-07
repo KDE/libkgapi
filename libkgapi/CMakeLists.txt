@@ -10,6 +10,7 @@ set(libkgapi_SRCS
     reply.cpp
     objects/accountinfo.cpp
     objects/calendar.cpp
+    objects/reminder.cpp
     objects/contact.cpp
     objects/contactsgroup.cpp
     objects/event.cpp
@@ -48,6 +49,7 @@ set(services_HDRS
 set(objects_HDRS
     objects/accountinfo.h
     objects/calendar.h
+    objects/reminder.h
     objects/contact.h
     objects/contactsgroup.h
     objects/event.h
@@ -61,7 +63,7 @@ set(ui_HDRS
 
 kde4_add_library(kgapi SHARED ${libkgapi_SRCS})
 
-set_target_properties(kgapi PROPERTIES VERSION ${KGAPI_VERSION} SOVERSION ${KGAPI_VERSION_MAJOR} )
+set_target_properties(kgapi PROPERTIES VERSION ${KGAPI_VERSION} SOVERSION ${KGAPI_VERSION_MAJOR} DEFINE_SYMBOL LIBKGAPI_LIBRARY)
 
 target_link_libraries(kgapi
 		      ${KDE4_KDECORE_LIBS}

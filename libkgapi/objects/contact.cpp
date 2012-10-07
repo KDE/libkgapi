@@ -31,23 +31,21 @@ using namespace KGAPI::Objects;
 
 /*************************** PRIVATE DATA ******************************/
 
-ContactData::ContactData(const ContactData &other):
-    QSharedData(other),
+ContactPrivate::ContactPrivate(const ContactPrivate &other):
     deleted(other.deleted),
     photoUrl(other.photoUrl)
 { }
 
 /***************************** CONTACT ************************************/
 
-Contact::Contact()
-{
-    d = new ContactData;
-}
+Contact::Contact():
+    d(new ContactPrivate)
+{ }
 
 Contact::Contact(const Contact &other):
     KGAPI::Object(other),
     KABC::Addressee(other),
-    d(other.d)
+    d(new ContactPrivate(*(other.d)))
 {
     QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
     Q_FOREACH(const QString &group, groups) {
@@ -57,7 +55,7 @@ Contact::Contact(const Contact &other):
 
 Contact::Contact(const KABC::Addressee& other):
     Addressee(other),
-    d(new ContactData)
+    d(new ContactPrivate)
 {
     QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
     Q_FOREACH(const QString &group, groups) {
@@ -66,7 +64,9 @@ Contact::Contact(const KABC::Addressee& other):
 }
 
 Contact::~Contact()
-{ }
+{
+    delete d;
+}
 
 void Contact::setDeleted(const bool deleted)
 {

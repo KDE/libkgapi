@@ -26,7 +26,6 @@
 
 #include <QtCore/QList>
 #include <QtCore/QMetaType>
-#include <QtCore/QSharedData>
 
 namespace KGAPI
 {
@@ -34,7 +33,7 @@ namespace KGAPI
 namespace Objects
 {
 
-class ContactData;
+class ContactPrivate;
 
 /**
  * Represents a single contact.
@@ -249,7 +248,7 @@ class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
     static KABC::Address::Type addressSchemeToType(const QString &scheme, const bool primary = false);
 
   private:
-    QSharedDataPointer<ContactData> d;
+    ContactPrivate* d;
 
 };
 

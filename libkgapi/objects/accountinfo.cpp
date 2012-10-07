@@ -20,8 +20,7 @@
 
 using namespace KGAPI::Objects;
 
-AccountInfoData::AccountInfoData(const AccountInfoData &other):
-    QSharedData(other),
+AccountInfoPrivate::AccountInfoPrivate(const AccountInfoPrivate &other):
     id(other.id),
     email(other.email),
     name(other.name),
@@ -38,19 +37,19 @@ AccountInfoData::AccountInfoData(const AccountInfoData &other):
 
 AccountInfo::AccountInfo():
     KGAPI::Object(),
-    d(new AccountInfoData)
+    d(new AccountInfoPrivate)
 {
 
 }
 
 AccountInfo::AccountInfo(const AccountInfo &other):
     KGAPI::Object(other),
-    d(other.d)
+    d(new AccountInfoPrivate(*(other.d)))
 { }
 
 AccountInfo::~AccountInfo()
 {
-
+    delete d;
 }
 
 void AccountInfo::setId(const QString &id)

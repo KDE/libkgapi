@@ -19,7 +19,6 @@
 #define LIBKGAPI_OBJECT_H
 
 #include <QtCore/QString>
-#include <QtCore/QSharedData>
 
 #include <libkgapi/libkgapi_export.h>
 
@@ -58,7 +57,7 @@ class LIBKGAPI_EXPORT Object
     const QString& etag() const;
 
   private:
-    QExplicitlySharedDataPointer< ObjectPrivate > d;
+    ObjectPrivate* d;
 
 };
 

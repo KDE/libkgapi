@@ -18,7 +18,6 @@
 #ifndef LIBKGAPI_OBJECTS_CONTACT_P_H
 #define LIBKGAPI_OBJECTS_CONTACT_P_H
 
-#include <QtCore/QSharedData>
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QUrl>
@@ -31,13 +30,13 @@ namespace KGAPI
 namespace Objects
 {
 
-class ContactData : public QSharedData
+class ContactPrivate
 {
 
   public:
-    ContactData() { };
-    ContactData(const ContactData &other);
-    ~ContactData() { };
+    ContactPrivate() { };
+    ContactPrivate(const ContactPrivate &other);
+    ~ContactPrivate() { };
 
     bool deleted;
     QUrl photoUrl;

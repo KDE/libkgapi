@@ -1,5 +1,5 @@
 /*
-    Copyright 2012  Jan Grulich <grulja@gmail.com>
+    Copyright 2012  Dan Vratil <dan@progdan.cz>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -15,37 +15,36 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIKBGAPI_OBJECTS_LOCATION_P_H
-#define LIBKGAPI_OBJECTS_LOCATION_P_H
+#ifndef LIBKGAPI_OBJECTS_REMINDER_P_H
+#define LIBKGAPI_OBJECTS_REMINDER_P_H
 
-#include <QtCore/QString>
-
-#include <KDateTime>
+#ifdef WITH_KCAL
+#include <KCal/Alarm>
+using namespace KCal;
+#else
+#include <KCalCore/Alarm>
+using namespace KCalCore;
+#endif
 
 namespace KGAPI
 {
-    
+
 namespace Objects
 {
-    
-class LocationPrivate
+
+class ReminderPrivate
 {
-public:
-    LocationPrivate();
-    LocationPrivate(const LocationPrivate &other);
-    ~LocationPrivate() { };
-    
-    qulonglong timestamp;
-    qint32 accuracy;
-    qint32 speed;
-    qint32 heading;
-    qint32 altitude;
-    qint32 altitudeAccuracy;
- 
+  public:
+    ReminderPrivate();
+    ReminderPrivate(const ReminderPrivate &other);
+    ~ReminderPrivate() {};
+
+    Alarm::Type type;
+    Duration offset;
 };
-    
-} /* namespace Objects */
 
-} /* namespace KGAPI */
+} // namespace Objects
 
-#endif // LIBKGAPI_OBJECTS_LOCATION_P_H
+} // namespace KGAPI
+
+#endif /* LIBKGAPI_OBJECTS_REMINDER_P_H */

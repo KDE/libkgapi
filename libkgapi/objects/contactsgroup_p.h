@@ -18,7 +18,6 @@
 #ifndef LIBKGAPI_OBJECTS_CONTACTSGROUP_P_H
 #define LIBKGAPI_OBJECTS_CONTACTSGROUP_P_H
 
-#include <QtCore/QSharedData>
 #include <QtCore/QString>
 #include <QtCore/QDateTime>
 
@@ -28,7 +27,7 @@ namespace KGAPI
 namespace Objects
 {
 
-class ContactsGroupPrivate: public QSharedData
+class ContactsGroupPrivate
 {
 
 public:

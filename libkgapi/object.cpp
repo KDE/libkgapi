@@ -16,36 +16,26 @@
 */
 
 #include "object.h"
-
-namespace KGAPI
-{
-
-/**
- * \internal
- */
-class ObjectPrivate: public QSharedData
-{
-  public:
-    ObjectPrivate() { }
-
-    QString etag;
-};
-
-}
+#include "object_p.h"
 
 using namespace KGAPI;
+
+ObjectPrivate::ObjectPrivate(const ObjectPrivate& other):
+    etag(other.etag)
+{ }
 
 Object::Object():
     d(new ObjectPrivate)
 { }
 
 Object::Object(const Object& other):
-    d(other.d)
+    d(new ObjectPrivate(*(other.d)))
 { }
-
 
 Object::~Object()
-{ }
+{
+    delete d;
+}
 
 void Object::setEtag(const QString& etag)
 {

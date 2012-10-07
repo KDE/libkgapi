@@ -15,10 +15,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIKBGAPI_OBJECTS_ACCOUNTINFO_P_H
+#ifndef LIBKGAPI_OBJECTS_ACCOUNTINFO_P_H
 #define LIBKGAPI_OBJECTS_ACCOUNTINFO_P_H
 
-#include <QtCore/QSharedData>
 #include <QtCore/QString>
 
 namespace KGAPI
@@ -27,12 +26,12 @@ namespace KGAPI
 namespace Objects
 {
 
-class AccountInfoData: public QSharedData
+class AccountInfoPrivate
 {
 public:
-    AccountInfoData() { };
-    AccountInfoData(const AccountInfoData &other);
-    ~AccountInfoData() { };
+    AccountInfoPrivate() { };
+    AccountInfoPrivate(const AccountInfoPrivate &other);
+    ~AccountInfoPrivate() { };
 
     QString id;
     QString email;

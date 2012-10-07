@@ -25,7 +25,6 @@ ContactsGroupPrivate::ContactsGroupPrivate():
 { }
 
 ContactsGroupPrivate::ContactsGroupPrivate(const ContactsGroupPrivate &other):
-    QSharedData(other),
     id(other.id),
     title(other.title),
     content(other.content),
@@ -42,12 +41,14 @@ ContactsGroup::ContactsGroup():
 { }
 
 ContactsGroup::~ContactsGroup()
-{ }
+{
+    delete d;
+}
 
 
 ContactsGroup::ContactsGroup(const ContactsGroup &other):
     KGAPI::Object(other),
-    d(other.d)
+    d(new ContactsGroupPrivate(*(other.d)))
 { }
 
 void ContactsGroup::setId(const QString &id)

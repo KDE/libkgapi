@@ -53,6 +53,7 @@ void AccountsCombo::reload()
         accounts = auth->getAccounts();
     } catch (KGAPI::Exception::BackendNotReady &e) {
         /* Slot must not throw an exception, application might not be ready for that */
+        Q_UNUSED(e);
         return;
     }
 

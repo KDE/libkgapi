@@ -18,7 +18,6 @@
 #ifndef LIBKGAPI_OBJECTS_CALENDAR_P_H
 #define LIBKGAPI_OBJECTS_CALENDAR_P_H
 
-#include <QtCore/QSharedData>
 #include <QtCore/QString>
 
 #ifdef WITH_KCAL
@@ -35,23 +34,14 @@ namespace KGAPI
 namespace Objects
 {
 
-class ReminderData: public QSharedData
+class Reminder;
+
+class CalendarPrivate
 {
   public:
-    ReminderData();
-    ReminderData(const ReminderData &other);
-    ~ReminderData() {};
-
-    Alarm::Type type;
-    Duration offset;
-};
-
-class CalendarData: public QSharedData
-{
-  public:
-    CalendarData() {};
-    CalendarData(const CalendarData &other);
-    ~CalendarData() {};
+    CalendarPrivate() {};
+    CalendarPrivate(const CalendarPrivate &other);
+    ~CalendarPrivate() {};
 
     QString uid;
     QString title;

@@ -22,7 +22,6 @@
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
 #include <QtCore/QMetaType>
-#include <QtCore/QSharedData>
 #include <QtCore/QSharedPointer>
 
 #include <libkgapi/libkgapi_export.h>
@@ -151,7 +150,7 @@ class LIBKGAPI_EXPORT Account
     void removeScope(const QUrl &scope);
 
   private:
-    QExplicitlySharedDataPointer< AccountPrivate > d;
+    AccountPrivate* d;
 
     /**
      * Whether scopes were changed or not.

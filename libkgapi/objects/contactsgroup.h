@@ -22,7 +22,6 @@
 #include <libkgapi/libkgapi_export.h>
 
 #include <QtCore/QDateTime>
-#include <QtCore/QSharedPointer>
 #include <QtCore/QMetaType>
 
 namespace KGAPI
@@ -116,7 +115,7 @@ class LIBKGAPI_EXPORT ContactsGroup : public KGAPI::Object
     bool isSystemGroup() const;
 
   private:
-    QSharedDataPointer< ContactsGroupPrivate > d;
+    ContactsGroupPrivate* d;
 
 };
 
