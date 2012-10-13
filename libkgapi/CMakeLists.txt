@@ -17,6 +17,14 @@ set(libkgapi_SRCS
     objects/task.cpp
     objects/tasklist.cpp
     objects/location.cpp
+    objects/drive/about.cpp
+    objects/drive/app.cpp
+    objects/drive/childreference.cpp
+    objects/drive/parentreference.cpp
+    objects/drive/revision.cpp
+    objects/drive/permission.cpp
+    objects/drive/file.cpp
+    objects/drive/change.cpp
     services/accountinfo.cpp
     services/calendar.cpp
     services/contacts.cpp
@@ -57,6 +65,16 @@ set(objects_HDRS
     objects/tasklist.h
     objects/location.h)
 
+set(objects_drive_HDRS
+    objects/drive/about.h
+    objects/drive/app.h
+    objects/drive/childreference.h
+    objects/drive/parentreference.h
+    objects/drive/revision.h
+    objects/drive/permission.h
+    objects/drive/file.h
+    objects/drive/change.h)
+
 set(ui_HDRS
     ui/accountscombo.h
     ui/authwidget.h)
@@ -90,5 +108,6 @@ install(TARGETS kgapi EXPORT kgapiLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS}
 install(FILES ${libkgapi_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi)
 install(FILES ${services_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/services)
 install(FILES ${objects_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/objects)
+install(FILES ${objects_drive_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/objects/drive)
 install(FILES ${ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/ui)
 
