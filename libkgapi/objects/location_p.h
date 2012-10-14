@@ -24,26 +24,26 @@
 
 namespace KGAPI
 {
-    
+
 namespace Objects
 {
-    
+
 class LocationPrivate
 {
 public:
     LocationPrivate();
     LocationPrivate(const LocationPrivate &other);
     ~LocationPrivate() { };
-    
+
     qulonglong timestamp;
     qint32 accuracy;
     qint32 speed;
     qint32 heading;
     qint32 altitude;
     qint32 altitudeAccuracy;
- 
+
 };
-    
+
 } /* namespace Objects */
 
 } /* namespace KGAPI */
