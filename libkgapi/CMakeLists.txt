@@ -17,11 +17,15 @@ set(libkgapi_SRCS
     objects/task.cpp
     objects/tasklist.cpp
     objects/location.cpp
+    objects/staticmapmarker.cpp
+    objects/staticmapurl.cpp
+    objects/staticmappath.cpp
     services/accountinfo.cpp
     services/calendar.cpp
     services/contacts.cpp
     services/tasks.cpp
     services/latitude.cpp
+    services/staticmap.cpp
     ui/accountscombo.cpp
     ui/authwidget.cpp
     ui/authwidget_p.cpp
@@ -44,7 +48,8 @@ set(services_HDRS
     services/calendar.h
     services/contacts.h
     services/tasks.h
-    services/latitude.h)
+    services/latitude.h
+    services/staticmap.h)
 
 set(objects_HDRS
     objects/accountinfo.h
@@ -55,7 +60,11 @@ set(objects_HDRS
     objects/event.h
     objects/task.h
     objects/tasklist.h
-    objects/location.h)
+    objects/location.h
+    objects/staticmapmarker.h
+    objects/staticmappath.h
+    objects/staticmapurl.h
+)
 
 set(ui_HDRS
     ui/accountscombo.h

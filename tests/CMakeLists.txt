@@ -26,6 +26,7 @@ LIBKGOOGLE_TESTS(
     objectstasktests
     objectstasklisttests
     objectslocationtests
+    objectstaticmapurltests
     servicesaccountinfotests
     servicescalendartests
     servicescontactstests
