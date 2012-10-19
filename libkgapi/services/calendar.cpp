@@ -319,6 +319,14 @@ KGAPI::Object* Services::CalendarPrivate::JSONToCalendar(const QVariantMap& cale
         object->setEditable(false);
     }
 
+    if (calendar.contains("foreground")) {
+	object->setForegroundColor(QColor(calendar["foreground"].toString()));
+    }
+
+    if (calendar.contains("background")) {
+	object->setBackgroundColor(QColor(calendar["background"].toString()));
+    }
+
     QVariantList reminders = calendar["defaultReminders"].toList();
     Q_FOREACH(const QVariant & r, reminders) {
         QVariantMap reminder = r.toMap();

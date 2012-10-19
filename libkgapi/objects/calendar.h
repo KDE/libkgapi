@@ -22,6 +22,7 @@
 #include <libkgapi/objects/reminder.h>
 
 #include <QtCore/QMetaType>
+#include <QColor>
 
 #ifdef WITH_KCAL
 #include <KCal/Alarm>
@@ -133,6 +134,34 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Object
      * Returns defalut reminders for all events in the calendar.
      */
     Reminder::List defaultReminders() const;
+
+    /**
+     * Sets default calendar foreground color
+     *
+     * @since 0.5
+     */
+    void setForegroundColor(const QColor &color);
+
+    /**
+     * Returns default calendar foreground color
+     *
+     * @since 0.5
+     */
+    QColor foregroundColor() const;
+
+    /**
+     * Sets default calendar background color
+     *
+     * @since 0.5
+     */
+    void setBackgroundColor(const QColor &color);
+
+    /**
+     * Returns default calendar background color
+     *
+     * @since 0.5
+     */
+    QColor backgroundColor() const;
 
   protected:
     CalendarPrivate* d;

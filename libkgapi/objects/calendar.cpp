@@ -26,7 +26,9 @@ CalendarPrivate::CalendarPrivate(const CalendarPrivate &other) :
     timezone(other.timezone),
     location(other.location),
     editable(other.editable),
-    reminders(other.reminders)
+    reminders(other.reminders),
+    foreground(other.foreground),
+    background(other.background)
 { }
 
 Calendar::Calendar() :
@@ -120,3 +122,22 @@ Reminder::List Calendar::defaultReminders() const
     return d->reminders;
 }
 
+void Calendar::setForegroundColor(const QColor &color)
+{
+    d->foreground = color;
+}
+
+QColor Calendar::foregroundColor() const
+{
+    return d->foreground;
+}
+
+void Calendar::setBackgroundColor(const QColor &color)
+{
+    d->background = color;
+}
+
+QColor Calendar::backgroundColor() const
+{
+    return d->background;
+}

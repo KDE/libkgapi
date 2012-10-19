@@ -51,6 +51,9 @@ class CalendarPrivate
     bool editable;
 
     Reminder::List reminders;
+
+    QColor foreground;
+    QColor background;
 };
 
 } // namespace Objects
