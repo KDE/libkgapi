@@ -244,6 +244,7 @@ void AuthPrivate::refreshTokensFinished(QNetworkReply *reply)
             q->storeAccount(account);
         } catch (Exception::BaseException &e) {
             Q_EMIT q->error(e.code(), e.what());
+	    return;
         }
     }
 
