@@ -33,6 +33,11 @@ namespace Objects
 
 class DrivePermissionPrivate;
 
+/**
+ * DrivePermission contains a permission for a file.
+ * Getters and setters' documentation is based on Google Drive's API v2 reference
+ * @see <a href="https://developers.google.com/drive/v2/reference/permissions">Permissions</a>
+ */
 class LIBKGAPI_EXPORT DrivePermission: public KGAPI::Object
 {
 public:
@@ -43,34 +48,134 @@ public:
     DrivePermission(const DrivePermission& other);
     virtual ~DrivePermission();
     
+    /**
+     * Returns the id of the permission.
+     */
     QString id();
+    
+    /**
+     * Sets the id of the permission.
+     */
     void setId(const QString& id);
     
+    /**
+     * Returns a link back to this permission.
+     */
     QString selfLink();
+    
+    /**
+     * Sets a link back to this permission.
+     */
     void setSelfLink(const QString& selfLink);
     
+    /**
+     * Returns the name of this permission.
+     */
     QString name();
+    
+    /**
+     * Sets the name of this permission.
+     */
     void setName(const QString& name);
     
+    /**
+     * Returns the primary role for this user.
+     * Allowed values:
+     * <ul>
+     *  <li>owner</li>
+     *  <li>reader</li>
+     *  <li>writer</li>
+     * </ul>
+     */
     QString role();
+    
+    /**
+     * Sets the primary role for this user.
+     * Allowed values:
+     * <ul>
+     *  <li>owner</li>
+     *  <li>reader</li>
+     *  <li>writer</li>
+     * </ul>
+     */
     void setRole(const QString& role);
     
+    /**
+     * Returns additional roles for this user. Only commenter is currently allowed.
+     */
     QStringList additionalRoles();
+    
+    /**
+     * Sets additional roles for this user. Only commenter is currently allowed.
+     */
     void setAdditionalRoles(const QStringList& additionalRoles);
     
+    /**
+     * Returns the account type.
+     * Allowed values:
+     * <ul>
+     *  <li>user</li>
+     *  <li>group</li>
+     *  <li>domain</li>
+     *  <li>anyone</li>
+     * </ul>
+     */
     QString type();
+    
+    /**
+     * Sets the account type.
+     * Allowed values:
+     * <ul>
+     *  <li>user</li>
+     *  <li>group</li>
+     *  <li>domain</li>
+     *  <li>anyone</li>
+     * </ul>
+     */
     void setType(const QString& type);
     
+    /**
+     * Returns the authkey parameter required for this permission.
+     */
     QString authKey();
+    
+    /**
+     * Sets the authkey parameter required for this permission.
+     */
     void setAuthKey(const QString& authKey);
     
+    /**
+     * Returns whether the link is required for this permission.
+     */
     bool withLink();
+    
+    /**
+     * Sets whether the link is required for this permission.
+     */
     void setWithLink(const bool& withLink);
     
+    /**
+     * Returns a link to the profile photo, if available.
+     */
     QString photoLink();
+    
+    /**
+     * Sets a link to the profile photo, if available.
+     */
     void setPhotoLink(const QString& photoLink);
     
+    /**
+     * Returns the email address or domain name for the entity.
+     * This is not populated in responses.
+     * You can use the alias "me" as the value for this property to refer to the current authorized user.
+     */
     QString value();
+    
+    /**
+     * Sets the email address or domain name for the entity.
+     * This is not populated in responses.
+     * You can use the alias "me" as the value for this property to refer to the current authorized user.
+     */
     void setValue(const QString& value);
 
 private:
