@@ -42,19 +42,56 @@ public:
     DriveChange(const DriveChange& other);
     virtual ~DriveChange();
     
+    /**
+     * Returns the id of the change.
+     */
     qulonglong id();
+    
+    /**
+     * Sets the id of the change.
+     */
     void setId(const qulonglong& id);
     
+    /**
+     * Returns the id of the file associated with this change.
+     */
     QString fileId();
+    
+    /**
+     * Sets the id of the file associated with this change.
+     */
     void setFileId(const QString& fileId);
     
+    /**
+     * Returns a link back to this change.
+     */
     QString selfLink();
+    
+    /**
+     * Sets the link back to this change.
+     */
     void setSelfLink(const QString& selfLink);
     
+    /**
+     * Returns whether this file has been deleted.
+     */
     bool deleted();
+    
+    /**
+     * Sets whether this file has been deleted.
+     */
     void setDeleted(const bool& deleted);
     
+    /**
+     * Returns the updated state of the file.
+     * Present if the file has not been deleted.
+     */
     DriveFile::Ptr file();
+    
+    /**
+     * Sets the updated state of the file.
+     * Present if the file has not been deleted.
+     */
     void setFile(const DriveFile::Ptr& file);
 
 private:
