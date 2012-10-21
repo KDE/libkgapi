@@ -43,13 +43,34 @@ public:
     DriveChildReference(const DriveChildReference& other);
     virtual ~DriveChildReference();
     
+    /**
+     * Returns the id of the child.
+     */
     QString id();
+    
+    /**
+     * Sets the id of the child.
+     */
     void setId(const QString& id);
     
+    /**
+     * Returns a link back to this reference.
+     */
     QString selfLink();
+    
+    /**
+     * Sets a link back to this reference.
+     */
     void setSelfLink(const QString& selfLink);
     
+    /**
+     * Returns a link to the child.
+     */
     QString childLink();
+    
+    /**
+     * Sets a link to the child.
+     */
     void setChildLink(const QString& childLink);
 
 private:
