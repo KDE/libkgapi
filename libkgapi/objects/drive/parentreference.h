@@ -33,6 +33,11 @@ namespace Objects
 
 class DriveParentReferencePrivate;
 
+/**
+ * DriveParentReference contains a reference to a file's parent.
+ * Getters and setters' documentation is based on Google Drive's API v2 reference
+ * @see <a href="https://developers.google.com/drive/v2/reference/parents">Parents</a>
+ */
 class LIBKGAPI_EXPORT DriveParentReference: public KGAPI::Object
 {
 public:

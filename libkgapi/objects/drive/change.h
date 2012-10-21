@@ -32,6 +32,12 @@ namespace Objects
 
 class DriveChangePrivate;
 
+
+/**
+ * DriveChange contains the representation of a change to a file
+ * Getters and setters' documentation is based on Google Drive's API v2 reference
+ * @see <a href="https://developers.google.com/drive/v2/reference/changes">Changes</a>
+ */
 class LIBKGAPI_EXPORT DriveChange: public KGAPI::Object
 {
 public:

@@ -33,6 +33,11 @@ namespace Objects
 
 class DriveChildReferencePrivate;
 
+/**
+ * DriveChildReference contains a reference to a folder's child.
+ * Getters and setters' documentation is based on Google Drive's API v2 reference
+ * @see <a href="https://developers.google.com/drive/v2/reference/children">Children</a>
+ */
 class LIBKGAPI_EXPORT DriveChildReference: public KGAPI::Object
 {
 public:
