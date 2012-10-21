@@ -43,16 +43,44 @@ public:
     DriveParentReference(const DriveParentReference& other);
     virtual ~DriveParentReference();
     
+    /**
+     * Returns the id of the parent.
+     */
     QString id();
+    
+    /**
+     * Sets the id of the parent.
+     */
     void setId(const QString& id);
     
+    /**
+     * Returns a link back to this reference.
+     */
     QString selfLink();
+    
+    /**
+     * Sets the link back to this reference.
+     */
     void setSelfLink(const QString& selfLink);
     
+    /**
+     * Returns a link to the parent.
+     */
     QString parentLink();
+    
+    /**
+     * Sets the link to the parent.
+     */
     void setParentLink(const QString& parentLink);
     
+    /**
+     * Returns whether or not the parent is the root folder.
+     */
     bool isRoot();
+    
+    /**
+     * Sets whether or not the parent is the root folder.
+     */
     void setIsRoot(const bool& isRoot);
 
 private:
