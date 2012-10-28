@@ -127,52 +127,52 @@ void DriveApp::setObjectType(const QString& objectType)
     d->objectType = objectType;
 }
 
-bool DriveApp::supportsCreate()
+QVariant DriveApp::supportsCreate()
 {
     return d->supportsCreate;
 }
 
-void DriveApp::setSupportsCreate(const bool& supportsCreate)
+void DriveApp::setSupportsCreate(const QVariant& supportsCreate)
 {
     d->supportsCreate = supportsCreate;
 }
 
-bool DriveApp::supportsImport()
+QVariant DriveApp::supportsImport()
 {
     return d->supportsImport;
 }
 
-void DriveApp::setSupportsImport(const bool& supportsImport)
+void DriveApp::setSupportsImport(const QVariant& supportsImport)
 {
     d->supportsImport = supportsImport;
 }
 
-bool DriveApp::installed()
+QVariant DriveApp::installed()
 {
     return d->installed;
 }
 
-void DriveApp::setInstalled(const bool& installed)
+void DriveApp::setInstalled(const QVariant& installed)
 {
     d->installed = installed;
 }
 
-bool DriveApp::authorized()
+QVariant DriveApp::authorized()
 {
     return d->authorized;
 }
 
-void DriveApp::setAuthorized(const bool& authorized)
+void DriveApp::setAuthorized(const QVariant& authorized)
 {
     d->authorized = authorized;
 }
 
-bool DriveApp::useByDefault()
+QVariant DriveApp::useByDefault()
 {
     return d->useByDefault;
 }
 
-void DriveApp::setUseByDefault(const bool& useByDefault)
+void DriveApp::setUseByDefault(const QVariant& useByDefault)
 {
     d->useByDefault = useByDefault;
 }

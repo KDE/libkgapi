@@ -119,12 +119,12 @@ void DrivePermission::setAuthKey(const QString& authKey)
     d->authKey = authKey;
 }
 
-bool DrivePermission::withLink()
+QVariant DrivePermission::withLink()
 {
     return d->withLink;
 }
 
-void DrivePermission::setWithLink(const bool& withLink)
+void DrivePermission::setWithLink(const QVariant& withLink)
 {
     d->withLink = withLink;
 }

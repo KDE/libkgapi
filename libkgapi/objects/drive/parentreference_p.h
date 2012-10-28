@@ -18,6 +18,7 @@
 #ifndef LIBKGAPI_OBJECTS_DRIVEPARENTREFERENCE_P_H
 #define LIBKGAPI_OBJECTS_DRIVEPARENTREFERENCE_P_H
 
+#include <QtCore/QVariant>
 #include <QtCore/QString>
 
 namespace KGAPI
@@ -36,7 +37,7 @@ public:
     QString id;
     QString selfLink;
     QString parentLink;
-    bool isRoot;
+    QVariant isRoot;
 };
 
 } /* namespace Objects */

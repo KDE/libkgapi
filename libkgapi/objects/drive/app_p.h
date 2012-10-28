@@ -18,6 +18,7 @@
 #ifndef LIBKGAPI_OBJECTS_DRIVEAPP_P_H
 #define LIBKGAPI_OBJECTS_DRIVEAPP_P_H
 
+#include <QtCore/QVariant>
 #include <QtCore/QString>
 
 namespace KGAPI
@@ -47,11 +48,11 @@ public:
     QString id;
     QString name;
     QString objectType;
-    bool supportsCreate;
-    bool supportsImport;
-    bool installed;
-    bool authorized;
-    bool useByDefault;
+    QVariant supportsCreate;
+    QVariant supportsImport;
+    QVariant installed;
+    QVariant authorized;
+    QVariant useByDefault;
     QString productUrl;
     QStringList primaryMimeTypes;
     QStringList secondaryMimeTypes;

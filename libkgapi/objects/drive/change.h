@@ -51,12 +51,12 @@ public:
     /**
      * Returns the id of the change.
      */
-    qulonglong id();
+    qlonglong id();
     
     /**
      * Sets the id of the change.
      */
-    void setId(const qulonglong& id);
+    void setId(const qlonglong& id);
     
     /**
      * Returns the id of the file associated with this change.
@@ -81,12 +81,12 @@ public:
     /**
      * Returns whether this file has been deleted.
      */
-    bool deleted();
+    QVariant deleted();
     
     /**
      * Sets whether this file has been deleted.
      */
-    void setDeleted(const bool& deleted);
+    void setDeleted(const QVariant& deleted);
     
     /**
      * Returns the updated state of the file.

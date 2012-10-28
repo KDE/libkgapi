@@ -21,9 +21,11 @@
 #include <libkgapi/objects/drive/permission.h>
 #include <libkgapi/objects/drive/parentreference.h>
 
+#include <QtCore/QVariant>
 #include <QtCore/QString>
-#include <QtCore/QDateTime>
 #include <QtCore/QMap>
+
+#include <KDateTime>
 
 namespace KGAPI
 {
@@ -34,11 +36,11 @@ namespace Objects
 class DriveFilePrivate_Labels
 {
 public:
-    bool starred;
-    bool hidden;
-    bool trashed;
-    bool restricted;
-    bool viewed;
+    QVariant starred;
+    QVariant hidden;
+    QVariant trashed;
+    QVariant restricted;
+    QVariant viewed;
 };
 
 class DriveFilePrivate_IndexableText
@@ -85,30 +87,30 @@ public:
     QString mimeType;
     QString description;
     DriveFile::Labels labels;
-    QDateTime createdDate;
-    QDateTime modifiedDate;
-    QDateTime modifiedByMeDate;
+    KDateTime createdDate;
+    KDateTime modifiedDate;
+    KDateTime modifiedByMeDate;
     QString downloadUrl;
     DriveFile::IndexableText indexableText;
     DrivePermission::Ptr userPermission;
     QString fileExtension;
     QString md5Checksum;
-    qulonglong fileSize;
+    qlonglong fileSize;
     QString alternateLink;
     QString embedLink;
-    QDateTime sharedWithMeDate;
+    KDateTime sharedWithMeDate;
     QList<DriveParentReference> parents;
     QMap<QString, QString> exportLinks;
     QString originalFileName;
-    qulonglong quotaBytesUsed;
+    qlonglong quotaBytesUsed;
     QStringList ownerNames;
     QString lastModifyingUserName;
-    bool editable;
-    bool writersCanShare;
+    QVariant editable;
+    QVariant writersCanShare;
     QString thumbnailLink;
-    QDateTime lastViewedByMeDate;
+    KDateTime lastViewedByMeDate;
     QString webContentLink;
-    bool explicitlyTrashed;
+    QVariant explicitlyTrashed;
     DriveFile::ImageMediaMetadata imageMediaMetadata;
 };
 

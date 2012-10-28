@@ -18,6 +18,7 @@
 #ifndef LIBKGAPI_OBJECTS_DRIVEABOUT_P_H
 #define LIBKGAPI_OBJECTS_DRIVEABOUT_P_H
 
+#include <QtCore/QVariant>
 #include <QtCore/QString>
 
 namespace KGAPI
@@ -59,7 +60,7 @@ class DriveAboutPrivate_MaxUploadSize
 {
 public:
     QString type;
-    qulonglong size;
+    qlonglong size;
 };
     
         
@@ -79,11 +80,11 @@ public:
 
     QString selfLink;
     QString name;
-    qulonglong quotaBytesTotal;
-    qulonglong quotaBytesUsed;
-    qulonglong quotaBytesUsedInTrash;
-    qulonglong largestChangeId;
-    qulonglong remainingChangeIds;
+    qlonglong quotaBytesTotal;
+    qlonglong quotaBytesUsed;
+    qlonglong quotaBytesUsedInTrash;
+    qlonglong largestChangeId;
+    qlonglong remainingChangeIds;
     QString rootFolderId;
     QString domainSharingPolicy;
     QList<DriveAbout::Format> importFormats;
@@ -92,7 +93,7 @@ public:
     QList<DriveAbout::Feature> features;
     QList<DriveAbout::MaxUploadSize> maxUploadSizes;
     QString permissionId;
-    bool isCurrentAppInstalled;
+    QVariant isCurrentAppInstalled;
 };
 
 } /* namespace Objects */
