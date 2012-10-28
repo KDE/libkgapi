@@ -18,6 +18,7 @@
 #ifndef LIBKGAPI_OBJECTS_DRIVEPERMISSION_P_H
 #define LIBKGAPI_OBJECTS_DRIVEPERMISSION_P_H
 
+#include <QtCore/QVariant>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
@@ -42,7 +43,7 @@ public:
     QStringList additionalRoles;
     QString type;
     QString authKey;
-    bool withLink;
+    QVariant withLink;
     QString photoLink;
     QString value;
 };

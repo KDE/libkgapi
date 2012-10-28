@@ -205,12 +205,12 @@ public:
         /**
          * Returns the max upload size for this type.
          */
-        qulonglong size();
+        qlonglong size();
         
         /**
          * Sets the max upload size for this type.
          */
-        void setSize(const qulonglong& size);
+        void setSize(const qlonglong& size);
         
     private:
         DriveAboutPrivate_MaxUploadSize* d;
@@ -246,52 +246,52 @@ public:
     /**
      * Returns the total number of quota bytes.
      */
-    qulonglong quotaBytesTotal();
+    qlonglong quotaBytesTotal();
     
     /**
      * Sets the total number of quota bytes.
      */
-    void setQuotaBytesTotal(const qulonglong& quotaBytesTotal);
+    void setQuotaBytesTotal(const qlonglong& quotaBytesTotal);
     
     /**
      * Returns the total number of quota bytes used.
      */
-    qulonglong quotaBytesUsed();
+    qlonglong quotaBytesUsed();
     
     /**
      * Sets the total number of quota bytes used.
      */
-    void setQuotaBytesUsed(const qulonglong& quotaBytesUsed);
+    void setQuotaBytesUsed(const qlonglong& quotaBytesUsed);
     
     /**
      * Returns the total number of quota bytes used by trashed items.
      */
-    qulonglong quotaBytesUsedInTrash();
+    qlonglong quotaBytesUsedInTrash();
     
     /**
      * Sets the total number of quota bytes used by trashed items.
      */
-    void setQuotaBytesUsedInTrash(const qulonglong& quotaBytesUsedInTrash);
+    void setQuotaBytesUsedInTrash(const qlonglong& quotaBytesUsedInTrash);
     
     /**
      * Returns the largest change id.
      */
-    qulonglong largestChangeId();
+    qlonglong largestChangeId();
     
     /**
      * Sets the largest change id.
      */
-    void setLargestChangeId(const qulonglong& largestChangeId);
+    void setLargestChangeId(const qlonglong& largestChangeId);
     
     /**
      * Returns the number of remaining change ids.
      */
-    qulonglong remainingChangeIds();
+    qlonglong remainingChangeIds();
     
     /**
      * Sets the number of remaining change ids.
      */
-    void setRemainingChangeIds(const qulonglong& remainingChangeIds);
+    void setRemainingChangeIds(const qlonglong& remainingChangeIds);
     
     /**
      * Returns the id of the root folder.
@@ -380,12 +380,12 @@ public:
     /**
      * Returns whether the authenticated app is installed by the authenticated user.
      */
-    bool isCurrentAppInstalled();
+    QVariant isCurrentAppInstalled();
     
     /**
      * Sets whether the authenticated app is installed by the authenticated user.
      */
-    void setIsCurrentAppInstalled(const bool& isCurrentAppInstalled);
+    void setIsCurrentAppInstalled(const QVariant& isCurrentAppInstalled);
     
 private:
     DriveAboutPrivate* d;

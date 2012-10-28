@@ -22,10 +22,11 @@
 #include <libkgapi/libkgapi_export.h>
 
 #include <QtCore/QString>
-#include <QtCore/QDateTime>
 #include <QtCore/QMap>
 #include <QtCore/QMetaType>
 #include <QtCore/QSharedPointer>
+
+#include <KDateTime>
 
 namespace KGAPI
 {
@@ -83,36 +84,36 @@ public:
     /**
      * Returns the last time this revision was modified.
      */
-    QDateTime modifiedDate();
+    KDateTime modifiedDate();
     
     /**
      * Sets the last time this revision was modified.
      */
-    void setModifiedDate(const QDateTime& modifiedDate);
+    void setModifiedDate(const KDateTime& modifiedDate);
     
     /**
      * Returns whether this revision is pinned to prevent automatic purging.
      * This will only be populated and can only be modified on files with content stored in Drive which are not Google Docs.
      * Revisions can also be pinned when they are created through the drive.files.insert/update/copy by using the pinned query parameter.
      */
-    bool pinned();
+    QVariant pinned();
     
     /**
      * Sets whether this revision is pinned to prevent automatic purging.
      * This will only be populated and can only be modified on files with content stored in Drive which are not Google Docs.
      * Revisions can also be pinned when they are created through the drive.files.insert/update/copy by using the pinned query parameter.
      */
-    void setPinned(const bool& pinned);
+    void setPinned(const QVariant& pinned);
     
     /**
      * Returns whether this revision is published. This is only populated and can only be modified for Google Docs.
      */
-    bool published();
+    QVariant published();
     
     /**
      * Sets whether this revision is published. This is only populated and can only be modified for Google Docs.
      */
-    void setPublished(const bool& published);
+    void setPublished(const QVariant& published);
     
     /**
      * Returns a link to the published revision.
@@ -128,25 +129,25 @@ public:
      * Returns whether subsequent revisions will be automatically republished.
      * This is only populated and can only be modified for Google Docs.
      */
-    bool publishedAuto();
+    QVariant publishedAuto();
     
     /**
      * Sets whether subsequent revisions will be automatically republished.
      * This is only populated and can only be modified for Google Docs.
      */
-    void setPublishedAuto(const bool& publishedAuto);
+    void setPublishedAuto(const QVariant& publishedAuto);
     
     /**
      * Returns whether this revision is published outside the domain.
      * This is only populated and can only be modified for Google Docs.
      */
-    bool publishedOutsideDomain();
+    QVariant publishedOutsideDomain();
     
     /**
      * Sets whether this revision is published outside the domain.
      * This is only populated and can only be modified for Google Docs.
      */
-    void setPublishedOutsideDomain(const bool& publishedOutsideDomain);
+    void setPublishedOutsideDomain(const QVariant& publishedOutsideDomain);
     
     /**
      * Returns a short term download URL for the file.
@@ -210,13 +211,13 @@ public:
      * Returns the size of the revision in bytes.
      * This will only be populated on files with content stored in Drive.
      */
-    qulonglong fileSize();
+    qlonglong fileSize();
     
     /**
      * Sets the size of the revision in bytes.
      * This will only be populated on files with content stored in Drive.
      */
-    void setFileSize(const qulonglong& fileSize);
+    void setFileSize(const qlonglong& fileSize);
 
 private:
     DriveRevisionPrivate* d;

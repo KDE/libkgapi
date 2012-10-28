@@ -84,32 +84,32 @@ void DriveRevision::setMimeType(const QString& mimeType)
     d->mimeType = mimeType;
 }
 
-QDateTime DriveRevision::modifiedDate()
+KDateTime DriveRevision::modifiedDate()
 {
     return d->modifiedDate;
 }
 
-void DriveRevision::setModifiedDate(const QDateTime& modifiedDate)
+void DriveRevision::setModifiedDate(const KDateTime& modifiedDate)
 {
     d->modifiedDate = modifiedDate;
 }
 
-bool DriveRevision::pinned()
+QVariant DriveRevision::pinned()
 {
     return d->pinned;
 }
 
-void DriveRevision::setPinned(const bool& pinned)
+void DriveRevision::setPinned(const QVariant& pinned)
 {
     d->pinned = pinned;
 }
 
-bool DriveRevision::published()
+QVariant DriveRevision::published()
 {
     return d->published;
 }
 
-void DriveRevision::setPublished(const bool& published)
+void DriveRevision::setPublished(const QVariant& published)
 {
     d->published = published;
 }
@@ -124,22 +124,22 @@ void DriveRevision::setPublishedLink(const QString& publishedLink)
     d->publishedLink = publishedLink;
 }
 
-bool DriveRevision::publishedAuto()
+QVariant DriveRevision::publishedAuto()
 {
     return d->publishedAuto;
 }
 
-void DriveRevision::setPublishedAuto(const bool& publishedAuto)
+void DriveRevision::setPublishedAuto(const QVariant& publishedAuto)
 {
     d->publishedAuto = publishedAuto;
 }
 
-bool DriveRevision::publishedOutsideDomain()
+QVariant DriveRevision::publishedOutsideDomain()
 {
     return d->publishedOutsideDomain;
 }
 
-void DriveRevision::setPublishedOutsideDomain(const bool& publishedOutsideDomain)
+void DriveRevision::setPublishedOutsideDomain(const QVariant& publishedOutsideDomain)
 {
     d->publishedOutsideDomain = publishedOutsideDomain;
 }
@@ -194,12 +194,12 @@ void DriveRevision::setMd5Checksum(const QString& md5Checksum)
     d->md5Checksum = md5Checksum;
 }
 
-qulonglong DriveRevision::fileSize()
+qlonglong DriveRevision::fileSize()
 {
     return d->fileSize;
 }
 
-void DriveRevision::setFileSize(const qulonglong& fileSize)
+void DriveRevision::setFileSize(const qlonglong& fileSize)
 {
     d->fileSize = fileSize;
 }

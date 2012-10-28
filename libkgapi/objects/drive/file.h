@@ -26,6 +26,8 @@
 #include <QtCore/QMetaType>
 #include <QtCore/QSharedPointer>
 
+#include <KDateTime>
+
 namespace KGAPI
 {
 
@@ -59,52 +61,52 @@ public:
         /**
          * Returns whether this file is starred by the user.
          */
-        bool starred();
+        QVariant starred();
         
         /**
          * Sets whether this file is starred by the user.
          */
-        void setStarred(const bool& starred);
+        void setStarred(const QVariant& starred);
         
         /**
          * Returns whether this file is hidden from the user.
          */
-        bool hidden();
+        QVariant hidden();
         
         /**
          * Sets whether this file is hidden from the user
          */
-        void setHidden(const bool& hidden);
+        void setHidden(const QVariant& hidden);
         
         /**
          * Returns whether this file has been trashed.
          */
-        bool trashed();
+        QVariant trashed();
         
         /**
          * Sets whether this file has been trashed.
          */
-        void setTrashed(const bool& trashed);
+        void setTrashed(const QVariant& trashed);
         
         /**
          * Returns whether viewers are prevented from downloading this file.
          */
-        bool restricted();
+        QVariant restricted();
         
         /**
          * Sets whether viewers are prevented from downloading this file.
          */
-        void setRestricted(const bool& restricted);
+        void setRestricted(const QVariant& restricted);
         
         /**
          * Returns whether this file has been viewed by this user.
          */
-        bool viewed();
+        QVariant viewed();
         
         /**
          * Sets whether this file has been viewed by this user.
          */
-        void setViewed(const bool& viewed);
+        void setViewed(const QVariant& viewed);
         
     private:
         DriveFilePrivate_Labels* d;
@@ -304,34 +306,34 @@ public:
     /**
      * Returns the create time for this file.
      */
-    QDateTime createdDate();
+    KDateTime createdDate();
     
     /**
      * Sets the create time for this file.
      */
-    void setCreatedDate(const QDateTime& createdDate);
+    void setCreatedDate(const KDateTime& createdDate);
     
     /**
      * Returns the last time this file was modified by anyone.
      * This is only mutable on update when the setModifiedDate parameter is set.
      */
-    QDateTime modifiedDate();
+    KDateTime modifiedDate();
     
     /**
      * Sets the last time this file was modified by anyone.
      * This is only mutable on update when the setModifiedDate parameter is set.
      */
-    void setModifiedDate(const QDateTime& modifiedDate);
+    void setModifiedDate(const KDateTime& modifiedDate);
     
     /**
      * Returns the last time this file was modified by the currently authenticated user.
      */
-    QDateTime modifiedByMeDate();
+    KDateTime modifiedByMeDate();
     
     /**
      * Sets the last time this file was modified by the currently authenticated user.
      */
-    void setModifiedByMeDate(const QDateTime& modifiedByMeDate);
+    void setModifiedByMeDate(const KDateTime& modifiedByMeDate);
     
     /**
      * Returns a short lived download URL for the file. This is only populated for files with content stored in Drive.
@@ -395,13 +397,13 @@ public:
      * Returns the size of the file in bytes.
      * This is populated only for files with content stored in Drive.
      */
-    qulonglong fileSize();
+    qlonglong fileSize();
     
     /**
      * Sets the size of the file in bytes.
      * This is populated only for files with content stored in Drive.
      */
-    void setFileSize(const qulonglong& fileSize);
+    void setFileSize(const qlonglong& fileSize);
     
     /**
      * Returns a link for opening the file in using a relevant Google editor or viewer.
@@ -426,12 +428,12 @@ public:
     /**
      * Returns the time at which this file was shared with the user.
      */
-    QDateTime sharedWithMeDate();
+    KDateTime sharedWithMeDate();
     
     /**
      * Sets the time at which this file was shared with the user.
      */
-    void setSharedWithMeDate(const QDateTime& sharedWithMeDate);
+    void setSharedWithMeDate(const KDateTime& sharedWithMeDate);
     
     /**
      * Returns the collection of parent folders which contain this file.
@@ -478,12 +480,12 @@ public:
     /**
      * Returns the number of quota bytes used by this file.
      */
-    qulonglong quotaBytesUsed();
+    qlonglong quotaBytesUsed();
     
     /**
      * Sets the number of quota bytes used by this file.
      */
-    void setQuotaBytesUsed(const qulonglong& quotaBytesUsed);
+    void setQuotaBytesUsed(const qlonglong& quotaBytesUsed);
     
     /**
      * Return the name(s) of the owner(s) of this file.
@@ -508,22 +510,22 @@ public:
     /**
      * Returns whether the file can be edited by the current user.
      */
-    bool editable();
+    QVariant editable();
     
     /**
      * Sets whether the file can be edited by the current user.
      */
-    void setEditable(const bool& editable);
+    void setEditable(const QVariant& editable);
     
     /**
      * Returns whether writers can share the document with other users.
      */
-    bool writersCanShare();
+    QVariant writersCanShare();
     
     /**
      * Sets whether writers can share the document with other users.
      */
-    void setWritersCanShare(const bool& writersCanShare);
+    void setWritersCanShare(const QVariant& writersCanShare);
     
     /**
      * Returns a link to the file's thumbnail.
@@ -538,12 +540,12 @@ public:
     /**
      * Returns the last time this file was viewed by the user.
      */
-    QDateTime lastViewedByMeDate();
+    KDateTime lastViewedByMeDate();
     
     /**
      * Sets the last time this file was viewed by the user.
      */
-    void setLastViewedByMeDate(const QDateTime& lastViewedByMeDate);
+    void setLastViewedByMeDate(const KDateTime& lastViewedByMeDate);
     
     /**
      * Returns a link for downloading the content of the file in a browser using cookie based authentication.
@@ -561,13 +563,13 @@ public:
      * Returns whether this file has been explicitly trashed, as opposed to recursively trashed.
      * This will only be populated if the file is trashed.
      */
-    bool explicitlyTrashed();
+    QVariant explicitlyTrashed();
     
     /**
      * Sets whether this file has been explicitly trashed, as opposed to recursively trashed.
      * This will only be populated if the file is trashed.
      */
-    void setExplicitlyTrashed(const bool& explicitlyTrashed);
+    void setExplicitlyTrashed(const QVariant& explicitlyTrashed);
     
     /**
      * Returns metadata about image media.

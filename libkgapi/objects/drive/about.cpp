@@ -201,12 +201,12 @@ void DriveAbout::MaxUploadSize::setType(const QString& type)
     d->type = type;
 }
 
-qulonglong DriveAbout::MaxUploadSize::size()
+qlonglong DriveAbout::MaxUploadSize::size()
 {
     return d->size;
 }
 
-void DriveAbout::MaxUploadSize::setSize(const qulonglong& size)
+void DriveAbout::MaxUploadSize::setSize(const qlonglong& size)
 {
     d->size = size;
 }
@@ -245,52 +245,52 @@ void DriveAbout::setName(const QString& name)
     d->name = name;
 }
 
-qulonglong DriveAbout::quotaBytesTotal()
+qlonglong DriveAbout::quotaBytesTotal()
 {
     return d->quotaBytesTotal;
 }
 
-void DriveAbout::setQuotaBytesTotal(const qulonglong& quotaBytesTotal)
+void DriveAbout::setQuotaBytesTotal(const qlonglong& quotaBytesTotal)
 {
     d->quotaBytesTotal = quotaBytesTotal;
 }
 
-qulonglong DriveAbout::quotaBytesUsed()
+qlonglong DriveAbout::quotaBytesUsed()
 {
     return d->quotaBytesUsed;
 }
 
-void DriveAbout::setQuotaBytesUsed(const qulonglong& quotaBytesUsed)
+void DriveAbout::setQuotaBytesUsed(const qlonglong& quotaBytesUsed)
 {
     d->quotaBytesUsed = quotaBytesUsed;
 }
 
-qulonglong DriveAbout::quotaBytesUsedInTrash()
+qlonglong DriveAbout::quotaBytesUsedInTrash()
 {
     return d->quotaBytesUsedInTrash;
 }
 
-void DriveAbout::setQuotaBytesUsedInTrash(const qulonglong& quotaBytesUsedInTrash)
+void DriveAbout::setQuotaBytesUsedInTrash(const qlonglong& quotaBytesUsedInTrash)
 {
     d->quotaBytesUsedInTrash = quotaBytesUsedInTrash;
 }
 
-qulonglong DriveAbout::largestChangeId()
+qlonglong DriveAbout::largestChangeId()
 {
     return d->largestChangeId;
 }
 
-void DriveAbout::setLargestChangeId(const qulonglong& largestChangeId)
+void DriveAbout::setLargestChangeId(const qlonglong& largestChangeId)
 {
     d->largestChangeId = largestChangeId;
 }
 
-qulonglong DriveAbout::remainingChangeIds()
+qlonglong DriveAbout::remainingChangeIds()
 {
     return d->remainingChangeIds;
 }
 
-void DriveAbout::setRemainingChangeIds(const qulonglong& remainingChangeIds)
+void DriveAbout::setRemainingChangeIds(const qlonglong& remainingChangeIds)
 {
     d->remainingChangeIds = remainingChangeIds;
 }
@@ -375,12 +375,12 @@ void DriveAbout::setPermissionId(const QString& permissionId)
     d->permissionId = permissionId;
 }
 
-bool DriveAbout::isCurrentAppInstalled()
+QVariant DriveAbout::isCurrentAppInstalled()
 {
     return d->isCurrentAppInstalled;
 }
 
-void DriveAbout::setIsCurrentAppInstalled(const bool& isCurrentAppInstalled)
+void DriveAbout::setIsCurrentAppInstalled(const QVariant& isCurrentAppInstalled)
 {
     d->isCurrentAppInstalled = isCurrentAppInstalled;
 }

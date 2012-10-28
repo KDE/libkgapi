@@ -147,12 +147,12 @@ public:
     /**
      * Returns whether the link is required for this permission.
      */
-    bool withLink();
+    QVariant withLink();
     
     /**
      * Sets whether the link is required for this permission.
      */
-    void setWithLink(const bool& withLink);
+    void setWithLink(const QVariant& withLink);
     
     /**
      * Returns a link to the profile photo, if available.

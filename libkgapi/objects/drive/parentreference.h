@@ -81,12 +81,12 @@ public:
     /**
      * Returns whether or not the parent is the root folder.
      */
-    bool isRoot();
+    QVariant isRoot();
     
     /**
      * Sets whether or not the parent is the root folder.
      */
-    void setIsRoot(const bool& isRoot);
+    void setIsRoot(const QVariant& isRoot);
 
 private:
     DriveParentReferencePrivate* d;

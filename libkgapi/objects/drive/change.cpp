@@ -44,12 +44,12 @@ DriveChange::~DriveChange()
     delete d;
 }
 
-qulonglong DriveChange::id()
+qlonglong DriveChange::id()
 {
     return d->id;
 }
 
-void DriveChange::setId(const qulonglong& id)
+void DriveChange::setId(const qlonglong& id)
 {
     d->id = id;
 }
@@ -74,12 +74,12 @@ void DriveChange::setSelfLink(const QString& selfLink)
     d->selfLink = selfLink;
 }
 
-bool DriveChange::deleted()
+QVariant DriveChange::deleted()
 {
     return d->deleted;
 }
 
-void DriveChange::setDeleted(const bool& deleted)
+void DriveChange::setDeleted(const QVariant& deleted)
 {
     d->deleted = deleted;
 }

@@ -20,6 +20,7 @@
 
 #include <libkgapi/objects/drive/file.h>
 
+#include <QtCore/QVariant>
 #include <QtCore/QString>
 
 namespace KGAPI
@@ -35,10 +36,10 @@ public:
     DriveChangePrivate(const DriveChangePrivate& other);
     ~DriveChangePrivate() { };
 
-    qulonglong id;
+    qlonglong id;
     QString fileId;
     QString selfLink;
-    bool deleted;
+    QVariant deleted;
     DriveFile::Ptr file;
 };
 

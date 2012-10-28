@@ -18,9 +18,11 @@
 #ifndef LIBKGAPI_OBJECTS_DRIVEREVISION_P_H
 #define LIBKGAPI_OBJECTS_DRIVEREVISION_P_H
 
+#include <QtCore/QVariant>
 #include <QtCore/QString>
-#include <QtCore/QDateTime>
 #include <QtCore/QMap>
+
+#include <KDateTime>
 
 namespace KGAPI
 {
@@ -38,18 +40,18 @@ public:
     QString id;
     QString selfLink;
     QString mimeType;
-    QDateTime modifiedDate;
-    bool pinned;
-    bool published;
+    KDateTime modifiedDate;
+    QVariant pinned;
+    QVariant published;
     QString publishedLink;
-    bool publishedAuto;
-    bool publishedOutsideDomain;
+    QVariant publishedAuto;
+    QVariant publishedOutsideDomain;
     QString downloadUrl;
     QMap<QString, QString> exportLinks;
     QString lastModifyingUserName;
     QString originalFilename;
     QString md5Checksum;
-    qulonglong fileSize;
+    qlonglong fileSize;
 };
 
 } /* namespace Objects */

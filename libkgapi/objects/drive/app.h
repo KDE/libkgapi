@@ -73,20 +73,20 @@ public:
     QString objectType();
     void setObjectType(const QString& objectType);
     
-    bool supportsCreate();
-    void setSupportsCreate(const bool& supportsCreate);
+    QVariant supportsCreate();
+    void setSupportsCreate(const QVariant& supportsCreate);
     
-    bool supportsImport();
-    void setSupportsImport(const bool& supportsImport);
+    QVariant supportsImport();
+    void setSupportsImport(const QVariant& supportsImport);
     
-    bool installed();
-    void setInstalled(const bool& installed);
+    QVariant installed();
+    void setInstalled(const QVariant& installed);
     
-    bool authorized();
-    void setAuthorized(const bool& authorized);
+    QVariant authorized();
+    void setAuthorized(const QVariant& authorized);
     
-    bool useByDefault();
-    void setUseByDefault(const bool& useByDefault);
+    QVariant useByDefault();
+    void setUseByDefault(const QVariant& useByDefault);
     
     QString productUrl();
     void setProductUrl(const QString& productUrl);

@@ -73,12 +73,12 @@ void DriveParentReference::setParentLink(const QString& parentLink)
     d->parentLink = parentLink;
 }
 
-bool DriveParentReference::isRoot()
+QVariant DriveParentReference::isRoot()
 {
     return d->isRoot;
 }
 
-void DriveParentReference::setIsRoot(const bool& isRoot)
+void DriveParentReference::setIsRoot(const QVariant& isRoot)
 {
     d->isRoot = isRoot;
 }

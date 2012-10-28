@@ -70,52 +70,52 @@ DriveFile::Labels::~Labels()
     delete d;
 }
 
-bool DriveFile::Labels::starred()
+QVariant DriveFile::Labels::starred()
 {
     return d->starred;
 }
 
-void DriveFile::Labels::setStarred(const bool& starred)
+void DriveFile::Labels::setStarred(const QVariant& starred)
 {
     d->starred = starred;
 }
 
-bool DriveFile::Labels::hidden()
+QVariant DriveFile::Labels::hidden()
 {
     return d->hidden;
 }
 
-void DriveFile::Labels::setHidden(const bool& hidden)
+void DriveFile::Labels::setHidden(const QVariant& hidden)
 {
     d->hidden = hidden;
 }
 
-bool DriveFile::Labels::trashed()
+QVariant DriveFile::Labels::trashed()
 {
     return d->trashed;
 }
 
-void DriveFile::Labels::setTrashed(const bool& trashed)
+void DriveFile::Labels::setTrashed(const QVariant& trashed)
 {
     d->trashed = trashed;
 }
 
-bool DriveFile::Labels::restricted()
+QVariant DriveFile::Labels::restricted()
 {
     return d->restricted;
 }
 
-void DriveFile::Labels::setRestricted(const bool& restricted)
+void DriveFile::Labels::setRestricted(const QVariant& restricted)
 {
     d->restricted = restricted;
 }
 
-bool DriveFile::Labels::viewed()
+QVariant DriveFile::Labels::viewed()
 {
     return d->viewed;
 }
 
-void DriveFile::Labels::setViewed(const bool& viewed)
+void DriveFile::Labels::setViewed(const QVariant& viewed)
 {
     d->viewed = viewed;
 }
@@ -316,32 +316,32 @@ void DriveFile::setLabels(const DriveFile::Labels& labels)
     d->labels = labels;
 }
 
-QDateTime DriveFile::createdDate()
+KDateTime DriveFile::createdDate()
 {
     return d->createdDate;
 }
 
-void DriveFile::setCreatedDate(const QDateTime& createdDate)
+void DriveFile::setCreatedDate(const KDateTime& createdDate)
 {
     d->createdDate = createdDate;
 }
 
-QDateTime DriveFile::modifiedDate()
+KDateTime DriveFile::modifiedDate()
 {
     return d->modifiedDate;
 }
 
-void DriveFile::setModifiedDate(const QDateTime& modifiedDate)
+void DriveFile::setModifiedDate(const KDateTime& modifiedDate)
 {
     d->modifiedDate = modifiedDate;
 }
 
-QDateTime DriveFile::modifiedByMeDate()
+KDateTime DriveFile::modifiedByMeDate()
 {
     return d->modifiedByMeDate;
 }
 
-void DriveFile::setModifiedByMeDate(const QDateTime& modifiedByMeDate)
+void DriveFile::setModifiedByMeDate(const KDateTime& modifiedByMeDate)
 {
     d->modifiedByMeDate = modifiedByMeDate;
 }
@@ -396,12 +396,12 @@ void DriveFile::setMd5Checksum(const QString& md5Checksum)
     d->md5Checksum = md5Checksum;
 }
 
-qulonglong DriveFile::fileSize()
+qlonglong DriveFile::fileSize()
 {
     return d->fileSize;
 }
 
-void DriveFile::setFileSize(const qulonglong& fileSize)
+void DriveFile::setFileSize(const qlonglong& fileSize)
 {
     d->fileSize = fileSize;
 }
@@ -426,12 +426,12 @@ void DriveFile::setEmbedLink(const QString& embedLink)
     d->embedLink = embedLink;
 }
 
-QDateTime DriveFile::sharedWithMeDate()
+KDateTime DriveFile::sharedWithMeDate()
 {
     return d->sharedWithMeDate;
 }
 
-void DriveFile::setSharedWithMeDate(const QDateTime& sharedWithMeDate)
+void DriveFile::setSharedWithMeDate(const KDateTime& sharedWithMeDate)
 {
     d->sharedWithMeDate = sharedWithMeDate;
 }
@@ -466,12 +466,12 @@ void DriveFile::setOriginalFileName(const QString& originalFileName)
     d->originalFileName = originalFileName;
 }
 
-qulonglong DriveFile::quotaBytesUsed()
+qlonglong DriveFile::quotaBytesUsed()
 {
     return d->quotaBytesUsed;
 }
 
-void DriveFile::setQuotaBytesUsed(const qulonglong& quotaBytesUsed)
+void DriveFile::setQuotaBytesUsed(const qlonglong& quotaBytesUsed)
 {
     d->quotaBytesUsed = quotaBytesUsed;
 }
@@ -496,22 +496,22 @@ void DriveFile::setLastModifyingUserName(const QString& lastModifyingUserName)
     d->lastModifyingUserName = lastModifyingUserName;
 }
 
-bool DriveFile::editable()
+QVariant DriveFile::editable()
 {
     return d->editable;
 }
 
-void DriveFile::setEditable(const bool& editable)
+void DriveFile::setEditable(const QVariant& editable)
 {
     d->editable = editable;
 }
 
-bool DriveFile::writersCanShare()
+QVariant DriveFile::writersCanShare()
 {
     return d->writersCanShare;
 }
 
-void DriveFile::setWritersCanShare(const bool& writersCanShare)
+void DriveFile::setWritersCanShare(const QVariant& writersCanShare)
 {
     d->writersCanShare = writersCanShare;
 }
@@ -526,12 +526,12 @@ void DriveFile::setThumbnailLink(const QString& thumbnailLink)
     d->thumbnailLink = thumbnailLink;
 }
 
-QDateTime DriveFile::lastViewedByMeDate()
+KDateTime DriveFile::lastViewedByMeDate()
 {
     return d->lastViewedByMeDate;
 }
 
-void DriveFile::setLastViewedByMeDate(const QDateTime& lastViewedByMeDate)
+void DriveFile::setLastViewedByMeDate(const KDateTime& lastViewedByMeDate)
 {
     d->lastViewedByMeDate = lastViewedByMeDate;
 }
@@ -546,12 +546,12 @@ void DriveFile::setWebContentLink(const QString& webContentLink)
     d->webContentLink = webContentLink;
 }
 
-bool DriveFile::explicitlyTrashed()
+QVariant DriveFile::explicitlyTrashed()
 {
     return d->explicitlyTrashed;
 }
 
-void DriveFile::setExplicitlyTrashed(const bool& explicitlyTrashed)
+void DriveFile::setExplicitlyTrashed(const QVariant& explicitlyTrashed)
 {
     d->explicitlyTrashed = explicitlyTrashed;
 }
