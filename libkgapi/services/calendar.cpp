@@ -71,9 +71,9 @@ public:
 
 using namespace KGAPI;
 
-QUrl Services::Calendar::ScopeUrl("https://www.googleapis.com/auth/calendar");
+QUrl Services::Calendar::ScopeUrl(QLatin1String("https://www.googleapis.com/auth/calendar"));
 
-static const QString serviceNameStr("KGAPI::Services::Calendar");
+static const QString serviceNameStr(QLatin1String("KGAPI::Services::Calendar"));
 
 
 const QString& Services::Calendar::serviceName()
@@ -93,9 +93,10 @@ KGAPI::Object* Services::Calendar::JSONToObject(const QByteArray& jsonData)
 
     QVariantMap object = parser.parse(jsonData).toMap();
 
-    if ((object["kind"] == "calendar#calendarListEntry") || (object["kind"] == "calendar#calendar")) {
+    if ((object.value(QLatin1String("kind")) == QLatin1String("calendar#calendarListEntry")) ||
+	(object.value(QLatin1String("kind")) == QLatin1String("calendar#calendar"))) {
         return CalendarPrivate::JSONToCalendar(object);
-    } else if (object["kind"] == "calendar#event") {
+    } else if (object.value(QLatin1String("kind")) == QLatin1String("calendar#event")) {
         return CalendarPrivate::JSONToEvent(object);
     }
 
@@ -124,26 +125,26 @@ QList< KGAPI::Object* > Services::Calendar::parseJSONFeed(const QByteArray& json
 
     QList< KGAPI::Object* > list;
 
-    if (data["kind"] == "calendar#calendarList") {
-        list = CalendarPrivate::parseCalendarJSONFeed(data["items"].toList());
+    if (data.value(QLatin1String("kind")) == QLatin1String("calendar#calendarList")) {
+        list = CalendarPrivate::parseCalendarJSONFeed(data.value(QLatin1String("items")).toList());
 
-        if (data.contains("nextPageToken")) {
+        if (data.contains(QLatin1String("nextPageToken"))) {
             feedData.nextPageUrl = fetchCalendarsUrl();
-            feedData.nextPageUrl.addQueryItem("pageToken", data["nextPageToken"].toString());
-            if (feedData.nextPageUrl.queryItemValue("maxResults").isEmpty()) {
-                feedData.nextPageUrl.addQueryItem("maxResults","20");
+            feedData.nextPageUrl.addQueryItem(QLatin1String("pageToken"), data.value(QLatin1String("nextPageToken")).toString());
+            if (feedData.nextPageUrl.queryItemValue(QLatin1String("maxResults")).isEmpty()) {
+                feedData.nextPageUrl.addQueryItem(QLatin1String("maxResults"),QLatin1String("20"));
             }
         }
 
-    } else if (data["kind"] == "calendar#events") {
-        list = CalendarPrivate::parseEventJSONFeed(data["items"].toList());
-        if (data.contains("nextPageToken")) {
-            QString calendarId = feedData.requestUrl.toString().remove("https://www.googleapis.com/calendar/v3/calendars/");
-            calendarId = calendarId.left(calendarId.indexOf("/"));
+    } else if (data.value(QLatin1String("kind")) == QLatin1String("calendar#events")) {
+        list = CalendarPrivate::parseEventJSONFeed(data.value(QLatin1String("items")).toList());
+        if (data.contains(QLatin1String("nextPageToken"))) {
+            QString calendarId = feedData.requestUrl.toString().remove(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
+            calendarId = calendarId.left(calendarId.indexOf(QLatin1Char('/')));
             feedData.nextPageUrl = fetchEventsUrl(calendarId);
-            feedData.nextPageUrl.addQueryItem("pageToken", data["nextPageToken"].toString());
-            if (feedData.nextPageUrl.queryItemValue("maxResults").isEmpty()) {
-                feedData.nextPageUrl.addQueryItem("maxResults","20");
+            feedData.nextPageUrl.addQueryItem(QLatin1String("pageToken"), data.value(QLatin1String("nextPageToken")).toString());
+            if (feedData.nextPageUrl.queryItemValue(QLatin1String("maxResults")).isEmpty()) {
+                feedData.nextPageUrl.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
             }
         }
     }
@@ -186,12 +187,12 @@ const QUrl& Services::Calendar::scopeUrl() const
 
 QUrl Services::Calendar::fetchCalendarsUrl()
 {
-    return QUrl("https://www.googleapis.com/calendar/v3/users/me/calendarList");
+    return QUrl(QLatin1String("https://www.googleapis.com/calendar/v3/users/me/calendarList"));
 }
 
 QUrl Services::Calendar::fetchCalendarUrl(const QString& calendarID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/users/me/calendarList/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/users/me/calendarList/"));
     url.addPath(calendarID);
 
     return url;
@@ -199,7 +200,7 @@ QUrl Services::Calendar::fetchCalendarUrl(const QString& calendarID)
 
 QUrl Services::Calendar::updateCalendarUrl(const QString &calendarID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
     url.addPath(calendarID);
 
     return url;
@@ -207,12 +208,12 @@ QUrl Services::Calendar::updateCalendarUrl(const QString &calendarID)
 
 QUrl Services::Calendar::createCalendarUrl()
 {
-    return QUrl("https://www.googleapis.com/calendar/v3/calendars");
+    return QUrl(QLatin1String("https://www.googleapis.com/calendar/v3/calendars"));
 }
 
 QUrl Services::Calendar::removeCalendarUrl(const QString& calendarID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
     url.addPath(calendarID);
 
     return url;
@@ -220,19 +221,19 @@ QUrl Services::Calendar::removeCalendarUrl(const QString& calendarID)
 
 QUrl Services::Calendar::fetchEventsUrl(const QString& calendarID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
     url.addPath(calendarID);
-    url.addPath("events");
-    url.addQueryItem("maxResults", "20");
+    url.addPath(QLatin1String("events"));
+    url.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
 
     return url;
 }
 
 QUrl Services::Calendar::fetchEventUrl(const QString& calendarID, const QString& eventID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
     url.addPath(calendarID);
-    url.addPath("events");
+    url.addPath(QLatin1String("events"));
     url.addPath(eventID);
 
     return url;
@@ -240,9 +241,9 @@ QUrl Services::Calendar::fetchEventUrl(const QString& calendarID, const QString&
 
 QUrl Services::Calendar::updateEventUrl(const QString& calendarID, const QString& eventID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
     url.addPath(calendarID);
-    url.addPath("events");
+    url.addPath(QLatin1String("events"));
     url.addPath(eventID);
 
     return url;
@@ -250,18 +251,18 @@ QUrl Services::Calendar::updateEventUrl(const QString& calendarID, const QString
 
 QUrl Services::Calendar::createEventUrl(const QString& calendarID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
     url.addPath(calendarID);
-    url.addPath("events");
+    url.addPath(QLatin1String("events"));
 
     return url;
 }
 
 QUrl Services::Calendar::removeEventUrl(const QString& calendarID, const QString& eventID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
     url.addPath(calendarID);
-    url.addPath("events");
+    url.addPath(QLatin1String("events"));
     url.addPath(eventID);
 
     return url;
@@ -269,11 +270,11 @@ QUrl Services::Calendar::removeEventUrl(const QString& calendarID, const QString
 
 QUrl Services::Calendar::moveEventUrl(const QString& sourceCalendar, const QString& destCalendar, const QString& eventID)
 {
-    KUrl url("https://www.googleapis.com/calendar/v3/calendars/");
+    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
     url.addPath(sourceCalendar);
-    url.addPath("events");
+    url.addPath(QLatin1String("events"));
     url.addPath(eventID);
-    url.addQueryItem("destination", destCalendar);
+    url.addQueryItem(QLatin1String("destination"), destCalendar);
 
     return url;
 }
@@ -281,7 +282,7 @@ QUrl Services::Calendar::moveEventUrl(const QString& sourceCalendar, const QStri
 
 QString Services::Calendar::protocolVersion() const
 {
-    return "3";
+    return QLatin1String("3");
 }
 
 bool Services::Calendar::supportsJSONRead(QString* urlParam)
@@ -305,34 +306,35 @@ KGAPI::Object* Services::CalendarPrivate::JSONToCalendar(const QVariantMap& cale
 {
     Objects::Calendar *object = new Objects::Calendar();
 
-    QString id = QUrl::fromPercentEncoding(calendar["id"].toByteArray());
+    QString id = QUrl::fromPercentEncoding(calendar.value(QLatin1String("id")).toByteArray());
     object->setUid(id);
-    object->setEtag(calendar["etag"].toString());
-    object->setTitle(calendar["summary"].toString());
-    object->setDetails(calendar["description"].toString());
-    object->setLocation(calendar["location"].toString());
-    object->setTimezone(calendar["timeZone"].toString());
+    object->setEtag(calendar.value(QLatin1String("etag")).toString());
+    object->setTitle(calendar.value(QLatin1String("summary")).toString());
+    object->setDetails(calendar.value(QLatin1String("description")).toString());
+    object->setLocation(calendar.value(QLatin1String("location")).toString());
+    object->setTimezone(calendar.value(QLatin1String("timeZone")).toString());
 
-    if ((calendar["accessRole"].toString() == "writer") || (calendar["accessRole"].toString() == "owner")) {
+    if ((calendar.value(QLatin1String("accessRole")).toString() == QLatin1String("writer")) ||
+	(calendar.value(QLatin1String("accessRole")).toString() == QLatin1String("owner"))) {
         object->setEditable(true);
     } else {
         object->setEditable(false);
     }
 
-    QVariantList reminders = calendar["defaultReminders"].toList();
+    QVariantList reminders = calendar.value(QLatin1String("defaultReminders")).toList();
     Q_FOREACH(const QVariant & r, reminders) {
         QVariantMap reminder = r.toMap();
 
         Objects::Reminder::Ptr rem(new Objects::Reminder());
-        if (reminder["method"].toString() == "email") {
+        if (reminder.value(QLatin1String("method")).toString() == QLatin1String("email")) {
             rem->setType(Alarm::Email);
-        } else if (reminder["method"].toString() == "popup") {
+        } else if (reminder.value(QLatin1String("method")).toString() == QLatin1String("popup")) {
             rem->setType(Alarm::Display);
         } else {
             rem->setType(Alarm::Invalid);
         }
 
-        rem->setStartOffset(Duration(reminder["minutes"].toInt() * (-60)));
+        rem->setStartOffset(Duration(reminder.value(QLatin1String("minutes")).toInt() * (-60)));
 
         object->addDefaultReminer(rem);
     }
@@ -346,14 +348,14 @@ QVariantMap Services::CalendarPrivate::calendarToJSON(KGAPI::Object* calendar)
     Objects::Calendar *object = static_cast< Objects::Calendar* >(calendar);
 
     if (!object->uid().isEmpty()) {
-        entry["id"] = object->uid();
+	entry.insert(QLatin1String("id"), object->uid());
     }
 
-    entry["summary"] = object->title();
-    entry["description"] = object->details();
-    entry["location"] = object->location();
+    entry.insert(QLatin1String("summary"), object->title());
+    entry.insert(QLatin1String("description"), object->details());
+    entry.insert(QLatin1String("location"), object->location());
     if (!object->timezone().isEmpty()) {
-        entry["timeZone"] = object->timezone();
+	entry.insert(QLatin1String("timeZone"), object->timezone());
     }
 
     return entry;
@@ -375,51 +377,51 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     Objects::Event *object = new Objects::Event();
 
     /* ID */
-    object->setUid(QUrl::fromPercentEncoding(event["id"].toByteArray()));
+    object->setUid(QUrl::fromPercentEncoding(event.value(QLatin1String("id")).toByteArray()));
 
     /* ETAG */
-    object->setEtag(event["etag"].toString());
+    object->setEtag(event.value(QLatin1String("etag")).toString());
 
     /* Status */
-    if (event["status"].toString() == "confirmed") {
+    if (event.value(QLatin1String("status")).toString() == QLatin1String("confirmed")) {
         object->setStatus(Incidence::StatusConfirmed);
-    } else if (event["status"].toString() == "cancelled") {
+    } else if (event.value(QLatin1String("status")).toString() == QLatin1String("cancelled")) {
         object->setStatus(Incidence::StatusCanceled);
         object->setDeleted(true);
-    } else if (event["status"].toString() == "tentative") {
+    } else if (event.value(QLatin1String("status")).toString() == QLatin1String("tentative")) {
         object->setStatus(Incidence::StatusTentative);
     } else {
         object->setStatus(Incidence::StatusNone);
     }
 
     /* Canceled instance of recurring event. Set ID of the instance to match ID of the event */
-    if (event.contains("recurringEventId")) {
-        object->setUid(QUrl::fromPercentEncoding(event["recurringEventId"].toByteArray()));
+    if (event.contains(QLatin1String("recurringEventId"))) {
+        object->setUid(QUrl::fromPercentEncoding(event.value(QLatin1String("recurringEventId")).toByteArray()));
     }
 
     /* Created */
-    object->setCreated(AccessManager::RFC3339StringToDate(event["created"].toString()));
+    object->setCreated(AccessManager::RFC3339StringToDate(event.value(QLatin1String("created")).toString()));
 
     /* Last updated */
-    object->setLastModified(AccessManager::RFC3339StringToDate(event["updated"].toString()));
+    object->setLastModified(AccessManager::RFC3339StringToDate(event.value(QLatin1String("updated")).toString()));
 
     /* Summary */
-    object->setSummary(event["summary"].toString());
+    object->setSummary(event.value(QLatin1String("summary")).toString());
 
     /* Description */
-    object->setDescription(event["description"].toString());
+    object->setDescription(event.value(QLatin1String("description")).toString());
 
     /* Location */
-    object->setLocation(event["location"].toString());
+    object->setLocation(event.value(QLatin1String("location")).toString());
 
     /* Start date */
-    QVariantMap startData = event["start"].toMap();
+    QVariantMap startData = event.value(QLatin1String("start")).toMap();
     KDateTime dtStart;
-    if (startData.contains("date")) {
-        dtStart = KDateTime::fromString(startData["date"].toString(), KDateTime::ISODate);
+    if (startData.contains(QLatin1String("date"))) {
+        dtStart = KDateTime::fromString(startData.value(QLatin1String("date")).toString(), KDateTime::ISODate);
         object->setAllDay(true);
-    } else if (startData.contains("dateTime")) {
-        dtStart = AccessManager::RFC3339StringToDate(startData["dateTime"].toString());
+    } else if (startData.contains(QLatin1String("dateTime"))) {
+        dtStart = AccessManager::RFC3339StringToDate(startData.value(QLatin1String("dateTime")).toString());
     }
     /*if (startData.contains("timeZone")) {
         KTimeZone tz = KSystemTimeZones::zone(startData["timeZone"].toString());
@@ -428,16 +430,16 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     object->setDtStart(dtStart);
 
     /* End date */
-    QVariantMap endData = event["end"].toMap();
+    QVariantMap endData = event.value(QLatin1String("end")).toMap();
     KDateTime dtEnd;
-    if (endData.contains("date")) {
-        dtEnd = KDateTime::fromString(endData["date"].toString(), KDateTime::ISODate);
+    if (endData.contains(QLatin1String("date"))) {
+        dtEnd = KDateTime::fromString(endData.value(QLatin1String("date")).toString(), KDateTime::ISODate);
         /* For Google, all-day events starts on Monday and ends on Tuesday,
          * while in KDE, it both starts and ends on Monday. */
         dtEnd = dtEnd.addDays(-1);
         object->setAllDay(true);
-    } else if (endData.contains("dateTime")) {
-        dtEnd = AccessManager::RFC3339StringToDate(endData["dateTime"].toString());
+    } else if (endData.contains(QLatin1String("dateTime"))) {
+        dtEnd = AccessManager::RFC3339StringToDate(endData.value(QLatin1String("dateTime")).toString());
     }
     /*if (endData.contains("timeZone")) {
         KTimeZone tz = KSystemTimeZones::zone(endData["timeZone"].toString());
@@ -446,30 +448,30 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     object->setDtEnd(dtEnd);
 
     /* Transparency */
-    if (event["transparency"].toString() == "transparent") {
+    if (event.value(QLatin1String("transparency")).toString() == QLatin1String("transparent")) {
         object->setTransparency(Event::Transparent);
     } else { /* Assume opaque as default transparency */
         object->setTransparency(Event::Opaque);
     }
 
     /* Attendees */
-    QVariantList attendees = event["attendees"].toList();
+    QVariantList attendees = event.value(QLatin1String("attendees")).toList();
     Q_FOREACH(const QVariant & a, attendees) {
         QVariantMap att = a.toMap();
         AttendeePtr attendee(
-            new Attendee(att["displayName"].toString(),
-                         att["email"].toString()));
+            new Attendee(att.value(QLatin1String("displayName")).toString(),
+                         att.value(QLatin1String("email")).toString()));
 
-        if (att["responseStatus"].toString() == "accepted")
+        if (att.value(QLatin1String("responseStatus")).toString() == QLatin1String("accepted"))
             attendee->setStatus(Attendee::Accepted);
-        else if (att["responseStatus"].toString() == "declined")
+        else if (att.value(QLatin1String("responseStatus")).toString() == QLatin1String("declined"))
             attendee->setStatus(Attendee::Declined);
-        else if (att["responseStatus"].toString() == "tentative")
+        else if (att.value(QLatin1String("responseStatus")).toString() == QLatin1String("tentative"))
             attendee->setStatus(Attendee::Tentative);
         else
             attendee->setStatus(Attendee::NeedsAction);
 
-        if (att["optional"].toBool()) {
+        if (att.value(QLatin1String("optional")).toBool()) {
             attendee->setRole(Attendee::OptParticipant);
         }
 
@@ -480,9 +482,9 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
      * Google seems to ignore it, so we must take care of it here */
     if (object->attendeeCount() > 0) {
         PersonPtr organizer(new Person);
-        QVariantMap organizerData = event["organizer"].toMap();
-        organizer->setName(organizerData["displayName"].toString());
-        organizer->setEmail(organizerData["email"].toString());
+        QVariantMap organizerData = event.value(QLatin1String("organizer")).toMap();
+        organizer->setName(organizerData.value(QLatin1String("displayName")).toString());
+        organizer->setEmail(organizerData.value(QLatin1String("email")).toString());
     #ifdef WITH_KCAL
         object->setOrganizer(*organizer);
     #else
@@ -491,72 +493,72 @@ KGAPI::Object* Services::CalendarPrivate::JSONToEvent(const QVariantMap& event)
     }
 
     /* Recurrence */
-    QStringList recrs = event["recurrence"].toStringList();
+    QStringList recrs = event.value(QLatin1String("recurrence")).toStringList();
     Q_FOREACH(const QString & rec, recrs) {
         ICalFormat format;
-        if (rec.left(5) == "RRULE") {
+        if (rec.left(5) == QLatin1String("RRULE")) {
             RecurrenceRule *recurrenceRule = new RecurrenceRule();
             format.fromString(recurrenceRule, rec.mid(6));
             recurrenceRule->setRRule(rec);
             object->recurrence()->addRRule(recurrenceRule);
-        } else if (rec.left(6) == "EXRULE") {
+        } else if (rec.left(6) == QLatin1String("EXRULE")) {
             RecurrenceRule *recurrenceRule = new RecurrenceRule();
             format.fromString(recurrenceRule, rec.mid(7));
             recurrenceRule->setRRule(rec);
             object->recurrence()->addExRule(recurrenceRule);
-        } else if (rec.left(6) == "EXDATE") {
+        } else if (rec.left(6) == QLatin1String("EXDATE")) {
             DateList exdates = parseRDate(rec);
             object->recurrence()->setExDates(exdates);
-        } else if (rec.left(5) == "RDATE") {
+        } else if (rec.left(5) == QLatin1String("RDATE")) {
             DateList rdates = parseRDate(rec);
             object->recurrence()->setRDates(rdates);
         }
     }
 
-    QVariantMap reminders = event["reminders"].toMap();
-    if (reminders.contains("useDefault") && reminders["useDefault"].toBool()) {
+    QVariantMap reminders = event.value(QLatin1String("reminders")).toMap();
+    if (reminders.contains(QLatin1String("useDefault")) && reminders.value(QLatin1String("useDefault")).toBool()) {
         object->setUseDefaultReminders(true);
     } else {
         object->setUseDefaultReminders(false);
     }
 
-    QVariantList overrides = reminders["overrides"].toList();
+    QVariantList overrides = reminders.value(QLatin1String("overrides")).toList();
     Q_FOREACH(const QVariant & r, overrides) {
         QVariantMap override = r.toMap();
         AlarmPtr alarm(new Alarm(object));
         alarm->setTime(object->dtStart());
 
-        if (override["method"].toString() == "popup") {
+        if (override.value(QLatin1String("method")).toString() == QLatin1String("popup")) {
             alarm->setType(Alarm::Display);
-        } else if (override["method"].toString() == "email") {
+        } else if (override.value(QLatin1String("method")).toString() == QLatin1String("email")) {
             alarm->setType(Alarm::Email);
         } else {
             alarm->setType(Alarm::Invalid);
             continue;
         }
 
-        alarm->setStartOffset(Duration(override["minutes"].toInt() * (-60)));
+        alarm->setStartOffset(Duration(override.value(QLatin1String("minutes")).toInt() * (-60)));
         alarm->setEnabled(true);
         object->addAlarm(alarm);
     }
 
     /* Extended properties */
-    QVariantMap extendedProperties = event["extendedProperties"].toMap();
+    QVariantMap extendedProperties = event.value(QLatin1String("extendedProperties")).toMap();
 
-    QVariantMap privateProperties = extendedProperties["private"].toMap();
+    QVariantMap privateProperties = extendedProperties.value(QLatin1String("private")).toMap();
     QMap< QString, QVariant >::const_iterator iter = privateProperties.constBegin();
     while (iter != privateProperties.constEnd()) {
-        if (iter.key() == "categories") {
+        if (iter.key() == QLatin1String("categories")) {
             object->setCategories(iter.value().toString());
         }
 
         ++iter;
     }
 
-    QVariantMap sharedProperties = extendedProperties["shared"].toMap();
+    QVariantMap sharedProperties = extendedProperties.value(QLatin1String("shared")).toMap();
     iter = sharedProperties.constBegin();
     while (iter != sharedProperties.constEnd()) {
-        if (iter.key() == "categories") {
+        if (iter.key() == QLatin1String("categories")) {
             object->setCategories(iter.value().toString());
         }
 
@@ -572,78 +574,79 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGAPI::Object* event)
     QVariantMap output, data;
 
     /* Type */
-    data["type"] = "calendar#event";
+    data.insert(QLatin1String("type"), QLatin1String("calendar#event"));
 
     /* ID */
-    if (!object->uid().isEmpty())
-        data["id"] = object->uid();
+    if (!object->uid().isEmpty()) {
+	data.insert(QLatin1String("id"), object->uid());
+    }
 
     /* Status */
     if (object->status() == Incidence::StatusConfirmed) {
-        data["status"] = "confirmed";
+        data.insert(QLatin1String("status"), QLatin1String("confirmed"));
     } else if (object->status() == Incidence::StatusCanceled) {
-        data["status"] = "canceled";
+        data.insert(QLatin1String("status"), QLatin1String("canceled"));
     } else if (object->status() == Incidence::StatusTentative) {
-        data["status"] = "tentative";
+        data.insert(QLatin1String("status"), QLatin1String("tentative"));
     }
 
     /* Summary */
-    data["summary"] = object->summary();
+    data.insert(QLatin1String("summary"), object->summary());
 
     /* Description */
-    data["description"] = object->description();
+    data.insert(QLatin1String("description"), object->description());
 
     /* Location */
-    data["location"] = object->location();
+    data.insert(QLatin1String("location"), object->location());
 
     /* Recurrence */
     QVariantList recurrence;
     ICalFormat format;
     Q_FOREACH(RecurrenceRule * rRule, object->recurrence()->rRules()) {
-        recurrence << format.toString(rRule).remove("\r\n");
+        recurrence << format.toString(rRule).remove(QLatin1String("\r\n"));
     }
 
     Q_FOREACH(RecurrenceRule * rRule, object->recurrence()->exRules()) {
-        recurrence << format.toString(rRule).remove("\r\n");
+        recurrence << format.toString(rRule).remove(QLatin1String("\r\n"));
     }
 
     QStringList dates;
     Q_FOREACH(const QDate & rDate, object->recurrence()->rDates()) {
-        dates << rDate.toString("yyyyMMdd");
+        dates << rDate.toString(QLatin1String("yyyyMMdd"));
     }
 
     if (!dates.isEmpty()) {
-        recurrence << "RDATE;VALUE=DATA:" + dates.join(",");
+        recurrence << QLatin1String("RDATE;VALUE=DATA:") + dates.join(QLatin1String(","));
     }
 
     dates.clear();
     Q_FOREACH(const QDate & exDate, object->recurrence()->exDates()) {
-        dates << exDate.toString("yyyyMMdd");
+        dates << exDate.toString(QLatin1String("yyyyMMdd"));
     }
 
     if (!dates.isEmpty()) {
-        recurrence << "EXDATE;VALUE=DATE:" + dates.join(",");
+        recurrence << QLatin1String("EXDATE;VALUE=DATE:") + dates.join(QLatin1String(","));
     }
 
     if (!recurrence.isEmpty()) {
-        data["recurrence"] = recurrence;
+        data.insert(QLatin1String("recurrence"), recurrence);
     }
 
     /* Start */
     QVariantMap start;
     if (object->allDay()) {
-        start["date"] = object->dtStart().toString("%Y-%m-%d");
+	start.insert(QLatin1String("date"), object->dtStart().toString(QLatin1String("%Y-%m-%d")));
     } else {
-        start["dateTime"] = AccessManager::dateToRFC3339String(object->dtStart());
+	start.insert(QLatin1String("dateTime"), AccessManager::dateToRFC3339String(object->dtStart()));
     }
     QString tzStart = object->dtStart().timeZone().name();
     if (!recurrence.isEmpty() && tzStart.isEmpty()) {
         tzStart = KTimeZone::utc().name();
     }
     if (!tzStart.isEmpty()) {
-        start["timeZone"] = tzStart;
+	start.insert(QLatin1String("timeZone"), tzStart);
     }
-    data["start"] = start;
+    data.insert(QLatin1String("start"), start);
 
     /* End */
     QVariantMap end;
@@ -651,51 +654,53 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGAPI::Object* event)
         /* For Google, all-day events starts on Monday and ends on Tuesday,
          * while in KDE, it both starts and ends on Monday. */
         KDateTime dtEnd = object->dtEnd().addDays(1);
-        end["date"] = dtEnd.toString("%Y-%m-%d");
+	end.insert(QLatin1String("date"), dtEnd.toString(QLatin1String("%Y-%m-%d")));
     } else {
-        end["dateTime"] = AccessManager::dateToRFC3339String(object->dtEnd());
+        end.insert(QLatin1String("dateTime"), AccessManager::dateToRFC3339String(object->dtEnd()));
     }
     QString tzEnd = object->dtEnd().timeZone().name();
     if (!recurrence.isEmpty() && tzEnd.isEmpty()) {
         tzEnd = KTimeZone::utc().name();
     }
     if (!tzEnd.isEmpty()) {
-        end["timeZone"] = tzEnd;
+        end.insert(QLatin1String("timeZone"), tzEnd);
     }
-    data["end"] = end;
+    data.insert(QLatin1String("end"), end);
 
     /* Transparency */
-    if (object->transparency() == Event::Transparent)
-        data["transparency"] = "transparent";
-    else
-        data["transparency"] = "opaque";
+    if (object->transparency() == Event::Transparent) {
+        data.insert(QLatin1String("transparency"), QLatin1String("transparent"));
+    } else {
+        data.insert(QLatin1String("transparency"), QLatin1String("opaque"));
+    }
 
     /* Attendees */
     QVariantList atts;
     Q_FOREACH(const AttendeePtr attee, object->attendees()) {
         QVariantMap att;
 
-        att["displayName"] = attee->name();
-        att["email"] = attee->email();
+	att.insert(QLatin1String("displayName"), attee->name());
+	att.insert(QLatin1String("emali"), attee->email());
 
-        if (attee->status() == Attendee::Accepted)
-            att["responseStatus"] = "accepted";
-        else if (attee->status() == Attendee::Declined)
-            att["responseStatus"] = "declined";
-        else if (attee->status() == Attendee::Tentative)
-            att["responseStatus"] = "tentative";
-        else
-            att["responseStatus"] = "needsAction";
+        if (attee->status() == Attendee::Accepted) {
+	    att.insert(QLatin1String("responseStatus"), QLatin1String("accepted"));
+	} else if (attee->status() == Attendee::Declined) {
+	    att.insert(QLatin1String("responseStatus"), QLatin1String("declined"));
+	} else if (attee->status() == Attendee::Tentative) {
+	    att.insert(QLatin1String("responseStatus"), QLatin1String("tentative"));
+	} else {
+	    att.insert(QLatin1String("responseStatus"), QLatin1String("needsAction"));
+	}
 
         if (attee->role() == Attendee::OptParticipant) {
-            att["optional"] = true;
+	    att.insert(QLatin1String("optional"), true);
         }
 
         atts.append(att);
     }
 
     if (!atts.isEmpty()) {
-        data["attendees"] = atts;
+	data.insert(QLatin1String("attendees"), atts);
 
         /* According to RFC, event without attendees should not have
          * any organizer. */
@@ -706,9 +711,9 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGAPI::Object* event)
     #endif
         if (!organizer->isEmpty()) {
             QVariantMap org;
-            org["displayName"] = organizer->fullName();
-            org["email"] = organizer->email();
-            data["organizer"] = org;
+	    org.insert(QLatin1String("displayName"), organizer->fullName());
+            org.insert(QLatin1String("email"), organizer->email());
+            data.insert(QLatin1String("organizer"), org);
         }
     }
 
@@ -718,30 +723,30 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGAPI::Object* event)
         QVariantMap override;
 
         if (alarm->type() == Alarm::Display) {
-            override["method"] = "popup";
+	    override.insert(QLatin1String("method"), QLatin1String("popup"));
         } else if (alarm->type() == Alarm::Email) {
-            override["method"] = "email";
+	    override.insert(QLatin1String("method"), QLatin1String("email"));
         } else {
             continue;
         }
 
-        override["minutes"] = (int)(alarm->startOffset().asSeconds() / -60);
+        override.insert(QLatin1String("minutes"),  (int)(alarm->startOffset().asSeconds() / -60));
 
         overrides << override;
     }
 
     QVariantMap reminders;
-    reminders["useDefault"] = false;
-    reminders["overrides"] = overrides;
-    data["reminders"] = reminders;
+    reminders.insert(QLatin1String("useDefault"), false);
+    reminders.insert(QLatin1String("overrides"), overrides);
+    data.insert(QLatin1String("reminders"), reminders);
 
     /* Store categories */
     if (!object->categories().isEmpty()) {
         QVariantMap extendedProperties;
         QVariantMap sharedProperties;
-        sharedProperties["categories"] = object->categoriesStr();
-        extendedProperties["shared"] = sharedProperties;
-        data["extendedProperties"] = extendedProperties;
+	sharedProperties.insert(QLatin1String("categories"), object->categoriesStr());
+	extendedProperties.insert(QLatin1String("shared"), sharedProperties);
+	data.insert(QLatin1String("extendedProperties"), extendedProperties);
     }
 
     /* TODO: Implement support for additional features:
@@ -768,26 +773,26 @@ DateList Services::CalendarPrivate::parseRDate(const QString& rule)
     QString value;
     KTimeZone tz;
 
-    QString left = rule.left(rule.indexOf(':'));
-    QStringList params = left.split(';');
+    QString left = rule.left(rule.indexOf(QLatin1Char(':')));
+    QStringList params = left.split(QLatin1Char(';'));
     Q_FOREACH(const QString & param, params) {
         if (param.startsWith(QLatin1String("VALUE"))) {
-            value = param.mid(param.indexOf('=') + 1);
+            value = param.mid(param.indexOf(QLatin1Char('=')) + 1);
         } else if (param.startsWith(QLatin1String("TZID"))) {
-            QString tzname = param.mid(param.indexOf('=') + 1);
+            QString tzname = param.mid(param.indexOf(QLatin1Char('=')) + 1);
             tz = KSystemTimeZones::zone(tzname);
         }
     }
 
-    QString datesStr = rule.mid(rule.lastIndexOf(":") + 1);
-    QStringList dates = datesStr.split(',');
+    QString datesStr = rule.mid(rule.lastIndexOf(QLatin1Char(':')) + 1);
+    QStringList dates = datesStr.split(QLatin1Char(','));
     Q_FOREACH(const QString &date, dates) {
         QDate dt;
 
-        if (value == "DATE") {
-            dt = QDate::fromString(date, "yyyyMMdd");
-        } else if (value == "PERIOD") {
-            QString start = date.left(date.indexOf('/'));
+        if (value == QLatin1String("DATE")) {
+            dt = QDate::fromString(date, QLatin1String("yyyyMMdd"));
+        } else if (value == QLatin1String("PERIOD")) {
+            QString start = date.left(date.indexOf(QLatin1Char('/')));
             KDateTime kdt = AccessManager::RFC3339StringToDate(start);
             if (tz.isValid()) {
                 kdt.setTimeSpec(tz);

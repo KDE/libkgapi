@@ -32,9 +32,9 @@
 using namespace KGAPI;
 using namespace Services;
 
-QUrl Latitude::ScopeUrl("https://www.googleapis.com/auth/latitude.all.best");
+QUrl Latitude::ScopeUrl(QLatin1String("https://www.googleapis.com/auth/latitude.all.best"));
 
-static const QString serviceNameStr("KGAPI::Services::Latitude");
+static const QString serviceNameStr = QLatin1String("KGAPI::Services::Latitude");
 
 
 const QString& Latitude::serviceName()
@@ -59,7 +59,7 @@ Object * Latitude::JSONToObject(const QByteArray & jsonData)
         return 0;
     }
 
-    QVariantMap info = data["data"].toMap();
+    const QVariantMap info = data.value(QLatin1String("data")).toMap();
 
     return parseLocation(info);
 }
@@ -69,30 +69,30 @@ QByteArray Latitude::objectToJSON(Object * object)
     QVariantMap map, output;
     Objects::Location *location = static_cast<Objects::Location*>(object);
 
-    map["kind"] = "latitude#location";
-    map["latitude"] = QString::number(location->latitude());
-    map["longitude"] = QString::number(location->longitude());
+    map.insert(QLatin1String("kind"), QLatin1String("latitude#location"));
+    map.insert(QLatin1String("latitude"), QString::number(location->latitude()));
+    map.insert(QLatin1String("longitude"), QString::number(location->longitude()));
 
     if (location->timestamp() != 0) {
-        map["timestampMs"] = location->timestamp();
+        map.insert(QLatin1String("timestampMs"), location->timestamp());
     }
     if (location->accuracy() != -1) {
-        map["accuracy"] = location->accuracy();
+        map.insert(QLatin1String("accuracy"), location->accuracy());
     }
     if (location->speed() != -1) {
-        map["speed"] = location->speed();
+        map.insert(QLatin1String("speed"), location->speed());
     }
     if (location->heading() != -1) {
-        map["heading"] = location->heading();
+        map.insert(QLatin1String("heading"), location->heading());
     }
 
-    map["altitude"] = location->altitude();
+    map.insert(QLatin1String("altitude"), location->altitude());
 
     if (location->altitudeAccuracy() != 0) {
-        map["altitudeAccuracy"] = location->altitudeAccuracy();
+        map.insert(QLatin1String("altitudeAccuracy"), location->altitudeAccuracy());
     }
 
-    output["data"] = map;
+    output.insert(QLatin1String("data"), map);
 
     QJson::Serializer serializer;
     return serializer.serialize(output);
@@ -105,10 +105,10 @@ QList< Object * > Latitude::parseJSONFeed(const QByteArray & jsonFeed, FeedData 
     QList< KGAPI::Object* > output;
     QJson::Parser parser;
 
-    QVariantMap map = parser.parse(jsonFeed).toMap();
-    QVariantMap data = map["data"].toMap();
-
-    Q_FOREACH(const QVariant &c, data["items"].toList()) {
+    const QVariantMap map = parser.parse(jsonFeed).toMap();
+    const QVariantMap data = map.value(QLatin1String("data")).toMap();
+    const QVariantList items = data.value(QLatin1String("items")).toList();
+    Q_FOREACH(const QVariant &c, items) {
         QVariantMap location = c.toMap();
         output << parseLocation(location);
     }
@@ -142,29 +142,29 @@ Object * Latitude::parseLocation(const QVariantMap map)
 {
     Objects::Location * object = new Objects::Location();
 
-    if (map.contains("timestampMs")) {
-        object->setTimestamp(map["timestampMs"].toULongLong());
+    if (map.contains(QLatin1String("timestampMs"))) {
+        object->setTimestamp(map.value(QLatin1String("timestampMs")).toULongLong());
     }
-    if (map.contains("latitude")) {
-        object->setLatitude(map["latitude"].toFloat());
+    if (map.contains(QLatin1String("latitude"))) {
+        object->setLatitude(map.value(QLatin1String("latitude")).toFloat());
     }
-    if (map.contains("longitude")) {
-        object->setLongitude(map["longitude"].toFloat());
+    if (map.contains(QLatin1String("longitude"))) {
+        object->setLongitude(map.value(QLatin1String("longitude")).toFloat());
     }
-    if (map.contains("accuracy")) {
-        object->setAccuracy(map["accuracy"].toInt());
+    if (map.contains(QLatin1String("accuracy"))) {
+        object->setAccuracy(map.value(QLatin1String("accuracy")).toInt());
     }
-    if (map.contains("speed")) {
-        object->setSpeed(map["speed"].toInt());
+    if (map.contains(QLatin1String("speed"))) {
+        object->setSpeed(map.value(QLatin1String("speed")).toInt());
     }
-    if (map.contains("heading")) {
-        object->setHeading(map["heading"].toInt());
+    if (map.contains(QLatin1String("heading"))) {
+        object->setHeading(map.value(QLatin1String("heading")).toInt());
     }
-    if (map.contains("altitude")) {
-        object->setAltitude(map["altitude"].toInt());
+    if (map.contains(QLatin1String("altitude"))) {
+        object->setAltitude(map.value(QLatin1String("altitude")).toInt());
     }
-    if (map.contains("altitudeAccuracy")) {
-        object->setAltitudeAccuracy(map["altitudeAccuracy"].toInt());
+    if (map.contains(QLatin1String("altitudeAccuracy"))) {
+        object->setAltitudeAccuracy(map.value(QLatin1String("altitudeAccuracy")).toInt());
     }
 
     return object;
@@ -173,7 +173,7 @@ Object * Latitude::parseLocation(const QVariantMap map)
 
 QString Latitude::protocolVersion() const
 {
-    return "1";
+    return QLatin1String("1");
 }
 
 const QUrl & Latitude::scopeUrl() const
@@ -186,9 +186,9 @@ QUrl Latitude::retrieveCurrentLocationUrl(const Latitude::Granularity granularit
     KUrl url("https://www.googleapis.com/latitude/v1/currentLocation");
 
     if (granularity == City) {
-        url.addQueryItem("granularity", "city");
+        url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
     } else if (granularity == Best) {
-        url.addQueryItem("granularity", "best");
+        url.addQueryItem(QLatin1String("granularity"), QLatin1String("best"));
     }
 
     return QUrl(url);
@@ -196,12 +196,12 @@ QUrl Latitude::retrieveCurrentLocationUrl(const Latitude::Granularity granularit
 
 QUrl Latitude::deleteCurrentLocationUrl()
 {
-    return QUrl("https://www.googleapis.com/latitude/v1/currentLocation");
+    return KUrl("https://www.googleapis.com/latitude/v1/currentLocation");
 }
 
 QUrl Latitude::insertCurrentLocationUrl()
 {
-    return QUrl("https://www.googleapis.com/latitude/v1/currentLocation");
+    return KUrl("https://www.googleapis.com/latitude/v1/currentLocation");
 }
 
 QUrl Latitude::locationHistoryUrl(const Latitude::Granularity granularity, const int maxResults,
@@ -210,21 +210,21 @@ QUrl Latitude::locationHistoryUrl(const Latitude::Granularity granularity, const
     KUrl url("https://www.googleapis.com/latitude/v1/location");
 
     if (granularity == City) {
-        url.addQueryItem("granularity", "city");
+        url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
     } else if (granularity == Best) {
-        url.addQueryItem("granularity", "best");
+        url.addQueryItem(QLatin1String("granularity"), QLatin1String("best"));
     }
 
     if (maxResults > 0) {
-        url.addQueryItem("max-results", QString::number(maxResults));
+        url.addQueryItem(QLatin1String("max-results"), QString::number(maxResults));
     }
 
     if ((maxTime > 0) && (maxTime >= minTime)) {
-        url.addQueryItem("max-time", QString::number(maxTime));
+        url.addQueryItem(QLatin1String("max-time"), QString::number(maxTime));
     }
 
     if ((minTime > 0) && (minTime <= maxTime)) {
-        url.addQueryItem("min-time", QString::number(minTime));
+        url.addQueryItem(QLatin1String("min-time"), QString::number(minTime));
     }
 
     return url;
@@ -236,9 +236,9 @@ QUrl Latitude::retrieveLocationUrl(const qlonglong id, const Latitude::Granulari
     url.addPath(QString::number(id));
 
      if (granularity == City) {
-        url.addQueryItem("granularity", "city");
+        url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
      } else if (granularity == Best) {
-        url.addQueryItem("granularity", "best");
+        url.addQueryItem(QLatin1String("granularity"), QLatin1String("best"));
      }
 
     return url;
@@ -246,7 +246,7 @@ QUrl Latitude::retrieveLocationUrl(const qlonglong id, const Latitude::Granulari
 
 QUrl Latitude::insertLocationUrl()
 {
-    return QUrl("https://www.googleapis.com/latitude/v1/location");
+    return KUrl("https://www.googleapis.com/latitude/v1/location");
 }
 
 QUrl Latitude::deleteLocationUrl(const qlonglong id)

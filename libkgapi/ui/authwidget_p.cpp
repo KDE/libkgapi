@@ -28,8 +28,11 @@
 #include <QWebElement>
 #include <qjson/parser.h>
 
+#include <KUrl>
 #include <KIO/AccessManager>
 #include <KDebug>
+
+#include <QStringBuilder>
 
 
 using namespace KGAPI;
@@ -63,7 +66,7 @@ void AuthWidgetPrivate::setupUi()
     q->setLayout(vbox);
 
     label = new QLabel(q);
-    label->setText("<b>" + i18n("Authorizing token. This should take just a moment...") + "</b>");
+    label->setText(QLatin1String("<b>") % i18n("Authorizing token. This should take just a moment...") % QLatin1String("</b>"));
     label->setWordWrap(true);
     label->setAlignment(Qt::AlignCenter);
     label->setVisible(false);
@@ -99,7 +102,7 @@ void AuthWidgetPrivate::emitError(const KGAPI::Error errCode, const QString& msg
     webview->setVisible(false);
     progressbar->setVisible(false);
 
-    label->setText("<b>" + msg + "</b>");
+    label->setText(QLatin1String("<b>") % msg % QLatin1String("</b>"));
 
     Q_EMIT q->error(errCode, msg);
     setProgress(AuthWidget::Error);
@@ -110,7 +113,7 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
 {
     /* Access token here - hide browser and tell user to wait until we
      * finish the authentication process ourselves */
-    if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
+    if (url.host() == QLatin1String("accounts.google.com") && url.path() == QLatin1String("/o/oauth2/approval")) {
         webview->setVisible(false);
         progressbar->setVisible(false);
         label->setVisible(true);
@@ -123,30 +126,30 @@ void AuthWidgetPrivate::webviewFinished()
 {
     QUrl url = webview->url();
 
-    if (url.host() == "accounts.google.com" && url.path() == "/ServiceLogin") {
+    if (url.host() == QLatin1String("accounts.google.com") && url.path() == QLatin1String("/ServiceLogin")) {
         if (username.isEmpty() && password.isEmpty()) {
             return;
         }
 
         QWebFrame *frame = webview->page()->mainFrame();
         if (!username.isEmpty()) {
-            QWebElement email = frame->findFirstElement("input#Email");
+            QWebElement email = frame->findFirstElement(QLatin1String("input#Email"));
             if (!email.isNull()) {
-                email.setAttribute("value", username);
+                email.setAttribute(QLatin1String("value"), username);
             }
         }
 
         if (!password.isEmpty()) {
-            QWebElement passd = frame->findFirstElement("input#Passwd");
+            QWebElement passd = frame->findFirstElement(QLatin1String("input#Passwd"));
             if (!passd.isNull()) {
-                passd.setAttribute("value", password);
+                passd.setAttribute(QLatin1String("value"), password);
             }
         }
 
         return;
     }
 
-    if (url.host() == "accounts.google.com" && url.path() == "/o/oauth2/approval") {
+    if (url.host() == QLatin1String("accounts.google.com") && url.path() == QLatin1String("/o/oauth2/approval")) {
         QString title = webview->title();
         QString token;
 
@@ -172,15 +175,15 @@ void AuthWidgetPrivate::webviewFinished()
         connect(nam, SIGNAL(finished(QNetworkReply*)),
                 nam, SLOT(deleteLater()));
 
-        request.setUrl(QUrl("https://accounts.google.com/o/oauth2/token"));
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+        request.setUrl(KUrl("https://accounts.google.com/o/oauth2/token"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
 
         QUrl params;
-        params.addQueryItem("client_id", KGAPI::Auth::instance()->apiKey());
-        params.addQueryItem("client_secret", KGAPI::Auth::instance()->apiSecret());
-        params.addQueryItem("code", token);
-        params.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
-        params.addQueryItem("grant_type", "authorization_code");
+        params.addQueryItem(QLatin1String("client_id"), KGAPI::Auth::instance()->apiKey());
+        params.addQueryItem(QLatin1String("client_secret"), KGAPI::Auth::instance()->apiSecret());
+        params.addQueryItem(QLatin1String("code"), token);
+        params.addQueryItem(QLatin1String("redirect_uri"), QLatin1String("urn:ietf:wg:oauth:2.0:oob"));
+        params.addQueryItem(QLatin1String("grant_type"), QLatin1String("authorization_code"));
 
 #ifdef DEBUG_RAWDATA
         kDebug() << "Authorizing token:" << params;
@@ -210,8 +213,8 @@ void AuthWidgetPrivate::networkRequestFinished(QNetworkReply* reply)
     kDebug() << "Retrieved new tokens pair:" << parsed_data;
 #endif
 
-    account->setAccessToken(parsed_data["access_token"].toString());
-    account->setRefreshToken(parsed_data["refresh_token"].toString());
+    account->setAccessToken(parsed_data.value(QLatin1String("access_token")).toString());
+    account->setRefreshToken(parsed_data.value(QLatin1String("refresh_token")).toString());
 
     KGAPI::AccessManager *gam = new KGAPI::AccessManager;
     connect(gam, SIGNAL(replyReceived(KGAPI::Reply*)),
@@ -223,7 +226,8 @@ void AuthWidgetPrivate::networkRequestFinished(QNetworkReply* reply)
 
     KGAPI::Request *request;
     request = new KGAPI::Request(KGAPI::Services::AccountInfo::fetchUrl(),
-                                   KGAPI::Request::Fetch, "AccountInfo", account);
+                                 KGAPI::Request::Fetch, QLatin1String("AccountInfo"),
+				 account);
 
     gam->sendRequest(request);
 }

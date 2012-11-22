@@ -27,7 +27,7 @@
 
 using namespace KGAPI::Objects;
 
-#define SCHEME_URL "http://schemas.google.com/g/2005#"
+#define SCHEME_URL QLatin1String("http://schemas.google.com/g/2005#")
 
 /*************************** PRIVATE DATA ******************************/
 
@@ -47,7 +47,7 @@ Contact::Contact(const Contact &other):
     KABC::Addressee(other),
     d(new ContactPrivate(*(other.d)))
 {
-    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
+    QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
     Q_FOREACH(const QString &group, groups) {
         d->groups.insert(group, false);
     }
@@ -57,7 +57,7 @@ Contact::Contact(const KABC::Addressee& other):
     Addressee(other),
     d(new ContactPrivate)
 {
-    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
+    QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
     Q_FOREACH(const QString &group, groups) {
         d->groups.insert(group, false);
     }
@@ -115,72 +115,72 @@ KDateTime Contact::updated() const
 
 void Contact::setSpousesName(const QString &name)
 {
-    insertCustom("KADDRESSBOOK", "X-SpousesName", name);
+    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-SpousesName"), name);
 }
 
 QString Contact::spousesName() const
 {
-    return custom("KADDRESSBOOK", "X-SpousesName");
+    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-SpousesName"));
 }
 
 void Contact::setManagersName(const QString &name)
 {
-    insertCustom("KADDRESSBOOK", "X-ManagersName", name);
+    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-ManagersName"), name);
 }
 
 QString Contact::managersName() const
 {
-    return custom("KADDRESSBOOK", "X-ManagersName");
+    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-ManagersName"));
 }
 
 void Contact::setAssistantsName(const QString &name)
 {
-    insertCustom("KADDRESSBOOK", "X-AssistantsName", name);
+    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-AssistantsName"), name);
 }
 
 QString Contact::assistantsName() const
 {
-    return custom("KADDRESSBOOK", "X-AssistantsName");
+    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-AssistantsName"));
 }
 
 void Contact::setProfession(const QString &profession)
 {
-    insertCustom("KADDRESSBOOK", "X-Profession", profession);
+    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Profession"), profession);
 }
 
 QString Contact::profession() const
 {
-    return custom("KADDRESSBOOK", "X-Profession");
+    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Profession"));
 }
 
 void Contact::setOffice(const QString &office)
 {
-    insertCustom("KADDRESSBOOK", "X-Office", office);
+    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Office"), office);
 }
 
 QString Contact::office() const
 {
-    return custom("KADDRESSBOOK", "X-Office");
+    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Office"));
 }
 
 void Contact::setAnniversary(const QString &anniversary)
 {
-    insertCustom("KADDRESSBOOK", "X-Anniversary", anniversary);
+    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Anniversary"), anniversary);
 }
 
 QString Contact::anniversary() const
 {
-    return custom("KADDRESSBOOK", "X-Anniversary");
+    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Anniversary"));
 }
 
 void Contact::setBlogFeed(const QString &url)
 {
-    insertCustom("KADDRESSBOOK", "BlogFeed", url);
+    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("BlogFeed"), url);
 }
 
 QString Contact::blogFeed() const
 {
-    return custom("KADDRESSBOOK", "BlogFeed");
+    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("BlogFeed"));
 }
 
 void Contact::addGroup(const QString &group)
@@ -190,17 +190,17 @@ void Contact::addGroup(const QString &group)
 
     d->groups.insert(group, false);
 
-    QStringList groups = custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
+    QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
     if (!groups.contains(group)) {
         groups.append(group);
     }
 
-    insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
+    insertCustom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo"), groups.join(QLatin1String(",")));
 }
 
 void Contact::setGroups(const QStringList &groups)
 {
-    insertCustom("GCALENDAR", "groupMembershipInfo", groups.join(","));
+    insertCustom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo"), groups.join(QLatin1String(",")));
 
     d->groups.clear();
     Q_FOREACH(const QString &group, groups) {
@@ -210,7 +210,7 @@ void Contact::setGroups(const QStringList &groups)
 
 QStringList Contact::groups() const
 {
-    return custom("GCALENDAR", "groupMembershipInfo").split(',', QString::SkipEmptyParts);
+    return custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
 }
 
 void Contact::clearGroups()
@@ -242,38 +242,38 @@ QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
 {
     switch (protocol) {
     case Jabber:
-        return "JABBER";
+        return QLatin1String("JABBER");
     case ICQ:
-        return "ICQ";
+        return QLatin1String("ICQ");
     case GoogleTalk:
-        return "GOOGLE_TALK";
+        return QLatin1String("GOOGLE_TALK");
     case QQ:
-        return "QQ";
+        return QLatin1String("QQ");
     case Skype:
-        return "SKYPE";
+        return QLatin1String("SKYPE");
     case Yahoo:
-        return "YAHOO";
+        return QLatin1String("YAHOO");
     case MSN:
-        return "MSN";
+        return QLatin1String("MSN");
     case AIM:
-        return "AIM";
+        return QLatin1String("AIM");
     default:
-        return "OTHER";
+        return QLatin1String("OTHER");
     }
 
-    return "OTHER";
+    return QLatin1String("OTHER");
 }
 
 QString Contact::IMSchemeToProtocolName(const QString& scheme)
 {
-    return scheme.mid(scheme.lastIndexOf("#") + 1).toLower();
+    return scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toLower();
 }
 
 QString Contact::IMProtocolNameToScheme(const QString& protocolName)
 {
     QString proto;
-    if (protocolName.toUpper() == "XMPP") {
-        proto = "JABBER";
+    if (protocolName.toUpper() == QLatin1String("XMPP")) {
+        proto = QLatin1String("JABBER");
     } else {
         proto = protocolName.toUpper();
     }
@@ -283,23 +283,23 @@ QString Contact::IMProtocolNameToScheme(const QString& protocolName)
 
 Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)
 {
-    QString protoName = scheme.mid(scheme.lastIndexOf("#") + 1).toUpper();
+    QString protoName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toUpper();
 
-    if ((protoName == "JABBER") || (protoName == "XMPP"))
+    if ((protoName == QLatin1String("JABBER")) || (protoName == QLatin1String("XMPP")))
         return Jabber;
-    if (protoName == "ICQ")
+    if (protoName == QLatin1String("ICQ"))
         return ICQ;
-    if (protoName == "GOOGLE_TALK")
+    if (protoName == QLatin1String("GOOGLE_TALK"))
         return GoogleTalk;
-    if (protoName == "QQ")
+    if (protoName == QLatin1String("QQ"))
         return QQ;
-    if (protoName == "SKYPE")
+    if (protoName == QLatin1String("SKYPE"))
         return Skype;
-    if (protoName == "YAHOO")
+    if (protoName == QLatin1String("YAHOO"))
         return Yahoo;
-    if (protoName == "MSN")
+    if (protoName == QLatin1String("MSN"))
         return MSN;
-    if (protoName == "AIM")
+    if (protoName == QLatin1String("AIM"))
         return AIM;
 
     return Other;
@@ -313,11 +313,11 @@ QString Contact::addressTypeToScheme(const KABC::Address::Type type, bool *prima
         *primary = (type & KABC::Address::Pref);
 
     if (type & KABC::Address::Work) {
-        typeName = "work";
+        typeName = QLatin1String("work");
     } else if (type & KABC::Address::Home) {
-        typeName = "home";
+        typeName = QLatin1String("home");
     } else {
-        typeName = "other";
+        typeName = QLatin1String("other");
     }
 
     return SCHEME_URL + typeName;
@@ -325,10 +325,10 @@ QString Contact::addressTypeToScheme(const KABC::Address::Type type, bool *prima
 
 KABC::Address::Type Contact::addressSchemeToType(const QString& scheme, const bool primary)
 {
-    QString typeName = scheme.mid(scheme.lastIndexOf("#") + 1);
+    QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
     KABC::Address::Type type;
 
-    if (typeName == "work") {
+    if (typeName == QLatin1String("work")) {
         type = KABC::Address::Work;
     } else {
         type = KABC::Address::Home;
@@ -346,67 +346,67 @@ QString Contact::phoneTypeToScheme(const KABC::PhoneNumber::Type type)
     QString typeName;
 
     if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell))
-        typeName = "work_mobile";
+        typeName = QLatin1String("work_mobile");
     else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax))
-        typeName = "work_fax";
+        typeName = QLatin1String("work_fax");
     else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager))
-        typeName = "work_pager";
+        typeName = QLatin1String("work_pager");
     else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref))
-        typeName = "company_main";
+        typeName = QLatin1String("company_main");
     else if (type & KABC::PhoneNumber::Work)
-        typeName = "work";
+        typeName = QLatin1String("work");
     else if ((type & (KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax)) == (KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax))
-        typeName = "home_fax";
+        typeName = QLatin1String("home_fax");
     else if (type & KABC::PhoneNumber::Home)
-        typeName = "home";
+        typeName = QLatin1String("home");
     else if (type & KABC::PhoneNumber::Pref)
-        typeName = "main";
+        typeName = QLatin1String("main");
     else if (type & KABC::PhoneNumber::Car)
-        typeName = "car";
+        typeName = QLatin1String("car");
     else if (type & KABC::PhoneNumber::Isdn)
-        typeName = "isdn";
+        typeName = QLatin1String("isdn");
     else if (type & KABC::PhoneNumber::Fax)
-        typeName = "fax";
+        typeName = QLatin1String("fax");
     else if (type & KABC::PhoneNumber::Cell)
-        typeName = "mobile";
+        typeName = QLatin1String("mobile");
     else if (type & KABC::PhoneNumber::Pager)
-        typeName = "pager";
+        typeName = QLatin1String("pager");
     else
-        typeName = "other";
+        typeName = QLatin1String("other");
 
     return SCHEME_URL + typeName;
 }
 
 KABC::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
 {
-    QString typeName = scheme.mid(scheme.lastIndexOf("#") + 1);
+    QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
     KABC::PhoneNumber::Type type = 0;
 
-    if (typeName == "car")
+    if (typeName == QLatin1String("car"))
         type |= KABC::PhoneNumber::Car;
-    else if (typeName == "fax")
+    else if (typeName == QLatin1String("fax"))
         type |= KABC::PhoneNumber::Fax;
-    else if (typeName == "isdn")
+    else if (typeName == QLatin1String("isdn"))
         type |= KABC::PhoneNumber::Isdn;
-    else if (typeName == "mobile")
+    else if (typeName == QLatin1String("mobile"))
         type |= KABC::PhoneNumber::Cell;
-    else if (typeName == "pager")
+    else if (typeName == QLatin1String("pager"))
         type |= KABC::PhoneNumber::Pager;
-    else if (typeName == "main")
+    else if (typeName == QLatin1String("main"))
         type |= KABC::PhoneNumber::Pref;
-    else if (typeName == "home")
+    else if (typeName == QLatin1String("home"))
         type |= KABC::PhoneNumber::Home;
-    else if (typeName == "home_fax")
+    else if (typeName == QLatin1String("home_fax"))
         type |= KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax;
-    else if (typeName == "work")
+    else if (typeName == QLatin1String("work"))
         type |= KABC::PhoneNumber::Work;
-    else if (typeName == "work_fax")
+    else if (typeName == QLatin1String("work_fax"))
         type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax;
-    else if (typeName == "work_mobile")
+    else if (typeName == QLatin1String("work_mobile"))
         type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell;
-    else if (typeName == "work_pager")
+    else if (typeName == QLatin1String("work_pager"))
         type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager;
-    else if (typeName == "company_main")
+    else if (typeName == QLatin1String("company_main"))
         type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref;
     else
         type |= KABC::PhoneNumber::Home;

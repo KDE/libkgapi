@@ -26,14 +26,14 @@
 using namespace KGAPI;
 using namespace Services;
 
-QUrl AccountInfo::ScopeUrl("https://www.googleapis.com/auth/userinfo.profile");
-QUrl AccountInfo::EmailScopeUrl("https://www.googleapis.com/auth/userinfo.email");
+QUrl AccountInfo::ScopeUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.profile"));
+QUrl AccountInfo::EmailScopeUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.email"));
 
-static const QString serviceNameStr("KGAPI::Services::AccountInfo");
+static const QString serviceNameStr(QLatin1String("KGAPI::Services::AccountInfo"));
 
 QString AccountInfo::protocolVersion() const
 {
-    return "2";
+    return QLatin1String("2");
 }
 
 const QUrl& AccountInfo::scopeUrl() const
@@ -43,7 +43,7 @@ const QUrl& AccountInfo::scopeUrl() const
 
 QUrl AccountInfo::fetchUrl()
 {
-    return QUrl("https://www.googleapis.com/oauth2/v1/userinfo");
+    return QUrl(QLatin1String("https://www.googleapis.com/oauth2/v1/userinfo"));
 }
 
 const QString& AccountInfo::serviceName()
@@ -68,18 +68,18 @@ KGAPI::Object* AccountInfo::JSONToObject(const QByteArray &jsonData)
     }
 
     Objects::AccountInfo *object = new Objects::AccountInfo();
-    object->setId(data["id"].toString());
-    object->setEmail(data["email"].toString());
-    object->setName(data["name"].toString());
-    object->setGivenName(data["given_name"].toString());
-    object->setFamilyName(data["family_name"].toString());
-    object->setBirthday(data["birthday"].toString());
-    object->setGender(data["gender"].toString());
-    object->setLink(data["link"].toString());
-    object->setLocale(data["locale"].toString());
-    object->setTimezone(data["timezone"].toString());
-    object->setPhotoUrl(data["picture"].toString());
-    object->setVerifiedEmail(data["verified_email"].toBool());
+    object->setId(data.value(QLatin1String("id")).toString());
+    object->setEmail(data.value(QLatin1String("email")).toString());
+    object->setName(data.value(QLatin1String("name")).toString());
+    object->setGivenName(data.value(QLatin1String("given_name")).toString());
+    object->setFamilyName(data.value(QLatin1String("family_name")).toString());
+    object->setBirthday(data.value(QLatin1String("birthday")).toString());
+    object->setGender(data.value(QLatin1String("gender")).toString());
+    object->setLink(data.value(QLatin1String("link")).toString());
+    object->setLocale(data.value(QLatin1String("locale")).toString());
+    object->setTimezone(data.value(QLatin1String("timezone")).toString());
+    object->setPhotoUrl(data.value(QLatin1String("picture")).toString());
+    object->setVerifiedEmail(data.value(QLatin1String("verified_email")).toBool());
 
     return dynamic_cast< KGAPI::Object* >(object);
 }

@@ -30,7 +30,7 @@
 #include <kdeversion.h>
 #include <kglobal.h>
 
-static const KCatalogLoader loader("libkgapi");
+static const KCatalogLoader loader(QLatin1String("libkgapi"));
 
 int debugArea()
 {

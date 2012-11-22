@@ -36,7 +36,7 @@ using namespace KWallet;
 
 AuthPrivate::AuthPrivate(KGAPI::Auth* const parent):
     QObject(),
-    kwalletFolder("libkgapi"),
+    kwalletFolder(QLatin1String("libkgapi")),
     kwallet(0),
     dialogAutoClose(true),
     q_ptr(parent)
@@ -77,7 +77,7 @@ Account::Ptr AuthPrivate::getAccountFromWallet(const QString& account)
         return Account::Ptr();
     }
 
-    QStringList scopes = map["scopes"].split(',');
+    QStringList scopes = map.value(QLatin1String("scopes")).split(QLatin1Char(','));
     QList< QUrl > scopeUrls;
     Q_FOREACH(const QString & scope, scopes) {
         scopeUrls << QUrl(scope);
@@ -85,7 +85,8 @@ Account::Ptr AuthPrivate::getAccountFromWallet(const QString& account)
 
     /* Create new item from data in KWallet and store it in cache before returning it
      * to user */
-    return Account::Ptr(new Account(account, map["accessToken"], map["refreshToken"], scopeUrls));
+    return Account::Ptr(new Account(account, map.value(QLatin1String("accessToken")),
+				    map.value(QLatin1String("refreshToken")), scopeUrls));
 }
 
 KGAPI::Ui::AuthWidget* AuthPrivate::authenticate(Account::Ptr& account, bool autoSave)
@@ -157,7 +158,7 @@ void AuthPrivate::fullAuthenticationFinished(KGAPI::Account::Ptr &account)
         try {
             q->storeAccount(account);
         } catch (Exception::BaseException &e) {
-            Q_EMIT q->error(e.code(), e.what());
+            Q_EMIT q->error(e.code(), QLatin1String(e.what()));
             return;
         }
     }
@@ -186,16 +187,16 @@ void AuthPrivate::refreshTokens(KGAPI::Account::Ptr &account, bool autoSave)
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             nam, SLOT(deleteLater()));
 
-    request.setUrl(QUrl("https://accounts.google.com/o/oauth2/token"));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setUrl(QUrl(QLatin1String("https://accounts.google.com/o/oauth2/token")));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
     request.setAttribute(QNetworkRequest::User, QVariant(autoSave));
     request.setAttribute(QNetworkRequest::UserMax, qVariantFromValue< Account::Ptr >(account));
 
     QUrl params;
-    params.addQueryItem("client_id", apiKey);
-    params.addQueryItem("client_secret", apiSecret);
-    params.addQueryItem("refresh_token", account->refreshToken());
-    params.addQueryItem("grant_type", "refresh_token");
+    params.addQueryItem(QLatin1String("client_id"), apiKey);
+    params.addQueryItem(QLatin1String("client_secret"), apiSecret);
+    params.addQueryItem(QLatin1String("refresh_token"), account->refreshToken());
+    params.addQueryItem(QLatin1String("grant_type"), QLatin1String("refresh_token"));
 
 #ifdef DEBUG_RAWDATA
     kDebug() << "Requesting token refresh: " << params.encodedQuery();
@@ -237,13 +238,13 @@ void AuthPrivate::refreshTokensFinished(QNetworkReply *reply)
      * }
      */
 
-    account->setAccessToken(map["access_token"].toString());
+    account->setAccessToken(map.value(QLatin1String("access_token")).toString());
 
     if (autoSave) {
         try {
             q->storeAccount(account);
         } catch (Exception::BaseException &e) {
-            Q_EMIT q->error(e.code(), e.what());
+            Q_EMIT q->error(e.code(), QLatin1String(e.what()));
 	    return;
         }
     }

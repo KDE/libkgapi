@@ -94,7 +94,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         /* Workaround for a bug (??), when QNetworkReply does not report HTTP/1.1 401 Unauthorized
          * as an error. */
         if (!reply->rawHeaderList().isEmpty()) {
-            QString status = reply->rawHeaderList().first();
+            QString status = QLatin1String(reply->rawHeaderList().first());
             if (status.startsWith(QLatin1String("HTTP/1.1 401")))
                 replyCode = KGAPI::Unauthorized;
         }
@@ -160,8 +160,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
             try {
                 auth->authenticate(account, true);
             } catch (KGAPI::Exception::BaseException &e) {
-                Q_EMIT q->error(KGAPI::InvalidAccount, e.what());
-                Q_EMIT request->error(KGAPI::InvalidAccount, e.what());
+                Q_EMIT q->error(KGAPI::InvalidAccount, QLatin1String(e.what()));
+                Q_EMIT request->error(KGAPI::InvalidAccount, QLatin1String(e.what()));
                 return;
             }
         }
@@ -244,14 +244,14 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         KGAPI::FeedData feedData;
         feedData.requestUrl = reply->request().url();
 
-        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/javascript")) {
+        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("application/json")) ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/plain")) ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/javascript"))) {
 
             replyData = service->parseJSONFeed(rawData, feedData);
 
-        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
-                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
+        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("application/atom+xml")) ||
+                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/xml"))) {
 
             replyData = service->parseXMLFeed(rawData, feedData);
 
@@ -274,14 +274,14 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     case KGAPI::Request::Create:
     case KGAPI::Request::Update:
     case KGAPI::Request::Patch: {
-        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/javascript")) {
+        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("application/json")) ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/plain")) ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/javascript"))) {
 
             replyData.append(service->JSONToObject(rawData));
 
-        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
-                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
+        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("application/atom+xml")) ||
+                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/xml"))) {
 
             replyData.append(service->XMLToObject(rawData));
 
@@ -416,19 +416,19 @@ QString AccessManagerPrivate::parseErrorMessage(const QByteArray &json) const
         QString message;
         QVariantMap map = data.toMap();
 
-        if (map.contains("error")) {
-            map = map["error"].toMap();
+        if (map.contains(QLatin1String("error"))) {
+            map = map.value(QLatin1String("error")).toMap();
         }
 
-        if (map.contains("message")) {
-            message.append(map["message"].toString());
+        if (map.contains(QLatin1String("message"))) {
+            message.append(map.value(QLatin1String("message")).toString());
         } else {
-            message = QString(json);
+            message = QLatin1String(json);
         }
 
         return message;
 
     } else {
-        return QString(json);
+        return QLatin1String(json);
     }
 }

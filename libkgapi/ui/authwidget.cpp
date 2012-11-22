@@ -20,7 +20,7 @@
 #include "auth.h"
 
 #include <KDebug>
-
+#include <KUrl>
 
 using namespace KGAPI;
 using namespace KGAPI::Ui;
@@ -98,11 +98,11 @@ void AuthWidget::authenticate()
         scopes << scope.toString();
     }
 
-    QUrl url("https://accounts.google.com/o/oauth2/auth");
-    url.addQueryItem("client_id", KGAPI::Auth::instance()->apiKey());
-    url.addQueryItem("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
-    url.addQueryItem("scope", scopes.join(" "));
-    url.addQueryItem("response_type", "code");
+    KUrl url("https://accounts.google.com/o/oauth2/auth");
+    url.addQueryItem(QLatin1String("client_id"), KGAPI::Auth::instance()->apiKey());
+    url.addQueryItem(QLatin1String("redirect_uri"), QLatin1String("urn:ietf:wg:oauth:2.0:oob"));
+    url.addQueryItem(QLatin1String("scope"), scopes.join(QLatin1String(" ")));
+    url.addQueryItem(QLatin1String("response_type"), QLatin1String("code"));
 
 #ifdef DEBUG_RAWDATA
     kDebug() << "Requesting new token:" << url;

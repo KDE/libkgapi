@@ -18,6 +18,8 @@
 #include "calendar.h"
 #include "calendar_p.h"
 
+#include <KLocalizedString>
+
 using namespace KGAPI::Objects;
 
 CalendarPrivate::CalendarPrivate(const CalendarPrivate &other) :
@@ -57,7 +59,7 @@ QString Calendar::uid() const
 
 QString Calendar::title() const
 {
-    return d->title.isEmpty() ? "Google Calendar" : d->title;
+    return d->title.isEmpty() ? i18n("Google Calendar") : d->title;
 }
 
 void Calendar::setTitle(const QString &title)

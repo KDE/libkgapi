@@ -30,6 +30,7 @@
 #include <QListWidgetItem>
 #include <QDebug>
 #include <KJob>
+#include <QStringBuilder>
 
 MainWindow::MainWindow(QWidget * parent):
     QMainWindow(parent),
@@ -50,8 +51,8 @@ MainWindow::MainWindow(QWidget * parent):
 
     /* Initialize the KGAPI::Auth - set KWallet forlder and keys from
      * your Google application */
-    auth->init("KGAPI example", "554041944266.apps.googleusercontent.com",
-               "mdT1DjzohxN3npUUzkENT0gO");
+    auth->init(QLatin1String("KGAPI example"), QLatin1String("554041944266.apps.googleusercontent.com"),
+               QLatin1String("mdT1DjzohxN3npUUzkENT0gO"));
     connect(auth, SIGNAL(authenticated(KGAPI::Account::Ptr&)),
             this, SLOT(authenticationFinished(KGAPI::Account::Ptr&)));
     connect(auth, SIGNAL(error(KGAPI::Error,QString)),
@@ -90,7 +91,7 @@ void MainWindow::authenticate()
     try {
         auth->authenticate(account, true);
     } catch (KGAPI::Exception::BaseException &e) {
-        m_ui->errorLabel->setText("<b>Error:</b> " + QString(e.what()));
+        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % QLatin1String(e.what()));
         m_ui->errorLabel->setVisible(true);
     }
 }
@@ -99,7 +100,7 @@ void MainWindow::authenticationFinished(KGAPI::Account::Ptr& account)
 {
     m_account = account;
 
-    m_ui->authStatusLabel->setText("Authenticated");
+    m_ui->authStatusLabel->setText(i18n("Authenticated"));
     m_ui->contactListButton->setEnabled(true);
     m_ui->authButton->setEnabled(false);
 }
@@ -107,7 +108,7 @@ void MainWindow::authenticationFinished(KGAPI::Account::Ptr& account)
 void MainWindow::fetchContactList()
 {
     if (m_account.isNull()) {
-        m_ui->errorLabel->setText("<b>Error:</b> Please authenticate first");
+        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % i18n("Please authenticate first"));
         m_ui->errorLabel->setVisible(true);
         m_ui->authButton->setVisible(true);
         return;
@@ -131,7 +132,7 @@ void MainWindow::error(KGAPI::Error err, QString msg)
 {
     Q_UNUSED(err);
 
-    m_ui->errorLabel->setText("<b>Error:</b> " + msg);
+    m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % msg);
     m_ui->errorLabel->setVisible(true);
     m_ui->contactListButton->setEnabled(true);
 }
@@ -139,7 +140,7 @@ void MainWindow::error(KGAPI::Error err, QString msg)
 void MainWindow::fetchJobFinished(KJob * job)
 {
     if (job->error()) {
-        m_ui->errorLabel->setText("<b>Error:</b> " + job->errorString());
+        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % job->errorString());
         m_ui->errorLabel->setVisible(true);
         m_ui->contactListButton->setEnabled(true);
         return;
@@ -188,7 +189,7 @@ void MainWindow::replyReceived(KGAPI::Reply * reply)
     m_ui->contactListButton->setEnabled(true);
 
     if (reply->error() != KGAPI::OK) {
-        m_ui->errorLabel->setText("<b>Error:</b> " + reply->errorString());
+        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % reply->errorString());
         m_ui->errorLabel->setVisible(true);
         delete reply;
         return;
@@ -198,7 +199,7 @@ void MainWindow::replyReceived(KGAPI::Reply * reply)
     QList<KGAPI::Object *> info = reply->replyData();
 
     if (info.length() != 1) {
-        m_ui->errorLabel->setText("<b>Error:</b> Server sent unexpected amount of contacts");
+        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % i18n("Server sent unexpected amount of contacts"));
         m_ui->errorLabel->setVisible(true);
         delete reply;
         return;
@@ -206,14 +207,14 @@ void MainWindow::replyReceived(KGAPI::Reply * reply)
 
     KGAPI::Objects::Contact *contact = static_cast<KGAPI::Objects::Contact *>(info.first());
 
-    QString text = "Name: " + contact->name() + "\n";
+    QString text = QLatin1String("Name: ") % contact->name() % QLatin1Char('\n');
 
     if (!contact->phoneNumbers().isEmpty()) {
-        text += "Phone: " + contact->phoneNumbers().first().number() + "\n";
+        text += QLatin1String("Phone: ") % contact->phoneNumbers().first().number() % QLatin1Char('\n');
     }
 
     if (!contact->emails().isEmpty()) {
-        text += "Email: " + contact->emails().first() + "\n";
+        text += QLatin1String("Email: ") % contact->emails().first() % QLatin1Char('\n');
     }
 
     m_ui->contactInfo->setText(text);

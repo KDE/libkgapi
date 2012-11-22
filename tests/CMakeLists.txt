@@ -1,5 +1,7 @@
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
+remove_definitions(-DQT_NO_CAST_FROM_ASCII)
+
 MACRO(LIBKGOOGLE_TESTS)
        FOREACH(_testname ${ARGN})
                kde4_add_unit_test(${_testname} TESTNAME libkgapi-${_testname} ${_testname}.cpp)

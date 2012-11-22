@@ -162,38 +162,38 @@ QString StaticMapPath::toString() const
     QString ret;
 
     if (d->color != Qt::blue)
-        ret += "color:" + d->color.name().replace("#", "0x") + "|";
+        ret += QLatin1String("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1String("|");
     if (d->weight != 5)
-        ret += "weight:" + QString::number(d->weight) + "|";
+        ret += QLatin1String("weight:") + QString::number(d->weight) + QLatin1String("|");
     if (d->fillColor.isValid())
-        ret += "fillcolor:" + d->fillColor.name().replace("#", "0x") + "|";
+        ret += QLatin1String("fillcolor:") + d->fillColor.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1String("|");
 
     if (locationType() == String) {
 
         Q_FOREACH(const QString & addr, d->locationsString) {
-            ret += addr + "|";
+            ret += addr + QLatin1String("|");
         }
 
     } else if (locationType() == KABCAddress) {
 
         Q_FOREACH(const KABC::Address & addr, d->locationsAddress) {
-            ret += addr.formattedAddress() + "|";
+            ret += addr.formattedAddress() + QLatin1String("|");
         }
 
     } else if (locationType() == KABCGeo) {
 
         Q_FOREACH(const KABC::Geo & addr, d->locationsGeo) {
-            ret += QString::number(addr.latitude()) + "," +
-                  QString::number(addr.longitude()) + "|";
+            ret += QString::number(addr.latitude()) + QLatin1String(",") +
+                  QString::number(addr.longitude()) + QLatin1String("|");
         }
 
     }
 
-    ret = ret.replace(", ", ",");
-    ret = ret.replace(". ", ".");
-    ret = ret.replace(" ", "+");
-    ret = ret.replace("\n",",");
-    ret = ret.remove(ret.lastIndexOf("|"), 1);
+    ret = ret.replace(QLatin1String(", "), QLatin1String(","));
+    ret = ret.replace(QLatin1String(". "), QLatin1String("."));
+    ret = ret.replace(QLatin1Char(' '), QLatin1Char('+'));
+    ret = ret.replace(QLatin1Char('\n'), QLatin1Char(','));
+    ret = ret.remove(ret.lastIndexOf(QLatin1Char('|')), 1);
 
     return ret;
 }

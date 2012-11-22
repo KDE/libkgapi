@@ -218,50 +218,50 @@ QString StaticMapMarker::toString() const
 
     switch (d->size) {
     case Tiny:
-        ret += "size:tiny|";
+        ret += QLatin1String("size:tiny|");
         break;
     case Small:
-        ret += "size:small|";
+        ret += QLatin1String("size:small|");
         break;
     case Middle:
-        ret += "size:mid|";
+        ret += QLatin1String("size:mid|");
         break;
     case Normal:
         break;
     }
 
     if (d->color != Qt::red)
-        ret += "color:" + d->color.name().replace("#", "0x") + "|";
+        ret += QLatin1String("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1String("|");
 
     if (d->label.isLetterOrNumber() && d->size > 1)
-        ret += "label:" + QString(d->label.toUpper()) + "|";
+        ret += QLatin1String("label:") + d->label.toUpper() + QLatin1String("|");
 
     if (d->locationType == String) {
 
         Q_FOREACH(const QString & addr, d->locationsString) {
-            ret += addr + "|";
+            ret += addr + QLatin1String("|");
         }
 
     } else if (d->locationType == KABCAddress) {
 
         Q_FOREACH(const KABC::Address & addr, d->locationsAddress) {
-            ret += addr.formattedAddress() + "|";
+            ret += addr.formattedAddress() + QLatin1String("|");
         }
 
     } else if (d->locationType == KABCGeo) {
 
         Q_FOREACH(const KABC::Geo & addr, d->locationsGeo) {
-            ret += QString::number(addr.latitude()) + "," +
-                  QString::number(addr.longitude()) + "|";
+            ret += QString::number(addr.latitude()) + QLatin1String(",") +
+                  QString::number(addr.longitude()) + QLatin1String("|");
         }
 
     }
 
-    ret = ret.replace(", ", ",");
-    ret = ret.replace(". ", ".");
-    ret = ret.replace(" ", "+");
-    ret = ret.replace("\n",",");
-    ret = ret.remove(ret.lastIndexOf("|"), 1);
+    ret = ret.replace(QLatin1String(", "), QLatin1String(","));
+    ret = ret.replace(QLatin1String(". "), QLatin1String("."));
+    ret = ret.replace(QLatin1Char(' '), QLatin1Char('+'));
+    ret = ret.replace(QLatin1Char('\n'), QLatin1Char(','));
+    ret = ret.remove(ret.lastIndexOf(QLatin1Char('|')), 1);
 
     return ret;
 
