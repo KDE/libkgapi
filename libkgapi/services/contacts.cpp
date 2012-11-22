@@ -530,8 +530,16 @@ KGAPI::Object* ContactsPrivate::JSONToContact(const QVariantMap &data)
 
     /* Birthday */
     QVariantMap bDay = data["gContact$birthday"].toMap();
-    if (!bDay.isEmpty())
-        object->setBirthday(QDateTime::fromString(bDay["when"].toString(), "yyyy-MM-dd"));
+    if (!bDay.isEmpty()) {
+	QString birthday = bDay["when"].toString();
+	/* Birthdays in format "--MM-DD" are valid and mean that no year has
+	  * been specified. Since KABC does not support birthdays without year,
+	  * we simulate that by specifying a fake year - 1900 */
+	if (birthday.startsWith("--")) {
+	    birthday = "1900" + birthday.mid(1);
+	}
+        object->setBirthday(QDateTime::fromString(birthday, "yyyy-MM-dd"));
+    }
 
     /* User-defined fields */
     QVariantList userDefined = data["gContact$userDefinedField"].toList();
@@ -697,7 +705,16 @@ QByteArray ContactsPrivate::contactToXML(const KGAPI::Object* object)
     /* Birthday */
     QDate birthday = contact->birthday().date();
     if (birthday.isValid()) {
-        QString birthdayStr = birthday.toString("yyyy-MM-dd");
+	QString birthdayStr;
+	/* We use year 1900 as a fake year for birthdays without a year specified.
+	 * Here we assume that nobody actually has a contact born in 1900 and so
+	 * we replace 1900 by "-", so that we get "--MM-dd" date, which is a valid
+	 * birthday date according to RFC6350 */
+	if (birthday.year() == 1900) {
+	    birthdayStr = birthday.toString("--MM-dd");
+	} else {
+	    birthdayStr = birthday.toString("yyyy-MM-dd");
+	}
         output.append("<gContact:birthday when='").append(birthdayStr.toUtf8()).append("'/>");
     }
 
@@ -982,7 +999,14 @@ KGAPI::Object* ContactsPrivate::XMLToContact(const QDomDocument &doc)
 
         /* Birthday */
         if (e.tagName() == "gContact:birthday") {
-            contact->setBirthday(QDateTime::fromString(e.attribute("when"), "yyyy-MM-dd"));
+	    QString birthday = e.attribute("when");
+	    /* Birthdays in format "--MM-DD" are valid and mean that no year has
+	     * been specified. Since KABC does not support birthdays without year,
+	     * we simulate that by specifying a fake year - 1900 */
+	    if (birthday.startsWith("--")) {
+		birthday = "1900" + birthday.mid(1);
+	    }
+            contact->setBirthday(QDateTime::fromString(birthday, "yyyy-MM-dd"));
             continue;
         }
 
