@@ -72,8 +72,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
 
 #ifdef DEBUG_RAWDATA
     QStringList headers;
-    Q_FOREACH(const QString &str, reply->rawHeaderList()) {
-        headers << str + ": " + reply->rawHeader(str.toLatin1());
+    Q_FOREACH(const QByteArray &str, reply->rawHeaderList()) {
+        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(reply->rawHeader(str));
     }
     kDebug() << headers;
     kDebug() << rawData;
@@ -346,8 +346,8 @@ void AccessManagerPrivate::nam_sendRequest(KGAPI::Request* request)
 
 #ifdef DEBUG_RAWDATA
     QStringList headers;
-    Q_FOREACH(const QString &str, nr.rawHeaderList()) {
-        headers << str + ": " + nr.rawHeader(str.toLatin1());
+    Q_FOREACH(const QByteArray &str, nr.rawHeaderList()) {
+        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(nr.rawHeader(str));
     }
     kDebug() << headers;
 #endif
