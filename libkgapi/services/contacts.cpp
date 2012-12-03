@@ -639,8 +639,8 @@ KGAPI::Object* ContactsPrivate::JSONToContact(const QVariantMap &data)
     if (!bDay.isEmpty()) {
 	QString birthday = bDay.value(QLatin1String("when")).toString();
 	/* Birthdays in format "--MM-DD" are valid and mean that no year has
-	  * been specified. Since KABC does not support birthdays without year,
-	  * we simulate that by specifying a fake year - 1900 */
+	 * been specified. Since KABC does not support birthdays without year,
+	 * we simulate that by specifying a fake year - 1900 */
 	if (birthday.startsWith(QLatin1String("--"))) {
 	    birthday = QLatin1String("1900") + birthday.mid(1);
 	}
