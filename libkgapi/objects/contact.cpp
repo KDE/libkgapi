@@ -258,10 +258,10 @@ QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
     case AIM:
         return "AIM";
     default:
-        return "OTHER";
+        return "Other";
     }
 
-    return "OTHER";
+    return "Other";
 }
 
 QString Contact::IMSchemeToProtocolName(const QString& scheme)
@@ -274,11 +274,21 @@ QString Contact::IMProtocolNameToScheme(const QString& protocolName)
     QString proto;
     if (protocolName.toUpper() == "XMPP") {
         proto = "JABBER";
-    } else {
+    } else if ((protocolName.toUpper() == QLatin1String("ICQ")) ||
+               (protocolName.toUpper() == QLatin1String("GOOGLE_TALK")) ||
+               (protocolName.toUpper() == QLatin1String("QQ")) ||
+               (protocolName.toUpper() == QLatin1String("SKYPE")) ||
+               (protocolName.toUpper() == QLatin1String("YAHOO")) ||
+               (protocolName.toUpper() == QLatin1String("MSN")) ||
+               (protocolName.toUpper() == QLatin1String("AIM")))
+    {
         proto = protocolName.toUpper();
+        return SCHEME_URL + proto;
     }
 
-    return SCHEME_URL + proto;
+    /* If the protocolName is not officially supported by Google, then instead
+     * of full scheme, Google expects just a name of the protocol. */
+    return protocolName;
 }
 
 Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)

@@ -671,6 +671,17 @@ QByteArray ContactsPrivate::contactToXML(const KGAPI::Object* object)
             bool primary = (contact->custom("KADDRESSBOOK", "X-IMAddress") == value);
             output.append(im_str.arg(value, Objects::Contact::IMProtocolNameToScheme(proto), (primary ? "true" : "false")).toUtf8());
             parsedCustoms << key;
+        /* X-messaging is probably a new key (?) used by KAddressbook when importing
+         * contacts from vCard. */
+        } else if (im.startsWith(QLatin1String("X-messaging"))) {
+            const QString key = im.left(im.indexOf(QLatin1Char(':')));
+            const QString value = im.mid(im.indexOf(QLatin1Char(':')) + 1);
+            QString proto = key.mid(12); /* strlen("X-messaging/") */
+            if (proto.endsWith(QLatin1String("-All"))) {
+                proto.chop(4);
+            }
+            output.append(im_str.arg(value, proto, QLatin1String("false")).toUtf8());
+            parsedCustoms << key;
         }
     }
     parsedCustoms << "KADDRESSBOOK-X-IMAddress";
