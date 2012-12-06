@@ -32,9 +32,12 @@ namespace Services
 class StaticMapPrivate
 {
 
-public:
-    StaticMapPrivate()
-    {manager = 0;};
+  public:
+    StaticMapPrivate():
+        manager(0)
+    {
+    }
+
     QNetworkAccessManager * manager;
 };
 
@@ -45,18 +48,13 @@ public:
 using namespace KGAPI::Objects;
 using namespace KGAPI::Services;
 
-StaticMap::StaticMap(QObject * parent) : QObject(parent), d_ptr(new StaticMapPrivate())
+StaticMap::StaticMap(QObject * parent):
+    QObject(parent),
+    d_ptr(new StaticMapPrivate())
 {
     Q_D(StaticMap);
     d->manager = new QNetworkAccessManager();
 
-    connect(d->manager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(replyFinished(QNetworkReply*)));
-}
-
-StaticMap::StaticMap (StaticMapPrivate& other) : d_ptr(&other)
-{
-    Q_D(StaticMap);
     connect(d->manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
 }

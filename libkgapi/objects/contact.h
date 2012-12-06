@@ -21,8 +21,8 @@
 #include <libkgapi/object.h>
 #include <libkgapi/libkgapi_export.h>
 
-#include <KABC/Addressee>
-#include <KDateTime>
+#include <KDE/KABC/Addressee>
+#include <KDE/KDateTime>
 
 #include <QtCore/QList>
 #include <QtCore/QMetaType>
@@ -51,7 +51,7 @@ class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
      * Constructs a new contact.
      */
     Contact();
-    Contact(const Contact &other);
+    explicit Contact(const Contact &other);
     Contact(const KABC::Addressee &other);
 
     ~Contact();
@@ -248,7 +248,7 @@ class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
     static KABC::Address::Type addressSchemeToType(const QString &scheme, const bool primary = false);
 
   private:
-    ContactPrivate* d;
+    ContactPrivate * const d;
 
 };
 

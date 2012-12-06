@@ -50,7 +50,7 @@ class LIBKGAPI_EXPORT TaskList: public KGAPI::Object
     QString title() const;
 
   private:
-    TaskListPrivate* d;
+    TaskListPrivate * const d;
 
 };
 

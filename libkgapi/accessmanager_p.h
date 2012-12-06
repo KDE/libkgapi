@@ -41,8 +41,7 @@ class AccessManagerPrivate: public QObject
     Q_OBJECT
 
   public:
-    AccessManagerPrivate(AccessManager* const parent);
-
+    explicit AccessManagerPrivate(AccessManager* const parent);
     virtual ~AccessManagerPrivate();
 
     KIO::Integration::AccessManager *nam;

@@ -23,7 +23,7 @@
 #include <libkgapi/object.h>
 #include <libkgapi/libkgapi_export.h>
 
-#include <KABC/Geo>
+#include <KDE/KABC/Geo>
 
 #include <QtCore/QSharedPointer>
 
@@ -112,7 +112,7 @@ public:
     void setAltitudeAccuracy(const qint32 &altitudeAccuracy);
 
 private:
-    LocationPrivate* d;
+    LocationPrivate * const d;
 };
 
 } // namespace Objects

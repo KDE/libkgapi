@@ -18,20 +18,17 @@
 #ifndef LIBKGAPI_OBJECTS_EVENT_P_H
 #define LIBKGAPI_OBJECTS_EVENT_P_H
 
-#include <QtCore/QSharedData>
-
 namespace KGAPI
 {
 
 namespace Objects
 {
 
-class EventData: public QSharedData
+class EventPrivate
 {
-public:
-    EventData();
-    EventData(const EventData &other);
-    ~EventData() { };
+  public:
+    explicit EventPrivate();
+    EventPrivate(const EventPrivate &other);
 
     bool deleted;
     bool useDefaultReminders;

@@ -64,7 +64,7 @@ QUrl Tasks::ScopeUrl(QLatin1String("https://www.googleapis.com/auth/tasks"));
 static const QString serviceNameStr = QLatin1String("KGAPI::Services::Tasks");
 
 
-const QString& Tasks::serviceName()
+QString Tasks::serviceName()
 {
     if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
         qRegisterMetaType< KGAPI::Services::Tasks >(serviceNameStr.toLatin1().constData());
@@ -162,7 +162,7 @@ QByteArray Tasks::objectToJSON(KGAPI::Object* object)
     return serializer.serialize(map);
 }
 
-const QUrl& Tasks::scopeUrl() const
+QUrl Tasks::scopeUrl() const
 {
     return Tasks::ScopeUrl;
 }

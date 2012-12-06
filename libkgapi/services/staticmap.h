@@ -43,9 +43,7 @@ class LIBKGAPI_EXPORT StaticMap : public QObject
     Q_OBJECT
 
 public:
-    StaticMap(QObject * parent);
-
-    StaticMap(StaticMapPrivate & other);
+    explicit StaticMap(QObject * parent);
 
     ~StaticMap();
 
@@ -58,8 +56,9 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void tileFetched(const QPixmap & pixmap);
+
 private:
-    StaticMapPrivate *d_ptr;
+    StaticMapPrivate * const d_ptr;
     Q_DECLARE_PRIVATE(StaticMap)
 };
 

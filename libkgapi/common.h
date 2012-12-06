@@ -23,7 +23,9 @@
 #include <qstring.h>
 #include <qurl.h>
 
-#include <klocalizedstring.h>
+#include <KDE/KLocalizedString>
+
+//krazy:excludeall=inline
 
 namespace KGAPI
 {
@@ -75,7 +77,7 @@ namespace Exception
 class BaseException: public std::runtime_error
 {
 public:
-    BaseException(const QString &what):
+    explicit BaseException(const QString &what):
         std::runtime_error(what.toUtf8().constData()) { };
     /**
     * Returns KGAPI::Error code of the exception.
@@ -91,7 +93,7 @@ public:
 class UnknownError: public BaseException
 {
   public:
-    UnknownError():
+    explicit UnknownError():
         BaseException(i18n("An unknown error has occurred.")) { };
     KGAPI::Error code() const {
         return KGAPI::UnknownError;
@@ -104,7 +106,7 @@ class UnknownError: public BaseException
 class AuthError: public BaseException
 {
   public:
-    AuthError(const QString &what = QString()):
+    explicit AuthError(const QString &what = QString()):
         BaseException(what) { };
     KGAPI::Error code() const {
         return KGAPI::AuthError;
@@ -117,7 +119,7 @@ class AuthError: public BaseException
 class UnknownAccount: public BaseException
 {
   public:
-    UnknownAccount(const QString &accName = QString()):
+    explicit UnknownAccount(const QString &accName = QString()):
         BaseException(i18n("Unknown account '%1'", accName)) { };
     KGAPI::Error code() const {
         return KGAPI::UnknownAccount;
@@ -130,7 +132,7 @@ class UnknownAccount: public BaseException
 class UnknownService: public BaseException
 {
   public:
-    UnknownService(const QString &serviceName = QString()):
+    explicit UnknownService(const QString &serviceName = QString()):
         BaseException(i18n("Unknown service '%1'", serviceName)) { };
     KGAPI::Error code() const {
         return KGAPI::UnknownService;
@@ -143,7 +145,7 @@ class UnknownService: public BaseException
 class InvalidResponse: public BaseException
 {
   public:
-    InvalidResponse(const QString &what = QString()):
+    explicit InvalidResponse(const QString &what = QString()):
         BaseException(what) { };
     KGAPI::Error code() const {
         return KGAPI::InvalidResponse;
@@ -156,7 +158,7 @@ class InvalidResponse: public BaseException
 class BackendNotReady: public BaseException
 {
   public:
-    BackendNotReady():
+    explicit BackendNotReady():
         BaseException(i18n("KWallet is not opened.")) { };
     KGAPI::Error code() const {
         return KGAPI::BackendNotReady;
@@ -169,7 +171,7 @@ class BackendNotReady: public BaseException
 class InvalidAccount: public BaseException
 {
   public:
-    InvalidAccount():
+    explicit InvalidAccount():
         BaseException(i18n("The account is invalid.")) { };
     KGAPI::Error code() const {
         return KGAPI::InvalidAccount;
@@ -184,7 +186,7 @@ class InvalidAccount: public BaseException
 class FeedData {
 
   public:
-    FeedData():
+    explicit FeedData():
         startIndex(0),
         itemsPerPage(0),
         totalResults(0)

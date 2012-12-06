@@ -24,13 +24,13 @@
 #include <QtCore/QMetaType>
 
 #ifdef WITH_KCAL
-#include <KCal/Alarm>
-#include <KCal/Incidence>
+#include <KDE/KCal/Alarm>
+#include <KDE/KCal/Incidence>
 typedef KCal::Alarm* AlarmPtr;
 using namespace KCal;
 #else
-#include <KCalCore/Alarm>
-#include <KCalCore/Incidence>
+#include <KDE/KCalCore/Alarm>
+#include <KDE/KCalCore/Incidence>
 typedef KCalCore::Alarm::Ptr AlarmPtr;
 using namespace KCalCore;
 #endif
@@ -135,7 +135,7 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Object
     Reminder::List defaultReminders() const;
 
   protected:
-    CalendarPrivate* d;
+    CalendarPrivate * const d;
 
 };
 

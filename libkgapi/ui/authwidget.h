@@ -156,7 +156,7 @@ class LIBKGAPI_EXPORT AuthWidget : public QWidget
     void progress(KGAPI::Ui::AuthWidget::Progress progress);
 
   private:
-    AuthWidgetPrivate *d_ptr;
+    AuthWidgetPrivate * const d_ptr;
     Q_DECLARE_PRIVATE(AuthWidget);
 };
 

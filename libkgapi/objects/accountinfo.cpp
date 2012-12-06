@@ -167,7 +167,7 @@ void AccountInfo::setPhotoUrl(const QString &url)
     d->pictureUrl = url;
 }
 
-const QString &AccountInfo::photoUrl() const
+QString AccountInfo::photoUrl() const
 {
     return d->pictureUrl;
 }

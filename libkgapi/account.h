@@ -93,7 +93,7 @@ class LIBKGAPI_EXPORT Account
     /**
      * @return Returns access token for the account.
      */
-    const QString& accessToken() const;
+    QString accessToken() const;
 
     /**
      * Sets a new access token for account.
@@ -105,7 +105,7 @@ class LIBKGAPI_EXPORT Account
     /**
      * @return Returns refresh token.
      */
-    const QString& refreshToken() const;
+    QString refreshToken() const;
 
     /**
      * Sets a new refresh token for the access token.
@@ -117,7 +117,7 @@ class LIBKGAPI_EXPORT Account
     /**
      * @return Returns list of scopes the account is authenticated against.
      */
-    const QList< QUrl > &scopes() const;
+    QList< QUrl > scopes() const;
 
     /**
      * Sets new scopes. Use must re-authenticate to allow access to the new scopes.
@@ -150,7 +150,7 @@ class LIBKGAPI_EXPORT Account
     void removeScope(const QUrl &scope);
 
   private:
-    AccountPrivate* d;
+    AccountPrivate * const d;
 
     /**
      * Whether scopes were changed or not.
@@ -164,7 +164,7 @@ class LIBKGAPI_EXPORT Account
      * performs full re-authentication it sets this attribute to FALSE and next time it
      * will just refresh existing tokens until the scopes are changed again.
      */
-    bool m_scopesChanged;
+    bool m_scopesChanged; //krazy:exclude=dpointer
 };
 
 } /* namespace KGAPI */

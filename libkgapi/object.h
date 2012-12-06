@@ -54,10 +54,10 @@ class LIBKGAPI_EXPORT Object
     /**
      * Returns tag of this object.
      */
-    const QString& etag() const;
+    QString etag() const;
 
   private:
-    ObjectPrivate* d;
+    ObjectPrivate * const d;
 
 };
 

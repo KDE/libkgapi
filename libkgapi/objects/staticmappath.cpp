@@ -16,9 +16,10 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include <QDebug>
 #include "staticmappath.h"
 #include "staticmappath_p.h"
+
+#include <QDebug>
 
 using namespace KGAPI::Objects;
 

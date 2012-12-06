@@ -18,7 +18,7 @@
 #ifndef LIBKGAPI_FETCHLISTJOB_H
 #define LIBKGAPI_FETCHLISTJOB_H
 
-#include <KJob>
+#include <KDE/KJob>
 
 #include <QtCore/QUrl>
 

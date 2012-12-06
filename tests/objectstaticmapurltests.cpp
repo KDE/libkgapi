@@ -51,7 +51,7 @@ void ObjectStaticMapUrlTests::testBasicUrl_data()
         << StaticMapUrl::Roadmap
         << false
         << "http://maps.googleapis.com/maps/api/staticmap?center=Uncovice+83,Litovel&zoom=14&size=640x640&sensor=false";
-	
+
     QTest::newRow("map2")
         << "Gregrova 5, Olomouc"
         << (quint8) 15
@@ -60,7 +60,7 @@ void ObjectStaticMapUrlTests::testBasicUrl_data()
         << StaticMapUrl::GIF
         << StaticMapUrl::Satellite
         << true
-        << "http://maps.googleapis.com/maps/api/staticmap?center=Gregrova+5,Olomouc&zoom=15&size=800x640&scale=2&format=gif&maptype=satellite&sensor=true";  
+        << "http://maps.googleapis.com/maps/api/staticmap?center=Gregrova+5,Olomouc&zoom=15&size=800x640&scale=2&format=gif&maptype=satellite&sensor=true";
 }
 
 void ObjectStaticMapUrlTests::testBasicUrl()
@@ -114,7 +114,7 @@ void ObjectStaticMapUrlTests::testBasicUrlAddress_data()
 
     KABC::Address addr2;
     addr2.setLocality("Olomouc");
-    addr2.setStreet("Gregrova"); 
+    addr2.setStreet("Gregrova");
 
     QTest::newRow("map2")
         << addr2
@@ -245,7 +245,7 @@ void ObjectStaticMapUrlTests::testMarkers_data()
         << QColor(Qt::blue)
         << StaticMapMarker::Middle
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?center=Litovel&zoom=12&size=640x640&markers=size:mid|color:0x0000ff|label:T|Uncovice,Litovel|Brezove,Litovel|Rozvadovice,Litovel&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?center=Litovel&zoom=12&size=640x640&markers=size:mid|color:0x0000ff|label:T|Uncovice,Litovel|Brezove,Litovel|Rozvadovice,Litovel&sensor=false";
 
     QTest::newRow("map2")
         << "Olomouc"
@@ -259,7 +259,7 @@ void ObjectStaticMapUrlTests::testMarkers_data()
         << QColor(Qt::red)
         << StaticMapMarker::Normal
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?center=Olomouc&zoom=11&size=640x640&scale=2&format=gif&maptype=hybrid&markers=Gregrova,Olomouc|Generala+Piky,Olomouc|Palackeho,Olomouc&sensor=false";   
+        << "http://maps.googleapis.com/maps/api/staticmap?center=Olomouc&zoom=11&size=640x640&scale=2&format=gif&maptype=hybrid&markers=Gregrova,Olomouc|Generala+Piky,Olomouc|Palackeho,Olomouc&sensor=false";
 
 }
 
@@ -320,7 +320,7 @@ void ObjectStaticMapUrlTests::testMarkersAddress_data()
         << (StaticMapUrl::Scale) 1
         << list1
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&markers=Uncovice,Litovel|Brezove,Litovel|Rozvadovice,Litovel&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&markers=Uncovice,Litovel|Brezove,Litovel|Rozvadovice,Litovel&sensor=false";
 }
 
 void ObjectStaticMapUrlTests::testMarkersAddress()
@@ -358,7 +358,7 @@ void ObjectStaticMapUrlTests::testMarkersGeo_data()
         << (StaticMapUrl::Scale) 1
         << list1
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&markers=49.7014,17.0756|49.5953,17.2518&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&markers=49.7014,17.0756|49.5953,17.2518&sensor=false";
 }
 
 void ObjectStaticMapUrlTests::testMarkersGeo()
@@ -408,7 +408,7 @@ void ObjectStaticMapUrlTests::testPath_data()
         << QColor(Qt::red)
         << QColor(Qt::yellow)
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&path=color:0xff0000|weight:3|fillcolor:0xffff00|Uncovice,Litovel|Brezove,Litovel|Rozvadovice,Litovel&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&path=color:0xff0000|weight:3|fillcolor:0xffff00|Uncovice,Litovel|Brezove,Litovel|Rozvadovice,Litovel&sensor=false";
 
     QTest::newRow("map2")
         << QSize(640, 640)
@@ -470,7 +470,7 @@ void ObjectStaticMapUrlTests::testPathAddress_data()
         << (StaticMapUrl::Scale) 1
         << list1
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&path=Uncovice,Litovel|Brezove,Litovel|Rozvadovice,Litovel&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&path=Uncovice,Litovel|Brezove,Litovel|Rozvadovice,Litovel&sensor=false";
 }
 
 void ObjectStaticMapUrlTests::testPathAddress()
@@ -508,7 +508,7 @@ void ObjectStaticMapUrlTests::testPathGeo_data()
         << (StaticMapUrl::Scale) 1
         << list1
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&path=49.7014,17.0756|49.5953,17.2518&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&path=49.7014,17.0756|49.5953,17.2518&sensor=false";
 }
 
 void ObjectStaticMapUrlTests::testPathGeo()
@@ -542,7 +542,7 @@ void ObjectStaticMapUrlTests::testVisibleLocation_data()
         << (StaticMapUrl::Scale) 1
         << "Uncovice, Litovel"
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&visible=Uncovice,Litovel&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&visible=Uncovice,Litovel&sensor=false";
 
     QTest::newRow("map2")
         << QSize(640, 640)
@@ -591,7 +591,7 @@ void ObjectStaticMapUrlTests::testVisibleLocationAddress_data()
         << (StaticMapUrl::Scale) 1
         << addr1
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&visible=Uncovice,Litovel&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&visible=Uncovice,Litovel&sensor=false";
 
     QTest::newRow("map2")
         << QSize(640, 640)
@@ -632,7 +632,7 @@ void ObjectStaticMapUrlTests::testVisibleLocationGeo_data()
         << (StaticMapUrl::Scale) 1
         << KABC::Geo(49.7014, 17.0756)
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&visible=49.7014,17.0756&sensor=false"; 
+        << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&visible=49.7014,17.0756&sensor=false";
 
     QTest::newRow("map2")
         << QSize(640, 640)
@@ -711,7 +711,7 @@ void ObjectStaticMapUrlTests::testComplicatedUrl_data()
         << QColor(Qt::green)
         << visible
         << false
-        << "http://maps.googleapis.com/maps/api/staticmap?center=Olomoucky+kraj&zoom=10&size=640x640&scale=2&format=jpg&maptype=terrain&markers=size:mid|color:0xffff00|label:T|49.7014,17.0756|49.5953,17.2518&path=color:0x000000|weight:3|fillcolor:0x00ff00|Litovel|Olomouc|Sternberk|Unicov|Litovel&visible=Olomouc&sensor=false";    
+        << "http://maps.googleapis.com/maps/api/staticmap?center=Olomoucky+kraj&zoom=10&size=640x640&scale=2&format=jpg&maptype=terrain&markers=size:mid|color:0xffff00|label:T|49.7014,17.0756|49.5953,17.2518&path=color:0x000000|weight:3|fillcolor:0x00ff00|Litovel|Olomouc|Sternberk|Unicov|Litovel&visible=Olomouc&sensor=false";
 }
 
 void ObjectStaticMapUrlTests::testComplicatedUrl()

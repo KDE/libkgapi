@@ -115,7 +115,7 @@ class LIBKGAPI_EXPORT ContactsGroup : public KGAPI::Object
     bool isSystemGroup() const;
 
   private:
-    ContactsGroupPrivate* d;
+    ContactsGroupPrivate * const d;
 
 };
 

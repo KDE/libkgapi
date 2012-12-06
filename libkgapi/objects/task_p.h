@@ -15,26 +15,27 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBKGAPI_OBJECT_P_H
-#define LIBKGAPI_OBJECT_P_H
-
-#include <QString>
+#ifndef LIBKGAPI_OBJECTS_TASK_P_H
+#define LIBKGAPI_OBJECTS_TASK_P_H
 
 namespace KGAPI
 {
 
-/**
- * \internal
- */
-class ObjectPrivate
+namespace Objects
 {
-  public:
-    ObjectPrivate() { }
-    ObjectPrivate(const ObjectPrivate& other);
 
-    QString etag;
+class TaskPrivate
+{
+
+  public:
+    TaskPrivate();
+    TaskPrivate (const TaskPrivate&);
+
+    bool deleted;
 };
+
+} /* namespace Objects */
 
 } /* namespace KGAPI */
 
-#endif // LIBKGAPI_OBJECT_P_H
+#endif /* LIBKGAPI_OBJECTS_TASK_P_H */

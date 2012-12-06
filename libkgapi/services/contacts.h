@@ -39,13 +39,13 @@ class ContactsPrivate;
  */
 class LIBKGAPI_EXPORT Contacts: public KGAPI::Service
 {
-public:
+  public:
     static QUrl ScopeUrl;
 
     /**
      * Implementation of KGAPI::Service::name().
      */
-    static const QString& serviceName();
+    static QString serviceName();
 
     /**
      * Implementation of KGAPI::Service::JSONToObject().
@@ -87,7 +87,7 @@ public:
      *
      * https://www.google.com/m8/feeds/
      */
-    const QUrl& scopeUrl() const;
+    QUrl scopeUrl() const;
 
     /**
      * Returns URL for KGAPI::Request::Create requests.
@@ -196,11 +196,8 @@ public:
      */
     static bool supportsJSONWrite(QString* urlParam);
 
-protected:
-    ContactsPrivate *d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(Contacts);
+  private:
+    //krazy:exclude=dpointer
 
 };
 

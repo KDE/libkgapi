@@ -65,7 +65,7 @@ public:
     static QList<KGAPI::Object*> parseEventJSONFeed(const QVariantList& feed);
 
     /**
-     * Checks whether TZID is in Olson format and converts it to it if neccessary
+     * Checks whether TZID is in Olson format and converts it to it if neccessarry
      *
      * This is mainly to handle crazy Microsoft TZIDs like
      * "(GMT) Greenwich Mean Time/Dublin/Edinburgh/London", because Google only
@@ -92,7 +92,7 @@ QUrl Services::Calendar::ScopeUrl(QLatin1String("https://www.googleapis.com/auth
 static const QString serviceNameStr(QLatin1String("KGAPI::Services::Calendar"));
 
 
-const QString& Services::Calendar::serviceName()
+QString Services::Calendar::serviceName()
 {
     if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
         qRegisterMetaType< KGAPI::Services::Calendar >(serviceNameStr.toLatin1().constData());
@@ -196,7 +196,7 @@ QList< KGAPI::Object* > Services::Calendar::parseXMLFeed(const QByteArray& xmlFe
 
 /************* URLS **************/
 
-const QUrl& Services::Calendar::scopeUrl() const
+QUrl Services::Calendar::scopeUrl() const
 {
     return Services::Calendar::ScopeUrl;
 }
@@ -931,7 +931,7 @@ QString Services::CalendarPrivate::checkAndConverCDOTZID(const QString& tzid, co
     KTimeZones timeZones;
     const KTimeZones::ZoneMap zones = timeZones.zones();
     KTimeZones::ZoneMap::const_iterator iter;
-    for (iter = zones.constBegin(); iter != zones.constEnd(); iter++) {
+    for (iter = zones.constBegin(); iter != zones.constEnd(); ++iter) {
         if (iter.key() == tzid) {
             /* Yay, @tzid is a valid TZID in Olson format */
             return tzid;

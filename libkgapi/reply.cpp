@@ -66,7 +66,7 @@ KGAPI::Reply::Reply(const KGAPI::Request::RequestType requestType, const KGAPI::
 
 KGAPI::Reply::~Reply()
 {
-   delete d_ptr;	
+   delete d_ptr;
 }
 
 KGAPI::Request::RequestType KGAPI::Reply::requestType() const
@@ -79,12 +79,12 @@ KGAPI::Error KGAPI::Reply::error() const
     return d_func()->errorCode;
 }
 
-const QString& KGAPI::Reply::serviceName() const
+QString KGAPI::Reply::serviceName() const
 {
     return d_func()->serviceName;
 }
 
-const QList< KGAPI::Object* >& KGAPI::Reply::replyData() const
+QList< KGAPI::Object* > KGAPI::Reply::replyData() const
 {
     return d_func()->replyData;
 }

@@ -29,6 +29,21 @@
 
 #include <QDebug>
 
+
+namespace KGAPI {
+
+namespace Services {
+
+class LatitudePrivate
+{
+  public:
+    static KGAPI::Object* parseLocation(const QVariantMap map);
+};
+
+} /* namespace Services */
+
+} /* namespace KGAPI */
+
 using namespace KGAPI;
 using namespace Services;
 
@@ -37,7 +52,7 @@ QUrl Latitude::ScopeUrl(QLatin1String("https://www.googleapis.com/auth/latitude.
 static const QString serviceNameStr = QLatin1String("KGAPI::Services::Latitude");
 
 
-const QString& Latitude::serviceName()
+QString Latitude::serviceName()
 {
     if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
         qRegisterMetaType< KGAPI::Services::Latitude >(serviceNameStr.toLatin1().constData());
@@ -61,7 +76,7 @@ Object * Latitude::JSONToObject(const QByteArray & jsonData)
 
     const QVariantMap info = data.value(QLatin1String("data")).toMap();
 
-    return parseLocation(info);
+    return LatitudePrivate::parseLocation(info);
 }
 
 QByteArray Latitude::objectToJSON(Object * object)
@@ -110,7 +125,7 @@ QList< Object * > Latitude::parseJSONFeed(const QByteArray & jsonFeed, FeedData 
     const QVariantList items = data.value(QLatin1String("items")).toList();
     Q_FOREACH(const QVariant &c, items) {
         QVariantMap location = c.toMap();
-        output << parseLocation(location);
+        output << LatitudePrivate::parseLocation(location);
     }
 
     return output;
@@ -138,7 +153,7 @@ QList< Object * > Latitude::parseXMLFeed(const QByteArray & xmlFeed, FeedData & 
     return QList< KGAPI::Object * >();
 }
 
-Object * Latitude::parseLocation(const QVariantMap map)
+Object * LatitudePrivate::parseLocation(const QVariantMap map)
 {
     Objects::Location * object = new Objects::Location();
 
@@ -176,7 +191,7 @@ QString Latitude::protocolVersion() const
     return QLatin1String("1");
 }
 
-const QUrl & Latitude::scopeUrl() const
+QUrl Latitude::scopeUrl() const
 {
     return Latitude::ScopeUrl;
 }

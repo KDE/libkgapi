@@ -45,23 +45,40 @@ StaticMapMarker::StaticMapMarker():
     d(new StaticMapMarkerPrivate)
 { }
 
-StaticMapMarker::StaticMapMarker (const QString& address, const QChar& label, const MarkerSize size, const QColor& color)
+StaticMapMarker::StaticMapMarker (const QString& address, const QChar& label, const MarkerSize size, const QColor& color):
+    d(new StaticMapMarkerPrivate)
 {
-    StaticMapMarker(QStringList(address), label, size, color);
+    QStringList list;
+    list << address;
+    d->locationType = String;
+    d->locationsString = list;
+    d->label = label;
+    d->size = size;
+    d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker (const KABC::Address& address, const QChar& label, const MarkerSize size, const QColor& color)
+StaticMapMarker::StaticMapMarker (const KABC::Address& address, const QChar& label, const MarkerSize size, const QColor& color):
+    d(new StaticMapMarkerPrivate)
 {
     QList<KABC::Address> list;
     list << address;
-    StaticMapMarker(list, label, size, color);
+    d->locationType = KABCAddress;
+    d->locationsAddress = list;
+    d->label = label;
+    d->size = size;
+    d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker (const KABC::Geo& address, const QChar& label, const MarkerSize size, const QColor& color)
+StaticMapMarker::StaticMapMarker (const KABC::Geo& address, const QChar& label, const MarkerSize size, const QColor& color):
+    d(new StaticMapMarkerPrivate)
 {
     QList<KABC::Geo> list;
     list << address;
-    StaticMapMarker(list, label, size, color);
+    d->locationType = KABCGeo;
+    d->locationsGeo = list;
+    d->label = label;
+    d->size = size;
+    d->color = color;
 }
 
 StaticMapMarker::StaticMapMarker(const QStringList & locations, const QChar& label,

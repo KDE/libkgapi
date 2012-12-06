@@ -65,7 +65,7 @@ QUrl Contacts::ScopeUrl(QLatin1String("https://www.google.com/m8/feeds/"));
 static const QString serviceNameStr = QLatin1String("KGAPI::Services::Contacts");
 
 
-const QString& Contacts::serviceName()
+QString Contacts::serviceName()
 {
     if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
         qRegisterMetaType< KGAPI::Services::Contacts >(serviceNameStr.toLatin1().constData());
@@ -214,7 +214,7 @@ QList< KGAPI::Object* > Contacts::parseXMLFeed(const QByteArray& xmlFeed, FeedDa
     return QList< KGAPI::Object* >();
 }
 
-const QUrl& Contacts::scopeUrl() const
+QUrl Contacts::scopeUrl() const
 {
     return Contacts::ScopeUrl;
 }

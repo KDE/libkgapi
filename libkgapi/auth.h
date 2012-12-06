@@ -107,14 +107,14 @@ class LIBKGAPI_EXPORT Auth: public QObject
      *
      * @return Returns client's API key.
      */
-    const QString &apiKey() const;
+    QString apiKey() const;
 
     /**
      * Returns API secret key set during module initialization.
      *
      * @return Returns client's secret API key.
      */
-    const QString &apiSecret() const;
+    QString apiSecret() const;
 
     /**
      * Retrieves \p account from KWallet.

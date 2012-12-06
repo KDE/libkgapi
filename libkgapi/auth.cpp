@@ -86,12 +86,12 @@ QString Auth::kwalletFolder() const
     return d_func()->kwalletFolder;
 }
 
-const QString& Auth::apiKey() const
+QString Auth::apiKey() const
 {
     return d_func()->apiKey;
 }
 
-const QString& Auth::apiSecret() const
+QString Auth::apiSecret() const
 {
     return d_func()->apiSecret;
 }

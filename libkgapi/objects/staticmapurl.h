@@ -27,8 +27,8 @@
 #include <QUrl>
 #include <QSize>
 
-#include <KABC/Address>
-#include <KABC/Geo>
+#include <KDE/KABC/Address>
+#include <KDE/KABC/Geo>
 
 namespace KGAPI
 {
@@ -40,7 +40,7 @@ class StaticMapUrlPrivate;
 
 class LIBKGAPI_EXPORT StaticMapUrl
 {
-public:
+  public:
 
     enum LocationType {
         Undefined = -1,
@@ -64,7 +64,7 @@ public:
 	Hybrid
     };
 
-    enum Scale { 
+    enum Scale {
 	Normal = 1,
 	TwiceBigger = 2
     };
@@ -327,8 +327,8 @@ public:
      */
     QUrl url() const;
 
-private:
-    StaticMapUrlPrivate * d;
+  private:
+    StaticMapUrlPrivate * const d;
 
 };
 

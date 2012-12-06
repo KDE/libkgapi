@@ -73,7 +73,7 @@ void Account::setAccountName(const QString& accountName)
     d->accName = accountName;
 }
 
-const QString &Account::accessToken() const
+QString Account::accessToken() const
 {
     return d->accessToken;
 }
@@ -83,7 +83,7 @@ void Account::setAccessToken(const QString &accessToken)
     d->accessToken = accessToken;
 }
 
-const QString &Account::refreshToken() const
+QString Account::refreshToken() const
 {
     return d->refreshToken;
 }
@@ -93,7 +93,7 @@ void Account::setRefreshToken(const QString &refreshToken)
     d->refreshToken = refreshToken;
 }
 
-const QList< QUrl > &Account::scopes() const
+QList< QUrl > Account::scopes() const
 {
     return d->scopes;
 }

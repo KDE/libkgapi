@@ -23,8 +23,8 @@
 #include <libkgapi/libkgapi_export.h>
 #include <QColor>
 
-#include <KABC/Address>
-#include <KABC/Geo>
+#include <KDE/KABC/Address>
+#include <KDE/KABC/Geo>
 
 namespace KGAPI
 {
@@ -40,7 +40,7 @@ class StaticMapPathPrivate;
  */
 class LIBKGAPI_EXPORT StaticMapPath
 {
-public:
+  public:
 
     enum LocationType {
 	Undefined = -1,
@@ -52,7 +52,7 @@ public:
     /**
      * Constructs an empty path
      */
-    StaticMapPath();
+    explicit StaticMapPath();
 
     /**
      * Constructs a new path
@@ -62,8 +62,8 @@ public:
      * @param color The color of the path
      * @param fillColor The color of filled area
      */
-    StaticMapPath(const QStringList & locations, const quint8 weight = 5,
-                  const QColor & color = Qt::blue, const QColor & fillColor = QColor());
+    explicit StaticMapPath(const QStringList & locations, const quint8 weight = 5,
+                           const QColor & color = Qt::blue, const QColor & fillColor = QColor());
 
     /**
      * Constructs a new path
@@ -73,8 +73,8 @@ public:
      * @param color Color of the path
      * @param fillColor The color of filled area
      */
-    StaticMapPath(const QList<KABC::Address> & locations, const quint8 weight = 5,
-                  const QColor & color = Qt::blue, const QColor & fillColor = QColor());
+    explicit StaticMapPath(const QList<KABC::Address> & locations, const quint8 weight = 5,
+                           const QColor & color = Qt::blue, const QColor & fillColor = QColor());
 
     /**
      * Constructs a new path
@@ -84,8 +84,8 @@ public:
      * @param color The color of the path
      * @param fillColor The color of filled area
      */
-    StaticMapPath(const QList<KABC::Geo> & locations, const quint8 weight = 5,
-                  const QColor & color = Qt::blue, const QColor & fillColor = QColor());
+    explicit StaticMapPath(const QList<KABC::Geo> & locations, const quint8 weight = 5,
+                           const QColor & color = Qt::blue, const QColor & fillColor = QColor());
 
     StaticMapPath(const StaticMapPath &other);
 
@@ -177,8 +177,8 @@ public:
      */
     void setWeight(const quint8 weight);
 
-private:
-    StaticMapPathPrivate* d;
+  private:
+    StaticMapPathPrivate * const d;
 };
 
 } /* namespace Objects */

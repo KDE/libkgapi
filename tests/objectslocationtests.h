@@ -1,6 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) 2012  Jan Grulich <email>
+    Copyright (C) 2012  Jan Grulich <grulja@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +25,7 @@
 class ObjectsLocationTests : public QObject
 {
     Q_OBJECT
-    
+
     private Q_SLOTS:
         void testLocation_data();
         void testLocation();

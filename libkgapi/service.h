@@ -82,7 +82,7 @@ class LIBKGAPI_EXPORT Service
     /**
      * Returns service scope URL.
      */
-    virtual const QUrl& scopeUrl() const = 0;
+    virtual QUrl scopeUrl() const = 0;
 
 };
 

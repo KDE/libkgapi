@@ -22,10 +22,10 @@
 #include <libkgapi/libkgapi_export.h>
 
 #ifdef WITH_KCAL
-#include <KCal/IncidenceBase>
+#include <KDE/KCal/IncidenceBase>
 using namespace KCal;
 #else
-#include <KCalCore/IncidenceBase>
+#include <KDE/KCalCore/IncidenceBase>
 using namespace KCalCore;
 #endif
 
@@ -50,7 +50,7 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
     /**
      * Implementation of KGAPI::Service::name().
      */
-    static const QString& serviceName();
+    static QString serviceName();
 
     /**
      * Implementation of KGAPI::Service::JSONToObject().
@@ -171,7 +171,7 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
      *
      * https://www.google.com/calendar/feeds/
      */
-    const QUrl& scopeUrl() const;
+    QUrl scopeUrl() const;
 
     /**
      * Returns whether service supports reading data in JSON format.
@@ -192,8 +192,7 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
     static bool supportsJSONWrite(QString* urlParam);
 
   private:
-    CalendarPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(Calendar);
+    //krazy:exclude=dpointer
 };
 
 } // namespace Services

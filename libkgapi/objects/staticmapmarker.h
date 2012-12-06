@@ -24,8 +24,8 @@
 
 #include <QColor>
 
-#include <KABC/Address>
-#include <KABC/Geo>
+#include <KDE/KABC/Address>
+#include <KDE/KABC/Geo>
 
 namespace KGAPI
 {
@@ -41,7 +41,7 @@ class StaticMapMarkerPrivate;
 class LIBKGAPI_EXPORT StaticMapMarker
 {
 
-public:
+  public:
 
     enum MarkerSize {
         Tiny,
@@ -71,8 +71,8 @@ public:
      * @param size Specifies the size of marker from the set {tiny, small, mid, normal}.
      * @param color Color of marker
      */
-    StaticMapMarker(const QString & address, const QChar & label = QChar(),
-                    const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const QString & address, const QChar & label = QChar(),
+                             const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
      * Constructs a new marker
@@ -83,8 +83,8 @@ public:
      * @param size Specifies the size of marker from the set {tiny, small, mid, normal}
      * @param color Color of marker
      */
-    StaticMapMarker(const KABC::Address & address, const QChar & label = QChar(),
-                    const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const KABC::Address & address, const QChar & label = QChar(),
+                             const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
      * Constructs a new marker
@@ -95,8 +95,8 @@ public:
      * @param size Specifies the size of marker from the set {tiny, small, mid, normal}
      * @param color Color of marker
      */
-    StaticMapMarker(const KABC::Geo & address, const QChar & label = QChar(),
-                   const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const KABC::Geo & address, const QChar & label = QChar(),
+                             const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
      * Constructs a new marker
@@ -107,8 +107,8 @@ public:
      * @param size Specifies the size of marker from the set {tiny, small, mid, normal}
      * @param color Color of marker
      */
-    StaticMapMarker(const QStringList & locations, const QChar & label = QChar(),
-                    const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const QStringList & locations, const QChar & label = QChar(),
+                             const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
      * Constructs a new marker
@@ -119,8 +119,8 @@ public:
      * @param size Specifies the size of marker from the set {tiny, small, mid, normal}
      * @param color Color of marker
      */
-    StaticMapMarker(const QList<KABC::Address> & locations, const QChar & label = QChar(),
-                    const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const QList<KABC::Address> & locations, const QChar & label = QChar(),
+                             const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
      * Constructs a new marker
@@ -131,8 +131,8 @@ public:
      * @param size Specifies the size of marker from the set {tiny, small, mid, normal}
      * @param color Color of marker
      */
-    StaticMapMarker(const QList<KABC::Geo> & locations, const QChar & label = QChar(),
-                    const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const QList<KABC::Geo> & locations, const QChar & label = QChar(),
+                             const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     StaticMapMarker(const StaticMapMarker & other);
 
@@ -247,11 +247,11 @@ public:
      */
     void setSize(const MarkerSize size);
 
-private:
-    StaticMapMarkerPrivate* d;
+  private:
+    StaticMapMarkerPrivate * const d;
 
 };
-    
+
 } /* namespace Objects */
 
 } /* namespace KGAPI */

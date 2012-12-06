@@ -42,7 +42,7 @@ void Object::setEtag(const QString& etag)
     d->etag = etag;
 }
 
-const QString& Object::etag() const
+QString Object::etag() const
 {
     return d->etag;
 }

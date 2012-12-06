@@ -16,44 +16,27 @@
 */
 
 #include "task.h"
-
-#include <QtCore/QSharedData>
-
-namespace KGAPI
-{
-
-namespace Objects
-{
-
-class TaskData: public QSharedData
-{
-
-  public:
-    TaskData();
-    TaskData (const TaskData&);
-
-    bool deleted;
-};
-
-}
-
-}
+#include "task_p.h"
 
 using namespace KGAPI::Objects;
 
-TaskData::TaskData():
-    QSharedData(),
+TaskPrivate::TaskPrivate():
     deleted(false)
-{ }
+{
 
-TaskData::TaskData (const TaskData &other):
-    QSharedData(other),
+}
+
+TaskPrivate::TaskPrivate(const TaskPrivate &other):
     deleted(other.deleted)
-{ }
+{
+
+}
 
 Task::Task():
-    d(new TaskData)
-{ }
+    d(new TaskPrivate)
+{
+
+}
 
 Task::Task(const Task& other):
     KGAPI::Object(other),
@@ -62,8 +45,10 @@ Task::Task(const Task& other):
 #else
     KCalCore::Todo(other),
 #endif
-    d(other.d)
-{ }
+    d(new TaskPrivate(*(other.d)))
+{
+
+}
 
 #ifdef WITH_KCAL
 Task::Task(const KCal::Todo &other):
@@ -72,11 +57,15 @@ Task::Task(const KCal::Todo &other):
 Task::Task(const KCalCore::Todo &other):
     KCalCore::Todo(other),
 #endif
-    d(new TaskData)
-{ }
+    d(new TaskPrivate)
+{
+
+}
 
 Task::~Task()
-{ }
+{
+    delete d;
+}
 
 void Task::setDeleted(const bool deleted)
 {

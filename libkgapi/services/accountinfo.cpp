@@ -36,7 +36,7 @@ QString AccountInfo::protocolVersion() const
     return QLatin1String("2");
 }
 
-const QUrl& AccountInfo::scopeUrl() const
+QUrl AccountInfo::scopeUrl() const
 {
     return AccountInfo::ScopeUrl;
 }
@@ -46,7 +46,7 @@ QUrl AccountInfo::fetchUrl()
     return QUrl(QLatin1String("https://www.googleapis.com/oauth2/v1/userinfo"));
 }
 
-const QString& AccountInfo::serviceName()
+QString AccountInfo::serviceName()
 {
     if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
         qRegisterMetaType< KGAPI::Services::AccountInfo >(serviceNameStr.toLatin1().constData());

@@ -171,10 +171,10 @@ class LIBKGAPI_EXPORT AccountInfo : public KGAPI::Object
     /**
      * Returns URL of user's photo.
      */
-    const QString& photoUrl() const;
+    QString photoUrl() const;
 
   private:
-    AccountInfoPrivate* d;
+    AccountInfoPrivate * const d;
 
 };
 

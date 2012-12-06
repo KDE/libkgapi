@@ -66,13 +66,13 @@ class LIBKGAPI_EXPORT Reply: public QNetworkReply
      * Returns name of service this reply came from. Note that
      * the service name relates to a KGAPI::Service subclasses.
      */
-    const QString& serviceName() const;
+    QString serviceName() const;
 
     /**
      * Returns list of KGAPI::Object objects representing data
      * received from the remote service.
      */
-    const QList< KGAPI::Object* >& replyData() const;
+    QList< KGAPI::Object* > replyData() const;
 
     /**
      * Returns the original request passed to KGAPI::AccessManager.

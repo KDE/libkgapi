@@ -21,7 +21,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 
-#include <KDateTime>
+#include <KDE/KDateTime>
 
 #include <libkgapi/common.h>
 #include <libkgapi/libkgapi_export.h>
