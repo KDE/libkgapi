@@ -156,7 +156,7 @@ class LIBKGAPI_EXPORT Contacts: public KGAPI::Service
      * Returns URL for KGAPI::Request::Update requests.
      *
      * @param user User (user@gmail.com)) in whose addressbook to look
-     * @param groupID ID of group to update.
+     * @param groupId ID of group to update.
      */
     static QUrl updateGroupUrl(const QString &user, const QString &groupId);
 
@@ -164,7 +164,7 @@ class LIBKGAPI_EXPORT Contacts: public KGAPI::Service
      * Returns URL for KGAPI::Request::Remove requests.
      *
      * @param user User (user@gmail.com) in whose addressbook to look
-     * @param groupID ID of group to delete
+     * @param groupId ID of group to delete
      */
     static QUrl removeGroupUrl(const QString &user, const QString &groupId);
 

@@ -73,7 +73,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="locationType">
+        <widget class="KComboBox" name="locationType">
          <item>
           <property name="text">
            <string>Classic string</string>
@@ -94,7 +94,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QLineEdit" name="locationString">
+      <widget class="KLineEdit" name="locationString">
        <property name="inputMask">
         <string/>
        </property>
@@ -106,10 +106,10 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QLineEdit" name="locationCity"/>
+        <widget class="KLineEdit" name="locationCity"/>
        </item>
        <item>
-        <widget class="QLineEdit" name="locationStreet"/>
+        <widget class="KLineEdit" name="locationStreet"/>
        </item>
        <item>
         <widget class="QSpinBox" name="locationNumber"/>
@@ -182,7 +182,7 @@
           </size>
          </property>
          <property name="text">
-          <string>x</string>
+          <string comment="X axis">x</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -209,7 +209,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="scale">
+      <widget class="KComboBox" name="scale">
        <item>
         <property name="text">
          <string>1</string>
@@ -230,7 +230,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="format">
+      <widget class="KComboBox" name="format">
        <item>
         <property name="text">
          <string>png</string>
@@ -266,7 +266,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="map">
+      <widget class="KComboBox" name="map">
        <item>
         <property name="text">
          <string>roadmap</string>
@@ -297,18 +297,18 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="sensor">
+      <widget class="KComboBox" name="sensor">
        <property name="currentIndex">
         <number>0</number>
        </property>
        <item>
         <property name="text">
-         <string>false</string>
+         <string comment="A boolean value">false</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>true</string>
+         <string comment="A boolean value">true</string>
         </property>
        </item>
       </widget>
@@ -335,7 +335,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <widget class="QLineEdit" name="markerLabel">
+        <widget class="KLineEdit" name="markerLabel">
          <property name="maximumSize">
           <size>
            <width>30</width>
@@ -348,28 +348,28 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="markerSize">
+        <widget class="KComboBox" name="markerSize">
          <property name="currentIndex">
           <number>3</number>
          </property>
          <item>
           <property name="text">
-           <string>Tiny</string>
+           <string comment="Marker size">Tiny</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Small</string>
+           <string comment="Marker size">Small</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Middle</string>
+           <string comment="Marker size">Middle</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Normal</string>
+           <string comment="Marker size">Normal</string>
           </property>
          </item>
         </widget>
@@ -388,7 +388,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QLineEdit" name="markerLocation"/>
+      <widget class="KLineEdit" name="markerLocation"/>
      </item>
      <item>
       <widget class="QPushButton" name="addMarker">
@@ -423,7 +423,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string comment="Action that quits the application">Quit</string>
    </property>
   </action>
  </widget>
@@ -432,6 +432,16 @@
    <class>KColorButton</class>
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -104,7 +104,8 @@ class LIBKGAPI_EXPORT Latitude : public KGAPI::Service
     /**
      * Returns URL for KGAPI::Request::FetchAll requests.
      *
-     * @param maxResult Maximum amount of results to return
+     * @param granularity Precision of the coordinates
+     * @param maxResults Maximum amount of results to return
      * @param maxTime Maximum timestamp since epoch (in ms)
      * @param minTime Minimum timestamp since epoch (in ms)
      */

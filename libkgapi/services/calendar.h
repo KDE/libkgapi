@@ -102,7 +102,6 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
     /**
      * Returns URL for updating existing calendar.
      *
-     * @param user "default" or user@gmail.com
      * @param calendarID ID of calendar to modify
      */
     static QUrl updateCalendarUrl(const QString &calendarID);

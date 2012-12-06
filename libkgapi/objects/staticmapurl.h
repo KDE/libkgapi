@@ -78,8 +78,7 @@ class LIBKGAPI_EXPORT StaticMapUrl
      * Constructs a new StaticMapUrl
      *
      * @param location Location of map center in QString
-     * @param width Width of map image
-     * @param height Height of map image
+     * @param size Requested size of the map image
      * @param zoom Zoom level of map
      * @param sensor Sensor specifies whether the application requesting the static map is
      * using a sensor to determine the user's location.
@@ -90,8 +89,7 @@ class LIBKGAPI_EXPORT StaticMapUrl
      * Constructs a new StaticMapUrl
      *
      * @param address Location of map center in KABC::Address
-     * @param width Width of map image
-     * @param height Height of map image
+     * @param size Requested size of the map image
      * @param zoom Zoom level of map
      * @param sensor Sensor specifies whether the application requesting the static map is
      * using a sensor to determine the user's location.
@@ -102,8 +100,7 @@ class LIBKGAPI_EXPORT StaticMapUrl
      * Constructs a new StaticMapUrl
      *
      * @param geo Location of map center in KABC::Geo
-     * @param width Width of map image
-     * @param height Height of map image
+     * @param size Requested size of the map image
      * @param zoom Zoom level of map
      * @param sensor Sensor specifies whether the application requesting the static map is
      * using a sensor to determine the user's location.
@@ -219,7 +216,8 @@ class LIBKGAPI_EXPORT StaticMapUrl
 
     /**
      * Adds paths to map
-     * @param path Paths (optional) which will be visible in map
+     *
+     * @param paths Paths (optional) which will be visible in map
      */
     void setPaths(QList<StaticMapPath> & paths);
 

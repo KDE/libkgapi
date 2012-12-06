@@ -100,7 +100,7 @@ class LIBKGAPI_EXPORT ContactsGroup : public KGAPI::Object
     /**
      * Sets whether this group is a system group.
      *
-     * The system groups (Family, Co-workers, etc.)are present in all
+     * The system groups (Family, Co-workers, etc.) are present in all
      * addressbooks.
      *
      * Default value is false.
@@ -110,7 +110,7 @@ class LIBKGAPI_EXPORT ContactsGroup : public KGAPI::Object
     void setIsSystemGroup(const bool isSystemGroup);
 
     /**
-     * Returns whether the group is a system group..
+     * Returns whether the group is a system group.
      */
     bool isSystemGroup() const;
 

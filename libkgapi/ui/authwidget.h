@@ -77,7 +77,7 @@ class LIBKGAPI_EXPORT AuthWidget : public QWidget
       * called so if you want to change or remove it call \sa setUsername again
       * with empty string or \sa clearCredentials.
       *
-      * @param QString username to use
+      * @param username username to use
       */
     void setUsername(const QString &username);
 
@@ -91,7 +91,7 @@ class LIBKGAPI_EXPORT AuthWidget : public QWidget
      * called so if you want to change or remove it call \sa setPassword again
      * with empty string or \sa clearCredentials.
      *
-     * @param QString password to use
+     * @param password password to use
      */
     void setPassword(const QString &password);
 

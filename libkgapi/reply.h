@@ -45,6 +45,7 @@ class LIBKGAPI_EXPORT Reply: public QNetworkReply
      * @param serviceName Name of service this reply relates to.
      * @param replyData List of objects contained in this reply
      * @param request Original request this is a reply to
+     * @param rawData Raw content of the reply
      */
     Reply(const KGAPI::Request::RequestType requestType, const KGAPI::Error error,
           const QString &serviceName, const QList< KGAPI::Object* > &replyData,
