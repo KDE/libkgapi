@@ -1,8 +1,8 @@
 project(libkgapi)
 set(KGAPI_VERSION_MAJOR 0)
 set(KGAPI_VERSION_MINOR 4)
-set(KGAPI_VERSION_RELEASE 3)
-set(KGAPI_VERSION 0.4.3)
+set(KGAPI_VERSION_RELEASE 4)
+set(KGAPI_VERSION 0.4.4)
 
 cmake_minimum_required(VERSION 2.8)
 
