@@ -335,7 +335,7 @@ void ObjectStaticMapUrlTests::testMarkersAddress()
 
     url.setSize(size);
     url.setScale(scale);
-    url.setMarker(markerlocations);
+    url.setMarker(StaticMapMarker(markerlocations));
     url.setSensorUsed(sensor);
 
     QCOMPARE(url.url().toString(), result);
@@ -373,7 +373,7 @@ StaticMapUrl url;
 
     url.setSize(size);
     url.setScale(scale);
-    url.setMarker(markerlocations);
+    url.setMarker(StaticMapMarker(markerlocations));
     url.setSensorUsed(sensor);
 
     QCOMPARE(url.url().toString(), result);
@@ -485,7 +485,7 @@ void ObjectStaticMapUrlTests::testPathAddress()
 
     url.setSize(size);
     url.setScale(scale);
-    url.setPath(pathlocations);
+    url.setPath(StaticMapPath(pathlocations));
     url.setSensorUsed(sensor);
 
     QCOMPARE(url.url().toString(), result);
@@ -523,7 +523,7 @@ void ObjectStaticMapUrlTests::testPathGeo()
 
     url.setSize(size);
     url.setScale(scale);
-    url.setPath(pathlocations);
+    url.setPath(StaticMapPath(pathlocations));
     url.setSensorUsed(sensor);
 
     QCOMPARE(url.url().toString(), result);
