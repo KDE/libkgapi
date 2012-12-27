@@ -38,18 +38,16 @@ public:
     StaticMapMarkerPrivate(const StaticMapMarkerPrivate &other);
     ~StaticMapMarkerPrivate();
 
-    KGAPI::Objects::StaticMapMarker::LocationType locationType;
+    void init(const StaticMapMarkerPrivate &other);
 
+    KGAPI::Objects::StaticMapMarker::LocationType locationType;
     KGAPI::Objects::StaticMapMarker::MarkerSize size;
 
     QColor color;
-
     QChar label;
 
     QStringList locationsString;
-
     QList<KABC::Address> locationsAddress;
-
     QList<KABC::Geo> locationsGeo;
 };
 

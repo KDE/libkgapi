@@ -39,18 +39,16 @@ public:
     StaticMapPathPrivate(const StaticMapPathPrivate &other);
     ~StaticMapPathPrivate();
 
+    void init(const StaticMapPathPrivate &other);
+
     KGAPI::Objects::StaticMapPath::LocationType locationType;
 
     QColor color;
-
     QColor fillColor;
-
     quint8 weight;
 
     QStringList locationsString;
-
     QList<KABC::Address> locationsAddress;
-
     QList<KABC::Geo> locationsGeo;
 };
 

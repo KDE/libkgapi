@@ -177,6 +177,11 @@ class LIBKGAPI_EXPORT StaticMapPath
      */
     void setWeight(const quint8 weight);
 
+    /**
+     * Assignment operator
+     */
+    StaticMapPath& operator=(const StaticMapPath &other);
+
   private:
     StaticMapPathPrivate * const d;
 };

@@ -28,18 +28,24 @@ StaticMapPathPrivate::StaticMapPathPrivate():
     weight(5)
 { }
 
-StaticMapPathPrivate::StaticMapPathPrivate(const StaticMapPathPrivate & other):
-    locationType(other.locationType),
-    color(other.color),
-    fillColor(other.fillColor),
-    weight(other.weight),
-    locationsString(other.locationsString),
-    locationsAddress(other.locationsAddress),
-    locationsGeo(other.locationsGeo)
-{ }
+StaticMapPathPrivate::StaticMapPathPrivate(const StaticMapPathPrivate & other)
+{
+    init(other);
+}
 
 StaticMapPathPrivate::~StaticMapPathPrivate()
 { }
+
+void StaticMapPathPrivate::init(const StaticMapPathPrivate &other)
+{
+    locationType = other.locationType;
+    color = other.color;
+    fillColor = other.fillColor;
+    weight = other.weight;
+    locationsString = other.locationsString;
+    locationsAddress = other.locationsAddress;
+    locationsGeo = other.locationsGeo;
+}
 
 StaticMapPath::StaticMapPath():
     d(new StaticMapPathPrivate)
@@ -207,4 +213,14 @@ quint8 StaticMapPath::weight() const
 void StaticMapPath::setWeight(const quint8 weight)
 {
     d->weight = weight;
+}
+
+StaticMapPath& StaticMapPath::operator=(const StaticMapPath& other)
+{
+    if (&other == this) {
+        return *this;
+    }
+
+    d->init(*(other.d));
+    return *this;
 }

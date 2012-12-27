@@ -28,18 +28,24 @@ StaticMapMarkerPrivate::StaticMapMarkerPrivate():
     color(Qt::red)
 { }
 
-StaticMapMarkerPrivate::StaticMapMarkerPrivate(const StaticMapMarkerPrivate & other):
-    locationType(other.locationType),
-    size(other.size),
-    color(other.color),
-    label(other.label),
-    locationsString(other.locationsString),
-    locationsAddress(other.locationsAddress),
-    locationsGeo(other.locationsGeo)
-{ }
+StaticMapMarkerPrivate::StaticMapMarkerPrivate(const StaticMapMarkerPrivate & other)
+{
+    init(other);
+}
 
 StaticMapMarkerPrivate::~StaticMapMarkerPrivate()
 { }
+
+void StaticMapMarkerPrivate::init(const StaticMapMarkerPrivate &other)
+{
+    locationType = other.locationType;
+    size = other.size;
+    color = other.color;
+    label = other.label;
+    locationsString = other.locationsString;
+    locationsAddress = other.locationsAddress;
+    locationsGeo = other.locationsGeo;
+}
 
 StaticMapMarker::StaticMapMarker():
     d(new StaticMapMarkerPrivate)
@@ -282,4 +288,14 @@ QString StaticMapMarker::toString() const
 
     return ret;
 
+}
+
+StaticMapMarker& StaticMapMarker::operator=(const StaticMapMarker& other)
+{
+    if (&other == this) {
+        return *this;
+    }
+
+    d->init(*(other.d));
+    return *this;
 }

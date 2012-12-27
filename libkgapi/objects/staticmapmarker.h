@@ -247,6 +247,12 @@ class LIBKGAPI_EXPORT StaticMapMarker
      */
     void setSize(const MarkerSize size);
 
+
+    /**
+     * Assignment operator
+     */
+    StaticMapMarker& operator=(const StaticMapMarker &other);
+
   private:
     StaticMapMarkerPrivate * const d;
 
