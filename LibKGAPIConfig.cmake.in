@@ -18,8 +18,10 @@ set(LibKGAPI_VERSION ${LibKGAPI_VERSION_MAJOR}.${LibKGAPI_VERSION_MINOR}.${LibKG
 set(LibKGAPI_INSTALL_PREFIX "${rootDir}")
 set(LibKGAPI_INCLUDE_DIR "@INCLUDE_INSTALL_DIR@")
 
-# import the exported targets
-include(${_currentDir}/LibKGAPITargetsWithPrefix.cmake)
+# import the exported targets (only once)
+if(NOT TARGET kgapi)
+  include(${_currentDir}/LibKGAPITargetsWithPrefix.cmake)
+endif()
 
 # Set the library variable
 set(LibKGAPI_LIBRARY kgapi)
