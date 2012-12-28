@@ -51,9 +51,16 @@ class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
      * Constructs a new contact.
      */
     Contact();
-    explicit Contact(const Contact &other);
-    Contact(const KABC::Addressee &other);
+    explicit Contact(const KABC::Addressee &other);
 
+    /**
+     * Copy constructor
+     */
+    Contact(const Contact &other);
+
+    /**
+     * Destructor
+     */
     ~Contact();
 
     /**
