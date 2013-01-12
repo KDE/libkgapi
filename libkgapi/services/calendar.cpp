@@ -696,7 +696,7 @@ QVariantMap Services::CalendarPrivate::eventToJSON(KGAPI::Object* event)
         QVariantMap att;
 
 	att.insert(QLatin1String("displayName"), attee->name());
-	att.insert(QLatin1String("emali"), attee->email());
+	att.insert(QLatin1String("email"), attee->email());
 
         if (attee->status() == Attendee::Accepted) {
 	    att.insert(QLatin1String("responseStatus"), QLatin1String("accepted"));
