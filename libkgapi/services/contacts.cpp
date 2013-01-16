@@ -651,7 +651,7 @@ KGAPI::Object* ContactsPrivate::JSONToContact(const QVariantMap &data)
     const QVariantList userDefined = data.value(QLatin1String("gContact$userDefinedField")).toList();
     Q_FOREACH(const QVariant & u, userDefined) {
         const QVariantMap field = u.toMap();
-        object->insertCustom(QLatin1String("GCALENDAR"),
+        object->insertCustom(QLatin1String("KADDRESSBOOK"),
 			     field.value(QLatin1String("key")).toString(),
 			     field.value(QLatin1String("value")).toString());
     }
@@ -867,8 +867,11 @@ QByteArray ContactsPrivate::contactToXML(const KGAPI::Object* object)
     const QStringList customs = contact->customs();
     const QString defined_str = QLatin1String("<gContact:userDefinedField key=\"%1\" value=\"%2\" />");
     Q_FOREACH(const QString &customStr, customs) {
-        const QString key = customStr.left(customStr.indexOf(QLatin1Char(':')));
+        QString key = customStr.left(customStr.indexOf(QLatin1Char(':')));
         if (!parsedCustoms.contains(key)) {
+            if (key.startsWith(QLatin1String("KADDRESSBOOK-"))) {
+                key = key.remove(QLatin1String("KADDRESSBOOK-"));
+            }
             const QString value = customStr.mid(customStr.indexOf(QLatin1Char(':')) + 1);
             output.append(defined_str.arg(Qt::escape(key), Qt::escape(value)).toUtf8());
         }
@@ -1151,7 +1154,7 @@ KGAPI::Object* ContactsPrivate::XMLToContact(const QDomDocument &doc)
 
         /* User-defined tags */
         if (e.tagName() == QLatin1String("gContact:userDefinedField")) {
-            contact->insertCustom(QLatin1String("GCALENDAR"),
+            contact->insertCustom(QLatin1String("KADDRESSBOOK"),
 				  e.attribute(QLatin1String("key"), QString()),
 				  e.attribute(QLatin1String("value"), QString()));
             continue;
