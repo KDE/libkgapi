@@ -689,7 +689,7 @@ QByteArray ContactsPrivate::contactToXML(const KGAPI::Object* object)
         output.append("<gd:familyName>").append(Qt::escape(contact->familyName()).toUtf8()).append("</gd:familyName>");
     }
     if (!contact->assembledName().isEmpty()) {
-        output.append("<gd:fullName>").append(Qt::escape(contact->formattedName()).toUtf8()).append("</gd:fullName>");
+        output.append("<gd:fullName>").append(Qt::escape(contact->assembledName()).toUtf8()).append("</gd:fullName>");
     }
     if (!contact->additionalName().isEmpty()) {
         output.append("<gd:additionalName>").append(Qt::escape(contact->additionalName()).toUtf8()).append("</gd:additionalName>");
