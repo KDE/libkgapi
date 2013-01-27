@@ -18,8 +18,8 @@
 #include "authwidget.h"
 #include "authwidget_p.h"
 #include "auth.h"
+#include "debug.h"
 
-#include <KDebug>
 #include <KUrl>
 
 using namespace KGAPI;
@@ -104,9 +104,7 @@ void AuthWidget::authenticate()
     url.addQueryItem(QLatin1String("scope"), scopes.join(QLatin1String(" ")));
     url.addQueryItem(QLatin1String("response_type"), QLatin1String("code"));
 
-#ifdef DEBUG_RAWDATA
-    kDebug() << "Requesting new token:" << url;
-#endif
+    KGAPIDebugRawData() << "Requesting new token:" << url;
 
     d->webview->setVisible(true);
     if (d->showProgressBar) {

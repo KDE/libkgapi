@@ -21,8 +21,6 @@
 #include <QtCore/QMetaType>
 #include <QtCore/qglobal.h>
 
-#include <KDebug>
-
 namespace KGAPI
 {
 

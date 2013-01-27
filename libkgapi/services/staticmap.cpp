@@ -18,10 +18,10 @@
 
 
 #include "staticmap.h"
+#include "debug.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <kdebug.h>
 
 namespace KGAPI
 {
@@ -79,7 +79,7 @@ void StaticMap::fetchTile (StaticMapUrl& url)
 void StaticMap::replyFinished(QNetworkReply * reply)
 {
     if (reply->error() != QNetworkReply::NoError) {
-        kWarning() << "Error in" << reply->url() << ":" << reply->errorString();
+        KGAPIWarning() << "Error in" << reply->url() << ":" << reply->errorString();
         return;
     }
 

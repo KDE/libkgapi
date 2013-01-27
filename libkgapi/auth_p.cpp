@@ -16,11 +16,11 @@
 */
 
 #include "auth_p.h"
+#include "debug.h"
 
 #include <kwallet.h>
 #include <kwindowsystem.h>
 #include <kio/accessmanager.h>
-#include <kdebug.h>
 
 #include <qjson/parser.h>
 
@@ -198,9 +198,7 @@ void AuthPrivate::refreshTokens(KGAPI::Account::Ptr &account, bool autoSave)
     params.addQueryItem(QLatin1String("refresh_token"), account->refreshToken());
     params.addQueryItem(QLatin1String("grant_type"), QLatin1String("refresh_token"));
 
-#ifdef DEBUG_RAWDATA
-    kDebug() << "Requesting token refresh: " << params.encodedQuery();
-#endif
+    KGAPIDebugRawData() << "Requesting token refresh: " << params.encodedQuery();
 
     nam->post(request, params.encodedQuery());
 }
@@ -257,7 +255,7 @@ void AuthPrivate::kwalletFolderChanged (const QString& folder)
     if (folder != kwalletFolder)
         return;
 
-    kDebug() << "KWallet folder" << folder << "changed, checking if any of" << accountsCache.size()<< "cached accounts needs updating";
+    KGAPIDebug() << "KWallet folder" << folder << "changed, checking if any of" << accountsCache.size()<< "cached accounts needs updating";
 
     /* Go through all cached accounts (this assumes the cache will be usually
      * really small - 1 or 2 accounts) and update changed values.

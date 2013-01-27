@@ -39,6 +39,8 @@ ContactPrivate::ContactPrivate(const ContactPrivate &other):
 /***************************** CONTACT ************************************/
 
 Contact::Contact():
+    KGAPI::Object(),
+    KABC::Addressee(),
     d(new ContactPrivate)
 { }
 
@@ -54,7 +56,8 @@ Contact::Contact(const Contact &other):
 }
 
 Contact::Contact(const KABC::Addressee& other):
-    Addressee(other),
+    KGAPI::Object(),
+    KABC::Addressee(other),
     d(new ContactPrivate)
 {
     QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);

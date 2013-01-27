@@ -18,6 +18,7 @@
 #include "authwidget_p.h"
 #include "auth.h"
 #include "accessmanager.h"
+#include "debug.h"
 #include "request.h"
 #include "reply.h"
 #include "services/accountinfo.h"
@@ -30,7 +31,6 @@
 
 #include <KUrl>
 #include <KIO/AccessManager>
-#include <KDebug>
 
 #include <QStringBuilder>
 
@@ -89,6 +89,7 @@ void AuthWidgetPrivate::setProgress(AuthWidget::Progress progress)
 {
     Q_Q(AuthWidget);
 
+    KGAPIDebug() << progress;
     this->progress = progress;
     Q_EMIT q->progress(progress);
 }
@@ -111,6 +112,8 @@ void AuthWidgetPrivate::emitError(const KGAPI::Error errCode, const QString& msg
 
 void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
 {
+    KGAPIDebug() << url;
+
     /* Access token here - hide browser and tell user to wait until we
      * finish the authentication process ourselves */
     if (url.host() == QLatin1String("accounts.google.com") && url.path() == QLatin1String("/o/oauth2/approval")) {
@@ -125,6 +128,7 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
 void AuthWidgetPrivate::webviewFinished()
 {
     QUrl url = webview->url();
+    KGAPIDebug() << url;
 
     if (url.host() == QLatin1String("accounts.google.com") && url.path() == QLatin1String("/ServiceLogin")) {
         if (username.isEmpty() && password.isEmpty()) {
@@ -158,11 +162,15 @@ void AuthWidgetPrivate::webviewFinished()
             /* Skip the 'code=' string as well */
             token = title.mid (pos + 5);
         } else {
+            KGAPIDebug() << "Parsing token page failed. Title:" << title;
+            KGAPIDebugRawData() << webview->page()->mainFrame()->toHtml();
             emitError(KGAPI::AuthError, i18n("Parsing token page failed."));
             return;
         }
 
         if (token.isEmpty()) {
+            KGAPIDebug() << "Failed to obtain token.";
+            KGAPIDebugRawData() << webview->page()->mainFrame()->toHtml();
             emitError(KGAPI::AuthError, i18n("Failed to obtain token."));
             return;
         }
@@ -185,9 +193,7 @@ void AuthWidgetPrivate::webviewFinished()
         params.addQueryItem(QLatin1String("redirect_uri"), QLatin1String("urn:ietf:wg:oauth:2.0:oob"));
         params.addQueryItem(QLatin1String("grant_type"), QLatin1String("authorization_code"));
 
-#ifdef DEBUG_RAWDATA
-        kDebug() << "Authorizing token:" << params;
-#endif
+        KGAPIDebugRawData() << "Authorizing token:" << params;
 
         nam->post(request, params.encodedQuery());
     }
@@ -195,7 +201,11 @@ void AuthWidgetPrivate::webviewFinished()
 
 void AuthWidgetPrivate::networkRequestFinished(QNetworkReply* reply)
 {
+    const QByteArray data = reply->readAll();
+
     if (reply->error() != QNetworkReply::NoError) {
+        KGAPIDebug() << "Authentization failed:" << reply->errorString();
+        KGAPIDebugRawData() << data;
         emitError(KGAPI::AuthError, i18n("Authentization failed:\n%1", reply->errorString()));
         return;
     }
@@ -203,15 +213,15 @@ void AuthWidgetPrivate::networkRequestFinished(QNetworkReply* reply)
     QJson::Parser parser;
     bool ok;
 
-    QVariantMap parsed_data = parser.parse(reply->readAll(), &ok).toMap();
+    QVariantMap parsed_data = parser.parse(data, &ok).toMap();
     if (!ok) {
+        KGAPIDebug() << "Failed to parse server response.";
+        KGAPIDebugRawData() << data;
         emitError(KGAPI::AuthError, i18n("Failed to parse server response."));
         return;
     }
 
-#ifdef DEBUG_RAWDATA
-    kDebug() << "Retrieved new tokens pair:" << parsed_data;
-#endif
+    KGAPIDebugRawData() << "Retrieved new tokens pair:" << parsed_data;
 
     account->setAccessToken(parsed_data.value(QLatin1String("access_token")).toString());
     account->setRefreshToken(parsed_data.value(QLatin1String("refresh_token")).toString());
@@ -230,6 +240,7 @@ void AuthWidgetPrivate::networkRequestFinished(QNetworkReply* reply)
 				 account);
 
     gam->sendRequest(request);
+    KGAPIDebug() << "Requesting AccountInfo";
 }
 
 void AuthWidgetPrivate::accountInfoReceived(KGAPI::Reply* reply)
@@ -237,6 +248,8 @@ void AuthWidgetPrivate::accountInfoReceived(KGAPI::Reply* reply)
     Q_Q(AuthWidget);
 
     if (reply->error() != KGAPI::OK) {
+        KGAPIDebug() << "Error when retrieving AccountInfo:" << reply->errorString();
+        KGAPIDebugRawData() << reply->readAll();
         emitError(reply->error(), reply->errorString());
         return;
     }

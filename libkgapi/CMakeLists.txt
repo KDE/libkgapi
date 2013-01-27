@@ -4,6 +4,7 @@ set(libkgapi_SRCS
     account.cpp
     auth.cpp
     auth_p.cpp
+    debug.cpp
     fetchlistjob.cpp
     object.cpp
     request.cpp
