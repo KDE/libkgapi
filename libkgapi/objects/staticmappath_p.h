@@ -17,8 +17,8 @@
 */
 
 
-#ifndef STATICMAPPATH_P_H
-#define STATICMAPPATH_P_H
+#ifndef LIBKGAPI_OBJECTS_STATICMAPPATH_P_H
+#define LIBKGAPI_OBJECTS_STATICMAPPATH_P_H
 
 #include <QColor>
 #include <QSharedData>
@@ -56,4 +56,4 @@ public:
 
 } /* namespace KGAPI */
 
-#endif // STATICMAPPATH_P_H
+#endif // LIBKGAPI_OBJECTS_STATICMAPPATH_P_H

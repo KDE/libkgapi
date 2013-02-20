@@ -16,8 +16,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef STATICMAPURL_P_H
-#define STATICMAPURL_P_H
+#ifndef LIBKGAPI_OBJECTS_STATICMAPURL_P_H
+#define LIBKGAPI_OBJECTS_STATICMAPURL_P_H
 
 #include <QSize>
 #include <QSharedData>
@@ -83,5 +83,5 @@ public:
 
 } /* namespace KGAPI */
 
-#endif // STATICMAPURL_P_H
+#endif // LIBKGAPI_OBJECTS_STATICMAPURL_P_H
 

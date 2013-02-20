@@ -17,8 +17,8 @@
 */
 
 
-#ifndef STATICMAPMARKER_P_H
-#define STATICMAPMARKER_P_H
+#ifndef LIBKGAPI_OBJECTS_STATICMAPMARKER_P_H
+#define LIBKGAPI_OBJECTS_STATICMAPMARKER_P_H
 
 #include <QColor>
 
@@ -55,4 +55,4 @@ public:
 
 } /* namespace KGAPI */
 
-#endif // STATICMAPMARKER_P_H
+#endif // LIBKGAPI_OBJECTS_STATICMAPMARKER_P_H

@@ -17,8 +17,8 @@
 */
 
 
-#ifndef STATICMAPPATH_H
-#define STATICMAPPATH_H
+#ifndef LIBKGAPI_OBJECTS_STATICMAPPATH_H
+#define LIBKGAPI_OBJECTS_STATICMAPPATH_H
 
 #include <libkgapi/libkgapi_export.h>
 #include <QColor>

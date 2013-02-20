@@ -17,8 +17,8 @@
 */
 
 
-#ifndef STATICMAP_H
-#define STATICMAP_H
+#ifndef LIBKGAPI_SERVICES_STATICMAP_H
+#define LIBKGAPI_SERVICES_STATICMAP_H
 
 #include <libkgapi/objects/staticmapurl.h>
 #include <libkgapi/service.h>
@@ -66,4 +66,4 @@ private:
 
 } // namespace KGAPI
 
-#endif // STATICMAP_H
+#endif // LIBKGAPI_SERVICES_STATICMAP_H

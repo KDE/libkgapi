@@ -17,8 +17,8 @@
 */
 
 
-#ifndef STATICMAPMARKER_H
-#define STATICMAPMARKER_H
+#ifndef LIBKGAPI_OBJECTS_STATICMAPMARKER_H
+#define LIBKGAPI_OBJECTS_STATICMAPMARKER_H
 
 #include <libkgapi/libkgapi_export.h>
 
@@ -263,4 +263,4 @@ class LIBKGAPI_EXPORT StaticMapMarker
 } /* namespace KGAPI */
 
 
-#endif // STATICMAPMARKER_H
+#endif // LIBKGAPI_OBJECTS_STATICMAPMARKER_H
