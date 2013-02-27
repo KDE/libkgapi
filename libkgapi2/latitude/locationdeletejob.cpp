@@ -42,8 +42,8 @@ class LocationDeleteJob::Private
 };
 
 LocationDeleteJob::Private::Private():
-    finished(false),
-    locationId(0)
+    locationId(0),
+    finished(false)
 {
 }
 

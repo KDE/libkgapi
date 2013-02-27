@@ -111,6 +111,9 @@ void ContactDeleteJob::start()
 
 void ContactDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
+    Q_UNUSED(reply)
+    Q_UNUSED(rawData)
+
     d->processNextContact();
 }
 

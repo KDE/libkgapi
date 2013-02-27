@@ -71,6 +71,8 @@ StaticMap::~StaticMap()
 void StaticMap::fetchTile(const QUrl & url)
 {
     KGAPI2::StaticMapTileFetchJob *job = new KGAPI2::StaticMapTileFetchJob(url, this);
+    connect(job, SIGNAL(finished(KGAPI2::Job*)),
+            this, SLOT(_k_fetchTileFinished(KGAPI2::Job*)));
 }
 
 void StaticMap::fetchTile (StaticMapUrl& url)

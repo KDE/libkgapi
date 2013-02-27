@@ -127,7 +127,7 @@ QUrl Latitude::locationHistoryUrl(const Latitude::Granularity granularity, const
 
 QUrl Latitude::retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granularity)
 {
-    return KGAPI2::LatitudeService::retrieveLocationUrl(static_cast<KGAPI2::Latitude::Granularity>(granularity));
+    return KGAPI2::LatitudeService::retrieveLocationUrl(id, static_cast<KGAPI2::Latitude::Granularity>(granularity));
 }
 
 QUrl Latitude::insertLocationUrl()
