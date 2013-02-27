@@ -30,9 +30,7 @@ namespace KGAPI
 namespace Objects
 {
 
-class TaskListPrivate;
-
-class LIBKGAPI_EXPORT TaskList: public KGAPI::Object
+class LIBKGAPI_EXPORT_DEPRECATED TaskList: public KGAPI::Object
 {
   public:
     typedef QSharedPointer< TaskList > Ptr;
@@ -50,7 +48,9 @@ class LIBKGAPI_EXPORT TaskList: public KGAPI::Object
     QString title() const;
 
   private:
-    TaskListPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

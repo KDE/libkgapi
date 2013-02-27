@@ -34,7 +34,7 @@ namespace Ui
 
 class AccountsComboPrivate;
 
-class LIBKGAPI_EXPORT AccountsCombo : public KComboBox
+class LIBKGAPI_EXPORT_DEPRECATED AccountsCombo : public KComboBox
 {
     Q_OBJECT
 

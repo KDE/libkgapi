@@ -32,7 +32,7 @@ class Object;
 namespace Services
 {
 
-class LIBKGAPI_EXPORT Latitude : public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED Latitude : public KGAPI::Service
 {
   public:
     enum Granularity {

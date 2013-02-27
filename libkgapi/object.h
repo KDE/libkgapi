@@ -25,15 +25,13 @@
 namespace KGAPI
 {
 
-class ObjectPrivate;
-
 /**
  * Base class for Google objects.
  *
  * Google object represents data received
  * from a Google service.
  */
-class LIBKGAPI_EXPORT Object
+class LIBKGAPI_EXPORT_DEPRECATED Object
 {
   public:
     Object();
@@ -57,7 +55,9 @@ class LIBKGAPI_EXPORT Object
     QString etag() const;
 
   private:
-    ObjectPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

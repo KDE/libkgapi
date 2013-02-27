@@ -29,7 +29,7 @@ class Object;
 namespace Services
 {
 
-class LIBKGAPI_EXPORT AccountInfo : public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED AccountInfo : public KGAPI::Service
 {
   public:
     static QUrl ScopeUrl;

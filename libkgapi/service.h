@@ -38,7 +38,7 @@ class Object;
  * about a Google service and implements parsers for objects
  * from service.
  */
-class LIBKGAPI_EXPORT Service
+class LIBKGAPI_EXPORT_DEPRECATED Service
 {
 
   public:

@@ -20,8 +20,7 @@
 #include "staticmap.h"
 #include "debug.h"
 
-#include <QNetworkRequest>
-#include <QNetworkReply>
+#include <libkgapi2/staticmaps/staticmaptilefetchjob.h>
 
 namespace KGAPI
 {
@@ -29,16 +28,14 @@ namespace KGAPI
 namespace Services
 {
 
-class StaticMapPrivate
+class StaticMap::Private
 {
-
   public:
-    StaticMapPrivate():
-        manager(0)
-    {
-    }
+    Private(StaticMap *parent);
+    void _k_fetchTileFinished(KGAPI2::Job *job);
 
-    QNetworkAccessManager * manager;
+  private:
+    StaticMap *q;
 };
 
 }
@@ -48,43 +45,37 @@ class StaticMapPrivate
 using namespace KGAPI::Objects;
 using namespace KGAPI::Services;
 
+StaticMap::Private::Private(StaticMap* parent):
+    q(parent)
+{
+}
+
+void StaticMap::Private::_k_fetchTileFinished(KGAPI2::Job* job)
+{
+    KGAPI2::StaticMapTileFetchJob *fetchJob = qobject_cast<KGAPI2::StaticMapTileFetchJob*>(job);
+
+    Q_EMIT q->tileFetched(fetchJob->tilePixmap());
+}
+
 StaticMap::StaticMap(QObject * parent):
     QObject(parent),
-    d_ptr(new StaticMapPrivate())
+    d(new Private(this))
 {
-    Q_D(StaticMap);
-    d->manager = new QNetworkAccessManager();
-
-    connect(d->manager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(replyFinished(QNetworkReply*)));
 }
 
 StaticMap::~StaticMap()
 {
-    delete d_ptr;
+    delete d;;
 }
 
 void StaticMap::fetchTile(const QUrl & url)
 {
-    Q_D(StaticMap);
-    d->manager->get(QNetworkRequest(url));
+    KGAPI2::StaticMapTileFetchJob *job = new KGAPI2::StaticMapTileFetchJob(url, this);
 }
 
 void StaticMap::fetchTile (StaticMapUrl& url)
 {
-    Q_D(StaticMap);
-    d->manager->get(QNetworkRequest(url.url()));
+    fetchTile(url.url());
 }
 
-void StaticMap::replyFinished(QNetworkReply * reply)
-{
-    if (reply->error() != QNetworkReply::NoError) {
-        KGAPIWarning() << "Error in" << reply->url() << ":" << reply->errorString();
-        return;
-    }
-
-    QPixmap pixmap;
-    pixmap.loadFromData(reply->readAll());
-
-    Q_EMIT tileFetched(pixmap);
-}
+#include "staticmap.moc"

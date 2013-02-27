@@ -42,7 +42,7 @@ class CalendarPrivate;
 /**
 * Represents Google Calendar service.
 */
-class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED Calendar: public KGAPI::Service
 {
   public:
     static QUrl ScopeUrl;

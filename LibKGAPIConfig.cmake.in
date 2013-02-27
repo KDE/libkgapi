@@ -24,4 +24,4 @@ if(NOT TARGET kgapi)
 endif()
 
 # Set the library variable
-set(LibKGAPI_LIBRARY kgapi)
+set(LibKGAPI_LIBRARY kgapi kgapi2)

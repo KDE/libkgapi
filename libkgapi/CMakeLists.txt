@@ -1,4 +1,8 @@
-set(libkgapi_SRCS 
+add_definitions(-DLIBKGAPI1)
+
+set(KGAPI_SOVERSION 1)
+
+set(libkgapi_SRCS
     accessmanager.cpp
     accessmanager_p.cpp
     account.cpp
@@ -11,16 +15,16 @@ set(libkgapi_SRCS
     reply.cpp
     objects/accountinfo.cpp
     objects/calendar.cpp
-    objects/reminder.cpp
     objects/contact.cpp
     objects/contactsgroup.cpp
     objects/event.cpp
+    objects/location.cpp
+    objects/reminder.cpp
+    objects/staticmapmarker.cpp
+    objects/staticmappath.cpp
+    objects/staticmapurl.cpp
     objects/task.cpp
     objects/tasklist.cpp
-    objects/location.cpp
-    objects/staticmapmarker.cpp
-    objects/staticmapurl.cpp
-    objects/staticmappath.cpp
     services/accountinfo.cpp
     services/calendar.cpp
     services/contacts.cpp
@@ -71,15 +75,17 @@ set(ui_HDRS
     ui/accountscombo.h
     ui/authwidget.h)
 
-kde4_add_library(kgapi SHARED ${libkgapi_SRCS})
+kde4_add_library(kgapi SHARED ${libkgapi_SRCS} ${moc_SRCS})
 
-set_target_properties(kgapi PROPERTIES VERSION ${KGAPI_VERSION} SOVERSION ${KGAPI_VERSION_MAJOR} DEFINE_SYMBOL LIBKGAPI_LIBRARY)
+set_target_properties(kgapi PROPERTIES VERSION ${KGAPI_VERSION} SOVERSION ${KGAPI_SOVERSION} DEFINE_SYMBOL LIBKGAPI_LIBRARY)
+add_dependencies(kgapi kgapi2)
 
 target_link_libraries(kgapi
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
 		      ${KDE4_KDEUI_LIBS}
 		      ${KDEPIMLIBS_KABC_LIBS}
+		      ${KDEPIMLIBS_KCALCORE_LIBS}
 		      ${KDEPIMLIBS_KMIME_LIBS}
                       ${qjson_LIBRARIES}        # for Debian
                       ${QJSON_LIBRARY}          # for Mac OSX
@@ -88,17 +94,11 @@ target_link_libraries(kgapi
 		      ${QT_QTWEBKIT_LIBRARY}
 		      ${QT_QTNETWORK_LIBRARY}
 		      ${QT_QTXML_LIBRARY}
-		      ${KCALENDAR_LIBRARIES}
+		      kgapi2
 )
-
-if(NOT WIN32)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libkgapi.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig )
-endif(NOT WIN32)
 
 install(TARGETS kgapi EXPORT kgapiLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES ${libkgapi_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi)
 install(FILES ${services_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/services)
 install(FILES ${objects_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/objects)
 install(FILES ${ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/ui)
-

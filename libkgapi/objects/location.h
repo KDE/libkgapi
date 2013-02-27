@@ -33,11 +33,9 @@ namespace KGAPI
 namespace Objects
 {
 
-class LocationPrivate;
-
-class LIBKGAPI_EXPORT Location : public KGAPI::Object, public KABC::Geo
+class LIBKGAPI_EXPORT_DEPRECATED Location : public KGAPI::Object, public KABC::Geo
 {
-public:
+  public:
     typedef QSharedPointer<Location> Ptr;
 
     Location();
@@ -111,8 +109,10 @@ public:
      */
     void setAltitudeAccuracy(const qint32 &altitudeAccuracy);
 
-private:
-    LocationPrivate * const d;
+  private:
+    class Private;
+    Private * const d;
+    friend class Private;
 };
 
 } // namespace Objects

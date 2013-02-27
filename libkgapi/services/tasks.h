@@ -31,7 +31,7 @@ namespace Services
 
 class TasksPrivate;
 
-class LIBKGAPI_EXPORT Tasks: public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED Tasks: public KGAPI::Service
 {
   public:
 

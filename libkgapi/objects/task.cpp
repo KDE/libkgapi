@@ -16,63 +16,7 @@
 */
 
 #include "task.h"
-#include "task_p.h"
 
 using namespace KGAPI::Objects;
 
-TaskPrivate::TaskPrivate():
-    deleted(false)
-{
-
-}
-
-TaskPrivate::TaskPrivate(const TaskPrivate &other):
-    deleted(other.deleted)
-{
-
-}
-
-Task::Task():
-    d(new TaskPrivate)
-{
-
-}
-
-Task::Task(const Task& other):
-    KGAPI::Object(other),
-#ifdef WITH_KCAL
-    KCal::Todo(other),
-#else
-    KCalCore::Todo(other),
-#endif
-    d(new TaskPrivate(*(other.d)))
-{
-
-}
-
-#ifdef WITH_KCAL
-Task::Task(const KCal::Todo &other):
-    KCal::Todo(other),
-#else
-Task::Task(const KCalCore::Todo &other):
-    KCalCore::Todo(other),
-#endif
-    d(new TaskPrivate)
-{
-
-}
-
-Task::~Task()
-{
-    delete d;
-}
-
-void Task::setDeleted(const bool deleted)
-{
-    d->deleted = deleted;
-}
-
-bool Task::deleted() const
-{
-    return d->deleted;
-}
+#include "common/task.inc.cpp"

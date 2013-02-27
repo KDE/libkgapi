@@ -37,7 +37,7 @@ class ContactsPrivate;
 /**
  * Represents Google Contacts service.
  */
-class LIBKGAPI_EXPORT Contacts: public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED Contacts: public KGAPI::Service
 {
   public:
     static QUrl ScopeUrl;

@@ -19,6 +19,9 @@
 #include "objects/accountinfo.h"
 #include "common.h"
 
+#include <libkgapi2/accountinfo/accountinfoservice.h>
+#include <libkgapi2/accountinfo/accountinfo.h>
+
 #include <QtCore/QVariantMap>
 
 #include <qjson/parser.h>
@@ -26,14 +29,14 @@
 using namespace KGAPI;
 using namespace Services;
 
-QUrl AccountInfo::ScopeUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.profile"));
-QUrl AccountInfo::EmailScopeUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.email"));
+QUrl AccountInfo::ScopeUrl(KGAPI2::AccountInfoService::scopeUrl());
+QUrl AccountInfo::EmailScopeUrl(KGAPI2::AccountInfoService::emailScopeUrl());
 
 static const QString serviceNameStr(QLatin1String("KGAPI::Services::AccountInfo"));
 
 QString AccountInfo::protocolVersion() const
 {
-    return QLatin1String("2");
+    return KGAPI2::AccountInfoService::APIVersion();
 }
 
 QUrl AccountInfo::scopeUrl() const
@@ -43,7 +46,7 @@ QUrl AccountInfo::scopeUrl() const
 
 QUrl AccountInfo::fetchUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/oauth2/v1/userinfo"));
+    return KGAPI2::AccountInfoService::fetchUrl();
 }
 
 QString AccountInfo::serviceName()
@@ -58,30 +61,8 @@ QString AccountInfo::serviceName()
 
 KGAPI::Object* AccountInfo::JSONToObject(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    QVariantMap data;
-    bool ok;
-
-    data = parser.parse(jsonData, &ok).toMap();
-    if (!ok) {
-        return 0;
-    }
-
-    Objects::AccountInfo *object = new Objects::AccountInfo();
-    object->setId(data.value(QLatin1String("id")).toString());
-    object->setEmail(data.value(QLatin1String("email")).toString());
-    object->setName(data.value(QLatin1String("name")).toString());
-    object->setGivenName(data.value(QLatin1String("given_name")).toString());
-    object->setFamilyName(data.value(QLatin1String("family_name")).toString());
-    object->setBirthday(data.value(QLatin1String("birthday")).toString());
-    object->setGender(data.value(QLatin1String("gender")).toString());
-    object->setLink(data.value(QLatin1String("link")).toString());
-    object->setLocale(data.value(QLatin1String("locale")).toString());
-    object->setTimezone(data.value(QLatin1String("timezone")).toString());
-    object->setPhotoUrl(data.value(QLatin1String("picture")).toString());
-    object->setVerifiedEmail(data.value(QLatin1String("verified_email")).toBool());
-
-    return dynamic_cast< KGAPI::Object* >(object);
+    KGAPI2::AccountInfoPtr acc = KGAPI2::AccountInfoService::JSONToAccountInfo(jsonData);
+    return new Objects::AccountInfo(*reinterpret_cast<KGAPI::Objects::AccountInfo*>(acc.data()));
 }
 
 QByteArray AccountInfo::objectToJSON(Object* object)

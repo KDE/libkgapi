@@ -30,19 +30,21 @@
 
 class QNetworkReply;
 
+namespace KGAPI2 {
+    class Job;
+}
+
 namespace KGAPI
 {
 
 namespace Services
 {
 
-class StaticMapPrivate;
-
-class LIBKGAPI_EXPORT StaticMap : public QObject
+class LIBKGAPI_EXPORT_DEPRECATED StaticMap : public QObject
 {
     Q_OBJECT
 
-public:
+  public:
     explicit StaticMap(QObject * parent);
 
     ~StaticMap();
@@ -51,15 +53,16 @@ public:
 
     void fetchTile(KGAPI::Objects::StaticMapUrl &url);
 
-private Q_SLOTS:
-    void replyFinished(QNetworkReply * reply);
 
-Q_SIGNALS:
+  Q_SIGNALS:
     void tileFetched(const QPixmap & pixmap);
 
-private:
-    StaticMapPrivate * const d_ptr;
-    Q_DECLARE_PRIVATE(StaticMap)
+  private:
+    class Private;
+    Private * const d;
+    friend class Private;
+
+    Q_PRIVATE_SLOT(d, void _k_fetchTileFinished(KGAPI2::Job *job))
 };
 
 } // namespace Services

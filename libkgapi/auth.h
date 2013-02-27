@@ -56,7 +56,7 @@ class AuthWidget;
  * emitted. When Auth fails to open the KWallet, KGAPI::Auth::error() is
  * emitted respective error code.
  */
-class LIBKGAPI_EXPORT Auth: public QObject
+class LIBKGAPI_EXPORT_DEPRECATED Auth: public QObject
 {
 
     Q_OBJECT

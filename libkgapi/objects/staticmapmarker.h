@@ -33,12 +33,10 @@ namespace KGAPI
 namespace Objects
 {
 
-class StaticMapMarkerPrivate;
-
 /**
  * Represents marker with defined label, color, size and marker locations
  */
-class LIBKGAPI_EXPORT StaticMapMarker
+class LIBKGAPI_EXPORT_DEPRECATED StaticMapMarker
 {
 
   public:
@@ -254,7 +252,9 @@ class LIBKGAPI_EXPORT StaticMapMarker
     StaticMapMarker& operator=(const StaticMapMarker &other);
 
   private:
-    StaticMapMarkerPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

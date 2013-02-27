@@ -30,15 +30,13 @@ namespace KGAPI
 namespace Objects
 {
 
-class ContactsGroupPrivate;
-
 /**
  * Represents a single contacts group.
  *
  * Unlike groups in KDE (a meta-contact with list of emails and names),
  * groups in Google represent a collection of contacts.
  */
-class LIBKGAPI_EXPORT ContactsGroup : public KGAPI::Object
+class LIBKGAPI_EXPORT_DEPRECATED ContactsGroup : public KGAPI::Object
 {
   public:
     typedef QSharedPointer< ContactsGroup > Ptr;
@@ -115,7 +113,9 @@ class LIBKGAPI_EXPORT ContactsGroup : public KGAPI::Object
     bool isSystemGroup() const;
 
   private:
-    ContactsGroupPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

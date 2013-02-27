@@ -33,12 +33,10 @@ namespace KGAPI
 namespace Objects
 {
 
-class ContactPrivate;
-
 /**
  * Represents a single contact.
  */
-class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
+class LIBKGAPI_EXPORT_DEPRECATED Contact : public KGAPI::Object, public KABC::Addressee
 {
   public:
     typedef QSharedPointer<Contact> Ptr;
@@ -255,7 +253,9 @@ class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
     static KABC::Address::Type addressSchemeToType(const QString &scheme, const bool primary = false);
 
   private:
-    ContactPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

@@ -19,9 +19,8 @@
 #ifndef LIBKGAPI_OBJECTS_STATICMAPURL_H
 #define LIBKGAPI_OBJECTS_STATICMAPURL_H
 
-#include "staticmapmarker.h"
-#include "staticmappath.h"
-
+#include <libkgapi/objects/staticmapmarker.h>
+#include <libkgapi/objects/staticmappath.h>
 #include <libkgapi/libkgapi_export.h>
 
 #include <QUrl>
@@ -36,9 +35,7 @@ namespace KGAPI
 namespace Objects
 {
 
-class StaticMapUrlPrivate;
-
-class LIBKGAPI_EXPORT StaticMapUrl
+class LIBKGAPI_EXPORT_DEPRECATED StaticMapUrl
 {
   public:
 
@@ -326,7 +323,9 @@ class LIBKGAPI_EXPORT StaticMapUrl
     QUrl url() const;
 
   private:
-    StaticMapUrlPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

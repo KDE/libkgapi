@@ -32,13 +32,11 @@ namespace KGAPI
 namespace Objects
 {
 
-class StaticMapPathPrivate;
-
 /**
  * Represents path with defined locations, path weight, color
  * and color for filled area
  */
-class LIBKGAPI_EXPORT StaticMapPath
+class LIBKGAPI_EXPORT_DEPRECATED StaticMapPath
 {
   public:
 
@@ -183,7 +181,9 @@ class LIBKGAPI_EXPORT StaticMapPath
     StaticMapPath& operator=(const StaticMapPath &other);
 
   private:
-    StaticMapPathPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
 };
 
 } /* namespace Objects */

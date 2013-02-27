@@ -19,6 +19,9 @@
 #define LIBKGAPI_COMMON_H
 
 #include <stdexcept>
+#include <libkgapi/libkgapi_export.h>
+
+#include <libkgapi2/types.h>
 
 #include <qstring.h>
 #include <qurl.h>
@@ -74,7 +77,7 @@ namespace Exception
 * Exceptions are available only for libkgapi errors. Errors returned by Google
 * service will be always notified about asynchronously via error() signal.
 */
-class BaseException: public std::runtime_error
+class KGAPI_DEPRECATED BaseException: public std::runtime_error
 {
 public:
     explicit BaseException(const QString &what):
@@ -90,7 +93,7 @@ public:
 /**
 * @see KGAPI::Error::UnknownError
 */
-class UnknownError: public BaseException
+class KGAPI_DEPRECATED UnknownError: public BaseException
 {
   public:
     explicit UnknownError():
@@ -103,7 +106,7 @@ class UnknownError: public BaseException
 /**
 * @see KGAPI::Error::AuthError
 */
-class AuthError: public BaseException
+class KGAPI_DEPRECATED AuthError: public BaseException
 {
   public:
     explicit AuthError(const QString &what = QString()):
@@ -116,7 +119,7 @@ class AuthError: public BaseException
 /**
 * @see KGAPI::Error::UnknownAccount
 */
-class UnknownAccount: public BaseException
+class KGAPI_DEPRECATED UnknownAccount: public BaseException
 {
   public:
     explicit UnknownAccount(const QString &accName = QString()):
@@ -129,7 +132,7 @@ class UnknownAccount: public BaseException
 /**
 * @see KGAPI::Error::UnknownService
 */
-class UnknownService: public BaseException
+class KGAPI_DEPRECATED UnknownService: public BaseException
 {
   public:
     explicit UnknownService(const QString &serviceName = QString()):
@@ -142,7 +145,7 @@ class UnknownService: public BaseException
 /**
 * @see KGAPI::Error::InvalidResponse
 */
-class InvalidResponse: public BaseException
+class KGAPI_DEPRECATED InvalidResponse: public BaseException
 {
   public:
     explicit InvalidResponse(const QString &what = QString()):
@@ -155,7 +158,7 @@ class InvalidResponse: public BaseException
 /**
 * @see KGAPI::Error::BackendNotReady
 */
-class BackendNotReady: public BaseException
+class KGAPI_DEPRECATED BackendNotReady: public BaseException
 {
   public:
     explicit BackendNotReady():
@@ -168,7 +171,7 @@ class BackendNotReady: public BaseException
 /**
 * @see KGAPI::Error::InvalidAccount
 */
-class InvalidAccount: public BaseException
+class KGAPI_DEPRECATED InvalidAccount: public BaseException
 {
   public:
     explicit InvalidAccount():
@@ -183,22 +186,7 @@ class InvalidAccount: public BaseException
 /**
  * Struct to store additional information about a feed.
  */
-class FeedData {
-
-  public:
-    explicit FeedData():
-        startIndex(0),
-        itemsPerPage(0),
-        totalResults(0)
-    { };
-
-    int startIndex;     /// Index of first item on current feed page.
-    int itemsPerPage;   /// Number of items per feed page. This will be same  for all pages (except for the last one which can be shorter).
-    int totalResults;   /// Number of all items.
-    QUrl nextPageUrl;   /// Link to next page of feed.
-    QUrl requestUrl;    /// Original URL of the request. This value is filled by AccessManager when passing the structure to a service
-};
-
+KGAPI_DEPRECATED typedef KGAPI2::FeedData FeedData;
 
 } /* namespace KGAPI */
 

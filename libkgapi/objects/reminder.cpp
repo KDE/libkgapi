@@ -16,59 +16,23 @@
 */
 
 #include "reminder.h"
-#include "reminder_p.h"
+
+namespace KGAPI {
+
+namespace Objects {
+
+    typedef Reminder::List RemindersList;
+    typedef Reminder::Ptr ReminderPtr;
+
+}
+
+}
 
 using namespace KGAPI::Objects;
 
-ReminderPrivate::ReminderPrivate():
-    type(Alarm::Invalid)
-{ }
+#include "common/reminder.inc.cpp"
 
-ReminderPrivate::ReminderPrivate(const ReminderPrivate &other):
-    type(other.type),
-    offset(other.offset)
-{ }
-
-Reminder::Reminder():
-    d(new ReminderPrivate)
-{ }
-
-Reminder::Reminder (const Alarm::Type &type, const Duration& startOffset):
-    d(new ReminderPrivate)
-{
-    d->type = type;
-    d->offset = startOffset;
-}
-
-Reminder::Reminder (const Reminder& other):
-    d(new ReminderPrivate(*(other.d)))
-{ }
-
-Reminder::~Reminder()
-{
-    delete d;
-}
-
-void Reminder::setType (const Alarm::Type& type)
-{
-    d->type = type;
-}
-
-Alarm::Type Reminder::type() const
-{
-    return d->type;
-}
-
-void Reminder::setStartOffset (const Duration& startOffset)
-{
-    d->offset = startOffset;
-}
-
-Duration Reminder::startOffset() const
-{
-    return d->offset;
-}
-
+// In LibKGAPI2 we return plain pointer
 AlarmPtr Reminder::toAlarm (Incidence* incidence) const
 {
     AlarmPtr alarm(new Alarm(incidence));

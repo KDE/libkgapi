@@ -29,8 +29,6 @@
 namespace KGAPI
 {
 
-class AccountPrivate;
-
 /**
  * Account class represents a single Google account.
  *
@@ -42,15 +40,8 @@ class AccountPrivate;
  * to KGAPI::Auth::authenticate() to retrieve new tokens that would grant access
  * to the new set of scopes only
  */
-class LIBKGAPI_EXPORT Account
+class LIBKGAPI_EXPORT_DEPRECATED Account
 {
-
-    /**
-     * Grants access of KGAPI::Auth to KGAPI::Account::m_scopesChanged
-     */
-    friend class AuthPrivate;
-    friend class Auth;
-
   public:
 
     typedef QSharedPointer< Account > Ptr;
@@ -150,7 +141,15 @@ class LIBKGAPI_EXPORT Account
     void removeScope(const QUrl &scope);
 
   private:
-    AccountPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
+
+    /**
+     * Grants access of KGAPI::Auth to KGAPI::Account::m_scopesChanged
+     */
+    friend class AuthPrivate;
+    friend class Auth;
 
     /**
      * Whether scopes were changed or not.

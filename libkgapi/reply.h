@@ -34,7 +34,7 @@ class ReplyPrivate;
 /**
  * Represents a reply received from a Google service.
  */
-class LIBKGAPI_EXPORT Reply: public QNetworkReply
+class LIBKGAPI_EXPORT_DEPRECATED Reply: public QNetworkReply
 {
   public:
     /**

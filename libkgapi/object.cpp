@@ -16,33 +16,7 @@
 */
 
 #include "object.h"
-#include "object_p.h"
 
 using namespace KGAPI;
 
-ObjectPrivate::ObjectPrivate(const ObjectPrivate& other):
-    etag(other.etag)
-{ }
-
-Object::Object():
-    d(new ObjectPrivate)
-{ }
-
-Object::Object(const Object& other):
-    d(new ObjectPrivate(*(other.d)))
-{ }
-
-Object::~Object()
-{
-    delete d;
-}
-
-void Object::setEtag(const QString& etag)
-{
-    d->etag = etag;
-}
-
-QString Object::etag() const
-{
-    return d->etag;
-}
+#include "common/object.inc.cpp"

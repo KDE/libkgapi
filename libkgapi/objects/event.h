@@ -25,17 +25,6 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QList>
 
-#ifdef WITH_KCAL
-#include <KDE/KCal/Event>
-#include <KDE/KCal/Person>
-#include <KDE/KCal/Attendee>
-#include <KDE/KCal/Alarm>
-#include <boost/shared_ptr.hpp>
-typedef boost::shared_ptr<KCal::Event> EventPtr;
-typedef KCal::Attendee* AttendeePtr;
-typedef KCal::Person* PersonPtr;
-typedef KCal::Alarm* AlarmPtr;
-#else
 #include <KDE/KCalCore/Event>
 #include <KDE/KCalCore/Person>
 #include <KDE/KCalCore/Attendee>
@@ -44,8 +33,6 @@ typedef KCalCore::Event::Ptr EventPtr;
 typedef KCalCore::Attendee::Ptr AttendeePtr;
 typedef KCalCore::Person::Ptr PersonPtr;
 typedef KCalCore::Alarm::Ptr AlarmPtr;
-#endif
-
 
 namespace KGAPI
 {
@@ -58,11 +45,7 @@ class EventPrivate;
 /**
  * Information about an Event.
  */
-#ifdef WITH_KCAL
-class LIBKGAPI_EXPORT Event: public KGAPI::Object, public KCal::Event
-#else
-class LIBKGAPI_EXPORT Event: public KGAPI::Object, public KCalCore::Event
-#endif
+class LIBKGAPI_EXPORT_DEPRECATED Event: public KGAPI::Object, public KCalCore::Event
 {
   public:
     typedef QList<Event> List;
@@ -73,11 +56,7 @@ class LIBKGAPI_EXPORT Event: public KGAPI::Object, public KCalCore::Event
      */
     Event();
     Event(const Event& other);
-#ifdef WITH_KCAL
-    explicit Event(const KCal::Event &event);
-#else
     explicit Event(const KCalCore::Event &event);
-#endif
 
     ~Event();
 
@@ -102,7 +81,9 @@ class LIBKGAPI_EXPORT Event: public KGAPI::Object, public KCalCore::Event
     bool useDefaultReminders() const;
 
   private:
-    EventPrivate * const d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

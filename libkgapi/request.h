@@ -35,7 +35,7 @@ class AccessManagerPrivate;
 /**
  * Represents a request to be send to a Google service.
  */
-class LIBKGAPI_EXPORT Request: public QObject, public QNetworkRequest
+class LIBKGAPI_EXPORT_DEPRECATED Request: public QObject, public QNetworkRequest
 {
 
     Q_OBJECT
