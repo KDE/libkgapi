@@ -33,7 +33,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class TaskListCreateJob : public KGAPI2::CreateJob
+class LIBKGAPI_EXPORT TaskListCreateJob : public KGAPI2::CreateJob
 {
 
     Q_OBJECT

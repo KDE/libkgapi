@@ -34,7 +34,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class ModifyJob : public KGAPI2::Job
+class LIBKGAPI_EXPORT ModifyJob : public KGAPI2::Job
 {
     Q_OBJECT
   public:
