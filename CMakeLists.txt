@@ -28,48 +28,30 @@ add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS}
 )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
-option(BUILD_EXAMPLES "Build example applications" FALSE)
-if (BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif(BUILD_EXAMPLES)
-
 include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}
-	  ${QT_INCLUDE_DIR}
-	  ${CMAKE_BINARY_DIR}
-	  ${KDEPIMLIBS_INCLUDE_DIRS}
-	  ${KDE4_INCLUDES}
-	  ${QJSON_INCLUDE_DIR}
-	  ${Boost_INCLUDE_DIR}
+          ${QT_INCLUDE_DIR}
+          ${CMAKE_BINARY_DIR}
+          ${KDEPIMLIBS_INCLUDE_DIRS}
+          ${KDE4_INCLUDES}
+          ${QJSON_INCLUDE_DIR}
+          ${Boost_INCLUDE_DIR}
 )
+
+option(DISABLE_DEPRECATED "Disable deprecated API" FALSE)
+if (NOT DISABLE_DEPRECATED)
+    add_subdirectory(libkgapi)
+endif(NOT DISABLE_DEPRECATED)
+
+# FIXME: Port examples to LibKGAPI2
+option(BUILD_EXAMPLES "Build example applications (requires deprecated API)" FALSE)
+if (BUILD_EXAMPLES AND NOT DISABLE_DEPRECATED)
+    add_subdirectory(examples)
+endif(BUILD_EXAMPLES AND NOT DISABLE_DEPRECATED)
 
 add_subdirectory(libkgapi2)
-add_subdirectory(libkgapi)
-add_subdirectory(tests)
 
-if(NOT WIN32)
-  configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/libkgapi.pc.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc
-  )
-  install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc
-    DESTINATION ${LIB_INSTALL_DIR}/pkgconfig
-  )
-endif(NOT WIN32)
-
-configure_file(${libkgapi_SOURCE_DIR}/LibKGAPIConfig.cmake.in
-               ${libkgapi_BINARY_DIR}/LibKGAPIConfig.cmake
-               @ONLY
-)
-# this file is used by to check if the installed version can be used.
-macro_write_basic_cmake_version_file(${libkgapi_BINARY_DIR}/LibKGAPIConfigVersion.cmake
-                                     ${KGAPI_VERSION_MAJOR} ${KGAPI_VERSION_MINOR} ${KGAPI_VERSION_RELEASE})
-
-install(FILES ${libkgapi_BINARY_DIR}/LibKGAPIConfig.cmake ${libkgapi_BINARY_DIR}/LibKGAPIConfigVersion.cmake
-        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI)
-
-# Install the file with the exported targets
-install(EXPORT kgapiLibraryTargets
-        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI
-        FILE LibKGAPITargetsWithPrefix.cmake)
+# FIXME: Port tests to LibKGAPI2
+if (NOT DISABLE_DEPRECATED)
+    add_subdirectory(tests)
+endif (NOT DISABLE_DEPRECATED)

@@ -213,7 +213,7 @@ target_link_libraries(kgapi2
 
 # === Install target
 
-install(TARGETS kgapi2 EXPORT kgapiLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kgapi2 EXPORT kgapi2LibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES ${LibKGAPI_core_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2)
 install(FILES ${LibKGAPI_accountinfo_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/accountinfo)
 install(FILES ${LibKGAPI_contacts_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/contacts)
@@ -222,3 +222,26 @@ install(FILES ${LibKGAPI_latitude_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkg
 install(FILES ${LibKGAPI_staticMaps_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/staticmaps)
 install(FILES ${LibKGAPI_tasks_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/tasks)
 install(FILES ${LibKGAPI_ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/ui)
+
+# === CMake stuff
+
+if(NOT WIN32)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libkgapi2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkgapi2.pc)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgapi2.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+endif(NOT WIN32)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/LibKGAPI2Config.cmake.in
+               ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPI2Config.cmake @ONLY)
+
+# this file is used by to check if the installed version can be used.
+macro_write_basic_cmake_version_file(${CMAKE_CURRENT_BINARY_DIR}/LibKGAPI2ConfigVersion.cmake
+                                     ${KGAPI_VERSION_MAJOR} ${KGAPI_VERSION_MINOR} ${KGAPI_VERSION_RELEASE})
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPI2Config.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPI2ConfigVersion.cmake
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI2)
+
+# Install the file with the exported targets
+install(EXPORT kgapi2LibraryTargets
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI2
+        FILE LibKGAPI2TargetsWithPrefix.cmake)

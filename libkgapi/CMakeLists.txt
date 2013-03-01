@@ -102,3 +102,24 @@ install(FILES ${libkgapi_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi)
 install(FILES ${services_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/services)
 install(FILES ${objects_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/objects)
 install(FILES ${ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/ui)
+
+if(NOT WIN32)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libkgapi.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+endif(NOT WIN32)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/LibKGAPIConfig.cmake.in
+               ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPIConfig.cmake @ONLY)
+
+# this file is used by to check if the installed version can be used.
+macro_write_basic_cmake_version_file(${CMAKE_CURRENT_BINARY_DIR}/LibKGAPIConfigVersion.cmake
+                                     ${KGAPI_VERSION_MAJOR} ${KGAPI_VERSION_MINOR} ${KGAPI_VERSION_RELEASE})
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPIConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPIConfigVersion.cmake
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI)
+
+# Install the file with the exported targets
+install(EXPORT kgapiLibraryTargets
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI
+        FILE LibKGAPITargetsWithPrefix.cmake)
