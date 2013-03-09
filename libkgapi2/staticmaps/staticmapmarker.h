@@ -20,7 +20,7 @@
 #ifndef LIBKGAPI2_STATICMAPMARKER_H
 #define LIBKGAPI2_STATICMAPMARKER_H
 
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 #include <QtGui/QColor>
 
@@ -36,7 +36,7 @@ namespace KGAPI2
  * @author: Jan Grulich <grulja@gmail.com>
  * @since: 0.4
  */
-class LIBKGAPI_EXPORT StaticMapMarker
+class LIBKGAPI2_EXPORT StaticMapMarker
 {
 
   public:

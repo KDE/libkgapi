@@ -23,7 +23,7 @@
 #define LIBKGAPI2_LOCATIONCREATEJOB_H
 
 #include <libkgapi2/createjob.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2 {
 
@@ -33,7 +33,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI_EXPORT LocationCreateJob : public KGAPI2::CreateJob
+class LIBKGAPI2_EXPORT LocationCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 

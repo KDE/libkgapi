@@ -24,7 +24,7 @@
 #include <QtCore/QMetaType>
 #include <QtCore/QSharedPointer>
 
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 #include <libkgapi2/types.h>
 
 namespace KGAPI2
@@ -49,7 +49,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.1
  */
-class LIBKGAPI_EXPORT Account
+class LIBKGAPI2_EXPORT Account
 {
 
   public:

@@ -24,7 +24,7 @@
 #define LIBKGAPI2_TASKMOVEJOB_H
 
 #include <libkgapi2/modifyjob.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2 {
 
@@ -34,7 +34,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
+class LIBKGAPI2_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
 {
 
     Q_OBJECT

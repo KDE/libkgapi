@@ -22,7 +22,7 @@
 
 #include <libkgapi2/object.h>
 #include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 #include <KDE/KABC/Geo>
 
@@ -38,7 +38,7 @@ namespace KGAPI2
  * @author Jan Grulich <grulja@gmail.com>
  * @since 0.4
  */
-class LIBKGAPI_EXPORT Location : public KGAPI2::Object,
+class LIBKGAPI2_EXPORT Location : public KGAPI2::Object,
                                  public KABC::Geo
 {
   public:

@@ -23,7 +23,7 @@
 #define LIBKGAPI2_ACCOUNTINFO_H
 
 #include <libkgapi2/object.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2
 {
@@ -42,7 +42,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.2
  */
-class LIBKGAPI_EXPORT AccountInfo : public KGAPI2::Object
+class LIBKGAPI2_EXPORT AccountInfo : public KGAPI2::Object
 {
   public:
     /**

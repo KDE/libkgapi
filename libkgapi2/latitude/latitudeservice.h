@@ -21,7 +21,7 @@
 #define LIBKGAPI2_LATITUDESERVICE_H
 
 #include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QVariantMap>
 
@@ -56,14 +56,14 @@ namespace LatitudeService
      *
      * @param jsonData
      */
-    LIBKGAPI_EXPORT LocationPtr JSONToLocation(const QByteArray& jsonData);
+    LIBKGAPI2_EXPORT LocationPtr JSONToLocation(const QByteArray& jsonData);
 
     /**
      * @brief Serializes a Location object to JSON
      *
      * @param location
      */
-    LIBKGAPI_EXPORT QByteArray locationToJSON(const LocationPtr &location);
+    LIBKGAPI2_EXPORT QByteArray locationToJSON(const LocationPtr &location);
 
 
     /**
@@ -73,34 +73,34 @@ namespace LatitudeService
      * @param feedData The structure will be filled with additional data about
      *                 the feed
      */
-    LIBKGAPI_EXPORT ObjectsList parseLocationJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
+    LIBKGAPI2_EXPORT ObjectsList parseLocationJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
      * @brief Supported version of API
      */
-    LIBKGAPI_EXPORT QString APIVersion();
+    LIBKGAPI2_EXPORT QString APIVersion();
 
     /**
      * @brief Returns service scope URL for Google Latitude service
      */
-    LIBKGAPI_EXPORT QUrl scopeUrl();
+    LIBKGAPI2_EXPORT QUrl scopeUrl();
 
     /**
      * @brief Returns URL for fetch current user's location
      *
      * @param granularity
      */
-    LIBKGAPI_EXPORT QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity = Latitude::City);
+    LIBKGAPI2_EXPORT QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity = Latitude::City);
 
     /**
      *  @brief Returns URL for deleting user's current location
      */
-    LIBKGAPI_EXPORT QUrl deleteCurrentLocationUrl();
+    LIBKGAPI2_EXPORT QUrl deleteCurrentLocationUrl();
 
     /**
      *  @brief Returns URL for uploading user's current location
      */
-    LIBKGAPI_EXPORT QUrl insertCurrentLocationUrl();
+    LIBKGAPI2_EXPORT QUrl insertCurrentLocationUrl();
 
     /**
      * @brief Returns URL for fetching history of user's locations
@@ -110,7 +110,7 @@ namespace LatitudeService
      * @param maxTime Maximum timestamp since epoch (in ms)
      * @param minTime Minimum timestamp since epoch (in ms)
      */
-    LIBKGAPI_EXPORT QUrl locationHistoryUrl(const Latitude::Granularity granularity,
+    LIBKGAPI2_EXPORT QUrl locationHistoryUrl(const Latitude::Granularity granularity,
                                             const int maxResults = 0,
                                             const qlonglong maxTime = 0,
                                             const qlonglong minTime = 0);
@@ -121,20 +121,20 @@ namespace LatitudeService
      * @param id
      * @param granularity;
      */
-    LIBKGAPI_EXPORT QUrl retrieveLocationUrl(const qlonglong id,
+    LIBKGAPI2_EXPORT QUrl retrieveLocationUrl(const qlonglong id,
                                              const Latitude::Granularity granularity = Latitude::City);
 
     /**
      * @brief Returns URL for uploading a location
      */
-    LIBKGAPI_EXPORT QUrl insertLocationUrl();
+    LIBKGAPI2_EXPORT QUrl insertLocationUrl();
 
     /**
      * @brief Returns URL to delete a specific location
      *
      * @param id
      */
-    LIBKGAPI_EXPORT QUrl deleteLocationUrl(const qlonglong id);
+    LIBKGAPI2_EXPORT QUrl deleteLocationUrl(const qlonglong id);
 
 } // namespace LatitudeService
 

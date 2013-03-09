@@ -20,7 +20,7 @@
 #ifndef LIBKGAPI2_STATICMAPPATH_H
 #define LIBKGAPI2_STATICMAPPATH_H
 
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 #include <QtGui/QColor>
 
@@ -37,7 +37,7 @@ namespace KGAPI2
  * @author Jan Grulich <grulja@gmail.com>
  * @since 0.4
  */
-class LIBKGAPI_EXPORT StaticMapPath
+class LIBKGAPI2_EXPORT StaticMapPath
 {
   public:
 

@@ -20,10 +20,10 @@
 
 #include <QtGlobal>
 
-#if defined(LIBKGAPI_LIBRARY)
-#  define LIBKGAPI_EXPORT Q_DECL_EXPORT
+#if defined(LIBKGAPI2_LIBRARY)
+#  define LIBKGAPI2_EXPORT Q_DECL_EXPORT
 #else
-#  define LIBKGAPI_EXPORT Q_DECL_IMPORT
+#  define LIBKGAPI2_EXPORT Q_DECL_IMPORT
 #endif
 
 #ifndef KGAPI_DEPRECATED
@@ -35,4 +35,4 @@
 #endif
 
 
-#endif // LIBKGAPI_EXPORT_H
+#endif // LIBKGAPI2_EXPORT_H

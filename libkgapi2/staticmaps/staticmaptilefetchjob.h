@@ -23,7 +23,7 @@
 #define LIBKGAPI2_STATICMAPTILEFETCHJOB_H
 
 #include <libkgapi2/job.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 #include <QtGui/QPixmap>
 
@@ -37,7 +37,7 @@ namespace KGAPI2 {
 
 class StaticMapUrl;
 
-class LIBKGAPI_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
+class LIBKGAPI2_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
 {
     Q_OBJECT
 

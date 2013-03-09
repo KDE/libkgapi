@@ -24,7 +24,7 @@
 
 #include <libkgapi2/object.h>
 #include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 #include <KDE/KCalCore/Alarm>
 #include <KDE/KCalCore/Incidence>
@@ -38,7 +38,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.4
  */
-class LIBKGAPI_EXPORT Reminder
+class LIBKGAPI2_EXPORT Reminder
 {
   public:
 

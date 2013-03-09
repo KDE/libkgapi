@@ -24,7 +24,7 @@
 
 #include <libkgapi2/object.h>
 #include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 #include <KDE/KCalCore/Todo>
 
@@ -37,7 +37,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.3
  */
-class LIBKGAPI_EXPORT Task: public KGAPI2::Object,
+class LIBKGAPI2_EXPORT Task: public KGAPI2::Object,
                             public KCalCore::Todo
 {
   public:

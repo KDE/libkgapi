@@ -23,7 +23,7 @@
 #define LIBKGAPI2_CALENDARSERVICE_H
 
 #include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2
 {
@@ -41,14 +41,14 @@ namespace CalendarService
      *
      * @param JsonData
      */
-    LIBKGAPI_EXPORT CalendarPtr JSONToCalendar(const QByteArray& jsonData);
+    LIBKGAPI2_EXPORT CalendarPtr JSONToCalendar(const QByteArray& jsonData);
 
     /**
      * @brief Serializes calendar into JSON
      *
      * @param calendar
      */
-    LIBKGAPI_EXPORT QByteArray calendarToJSON(const CalendarPtr& calendar);
+    LIBKGAPI2_EXPORT QByteArray calendarToJSON(const CalendarPtr& calendar);
 
     /**
      * @brief Parses JSON feed into list of Calendars
@@ -57,21 +57,21 @@ namespace CalendarService
      * @param feedData The structure will be filled with additional information about
      *                 the feed, including URL for next page (if any)
      */
-    LIBKGAPI_EXPORT ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
+    LIBKGAPI2_EXPORT ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
      * @brief Parses event JSON into Event object
      *
      * @param jsonData
      */
-    LIBKGAPI_EXPORT EventPtr JSONToEvent(const QByteArray& jsonData);
+    LIBKGAPI2_EXPORT EventPtr JSONToEvent(const QByteArray& jsonData);
 
     /**
      * @brief Serializes Event into JSON
      *
      * @param event
      */
-    LIBKGAPI_EXPORT QByteArray eventToJSON(const EventPtr& event);
+    LIBKGAPI2_EXPORT QByteArray eventToJSON(const EventPtr& event);
 
     /**
      * @brief Parses JSON feed into list of Events
@@ -80,50 +80,50 @@ namespace CalendarService
      * @param feedData The structure will be filled with additional information about
      *                  the feed, including URL for next page (if any)
      */
-    LIBKGAPI_EXPORT ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
+    LIBKGAPI2_EXPORT ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
      * @brief Supported API verstion
      */
-    LIBKGAPI_EXPORT QString APIVersion();
+    LIBKGAPI2_EXPORT QString APIVersion();
 
     /**
      * @brief Returns URL for fetching calendars list.
      */
-    LIBKGAPI_EXPORT QUrl fetchCalendarsUrl();
+    LIBKGAPI2_EXPORT QUrl fetchCalendarsUrl();
 
     /**
      * @brief Returns URL for fetching single calendar.
      *
      * @param calendarID calendar ID
      */
-    LIBKGAPI_EXPORT QUrl fetchCalendarUrl(const QString &calendarID);
+    LIBKGAPI2_EXPORT QUrl fetchCalendarUrl(const QString &calendarID);
 
     /**
      * @brief Returns URL for updating existing calendar.
      *
      * @param calendarID ID of calendar to modify
      */
-    LIBKGAPI_EXPORT QUrl updateCalendarUrl(const QString &calendarID);
+    LIBKGAPI2_EXPORT QUrl updateCalendarUrl(const QString &calendarID);
 
     /**
      * @brief Returns URL for creating a new calendar.
      */
-    LIBKGAPI_EXPORT QUrl createCalendarUrl();
+    LIBKGAPI2_EXPORT QUrl createCalendarUrl();
 
     /**
      * @brief Returns URL for removing an existing calendar.
      *
      * @param calendarID ID of calendar to remove
      */
-    LIBKGAPI_EXPORT QUrl removeCalendarUrl(const QString &calendarID);
+    LIBKGAPI2_EXPORT QUrl removeCalendarUrl(const QString &calendarID);
 
     /**
      * @brief Returns URL for fetching all events from a specific calendar
      *
      * @param calendarID ID of calendar from which to fetch events
      */
-    LIBKGAPI_EXPORT QUrl fetchEventsUrl(const QString &calendarID);
+    LIBKGAPI2_EXPORT QUrl fetchEventsUrl(const QString &calendarID);
 
     /**
      * @brief Returns URL for fetching a single event from a specific calendar.
@@ -131,7 +131,7 @@ namespace CalendarService
      * @param calendarID ID of calendar from which to fetch the event
      * @param eventID ID of event to fetch
      */
-    LIBKGAPI_EXPORT QUrl fetchEventUrl(const QString &calendarID, const QString &eventID);
+    LIBKGAPI2_EXPORT QUrl fetchEventUrl(const QString &calendarID, const QString &eventID);
 
     /**
      * @brief Returns URL for updating a single event
@@ -139,14 +139,14 @@ namespace CalendarService
      * @param calendarID ID of calendar in which the event is
      * @param eventID ID of event to update
      */
-    LIBKGAPI_EXPORT QUrl updateEventUrl(const QString &calendarID, const QString &eventID);
+    LIBKGAPI2_EXPORT QUrl updateEventUrl(const QString &calendarID, const QString &eventID);
 
     /**
      * @brief Returns URL creating new events.
      *
      * @param calendarID ID of calendar in which to create the event
      */
-    LIBKGAPI_EXPORT QUrl createEventUrl(const QString &calendarID);
+    LIBKGAPI2_EXPORT QUrl createEventUrl(const QString &calendarID);
 
     /**
      * @brief Returns URL for removing events
@@ -154,7 +154,7 @@ namespace CalendarService
      * @param calendarID ID of parent calendar
      * @param eventID ID of event to remove.
      */
-    LIBKGAPI_EXPORT QUrl removeEventUrl(const QString &calendarID, const QString &eventID);
+    LIBKGAPI2_EXPORT QUrl removeEventUrl(const QString &calendarID, const QString &eventID);
 
     /**
      * @brief Returns URL for moving event between calendars.
@@ -163,14 +163,14 @@ namespace CalendarService
      * @param destCalendar ID of calendar to which to move the even
      * @param eventID ID of event in the \p sourceCalendar to move
      */
-    LIBKGAPI_EXPORT QUrl moveEventUrl(const QString &sourceCalendar, const QString &destCalendar, const QString &eventID);
+    LIBKGAPI2_EXPORT QUrl moveEventUrl(const QString &sourceCalendar, const QString &destCalendar, const QString &eventID);
 
     /**
      * @brief Returns service scope URL
      *
      * https://www.google.com/calendar/feeds/
      */
-    LIBKGAPI_EXPORT QUrl scopeUrl();
+    LIBKGAPI2_EXPORT QUrl scopeUrl();
 
 } // namespace CalendarService
 

@@ -25,7 +25,7 @@ set(LibKGAPI_core_HDRS
     modifyjob.h
     object.h
     types.h
-    libkgapi_export.h
+    libkgapi2_export.h
 )
 
 set(LibKGAPI_accountinfo_SRCS

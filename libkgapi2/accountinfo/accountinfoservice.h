@@ -23,7 +23,7 @@
 #define LIBKGAPI2_ACCOUNTINFOSERVICE_H
 
 #include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2
 {
@@ -41,29 +41,29 @@ namespace AccountInfoService
      *
      * @param jsonData
      */
-    LIBKGAPI_EXPORT AccountInfoPtr JSONToAccountInfo(const QByteArray &jsonData);
+    LIBKGAPI2_EXPORT AccountInfoPtr JSONToAccountInfo(const QByteArray &jsonData);
 
     /**
      * @brief Returns supported API version
      */
-    LIBKGAPI_EXPORT QString APIVersion();
+    LIBKGAPI2_EXPORT QString APIVersion();
 
     /**
      * @brief Returns scope URL for AccountInfo service.
      */
-    LIBKGAPI_EXPORT QUrl scopeUrl();
+    LIBKGAPI2_EXPORT QUrl scopeUrl();
 
     /**
      * @brief Returns scope URL for AccountInfo service.
      */
-    LIBKGAPI_EXPORT QUrl emailScopeUrl();
+    LIBKGAPI2_EXPORT QUrl emailScopeUrl();
 
     /**
      * @brief Returns KGAPI::Request::Fetch URL.
      *
      * https://www.googleapis.com/oauth2/v1/userinfo
      */
-    LIBKGAPI_EXPORT QUrl fetchUrl();
+    LIBKGAPI2_EXPORT QUrl fetchUrl();
 
 } /* namespace AccountInfoService */
 

@@ -22,7 +22,7 @@
 
 #include <libkgapi2/types.h>
 #include <libkgapi2/account.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 #include <libkgapi2/account.h>
 
 namespace KGAPI {
@@ -37,7 +37,7 @@ namespace KGAPI2 {
  *
  * @since 0.3.2
  */
-class LIBKGAPI_EXPORT AuthWidget : public QWidget
+class LIBKGAPI2_EXPORT AuthWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(bool showProgressBar WRITE setShowProgressBar READ getShowProgressBar)

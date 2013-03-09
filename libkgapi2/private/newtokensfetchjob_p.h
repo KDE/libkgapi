@@ -23,7 +23,7 @@
 #define LIBKGAPI2_PRIVATE_NEWTOKENSFETCHJOB_P_H
 
 #include <libkgapi2/job.h>
-#include <libkgapi2/libkgapi_export.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2 {
 
@@ -32,7 +32,7 @@ namespace KGAPI2 {
  *
  * Exported, but not publicly avilable!
  */
-class LIBKGAPI_EXPORT NewTokensFetchJob : public KGAPI2::Job
+class LIBKGAPI2_EXPORT NewTokensFetchJob : public KGAPI2::Job
 {
     Q_OBJECT
 
