@@ -192,8 +192,7 @@ kde4_add_library(kgapi2 SHARED
 
 set_target_properties(kgapi2
     PROPERTIES VERSION ${KGAPI_VERSION}
-    SOVERSION ${KGAPI_VERSION_MAJOR}
-    DEFINE_SYMBOL LIBKGAPI_LIBRARY)
+    SOVERSION ${KGAPI_VERSION_MAJOR})
 
 target_link_libraries(kgapi2
     ${KDE4_KDECORE_LIBS}

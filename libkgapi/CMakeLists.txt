@@ -77,7 +77,7 @@ set(ui_HDRS
 
 kde4_add_library(kgapi SHARED ${libkgapi_SRCS} ${moc_SRCS})
 
-set_target_properties(kgapi PROPERTIES VERSION ${KGAPI_VERSION} SOVERSION ${KGAPI_SOVERSION} DEFINE_SYMBOL LIBKGAPI_LIBRARY)
+set_target_properties(kgapi PROPERTIES VERSION ${KGAPI_VERSION} SOVERSION ${KGAPI_SOVERSION})
 add_dependencies(kgapi kgapi2)
 
 target_link_libraries(kgapi

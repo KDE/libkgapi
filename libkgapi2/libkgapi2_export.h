@@ -20,7 +20,7 @@
 
 #include <QtGlobal>
 
-#if defined(LIBKGAPI2_LIBRARY)
+#if defined(MAKE_KGAPI2_LIB)
 #  define LIBKGAPI2_EXPORT Q_DECL_EXPORT
 #else
 #  define LIBKGAPI2_EXPORT Q_DECL_IMPORT
