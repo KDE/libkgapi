@@ -27,7 +27,9 @@
 #include <QtCore/QSharedPointer>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
+#ifndef Q_MOC_RUN // QTBUG-22829
 #include <boost/graph/graph_concepts.hpp>
+#endif
 
 namespace KGAPI2
 {
