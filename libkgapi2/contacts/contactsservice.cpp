@@ -18,6 +18,7 @@
 #include "contactsservice.h"
 #include "contact.h"
 #include "contactsgroup.h"
+#include "debug.h"
 
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
@@ -759,6 +760,7 @@ QByteArray contactToXML(const ContactPtr& contact)
     }
 
     const QStringList groups = contact->custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','));
+    KGAPIDebug() << groups;
     if ((groups.length() > 0) && !groups.at(0).isEmpty()) {
         Q_FOREACH(const QString & group, groups) {
             bool removed = contact->groupIsDeleted(group);

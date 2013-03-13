@@ -288,7 +288,7 @@ QString Contact::IMProtocolNameToScheme(const QString& protocolName)
 {
     QString proto;
     if (protocolName.toUpper() == QLatin1String("XMPP")) {
-        proto = QLatin1String("JABBER");
+        return SCHEME_URL + QLatin1String("JABBER");
     } else if ((protocolName.toUpper() == QLatin1String("ICQ")) ||
                (protocolName.toUpper() == QLatin1String("GOOGLE_TALK")) ||
                (protocolName.toUpper() == QLatin1String("QQ")) ||
@@ -297,8 +297,7 @@ QString Contact::IMProtocolNameToScheme(const QString& protocolName)
                (protocolName.toUpper() == QLatin1String("MSN")) ||
                (protocolName.toUpper() == QLatin1String("AIM")))
     {
-        proto = protocolName.toUpper();
-        return SCHEME_URL + proto;
+        return SCHEME_URL + protocolName.toUpper();
     }
 
     /* If the protocolName is not officially supported by Google, then instead
