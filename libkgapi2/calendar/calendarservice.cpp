@@ -680,7 +680,9 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
         if (data.contains(QLatin1String("nextPageToken"))) {
             QString calendarId = feedData.requestUrl.toString().remove(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
             calendarId = calendarId.left(calendarId.indexOf(QLatin1Char('/')));
-            feedData.nextPageUrl = fetchEventsUrl(calendarId);
+            feedData.nextPageUrl = feedData.requestUrl;
+            // replace the old pageToken with a new one
+            feedData.nextPageUrl.removeQueryItem(QLatin1String("pageToken"));
             feedData.nextPageUrl.addQueryItem(QLatin1String("pageToken"), data.value(QLatin1String("nextPageToken")).toString());
             if (feedData.nextPageUrl.queryItemValue(QLatin1String("maxResults")).isEmpty()) {
                 feedData.nextPageUrl.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
