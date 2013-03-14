@@ -61,9 +61,11 @@ QByteArray Contacts::objectToXML(KGAPI::Object* object)
     }
 
     if (dynamic_cast< KGAPI::Objects::Contact* >(object)) {
-        return KGAPI2::ContactsService::contactToXML(KGAPI2::ContactPtr(reinterpret_cast<KGAPI2::Contact*>(object)));
+        KGAPI2::ContactPtr contact(new KGAPI2::Contact(*reinterpret_cast<KGAPI2::Contact*>(object)));
+        return KGAPI2::ContactsService::contactToXML(contact);
     } else if (dynamic_cast< KGAPI::Objects::ContactsGroup* >(object)) {
-        return KGAPI2::ContactsService::contactsGroupToXML(KGAPI2::ContactsGroupPtr(reinterpret_cast<KGAPI2::ContactsGroup*>(object)));
+        KGAPI2::ContactsGroupPtr group(new KGAPI2::ContactsGroup(*reinterpret_cast<KGAPI2::ContactsGroup*>(object)));
+        return KGAPI2::ContactsService::contactsGroupToXML(group);
     }
 
     return QByteArray();
