@@ -79,6 +79,38 @@ class Calendar;
 typedef QSharedPointer<Calendar> CalendarPtr;
 typedef QList<CalendarPtr> CalendarsList;
 
+class DriveAbout;
+typedef QSharedPointer<DriveAbout> DriveAboutPtr;
+typedef QList<DriveAboutPtr> DriveAboutsList;
+
+class DriveApp;
+typedef QSharedPointer<DriveApp> DriveAppPtr;
+typedef QList<DriveAppPtr> DriveAppsList;
+
+class DriveChange;
+typedef QSharedPointer<DriveChange> DriveChangePtr;
+typedef QList<DriveChangePtr> DriveChangesList;
+
+class DriveChildReference;
+typedef QSharedPointer<DriveChildReference> DriveChildReferencePtr;
+typedef QList<DriveChildReferencePtr> DriveChildReferencesList;
+
+class DriveFile;
+typedef QSharedPointer<DriveFile> DriveFilePtr;
+typedef QList<DriveFilePtr> DriveFilesList;
+
+class DriveParentReference;
+typedef QSharedPointer<DriveParentReference> DriveParentReferencePtr;
+typedef QList<DriveParentReferencePtr> DriveParentReferencesList;
+
+class DrivePermission;
+typedef QSharedPointer<DrivePermission> DrivePermissionPtr;
+typedef QList<DrivePermissionPtr> DrivePermissionsList;
+
+class DriveRevision;
+typedef QSharedPointer<DriveRevision> DriveRevisionPtr;
+typedef QList<DriveRevisionPtr> DriveRevisionsList;
+
 class Event;
 typedef QSharedPointer<Event> EventPtr;
 typedef QList<EventPtr> EventsList;

@@ -16,27 +16,43 @@
 */
 
 #include "parentreference.h"
-#include "parentreference_p.h"
 
-using namespace KGAPI::Objects;
+using namespace KGAPI2;
 
-///// DriveParentReferencePrivate
+class DriveParentReference::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
 
-DriveParentReferencePrivate::DriveParentReferencePrivate(const DriveParentReferencePrivate& other):
+    QString id;
+    QString selfLink;
+    QString parentLink;
+    bool isRoot;
+};
+
+DriveParentReference::Private::Private():
+    isRoot(false)
+{
+}
+
+DriveParentReference::Private::Private(const Private &other):
     id(other.id),
     selfLink(other.selfLink),
     parentLink(other.parentLink),
     isRoot(other.isRoot)
-{ }
+{
+}
 
-///// DriveParentReference
+DriveParentReference::DriveParentReference():
+    d(new Private)
+{
+}
 
-DriveParentReference::DriveParentReference()
-{ }
-
-DriveParentReference::DriveParentReference(const DriveParentReference& other):
-    d(new DriveParentReferencePrivate(*(other.d)))
-{ }
+DriveParentReference::DriveParentReference(const DriveParentReference &other):
+    d(new Private(*(other.d)))
+{
+}
 
 DriveParentReference::~DriveParentReference()
 {
@@ -48,7 +64,7 @@ QString DriveParentReference::id()
     return d->id;
 }
 
-void DriveParentReference::setId(const QString& id)
+void DriveParentReference::setId(const QString &id)
 {
     d->id = id;
 }
@@ -58,7 +74,7 @@ QString DriveParentReference::selfLink()
     return d->selfLink;
 }
 
-void DriveParentReference::setSelfLink(const QString& selfLink)
+void DriveParentReference::setSelfLink(const QString &selfLink)
 {
     d->selfLink = selfLink;
 }
@@ -68,17 +84,17 @@ QString DriveParentReference::parentLink()
     return d->parentLink;
 }
 
-void DriveParentReference::setParentLink(const QString& parentLink)
+void DriveParentReference::setParentLink(const QString &parentLink)
 {
     d->parentLink = parentLink;
 }
 
-QVariant DriveParentReference::isRoot()
+bool DriveParentReference::isRoot()
 {
     return d->isRoot;
 }
 
-void DriveParentReference::setIsRoot(const QVariant& isRoot)
+void DriveParentReference::setIsRoot(bool isRoot)
 {
     d->isRoot = isRoot;
 }

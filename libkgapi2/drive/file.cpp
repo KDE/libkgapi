@@ -16,13 +16,360 @@
 */
 
 #include "file.h"
-#include "file_p.h"
 
-using namespace KGAPI::Objects;
+using namespace KGAPI2;
 
-///// DriveFilePrivate
+///// DriveFile::Labels
 
-DriveFilePrivate::DriveFilePrivate(const DriveFilePrivate& other):
+class DriveFile::Labels::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
+
+    bool starred;
+    bool hidden;
+    bool trashed;
+    bool restricted;
+    bool viewed;
+};
+
+DriveFile::Labels::Private::Private():
+    starred(false),
+    hidden(false),
+    trashed(false),
+    restricted(false),
+    viewed(false)
+{
+}
+
+DriveFile::Labels::Private::Private(const Private &other):
+    starred(other.starred),
+    hidden(other.hidden),
+    trashed(other.trashed),
+    restricted(other.restricted),
+    viewed(other.viewed)
+{
+}
+
+DriveFile::Labels::Labels():
+    d(new Private)
+{
+}
+
+DriveFile::Labels::Labels(const Labels& other):
+    d(new Private(*(other.d)))
+{ }
+
+DriveFile::Labels::~Labels()
+{
+    delete d;
+}
+
+bool DriveFile::Labels::starred()
+{
+    return d->starred;
+}
+
+void DriveFile::Labels::setStarred(bool starred)
+{
+    d->starred = starred;
+}
+
+bool DriveFile::Labels::hidden()
+{
+    return d->hidden;
+}
+
+void DriveFile::Labels::setHidden(bool hidden)
+{
+    d->hidden = hidden;
+}
+
+bool DriveFile::Labels::trashed()
+{
+    return d->trashed;
+}
+
+void DriveFile::Labels::setTrashed(bool trashed)
+{
+    d->trashed = trashed;
+}
+
+bool DriveFile::Labels::restricted()
+{
+    return d->restricted;
+}
+
+void DriveFile::Labels::setRestricted(bool restricted)
+{
+    d->restricted = restricted;
+}
+
+bool DriveFile::Labels::viewed()
+{
+    return d->viewed;
+}
+
+void DriveFile::Labels::setViewed(bool viewed)
+{
+    d->viewed = viewed;
+}
+
+///// DriveFile::ImageMediaMetadata
+
+class DriveFile::IndexableText::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
+
+    QString text;
+};
+
+DriveFile::IndexableText::Private::Private()
+{
+}
+
+DriveFile::IndexableText::Private::Private(const Private &other):
+    text(other.text)
+{
+}
+
+DriveFile::IndexableText::IndexableText():
+    d(new Private)
+{
+}
+
+DriveFile::IndexableText::IndexableText(const IndexableText& other):
+    d(new Private(*(other.d)))
+{
+}
+
+DriveFile::IndexableText::~IndexableText()
+{
+    delete d;
+}
+
+QString DriveFile::IndexableText::text()
+{
+    return d->text;
+}
+
+void DriveFile::IndexableText::setText(const QString& text)
+{
+    d->text = text;
+}
+
+
+///// DriveFile::ImageMediaMetadata::Location
+
+class DriveFile::ImageMediaMetadata::Location::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
+
+    qreal latitude;
+    qreal longitude;
+    qreal altitude;
+};
+
+DriveFile::ImageMediaMetadata::Location::Private::Private():
+    latitude(-1),
+    longitude(-1),
+    altitude(0)
+{
+}
+
+DriveFile::ImageMediaMetadata::Location::Private::Private(const Private &other):
+    latitude(other.latitude),
+    longitude(other.longitude),
+    altitude(other.altitude)
+{
+}
+
+
+DriveFile::ImageMediaMetadata::Location::Location():
+    d(new Private)
+{
+}
+
+DriveFile::ImageMediaMetadata::Location::Location(const Location& other):
+    d(new Private(*(other.d)))
+{
+}
+
+DriveFile::ImageMediaMetadata::Location::~Location()
+{
+    delete d;
+}
+
+qreal DriveFile::ImageMediaMetadata::Location::latitude()
+{
+    return d->latitude;
+}
+
+void DriveFile::ImageMediaMetadata::Location::setLatitude(qreal latitude)
+{
+    d->latitude = latitude;
+}
+
+qreal DriveFile::ImageMediaMetadata::Location::longitude()
+{
+    return d->longitude;
+}
+
+void DriveFile::ImageMediaMetadata::Location::setLongitude(qreal longitude)
+{
+    d->longitude = longitude;
+}
+
+qreal DriveFile::ImageMediaMetadata::Location::altitude()
+{
+    return d->altitude;
+}
+
+void DriveFile::ImageMediaMetadata::Location::setAltitude(qreal altitude)
+{
+    d->altitude = altitude;
+}
+
+///// DriveFile::ImageMediaMetadata
+
+class DriveFile::ImageMediaMetadata::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
+
+    int width;
+    int height;
+    int rotation;
+    LocationPtr location;
+};
+
+DriveFile::ImageMediaMetadata::Private::Private():
+    width(-1),
+    height(-1),
+    rotation(-1)
+{
+}
+
+DriveFile::ImageMediaMetadata::Private::Private(const Private &other):
+    width(other.width),
+    height(other.height),
+    rotation(other.rotation),
+    location(other.location)
+{
+}
+
+DriveFile::ImageMediaMetadata::ImageMediaMetadata():
+    d(new Private)
+{
+}
+
+DriveFile::ImageMediaMetadata::ImageMediaMetadata(const ImageMediaMetadata& other):
+    d(new Private(*(other.d)))
+{
+}
+
+DriveFile::ImageMediaMetadata::~ImageMediaMetadata()
+{
+    delete d;
+}
+
+int DriveFile::ImageMediaMetadata::width()
+{
+    return d->width;
+}
+
+void DriveFile::ImageMediaMetadata::setWidth(int width)
+{
+    d->width = width;
+}
+
+int DriveFile::ImageMediaMetadata::height()
+{
+    return d->height;
+}
+
+void DriveFile::ImageMediaMetadata::setHeight(int height)
+{
+    d->height = height;
+}
+
+int DriveFile::ImageMediaMetadata::rotation()
+{
+    return d->rotation;
+}
+
+void DriveFile::ImageMediaMetadata::setRotation(int rotation)
+{
+    d->rotation = rotation;
+}
+
+DriveFile::ImageMediaMetadata::LocationPtr DriveFile::ImageMediaMetadata::location()
+{
+    return d->location;
+}
+
+void DriveFile::ImageMediaMetadata::setLocation(const LocationPtr &location)
+{
+    d->location = location;
+}
+
+////// DriveFile
+
+class DriveFile::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
+
+    QString id;
+    QString selfLink;
+    QString title;
+    QString mimeType;
+    QString description;
+    LabelsPtr labels;
+    KDateTime createdDate;
+    KDateTime modifiedDate;
+    KDateTime modifiedByMeDate;
+    QString downloadUrl;
+    IndexableTextPtr indexableText;
+    DrivePermissionPtr userPermission;
+    QString fileExtension;
+    QString md5Checksum;
+    qlonglong fileSize;
+    QString alternateLink;
+    QString embedLink;
+    KDateTime sharedWithMeDate;
+    DriveParentReferencesList parents;
+    QMap<QString,QString> exportLinks;
+    QString originalFileName;
+    qlonglong quotaBytesUsed;
+    QList<QString> ownerNames;
+    QString lastModifyingUserName;
+    bool editable;
+    bool writersCanShare;
+    QString thumbnailLink;
+    KDateTime lastViewedByMeDate;
+    QString webContentLink;
+    bool explicitlyTrashed;
+    ImageMediaMetadataPtr imageMediaMetadata;
+};
+
+DriveFile::Private::Private():
+    fileSize(-1),
+    quotaBytesUsed(-1),
+    editable(false),
+    writersCanShare(false),
+    explicitlyTrashed(false)
+{
+}
+
+DriveFile::Private::Private(const Private& other):
     id(other.id),
     selfLink(other.selfLink),
     title(other.title),
@@ -54,201 +401,16 @@ DriveFilePrivate::DriveFilePrivate(const DriveFilePrivate& other):
     webContentLink(other.webContentLink),
     explicitlyTrashed(other.explicitlyTrashed),
     imageMediaMetadata(other.imageMediaMetadata)
-{ }
-
-///// DriveFile::Labels
-
-DriveFile::Labels::Labels()
-{ }
-
-DriveFile::Labels::Labels(const Labels& other):
-    d(new DriveFilePrivate::Labels(*(other.d)))
-{ }
-
-DriveFile::Labels::~Labels()
 {
-    delete d;
 }
 
-QVariant DriveFile::Labels::starred()
+DriveFile::DriveFile():
+    d(new Private)
 {
-    return d->starred;
 }
-
-void DriveFile::Labels::setStarred(const QVariant& starred)
-{
-    d->starred = starred;
-}
-
-QVariant DriveFile::Labels::hidden()
-{
-    return d->hidden;
-}
-
-void DriveFile::Labels::setHidden(const QVariant& hidden)
-{
-    d->hidden = hidden;
-}
-
-QVariant DriveFile::Labels::trashed()
-{
-    return d->trashed;
-}
-
-void DriveFile::Labels::setTrashed(const QVariant& trashed)
-{
-    d->trashed = trashed;
-}
-
-QVariant DriveFile::Labels::restricted()
-{
-    return d->restricted;
-}
-
-void DriveFile::Labels::setRestricted(const QVariant& restricted)
-{
-    d->restricted = restricted;
-}
-
-QVariant DriveFile::Labels::viewed()
-{
-    return d->viewed;
-}
-
-void DriveFile::Labels::setViewed(const QVariant& viewed)
-{
-    d->viewed = viewed;
-}
-
-///// DriveFile::IndexableText
-
-DriveFile::IndexableText::IndexableText()
-{ }
-
-DriveFile::IndexableText::IndexableText(const IndexableText& other):
-    d(new DriveFilePrivate::IndexableText(*(other.d)))
-{ }
-
-DriveFile::IndexableText::~IndexableText()
-{
-    delete d;
-}
-
-QString DriveFile::IndexableText::text()
-{
-    return d->text;
-}
-
-void DriveFile::IndexableText::setText(const QString& text)
-{
-    d->text = text;
-}
-
-///// DriveFile::ImageMediaMetadata::Location
-
-DriveFile::ImageMediaMetadata::Location::Location()
-{ }
-
-DriveFile::ImageMediaMetadata::Location::Location(const Location& other):
-    d(new DriveFilePrivate::ImageMediaMetadata::Location(*(other.d)))
-{ }
-
-DriveFile::ImageMediaMetadata::Location::~Location()
-{
-    delete d;
-}
-
-qreal DriveFile::ImageMediaMetadata::Location::latitude()
-{
-    return d->latitude;
-}
-
-void DriveFile::ImageMediaMetadata::Location::setLatitude(const qreal& latitude)
-{
-    d->latitude = latitude;
-}
-
-qreal DriveFile::ImageMediaMetadata::Location::longitude()
-{
-    return d->longitude;
-}
-
-void DriveFile::ImageMediaMetadata::Location::setLongitude(const qreal& longitude)
-{
-    d->longitude = longitude;
-}
-
-qreal DriveFile::ImageMediaMetadata::Location::altitude()
-{
-    return d->altitude;
-}
-
-void DriveFile::ImageMediaMetadata::Location::setAltitude(const qreal& altitude)
-{
-    d->altitude = altitude;
-}
-
-///// DriveFile::ImageMediaMetadata
-
-DriveFile::ImageMediaMetadata::ImageMediaMetadata()
-{ }
-
-DriveFile::ImageMediaMetadata::ImageMediaMetadata(const ImageMediaMetadata& other):
-    d(new DriveFilePrivate::ImageMediaMetadata(*(other.d)))
-{ }
-
-DriveFile::ImageMediaMetadata::~ImageMediaMetadata()
-{
-    delete d;
-}
-
-int DriveFile::ImageMediaMetadata::width()
-{
-    return d->width;
-}
-
-void DriveFile::ImageMediaMetadata::setWidth(const int& width)
-{
-    d->width = width;
-}
-
-int DriveFile::ImageMediaMetadata::height()
-{
-    return d->height;
-}
-
-void DriveFile::ImageMediaMetadata::setHeight(const int& height)
-{
-    d->height = height;
-}
-
-int DriveFile::ImageMediaMetadata::rotation()
-{
-    return d->rotation;
-}
-
-void DriveFile::ImageMediaMetadata::setRotation(const int& rotation)
-{
-    d->rotation = rotation;
-}
-
-DriveFile::ImageMediaMetadata::Location DriveFile::ImageMediaMetadata::location()
-{
-    return d->location;
-}
-
-void DriveFile::ImageMediaMetadata::setLocation(const DriveFile::ImageMediaMetadata::Location& location)
-{
-    d->location = location;
-}
-
-///// DriveFile
-
-DriveFile::DriveFile()
-{ }
 
 DriveFile::DriveFile(const DriveFile& other):
-    d(new DriveFilePrivate(*(other.d)))
+    d(new Private(*(other.d)))
 { }
 
 DriveFile::~DriveFile()
@@ -306,12 +468,12 @@ void DriveFile::setDescription(const QString& description)
     d->description = description;
 }
 
-DriveFile::Labels DriveFile::labels()
+DriveFile::LabelsPtr DriveFile::labels()
 {
     return d->labels;
 }
 
-void DriveFile::setLabels(const DriveFile::Labels& labels)
+void DriveFile::setLabels(const DriveFile::LabelsPtr &labels)
 {
     d->labels = labels;
 }
@@ -356,22 +518,22 @@ void DriveFile::setDownloadUrl(const QString& downloadUrl)
     d->downloadUrl = downloadUrl;
 }
 
-DriveFile::IndexableText DriveFile::indexableText()
+DriveFile::IndexableTextPtr DriveFile::indexableText()
 {
     return d->indexableText;
 }
 
-void DriveFile::setIndexableText(const DriveFile::IndexableText& indexableText)
+void DriveFile::setIndexableText(const DriveFile::IndexableTextPtr &indexableText)
 {
     d->indexableText = indexableText;
 }
 
-DrivePermission::Ptr DriveFile::userPermission()
+DrivePermissionPtr DriveFile::userPermission()
 {
     return d->userPermission;
 }
 
-void DriveFile::setUserPermission(const DrivePermission::Ptr& userPermission)
+void DriveFile::setUserPermission(const DrivePermissionPtr& userPermission)
 {
     d->userPermission = userPermission;
 }
@@ -401,7 +563,7 @@ qlonglong DriveFile::fileSize()
     return d->fileSize;
 }
 
-void DriveFile::setFileSize(const qlonglong& fileSize)
+void DriveFile::setFileSize(qlonglong fileSize)
 {
     d->fileSize = fileSize;
 }
@@ -436,12 +598,12 @@ void DriveFile::setSharedWithMeDate(const KDateTime& sharedWithMeDate)
     d->sharedWithMeDate = sharedWithMeDate;
 }
 
-QList<DriveParentReference> DriveFile::parents()
+DriveParentReferencesList DriveFile::parents()
 {
     return d->parents;
 }
 
-void DriveFile::setParents(const QList<DriveParentReference>& parents)
+void DriveFile::setParents(const DriveParentReferencesList &parents)
 {
     d->parents = parents;
 }
@@ -471,7 +633,7 @@ qlonglong DriveFile::quotaBytesUsed()
     return d->quotaBytesUsed;
 }
 
-void DriveFile::setQuotaBytesUsed(const qlonglong& quotaBytesUsed)
+void DriveFile::setQuotaBytesUsed(qlonglong quotaBytesUsed)
 {
     d->quotaBytesUsed = quotaBytesUsed;
 }
@@ -496,22 +658,22 @@ void DriveFile::setLastModifyingUserName(const QString& lastModifyingUserName)
     d->lastModifyingUserName = lastModifyingUserName;
 }
 
-QVariant DriveFile::editable()
+bool DriveFile::editable()
 {
     return d->editable;
 }
 
-void DriveFile::setEditable(const QVariant& editable)
+void DriveFile::setEditable(bool editable)
 {
     d->editable = editable;
 }
 
-QVariant DriveFile::writersCanShare()
+bool DriveFile::writersCanShare()
 {
     return d->writersCanShare;
 }
 
-void DriveFile::setWritersCanShare(const QVariant& writersCanShare)
+void DriveFile::setWritersCanShare(bool writersCanShare)
 {
     d->writersCanShare = writersCanShare;
 }
@@ -546,22 +708,22 @@ void DriveFile::setWebContentLink(const QString& webContentLink)
     d->webContentLink = webContentLink;
 }
 
-QVariant DriveFile::explicitlyTrashed()
+bool DriveFile::explicitlyTrashed()
 {
     return d->explicitlyTrashed;
 }
 
-void DriveFile::setExplicitlyTrashed(const QVariant& explicitlyTrashed)
+void DriveFile::setExplicitlyTrashed(bool explicitlyTrashed)
 {
     d->explicitlyTrashed = explicitlyTrashed;
 }
 
-DriveFile::ImageMediaMetadata DriveFile::imageMediaMetadata()
+DriveFile::ImageMediaMetadataPtr DriveFile::imageMediaMetadata()
 {
     return d->imageMediaMetadata;
 }
 
-void DriveFile::setImageMediaMetadata(const DriveFile::ImageMediaMetadata& imageMediaMetadata)
+void DriveFile::setImageMediaMetadata(const DriveFile::ImageMediaMetadataPtr &imageMediaMetadata)
 {
     d->imageMediaMetadata = imageMediaMetadata;
 }

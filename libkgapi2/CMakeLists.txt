@@ -101,6 +101,28 @@ set(LibKGAPI_calendar_HDRS
     calendar/reminder.h
 )
 
+set(LibKGAPI_drive_SRCS
+    drive/about.cpp
+    drive/app.cpp
+    drive/change.cpp
+    drive/childreference.cpp
+    drive/file.cpp
+    drive/parentreference.cpp
+    drive/permission.cpp
+    drive/revision.cpp
+)
+
+set(LibKGAPI_drive_HDRS
+    drive/about.h
+    drive/app.h
+    drive/change.h
+    drive/childreference.h
+    drive/file.h
+    drive/parentreference.h
+    drive/permission.h
+    drive/revision.h
+)
+
 set(LibKGAPI_latitude_SRCS
     latitude/latitudeservice.cpp
     latitude/location.cpp
@@ -183,6 +205,7 @@ kde4_add_library(kgapi2 SHARED
     ${LibKGAPI_accountinfo_SRCS}
     ${LibKGAPI_contacts_SRCS}
     ${LibKGAPI_calendar_SRCS}
+    ${LibKGAPI_drive_SRCS}
     ${LibKGAPI_latitude_SRCS}
     ${LibKGAPI_private_SRCS}
     ${LibKGAPI_staticMaps_SRCS}
@@ -217,6 +240,7 @@ install(FILES ${LibKGAPI_core_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2
 install(FILES ${LibKGAPI_accountinfo_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/accountinfo)
 install(FILES ${LibKGAPI_contacts_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/contacts)
 install(FILES ${LibKGAPI_calendar_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/calendar)
+install(FILES ${LibKGAPI_drive_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/drive)
 install(FILES ${LibKGAPI_latitude_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/latitude)
 install(FILES ${LibKGAPI_staticMaps_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/staticmaps)
 install(FILES ${LibKGAPI_tasks_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/tasks)

@@ -15,101 +15,103 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBKGAPI_OBJECTS_DRIVECHANGE_H
-#define LIBKGAPI_OBJECTS_DRIVECHANGE_H
+#ifndef LIBKGAPI2_DRIVE_CHANGE_H
+#define LIBKGAPI2_DRIVE_CHANGE_H
 
-#include <libkgapi/objects/drive/file.h>
+#include <libkgapi2/types.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
-#include <QtCore/QMetaType>
-#include <QtCore/QSharedPointer>
 
-namespace KGAPI
+namespace KGAPI2
 {
-
-namespace Objects
-{
-
-class DriveChangePrivate;
-
 
 /**
- * DriveChange contains the representation of a change to a file
+ * @brief DriveChange contains the representation of a change to a file
+ *
  * Getters and setters' documentation is based on Google Drive's API v2 reference
  * @see <a href="https://developers.google.com/drive/v2/reference/changes">Changes</a>
+ *
+ * @since 2.0
+ * @author Andrius da Costa Ribas <andriusmao@gmail.com>
+ * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI_EXPORT DriveChange: public KGAPI::Object
+class LIBKGAPI2_EXPORT DriveChange
 {
-public:
-    typedef QSharedPointer< DriveChange > Ptr;
-    typedef QList< DriveChange > List;
-    
-    DriveChange();
-    DriveChange(const DriveChange& other);
+  public:
+    explicit DriveChange();
+    explicit DriveChange(const DriveChange& other);
     virtual ~DriveChange();
-    
+
     /**
-     * Returns the id of the change.
+     * @brief Returns the id of the change.
      */
     qlonglong id();
-    
+
     /**
-     * Sets the id of the change.
+     * @brief Sets the id of the change.
+     *
+     * @param id
      */
     void setId(const qlonglong& id);
-    
+
     /**
-     * Returns the id of the file associated with this change.
+     * @brief Returns the id of the file associated with this change.
      */
     QString fileId();
-    
+
     /**
-     * Sets the id of the file associated with this change.
+     * @brief Sets the id of the file associated with this change.
+     *
+     * @param fileId
      */
     void setFileId(const QString& fileId);
-    
+
     /**
-     * Returns a link back to this change.
+     * @brief Returns a link back to this change.
      */
     QString selfLink();
-    
+
     /**
-     * Sets the link back to this change.
+     * @brief Sets the link back to this change.
+     *
+     * @param selfLink
      */
     void setSelfLink(const QString& selfLink);
-    
+
     /**
      * Returns whether this file has been deleted.
      */
-    QVariant deleted();
-    
+    bool deleted();
+
     /**
-     * Sets whether this file has been deleted.
+     * @brief Sets whether this file has been deleted.
+     *
+     * @param deleted
      */
-    void setDeleted(const QVariant& deleted);
-    
+    void setDeleted(bool deleted);
+
     /**
-     * Returns the updated state of the file.
+     * @brief Returns the updated state of the file.
+     *
      * Present if the file has not been deleted.
      */
-    DriveFile::Ptr file();
-    
+    DriveFilePtr file();
+
     /**
      * Sets the updated state of the file.
      * Present if the file has not been deleted.
+     *
+     * @param file
      */
-    void setFile(const DriveFile::Ptr& file);
+    void setFile(const DriveFilePtr& file);
 
-private:
-    DriveChangePrivate* d;
+  private:
+    class Private;
+    Private * const d;
+    friend class Private;
 };
 
-} /* namespace Objects */
+} /* namespace KGAPI2 */
 
-} /* namespace KGAPI */
-
-Q_DECLARE_METATYPE(KGAPI::Objects::DriveChange::Ptr)
-Q_DECLARE_METATYPE(KGAPI::Objects::DriveChange*)
-Q_DECLARE_METATYPE(KGAPI::Objects::DriveChange::List)
-
-#endif // LIBKGAPI_OBJECTS_DRIVECHANGE_H
+#endif // LIBKGAPI2_DRIVE_CHANGE_H

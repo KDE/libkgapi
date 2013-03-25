@@ -16,28 +16,46 @@
 */
 
 #include "change.h"
-#include "change_p.h"
 
-using namespace KGAPI::Objects;
+using namespace KGAPI2;
 
-///// DriveChangePrivate
+class DriveChange::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
 
-DriveChangePrivate::DriveChangePrivate(const DriveChangePrivate& other):
+    qlonglong id;
+    QString fileId;
+    QString selfLink;
+    bool deleted;
+    DriveFilePtr file;
+};
+
+DriveChange::Private::Private():
+    id(-1),
+    deleted(false)
+{
+}
+
+DriveChange::Private::Private(const Private &other):
     id(other.id),
     fileId(other.fileId),
     selfLink(other.selfLink),
     deleted(other.deleted),
     file(other.file)
-{ }
+{
+}
 
-///// DriveChange
+DriveChange::DriveChange():
+    d(new Private)
+{
+}
 
-DriveChange::DriveChange()
-{ }
-
-DriveChange::DriveChange(const DriveChange& other):
-    d(new DriveChangePrivate(*(other.d)))
-{ }
+DriveChange::DriveChange(const DriveChange &other):
+    d(new Private(*(other.d)))
+{
+}
 
 DriveChange::~DriveChange()
 {
@@ -49,7 +67,7 @@ qlonglong DriveChange::id()
     return d->id;
 }
 
-void DriveChange::setId(const qlonglong& id)
+void DriveChange::setId(const qlonglong &id)
 {
     d->id = id;
 }
@@ -59,7 +77,7 @@ QString DriveChange::fileId()
     return d->fileId;
 }
 
-void DriveChange::setFileId(const QString& fileId)
+void DriveChange::setFileId(const QString &fileId)
 {
     d->fileId = fileId;
 }
@@ -69,27 +87,27 @@ QString DriveChange::selfLink()
     return d->selfLink;
 }
 
-void DriveChange::setSelfLink(const QString& selfLink)
+void DriveChange::setSelfLink(const QString &selfLink)
 {
     d->selfLink = selfLink;
 }
 
-QVariant DriveChange::deleted()
+bool DriveChange::deleted()
 {
     return d->deleted;
 }
 
-void DriveChange::setDeleted(const QVariant& deleted)
+void DriveChange::setDeleted(bool deleted)
 {
     d->deleted = deleted;
 }
 
-DriveFile::Ptr DriveChange::file()
+DriveFilePtr DriveChange::file()
 {
     return d->file;
 }
 
-void DriveChange::setFile(const DriveFile::Ptr& file)
+void DriveChange::setFile(const DriveFilePtr &file)
 {
     d->file = file;
 }

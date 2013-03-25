@@ -16,13 +16,42 @@
 */
 
 #include "revision.h"
-#include "revision_p.h"
 
-using namespace KGAPI::Objects;
+using namespace KGAPI2;
 
-///// DriveRevisionPrivate
+class DriveRevision::Private
+{
+public:
+    Private();
+    Private(const Private& other);
 
-DriveRevisionPrivate::DriveRevisionPrivate(const DriveRevisionPrivate& other):
+    QString id;
+    QString selfLink;
+    QString mimeType;
+    KDateTime modifiedDate;
+    bool pinned;
+    bool published;
+    QString publishedLink;
+    bool publishedAuto;
+    bool publishedOutsideDomain;
+    QString downloadUrl;
+    QMap<QString, QString> exportLinks;
+    QString lastModifyingUserName;
+    QString originalFilename;
+    QString md5Checksum;
+    qlonglong fileSize;
+};
+
+DriveRevision::Private::Private():
+    pinned(false),
+    published(false),
+    publishedAuto(false),
+    publishedOutsideDomain(false),
+    fileSize(-1)
+{
+}
+
+DriveRevision::Private::Private(const Private& other):
     id(other.id),
     selfLink(other.selfLink),
     mimeType(other.mimeType),
@@ -38,16 +67,22 @@ DriveRevisionPrivate::DriveRevisionPrivate(const DriveRevisionPrivate& other):
     originalFilename(other.originalFilename),
     md5Checksum(other.md5Checksum),
     fileSize(other.fileSize)
-{ }
+{
+}
 
-///// DriveRevision
+DriveRevision::DriveRevision():
+    d(new Private)
+{
+}
 
-DriveRevision::DriveRevision()
-{ }
+DriveRevision::DriveRevision(const QVariantMap &jsonData)
+{
+}
 
 DriveRevision::DriveRevision(const DriveRevision& other):
-    d(new DriveRevisionPrivate(*(other.d)))
-{ }
+    d(new Private(*(other.d)))
+{
+}
 
 DriveRevision::~DriveRevision()
 {
@@ -94,22 +129,22 @@ void DriveRevision::setModifiedDate(const KDateTime& modifiedDate)
     d->modifiedDate = modifiedDate;
 }
 
-QVariant DriveRevision::pinned()
+bool DriveRevision::pinned()
 {
     return d->pinned;
 }
 
-void DriveRevision::setPinned(const QVariant& pinned)
+void DriveRevision::setPinned(bool pinned)
 {
     d->pinned = pinned;
 }
 
-QVariant DriveRevision::published()
+bool DriveRevision::published()
 {
     return d->published;
 }
 
-void DriveRevision::setPublished(const QVariant& published)
+void DriveRevision::setPublished(bool published)
 {
     d->published = published;
 }
@@ -124,22 +159,22 @@ void DriveRevision::setPublishedLink(const QString& publishedLink)
     d->publishedLink = publishedLink;
 }
 
-QVariant DriveRevision::publishedAuto()
+bool DriveRevision::publishedAuto()
 {
     return d->publishedAuto;
 }
 
-void DriveRevision::setPublishedAuto(const QVariant& publishedAuto)
+void DriveRevision::setPublishedAuto(bool publishedAuto)
 {
     d->publishedAuto = publishedAuto;
 }
 
-QVariant DriveRevision::publishedOutsideDomain()
+bool DriveRevision::publishedOutsideDomain()
 {
     return d->publishedOutsideDomain;
 }
 
-void DriveRevision::setPublishedOutsideDomain(const QVariant& publishedOutsideDomain)
+void DriveRevision::setPublishedOutsideDomain(bool publishedOutsideDomain)
 {
     d->publishedOutsideDomain = publishedOutsideDomain;
 }
@@ -199,7 +234,7 @@ qlonglong DriveRevision::fileSize()
     return d->fileSize;
 }
 
-void DriveRevision::setFileSize(const qlonglong& fileSize)
+void DriveRevision::setFileSize(qlonglong fileSize)
 {
     d->fileSize = fileSize;
 }

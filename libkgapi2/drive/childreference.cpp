@@ -16,26 +16,40 @@
 */
 
 #include "childreference.h"
-#include "childreference_p.h"
 
-using namespace KGAPI::Objects;
+using namespace KGAPI2;
 
-///// DriveChildReferencePrivate
+class DriveChildReference::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
 
-DriveChildReferencePrivate::DriveChildReferencePrivate(const DriveChildReferencePrivate& other):
+    QString id;
+    QString selfLink;
+    QString childLink;
+};
+
+DriveChildReference::Private::Private()
+{
+}
+
+DriveChildReference::Private::Private(const Private &other):
     id(other.id),
     selfLink(other.selfLink),
     childLink(other.childLink)
-{ }
+{
+}
 
-///// DriveChildReference
+DriveChildReference::DriveChildReference():
+    d(new Private)
+{
+}
 
-DriveChildReference::DriveChildReference()
-{ }
-
-DriveChildReference::DriveChildReference(const DriveChildReference& other):
-    d(new DriveChildReferencePrivate(*(other.d)))
-{ }
+DriveChildReference::DriveChildReference(const DriveChildReference &other):
+    d(new Private(*(other.d)))
+{
+}
 
 DriveChildReference::~DriveChildReference()
 {
@@ -47,7 +61,7 @@ QString DriveChildReference::id()
     return d->id;
 }
 
-void DriveChildReference::setId(const QString& id)
+void DriveChildReference::setId(const QString &id)
 {
     d->id = id;
 }
@@ -57,7 +71,7 @@ QString DriveChildReference::selfLink()
     return d->selfLink;
 }
 
-void DriveChildReference::setSelfLink(const QString& selfLink)
+void DriveChildReference::setSelfLink(const QString &selfLink)
 {
     d->selfLink = selfLink;
 }
@@ -67,7 +81,7 @@ QString DriveChildReference::childLink()
     return d->childLink;
 }
 
-void DriveChildReference::setChildLink(const QString& childLink)
+void DriveChildReference::setChildLink(const QString &childLink)
 {
     d->childLink = childLink;
 }
