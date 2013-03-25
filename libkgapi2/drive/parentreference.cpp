@@ -26,8 +26,8 @@ class DriveParentReference::Private
     Private(const Private &other);
 
     QString id;
-    QString selfLink;
-    QString parentLink;
+    QUrl selfLink;
+    QUrl parentLink;
     bool isRoot;
 };
 
@@ -69,22 +69,22 @@ void DriveParentReference::setId(const QString &id)
     d->id = id;
 }
 
-QString DriveParentReference::selfLink() const
+QUrl DriveParentReference::selfLink() const
 {
     return d->selfLink;
 }
 
-void DriveParentReference::setSelfLink(const QString &selfLink)
+void DriveParentReference::setSelfLink(const QUrl &selfLink)
 {
     d->selfLink = selfLink;
 }
 
-QString DriveParentReference::parentLink() const
+QUrl DriveParentReference::parentLink() const
 {
     return d->parentLink;
 }
 
-void DriveParentReference::setParentLink(const QString &parentLink)
+void DriveParentReference::setParentLink(const QUrl &parentLink)
 {
     d->parentLink = parentLink;
 }

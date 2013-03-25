@@ -22,6 +22,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QUrl>
 
 #include <KDE/KDateTime>
 
@@ -289,14 +290,14 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns a link back to this file.
      */
-    QString selfLink() const;
+    QUrl selfLink() const;
 
     /**
      * @brief Sets the link back to this file.
      *
      * @param selfLink
      */
-    void setSelfLink(const QString &selfLink);
+    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns the title of this file.
@@ -397,7 +398,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This is only populated for files with content stored in Drive.
      */
-    QString downloadUrl() const;
+    QUrl downloadUrl() const;
 
     /**
      * @brief Sets the short lived download URL for the file.
@@ -406,7 +407,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * @param downloadUrl
      */
-    void setDownloadUrl(const QString &downloadUrl);
+    void setDownloadUrl(const QUrl &downloadUrl);
 
     /**
      * @brief Returns the indexable text attributes for the file.
@@ -489,7 +490,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * @brief Returns a link for opening the file in using a relevant
      *        Google editor or viewer.
      */
-    QString alternateLink() const;
+    QUrl alternateLink() const;
 
     /**
      * @brief Sets the link for opening the file in using a relevant Google
@@ -497,19 +498,19 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * @param alternateLink
      */
-    void setAlternateLink(const QString &alternateLink);
+    void setAlternateLink(const QUrl &alternateLink);
 
     /**
      * @brief Returns a link for embedding the file.
      */
-    QString embedLink() const;
+    QUrl embedLink() const;
 
     /**
      * @brief Sets the link for embedding the file.
      *
      * @param embedLink
      */
-    void setEmbedLink(const QString &embedLink);
+    void setEmbedLink(const QUrl &embedLink);
 
     /**
      * @brief Returns the time at which this file was shared with the user.
@@ -548,7 +549,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This is a map from the export format to URL.
      */
-    QMap < QString /* format */, QString /* url */ > exportLinks() const;
+    QMap < QString /* format */, QUrl /* url */ > exportLinks() const;
 
     /**
      * @brief Sets the links for exporting Google Docs to specific formats.
@@ -557,7 +558,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * @param exportLinks
      */
-    void setExportLinks(const QMap < QString /* format */, QString /* url */ > &exportLinks);
+    void setExportLinks(const QMap < QString /* format */, QUrl /* url */ > &exportLinks);
 
     /**
      * @brief Returns the original filename if the file was uploaded manually,
@@ -642,14 +643,14 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns a link to the file's thumbnail.
      */
-    QString thumbnailLink() const;
+    QUrl thumbnailLink() const;
 
     /**
      * @brief Sets the link to the file's thumbnail.
      *
      * @param thumbnailLink
      */
-    void setThumbnailLink(const QString &thumbnailLink);
+    void setThumbnailLink(const QUrl &thumbnailLink);
 
     /**
      * @brief Returns the last time this file was viewed by the user.
@@ -670,7 +671,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * In cases where the content is shared publicly, the content can be
      * downloaded without any credentials.
      */
-    QString webContentLink() const;
+    QUrl webContentLink() const;
 
     /**
      * @brief Sets a link for downloading the content of the file in a browser
@@ -681,7 +682,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * @param webContentLink
      */
-    void setWebContentLink(const QString &webContentLink);
+    void setWebContentLink(const QUrl &webContentLink);
 
     /**
      * @brief Returns whether this file has been explicitly trashed, as opposed

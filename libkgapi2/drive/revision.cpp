@@ -26,16 +26,16 @@ public:
     Private(const Private& other);
 
     QString id;
-    QString selfLink;
+    QUrl selfLink;
     QString mimeType;
     KDateTime modifiedDate;
     bool pinned;
     bool published;
-    QString publishedLink;
+    QUrl publishedLink;
     bool publishedAuto;
     bool publishedOutsideDomain;
-    QString downloadUrl;
-    QMap<QString, QString> exportLinks;
+    QUrl downloadUrl;
+    QMap<QString, QUrl> exportLinks;
     QString lastModifyingUserName;
     QString originalFilename;
     QString md5Checksum;
@@ -95,12 +95,12 @@ void DriveRevision::setId(const QString& id)
     d->id = id;
 }
 
-QString DriveRevision::selfLink() const
+QUrl DriveRevision::selfLink() const
 {
     return d->selfLink;
 }
 
-void DriveRevision::setSelfLink(const QString& selfLink)
+void DriveRevision::setSelfLink(const QUrl &selfLink)
 {
     d->selfLink = selfLink;
 }
@@ -145,12 +145,12 @@ void DriveRevision::setPublished(bool published)
     d->published = published;
 }
 
-QString DriveRevision::publishedLink() const
+QUrl DriveRevision::publishedLink() const
 {
     return d->publishedLink;
 }
 
-void DriveRevision::setPublishedLink(const QString& publishedLink)
+void DriveRevision::setPublishedLink(const QUrl &publishedLink)
 {
     d->publishedLink = publishedLink;
 }
@@ -175,22 +175,22 @@ void DriveRevision::setPublishedOutsideDomain(bool publishedOutsideDomain)
     d->publishedOutsideDomain = publishedOutsideDomain;
 }
 
-QString DriveRevision::downloadUrl() const
+QUrl DriveRevision::downloadUrl() const
 {
     return d->downloadUrl;
 }
 
-void DriveRevision::setDownloadUrl(const QString& downloadUrl)
+void DriveRevision::setDownloadUrl(const QUrl &downloadUrl)
 {
     d->downloadUrl = downloadUrl;
 }
 
-QMap<QString, QString> DriveRevision::exportLinks() const
+QMap< QString, QUrl > DriveRevision::exportLinks() const
 {
     return d->exportLinks;
 }
 
-void DriveRevision::setExportLinks(const QMap<QString, QString>& exportLinks)
+void DriveRevision::setExportLinks(const QMap<QString, QUrl>& exportLinks)
 {
     d->exportLinks = exportLinks;
 }

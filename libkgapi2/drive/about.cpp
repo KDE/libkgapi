@@ -28,7 +28,7 @@ class DriveAbout::Format::Private
     Private(const Private &other);
 
     QString source;
-    QList<QString> targets;
+    QStringList targets;
 };
 
 DriveAbout::Format::Private::Private()
@@ -313,7 +313,7 @@ class DriveAbout::Private
     Private();
     Private(const Private &other);
 
-    QString selfLink;
+    QUrl selfLink;
     QString name;
     qlonglong quotaBytesTotal;
     qlonglong quotaBytesUsed;
@@ -376,12 +376,12 @@ DriveAbout::~DriveAbout()
     delete d;
 }
 
-QString DriveAbout::selfLink() const
+QUrl DriveAbout::selfLink() const
 {
     return d->selfLink;
 }
 
-void DriveAbout::setSelfLink(const QString &selfLink)
+void DriveAbout::setSelfLink(const QUrl &selfLink)
 {
     d->selfLink = selfLink;
 }

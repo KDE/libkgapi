@@ -21,6 +21,7 @@
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
+#include <QtCore/QUrl>
 #include <QtCore/QVariantMap>
 
 #include <KDE/KDateTime>
@@ -61,14 +62,14 @@ class LIBKGAPI2_EXPORT DriveRevision
     /**
      * @brief Returns a link back to this revision.
      */
-    QString selfLink() const;
+    QUrl selfLink() const;
 
     /**
      * @brief Sets a link back to this revision.
      *
      * @param selfLink
      */
-    void setSelfLink(const QString &selfLink);
+    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns the MIME type of the revision.
@@ -135,14 +136,14 @@ class LIBKGAPI2_EXPORT DriveRevision
     /**
      * @brief Returns a link to the published revision.
      */
-    QString publishedLink() const;
+    QUrl publishedLink() const;
 
     /**
      * @brief Sets a link to the published revision.
      *
      * @param publishedLink
      */
-    void setPublishedLink(const QString &publishedLink);
+    void setPublishedLink(const QUrl &publishedLink);
 
     /**
      * @brief Returns whether subsequent revisions will be automatically republished.
@@ -181,7 +182,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This will only be populated on files with content stored in Drive.
      */
-    QString downloadUrl() const;
+    QUrl downloadUrl() const;
 
     /**
      * @brief Sets a short term download URL for the file.
@@ -190,14 +191,14 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * @param downloadUrl
      */
-    void setDownloadUrl(const QString &downloadUrl);
+    void setDownloadUrl(const QUrl &downloadUrl);
 
     /**
      * @brief Returns the links for exporting Google Docs to specific formats.
      *
      * This is a map from the export format to URL.
      */
-    QMap<QString /* format */, QString /* url */> exportLinks() const;
+    QMap<QString /* format */, QUrl /* url */> exportLinks() const;
 
     /**
      * @brief Sets the links for exporting Google Docs to specific formats.
@@ -206,7 +207,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * @param exportLinks
      */
-    void setExportLinks(const QMap<QString /* format */, QString /* url */> &exportLinks);
+    void setExportLinks(const QMap<QString /* format */, QUrl > &exportLinks);
 
     /**
      * @brief Returns the name of the last user to modify this revision.

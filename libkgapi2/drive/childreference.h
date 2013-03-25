@@ -21,6 +21,7 @@
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
+#include <QtCore/QUrl>
 
 namespace KGAPI2
 {
@@ -58,26 +59,26 @@ class LIBKGAPI2_EXPORT DriveChildReference
     /**
      * @brief Returns a link back to this reference.
      */
-    QString selfLink() const;
+    QUrl selfLink() const;
 
     /**
      * @brief Sets a link back to this reference.
      *
      * @param selfLink
      */
-    void setSelfLink(const QString &selfLink);
+    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns a link to the child.
      */
-    QString childLink() const;
+    QUrl childLink() const;
 
     /**
      * @brief Sets a link to the child.
      *
      * @param childLink
      */
-    void setChildLink(const QString &childLink);
+    void setChildLink(const QUrl &childLink);
 
   private:
     class Private;

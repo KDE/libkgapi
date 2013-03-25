@@ -22,6 +22,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QUrl>
 
 namespace KGAPI2
 {
@@ -74,14 +75,14 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns a link back to this permission.
      */
-    QString selfLink() const;
+    QUrl selfLink() const;
 
     /**
      * @brief Sets a link back to this permission.
      *
      * @param selfLink
      */
-    void setSelfLink(const QString &selfLink);
+    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns the name of this permission.
@@ -156,14 +157,14 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns a link to the profile photo, if available.
      */
-    QString photoLink() const;
+    QUrl photoLink() const;
 
     /**
      * @brief Sets a link to the profile photo, if available.
      *
      * @param photoLink
      */
-    void setPhotoLink(const QString &photoLink);
+    void setPhotoLink(const QUrl &photoLink);
 
     /**
      * @brief Returns the email address or domain name for the entity.

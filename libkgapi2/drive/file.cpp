@@ -328,7 +328,7 @@ class DriveFile::Private
     Private(const Private &other);
 
     QString id;
-    QString selfLink;
+    QUrl selfLink;
     QString title;
     QString mimeType;
     QString description;
@@ -336,26 +336,26 @@ class DriveFile::Private
     KDateTime createdDate;
     KDateTime modifiedDate;
     KDateTime modifiedByMeDate;
-    QString downloadUrl;
+    QUrl downloadUrl;
     IndexableTextPtr indexableText;
     DrivePermissionPtr userPermission;
     QString fileExtension;
     QString md5Checksum;
     qlonglong fileSize;
-    QString alternateLink;
-    QString embedLink;
+    QUrl alternateLink;
+    QUrl embedLink;
     KDateTime sharedWithMeDate;
     DriveParentReferencesList parents;
-    QMap<QString,QString> exportLinks;
+    QMap<QString,QUrl> exportLinks;
     QString originalFileName;
     qlonglong quotaBytesUsed;
     QList<QString> ownerNames;
     QString lastModifyingUserName;
     bool editable;
     bool writersCanShare;
-    QString thumbnailLink;
+    QUrl thumbnailLink;
     KDateTime lastViewedByMeDate;
-    QString webContentLink;
+    QUrl webContentLink;
     bool explicitlyTrashed;
     ImageMediaMetadataPtr imageMediaMetadata;
 };
@@ -428,12 +428,12 @@ void DriveFile::setId(const QString& id)
     d->id = id;
 }
 
-QString DriveFile::selfLink() const
+QUrl DriveFile::selfLink() const
 {
     return d->selfLink;
 }
 
-void DriveFile::setSelfLink(const QString& selfLink)
+void DriveFile::setSelfLink(const QUrl &selfLink)
 {
     d->selfLink = selfLink;
 }
@@ -508,12 +508,12 @@ void DriveFile::setModifiedByMeDate(const KDateTime& modifiedByMeDate)
     d->modifiedByMeDate = modifiedByMeDate;
 }
 
-QString DriveFile::downloadUrl() const
+QUrl DriveFile::downloadUrl() const
 {
     return d->downloadUrl;
 }
 
-void DriveFile::setDownloadUrl(const QString& downloadUrl)
+void DriveFile::setDownloadUrl(const QUrl &downloadUrl)
 {
     d->downloadUrl = downloadUrl;
 }
@@ -568,22 +568,22 @@ void DriveFile::setFileSize(qlonglong fileSize)
     d->fileSize = fileSize;
 }
 
-QString DriveFile::alternateLink() const
+QUrl DriveFile::alternateLink() const
 {
     return d->alternateLink;
 }
 
-void DriveFile::setAlternateLink(const QString& alternateLink)
+void DriveFile::setAlternateLink(const QUrl &alternateLink)
 {
     d->alternateLink = alternateLink;
 }
 
-QString DriveFile::embedLink() const
+QUrl DriveFile::embedLink() const
 {
     return d->embedLink;
 }
 
-void DriveFile::setEmbedLink(const QString& embedLink)
+void DriveFile::setEmbedLink(const QUrl &embedLink)
 {
     d->embedLink = embedLink;
 }
@@ -608,12 +608,12 @@ void DriveFile::setParents(const DriveParentReferencesList &parents)
     d->parents = parents;
 }
 
-QMap<QString, QString> DriveFile::exportLinks() const
+QMap< QString, QUrl > DriveFile::exportLinks() const
 {
     return d->exportLinks;
 }
 
-void DriveFile::setExportLinks(const QMap<QString, QString>& exportLinks)
+void DriveFile::setExportLinks(const QMap< QString, QUrl > &exportLinks)
 {
     d->exportLinks = exportLinks;
 }
@@ -678,12 +678,12 @@ void DriveFile::setWritersCanShare(bool writersCanShare)
     d->writersCanShare = writersCanShare;
 }
 
-QString DriveFile::thumbnailLink() const
+QUrl DriveFile::thumbnailLink() const
 {
     return d->thumbnailLink;
 }
 
-void DriveFile::setThumbnailLink(const QString& thumbnailLink)
+void DriveFile::setThumbnailLink(const QUrl &thumbnailLink)
 {
     d->thumbnailLink = thumbnailLink;
 }
@@ -698,12 +698,12 @@ void DriveFile::setLastViewedByMeDate(const KDateTime& lastViewedByMeDate)
     d->lastViewedByMeDate = lastViewedByMeDate;
 }
 
-QString DriveFile::webContentLink() const
+QUrl DriveFile::webContentLink() const
 {
     return d->webContentLink;
 }
 
-void DriveFile::setWebContentLink(const QString& webContentLink)
+void DriveFile::setWebContentLink(const QUrl &webContentLink)
 {
     d->webContentLink = webContentLink;
 }

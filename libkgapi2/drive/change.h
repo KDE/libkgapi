@@ -22,6 +22,7 @@
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
+#include <QtCore/QUrl>
 
 namespace KGAPI2
 {
@@ -70,14 +71,14 @@ class LIBKGAPI2_EXPORT DriveChange
     /**
      * @brief Returns a link back to this change.
      */
-    QString selfLink() const;
+    QUrl selfLink() const;
 
     /**
      * @brief Sets the link back to this change.
      *
      * @param selfLink
      */
-    void setSelfLink(const QString& selfLink);
+    void setSelfLink(const QUrl& selfLink);
 
     /**
      * Returns whether this file has been deleted.

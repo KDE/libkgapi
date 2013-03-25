@@ -23,6 +23,7 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QSharedPointer>
+#include <QtCore/QUrl>
 
 namespace KGAPI2
 {
@@ -268,14 +269,14 @@ public:
     /**
      * @brief Returns the link back to this item.
      */
-    QString selfLink() const;
+    QUrl selfLink() const;
 
     /**
      * @brief Sets the link back to this item.
      *
      * @param selfLink
      */
-    void setSelfLink(const QString &selfLink);
+    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns the name of the current user.

@@ -23,7 +23,7 @@
 #include <QtCore/QSharedPointer>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtCore/QVariant>
+#include <QtCore/QUrl>
 
 namespace KGAPI2
 {
@@ -45,8 +45,8 @@ class LIBKGAPI2_EXPORT DriveApp
         int size() const;
         void setSize(const int &size);
 
-        QString iconUrl() const;
-        void setIconUrl(const QString &iconUrl);
+        QUrl iconUrl() const;
+        void setIconUrl(const QUrl &iconUrl);
 
       private:
         class Private;
@@ -85,8 +85,8 @@ class LIBKGAPI2_EXPORT DriveApp
     bool useByDefault() const;
     void setUseByDefault(bool useByDefault);
 
-    QString productUrl() const;
-    void setProductUrl(const QString &productUrl);
+    QUrl productUrl() const;
+    void setProductUrl(const QUrl &productUrl);
 
     QStringList primaryMimeTypes() const;
     void setPrimaryMimeTypes(const QStringList &primaryMimeTypes);

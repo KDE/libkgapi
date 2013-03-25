@@ -26,14 +26,14 @@ class DrivePermission::Private
     Private(const Private &other);
 
     QString id;
-    QString selfLink;
+    QUrl selfLink;
     QString name;
     Role role;
     QStringList additionalRoles;
     Type type;
     QString authKey;
     bool withLink;
-    QString photoLink;
+    QUrl photoLink;
     QString value;
 };
 
@@ -82,12 +82,12 @@ void DrivePermission::setId(const QString &id)
     d->id = id;
 }
 
-QString DrivePermission::selfLink() const
+QUrl DrivePermission::selfLink() const
 {
     return d->selfLink;
 }
 
-void DrivePermission::setSelfLink(const QString &selfLink)
+void DrivePermission::setSelfLink(const QUrl &selfLink)
 {
     d->selfLink = selfLink;
 }
@@ -152,12 +152,12 @@ void DrivePermission::setWithLink(bool withLink)
     d->withLink = withLink;
 }
 
-QString DrivePermission::photoLink() const
+QUrl DrivePermission::photoLink() const
 {
     return d->photoLink;
 }
 
-void DrivePermission::setPhotoLink(const QString &photoLink)
+void DrivePermission::setPhotoLink(const QUrl &photoLink)
 {
     d->photoLink = photoLink;
 }

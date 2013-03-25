@@ -28,7 +28,7 @@ class DriveApp::Icon::Private
 
     QString category;
     int size;
-    QString iconUrl;
+    QUrl iconUrl;
 };
 
 DriveApp::Icon::Private::Private():
@@ -78,12 +78,12 @@ void DriveApp::Icon::setSize(const int &size)
     d->size = size;
 }
 
-QString DriveApp::Icon::iconUrl() const
+QUrl DriveApp::Icon::iconUrl() const
 {
     return d->iconUrl;
 }
 
-void DriveApp::Icon::setIconUrl(const QString &iconUrl)
+void DriveApp::Icon::setIconUrl(const QUrl &iconUrl)
 {
     d->iconUrl = iconUrl;
 }
@@ -105,7 +105,7 @@ class DriveApp::Private
     bool installed;
     bool authorized;
     bool useByDefault;
-    QString productUrl;
+    QUrl productUrl;
     QStringList primaryMimeTypes;
     QStringList secondaryMimeTypes;
     QStringList primaryFileExtensions;
@@ -235,12 +235,12 @@ void DriveApp::setUseByDefault(bool useByDefault)
     d->useByDefault = useByDefault;
 }
 
-QString DriveApp::productUrl() const
+QUrl DriveApp::productUrl() const
 {
     return d->productUrl;
 }
 
-void DriveApp::setProductUrl(const QString &productUrl)
+void DriveApp::setProductUrl(const QUrl &productUrl)
 {
     d->productUrl = productUrl;
 }

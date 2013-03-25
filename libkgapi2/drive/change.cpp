@@ -27,7 +27,7 @@ class DriveChange::Private
 
     qlonglong id;
     QString fileId;
-    QString selfLink;
+    QUrl selfLink;
     bool deleted;
     DriveFilePtr file;
 };
@@ -82,12 +82,12 @@ void DriveChange::setFileId(const QString &fileId)
     d->fileId = fileId;
 }
 
-QString DriveChange::selfLink() const
+QUrl DriveChange::selfLink() const
 {
     return d->selfLink;
 }
 
-void DriveChange::setSelfLink(const QString &selfLink)
+void DriveChange::setSelfLink(const QUrl &selfLink)
 {
     d->selfLink = selfLink;
 }
