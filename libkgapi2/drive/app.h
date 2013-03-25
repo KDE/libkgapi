@@ -18,9 +18,9 @@
 #ifndef LIBKGAPI2_DRIVE_APP_H
 #define LIBKGAPI2_DRIVE_APP_H
 
-#include <libkgapi2/object.h>
 #include <libkgapi2/libkgapi2_export.h>
 
+#include <QtCore/QSharedPointer>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
@@ -28,7 +28,7 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveApp: public KGAPI2::Object
+class LIBKGAPI2_EXPORT DriveApp
 {
   public:
 
@@ -39,13 +39,13 @@ class LIBKGAPI2_EXPORT DriveApp: public KGAPI2::Object
         explicit Icon(const Icon &other);
         virtual ~Icon();
 
-        QString category();
+        QString category() const;
         void setCategory(const QString &category);
 
-        int size();
+        int size() const;
         void setSize(const int &size);
 
-        QString iconUrl();
+        QString iconUrl() const;
         void setIconUrl(const QString &iconUrl);
 
       private:
@@ -54,51 +54,54 @@ class LIBKGAPI2_EXPORT DriveApp: public KGAPI2::Object
         friend class Private;
     };
 
+    typedef QSharedPointer<Icon> IconPtr;
+    typedef QList<IconPtr> IconsList;
+
     explicit DriveApp();
     explicit DriveApp(const DriveApp &other);
     virtual ~DriveApp();
 
-    QString id();
+    QString id() const;
     void setId(const QString &id);
 
-    QString name();
+    QString name() const;
     void setName(const QString &name);
 
-    QString objectType();
+    QString objectType() const;
     void setObjectType(const QString &objectType);
 
-    bool supportsCreate();
+    bool supportsCreate() const;
     void setSupportsCreate(bool supportsCreate);
 
-    bool supportsImport();
+    bool supportsImport() const;
     void setSupportsImport(bool supportsImport);
 
-    bool installed();
+    bool installed() const;
     void setInstalled(bool installed);
 
-    bool authorized();
+    bool authorized() const;
     void setAuthorized(bool authorized);
 
-    bool useByDefault();
+    bool useByDefault() const;
     void setUseByDefault(bool useByDefault);
 
-    QString productUrl();
+    QString productUrl() const;
     void setProductUrl(const QString &productUrl);
 
-    QStringList primaryMimeTypes();
+    QStringList primaryMimeTypes() const;
     void setPrimaryMimeTypes(const QStringList &primaryMimeTypes);
 
-    QStringList secondaryMimeTypes();
+    QStringList secondaryMimeTypes() const;
     void setSecondaryMimeTypes(const QStringList &secondaryMimeTypes);
 
-    QStringList primaryFileExtensions();
+    QStringList primaryFileExtensions() const;
     void setPrimaryFileExtensions(const QStringList &primaryFileExtensions);
 
-    QStringList secondaryFileExtensions();
+    QStringList secondaryFileExtensions() const;
     void setSecondaryFileExtensions(const QStringList &secondaryFileExtensions);
 
-    QList<Icon> icons();
-    void setIcons(const QList<Icon> &icons);
+    IconsList icons() const;
+    void setIcons(const IconsList &icons);
 
   private:
     class Private;

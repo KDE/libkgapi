@@ -66,7 +66,7 @@ DriveFile::Labels::~Labels()
     delete d;
 }
 
-bool DriveFile::Labels::starred()
+bool DriveFile::Labels::starred() const
 {
     return d->starred;
 }
@@ -76,7 +76,7 @@ void DriveFile::Labels::setStarred(bool starred)
     d->starred = starred;
 }
 
-bool DriveFile::Labels::hidden()
+bool DriveFile::Labels::hidden() const
 {
     return d->hidden;
 }
@@ -86,7 +86,7 @@ void DriveFile::Labels::setHidden(bool hidden)
     d->hidden = hidden;
 }
 
-bool DriveFile::Labels::trashed()
+bool DriveFile::Labels::trashed() const
 {
     return d->trashed;
 }
@@ -96,7 +96,7 @@ void DriveFile::Labels::setTrashed(bool trashed)
     d->trashed = trashed;
 }
 
-bool DriveFile::Labels::restricted()
+bool DriveFile::Labels::restricted() const
 {
     return d->restricted;
 }
@@ -106,7 +106,7 @@ void DriveFile::Labels::setRestricted(bool restricted)
     d->restricted = restricted;
 }
 
-bool DriveFile::Labels::viewed()
+bool DriveFile::Labels::viewed() const
 {
     return d->viewed;
 }
@@ -151,7 +151,7 @@ DriveFile::IndexableText::~IndexableText()
     delete d;
 }
 
-QString DriveFile::IndexableText::text()
+QString DriveFile::IndexableText::text() const
 {
     return d->text;
 }
@@ -205,7 +205,7 @@ DriveFile::ImageMediaMetadata::Location::~Location()
     delete d;
 }
 
-qreal DriveFile::ImageMediaMetadata::Location::latitude()
+qreal DriveFile::ImageMediaMetadata::Location::latitude() const
 {
     return d->latitude;
 }
@@ -215,7 +215,7 @@ void DriveFile::ImageMediaMetadata::Location::setLatitude(qreal latitude)
     d->latitude = latitude;
 }
 
-qreal DriveFile::ImageMediaMetadata::Location::longitude()
+qreal DriveFile::ImageMediaMetadata::Location::longitude() const
 {
     return d->longitude;
 }
@@ -225,7 +225,7 @@ void DriveFile::ImageMediaMetadata::Location::setLongitude(qreal longitude)
     d->longitude = longitude;
 }
 
-qreal DriveFile::ImageMediaMetadata::Location::altitude()
+qreal DriveFile::ImageMediaMetadata::Location::altitude() const
 {
     return d->altitude;
 }
@@ -279,7 +279,7 @@ DriveFile::ImageMediaMetadata::~ImageMediaMetadata()
     delete d;
 }
 
-int DriveFile::ImageMediaMetadata::width()
+int DriveFile::ImageMediaMetadata::width() const
 {
     return d->width;
 }
@@ -289,7 +289,7 @@ void DriveFile::ImageMediaMetadata::setWidth(int width)
     d->width = width;
 }
 
-int DriveFile::ImageMediaMetadata::height()
+int DriveFile::ImageMediaMetadata::height() const
 {
     return d->height;
 }
@@ -299,7 +299,7 @@ void DriveFile::ImageMediaMetadata::setHeight(int height)
     d->height = height;
 }
 
-int DriveFile::ImageMediaMetadata::rotation()
+int DriveFile::ImageMediaMetadata::rotation() const
 {
     return d->rotation;
 }
@@ -309,7 +309,7 @@ void DriveFile::ImageMediaMetadata::setRotation(int rotation)
     d->rotation = rotation;
 }
 
-DriveFile::ImageMediaMetadata::LocationPtr DriveFile::ImageMediaMetadata::location()
+DriveFile::ImageMediaMetadata::LocationPtr DriveFile::ImageMediaMetadata::location() const
 {
     return d->location;
 }
@@ -418,7 +418,7 @@ DriveFile::~DriveFile()
     delete d;
 }
 
-QString DriveFile::id()
+QString DriveFile::id() const
 {
     return d->id;
 }
@@ -428,7 +428,7 @@ void DriveFile::setId(const QString& id)
     d->id = id;
 }
 
-QString DriveFile::selfLink()
+QString DriveFile::selfLink() const
 {
     return d->selfLink;
 }
@@ -438,7 +438,7 @@ void DriveFile::setSelfLink(const QString& selfLink)
     d->selfLink = selfLink;
 }
 
-QString DriveFile::title()
+QString DriveFile::title() const
 {
     return d->title;
 }
@@ -448,7 +448,7 @@ void DriveFile::setTitle(const QString& title)
     d->title = title;
 }
 
-QString DriveFile::mimeType()
+QString DriveFile::mimeType() const
 {
     return d->mimeType;
 }
@@ -458,7 +458,7 @@ void DriveFile::setMimeType(const QString& mimeType)
     d->mimeType = mimeType;
 }
 
-QString DriveFile::description()
+QString DriveFile::description() const
 {
     return d->description;
 }
@@ -468,7 +468,7 @@ void DriveFile::setDescription(const QString& description)
     d->description = description;
 }
 
-DriveFile::LabelsPtr DriveFile::labels()
+DriveFile::LabelsPtr DriveFile::labels() const
 {
     return d->labels;
 }
@@ -478,7 +478,7 @@ void DriveFile::setLabels(const DriveFile::LabelsPtr &labels)
     d->labels = labels;
 }
 
-KDateTime DriveFile::createdDate()
+KDateTime DriveFile::createdDate() const
 {
     return d->createdDate;
 }
@@ -488,7 +488,7 @@ void DriveFile::setCreatedDate(const KDateTime& createdDate)
     d->createdDate = createdDate;
 }
 
-KDateTime DriveFile::modifiedDate()
+KDateTime DriveFile::modifiedDate() const
 {
     return d->modifiedDate;
 }
@@ -498,7 +498,7 @@ void DriveFile::setModifiedDate(const KDateTime& modifiedDate)
     d->modifiedDate = modifiedDate;
 }
 
-KDateTime DriveFile::modifiedByMeDate()
+KDateTime DriveFile::modifiedByMeDate() const
 {
     return d->modifiedByMeDate;
 }
@@ -508,7 +508,7 @@ void DriveFile::setModifiedByMeDate(const KDateTime& modifiedByMeDate)
     d->modifiedByMeDate = modifiedByMeDate;
 }
 
-QString DriveFile::downloadUrl()
+QString DriveFile::downloadUrl() const
 {
     return d->downloadUrl;
 }
@@ -518,7 +518,7 @@ void DriveFile::setDownloadUrl(const QString& downloadUrl)
     d->downloadUrl = downloadUrl;
 }
 
-DriveFile::IndexableTextPtr DriveFile::indexableText()
+DriveFile::IndexableTextPtr DriveFile::indexableText() const
 {
     return d->indexableText;
 }
@@ -528,7 +528,7 @@ void DriveFile::setIndexableText(const DriveFile::IndexableTextPtr &indexableTex
     d->indexableText = indexableText;
 }
 
-DrivePermissionPtr DriveFile::userPermission()
+DrivePermissionPtr DriveFile::userPermission() const
 {
     return d->userPermission;
 }
@@ -538,7 +538,7 @@ void DriveFile::setUserPermission(const DrivePermissionPtr& userPermission)
     d->userPermission = userPermission;
 }
 
-QString DriveFile::fileExtension()
+QString DriveFile::fileExtension() const
 {
     return d->fileExtension;
 }
@@ -548,7 +548,7 @@ void DriveFile::setFileExtension(const QString& fileExtension)
     d->fileExtension = fileExtension;
 }
 
-QString DriveFile::md5Checksum()
+QString DriveFile::md5Checksum() const
 {
     return d->md5Checksum;
 }
@@ -558,7 +558,7 @@ void DriveFile::setMd5Checksum(const QString& md5Checksum)
     d->md5Checksum = md5Checksum;
 }
 
-qlonglong DriveFile::fileSize()
+qlonglong DriveFile::fileSize() const
 {
     return d->fileSize;
 }
@@ -568,7 +568,7 @@ void DriveFile::setFileSize(qlonglong fileSize)
     d->fileSize = fileSize;
 }
 
-QString DriveFile::alternateLink()
+QString DriveFile::alternateLink() const
 {
     return d->alternateLink;
 }
@@ -578,7 +578,7 @@ void DriveFile::setAlternateLink(const QString& alternateLink)
     d->alternateLink = alternateLink;
 }
 
-QString DriveFile::embedLink()
+QString DriveFile::embedLink() const
 {
     return d->embedLink;
 }
@@ -588,7 +588,7 @@ void DriveFile::setEmbedLink(const QString& embedLink)
     d->embedLink = embedLink;
 }
 
-KDateTime DriveFile::sharedWithMeDate()
+KDateTime DriveFile::sharedWithMeDate() const
 {
     return d->sharedWithMeDate;
 }
@@ -598,7 +598,7 @@ void DriveFile::setSharedWithMeDate(const KDateTime& sharedWithMeDate)
     d->sharedWithMeDate = sharedWithMeDate;
 }
 
-DriveParentReferencesList DriveFile::parents()
+DriveParentReferencesList DriveFile::parents() const
 {
     return d->parents;
 }
@@ -608,7 +608,7 @@ void DriveFile::setParents(const DriveParentReferencesList &parents)
     d->parents = parents;
 }
 
-QMap<QString, QString> DriveFile::exportLinks()
+QMap<QString, QString> DriveFile::exportLinks() const
 {
     return d->exportLinks;
 }
@@ -618,7 +618,7 @@ void DriveFile::setExportLinks(const QMap<QString, QString>& exportLinks)
     d->exportLinks = exportLinks;
 }
 
-QString DriveFile::originalFileName()
+QString DriveFile::originalFileName() const
 {
     return d->originalFileName;
 }
@@ -628,7 +628,7 @@ void DriveFile::setOriginalFileName(const QString& originalFileName)
     d->originalFileName = originalFileName;
 }
 
-qlonglong DriveFile::quotaBytesUsed()
+qlonglong DriveFile::quotaBytesUsed() const
 {
     return d->quotaBytesUsed;
 }
@@ -638,7 +638,7 @@ void DriveFile::setQuotaBytesUsed(qlonglong quotaBytesUsed)
     d->quotaBytesUsed = quotaBytesUsed;
 }
 
-QStringList DriveFile::ownerNames()
+QStringList DriveFile::ownerNames() const
 {
     return d->ownerNames;
 }
@@ -648,7 +648,7 @@ void DriveFile::setOwnerNames(const QStringList& ownerNames)
     d->ownerNames = ownerNames;
 }
 
-QString DriveFile::lastModifyingUserName()
+QString DriveFile::lastModifyingUserName() const
 {
     return d->lastModifyingUserName;
 }
@@ -658,7 +658,7 @@ void DriveFile::setLastModifyingUserName(const QString& lastModifyingUserName)
     d->lastModifyingUserName = lastModifyingUserName;
 }
 
-bool DriveFile::editable()
+bool DriveFile::editable() const
 {
     return d->editable;
 }
@@ -668,7 +668,7 @@ void DriveFile::setEditable(bool editable)
     d->editable = editable;
 }
 
-bool DriveFile::writersCanShare()
+bool DriveFile::writersCanShare() const
 {
     return d->writersCanShare;
 }
@@ -678,7 +678,7 @@ void DriveFile::setWritersCanShare(bool writersCanShare)
     d->writersCanShare = writersCanShare;
 }
 
-QString DriveFile::thumbnailLink()
+QString DriveFile::thumbnailLink() const
 {
     return d->thumbnailLink;
 }
@@ -688,7 +688,7 @@ void DriveFile::setThumbnailLink(const QString& thumbnailLink)
     d->thumbnailLink = thumbnailLink;
 }
 
-KDateTime DriveFile::lastViewedByMeDate()
+KDateTime DriveFile::lastViewedByMeDate() const
 {
     return d->lastViewedByMeDate;
 }
@@ -698,7 +698,7 @@ void DriveFile::setLastViewedByMeDate(const KDateTime& lastViewedByMeDate)
     d->lastViewedByMeDate = lastViewedByMeDate;
 }
 
-QString DriveFile::webContentLink()
+QString DriveFile::webContentLink() const
 {
     return d->webContentLink;
 }
@@ -708,7 +708,7 @@ void DriveFile::setWebContentLink(const QString& webContentLink)
     d->webContentLink = webContentLink;
 }
 
-bool DriveFile::explicitlyTrashed()
+bool DriveFile::explicitlyTrashed() const
 {
     return d->explicitlyTrashed;
 }
@@ -718,7 +718,7 @@ void DriveFile::setExplicitlyTrashed(bool explicitlyTrashed)
     d->explicitlyTrashed = explicitlyTrashed;
 }
 
-DriveFile::ImageMediaMetadataPtr DriveFile::imageMediaMetadata()
+DriveFile::ImageMediaMetadataPtr DriveFile::imageMediaMetadata() const
 {
     return d->imageMediaMetadata;
 }

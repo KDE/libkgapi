@@ -56,7 +56,7 @@ DriveAbout::Format::~Format()
     delete d;
 }
 
-QString DriveAbout::Format::source()
+QString DriveAbout::Format::source() const
 {
     return d->source;
 }
@@ -66,7 +66,7 @@ void DriveAbout::Format::setSource(const QString &source)
     d->source = source;
 }
 
-QStringList DriveAbout::Format::targets()
+QStringList DriveAbout::Format::targets() const
 {
     return d->targets;
 }
@@ -113,7 +113,7 @@ DriveAbout::AdditionalRoleInfo::RoleSet::~RoleSet()
     delete d;
 }
 
-QString DriveAbout::AdditionalRoleInfo::RoleSet::primaryRole()
+QString DriveAbout::AdditionalRoleInfo::RoleSet::primaryRole() const
 {
     return d->primaryRole;
 }
@@ -123,7 +123,7 @@ void DriveAbout::AdditionalRoleInfo::RoleSet::setPrimaryRole(const QString &prim
     d->primaryRole = primaryRole;
 }
 
-QString DriveAbout::AdditionalRoleInfo::RoleSet::additionalRoles()
+QString DriveAbout::AdditionalRoleInfo::RoleSet::additionalRoles() const
 {
     return d->additionalRoles;
 }
@@ -170,7 +170,7 @@ DriveAbout::AdditionalRoleInfo::~AdditionalRoleInfo()
     delete d;
 }
 
-QString DriveAbout::AdditionalRoleInfo::type()
+QString DriveAbout::AdditionalRoleInfo::type() const
 {
     return d->type;
 }
@@ -180,7 +180,7 @@ void DriveAbout::AdditionalRoleInfo::setType(const QString &type)
     d->type = type;
 }
 
-DriveAbout::AdditionalRoleInfo::RoleSetsList DriveAbout::AdditionalRoleInfo::roleSets()
+DriveAbout::AdditionalRoleInfo::RoleSetsList DriveAbout::AdditionalRoleInfo::roleSets() const
 {
     return d->roleSets;
 }
@@ -228,7 +228,7 @@ DriveAbout::Feature::~Feature()
     delete d;
 }
 
-QString DriveAbout::Feature::featureName()
+QString DriveAbout::Feature::featureName() const
 {
     return d->featureName;
 }
@@ -238,7 +238,7 @@ void DriveAbout::Feature::setFeatureName(const QString &featureName)
     d->featureName = featureName;
 }
 
-qreal DriveAbout::Feature::featureRate()
+qreal DriveAbout::Feature::featureRate() const
 {
     return d->featureRate;
 }
@@ -285,7 +285,7 @@ DriveAbout::MaxUploadSize::~MaxUploadSize()
     delete d;
 }
 
-QString DriveAbout::MaxUploadSize::type()
+QString DriveAbout::MaxUploadSize::type() const
 {
     return d->type;
 }
@@ -295,7 +295,7 @@ void DriveAbout::MaxUploadSize::setType(const QString &type)
     d->type = type;
 }
 
-qlonglong DriveAbout::MaxUploadSize::size()
+qlonglong DriveAbout::MaxUploadSize::size() const
 {
     return d->size;
 }
@@ -376,7 +376,7 @@ DriveAbout::~DriveAbout()
     delete d;
 }
 
-QString DriveAbout::selfLink()
+QString DriveAbout::selfLink() const
 {
     return d->selfLink;
 }
@@ -386,7 +386,7 @@ void DriveAbout::setSelfLink(const QString &selfLink)
     d->selfLink = selfLink;
 }
 
-QString DriveAbout::name()
+QString DriveAbout::name() const
 {
     return d->name;
 }
@@ -396,7 +396,7 @@ void DriveAbout::setName(const QString &name)
     d->name = name;
 }
 
-qlonglong DriveAbout::quotaBytesTotal()
+qlonglong DriveAbout::quotaBytesTotal() const
 {
     return d->quotaBytesTotal;
 }
@@ -406,7 +406,7 @@ void DriveAbout::setQuotaBytesTotal(qlonglong quotaBytesTotal)
     d->quotaBytesTotal = quotaBytesTotal;
 }
 
-qlonglong DriveAbout::quotaBytesUsed()
+qlonglong DriveAbout::quotaBytesUsed() const
 {
     return d->quotaBytesUsed;
 }
@@ -416,7 +416,7 @@ void DriveAbout::setQuotaBytesUsed(qlonglong quotaBytesUsed)
     d->quotaBytesUsed = quotaBytesUsed;
 }
 
-qlonglong DriveAbout::quotaBytesUsedInTrash()
+qlonglong DriveAbout::quotaBytesUsedInTrash() const
 {
     return d->quotaBytesUsedInTrash;
 }
@@ -426,7 +426,7 @@ void DriveAbout::setQuotaBytesUsedInTrash(qlonglong quotaBytesUsedInTrash)
     d->quotaBytesUsedInTrash = quotaBytesUsedInTrash;
 }
 
-qlonglong DriveAbout::largestChangeId()
+qlonglong DriveAbout::largestChangeId() const
 {
     return d->largestChangeId;
 }
@@ -436,7 +436,7 @@ void DriveAbout::setLargestChangeId(qlonglong largestChangeId)
     d->largestChangeId = largestChangeId;
 }
 
-qlonglong DriveAbout::remainingChangeIds()
+qlonglong DriveAbout::remainingChangeIds() const
 {
     return d->remainingChangeIds;
 }
@@ -446,7 +446,7 @@ void DriveAbout::setRemainingChangeIds(qlonglong remainingChangeIds)
     d->remainingChangeIds = remainingChangeIds;
 }
 
-QString DriveAbout::rootFolderId()
+QString DriveAbout::rootFolderId() const
 {
     return d->rootFolderId;
 }
@@ -456,7 +456,7 @@ void DriveAbout::setRootFolderId(const QString &rootFolderId)
     d->rootFolderId = rootFolderId;
 }
 
-QString DriveAbout::domainSharingPolicy()
+QString DriveAbout::domainSharingPolicy() const
 {
     return d->domainSharingPolicy;
 }
@@ -466,7 +466,7 @@ void DriveAbout::setDomainSharingPolicy(const QString &domainSharingPolicy)
     d->domainSharingPolicy = domainSharingPolicy;
 }
 
-DriveAbout::FormatsList DriveAbout::importFormats()
+DriveAbout::FormatsList DriveAbout::importFormats() const
 {
     return d->importFormats;
 }
@@ -476,7 +476,7 @@ void DriveAbout::setImportFormats(const FormatsList &importFormats)
     d->importFormats = importFormats;
 }
 
-DriveAbout::FormatsList DriveAbout::exportFormats()
+DriveAbout::FormatsList DriveAbout::exportFormats() const
 {
     return d->exportFormats;
 }
@@ -486,7 +486,7 @@ void DriveAbout::setExportFormats(const FormatsList &exportFormats)
     d->exportFormats = exportFormats;
 }
 
-DriveAbout::AdditionalRoleInfosList DriveAbout::additionalRoleInfo()
+DriveAbout::AdditionalRoleInfosList DriveAbout::additionalRoleInfo() const
 {
     return d->additionalRoleInfo;
 }
@@ -496,7 +496,7 @@ void DriveAbout::setAdditionalRoleInfo(const AdditionalRoleInfosList &additional
     d->additionalRoleInfo = additionalRoleInfo;
 }
 
-DriveAbout::FeaturesList DriveAbout::features()
+DriveAbout::FeaturesList DriveAbout::features() const
 {
     return d->features;
 }
@@ -506,7 +506,7 @@ void DriveAbout::setFeatures(const FeaturesList &features)
     d->features = features;
 }
 
-DriveAbout::MaxUploadSizesList DriveAbout::maxUploadSizes()
+DriveAbout::MaxUploadSizesList DriveAbout::maxUploadSizes() const
 {
     return d->maxUploadSizes;
 }
@@ -516,7 +516,7 @@ void DriveAbout::setMaxUploadSizes(const MaxUploadSizesList &maxUploadSizes)
     d->maxUploadSizes = maxUploadSizes;
 }
 
-QString DriveAbout::permissionId()
+QString DriveAbout::permissionId() const
 {
     return d->permissionId;
 }
@@ -526,7 +526,7 @@ void DriveAbout::setPermissionId(const QString &permissionId)
     d->permissionId = permissionId;
 }
 
-bool DriveAbout::isCurrentAppInstalled()
+bool DriveAbout::isCurrentAppInstalled() const
 {
     return d->isCurrentAppInstalled;
 }

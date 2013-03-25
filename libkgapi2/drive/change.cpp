@@ -62,7 +62,7 @@ DriveChange::~DriveChange()
     delete d;
 }
 
-qlonglong DriveChange::id()
+qlonglong DriveChange::id() const
 {
     return d->id;
 }
@@ -72,7 +72,7 @@ void DriveChange::setId(const qlonglong &id)
     d->id = id;
 }
 
-QString DriveChange::fileId()
+QString DriveChange::fileId() const
 {
     return d->fileId;
 }
@@ -82,7 +82,7 @@ void DriveChange::setFileId(const QString &fileId)
     d->fileId = fileId;
 }
 
-QString DriveChange::selfLink()
+QString DriveChange::selfLink() const
 {
     return d->selfLink;
 }
@@ -92,7 +92,7 @@ void DriveChange::setSelfLink(const QString &selfLink)
     d->selfLink = selfLink;
 }
 
-bool DriveChange::deleted()
+bool DriveChange::deleted() const
 {
     return d->deleted;
 }
@@ -102,7 +102,7 @@ void DriveChange::setDeleted(bool deleted)
     d->deleted = deleted;
 }
 
-DriveFilePtr DriveChange::file()
+DriveFilePtr DriveChange::file() const
 {
     return d->file;
 }

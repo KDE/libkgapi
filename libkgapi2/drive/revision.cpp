@@ -75,10 +75,6 @@ DriveRevision::DriveRevision():
 {
 }
 
-DriveRevision::DriveRevision(const QVariantMap &jsonData)
-{
-}
-
 DriveRevision::DriveRevision(const DriveRevision& other):
     d(new Private(*(other.d)))
 {
@@ -89,7 +85,7 @@ DriveRevision::~DriveRevision()
     delete d;
 }
 
-QString DriveRevision::id()
+QString DriveRevision::id() const
 {
     return d->id;
 }
@@ -99,7 +95,7 @@ void DriveRevision::setId(const QString& id)
     d->id = id;
 }
 
-QString DriveRevision::selfLink()
+QString DriveRevision::selfLink() const
 {
     return d->selfLink;
 }
@@ -109,7 +105,7 @@ void DriveRevision::setSelfLink(const QString& selfLink)
     d->selfLink = selfLink;
 }
 
-QString DriveRevision::mimeType()
+QString DriveRevision::mimeType() const
 {
     return d->mimeType;
 }
@@ -119,7 +115,7 @@ void DriveRevision::setMimeType(const QString& mimeType)
     d->mimeType = mimeType;
 }
 
-KDateTime DriveRevision::modifiedDate()
+KDateTime DriveRevision::modifiedDate() const
 {
     return d->modifiedDate;
 }
@@ -129,7 +125,7 @@ void DriveRevision::setModifiedDate(const KDateTime& modifiedDate)
     d->modifiedDate = modifiedDate;
 }
 
-bool DriveRevision::pinned()
+bool DriveRevision::pinned() const
 {
     return d->pinned;
 }
@@ -139,7 +135,7 @@ void DriveRevision::setPinned(bool pinned)
     d->pinned = pinned;
 }
 
-bool DriveRevision::published()
+bool DriveRevision::published() const
 {
     return d->published;
 }
@@ -149,7 +145,7 @@ void DriveRevision::setPublished(bool published)
     d->published = published;
 }
 
-QString DriveRevision::publishedLink()
+QString DriveRevision::publishedLink() const
 {
     return d->publishedLink;
 }
@@ -159,7 +155,7 @@ void DriveRevision::setPublishedLink(const QString& publishedLink)
     d->publishedLink = publishedLink;
 }
 
-bool DriveRevision::publishedAuto()
+bool DriveRevision::publishedAuto() const
 {
     return d->publishedAuto;
 }
@@ -169,7 +165,7 @@ void DriveRevision::setPublishedAuto(bool publishedAuto)
     d->publishedAuto = publishedAuto;
 }
 
-bool DriveRevision::publishedOutsideDomain()
+bool DriveRevision::publishedOutsideDomain() const
 {
     return d->publishedOutsideDomain;
 }
@@ -179,7 +175,7 @@ void DriveRevision::setPublishedOutsideDomain(bool publishedOutsideDomain)
     d->publishedOutsideDomain = publishedOutsideDomain;
 }
 
-QString DriveRevision::downloadUrl()
+QString DriveRevision::downloadUrl() const
 {
     return d->downloadUrl;
 }
@@ -189,7 +185,7 @@ void DriveRevision::setDownloadUrl(const QString& downloadUrl)
     d->downloadUrl = downloadUrl;
 }
 
-QMap<QString, QString> DriveRevision::exportLinks()
+QMap<QString, QString> DriveRevision::exportLinks() const
 {
     return d->exportLinks;
 }
@@ -199,7 +195,7 @@ void DriveRevision::setExportLinks(const QMap<QString, QString>& exportLinks)
     d->exportLinks = exportLinks;
 }
 
-QString DriveRevision::lastModifyingUserName()
+QString DriveRevision::lastModifyingUserName() const
 {
     return d->lastModifyingUserName;
 }
@@ -209,7 +205,7 @@ void DriveRevision::setLastModifyingUserName(const QString& lastModifyingUserNam
     d->lastModifyingUserName = lastModifyingUserName;
 }
 
-QString DriveRevision::originalFilename()
+QString DriveRevision::originalFilename() const
 {
     return d->originalFilename;
 }
@@ -219,7 +215,7 @@ void DriveRevision::setOriginalFilename(const QString& originalFilename)
     d->originalFilename = originalFilename;
 }
 
-QString DriveRevision::md5Checksum()
+QString DriveRevision::md5Checksum() const
 {
     return d->md5Checksum;
 }
@@ -229,7 +225,7 @@ void DriveRevision::setMd5Checksum(const QString& md5Checksum)
     d->md5Checksum = md5Checksum;
 }
 
-qlonglong DriveRevision::fileSize()
+qlonglong DriveRevision::fileSize() const
 {
     return d->fileSize;
 }

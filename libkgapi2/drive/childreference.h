@@ -46,7 +46,7 @@ class LIBKGAPI2_EXPORT DriveChildReference
     /**
      * @brief Returns the id of the child.
      */
-    QString id();
+    QString id() const;
 
     /**
      * @brief Sets the id of the child.
@@ -58,7 +58,7 @@ class LIBKGAPI2_EXPORT DriveChildReference
     /**
      * @brief Returns a link back to this reference.
      */
-    QString selfLink();
+    QString selfLink() const;
 
     /**
      * @brief Sets a link back to this reference.
@@ -70,7 +70,7 @@ class LIBKGAPI2_EXPORT DriveChildReference
     /**
      * @brief Returns a link to the child.
      */
-    QString childLink();
+    QString childLink() const;
 
     /**
      * @brief Sets a link to the child.

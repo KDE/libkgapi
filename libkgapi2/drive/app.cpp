@@ -58,7 +58,7 @@ DriveApp::Icon::~Icon()
     delete d;
 }
 
-QString DriveApp::Icon::category()
+QString DriveApp::Icon::category() const
 {
     return d->category;
 }
@@ -68,7 +68,7 @@ void DriveApp::Icon::setCategory(const QString &category)
     d->category = category;
 }
 
-int DriveApp::Icon::size()
+int DriveApp::Icon::size() const
 {
     return d->size;
 }
@@ -78,7 +78,7 @@ void DriveApp::Icon::setSize(const int &size)
     d->size = size;
 }
 
-QString DriveApp::Icon::iconUrl()
+QString DriveApp::Icon::iconUrl() const
 {
     return d->iconUrl;
 }
@@ -110,7 +110,7 @@ class DriveApp::Private
     QStringList secondaryMimeTypes;
     QStringList primaryFileExtensions;
     QStringList secondaryFileExtensions;
-    QList<Icon> icons;
+    IconsList icons;
 };
 
 DriveApp::Private::Private():
@@ -155,7 +155,7 @@ DriveApp::~DriveApp()
     delete d;
 }
 
-QString DriveApp::id()
+QString DriveApp::id() const
 {
     return d->id;
 }
@@ -165,7 +165,7 @@ void DriveApp::setId(const QString &id)
     d->id = id;
 }
 
-QString DriveApp::name()
+QString DriveApp::name() const
 {
     return d->name;
 }
@@ -175,7 +175,7 @@ void DriveApp::setName(const QString &name)
     d->name = name;
 }
 
-QString DriveApp::objectType()
+QString DriveApp::objectType() const
 {
     return d->objectType;
 }
@@ -185,7 +185,7 @@ void DriveApp::setObjectType(const QString &objectType)
     d->objectType = objectType;
 }
 
-bool DriveApp::supportsCreate()
+bool DriveApp::supportsCreate() const
 {
     return d->supportsCreate;
 }
@@ -195,7 +195,7 @@ void DriveApp::setSupportsCreate(bool supportsCreate)
     d->supportsCreate = supportsCreate;
 }
 
-bool DriveApp::supportsImport()
+bool DriveApp::supportsImport() const
 {
     return d->supportsImport;
 }
@@ -205,7 +205,7 @@ void DriveApp::setSupportsImport(bool supportsImport)
     d->supportsImport = supportsImport;
 }
 
-bool DriveApp::installed()
+bool DriveApp::installed() const
 {
     return d->installed;
 }
@@ -215,7 +215,7 @@ void DriveApp::setInstalled(bool installed)
     d->installed = installed;
 }
 
-bool DriveApp::authorized()
+bool DriveApp::authorized() const
 {
     return d->authorized;
 }
@@ -225,7 +225,7 @@ void DriveApp::setAuthorized(bool authorized)
     d->authorized = authorized;
 }
 
-bool DriveApp::useByDefault()
+bool DriveApp::useByDefault() const
 {
     return d->useByDefault;
 }
@@ -235,7 +235,7 @@ void DriveApp::setUseByDefault(bool useByDefault)
     d->useByDefault = useByDefault;
 }
 
-QString DriveApp::productUrl()
+QString DriveApp::productUrl() const
 {
     return d->productUrl;
 }
@@ -245,7 +245,7 @@ void DriveApp::setProductUrl(const QString &productUrl)
     d->productUrl = productUrl;
 }
 
-QStringList DriveApp::primaryMimeTypes()
+QStringList DriveApp::primaryMimeTypes() const
 {
     return d->primaryMimeTypes;
 }
@@ -255,7 +255,7 @@ void DriveApp::setPrimaryMimeTypes(const QStringList &primaryMimeTypes)
     d->primaryMimeTypes = primaryMimeTypes;
 }
 
-QStringList DriveApp::secondaryMimeTypes()
+QStringList DriveApp::secondaryMimeTypes() const
 {
     return d->secondaryMimeTypes;
 }
@@ -265,7 +265,7 @@ void DriveApp::setSecondaryMimeTypes(const QStringList &secondaryMimeTypes)
     d->secondaryMimeTypes = secondaryMimeTypes;
 }
 
-QStringList DriveApp::primaryFileExtensions()
+QStringList DriveApp::primaryFileExtensions() const
 {
     return d->primaryFileExtensions;
 }
@@ -275,7 +275,7 @@ void DriveApp::setPrimaryFileExtensions(const QStringList &primaryFileExtensions
     d->primaryFileExtensions = primaryFileExtensions;
 }
 
-QStringList DriveApp::secondaryFileExtensions()
+QStringList DriveApp::secondaryFileExtensions() const
 {
     return d->secondaryFileExtensions;
 }
@@ -285,12 +285,12 @@ void DriveApp::setSecondaryFileExtensions(const QStringList &secondaryFileExtens
     d->secondaryFileExtensions = secondaryFileExtensions;
 }
 
-QList<DriveApp::Icon> DriveApp::icons()
+DriveApp::IconsList DriveApp::icons() const
 {
     return d->icons;
 }
 
-void DriveApp::setIcons(const QList<DriveApp::Icon> &icons)
+void DriveApp::setIcons(const IconsList &icons)
 {
     d->icons = icons;
 }

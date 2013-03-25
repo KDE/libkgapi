@@ -62,7 +62,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns the id of the permission.
      */
-    QString id();
+    QString id() const;
 
     /**
      * @brief Sets the id of the permission.
@@ -74,7 +74,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns a link back to this permission.
      */
-    QString selfLink();
+    QString selfLink() const;
 
     /**
      * @brief Sets a link back to this permission.
@@ -86,7 +86,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns the name of this permission.
      */
-    QString name();
+    QString name() const;
 
     /**
      * @brief Sets the name of this permission.
@@ -98,7 +98,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns the primary role for this user.
      */
-    DrivePermission::Role role();
+    DrivePermission::Role role() const;
 
     /**
      * @brief Sets the primary role for this user.
@@ -108,7 +108,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns additional roles for this user. Only commenter is currently allowed.
      */
-    QStringList additionalRoles();
+    QStringList additionalRoles() const;
 
     /**
      * @brief Sets additional roles for this user. Only commenter is currently allowed.
@@ -120,7 +120,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns the account type.
      */
-    DrivePermission::Type type();
+    DrivePermission::Type type() const;
 
     /**
      * @brief Sets the account type.
@@ -132,7 +132,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns the authkey parameter required for this permission.
      */
-    QString authKey();
+    QString authKey() const;
 
     /**
      * @brief Sets the authkey parameter required for this permission.
@@ -144,7 +144,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns whether the link is required for this permission.
      */
-    bool withLink();
+    bool withLink() const;
 
     /**
      * @brief Sets whether the link is required for this permission.
@@ -156,7 +156,7 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns a link to the profile photo, if available.
      */
-    QString photoLink();
+    QString photoLink() const;
 
     /**
      * @brief Sets a link to the profile photo, if available.
@@ -172,7 +172,7 @@ class LIBKGAPI2_EXPORT DrivePermission
      * You can use the alias "me" as the value for this property to refer to the
      * current authorized user.
      */
-    QString value();
+    QString value() const;
 
     /**
      * @brief Sets the email address or domain name for the entity.

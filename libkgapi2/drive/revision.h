@@ -43,14 +43,13 @@ class LIBKGAPI2_EXPORT DriveRevision
 
   public:
     explicit DriveRevision();
-    explicit DriveRevision(const QVariantMap &jsonData);
     explicit DriveRevision(const DriveRevision &other);
     virtual ~DriveRevision();
 
     /**
      * @brief Returns the id of the revision.
      */
-    QString id();
+    QString id() const;
 
     /**
      * @brief Sets the id of the revision.
@@ -62,7 +61,7 @@ class LIBKGAPI2_EXPORT DriveRevision
     /**
      * @brief Returns a link back to this revision.
      */
-    QString selfLink();
+    QString selfLink() const;
 
     /**
      * @brief Sets a link back to this revision.
@@ -74,7 +73,7 @@ class LIBKGAPI2_EXPORT DriveRevision
     /**
      * @brief Returns the MIME type of the revision.
      */
-    QString mimeType();
+    QString mimeType() const;
 
     /**
      * @brief Sets the MIME type of the revision.
@@ -86,7 +85,7 @@ class LIBKGAPI2_EXPORT DriveRevision
     /**
      * @brief Returns the last time this revision was modified.
      */
-    KDateTime modifiedDate();
+    KDateTime modifiedDate() const;
 
     /**
      * @brief Sets the last time this revision was modified.
@@ -104,7 +103,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      * Revisions can also be pinned when they are created through the
      * drive.files.insert/update/copy by using the pinned query parameter.
      */
-    bool pinned();
+    bool pinned() const;
 
     /**
      * @brief Sets whether this revision is pinned to prevent automatic purging.
@@ -124,7 +123,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This is only populated and can only be modified for Google Docs.
      */
-    bool published();
+    bool published() const;
 
     /**
      * @brief Sets whether this revision is published.
@@ -136,7 +135,7 @@ class LIBKGAPI2_EXPORT DriveRevision
     /**
      * @brief Returns a link to the published revision.
      */
-    QString publishedLink();
+    QString publishedLink() const;
 
     /**
      * @brief Sets a link to the published revision.
@@ -150,7 +149,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This is only populated and can only be modified for Google Docs.
      */
-    bool publishedAuto();
+    bool publishedAuto() const;
 
     /**
      * @brief Sets whether subsequent revisions will be automatically republished.
@@ -166,7 +165,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This is only populated and can only be modified for Google Docs.
      */
-    bool publishedOutsideDomain();
+    bool publishedOutsideDomain() const;
 
     /**
      * @brief Sets whether this revision is published outside the domain.
@@ -182,7 +181,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This will only be populated on files with content stored in Drive.
      */
-    QString downloadUrl();
+    QString downloadUrl() const;
 
     /**
      * @brief Sets a short term download URL for the file.
@@ -198,7 +197,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This is a map from the export format to URL.
      */
-    QMap<QString /* format */, QString /* url */> exportLinks();
+    QMap<QString /* format */, QString /* url */> exportLinks() const;
 
     /**
      * @brief Sets the links for exporting Google Docs to specific formats.
@@ -212,7 +211,7 @@ class LIBKGAPI2_EXPORT DriveRevision
     /**
      * @brief Returns the name of the last user to modify this revision.
      */
-    QString lastModifyingUserName();
+    QString lastModifyingUserName() const;
 
     /**
      * @brief Sets the name of the last user to modify this revision.
@@ -226,7 +225,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This will only be populated on files with content stored in Drive.
      */
-    QString originalFilename();
+    QString originalFilename() const;
 
     /**
      * @brief Sets the original filename when this revision was created.
@@ -242,7 +241,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This will only be populated on files with content stored in Drive
      */
-    QString md5Checksum();
+    QString md5Checksum() const;
 
     /**
      * @brief Sets an MD5 checksum for the content of this revision.
@@ -258,7 +257,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * This will only be populated on files with content stored in Drive.
      */
-    qlonglong fileSize();
+    qlonglong fileSize() const;
 
     /**
      * @brief Sets the size of the revision in bytes.

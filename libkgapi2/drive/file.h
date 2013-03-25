@@ -54,7 +54,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns whether this file is starred by the user.
          */
-        bool starred();
+        bool starred() const;
 
         /**
          * @brief Sets whether this file is starred by the user.
@@ -66,7 +66,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns whether this file is hidden from the user.
          */
-        bool hidden();
+        bool hidden() const;
 
         /**
          * @brief Sets whether this file is hidden from the user
@@ -78,7 +78,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns whether this file has been trashed.
          */
-        bool trashed();
+        bool trashed() const;
 
         /**
          * @brief Sets whether this file has been trashed.
@@ -90,7 +90,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns whether viewers are prevented from downloading this file.
          */
-        bool restricted();
+        bool restricted() const;
 
         /**
          * @brief Sets whether viewers are prevented from downloading this file.
@@ -102,7 +102,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns whether this file has been viewed by this user.
          */
-        bool viewed();
+        bool viewed() const;
 
         /**
          * @brief Sets whether this file has been viewed by this user.
@@ -133,7 +133,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns the text to be indexed for this file.
          */
-        QString text();
+        QString text() const;
 
         /**
          * @brief Sets the text to be indexed for this file.
@@ -171,7 +171,7 @@ class LIBKGAPI2_EXPORT DriveFile
             /**
              * @brief Returns the latitude stored in the image.
              */
-            qreal latitude();
+            qreal latitude() const;
 
             /**
              * @brief Sets the latitude stored in the image.
@@ -183,7 +183,7 @@ class LIBKGAPI2_EXPORT DriveFile
             /**
              * @brief Returns the longitude stored in the image.
              */
-            qreal longitude();
+            qreal longitude() const;
 
             /**
              * @brief Sets the longitude stored in the image.
@@ -195,7 +195,7 @@ class LIBKGAPI2_EXPORT DriveFile
             /**
              * @brief Returns the altitude stored in the image.
              */
-            qreal altitude();
+            qreal altitude() const;
 
             /**
              * @brief Sets the altitude stored in the image.
@@ -219,7 +219,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns the width of the image in pixels.
          */
-        int width();
+        int width() const;
 
         /**
          * @brief Sets the width of the image in pixels.
@@ -231,7 +231,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns the height of the image in pixels.
          */
-        int height();
+        int height() const;
 
         /**
          * @brief Sets the height of the image in pixels.
@@ -243,7 +243,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns the rotation in clockwise degrees from the image's original orientation.
          */
-        int rotation();
+        int rotation() const;
 
         /**
          * @brief Sets the rotation in clockwise degrees from the image's original orientation.
@@ -253,7 +253,7 @@ class LIBKGAPI2_EXPORT DriveFile
         /**
          * @brief Returns the geographic location information stored in the image.
          */
-        LocationPtr location();
+        LocationPtr location() const;
 
         /**
          * @brief Sets the geographic location information stored in the image.
@@ -277,7 +277,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns the id of the file.
      */
-    QString id();
+    QString id() const;
 
     /**
      * @brief Sets the id of the file.
@@ -289,7 +289,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns a link back to this file.
      */
-    QString selfLink();
+    QString selfLink() const;
 
     /**
      * @brief Sets the link back to this file.
@@ -303,7 +303,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * Used to identify file or folder name.
      */
-    QString title();
+    QString title() const;
 
     /**
      * @brief Sets the title of this file.
@@ -317,7 +317,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns the MIME type of the file.
      */
-    QString mimeType();
+    QString mimeType() const;
 
     /**
      * @brief Sets the MIME type of the file.
@@ -329,7 +329,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns a short description of the file.
      */
-    QString description();
+    QString description() const;
 
     /**
      * @brief Sets a short description of the file.
@@ -341,7 +341,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns a group of labels for the file.
      */
-    DriveFile::LabelsPtr labels();
+    DriveFile::LabelsPtr labels() const;
 
     /**
      * @brief Sets a group of labels for the file.
@@ -353,7 +353,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns the create time for this file.
      */
-    KDateTime createdDate();
+    KDateTime createdDate() const;
 
     /**
      * @brief Sets the create time for this file.
@@ -367,7 +367,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This is only mutable on update when the setModifiedDate parameter is set.
      */
-    KDateTime modifiedDate();
+    KDateTime modifiedDate() const;
 
     /**
      * @brief Sets the last time this file was modified by anyone.
@@ -382,7 +382,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * @brief Returns the last time this file was modified by the currently
      *        authenticated user.
      */
-    KDateTime modifiedByMeDate();
+    KDateTime modifiedByMeDate() const;
 
     /**
      * @brief Sets the last time this file was modified by the currently
@@ -397,7 +397,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This is only populated for files with content stored in Drive.
      */
-    QString downloadUrl();
+    QString downloadUrl() const;
 
     /**
      * @brief Sets the short lived download URL for the file.
@@ -413,7 +413,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This property can only be written, and is not returned by files.get
      */
-    DriveFile::IndexableTextPtr indexableText();
+    DriveFile::IndexableTextPtr indexableText() const;
 
     /**
      * @brief Sets the indexable text attributes for the file.
@@ -427,7 +427,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns the permissions for the authenticated user on this file.
      */
-    DrivePermissionPtr userPermission();
+    DrivePermissionPtr userPermission() const;
 
     /**
      * @brief Sets the permissions for the authenticated user on this file.
@@ -442,7 +442,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * This field is read only. To set the extension, include it on title when creating the file.
      * This is populated only for files with content stored in Drive.
      */
-    QString fileExtension();
+    QString fileExtension() const;
 
     /**
      * @brief Sets the file extension used when downloading this file.
@@ -459,7 +459,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This is populated only for files with content stored in Drive.
      */
-    QString md5Checksum();
+    QString md5Checksum() const;
 
     /**
      * @brief Sets an MD5 checksum for the content of this file.
@@ -474,7 +474,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This is populated only for files with content stored in Drive.
      */
-    qlonglong fileSize();
+    qlonglong fileSize() const;
 
     /**
      * @brief Sets the size of the file in bytes.
@@ -489,7 +489,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * @brief Returns a link for opening the file in using a relevant
      *        Google editor or viewer.
      */
-    QString alternateLink();
+    QString alternateLink() const;
 
     /**
      * @brief Sets the link for opening the file in using a relevant Google
@@ -502,7 +502,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns a link for embedding the file.
      */
-    QString embedLink();
+    QString embedLink() const;
 
     /**
      * @brief Sets the link for embedding the file.
@@ -514,7 +514,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns the time at which this file was shared with the user.
      */
-    KDateTime sharedWithMeDate();
+    KDateTime sharedWithMeDate() const;
 
     /**
      * @brief Sets the time at which this file was shared with the user.
@@ -530,7 +530,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * On insert, if no folders are provided, the file will be placed in the
      * default root folder.
      */
-    DriveParentReferencesList parents();
+    DriveParentReferencesList parents() const;
 
     /**
      * @brief Sets the collection of parent folders which contain this file.
@@ -548,7 +548,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This is a map from the export format to URL.
      */
-    QMap < QString /* format */, QString /* url */ > exportLinks();
+    QMap < QString /* format */, QString /* url */ > exportLinks() const;
 
     /**
      * @brief Sets the links for exporting Google Docs to specific formats.
@@ -566,7 +566,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * Note that renames of the title will not change the original filename.
      * This will only be populated on files with content stored in Drive.
      */
-    QString originalFileName();
+    QString originalFileName() const;
 
     /**
      * @brief Returns the original filename if the file was uploaded manually,
@@ -582,7 +582,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @bried Returns the number of quota bytes used by this file.
      */
-    qlonglong quotaBytesUsed();
+    qlonglong quotaBytesUsed() const;
 
     /**
      * @brief Sets the number of quota bytes used by this file.
@@ -592,7 +592,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Return the name(s) of the owner(s) of this file.
      */
-    QStringList ownerNames();
+    QStringList ownerNames() const;
 
     /**
      * @brief Sets the name(s) of the owner(s) of this file.
@@ -606,7 +606,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This will only be populated if a user has edited this file.
      */
-    QString lastModifyingUserName();
+    QString lastModifyingUserName() const;
 
     /**
      * @brief Sets the name of the last user to modify this file.
@@ -620,7 +620,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns whether the file can be edited by the current user.
      */
-    bool editable();
+    bool editable() const;
 
     /**
      * @brief Sets whether the file can be edited by the current user.
@@ -632,7 +632,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns whether writers can share the document with other users.
      */
-    bool writersCanShare();
+    bool writersCanShare() const;
 
     /**
      * @brief Sets whether writers can share the document with other users.
@@ -642,7 +642,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns a link to the file's thumbnail.
      */
-    QString thumbnailLink();
+    QString thumbnailLink() const;
 
     /**
      * @brief Sets the link to the file's thumbnail.
@@ -654,7 +654,7 @@ class LIBKGAPI2_EXPORT DriveFile
     /**
      * @brief Returns the last time this file was viewed by the user.
      */
-    KDateTime lastViewedByMeDate();
+    KDateTime lastViewedByMeDate() const;
 
     /**
      * @brief Sets the last time this file was viewed by the user.
@@ -670,7 +670,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * In cases where the content is shared publicly, the content can be
      * downloaded without any credentials.
      */
-    QString webContentLink();
+    QString webContentLink() const;
 
     /**
      * @brief Sets a link for downloading the content of the file in a browser
@@ -689,7 +689,7 @@ class LIBKGAPI2_EXPORT DriveFile
      *
      * This will only be populated if the file is trashed.
      */
-    bool explicitlyTrashed();
+    bool explicitlyTrashed() const;
 
     /**
      * @brief Sets whether this file has been explicitly trashed, as opposed
@@ -707,7 +707,7 @@ class LIBKGAPI2_EXPORT DriveFile
      * This will only be present for image types, and its contents will depend
      * on what can be parsed from the image content.
      */
-    DriveFile::ImageMediaMetadataPtr imageMediaMetadata();
+    DriveFile::ImageMediaMetadataPtr imageMediaMetadata() const;
 
     /**
      * @brief Sets metadata about image media.

@@ -56,7 +56,7 @@ public:
         /**
          * @brief Returns the content type to convert from.
          */
-        QString source();
+        QString source() const;
 
         /**
          * @brief Sets the content type to convert from.
@@ -68,7 +68,7 @@ public:
         /**
          * @brief Returns the possible content types to convert to.
          */
-        QStringList targets();
+        QStringList targets() const;
 
         /**
          * @brief Sets the possible content types to convert to.
@@ -108,7 +108,7 @@ public:
             /**
              * @brief Returns the primary permission role.
              */
-            QString primaryRole();
+            QString primaryRole() const;
 
             /**
              * @brief Sets the primary permission role.
@@ -120,7 +120,7 @@ public:
             /**
              * @brief Returns the supported additional roles with the primary role.
              */
-            QString additionalRoles();
+            QString additionalRoles() const;
 
             /**
              * @brief Sets the supported additional roles with the primary role.
@@ -145,7 +145,7 @@ public:
         /**
          * @brief Returns the content type that this additional role info applies to.
          */
-        QString type();
+        QString type() const;
 
         /**
          * @brief Sets the content type that this additional role info applies to.
@@ -157,7 +157,7 @@ public:
         /**
          * @brief Returns the supported additional roles per primary role.
          */
-        RoleSetsList roleSets();
+        RoleSetsList roleSets() const;
 
         /**
          * @brief Sets the supported additional roles per primary role.
@@ -188,7 +188,7 @@ public:
         /**
          * @brief Returns the name of the feature.
          */
-        QString featureName();
+        QString featureName() const;
 
         /**
          * @brief Sets the name of the feature.
@@ -200,7 +200,7 @@ public:
         /**
          * @brief Returns the request limit rate for this feature, in queries per second.
          */
-        qreal featureRate();
+        qreal featureRate() const;
 
         /**
          * @brief Sets the request limit rate for this feature, in queries per second.
@@ -231,7 +231,7 @@ public:
         /**
          * @brief Returns the file type.
          */
-        QString type();
+        QString type() const;
 
         /**
          * @brief Sets the file type.
@@ -243,7 +243,7 @@ public:
         /**
          * @brief Returns the max upload size for this type.
          */
-        qlonglong size();
+        qlonglong size() const;
 
         /**
          * @brief Sets the max upload size for this type.
@@ -268,7 +268,7 @@ public:
     /**
      * @brief Returns the link back to this item.
      */
-    QString selfLink();
+    QString selfLink() const;
 
     /**
      * @brief Sets the link back to this item.
@@ -280,7 +280,7 @@ public:
     /**
      * @brief Returns the name of the current user.
      */
-    QString name();
+    QString name() const;
 
     /**
      * @brief Sets the name of the current user.
@@ -292,7 +292,7 @@ public:
     /**
      * @brief Returns the total number of quota bytes.
      */
-    qlonglong quotaBytesTotal();
+    qlonglong quotaBytesTotal() const;
 
     /**
      * @brief Sets the total number of quota bytes.
@@ -304,7 +304,7 @@ public:
     /**
      * @brief Returns the total number of quota bytes used.
      */
-    qlonglong quotaBytesUsed();
+    qlonglong quotaBytesUsed() const;
 
     /**
      * @brief Sets the total number of quota bytes used.
@@ -316,7 +316,7 @@ public:
     /**
      * @brief Returns the total number of quota bytes used by trashed items.
      */
-    qlonglong quotaBytesUsedInTrash();
+    qlonglong quotaBytesUsedInTrash() const;
 
     /**
      * @brief Sets the total number of quota bytes used by trashed items.
@@ -328,7 +328,7 @@ public:
     /**
      * @brief Returns the largest change id.
      */
-    qlonglong largestChangeId();
+    qlonglong largestChangeId() const;
 
     /**
      * @brief Sets the largest change id.
@@ -340,7 +340,7 @@ public:
     /**
      * @brief Returns the number of remaining change ids.
      */
-    qlonglong remainingChangeIds();
+    qlonglong remainingChangeIds() const;
 
     /**
      * @brief Sets the number of remaining change ids.
@@ -352,7 +352,7 @@ public:
     /**
      * @brief Returns the id of the root folder.
      */
-    QString rootFolderId();
+    QString rootFolderId() const;
 
     /**
      * @brief Sets the id of the root folder.
@@ -364,7 +364,7 @@ public:
     /**
      * @brief Returns the domain sharing policy for the current user.
      */
-    QString domainSharingPolicy();
+    QString domainSharingPolicy() const;
 
     /**
      * @brief Sets the domain sharing policy for the current user.
@@ -376,7 +376,7 @@ public:
     /**
      * @brief Returns the allowable import formats.
      */
-    FormatsList importFormats();
+    FormatsList importFormats() const;
 
     /**
      * @brief Sets the allowable import formats.
@@ -388,7 +388,7 @@ public:
     /**
      * @brief Returns the allowable export formats.
      */
-    FormatsList exportFormats();
+    FormatsList exportFormats() const;
 
     /**
      * @brief Sets the allowable export formats.
@@ -402,7 +402,7 @@ public:
      *
      * The most specific type takes precedence.
      */
-    AdditionalRoleInfosList additionalRoleInfo();
+    AdditionalRoleInfosList additionalRoleInfo() const;
 
     /**
      * @brief Sets information about supported additional roles per file type.
@@ -416,7 +416,7 @@ public:
     /**
      * @brief Returns the list of additional features enabled on this account.
      */
-    FeaturesList features();
+    FeaturesList features() const;
 
     /**
      * @brief Sets the list of additional features enabled on this account.
@@ -430,7 +430,7 @@ public:
      *
      * The most specific type takes precedence.
      */
-    MaxUploadSizesList maxUploadSizes();
+    MaxUploadSizesList maxUploadSizes() const;
 
     /**
      * @brief Sets the list of max upload sizes for each file type.
@@ -444,7 +444,7 @@ public:
     /**
      * @brief Returns the current user's ID as visible in the permissions collection.
      */
-    QString permissionId();
+    QString permissionId() const;
 
     /**
      * @brief Sets the current user's ID as visible in the permissions collection.
@@ -456,7 +456,7 @@ public:
     /**
      * @brief Returns whether the authenticated app is installed by the authenticated user.
      */
-    bool isCurrentAppInstalled();
+    bool isCurrentAppInstalled() const;
 
     /**
      * @brief Sets whether the authenticated app is installed by the authenticated user.

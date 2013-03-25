@@ -56,7 +56,7 @@ DriveChildReference::~DriveChildReference()
     delete d;
 }
 
-QString DriveChildReference::id()
+QString DriveChildReference::id() const
 {
     return d->id;
 }
@@ -66,7 +66,7 @@ void DriveChildReference::setId(const QString &id)
     d->id = id;
 }
 
-QString DriveChildReference::selfLink()
+QString DriveChildReference::selfLink() const
 {
     return d->selfLink;
 }
@@ -76,7 +76,7 @@ void DriveChildReference::setSelfLink(const QString &selfLink)
     d->selfLink = selfLink;
 }
 
-QString DriveChildReference::childLink()
+QString DriveChildReference::childLink() const
 {
     return d->childLink;
 }

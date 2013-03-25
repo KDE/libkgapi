@@ -46,7 +46,7 @@ class LIBKGAPI2_EXPORT DriveParentReference
     /**
      * @brief Returns the id of the parent.
      */
-    QString id();
+    QString id() const;
 
     /**
      * @brief Sets the id of the parent.
@@ -58,7 +58,7 @@ class LIBKGAPI2_EXPORT DriveParentReference
     /**
      * @brief Returns a link back to this reference.
      */
-    QString selfLink();
+    QString selfLink() const;
 
     /**
      * @brief Sets the link back to this reference.
@@ -70,7 +70,7 @@ class LIBKGAPI2_EXPORT DriveParentReference
     /**
      * @brief Returns a link to the parent.
      */
-    QString parentLink();
+    QString parentLink() const;
 
     /**
      * @brief Sets the link to the parent.
@@ -82,7 +82,7 @@ class LIBKGAPI2_EXPORT DriveParentReference
     /**
      * @brief Returns whether or not the parent is the root folder.
      */
-    bool isRoot();
+    bool isRoot() const;
 
     /**
      * @brief Sets whether or not the parent is the root folder.

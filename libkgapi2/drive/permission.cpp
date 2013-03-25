@@ -72,7 +72,7 @@ DrivePermission::~DrivePermission()
     delete d;
 }
 
-QString DrivePermission::id()
+QString DrivePermission::id() const
 {
     return d->id;
 }
@@ -82,7 +82,7 @@ void DrivePermission::setId(const QString &id)
     d->id = id;
 }
 
-QString DrivePermission::selfLink()
+QString DrivePermission::selfLink() const
 {
     return d->selfLink;
 }
@@ -92,7 +92,7 @@ void DrivePermission::setSelfLink(const QString &selfLink)
     d->selfLink = selfLink;
 }
 
-QString DrivePermission::name()
+QString DrivePermission::name() const
 {
     return d->name;
 }
@@ -102,7 +102,7 @@ void DrivePermission::setName(const QString &name)
     d->name = name;
 }
 
-DrivePermission::Role DrivePermission::role()
+DrivePermission::Role DrivePermission::role() const
 {
     return d->role;
 }
@@ -112,7 +112,7 @@ void DrivePermission::setRole(DrivePermission::Role role)
     d->role = role;
 }
 
-QStringList DrivePermission::additionalRoles()
+QStringList DrivePermission::additionalRoles() const
 {
     return d->additionalRoles;
 }
@@ -122,7 +122,7 @@ void DrivePermission::setAdditionalRoles(const QStringList &additionalRoles)
     d->additionalRoles = additionalRoles;
 }
 
-DrivePermission::Type DrivePermission::type()
+DrivePermission::Type DrivePermission::type() const
 {
     return d->type;
 }
@@ -132,7 +132,7 @@ void DrivePermission::setType(DrivePermission::Type type)
     d->type = type;
 }
 
-QString DrivePermission::authKey()
+QString DrivePermission::authKey() const
 {
     return d->authKey;
 }
@@ -142,7 +142,7 @@ void DrivePermission::setAuthKey(const QString &authKey)
     d->authKey = authKey;
 }
 
-bool DrivePermission::withLink()
+bool DrivePermission::withLink() const
 {
     return d->withLink;
 }
@@ -152,7 +152,7 @@ void DrivePermission::setWithLink(bool withLink)
     d->withLink = withLink;
 }
 
-QString DrivePermission::photoLink()
+QString DrivePermission::photoLink() const
 {
     return d->photoLink;
 }
@@ -162,7 +162,7 @@ void DrivePermission::setPhotoLink(const QString &photoLink)
     d->photoLink = photoLink;
 }
 
-QString DrivePermission::value()
+QString DrivePermission::value() const
 {
     return d->value;
 }

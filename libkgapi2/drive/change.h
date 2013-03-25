@@ -46,7 +46,7 @@ class LIBKGAPI2_EXPORT DriveChange
     /**
      * @brief Returns the id of the change.
      */
-    qlonglong id();
+    qlonglong id() const;
 
     /**
      * @brief Sets the id of the change.
@@ -58,7 +58,7 @@ class LIBKGAPI2_EXPORT DriveChange
     /**
      * @brief Returns the id of the file associated with this change.
      */
-    QString fileId();
+    QString fileId() const;
 
     /**
      * @brief Sets the id of the file associated with this change.
@@ -70,7 +70,7 @@ class LIBKGAPI2_EXPORT DriveChange
     /**
      * @brief Returns a link back to this change.
      */
-    QString selfLink();
+    QString selfLink() const;
 
     /**
      * @brief Sets the link back to this change.
@@ -82,7 +82,7 @@ class LIBKGAPI2_EXPORT DriveChange
     /**
      * Returns whether this file has been deleted.
      */
-    bool deleted();
+    bool deleted() const;
 
     /**
      * @brief Sets whether this file has been deleted.
@@ -96,7 +96,7 @@ class LIBKGAPI2_EXPORT DriveChange
      *
      * Present if the file has not been deleted.
      */
-    DriveFilePtr file();
+    DriveFilePtr file() const;
 
     /**
      * Sets the updated state of the file.
