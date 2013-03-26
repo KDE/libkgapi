@@ -19,30 +19,25 @@
  *
  */
 
-#ifndef KGAPI2_DRIVEPERMISSIONFETCHJOB_H
-#define KGAPI2_DRIVEPERMISSIONFETCHJOB_H
+#ifndef KGAPI2_DRIVEPERMISSIONCREATEJOB_H
+#define KGAPI2_DRIVEPERMISSIONCREATEJOB_H
 
-#include <libkgapi2/fetchjob.h>
+#include <libkgapi2/createjob.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DrivePermissionFetchJob : public KGAPI2::FetchJob
+class LIBKGAPI2_EXPORT DrivePermissionCreateJob : public KGAPI2::CreateJob
 {
-
     Q_OBJECT
 
   public:
-    explicit DrivePermissionFetchJob(const QString &fileId, const AccountPtr &account,
-                                     QObject *parent = 0);
-    explicit DrivePermissionFetchJob(const DriveFilePtr &file, const AccountPtr &account,
-                                     QObject *parent = 0);
-    explicit DrivePermissionFetchJob(const QString &fileId, const QString &permissionId,
-                                     const AccountPtr &account, QObject *parent = 0);
-    explicit DrivePermissionFetchJob(const DriveFilePtr &file, const QString &permissionId,
-                                     const AccountPtr &account, QObject *parent = 0);
-    virtual ~DrivePermissionFetchJob();
+    explicit DrivePermissionCreateJob(const QString &fileId, const DrivePermissionPtr &permission,
+                                      const AccountPtr &account, QObject *parent = 0);
+    explicit DrivePermissionCreateJob(const QString &fileId, const DrivePermissionsList &permissions,
+                                      const AccountPtr &account, QObject *parent = 0);
+    virtual ~DrivePermissionCreateJob();
 
   protected:
     virtual void start();
@@ -57,4 +52,4 @@ class LIBKGAPI2_EXPORT DrivePermissionFetchJob : public KGAPI2::FetchJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVEPERMISSIONFETCHJOB_H
+#endif // KGAPI2_DRIVEPERMISSIONCREATEJOB_H

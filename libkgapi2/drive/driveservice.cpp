@@ -18,6 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  */
+
 #include "driveservice.h"
 #include "utils.h"
 
@@ -61,6 +62,37 @@ QUrl fetchPermissionUrl(const QString &fileId, const QString &permissionId)
 
     return url;
 }
+
+QUrl createPermissionUrl(const QString &fileId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files/");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("permissions"));
+
+    return url;
+}
+
+QUrl deletePermissionUrl(const QString &fileId, const QString &permissionId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files/");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("permissions"));
+    url.addPath(permissionId);
+
+    return url;
+}
+
+QUrl modifyPermissionUrl(const QString &fileId, const QString &permissionId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files/");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("permissions"));
+    url.addPath(permissionId);
+
+    return url;
+}
+
+
 
 } // namespace DriveService
 

@@ -111,7 +111,10 @@ set(LibKGAPI_drive_SRCS
     drive/file.cpp
     drive/parentreference.cpp
     drive/permission.cpp
+    drive/permissioncreatejob.cpp
+    drive/permissiondeletejob.cpp
     drive/permissionfetchjob.cpp
+    drive/permissionmodifyjob.cpp
     drive/revision.cpp
 )
 
@@ -125,7 +128,10 @@ set(LibKGAPI_drive_HDRS
     drive/file.h
     drive/parentreference.h
     drive/permission.h
+    drive/permissioncreatejob.h
+    drive/permissiondeletejob.h
     drive/permissionfetchjob.h
+    drive/permissionmodifyjob.h
     drive/revision.h
 )
 
