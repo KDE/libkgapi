@@ -173,7 +173,4 @@ class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
 
 } /* namespace KGAPI2 */
 
-KGAPI2::ObjectsList operator<<(KGAPI2::ObjectsList &objectsList,
-                               const KGAPI2::DrivePermissionsList &permissionsList);
-
 #endif // LIBKGAPI2_DRIVEPERMISSION_H

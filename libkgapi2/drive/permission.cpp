@@ -324,12 +324,3 @@ QByteArray DrivePermission::toJSON(const DrivePermissionPtr &permission)
     QJson::Serializer serializer;
     return serializer.serialize(map);
 }
-
-ObjectsList operator<<(ObjectsList &objectsList, const DrivePermissionsList &permissionsList)
-{
-    Q_FOREACH (const DrivePermissionPtr &permission, permissionsList) {
-        objectsList << permission.dynamicCast<Object>();
-    }
-
-    return objectsList;
-}

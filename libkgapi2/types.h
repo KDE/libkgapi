@@ -131,6 +131,16 @@ class TaskList;
 typedef QSharedPointer<TaskList> TaskListPtr;
 typedef QList<TaskListPtr> TaskListsList;
 
+template<class T>
+ObjectsList operator<<(ObjectsList &objectsList, const QList< QSharedPointer<T> > &list)
+{
+    Q_FOREACH (const QSharedPointer<T> &item, list) {
+        objectsList << item;
+    }
+
+    return objectsList;
+}
+
 /**
  * @brief Job error codes
  */
@@ -173,5 +183,7 @@ enum ContentType {
 };
 
 } // namespace KGAPI2
+
+
 
 #endif // LIBKGAPI2_TYPES_H

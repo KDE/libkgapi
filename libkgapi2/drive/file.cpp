@@ -729,12 +729,3 @@ void DriveFile::setImageMediaMetadata(const DriveFile::ImageMediaMetadataPtr &im
 {
     d->imageMediaMetadata = imageMediaMetadata;
 }
-
-ObjectsList operator<<(ObjectsList &objectsList, const DriveFilesList &filesList)
-{
-    Q_FOREACH (const DriveFilePtr &file, filesList) {
-        objectsList << file.dynamicCast<Object>();
-    }
-
-    return objectsList;
-}

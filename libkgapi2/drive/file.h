@@ -729,6 +729,4 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
 
 } /* namespace KGAPI2 */
 
-KGAPI2::ObjectsList operator<<(KGAPI2::ObjectsList &objectsList, const KGAPI2::DriveFilesList &filesList);
-
 #endif // LIBKGAPI2_DRIVEFILE_H
