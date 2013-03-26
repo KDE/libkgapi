@@ -18,12 +18,15 @@
 #ifndef LIBKGAPI2_DRIVE_ABOUT_H
 #define LIBKGAPI2_DRIVE_ABOUT_H
 
+#include <libkgapi2/types.h>
+#include <libkgapi2/object.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QUrl>
+#include <QtCore/QVariantMap>
 
 namespace KGAPI2
 {
@@ -39,7 +42,7 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveAbout
+class LIBKGAPI2_EXPORT DriveAbout: public KGAPI2::Object
 {
 
 public:
@@ -50,7 +53,6 @@ public:
     class Format
     {
       public:
-        explicit Format();
         explicit Format(const Format &other);
         virtual ~Format();
 
@@ -60,28 +62,17 @@ public:
         QString source() const;
 
         /**
-         * @brief Sets the content type to convert from.
-         *
-         * @param source
-         */
-        void setSource(const QString &source);
-
-        /**
          * @brief Returns the possible content types to convert to.
          */
         QStringList targets() const;
 
-        /**
-         * @brief Sets the possible content types to convert to.
-         *
-         * @param targets
-         */
-        void setTargets(const QStringList &targets);
-
       private:
+        explicit Format();
+
         class Private;
         Private *const d;
         friend class Private;
+        friend class DriveAbout;
     };
 
     typedef QSharedPointer<Format> FormatPtr;
@@ -102,7 +93,6 @@ public:
         class RoleSet
         {
           public:
-            explicit RoleSet();
             explicit RoleSet(const RoleSet &other);
             virtual ~RoleSet();
 
@@ -112,34 +102,22 @@ public:
             QString primaryRole() const;
 
             /**
-             * @brief Sets the primary permission role.
-             *
-             * @param primaryRole
-             */
-            void setPrimaryRole(const QString &primaryRole);
-
-            /**
              * @brief Returns the supported additional roles with the primary role.
              */
-            QString additionalRoles() const;
-
-            /**
-             * @brief Sets the supported additional roles with the primary role.
-             *
-             * @param additionalRoles
-             */
-            void setAdditionalRoles(const QString &additionalRoles);
+            QStringList additionalRoles() const;
 
           private:
+            explicit RoleSet();
+
             class Private;
             Private *const d;
             friend class Private;
+            friend class DriveAbout;
         };
 
         typedef QSharedPointer<RoleSet> RoleSetPtr;
         typedef QList<RoleSetPtr> RoleSetsList;
 
-        explicit AdditionalRoleInfo();
         explicit AdditionalRoleInfo(const AdditionalRoleInfo &other);
         virtual ~AdditionalRoleInfo();
 
@@ -149,28 +127,17 @@ public:
         QString type() const;
 
         /**
-         * @brief Sets the content type that this additional role info applies to.
-         *
-         * @param type
-         */
-        void setType(const QString &type);
-
-        /**
          * @brief Returns the supported additional roles per primary role.
          */
         RoleSetsList roleSets() const;
 
-        /**
-         * @brief Sets the supported additional roles per primary role.
-         *
-         * @param roleSets
-         */
-        void setRoleSets(const RoleSetsList &roleSets);
-
       private:
+        explicit AdditionalRoleInfo();
+
         class Private;
         Private *const d;
         friend class Private;
+        friend class DriveAbout;
     };
 
     typedef QSharedPointer<AdditionalRoleInfo> AdditionalRoleInfoPtr;
@@ -182,7 +149,6 @@ public:
     class Feature
     {
       public:
-        explicit Feature();
         explicit Feature(const Feature &other);
         virtual ~Feature();
 
@@ -192,28 +158,17 @@ public:
         QString featureName() const;
 
         /**
-         * @brief Sets the name of the feature.
-         *
-         * @param featureName
-         */
-        void setFeatureName(const QString &featureName);
-
-        /**
          * @brief Returns the request limit rate for this feature, in queries per second.
          */
         qreal featureRate() const;
 
-        /**
-         * @brief Sets the request limit rate for this feature, in queries per second.
-         *
-         * @param featureRate
-         */
-        void setFeatureRate(qreal featureRate);
-
       private:
+        explicit Feature();
+
         class Private;
         Private *const d;
         friend class Private;
+        friend class DriveAbout;
     };
 
     typedef QSharedPointer<Feature> FeaturePtr;
@@ -225,7 +180,6 @@ public:
     class MaxUploadSize
     {
       public:
-        explicit MaxUploadSize();
         explicit MaxUploadSize(const MaxUploadSize &other);
         virtual ~MaxUploadSize();
 
@@ -235,34 +189,64 @@ public:
         QString type() const;
 
         /**
-         * @brief Sets the file type.
-         *
-         * @param type
-         */
-        void setType(const QString &type);
-
-        /**
          * @brief Returns the max upload size for this type.
          */
         qlonglong size() const;
 
-        /**
-         * @brief Sets the max upload size for this type.
-         *
-         * @param size
-         */
-        void setSize(qlonglong size);
 
       private:
+        explicit MaxUploadSize();
+
         class Private;
         Private *const d;
         friend class Private;
+        friend class DriveAbout;
     };
 
     typedef QSharedPointer<MaxUploadSize> MaxUploadSizePtr;
     typedef QList<MaxUploadSizePtr> MaxUploadSizesList;
 
-    explicit DriveAbout();
+    /**
+     * @brief The authenticated user.
+     */
+    class User
+    {
+      public:
+        explicit User(const User &other);
+        virtual ~User();
+
+        /**
+         * @brief Returns a plain text displayable name for this user.
+         */
+        QString displayName() const;
+
+        /**
+         * @brief Returns a URL that points to a profile picture of this user.
+         */
+        QUrl pictureUrl() const;
+
+        /**
+         * @brief Returns whether this user is the same as the authenticated 
+         *        user for whom the request was made.
+         */
+        bool isAuthenticatedUser() const;
+
+        /**
+         * @brief Returns the user's ID as visible in the permissions collection.
+         */
+        QString permissionId() const;
+
+      private:
+        explicit User();
+
+        class Private;
+        Private * const d;
+        friend class Private;
+        friend class DriveAbout;
+    };
+
+    typedef QSharedPointer<User> UserPtr;
+
     explicit DriveAbout(const DriveAbout &other);
     virtual ~DriveAbout();
 
@@ -272,23 +256,9 @@ public:
     QUrl selfLink() const;
 
     /**
-     * @brief Sets the link back to this item.
-     *
-     * @param selfLink
-     */
-    void setSelfLink(const QUrl &selfLink);
-
-    /**
      * @brief Returns the name of the current user.
      */
     QString name() const;
-
-    /**
-     * @brief Sets the name of the current user.
-     *
-     * @param name
-     */
-    void setName(const QString &name);
 
     /**
      * @brief Returns the total number of quota bytes.
@@ -296,23 +266,9 @@ public:
     qlonglong quotaBytesTotal() const;
 
     /**
-     * @brief Sets the total number of quota bytes.
-     *
-     * @param quotaBytesTotal
-     */
-    void setQuotaBytesTotal(qlonglong quotaBytesTotal);
-
-    /**
      * @brief Returns the total number of quota bytes used.
      */
     qlonglong quotaBytesUsed() const;
-
-    /**
-     * @brief Sets the total number of quota bytes used.
-     *
-     * @param quotaBytesUsed
-     */
-    void setQuotaBytesUsed(qlonglong quotaBytesUsed);
 
     /**
      * @brief Returns the total number of quota bytes used by trashed items.
@@ -320,11 +276,10 @@ public:
     qlonglong quotaBytesUsedInTrash() const;
 
     /**
-     * @brief Sets the total number of quota bytes used by trashed items.
-     *
-     * @param quotaBytesUsedInTrash
+     * @brief returns the total number of quota bytes used by all Google apps
+     *        (Drive, Picasa, etc.).
      */
-    void setQuotaBytesUsedInTrash(qlonglong quotaBytesUsedInTrash);
+    qlonglong quotaBytesUserAggregate() const;
 
     /**
      * @brief Returns the largest change id.
@@ -332,23 +287,9 @@ public:
     qlonglong largestChangeId() const;
 
     /**
-     * @brief Sets the largest change id.
-     *
-     * @param largestChangeId
-     */
-    void setLargestChangeId(qlonglong largestChangeId);
-
-    /**
      * @brief Returns the number of remaining change ids.
      */
     qlonglong remainingChangeIds() const;
-
-    /**
-     * @brief Sets the number of remaining change ids.
-     *
-     * @param remainingChangeIds
-     */
-    void setRemainingChangeIds(qlonglong remainingChangeIds);
 
     /**
      * @brief Returns the id of the root folder.
@@ -356,23 +297,9 @@ public:
     QString rootFolderId() const;
 
     /**
-     * @brief Sets the id of the root folder.
-     *
-     * @param rootFolderId
-     */
-    void setRootFolderId(const QString &rootFolderId);
-
-    /**
      * @brief Returns the domain sharing policy for the current user.
      */
     QString domainSharingPolicy() const;
-
-    /**
-     * @brief Sets the domain sharing policy for the current user.
-     *
-     * @param domainSharingPolicy
-     */
-    void setDomainSharingPolicy(const QString &domainSharingPolicy);
 
     /**
      * @brief Returns the allowable import formats.
@@ -380,23 +307,9 @@ public:
     FormatsList importFormats() const;
 
     /**
-     * @brief Sets the allowable import formats.
-     *
-     * @para importFormats
-     */
-    void setImportFormats(const FormatsList &importFormats);
-
-    /**
      * @brief Returns the allowable export formats.
      */
     FormatsList exportFormats() const;
-
-    /**
-     * @brief Sets the allowable export formats.
-     *
-     * @param exportFormats
-     */
-    void setExportFormats(const FormatsList &exportFormats);
 
     /**
      * @brief Returns information about supported additional roles per file type.
@@ -406,25 +319,9 @@ public:
     AdditionalRoleInfosList additionalRoleInfo() const;
 
     /**
-     * @brief Sets information about supported additional roles per file type.
-     *
-     * The most specific type takes precedence.
-     *
-     * @param additionalRoleInfo
-     */
-    void setAdditionalRoleInfo(const AdditionalRoleInfosList &additionalRoleInfo);
-
-    /**
      * @brief Returns the list of additional features enabled on this account.
      */
     FeaturesList features() const;
-
-    /**
-     * @brief Sets the list of additional features enabled on this account.
-     *
-     * @param features
-     */
-    void setFeatures(const FeaturesList &features);
 
     /**
      * @brief Returns the list of max upload sizes for each file type.
@@ -434,25 +331,9 @@ public:
     MaxUploadSizesList maxUploadSizes() const;
 
     /**
-     * @brief Sets the list of max upload sizes for each file type.
-     *
-     * The most specific type takes precedence.
-     *
-     * @param maxUploadSizes
-     */
-    void setMaxUploadSizes(const MaxUploadSizesList &maxUploadSizes);
-
-    /**
      * @brief Returns the current user's ID as visible in the permissions collection.
      */
     QString permissionId() const;
-
-    /**
-     * @brief Sets the current user's ID as visible in the permissions collection.
-     *
-     * @param permissionId
-     */
-    void setPermissionId(const QString &permissionId);
 
     /**
      * @brief Returns whether the authenticated app is installed by the authenticated user.
@@ -460,13 +341,20 @@ public:
     bool isCurrentAppInstalled() const;
 
     /**
-     * @brief Sets whether the authenticated app is installed by the authenticated user.
-     *
-     * @param isCurrentAppInstalled
+     * @brief Returns the authenticated user.
      */
-    void setIsCurrentAppInstalled(bool isCurrentAppInstalled);
+    UserPtr user() const;
+
+    /**
+     * @brief Constructs a new DriveAbout object from given JSON data
+     *
+     * @param jsonData
+     */
+    static DriveAboutPtr fromJSON(const QByteArray &jsonData);
 
   private:
+    explicit DriveAbout();
+
     class Private;
     Private *const d;
     friend class Private;

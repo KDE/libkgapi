@@ -103,9 +103,11 @@ set(LibKGAPI_calendar_HDRS
 
 set(LibKGAPI_drive_SRCS
     drive/about.cpp
+    drive/aboutfetchjob.cpp
     drive/app.cpp
     drive/change.cpp
     drive/childreference.cpp
+    drive/driveservice.cpp
     drive/file.cpp
     drive/parentreference.cpp
     drive/permission.cpp
@@ -114,9 +116,11 @@ set(LibKGAPI_drive_SRCS
 
 set(LibKGAPI_drive_HDRS
     drive/about.h
+    drive/aboutfetchjob.h
     drive/app.h
     drive/change.h
     drive/childreference.h
+    drive/driveservice.h
     drive/file.h
     drive/parentreference.h
     drive/permission.h

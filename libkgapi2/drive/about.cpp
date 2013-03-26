@@ -17,6 +17,8 @@
 
 #include "about.h"
 
+#include <qjson/parser.h>
+
 using namespace KGAPI2;
 
 ///// DriveAbout::Format
@@ -61,19 +63,9 @@ QString DriveAbout::Format::source() const
     return d->source;
 }
 
-void DriveAbout::Format::setSource(const QString &source)
-{
-    d->source = source;
-}
-
 QStringList DriveAbout::Format::targets() const
 {
     return d->targets;
-}
-
-void DriveAbout::Format::setTargets(const QStringList &targets)
-{
-    d->targets = targets;
 }
 
 ///// DriveAbout::AdditionalRoleInfo::RoleSet
@@ -85,7 +77,7 @@ class DriveAbout::AdditionalRoleInfo::RoleSet::Private
     Private(const Private &other);
 
     QString primaryRole;
-    QString additionalRoles;
+    QStringList additionalRoles;
 };
 
 DriveAbout::AdditionalRoleInfo::RoleSet::Private::Private()
@@ -118,19 +110,9 @@ QString DriveAbout::AdditionalRoleInfo::RoleSet::primaryRole() const
     return d->primaryRole;
 }
 
-void DriveAbout::AdditionalRoleInfo::RoleSet::setPrimaryRole(const QString &primaryRole)
-{
-    d->primaryRole = primaryRole;
-}
-
-QString DriveAbout::AdditionalRoleInfo::RoleSet::additionalRoles() const
+QStringList DriveAbout::AdditionalRoleInfo::RoleSet::additionalRoles() const
 {
     return d->additionalRoles;
-}
-
-void DriveAbout::AdditionalRoleInfo::RoleSet::setAdditionalRoles(const QString &additionalRoles)
-{
-    d->additionalRoles = additionalRoles;
 }
 
 ///// DriveAbout::AdditionalRoleInfo
@@ -175,19 +157,9 @@ QString DriveAbout::AdditionalRoleInfo::type() const
     return d->type;
 }
 
-void DriveAbout::AdditionalRoleInfo::setType(const QString &type)
-{
-    d->type = type;
-}
-
 DriveAbout::AdditionalRoleInfo::RoleSetsList DriveAbout::AdditionalRoleInfo::roleSets() const
 {
     return d->roleSets;
-}
-
-void DriveAbout::AdditionalRoleInfo::setRoleSets(const RoleSetsList &roleSets)
-{
-    d->roleSets = roleSets;
 }
 
 ///// DriveAbout::Feature
@@ -233,19 +205,9 @@ QString DriveAbout::Feature::featureName() const
     return d->featureName;
 }
 
-void DriveAbout::Feature::setFeatureName(const QString &featureName)
-{
-    d->featureName = featureName;
-}
-
 qreal DriveAbout::Feature::featureRate() const
 {
     return d->featureRate;
-}
-
-void DriveAbout::Feature::setFeatureRate(qreal featureRate)
-{
-    d->featureRate = featureRate;
 }
 
 ///// DriveAbout::MaxUploadSize
@@ -290,19 +252,71 @@ QString DriveAbout::MaxUploadSize::type() const
     return d->type;
 }
 
-void DriveAbout::MaxUploadSize::setType(const QString &type)
-{
-    d->type = type;
-}
-
 qlonglong DriveAbout::MaxUploadSize::size() const
 {
     return d->size;
 }
 
-void DriveAbout::MaxUploadSize::setSize(qlonglong size)
+///// DriveAbout::User
+
+class DriveAbout::User::Private
 {
-    d->size = size;
+  public:
+    Private();
+    Private(const Private &other);
+
+    QString displayName;
+    QUrl pictureUrl;
+    bool isAuthenticatedUser;
+    QString permissionId;
+};
+
+DriveAbout::User::Private::Private():
+    isAuthenticatedUser(false)
+{
+}
+
+DriveAbout::User::Private::Private(const Private &other):
+    displayName(other.displayName),
+    pictureUrl(other.pictureUrl),
+    isAuthenticatedUser(other.isAuthenticatedUser),
+    permissionId(other.permissionId)
+{
+}
+
+DriveAbout::User::User():
+    d(new Private)
+{
+}
+
+DriveAbout::User::User(const DriveAbout::User &other):
+    d(new Private(*(other.d)))
+{
+}
+
+DriveAbout::User::~User()
+{
+    delete d;
+}
+
+QString DriveAbout::User::displayName() const
+{
+    return d->displayName;
+}
+
+QUrl DriveAbout::User::pictureUrl() const
+{
+    return d->pictureUrl;
+}
+
+bool DriveAbout::User::isAuthenticatedUser() const
+{
+    return d->isAuthenticatedUser;
+}
+
+QString DriveAbout::User::permissionId() const
+{
+    return d->permissionId;
 }
 
 ///// DriveAbout
@@ -318,6 +332,7 @@ class DriveAbout::Private
     qlonglong quotaBytesTotal;
     qlonglong quotaBytesUsed;
     qlonglong quotaBytesUsedInTrash;
+    qlonglong quotaBytesUsedAggregate;
     qlonglong largestChangeId;
     qlonglong remainingChangeIds;
     QString rootFolderId;
@@ -329,12 +344,14 @@ class DriveAbout::Private
     MaxUploadSizesList maxUploadSizes;
     QString permissionId;
     bool isCurrentAppInstalled;
+    UserPtr user;
 };
 
 DriveAbout::Private::Private():
     quotaBytesTotal(-1),
     quotaBytesUsed(-1),
     quotaBytesUsedInTrash(-1),
+    quotaBytesUsedAggregate(-1),
     largestChangeId(-1),
     remainingChangeIds(-1),
     isCurrentAppInstalled(false)
@@ -347,6 +364,7 @@ DriveAbout::Private::Private(const DriveAbout::Private &other):
     quotaBytesTotal(other.quotaBytesTotal),
     quotaBytesUsed(other.quotaBytesUsed),
     quotaBytesUsedInTrash(other.quotaBytesUsedInTrash),
+    quotaBytesUsedAggregate(other.quotaBytesUsedAggregate),
     largestChangeId(other.largestChangeId),
     remainingChangeIds(other.remainingChangeIds),
     rootFolderId(other.rootFolderId),
@@ -357,16 +375,19 @@ DriveAbout::Private::Private(const DriveAbout::Private &other):
     features(other.features),
     maxUploadSizes(other.maxUploadSizes),
     permissionId(other.permissionId),
-    isCurrentAppInstalled(other.isCurrentAppInstalled)
+    isCurrentAppInstalled(other.isCurrentAppInstalled),
+    user(other.user)
 {
 }
 
 DriveAbout::DriveAbout():
+    KGAPI2::Object(),
     d(new Private)
 {
 }
 
 DriveAbout::DriveAbout(const DriveAbout &other):
+    KGAPI2::Object(other),
     d(new Private(*(other.d)))
 {
 }
@@ -381,19 +402,9 @@ QUrl DriveAbout::selfLink() const
     return d->selfLink;
 }
 
-void DriveAbout::setSelfLink(const QUrl &selfLink)
-{
-    d->selfLink = selfLink;
-}
-
 QString DriveAbout::name() const
 {
     return d->name;
-}
-
-void DriveAbout::setName(const QString &name)
-{
-    d->name = name;
 }
 
 qlonglong DriveAbout::quotaBytesTotal() const
@@ -401,19 +412,9 @@ qlonglong DriveAbout::quotaBytesTotal() const
     return d->quotaBytesTotal;
 }
 
-void DriveAbout::setQuotaBytesTotal(qlonglong quotaBytesTotal)
-{
-    d->quotaBytesTotal = quotaBytesTotal;
-}
-
 qlonglong DriveAbout::quotaBytesUsed() const
 {
     return d->quotaBytesUsed;
-}
-
-void DriveAbout::setQuotaBytesUsed(qlonglong quotaBytesUsed)
-{
-    d->quotaBytesUsed = quotaBytesUsed;
 }
 
 qlonglong DriveAbout::quotaBytesUsedInTrash() const
@@ -421,29 +422,18 @@ qlonglong DriveAbout::quotaBytesUsedInTrash() const
     return d->quotaBytesUsedInTrash;
 }
 
-void DriveAbout::setQuotaBytesUsedInTrash(qlonglong quotaBytesUsedInTrash)
+qlonglong DriveAbout::quotaBytesUserAggregate() const
 {
-    d->quotaBytesUsedInTrash = quotaBytesUsedInTrash;
+    return d->quotaBytesUsedAggregate;
 }
 
 qlonglong DriveAbout::largestChangeId() const
 {
     return d->largestChangeId;
 }
-
-void DriveAbout::setLargestChangeId(qlonglong largestChangeId)
-{
-    d->largestChangeId = largestChangeId;
-}
-
 qlonglong DriveAbout::remainingChangeIds() const
 {
     return d->remainingChangeIds;
-}
-
-void DriveAbout::setRemainingChangeIds(qlonglong remainingChangeIds)
-{
-    d->remainingChangeIds = remainingChangeIds;
 }
 
 QString DriveAbout::rootFolderId() const
@@ -451,19 +441,9 @@ QString DriveAbout::rootFolderId() const
     return d->rootFolderId;
 }
 
-void DriveAbout::setRootFolderId(const QString &rootFolderId)
-{
-    d->rootFolderId = rootFolderId;
-}
-
 QString DriveAbout::domainSharingPolicy() const
 {
     return d->domainSharingPolicy;
-}
-
-void DriveAbout::setDomainSharingPolicy(const QString &domainSharingPolicy)
-{
-    d->domainSharingPolicy = domainSharingPolicy;
 }
 
 DriveAbout::FormatsList DriveAbout::importFormats() const
@@ -471,19 +451,9 @@ DriveAbout::FormatsList DriveAbout::importFormats() const
     return d->importFormats;
 }
 
-void DriveAbout::setImportFormats(const FormatsList &importFormats)
-{
-    d->importFormats = importFormats;
-}
-
 DriveAbout::FormatsList DriveAbout::exportFormats() const
 {
     return d->exportFormats;
-}
-
-void DriveAbout::setExportFormats(const FormatsList &exportFormats)
-{
-    d->exportFormats = exportFormats;
 }
 
 DriveAbout::AdditionalRoleInfosList DriveAbout::additionalRoleInfo() const
@@ -491,19 +461,9 @@ DriveAbout::AdditionalRoleInfosList DriveAbout::additionalRoleInfo() const
     return d->additionalRoleInfo;
 }
 
-void DriveAbout::setAdditionalRoleInfo(const AdditionalRoleInfosList &additionalRoleInfo)
-{
-    d->additionalRoleInfo = additionalRoleInfo;
-}
-
 DriveAbout::FeaturesList DriveAbout::features() const
 {
     return d->features;
-}
-
-void DriveAbout::setFeatures(const FeaturesList &features)
-{
-    d->features = features;
 }
 
 DriveAbout::MaxUploadSizesList DriveAbout::maxUploadSizes() const
@@ -511,19 +471,9 @@ DriveAbout::MaxUploadSizesList DriveAbout::maxUploadSizes() const
     return d->maxUploadSizes;
 }
 
-void DriveAbout::setMaxUploadSizes(const MaxUploadSizesList &maxUploadSizes)
-{
-    d->maxUploadSizes = maxUploadSizes;
-}
-
 QString DriveAbout::permissionId() const
 {
     return d->permissionId;
-}
-
-void DriveAbout::setPermissionId(const QString &permissionId)
-{
-    d->permissionId = permissionId;
 }
 
 bool DriveAbout::isCurrentAppInstalled() const
@@ -531,7 +481,110 @@ bool DriveAbout::isCurrentAppInstalled() const
     return d->isCurrentAppInstalled;
 }
 
-void DriveAbout::setIsCurrentAppInstalled(bool isCurrentAppInstalled)
+DriveAbout::UserPtr DriveAbout::user() const
 {
-    d->isCurrentAppInstalled = isCurrentAppInstalled;
+    return d->user;
 }
+
+DriveAboutPtr DriveAbout::fromJSON(const QByteArray &jsonData)
+{
+    QJson::Parser parser;
+    bool ok;
+    const QVariant json = parser.parse(jsonData, &ok);
+    if (!ok) {
+        return DriveAboutPtr();
+    }
+    const QVariantMap map = json.toMap();
+
+    if (!map.contains(QLatin1String("kind")) ||
+        map[QLatin1String("kind")].toString() != QLatin1String("drive#about")) {
+
+        return DriveAboutPtr();
+    }
+
+    DriveAboutPtr about(new DriveAbout());
+    about->setEtag(map.value(QLatin1String("etag")).toString());
+    about->d->selfLink = map.value(QLatin1String("selfLink")).toUrl();
+    about->d->name = map.value(QLatin1String("name")).toString();
+    about->d->quotaBytesTotal = map.value(QLatin1String("quotaBytesTotal")).toLongLong();
+    about->d->quotaBytesUsed = map.value(QLatin1String("quotaBytesUsed")).toLongLong();
+    about->d->quotaBytesUsedInTrash = map.value(QLatin1String("quotaBytesUsedInTrash")).toLongLong();
+    about->d->quotaBytesUsedAggregate = map.value(QLatin1String("quotaBytesUsedAggregate")).toLongLong();
+    about->d->largestChangeId = map.value(QLatin1String("largestChangeId")).toLongLong();
+    about->d->remainingChangeIds = map.value(QLatin1String("remainingChangeIds")).toLongLong();
+    about->d->rootFolderId = map.value(QLatin1String("rootFolderId")).toString();
+    about->d->domainSharingPolicy = map.value(QLatin1String("domainSharingPolicy")).toString();
+    about->d->permissionId = map.value(QLatin1String("permissionId")).toString();
+    about->d->isCurrentAppInstalled = map.value(QLatin1String("isCurrentAppInstalled")).toBool();
+
+    const QVariantList importFormats = map.value(QLatin1String("importFormats")).toList();
+    Q_FOREACH (const QVariant &v, importFormats) {
+        const QVariantMap importFormat = v.toMap();
+        FormatPtr format(new Format());
+        format->d->source = importFormat.value(QLatin1String("source")).toString();
+        format->d->targets = importFormat.value(QLatin1String("targets")).toStringList();
+
+        about->d->importFormats << format;
+    }
+
+    const QVariantList exportFormats = map.value(QLatin1String("exportFormats")).toList();
+    Q_FOREACH (const QVariant &v, exportFormats) {
+        const QVariantMap exportFormat = v.toMap();
+        FormatPtr format(new Format());
+        format->d->source = exportFormat.value(QLatin1String("source")).toString();
+        format->d->targets = exportFormat.value(QLatin1String("targets")).toStringList();
+
+        about->d->exportFormats << format;
+    }
+
+    const QVariantList additionalRoleInfos = map.value(QLatin1String("additionalRoleInfo")).toList();
+    Q_FOREACH (const QVariant &v, additionalRoleInfos) {
+        const QVariantMap additionalRoleInfo = v.toMap();
+        AdditionalRoleInfoPtr info(new AdditionalRoleInfo());
+        info->d->type = additionalRoleInfo.value(QLatin1String("type")).toString();
+
+        const QVariantList roleSets = additionalRoleInfo.value(QLatin1String("roleSets")).toList();
+        Q_FOREACH (const QVariant &vv, roleSets) {
+            const QVariantMap roleSetData = vv.toMap();
+            AdditionalRoleInfo::RoleSetPtr roleSet(new AdditionalRoleInfo::RoleSet());
+            roleSet->d->primaryRole = roleSetData.value(QLatin1String("primaryRole")).toString();
+            roleSet->d->additionalRoles = roleSetData.value(QLatin1String("additionalRoles")).toStringList();
+
+            info->d->roleSets << roleSet;
+        }
+
+        about->d->additionalRoleInfo << info;
+    }
+
+    const QVariantList features = map.value(QLatin1String("features")).toList();
+    Q_FOREACH (const QVariant &v, features) {
+        const QVariantMap featureData = v.toMap();
+        FeaturePtr feature(new Feature());
+        feature->d->featureName = featureData.value(QLatin1String("featureName")).toString();
+        feature->d->featureRate = featureData.value(QLatin1String("featureRate")).toReal();
+
+        about->d->features << feature;
+    }
+
+    const QVariantList maxUploadSizes = map.value(QLatin1String("maxUploadSizes")).toList();
+    Q_FOREACH (const QVariant &v, maxUploadSizes) {
+        const QVariantMap maxUploadSizeData = v.toMap();
+        MaxUploadSizePtr maxUploadSize(new MaxUploadSize());
+        maxUploadSize->d->type = maxUploadSizeData.value(QLatin1String("type")).toString();
+        maxUploadSize->d->size = maxUploadSizeData.value(QLatin1String("size")).toLongLong();
+
+        about->d->maxUploadSizes << maxUploadSize;
+    }
+
+    const QVariantMap userData = map.value(QLatin1String("user")).toMap();
+    UserPtr user(new User());
+    user->d->displayName = userData.value(QLatin1String("displayName")).toString();
+    const QVariantMap picture = userData.value(QLatin1String("picture")).toMap();
+    user->d->pictureUrl = picture.value(QLatin1String("url")).toUrl();
+    user->d->isAuthenticatedUser = userData.value(QLatin1String("isAuthenticatedUser")).toBool();
+    user->d->permissionId = userData.value(QLatin1String("permissionId")).toString();
+    about->d->user = user;
+
+    return about;
+}
+
