@@ -18,6 +18,8 @@
 #ifndef LIBKGAPI2_DRIVE_APP_H
 #define LIBKGAPI2_DRIVE_APP_H
 
+#include <libkgapi2/types.h>
+#include <libkgapi2/object.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QSharedPointer>
@@ -28,30 +30,35 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveApp
+class LIBKGAPI2_EXPORT DriveApp: public KGAPI2::Object
 {
+    class Private;
+
   public:
 
     class Icon
     {
       public:
+        enum Category {
+            UndefinedCategory,
+            ApplicationCategory,
+            DocumentCategory,
+            DocumentSharedCategory
+        };
+
         explicit Icon();
         explicit Icon(const Icon &other);
         virtual ~Icon();
 
-        QString category() const;
-        void setCategory(const QString &category);
-
+        Category category() const;
         int size() const;
-        void setSize(const int &size);
-
         QUrl iconUrl() const;
-        void setIconUrl(const QUrl &iconUrl);
 
       private:
         class Private;
         Private *const d;
         friend class Private;
+        friend class DriveApp::Private;
     };
 
     typedef QSharedPointer<Icon> IconPtr;
@@ -62,49 +69,24 @@ class LIBKGAPI2_EXPORT DriveApp
     virtual ~DriveApp();
 
     QString id() const;
-    void setId(const QString &id);
-
     QString name() const;
-    void setName(const QString &name);
-
     QString objectType() const;
-    void setObjectType(const QString &objectType);
-
     bool supportsCreate() const;
-    void setSupportsCreate(bool supportsCreate);
-
     bool supportsImport() const;
-    void setSupportsImport(bool supportsImport);
-
     bool installed() const;
-    void setInstalled(bool installed);
-
     bool authorized() const;
-    void setAuthorized(bool authorized);
-
     bool useByDefault() const;
-    void setUseByDefault(bool useByDefault);
-
     QUrl productUrl() const;
-    void setProductUrl(const QUrl &productUrl);
-
     QStringList primaryMimeTypes() const;
-    void setPrimaryMimeTypes(const QStringList &primaryMimeTypes);
-
     QStringList secondaryMimeTypes() const;
-    void setSecondaryMimeTypes(const QStringList &secondaryMimeTypes);
-
     QStringList primaryFileExtensions() const;
-    void setPrimaryFileExtensions(const QStringList &primaryFileExtensions);
-
     QStringList secondaryFileExtensions() const;
-    void setSecondaryFileExtensions(const QStringList &secondaryFileExtensions);
-
     IconsList icons() const;
-    void setIcons(const IconsList &icons);
+
+    static DriveAppsList fromJSONFeed(const QByteArray &jsonData);
+    static DriveAppPtr fromJSON(const QByteArray &jsonData);
 
   private:
-    class Private;
     Private *const d;
     friend class Private;
 };

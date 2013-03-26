@@ -44,6 +44,19 @@ QUrl fetchAboutUrl(bool includeSubscribed, qlonglong maxChangeIdCount, qlonglong
     return url;
 }
 
+QUrl fetchAppUrl(const QString &appId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/apps");
+    url.addPath(appId);
+
+    return url;
+}
+
+QUrl fetchAppsUrl()
+{
+    return KUrl("https://www.googleapis.com/drive/v2/apps/");
+}
+
 QUrl fetchPermissionsUrl(const QString &fileId)
 {
     KUrl url("https://www.googleapis.com/drive/v2/files/");

@@ -44,6 +44,10 @@ namespace  DriveService
                                         qlonglong maxChangeIdCount,
                                         qlonglong startChangeId);
 
+    LIBKGAPI2_EXPORT QUrl fetchAppUrl(const QString &appId);
+
+    LIBKGAPI2_EXPORT QUrl fetchAppsUrl();
+
     LIBKGAPI2_EXPORT QUrl fetchPermissionsUrl(const QString &fileId);
 
     LIBKGAPI2_EXPORT QUrl fetchPermissionUrl(const QString &fileId,

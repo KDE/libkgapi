@@ -17,6 +17,10 @@
 
 #include "app.h"
 
+#include <QtCore/QVariantMap>
+
+#include <qjson/parser.h>
+
 using namespace KGAPI2;
 
 
@@ -26,9 +30,11 @@ class DriveApp::Icon::Private
     Private();
     Private(const Private &other);
 
-    QString category;
+    Category category;
     int size;
     QUrl iconUrl;
+
+    static Category categoryFromName(const QString &categoryName);
 };
 
 DriveApp::Icon::Private::Private():
@@ -42,6 +48,20 @@ DriveApp::Icon::Private::Private(const Private &other):
     iconUrl(other.iconUrl)
 {
 }
+
+DriveApp::Icon::Category DriveApp::Icon::Private::categoryFromName(const QString &categoryName)
+{
+    if (categoryName == QLatin1String("application")) {
+        return DriveApp::Icon::ApplicationCategory;
+    } else if (categoryName == QLatin1String("document")) {
+        return DriveApp::Icon::DocumentCategory;
+    } else if (categoryName == QLatin1String("documentShared")) {
+        return DriveApp::Icon::DocumentSharedCategory;
+    } else {
+        return DriveApp::Icon::UndefinedCategory;
+    }
+}
+
 
 DriveApp::Icon::Icon():
     d(new Private)
@@ -58,14 +78,9 @@ DriveApp::Icon::~Icon()
     delete d;
 }
 
-QString DriveApp::Icon::category() const
+DriveApp::Icon::Category DriveApp::Icon::category() const
 {
     return d->category;
-}
-
-void DriveApp::Icon::setCategory(const QString &category)
-{
-    d->category = category;
 }
 
 int DriveApp::Icon::size() const
@@ -73,19 +88,9 @@ int DriveApp::Icon::size() const
     return d->size;
 }
 
-void DriveApp::Icon::setSize(const int &size)
-{
-    d->size = size;
-}
-
 QUrl DriveApp::Icon::iconUrl() const
 {
     return d->iconUrl;
-}
-
-void DriveApp::Icon::setIconUrl(const QUrl &iconUrl)
-{
-    d->iconUrl = iconUrl;
 }
 
 
@@ -111,6 +116,8 @@ class DriveApp::Private
     QStringList primaryFileExtensions;
     QStringList secondaryFileExtensions;
     IconsList icons;
+
+    static DriveAppPtr fromJSON(const QVariantMap &map);
 };
 
 DriveApp::Private::Private():
@@ -140,12 +147,53 @@ DriveApp::Private::Private(const DriveApp::Private &other):
 {
 }
 
+DriveAppPtr DriveApp::Private::fromJSON(const QVariantMap &map)
+{
+    if (!map.contains(QLatin1String("kind")) ||
+        map[QLatin1String("kind")].toString() != QLatin1String("kind#app"))
+    {
+        return DriveAppPtr();
+    }
+
+    DriveAppPtr app(new DriveApp);
+    app->setEtag(map[QLatin1String("etag")].toString());
+    app->d->id = map[QLatin1String("id")].toString();
+    app->d->name = map[QLatin1String("map")].toString();
+    app->d->objectType = map[QLatin1String("objectType")].toString();
+    app->d->supportsCreate = map[QLatin1String("supportsCreate")].toBool();
+    app->d->supportsImport = map[QLatin1String("supportsImport")].toBool();
+    app->d->installed = map[QLatin1String("installed")].toBool();
+    app->d->authorized = map[QLatin1String("authorized")].toBool();
+    app->d->useByDefault = map[QLatin1String("useByDefault")].toBool();
+    app->d->productUrl = map[QLatin1String("productUrl")].toUrl();
+    app->d->primaryMimeTypes = map[QLatin1String("primaryMimeTypes")].toStringList();
+    app->d->secondaryMimeTypes = map[QLatin1String("secondaryMimeTypes")].toStringList();
+    app->d->primaryFileExtensions = map[QLatin1String("primaryFileExtensions")].toStringList();
+    app->d->secondaryFileExtensions = map[QLatin1String("secondaryFileExtensions")].toStringList();
+
+    const QVariantList icons = map[QLatin1String("icons")].toList();
+    Q_FOREACH (const QVariant &i, icons) {
+        const QVariantMap &iconData = i.toMap();
+
+        IconPtr icon(new Icon());
+        icon->d->category = Icon::Private::categoryFromName(iconData[QLatin1String("category")].toString());
+        icon->d->size = iconData[QLatin1String("size")].toInt();
+        icon->d->iconUrl = iconData[QLatin1String("iconUrl")].toUrl();
+
+        app->d->icons << icon;
+    }
+
+    return app;
+}
+
 DriveApp::DriveApp():
+    KGAPI2::Object(),
     d(new Private)
 {
 }
 
 DriveApp::DriveApp(const DriveApp &other):
+    KGAPI2::Object(other),
     d(new Private(*(other.d)))
 {
 }
@@ -160,19 +208,9 @@ QString DriveApp::id() const
     return d->id;
 }
 
-void DriveApp::setId(const QString &id)
-{
-    d->id = id;
-}
-
 QString DriveApp::name() const
 {
     return d->name;
-}
-
-void DriveApp::setName(const QString &name)
-{
-    d->name = name;
 }
 
 QString DriveApp::objectType() const
@@ -180,19 +218,9 @@ QString DriveApp::objectType() const
     return d->objectType;
 }
 
-void DriveApp::setObjectType(const QString &objectType)
-{
-    d->objectType = objectType;
-}
-
 bool DriveApp::supportsCreate() const
 {
     return d->supportsCreate;
-}
-
-void DriveApp::setSupportsCreate(bool supportsCreate)
-{
-    d->supportsCreate = supportsCreate;
 }
 
 bool DriveApp::supportsImport() const
@@ -200,19 +228,9 @@ bool DriveApp::supportsImport() const
     return d->supportsImport;
 }
 
-void DriveApp::setSupportsImport(bool supportsImport)
-{
-    d->supportsImport = supportsImport;
-}
-
 bool DriveApp::installed() const
 {
     return d->installed;
-}
-
-void DriveApp::setInstalled(bool installed)
-{
-    d->installed = installed;
 }
 
 bool DriveApp::authorized() const
@@ -220,19 +238,9 @@ bool DriveApp::authorized() const
     return d->authorized;
 }
 
-void DriveApp::setAuthorized(bool authorized)
-{
-    d->authorized = authorized;
-}
-
 bool DriveApp::useByDefault() const
 {
     return d->useByDefault;
-}
-
-void DriveApp::setUseByDefault(bool useByDefault)
-{
-    d->useByDefault = useByDefault;
 }
 
 QUrl DriveApp::productUrl() const
@@ -240,19 +248,9 @@ QUrl DriveApp::productUrl() const
     return d->productUrl;
 }
 
-void DriveApp::setProductUrl(const QUrl &productUrl)
-{
-    d->productUrl = productUrl;
-}
-
 QStringList DriveApp::primaryMimeTypes() const
 {
     return d->primaryMimeTypes;
-}
-
-void DriveApp::setPrimaryMimeTypes(const QStringList &primaryMimeTypes)
-{
-    d->primaryMimeTypes = primaryMimeTypes;
 }
 
 QStringList DriveApp::secondaryMimeTypes() const
@@ -260,19 +258,9 @@ QStringList DriveApp::secondaryMimeTypes() const
     return d->secondaryMimeTypes;
 }
 
-void DriveApp::setSecondaryMimeTypes(const QStringList &secondaryMimeTypes)
-{
-    d->secondaryMimeTypes = secondaryMimeTypes;
-}
-
 QStringList DriveApp::primaryFileExtensions() const
 {
     return d->primaryFileExtensions;
-}
-
-void DriveApp::setPrimaryFileExtensions(const QStringList &primaryFileExtensions)
-{
-    d->primaryFileExtensions = primaryFileExtensions;
 }
 
 QStringList DriveApp::secondaryFileExtensions() const
@@ -280,17 +268,49 @@ QStringList DriveApp::secondaryFileExtensions() const
     return d->secondaryFileExtensions;
 }
 
-void DriveApp::setSecondaryFileExtensions(const QStringList &secondaryFileExtensions)
-{
-    d->secondaryFileExtensions = secondaryFileExtensions;
-}
 
 DriveApp::IconsList DriveApp::icons() const
 {
     return d->icons;
 }
 
-void DriveApp::setIcons(const IconsList &icons)
+DriveAppPtr DriveApp::fromJSON(const QByteArray &jsonData)
 {
-    d->icons = icons;
+    QJson::Parser parser;
+    bool ok;
+    const QVariant data = parser.parse(jsonData, &ok);
+    if (!ok) {
+        return DriveAppPtr();
+    }
+
+    return Private::fromJSON(data.toMap());
+}
+
+DriveAppsList DriveApp::fromJSONFeed(const QByteArray &jsonData)
+{
+    QJson::Parser parser;
+    bool ok;
+    const QVariant data = parser.parse(jsonData, &ok);
+    if (!ok) {
+        return DriveAppsList();
+    }
+
+    const QVariantMap map = data.toMap();
+    if (!map.contains(QLatin1String("kind")) ||
+        map[QLatin1String("kind")].toString() != QLatin1String("drive#appList"))
+    {
+        return DriveAppsList();
+    }
+
+    DriveAppsList list;
+    const QVariantList items = map[QLatin1String("items")].toList();
+    Q_FOREACH (const QVariant &item, items) {
+        const DriveAppPtr app = Private::fromJSON(item.toMap());
+
+        if (!app.isNull()) {
+            list << app;
+        }
+    }
+
+    return list;
 }
