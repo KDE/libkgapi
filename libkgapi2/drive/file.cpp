@@ -405,11 +405,13 @@ DriveFile::Private::Private(const Private& other):
 }
 
 DriveFile::DriveFile():
+    KGAPI2::Object(),
     d(new Private)
 {
 }
 
 DriveFile::DriveFile(const DriveFile& other):
+    KGAPI2::Object(other),
     d(new Private(*(other.d)))
 { }
 
@@ -726,4 +728,13 @@ DriveFile::ImageMediaMetadataPtr DriveFile::imageMediaMetadata() const
 void DriveFile::setImageMediaMetadata(const DriveFile::ImageMediaMetadataPtr &imageMediaMetadata)
 {
     d->imageMediaMetadata = imageMediaMetadata;
+}
+
+ObjectsList operator<<(ObjectsList &objectsList, const DriveFilesList &filesList)
+{
+    Q_FOREACH (const DriveFilePtr &file, filesList) {
+        objectsList << file.dynamicCast<Object>();
+    }
+
+    return objectsList;
 }

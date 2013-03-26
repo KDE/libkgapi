@@ -18,6 +18,7 @@
 #ifndef LIBKGAPI2_DRIVEFILE_H
 #define LIBKGAPI2_DRIVEFILE_H
 
+#include <libkgapi2/object.h>
 #include <libkgapi2/types.h>
 
 #include <QtCore/QString>
@@ -38,7 +39,7 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveFile
+class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
 {
 
   public:
@@ -727,5 +728,7 @@ class LIBKGAPI2_EXPORT DriveFile
 };
 
 } /* namespace KGAPI2 */
+
+KGAPI2::ObjectsList operator<<(KGAPI2::ObjectsList &objectsList, const KGAPI2::DriveFilesList &filesList);
 
 #endif // LIBKGAPI2_DRIVEFILE_H

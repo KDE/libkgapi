@@ -18,11 +18,14 @@
 #ifndef LIBKGAPI2_DRIVEPERMISSION_H
 #define LIBKGAPI2_DRIVEPERMISSION_H
 
+#include <libkgapi2/object.h>
+#include <libkgapi2/types.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
+#include <QtCore/QVariantMap>
 
 namespace KGAPI2
 {
@@ -37,7 +40,7 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DrivePermission
+class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
 {
 
   public:
@@ -45,7 +48,8 @@ class LIBKGAPI2_EXPORT DrivePermission
         UndefinedRole = -1,
         OwnerRole = 0,
         ReaderRole = 1,
-        WriterRole = 2
+        WriterRole = 2,
+        CommenterRole = 3,
     };
 
     enum Type {
@@ -78,23 +82,9 @@ class LIBKGAPI2_EXPORT DrivePermission
     QUrl selfLink() const;
 
     /**
-     * @brief Sets a link back to this permission.
-     *
-     * @param selfLink
-     */
-    void setSelfLink(const QUrl &selfLink);
-
-    /**
      * @brief Returns the name of this permission.
      */
     QString name() const;
-
-    /**
-     * @brief Sets the name of this permission.
-     *
-     * @param name
-     */
-    void setName(const QString &name);
 
     /**
      * @brief Returns the primary role for this user.
@@ -109,14 +99,14 @@ class LIBKGAPI2_EXPORT DrivePermission
     /**
      * @brief Returns additional roles for this user. Only commenter is currently allowed.
      */
-    QStringList additionalRoles() const;
+    QList<Role> additionalRoles() const;
 
     /**
      * @brief Sets additional roles for this user. Only commenter is currently allowed.
      *
      * @param additionalRoles
      */
-    void setAdditionalRoles(const QStringList &additionalRoles);
+    void setAdditionalRoles(const QList<Role> &additionalRoles);
 
     /**
      * @brief Returns the account type.
@@ -136,13 +126,6 @@ class LIBKGAPI2_EXPORT DrivePermission
     QString authKey() const;
 
     /**
-     * @brief Sets the authkey parameter required for this permission.
-     *
-     * @param authKey
-     */
-    void setAuthKey(const QString &authKey);
-
-    /**
      * @brief Returns whether the link is required for this permission.
      */
     bool withLink() const;
@@ -158,13 +141,6 @@ class LIBKGAPI2_EXPORT DrivePermission
      * @brief Returns a link to the profile photo, if available.
      */
     QUrl photoLink() const;
-
-    /**
-     * @brief Sets a link to the profile photo, if available.
-     *
-     * @param photoLink
-     */
-    void setPhotoLink(const QUrl &photoLink);
 
     /**
      * @brief Returns the email address or domain name for the entity.
@@ -186,6 +162,9 @@ class LIBKGAPI2_EXPORT DrivePermission
      */
     void setValue(const QString &value);
 
+    static DrivePermissionPtr fromJSON(const QByteArray &jsonData);
+    static DrivePermissionsList fromJSONFeed(const QByteArray &jsonData);
+    static QByteArray toJSON(const DrivePermissionPtr &permission);
   private:
     class Private;
     Private * const d;
@@ -193,5 +172,8 @@ class LIBKGAPI2_EXPORT DrivePermission
 };
 
 } /* namespace KGAPI2 */
+
+KGAPI2::ObjectsList operator<<(KGAPI2::ObjectsList &objectsList,
+                               const KGAPI2::DrivePermissionsList &permissionsList);
 
 #endif // LIBKGAPI2_DRIVEPERMISSION_H
