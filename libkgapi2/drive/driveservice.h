@@ -48,6 +48,16 @@ namespace  DriveService
 
     LIBKGAPI2_EXPORT QUrl fetchAppsUrl();
 
+    LIBKGAPI2_EXPORT QUrl fetchParentReferenceUrl(const QString &fileId,
+                                                  const QString &referenceId);
+
+    LIBKGAPI2_EXPORT QUrl fetchParentReferencesUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl createParentReferenceUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl deleteParentReferenceUrl(const QString &fileId,
+                                                   const QString &referenceId);
+
     LIBKGAPI2_EXPORT QUrl fetchPermissionsUrl(const QString &fileId);
 
     LIBKGAPI2_EXPORT QUrl fetchPermissionUrl(const QString &fileId,

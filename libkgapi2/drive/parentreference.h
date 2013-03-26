@@ -18,6 +18,8 @@
 #ifndef LIBKGAPI2_DRIVECHILDREFERENCE_H
 #define LIBKGAPI2_DRIVECHILDREFERENCE_H
 
+#include <libkgapi2/types.h>
+#include <libkgapi2/object.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
@@ -36,11 +38,11 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveParentReference
+class LIBKGAPI2_EXPORT DriveParentReference: public KGAPI2::Object
 {
 
   public:
-    explicit DriveParentReference();
+    explicit DriveParentReference(const QString &id);
     explicit DriveParentReference(const DriveParentReference &other);
     virtual ~DriveParentReference();
 
@@ -50,23 +52,9 @@ class LIBKGAPI2_EXPORT DriveParentReference
     QString id() const;
 
     /**
-     * @brief Sets the id of the parent.
-     *
-     * @param id
-     */
-    void setId(const QString &id);
-
-    /**
      * @brief Returns a link back to this reference.
      */
     QUrl selfLink() const;
-
-    /**
-     * @brief Sets the link back to this reference.
-     *
-     * @param selfLink
-     */
-    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns a link to the parent.
@@ -74,23 +62,13 @@ class LIBKGAPI2_EXPORT DriveParentReference
     QUrl parentLink() const;
 
     /**
-     * @brief Sets the link to the parent.
-     *
-     * @param parentLink
-     */
-    void setParentLink(const QUrl &parentLink);
-
-    /**
      * @brief Returns whether or not the parent is the root folder.
      */
     bool isRoot() const;
 
-    /**
-     * @brief Sets whether or not the parent is the root folder.
-     *
-     * @param isRoot
-     */
-    void setIsRoot(bool isRoot);
+    static DriveParentReferencePtr fromJSON(const QByteArray &jsonData);
+    static DriveParentReferencesList fromJSONFeed(const QByteArray &jsonData);
+    static QByteArray toJSON(const DriveParentReferencePtr &reference);
 
   private:
     class Private;

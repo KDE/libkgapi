@@ -57,6 +57,44 @@ QUrl fetchAppsUrl()
     return KUrl("https://www.googleapis.com/drive/v2/apps/");
 }
 
+QUrl fetchParentReferenceUrl(const QString &fileId, const QString &referenceId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("parents"));
+    url.addPath(referenceId);
+
+    return url;
+}
+
+QUrl fetchParentReferencesUrl(const QString &fileId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("parents"));
+
+    return url;
+}
+
+QUrl createParentReferenceUrl(const QString &fileId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("parents"));
+
+    return url;
+}
+
+QUrl deleteParentReferenceUrl(const QString &fileId, const QString &referenceId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("parents"));
+    url.addPath(referenceId);
+
+    return url;
+}
+
 QUrl fetchPermissionsUrl(const QString &fileId)
 {
     KUrl url("https://www.googleapis.com/drive/v2/files/");
