@@ -111,6 +111,9 @@ class DriveRevision;
 typedef QSharedPointer<DriveRevision> DriveRevisionPtr;
 typedef QList<DriveRevisionPtr> DriveRevisionsList;
 
+class DriveUser;
+typedef QSharedPointer<DriveUser> DriveUserPtr;
+
 class Event;
 typedef QSharedPointer<Event> EventPtr;
 typedef QList<EventPtr> EventsList;

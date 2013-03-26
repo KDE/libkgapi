@@ -206,47 +206,6 @@ public:
     typedef QSharedPointer<MaxUploadSize> MaxUploadSizePtr;
     typedef QList<MaxUploadSizePtr> MaxUploadSizesList;
 
-    /**
-     * @brief The authenticated user.
-     */
-    class User
-    {
-      public:
-        explicit User(const User &other);
-        virtual ~User();
-
-        /**
-         * @brief Returns a plain text displayable name for this user.
-         */
-        QString displayName() const;
-
-        /**
-         * @brief Returns a URL that points to a profile picture of this user.
-         */
-        QUrl pictureUrl() const;
-
-        /**
-         * @brief Returns whether this user is the same as the authenticated 
-         *        user for whom the request was made.
-         */
-        bool isAuthenticatedUser() const;
-
-        /**
-         * @brief Returns the user's ID as visible in the permissions collection.
-         */
-        QString permissionId() const;
-
-      private:
-        explicit User();
-
-        class Private;
-        Private * const d;
-        friend class Private;
-        friend class DriveAbout;
-    };
-
-    typedef QSharedPointer<User> UserPtr;
-
     explicit DriveAbout(const DriveAbout &other);
     virtual ~DriveAbout();
 
@@ -343,7 +302,7 @@ public:
     /**
      * @brief Returns the authenticated user.
      */
-    UserPtr user() const;
+    DriveUserPtr user() const;
 
     /**
      * @brief Constructs a new DriveAbout object from given JSON data

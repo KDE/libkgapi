@@ -16,6 +16,7 @@
 */
 
 #include "about.h"
+#include "user.h"
 
 #include <qjson/parser.h>
 
@@ -257,68 +258,6 @@ qlonglong DriveAbout::MaxUploadSize::size() const
     return d->size;
 }
 
-///// DriveAbout::User
-
-class DriveAbout::User::Private
-{
-  public:
-    Private();
-    Private(const Private &other);
-
-    QString displayName;
-    QUrl pictureUrl;
-    bool isAuthenticatedUser;
-    QString permissionId;
-};
-
-DriveAbout::User::Private::Private():
-    isAuthenticatedUser(false)
-{
-}
-
-DriveAbout::User::Private::Private(const Private &other):
-    displayName(other.displayName),
-    pictureUrl(other.pictureUrl),
-    isAuthenticatedUser(other.isAuthenticatedUser),
-    permissionId(other.permissionId)
-{
-}
-
-DriveAbout::User::User():
-    d(new Private)
-{
-}
-
-DriveAbout::User::User(const DriveAbout::User &other):
-    d(new Private(*(other.d)))
-{
-}
-
-DriveAbout::User::~User()
-{
-    delete d;
-}
-
-QString DriveAbout::User::displayName() const
-{
-    return d->displayName;
-}
-
-QUrl DriveAbout::User::pictureUrl() const
-{
-    return d->pictureUrl;
-}
-
-bool DriveAbout::User::isAuthenticatedUser() const
-{
-    return d->isAuthenticatedUser;
-}
-
-QString DriveAbout::User::permissionId() const
-{
-    return d->permissionId;
-}
-
 ///// DriveAbout
 
 class DriveAbout::Private
@@ -344,7 +283,7 @@ class DriveAbout::Private
     MaxUploadSizesList maxUploadSizes;
     QString permissionId;
     bool isCurrentAppInstalled;
-    UserPtr user;
+    DriveUserPtr user;
 };
 
 DriveAbout::Private::Private():
@@ -481,7 +420,7 @@ bool DriveAbout::isCurrentAppInstalled() const
     return d->isCurrentAppInstalled;
 }
 
-DriveAbout::UserPtr DriveAbout::user() const
+DriveUserPtr DriveAbout::user() const
 {
     return d->user;
 }
@@ -576,14 +515,7 @@ DriveAboutPtr DriveAbout::fromJSON(const QByteArray &jsonData)
         about->d->maxUploadSizes << maxUploadSize;
     }
 
-    const QVariantMap userData = map.value(QLatin1String("user")).toMap();
-    UserPtr user(new User());
-    user->d->displayName = userData.value(QLatin1String("displayName")).toString();
-    const QVariantMap picture = userData.value(QLatin1String("picture")).toMap();
-    user->d->pictureUrl = picture.value(QLatin1String("url")).toUrl();
-    user->d->isAuthenticatedUser = userData.value(QLatin1String("isAuthenticatedUser")).toBool();
-    user->d->permissionId = userData.value(QLatin1String("permissionId")).toString();
-    about->d->user = user;
+    about->d->user = DriveUser::fromJSON(map.value(QLatin1String("user")).toMap());
 
     return about;
 }

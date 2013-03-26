@@ -116,6 +116,7 @@ set(LibKGAPI_drive_SRCS
     drive/permissionfetchjob.cpp
     drive/permissionmodifyjob.cpp
     drive/revision.cpp
+    drive/user.cpp
 )
 
 set(LibKGAPI_drive_HDRS
@@ -133,6 +134,7 @@ set(LibKGAPI_drive_HDRS
     drive/permissionfetchjob.h
     drive/permissionmodifyjob.h
     drive/revision.h
+    drive/user.h
 )
 
 set(LibKGAPI_latitude_SRCS
