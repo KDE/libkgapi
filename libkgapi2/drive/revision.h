@@ -18,6 +18,8 @@
 #ifndef LIBKGAPI2_DRIVECHILDREFERENCE_H
 #define LIBKGAPI2_DRIVECHILDREFERENCE_H
 
+#include <libkgapi2/types.h>
+#include <libkgapi2/object.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
@@ -39,7 +41,7 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveRevision
+class LIBKGAPI2_EXPORT DriveRevision: public KGAPI2::Object
 {
 
   public:
@@ -53,23 +55,9 @@ class LIBKGAPI2_EXPORT DriveRevision
     QString id() const;
 
     /**
-     * @brief Sets the id of the revision.
-     *
-     * @param id
-     */
-    void setId(const QString &id);
-
-    /**
      * @brief Returns a link back to this revision.
      */
     QUrl selfLink() const;
-
-    /**
-     * @brief Sets a link back to this revision.
-     *
-     * @param selfLink
-     */
-    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns the MIME type of the revision.
@@ -77,23 +65,9 @@ class LIBKGAPI2_EXPORT DriveRevision
     QString mimeType() const;
 
     /**
-     * @brief Sets the MIME type of the revision.
-     *
-     * @param mimeType
-     */
-    void setMimeType(const QString &mimeType);
-
-    /**
      * @brief Returns the last time this revision was modified.
      */
     KDateTime modifiedDate() const;
-
-    /**
-     * @brief Sets the last time this revision was modified.
-     *
-     * @param modified
-     */
-    void setModifiedDate(const KDateTime &modifiedDate);
 
     /**
      * @brief Returns whether this revision is pinned to prevent automatic purging.
@@ -129,7 +103,7 @@ class LIBKGAPI2_EXPORT DriveRevision
     /**
      * @brief Sets whether this revision is published.
      *
-     * This is only populated and can only be modified for Google Docs.
+     * @param published
      */
     void setPublished(bool published);
 
@@ -139,18 +113,11 @@ class LIBKGAPI2_EXPORT DriveRevision
     QUrl publishedLink() const;
 
     /**
-     * @brief Sets a link to the published revision.
-     *
-     * @param publishedLink
-     */
-    void setPublishedLink(const QUrl &publishedLink);
-
-    /**
      * @brief Returns whether subsequent revisions will be automatically republished.
      *
      * This is only populated and can only be modified for Google Docs.
      */
-    bool publishedAuto() const;
+    bool publishAuto() const;
 
     /**
      * @brief Sets whether subsequent revisions will be automatically republished.
@@ -159,7 +126,7 @@ class LIBKGAPI2_EXPORT DriveRevision
      *
      * @param publishedAuto
      */
-    void setPublishedAuto(bool publishedAuto);
+    void setPublishAuto(bool publishAuto);
 
     /**
      * @brief Returns whether this revision is published outside the domain.
@@ -185,15 +152,6 @@ class LIBKGAPI2_EXPORT DriveRevision
     QUrl downloadUrl() const;
 
     /**
-     * @brief Sets a short term download URL for the file.
-     *
-     * This will only be populated on files with content stored in Drive.
-     *
-     * @param downloadUrl
-     */
-    void setDownloadUrl(const QUrl &downloadUrl);
-
-    /**
      * @brief Returns the links for exporting Google Docs to specific formats.
      *
      * This is a map from the export format to URL.
@@ -201,25 +159,14 @@ class LIBKGAPI2_EXPORT DriveRevision
     QMap<QString /* format */, QUrl /* url */> exportLinks() const;
 
     /**
-     * @brief Sets the links for exporting Google Docs to specific formats.
-     *
-     * This is a map from the export format to URL.
-     *
-     * @param exportLinks
-     */
-    void setExportLinks(const QMap<QString /* format */, QUrl > &exportLinks);
-
-    /**
      * @brief Returns the name of the last user to modify this revision.
      */
     QString lastModifyingUserName() const;
 
     /**
-     * @brief Sets the name of the last user to modify this revision.
-     *
-     * @paraam lastModifyingUserName
+     * @brief Returns object representing the last user to modify this revision
      */
-    void setLastModifyingUserName(const QString &lastModifyingUserName);
+    DriveUserPtr lastModifyingUser() const;
 
     /**
      * @brief Returns the original filename when this revision was created.
@@ -229,29 +176,11 @@ class LIBKGAPI2_EXPORT DriveRevision
     QString originalFilename() const;
 
     /**
-     * @brief Sets the original filename when this revision was created.
-     *
-     * This will only be populated on files with content stored in Drive.
-     *
-     * @param originalFilename
-     */
-    void setOriginalFilename(const QString &originalFilename);
-
-    /**
      * @brief Returns an MD5 checksum for the content of this revision.
      *
      * This will only be populated on files with content stored in Drive
      */
     QString md5Checksum() const;
-
-    /**
-     * @brief Sets an MD5 checksum for the content of this revision.
-     *
-     * This will only be populated on files with content stored in Drive
-     *
-     * @param md5Checksum
-     */
-    void setMd5Checksum(const QString &md5Checksum);
 
     /**
      * @brief Returns the size of the revision in bytes.
@@ -260,14 +189,9 @@ class LIBKGAPI2_EXPORT DriveRevision
      */
     qlonglong fileSize() const;
 
-    /**
-     * @brief Sets the size of the revision in bytes.
-     *
-     * This will only be populated on files with content stored in Drive.
-     *
-     * @param fileSize
-     */
-    void setFileSize(qlonglong fileSize);
+    static DriveRevisionPtr fromJSON(const QByteArray &jsonData);
+    static DriveRevisionsList fromJSONFeed(const QByteArray &jsonData);
+    static QByteArray toJSON(const DriveRevisionPtr &revision);
 
   private:
     class Private;

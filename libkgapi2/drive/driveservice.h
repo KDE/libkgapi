@@ -60,6 +60,17 @@ namespace  DriveService
     LIBKGAPI2_EXPORT QUrl modifyPermissionUrl(const QString &fileId,
                                               const QString &permissionId);
 
+    LIBKGAPI2_EXPORT QUrl fetchRevisionUrl(const QString &fileId,
+                                           const QString &revisionId);
+
+    LIBKGAPI2_EXPORT QUrl fetchRevisionsUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl deleteRevisionUrl(const QString &fileId,
+                                            const QString &revisionId);
+
+    LIBKGAPI2_EXPORT QUrl modifyRevisionUrl(const QString &fileId,
+                                            const QString &revisionId);
+
 } // namespace DriveService
 
 } // namespace KGAPI2

@@ -105,7 +105,44 @@ QUrl modifyPermissionUrl(const QString &fileId, const QString &permissionId)
     return url;
 }
 
+QUrl fetchRevisionUrl(const QString &fileId, const QString &revisionId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files/");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("revisions"));
+    url.addPath(revisionId);
 
+    return url;
+}
+
+QUrl fetchRevisionsUrl(const QString &fileId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files/");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("revisions"));
+
+    return url;
+}
+
+QUrl deleteRevisionUrl(const QString &fileId, const QString &revisionId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files/");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("revisions"));
+    url.addPath(revisionId);
+
+    return url;
+}
+
+QUrl modifyRevisionUrl(const QString &fileId, const QString &revisionId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files/");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("revisions"));
+    url.addPath(revisionId);
+
+    return url;
+}
 
 } // namespace DriveService
 
