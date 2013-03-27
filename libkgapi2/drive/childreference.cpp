@@ -17,6 +17,11 @@
 
 #include "childreference.h"
 
+#include <QtCore/QVariantMap>
+
+#include <qjson/parser.h>
+#include <qjson/serializer.h>
+
 using namespace KGAPI2;
 
 class DriveChildReference::Private
@@ -28,6 +33,8 @@ class DriveChildReference::Private
     QString id;
     QUrl selfLink;
     QUrl childLink;
+
+    static DriveChildReferencePtr fromJSON(const QVariantMap &map);
 };
 
 DriveChildReference::Private::Private()
@@ -41,12 +48,30 @@ DriveChildReference::Private::Private(const Private &other):
 {
 }
 
-DriveChildReference::DriveChildReference():
+DriveChildReferencePtr DriveChildReference::Private::fromJSON(const QVariantMap &map)
+{
+    if (!map.contains(QLatin1String("kind")) ||
+        map[QLatin1String("kind")].toString() != QLatin1String("drive#childReference"))
+    {
+        return DriveChildReferencePtr();
+    }
+
+    DriveChildReferencePtr reference(new DriveChildReference(map[QLatin1String("id")].toString()));
+    reference->d->selfLink = map[QLatin1String("selfLink")].toUrl();
+    reference->d->childLink = map[QLatin1String("childLink")].toUrl();
+
+    return reference;
+}
+
+DriveChildReference::DriveChildReference(const QString &id):
+    KGAPI2::Object(),
     d(new Private)
 {
+    d->id = id;
 }
 
 DriveChildReference::DriveChildReference(const DriveChildReference &other):
+    KGAPI2::Object(other),
     d(new Private(*(other.d)))
 {
 }
@@ -61,19 +86,9 @@ QString DriveChildReference::id() const
     return d->id;
 }
 
-void DriveChildReference::setId(const QString &id)
-{
-    d->id = id;
-}
-
 QUrl DriveChildReference::selfLink() const
 {
     return d->selfLink;
-}
-
-void DriveChildReference::setSelfLink(const QUrl &selfLink)
-{
-    d->selfLink = selfLink;
 }
 
 QUrl DriveChildReference::childLink() const
@@ -81,7 +96,59 @@ QUrl DriveChildReference::childLink() const
     return d->childLink;
 }
 
-void DriveChildReference::setChildLink(const QUrl &childLink)
+DriveChildReferencePtr DriveChildReference::fromJSON(const QByteArray &jsonData)
 {
-    d->childLink = childLink;
+    QJson::Parser parser;
+    bool ok;
+    const QVariant data = parser.parse(jsonData, &ok);
+
+    if (!ok) {
+        return DriveChildReferencePtr();
+    }
+
+    return Private::fromJSON(data.toMap());
+}
+
+DriveChildReferencesList DriveChildReference::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
+{
+    QJson::Parser parser;
+    bool ok;
+    const QVariant data = parser.parse(jsonData, &ok);
+
+    if (!ok) {
+        return DriveChildReferencesList();
+    }
+
+    const QVariantMap map = data.toMap();
+    if (!map.contains(QLatin1String("kind")) ||
+        map[QLatin1String("kind")].toString() != QLatin1String("drive#childList"))
+    {
+        return DriveChildReferencesList();
+    }
+
+    DriveChildReferencesList list;
+    const QVariantList items = map[QLatin1String("items")].toList();
+    Q_FOREACH (const QVariant &item, items) {
+        DriveChildReferencePtr reference = Private::fromJSON(item.toMap());
+
+        if (!reference.isNull()) {
+            list << reference;
+        }
+    }
+
+    if (map.contains(QLatin1String("nextLink"))) {
+        feedData.nextPageUrl = map[QLatin1String("nextLink")].toUrl();
+    }
+
+    return list;
+}
+
+QByteArray DriveChildReference::toJSON(const DriveChildReferencePtr &reference)
+{
+    QVariantMap map;
+
+    map[QLatin1String("id")] = reference->id();
+
+    QJson::Serializer serializer;
+    return serializer.serialize(map);
 }

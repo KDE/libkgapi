@@ -18,6 +18,8 @@
 #ifndef LIBKGAPI2_DRIVE_CHILDREFERENCE_H
 #define LIBKGAPI2_DRIVE_CHILDREFERENCE_H
 
+#include <libkgapi2/types.h>
+#include <libkgapi2/object.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
@@ -36,11 +38,11 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveChildReference
+class LIBKGAPI2_EXPORT DriveChildReference: public KGAPI2::Object
 {
 
   public:
-    explicit DriveChildReference();
+    explicit DriveChildReference(const QString &id);
     explicit DriveChildReference(const DriveChildReference &other);
     virtual ~DriveChildReference();
 
@@ -50,35 +52,18 @@ class LIBKGAPI2_EXPORT DriveChildReference
     QString id() const;
 
     /**
-     * @brief Sets the id of the child.
-     *
-     * @param id
-     */
-    void setId(const QString &id);
-
-    /**
      * @brief Returns a link back to this reference.
      */
     QUrl selfLink() const;
-
-    /**
-     * @brief Sets a link back to this reference.
-     *
-     * @param selfLink
-     */
-    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns a link to the child.
      */
     QUrl childLink() const;
 
-    /**
-     * @brief Sets a link to the child.
-     *
-     * @param childLink
-     */
-    void setChildLink(const QUrl &childLink);
+    static DriveChildReferencePtr fromJSON(const QByteArray &jsonData);
+    static DriveChildReferencesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
+    static QByteArray toJSON(const DriveChildReferencePtr &reference);
 
   private:
     class Private;
