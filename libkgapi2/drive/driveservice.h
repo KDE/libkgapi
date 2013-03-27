@@ -62,6 +62,24 @@ namespace  DriveService
 
     LIBKGAPI2_EXPORT QUrl fetchChangesUrl();
 
+    LIBKGAPI2_EXPORT QUrl copyFileUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl deleteFileUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl fetchFileUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl fetchFilesUrl();
+
+    LIBKGAPI2_EXPORT QUrl touchFileUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl trashFileUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl untrashFileUrl(const QString &fileId);
+
+    LIBKGAPI2_EXPORT QUrl uploadMediaFileUrl(const QString &fileId = QString());
+
+    LIBKGAPI2_EXPORT QUrl uploadMultipartFileUrl(const QString &fileId = QString());
+
     LIBKGAPI2_EXPORT QUrl fetchParentReferenceUrl(const QString &fileId,
                                                   const QString &referenceId);
 

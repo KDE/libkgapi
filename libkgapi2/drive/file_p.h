@@ -62,6 +62,12 @@ class DriveFile::Private
     QUrl webContentLink;
     bool explicitlyTrashed;
     ImageMediaMetadataPtr imageMediaMetadata;
+    ThumbnailPtr thumbnail;
+    QUrl webViewLink;
+    QUrl iconLink;
+    bool shared;
+    DriveUsersList owners;
+    DriveUserPtr lastModifyingUser;
 
     static DriveFilePtr fromJSON(const QVariantMap &map);
 

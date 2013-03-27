@@ -103,9 +103,86 @@ QUrl fetchChangeUrl(const QString &changeId)
     return url;
 }
 
+QUrl copyFileUrl(const QString &fileId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("copy"));
+
+    return url;
+}
+
+QUrl deleteFileUrl(const QString &fileId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+
+    return url;
+}
+
+QUrl fetchFileUrl(const QString &fileId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+
+    return url;
+}
+
+QUrl fetchFilesUrl()
+{
+    return KUrl("http://www.googleapis.com/drive/v2/files");
+}
+
 QUrl fetchChangesUrl()
 {
     return KUrl("http://www.googleapis.com/drive/v2/changes");
+}
+
+QUrl touchFileUrl(const QString &fileId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("touch"));
+
+    return url;
+}
+
+QUrl trashFileUrl(const QString &fileId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("trash"));
+
+    return url;
+}
+
+QUrl untrashFileUrl(const QString &fileId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/files");
+    url.addPath(fileId);
+    url.addPath(QLatin1String("untrash"));
+
+    return url;
+}
+
+QUrl uploadMediaFileUrl(const QString &fileId)
+{
+    KUrl url("https://www.googleapis.com/upload/drive/v2/files");
+    if (!fileId.isEmpty()) {
+        url.addPath(fileId);
+    }
+
+    return url;
+}
+
+QUrl uploadMultipartFileUrl(const QString &fileId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files");
+    if (!fileId.isEmpty()) {
+        url.addPath(fileId);
+    }
+
+    return url;
 }
 
 QUrl fetchParentReferenceUrl(const QString &fileId, const QString &referenceId)

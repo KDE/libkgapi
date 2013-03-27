@@ -44,6 +44,8 @@ class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
 {
 
   public:
+    class Private;
+
     enum Role {
         UndefinedRole = -1,
         OwnerRole = 0,
@@ -165,8 +167,8 @@ class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
     static DrivePermissionPtr fromJSON(const QByteArray &jsonData);
     static DrivePermissionsList fromJSONFeed(const QByteArray &jsonData);
     static QByteArray toJSON(const DrivePermissionPtr &permission);
+
   private:
-    class Private;
     Private * const d;
     friend class Private;
 };

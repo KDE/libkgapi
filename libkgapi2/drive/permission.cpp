@@ -16,35 +16,12 @@
 */
 
 #include "permission.h"
+#include "permission_p.h"
 
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
 using namespace KGAPI2;
-
-class DrivePermission::Private
-{
-  public:
-    Private();
-    Private(const Private &other);
-
-    QString id;
-    QUrl selfLink;
-    QString name;
-    Role role;
-    QList<Role> additionalRoles;
-    Type type;
-    QString authKey;
-    bool withLink;
-    QUrl photoLink;
-    QString value;
-
-    static Role roleFromName(const QString &roleName);
-    static Type typeFromName(const QString &typeName);
-    static QString roleToName(DrivePermission::Role role);
-    static QString typeToName(DrivePermission::Type type);
-    static DrivePermissionPtr fromJSON(const QVariantMap &map);
-};
 
 DrivePermission::Role DrivePermission::Private::roleFromName(const QString &roleName)
 {

@@ -127,7 +127,7 @@ void DriveParentReferenceCreateJob::start()
 KGAPI2::ObjectsList DriveParentReferenceCreateJob::handleReplyWithItems(const QNetworkReply *reply,
                                                                         const QByteArray &rawData)
 {
-   const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
     if (ct == KGAPI2::JSON) {

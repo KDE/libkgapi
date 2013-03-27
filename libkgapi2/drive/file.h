@@ -25,8 +25,11 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
+#include <QtCore/QVariantMap>
+#include <QtGui/QImage>
 
 #include <KDE/KDateTime>
+#include <boost/graph/graph_concepts.hpp>
 
 namespace KGAPI2
 {
@@ -120,6 +123,7 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         class Private;
         Private *const d;
         friend class Private;
+        friend class DriveFile::Private;
     };
 
     typedef QSharedPointer<Labels> LabelsPtr;
@@ -131,7 +135,6 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     class IndexableText
     {
       public:
-        explicit IndexableText();
         explicit IndexableText(const IndexableText &other);
         virtual ~IndexableText();
 
@@ -148,9 +151,12 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         void setText(const QString &text);
 
       private:
+        explicit IndexableText();
+
         class Private;
         Private *const d;
         friend class Private;
+        friend class DriveFile::Private;
     };
 
     typedef QSharedPointer<IndexableText> IndexableTextPtr;
@@ -169,7 +175,6 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         class Location
         {
           public:
-            explicit Location();
             explicit Location(const Location &other);
             virtual ~Location();
 
@@ -179,45 +184,26 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
             qreal latitude() const;
 
             /**
-             * @brief Sets the latitude stored in the image.
-             *
-             * @param latitude
-             */
-            void setLatitude(qreal latitude);
-
-            /**
              * @brief Returns the longitude stored in the image.
              */
             qreal longitude() const;
-
-            /**
-             * @brief Sets the longitude stored in the image.
-             *
-             * @param longitude
-             */
-            void setLongitude(qreal longitude);
 
             /**
              * @brief Returns the altitude stored in the image.
              */
             qreal altitude() const;
 
-            /**
-             * @brief Sets the altitude stored in the image.
-             *
-             * @param altitude
-             */
-            void setAltitude(qreal altitude);
-
           private:
+            explicit Location();
+
             class Private;
             Private *const d;
             friend class Private;
+            friend class ImageMediaMetadata;
         };
 
         typedef QSharedPointer<Location> LocationPtr;
 
-        explicit ImageMediaMetadata();
         explicit ImageMediaMetadata(const ImageMediaMetadata &other);
         virtual ~ImageMediaMetadata();
 
@@ -227,23 +213,9 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         int width() const;
 
         /**
-         * @brief Sets the width of the image in pixels.
-         *
-         * @param width
-         */
-        void setWidth(int width);
-
-        /**
          * @brief Returns the height of the image in pixels.
          */
         int height() const;
-
-        /**
-         * @brief Sets the height of the image in pixels.
-         *
-         * @param height
-         */
-        void setHeight(int height);
 
         /**
          * @brief Returns the rotation in clockwise degrees from the image's original orientation.
@@ -251,29 +223,75 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         int rotation() const;
 
         /**
-         * @brief Sets the rotation in clockwise degrees from the image's original orientation.
-         */
-        void setRotation(int rotation);
-
-        /**
          * @brief Returns the geographic location information stored in the image.
          */
         LocationPtr location() const;
 
-        /**
-         * @brief Sets the geographic location information stored in the image.
-         *
-         * @param location
-         */
-        void setLocation(const LocationPtr &location);
+        QString date() const;
+
+        QString cameraMake() const;
+
+        QString cameraModel() const;
+
+        float exposureTime() const;
+
+        float aperture()  const;
+
+        bool flashUsed() const;
+
+        float focalLength() const;
+
+        int isoSpeed() const;
+
+        QString meteringMode() const;
+
+        QString sensor() const;
+
+        QString exposureMode() const;
+
+        QString colorSpace() const;
+
+        QString whiteBalance() const;
+
+        float exposureBias() const;
+
+        float maxApertureValue() const;
+
+        int subjectDistance() const;
+
+        QString lens() const;
 
       private:
+        explicit ImageMediaMetadata(const QVariantMap &jsonMap);
+
         class Private;
         Private *const d;
         friend class Private;
+        friend class DriveFile::Private;
     };
 
     typedef QSharedPointer<ImageMediaMetadata> ImageMediaMetadataPtr;
+
+    class Thumbnail
+    {
+      public:
+        explicit Thumbnail(const Thumbnail &other);
+        virtual ~Thumbnail();
+
+        QImage image() const;
+
+        QString mimeType() const;
+
+      private:
+        explicit Thumbnail(const QVariantMap &jsonMap);
+
+        class Private;
+        Private * const d;
+        friend class Private;
+        friend class DriveFile::Private;
+    };
+
+    typedef QSharedPointer<Thumbnail> ThumbnailPtr;
 
     explicit DriveFile();
     explicit DriveFile(const DriveFile &other);
@@ -285,23 +303,9 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     QString id() const;
 
     /**
-     * @brief Sets the id of the file.
-     *
-     * @param id
-     */
-    void setId(const QString &id);
-
-    /**
      * @brief Returns a link back to this file.
      */
     QUrl selfLink() const;
-
-    /**
-     * @brief Sets the link back to this file.
-     *
-     * @param selfLink
-     */
-    void setSelfLink(const QUrl &selfLink);
 
     /**
      * @brief Returns the title of this file.
@@ -361,13 +365,6 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     KDateTime createdDate() const;
 
     /**
-     * @brief Sets the create time for this file.
-     *
-     * @param createdDate
-     */
-    void setCreatedDate(const KDateTime &createdDate);
-
-    /**
      * @brief Returns the last time this file was modified by anyone.
      *
      * This is only mutable on update when the setModifiedDate parameter is set.
@@ -390,14 +387,6 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     KDateTime modifiedByMeDate() const;
 
     /**
-     * @brief Sets the last time this file was modified by the currently
-     *        authenticated user.
-     *
-     * @param modifiedByMeDate
-     */
-    void setModifiedByMeDate(const KDateTime &modifiedByMeDate);
-
-    /**
      * @brief Returns a short lived download URL for the file.
      *
      * This is only populated for files with content stored in Drive.
@@ -405,41 +394,16 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     QUrl downloadUrl() const;
 
     /**
-     * @brief Sets the short lived download URL for the file.
-     *
-     * This is only populated for files with content stored in Drive.
-     *
-     * @param downloadUrl
-     */
-    void setDownloadUrl(const QUrl &downloadUrl);
-
-    /**
      * @brief Returns the indexable text attributes for the file.
      *
      * This property can only be written, and is not returned by files.get
      */
-    DriveFile::IndexableTextPtr indexableText() const;
-
-    /**
-     * @brief Sets the indexable text attributes for the file.
-     *
-     * This property can only be written, and is not returned by files.get
-     *
-     * @param indexableText
-     */
-    void setIndexableText(const IndexableTextPtr &indexableText);
+    DriveFile::IndexableTextPtr& indexableText();
 
     /**
      * @brief Returns the permissions for the authenticated user on this file.
      */
     DrivePermissionPtr userPermission() const;
-
-    /**
-     * @brief Sets the permissions for the authenticated user on this file.
-     *
-     * @param userPermission
-     */
-    void setUserPermission(const DrivePermissionPtr &userPermission);
 
     /**
      * @brief Returns the file extension used when downloading this file.
@@ -450,29 +414,11 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     QString fileExtension() const;
 
     /**
-     * @brief Sets the file extension used when downloading this file.
-     *
-     * This field is read only. To set the extension, include it on title when creating the file.
-     * This is populated only for files with content stored in Drive.
-     *
-     * @param fileExtension
-     */
-    void setFileExtension(const QString &fileExtension);
-
-    /**
      * @brief Returns an MD5 checksum for the content of this file.
      *
      * This is populated only for files with content stored in Drive.
      */
     QString md5Checksum() const;
-
-    /**
-     * @brief Sets an MD5 checksum for the content of this file.
-     * This is populated only for files with content stored in Drive
-     *
-     * @param md5Checksum
-     */
-    void setMd5Checksum(const QString &md5Checksum);
 
     /**
      * @brief Returns the size of the file in bytes.
@@ -482,27 +428,10 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     qlonglong fileSize() const;
 
     /**
-     * @brief Sets the size of the file in bytes.
-     *
-     * This is populated only for files with content stored in Drive.
-     *
-     * @param fileSize
-     */
-    void setFileSize(qlonglong fileSize);
-
-    /**
      * @brief Returns a link for opening the file in using a relevant
      *        Google editor or viewer.
      */
     QUrl alternateLink() const;
-
-    /**
-     * @brief Sets the link for opening the file in using a relevant Google
-     *        editor or viewer.
-     *
-     * @param alternateLink
-     */
-    void setAlternateLink(const QUrl &alternateLink);
 
     /**
      * @brief Returns a link for embedding the file.
@@ -510,23 +439,9 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     QUrl embedLink() const;
 
     /**
-     * @brief Sets the link for embedding the file.
-     *
-     * @param embedLink
-     */
-    void setEmbedLink(const QUrl &embedLink);
-
-    /**
      * @brief Returns the time at which this file was shared with the user.
      */
     KDateTime sharedWithMeDate() const;
-
-    /**
-     * @brief Sets the time at which this file was shared with the user.
-     *
-     * @param sharedWithMeDate
-     */
-    void setSharedWithMeDate(const KDateTime &sharedWithMeDate);
 
     /**
      * @brief Returns the collection of parent folders which contain this file.
@@ -556,15 +471,6 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     QMap < QString /* format */, QUrl /* url */ > exportLinks() const;
 
     /**
-     * @brief Sets the links for exporting Google Docs to specific formats.
-     *
-     * This is a map from the export format to URL.
-     *
-     * @param exportLinks
-     */
-    void setExportLinks(const QMap < QString /* format */, QUrl /* url */ > &exportLinks);
-
-    /**
      * @brief Returns the original filename if the file was uploaded manually,
      *        or the original title if the file was inserted through the API.
      *
@@ -574,37 +480,14 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     QString originalFileName() const;
 
     /**
-     * @brief Returns the original filename if the file was uploaded manually,
-     *        or the original title if the file was inserted through the API.
-     *
-     * Note that renames of the title will not change the original filename.
-     * This will only be populated on files with content stored in Drive.
-     *
-     * @param originalFileName
-     */
-    void setOriginalFileName(const QString &originalFileName);
-
-    /**
      * @bried Returns the number of quota bytes used by this file.
      */
     qlonglong quotaBytesUsed() const;
 
     /**
-     * @brief Sets the number of quota bytes used by this file.
-     */
-    void setQuotaBytesUsed(qlonglong quotaBytesUsed);
-
-    /**
      * @brief Return the name(s) of the owner(s) of this file.
      */
     QStringList ownerNames() const;
-
-    /**
-     * @brief Sets the name(s) of the owner(s) of this file.
-     *
-     * @param ownerNames
-     */
-    void setOwnerNames(const QStringList &ownerNames);
 
     /**
      * @brief Returns the name of the last user to modify this file.
@@ -614,25 +497,9 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     QString lastModifyingUserName() const;
 
     /**
-     * @brief Sets the name of the last user to modify this file.
-     *
-     * This will only be populated if a user has edited this file.
-     *
-     * @param lastModifyingUserName
-     */
-    void setLastModifyingUserName(const QString &lastModifyingUserName);
-
-    /**
      * @brief Returns whether the file can be edited by the current user.
      */
     bool editable() const;
-
-    /**
-     * @brief Sets whether the file can be edited by the current user.
-     *
-     * @param editable
-     */
-    void setEditable(bool editable);
 
     /**
      * @brief Returns whether writers can share the document with other users.
@@ -640,21 +507,9 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     bool writersCanShare() const;
 
     /**
-     * @brief Sets whether writers can share the document with other users.
-     */
-    void setWritersCanShare(bool writersCanShare);
-
-    /**
      * @brief Returns a link to the file's thumbnail.
      */
     QUrl thumbnailLink() const;
-
-    /**
-     * @brief Sets the link to the file's thumbnail.
-     *
-     * @param thumbnailLink
-     */
-    void setThumbnailLink(const QUrl &thumbnailLink);
 
     /**
      * @brief Returns the last time this file was viewed by the user.
@@ -678,33 +533,12 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     QUrl webContentLink() const;
 
     /**
-     * @brief Sets a link for downloading the content of the file in a browser
-     *        using cookie based authentication.
-     *
-     * In cases where the content is shared publicly, the content can be
-     * downloaded without any credentials.
-     *
-     * @param webContentLink
-     */
-    void setWebContentLink(const QUrl &webContentLink);
-
-    /**
      * @brief Returns whether this file has been explicitly trashed, as opposed
      *        to recursively trashed.
      *
      * This will only be populated if the file is trashed.
      */
     bool explicitlyTrashed() const;
-
-    /**
-     * @brief Sets whether this file has been explicitly trashed, as opposed
-     *        to recursively trashed.
-     *
-     * This will only be populated if the file is trashed.
-     *
-     * @param explicitlyTrashed
-     */
-    void setExplicitlyTrashed(bool explicitlyTrashed);
 
     /**
      * @brief Returns metadata about image media.
@@ -715,14 +549,23 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     DriveFile::ImageMediaMetadataPtr imageMediaMetadata() const;
 
     /**
-     * @brief Sets metadata about image media.
-     *
-     * This will only be present for image types, and its contents will depend
-     * on what can be parsed from the image content.
-     *
-     * @param imageMediaMetadata
+     * @brief Retrusn thumbnail for the file.
      */
-    void setImageMediaMetadata(const ImageMediaMetadataPtr &imageMediaMetadata);
+    ThumbnailPtr thumbnail() const;
+
+    QUrl webViewLink() const;
+
+    QUrl iconLink() const;
+
+    bool shared() const;
+
+    DriveUsersList owners() const;
+
+    DriveUserPtr lastModifyingUser() const;
+
+    static DriveFilePtr fromJSON(const QByteArray &jsonData);
+    static DriveFilesList fromJSONFeed(const  QByteArray &jsonData, FeedData &feedData);
+    static QByteArray toJSON(const DriveFilePtr &file);
 
   private:
     Private * const d;

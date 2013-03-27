@@ -42,6 +42,8 @@ class LIBKGAPI2_EXPORT DriveParentReference: public KGAPI2::Object
 {
 
   public:
+    class Private;
+
     explicit DriveParentReference(const QString &id);
     explicit DriveParentReference(const DriveParentReference &other);
     virtual ~DriveParentReference();
@@ -71,7 +73,6 @@ class LIBKGAPI2_EXPORT DriveParentReference: public KGAPI2::Object
     static QByteArray toJSON(const DriveParentReferencePtr &reference);
 
   private:
-    class Private;
     Private * const d;
     friend class Private;
 };

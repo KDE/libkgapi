@@ -16,6 +16,7 @@
 */
 
 #include "parentreference.h"
+#include "parentreference_p.h"
 
 #include <QtCore/QVariantMap>
 
@@ -23,20 +24,6 @@
 #include <qjson/serializer.h>
 
 using namespace KGAPI2;
-
-class DriveParentReference::Private
-{
-  public:
-    Private();
-    Private(const Private &other);
-
-    QString id;
-    QUrl selfLink;
-    QUrl parentLink;
-    bool isRoot;
-
-    static DriveParentReferencePtr fromJSON(const QVariantMap &map);
-};
 
 DriveParentReference::Private::Private():
     isRoot(false)
@@ -65,6 +52,14 @@ DriveParentReferencePtr DriveParentReference::Private::fromJSON(const QVariantMa
     reference->d->isRoot = map[QLatin1String("isRoot")].toBool();
 
     return reference;
+}
+
+QVariantMap DriveParentReference::Private::toJSON(const DriveParentReferencePtr &reference)
+{
+    QVariantMap map;
+    map[QLatin1String("id")] = reference->id();
+
+    return map;
 }
 
 DriveParentReference::DriveParentReference(const QString &id):
@@ -150,9 +145,7 @@ DriveParentReferencesList DriveParentReference::fromJSONFeed(const QByteArray &j
 
 QByteArray DriveParentReference::toJSON(const DriveParentReferencePtr &reference)
 {
-    QVariantMap map;
-
-    map[QLatin1String("id")] = reference->id();
+    const QVariantMap map = Private::toJSON(reference);
 
     QJson::Serializer serializer;
     return serializer.serialize(map);

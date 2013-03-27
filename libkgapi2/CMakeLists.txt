@@ -113,6 +113,17 @@ set(LibKGAPI_drive_SRCS
     drive/childreferencefetchjob.cpp
     drive/driveservice.cpp
     drive/file.cpp
+    drive/fileabstractdatajob.cpp
+    drive/fileabstractmodifyjob.cpp
+    drive/fileabstractuploadjob.cpp
+    drive/filecopyjob.cpp
+    drive/filecreatejob.cpp
+    drive/filedeletejob.cpp
+    drive/filefetchjob.cpp
+    drive/filemodifyjob.cpp
+    drive/filetouchjob.cpp
+    drive/filetrashjob.cpp
+    drive/fileuntrashjob.cpp
     drive/parentreference.cpp
     drive/parentreferencecreatejob.cpp
     drive/parentreferencedeletejob.cpp
@@ -141,6 +152,17 @@ set(LibKGAPI_drive_HDRS
     drive/childreferencefetchjob.h
     drive/driveservice.h
     drive/file.h
+    drive/fileabstractdatajob.h
+    drive/fileabstractmodifyjob.h
+    drive/fileabstractuploadjob.h
+    drive/filecopyjob.h
+    drive/filecreatejob.h
+    drive/filedeletejob.h
+    drive/filefetchjob.h
+    drive/filemodifyjob.h
+    drive/filetouchjob.h
+    drive/filetrashjob.h
+    drive/fileuntrashjob.h
     drive/parentreference.h
     drive/parentreferencecreatejob.h
     drive/parentreferencedeletejob.h
