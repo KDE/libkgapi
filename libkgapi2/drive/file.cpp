@@ -16,6 +16,7 @@
 */
 
 #include "file.h"
+#include "file_p.h"
 
 using namespace KGAPI2;
 
@@ -321,45 +322,6 @@ void DriveFile::ImageMediaMetadata::setLocation(const LocationPtr &location)
 
 ////// DriveFile
 
-class DriveFile::Private
-{
-  public:
-    Private();
-    Private(const Private &other);
-
-    QString id;
-    QUrl selfLink;
-    QString title;
-    QString mimeType;
-    QString description;
-    LabelsPtr labels;
-    KDateTime createdDate;
-    KDateTime modifiedDate;
-    KDateTime modifiedByMeDate;
-    QUrl downloadUrl;
-    IndexableTextPtr indexableText;
-    DrivePermissionPtr userPermission;
-    QString fileExtension;
-    QString md5Checksum;
-    qlonglong fileSize;
-    QUrl alternateLink;
-    QUrl embedLink;
-    KDateTime sharedWithMeDate;
-    DriveParentReferencesList parents;
-    QMap<QString,QUrl> exportLinks;
-    QString originalFileName;
-    qlonglong quotaBytesUsed;
-    QList<QString> ownerNames;
-    QString lastModifyingUserName;
-    bool editable;
-    bool writersCanShare;
-    QUrl thumbnailLink;
-    KDateTime lastViewedByMeDate;
-    QUrl webContentLink;
-    bool explicitlyTrashed;
-    ImageMediaMetadataPtr imageMediaMetadata;
-};
-
 DriveFile::Private::Private():
     fileSize(-1),
     quotaBytesUsed(-1),
@@ -402,6 +364,13 @@ DriveFile::Private::Private(const Private& other):
     explicitlyTrashed(other.explicitlyTrashed),
     imageMediaMetadata(other.imageMediaMetadata)
 {
+}
+
+DriveFilePtr DriveFile::Private::fromJSON(const QVariantMap &map)
+{
+    Q_UNUSED(map);
+
+    return DriveFilePtr();
 }
 
 DriveFile::DriveFile():

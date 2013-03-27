@@ -96,7 +96,6 @@ DrivePermissionCreateJob::~DrivePermissionCreateJob()
     delete d;
 }
 
-
 void DrivePermissionCreateJob::start()
 {
     d->processNext();

@@ -106,6 +106,7 @@ set(LibKGAPI_drive_SRCS
     drive/aboutfetchjob.cpp
     drive/app.cpp
     drive/change.cpp
+    drive/changefetchjob.cpp
     drive/childreference.cpp
     drive/childreferencecreatejob.cpp
     drive/childreferencedeletejob.cpp
@@ -133,6 +134,7 @@ set(LibKGAPI_drive_HDRS
     drive/aboutfetchjob.h
     drive/app.h
     drive/change.h
+    drive/changefetchjob.h
     drive/childreference.h
     drive/childreferencecreatejob.h
     drive/childreferencedeletejob.h

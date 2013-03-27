@@ -16,6 +16,11 @@
 */
 
 #include "change.h"
+#include "file_p.h"
+
+#include <QtCore/QVariantMap>
+
+#include <qjson/parser.h>
 
 using namespace KGAPI2;
 
@@ -30,6 +35,8 @@ class DriveChange::Private
     QUrl selfLink;
     bool deleted;
     DriveFilePtr file;
+
+    static DriveChangePtr fromJSON(const  QVariantMap &map);
 };
 
 DriveChange::Private::Private():
@@ -47,12 +54,32 @@ DriveChange::Private::Private(const Private &other):
 {
 }
 
+DriveChangePtr DriveChange::Private::fromJSON(const QVariantMap &map)
+{
+    if (!map.contains(QLatin1String("kind")) ||
+        map[QLatin1String("kind")].toString() != QLatin1String("drive#change"))
+    {
+        return DriveChangePtr();
+    }
+
+    DriveChangePtr change(new DriveChange);
+    change->d->id = map[QLatin1String("id")].toLongLong();
+    change->d->fileId = map[QLatin1String("fileId")].toString();
+    change->d->selfLink = map[QLatin1String("selfLink")].toUrl();
+    change->d->deleted = map[QLatin1String("deleted")].toBool();
+    change->d->file = DriveFile::Private::fromJSON(map[QLatin1String("file")].toMap());
+
+    return change;
+}
+
 DriveChange::DriveChange():
+    KGAPI2::Object(),
     d(new Private)
 {
 }
 
 DriveChange::DriveChange(const DriveChange &other):
+    KGAPI2::Object(other),
     d(new Private(*(other.d)))
 {
 }
@@ -67,19 +94,9 @@ qlonglong DriveChange::id() const
     return d->id;
 }
 
-void DriveChange::setId(const qlonglong &id)
-{
-    d->id = id;
-}
-
 QString DriveChange::fileId() const
 {
     return d->fileId;
-}
-
-void DriveChange::setFileId(const QString &fileId)
-{
-    d->fileId = fileId;
 }
 
 QUrl DriveChange::selfLink() const
@@ -87,19 +104,9 @@ QUrl DriveChange::selfLink() const
     return d->selfLink;
 }
 
-void DriveChange::setSelfLink(const QUrl &selfLink)
-{
-    d->selfLink = selfLink;
-}
-
 bool DriveChange::deleted() const
 {
     return d->deleted;
-}
-
-void DriveChange::setDeleted(bool deleted)
-{
-    d->deleted = deleted;
 }
 
 DriveFilePtr DriveChange::file() const
@@ -107,7 +114,49 @@ DriveFilePtr DriveChange::file() const
     return d->file;
 }
 
-void DriveChange::setFile(const DriveFilePtr &file)
+DriveChangePtr DriveChange::fromJSON(const QByteArray &jsonData)
 {
-    d->file = file;
+    QJson::Parser parser;
+    bool ok;
+
+    const QVariant data = parser.parse(jsonData, &ok);
+    if (!ok) {
+        return DriveChangePtr();
+    }
+
+    return Private::fromJSON(data.toMap());
+}
+
+DriveChangesList DriveChange::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
+{
+    QJson::Parser parser;
+    bool ok;
+
+    const QVariant data = parser.parse(jsonData, &ok);
+    if (!ok) {
+        return DriveChangesList();
+    }
+
+    const QVariantMap map = data.toMap();
+    if (!map.contains(QLatin1String("kind")) ||
+        map[QLatin1String("kind")].toString() != QLatin1String("drive#changeList"))
+    {
+        return DriveChangesList();
+    }
+
+    if (map.contains(QLatin1String("nextLink"))) {
+        feedData.nextPageUrl = map[QLatin1String("nextLink")].toUrl();
+    }
+
+    DriveChangesList list;
+    const QVariantList items = map[QLatin1String("items")].toList();
+    Q_FOREACH (const QVariant &item, items) {
+        const DriveChangePtr change = Private::fromJSON(item.toMap());
+
+        if (!change.isNull()) {
+            list << change;
+        }
+    }
+
+    return list;
 }

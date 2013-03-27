@@ -57,6 +57,57 @@ QUrl fetchAppsUrl()
     return KUrl("https://www.googleapis.com/drive/v2/apps/");
 }
 
+QUrl fetchChildReference(const QString &folderId, const QString &referenceId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/files");
+    url.addPath(folderId);
+    url.addPath(QLatin1String("children"));
+    url.addPath(referenceId);
+
+    return url;
+}
+
+QUrl fetchChildReferences(const QString &folderId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files");
+    url.addPath(folderId);
+    url.addPath(QLatin1String("children"));
+
+    return url;
+}
+
+QUrl createChildReference(const QString &folderId)
+{
+    KUrl url("https://www.googleapis.com/drive/v2/files");
+    url.addPath(folderId);
+    url.addPath(QLatin1String("children"));
+
+    return url;
+}
+
+QUrl deleteChildReference(const QString &folderId, const QString &referenceId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/files");
+    url.addPath(folderId);
+    url.addPath(QLatin1String("children"));
+    url.addPath(referenceId);
+
+    return url;
+}
+
+QUrl fetchChangeUrl(const QString &changeId)
+{
+    KUrl url("http://www.googleapis.com/drive/v2/changes");
+    url.addPath(changeId);
+
+    return url;
+}
+
+QUrl fetchChangesUrl()
+{
+    return KUrl("http://www.googleapis.com/drive/v2/changes");
+}
+
 QUrl fetchParentReferenceUrl(const QString &fileId, const QString &referenceId)
 {
     KUrl url("https://www.googleapis.com/drive/v2/files");

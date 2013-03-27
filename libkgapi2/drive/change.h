@@ -19,6 +19,7 @@
 #define LIBKGAPI2_DRIVE_CHANGE_H
 
 #include <libkgapi2/types.h>
+#include <libkgapi2/object.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 #include <QtCore/QString>
@@ -37,7 +38,7 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveChange
+class LIBKGAPI2_EXPORT DriveChange: public KGAPI2::Object
 {
   public:
     explicit DriveChange();
@@ -50,23 +51,9 @@ class LIBKGAPI2_EXPORT DriveChange
     qlonglong id() const;
 
     /**
-     * @brief Sets the id of the change.
-     *
-     * @param id
-     */
-    void setId(const qlonglong& id);
-
-    /**
      * @brief Returns the id of the file associated with this change.
      */
     QString fileId() const;
-
-    /**
-     * @brief Sets the id of the file associated with this change.
-     *
-     * @param fileId
-     */
-    void setFileId(const QString& fileId);
 
     /**
      * @brief Returns a link back to this change.
@@ -74,23 +61,9 @@ class LIBKGAPI2_EXPORT DriveChange
     QUrl selfLink() const;
 
     /**
-     * @brief Sets the link back to this change.
-     *
-     * @param selfLink
-     */
-    void setSelfLink(const QUrl& selfLink);
-
-    /**
      * Returns whether this file has been deleted.
      */
     bool deleted() const;
-
-    /**
-     * @brief Sets whether this file has been deleted.
-     *
-     * @param deleted
-     */
-    void setDeleted(bool deleted);
 
     /**
      * @brief Returns the updated state of the file.
@@ -99,13 +72,8 @@ class LIBKGAPI2_EXPORT DriveChange
      */
     DriveFilePtr file() const;
 
-    /**
-     * Sets the updated state of the file.
-     * Present if the file has not been deleted.
-     *
-     * @param file
-     */
-    void setFile(const DriveFilePtr& file);
+    static DriveChangePtr fromJSON(const QByteArray &jsonData);
+    static DriveChangesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
 
   private:
     class Private;

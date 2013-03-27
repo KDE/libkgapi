@@ -20,6 +20,7 @@
 
 #include <libkgapi2/object.h>
 #include <libkgapi2/types.h>
+#include <libkgapi2/drive/change.h>
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
@@ -43,6 +44,8 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
 {
 
   public:
+    class Private;
+
     /**
      * @brief DriveFile::Labels holds the structure used for labels property.
      */
@@ -722,7 +725,6 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     void setImageMediaMetadata(const ImageMediaMetadataPtr &imageMediaMetadata);
 
   private:
-    class Private;
     Private * const d;
     friend class Private;
 };
