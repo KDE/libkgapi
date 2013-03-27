@@ -28,7 +28,7 @@
 namespace KGAPI2
 {
 
-class DriveFileCreateJob : public KGAPI2::DriveFileAbstractUploadJob
+class LIBKGAPI2_EXPORT DriveFileCreateJob : public KGAPI2::DriveFileAbstractUploadJob
 {
     Q_OBJECT
 

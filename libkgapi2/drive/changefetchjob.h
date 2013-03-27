@@ -22,13 +22,13 @@
 #ifndef KGAPI2_DRIVECHANGEFETCHJOB_H
 #define KGAPI2_DRIVECHANGEFETCHJOB_H
 
-#include <libkgapi2/libkgapi2_export.h>
 #include <libkgapi2/fetchjob.h>
+#include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2
 {
 
-class DriveChangeFetchJob : public KGAPI2::FetchJob
+class LIBKGAPI2_EXPORT DriveChangeFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 

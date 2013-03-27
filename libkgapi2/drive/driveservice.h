@@ -30,7 +30,7 @@
 namespace KGAPI2
 {
 
-namespace  DriveService
+namespace DriveService
 {
 
     /**
