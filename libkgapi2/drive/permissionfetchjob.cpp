@@ -121,3 +121,5 @@ ObjectsList DrivePermissionFetchJob::handleReplyWithItems(const QNetworkReply *r
     emitFinished();
     return items;
 }
+
+#include "permissionfetchjob.moc"

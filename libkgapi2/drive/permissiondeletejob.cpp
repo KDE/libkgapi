@@ -101,3 +101,5 @@ void DrivePermissionDeleteJob::start()
 
     enqueueRequest(request);
 }
+
+#include "permissiondeletejob.moc"

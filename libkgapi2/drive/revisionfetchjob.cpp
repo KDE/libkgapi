@@ -97,3 +97,5 @@ ObjectsList DriveRevisionFetchJob::handleReplyWithItems(const QNetworkReply *rep
     emitFinished();
     return items;
 }
+
+#include "revisionfetchjob.moc"

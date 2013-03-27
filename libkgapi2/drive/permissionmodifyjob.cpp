@@ -119,3 +119,5 @@ ObjectsList DrivePermissionModifyJob::handleReplyWithItems(const QNetworkReply *
 
     return items;
 }
+
+#include "permissionmodifyjob.moc"

@@ -92,3 +92,5 @@ ObjectsList DriveAppFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     emitFinished();
     return items;
 }
+
+#include "appfetchjob.moc"

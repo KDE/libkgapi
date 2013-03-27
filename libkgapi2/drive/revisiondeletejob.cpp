@@ -101,3 +101,5 @@ void DriveRevisionDeleteJob::start()
 
     enqueueRequest(request);
 }
+
+#include "revisiondeletejob.moc"

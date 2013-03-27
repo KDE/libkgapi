@@ -519,4 +519,3 @@ DriveAboutPtr DriveAbout::fromJSON(const QByteArray &jsonData)
 
     return about;
 }
-
