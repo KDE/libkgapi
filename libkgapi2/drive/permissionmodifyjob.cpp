@@ -26,7 +26,7 @@
 #include "permission.h"
 #include "utils.h"
 
-#include <QtNetwork//QNetworkRequest>
+#include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
 #include <KDE/KLocalizedString>

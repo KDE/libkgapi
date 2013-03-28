@@ -103,18 +103,18 @@ QByteArray DriveFileAbstractUploadJob::Private::buildMultipart(const QString &fi
     const QByteArray md5 = QCryptographicHash::hash(filePath.toLatin1(), QCryptographicHash::Md5);
     boundary = QString::fromLatin1(md5.toHex());
 
-    body += "---" + boundary.toLatin1() + "\n";
+    body += "---" + boundary.toLatin1() + '\n';
     body += "Content-Type: application/json; charset=UTF-8\n";
-    body += "\n";
+    body += '\n';
     body += DriveFile::toJSON(metaData);
-    body += "\n";
-    body += "\n";
-    body += "---" + boundary.toLatin1() + "\n";
+    body += '\n';
+    body += '\n';
+    body += "---" + boundary.toLatin1() + '\n';
     body += "Content-Type: " + fileContentType.toLatin1();
-    body += "\n";
+    body += '\n';
     body += fileContent;
-    body += "\n";
-    body += "\n";
+    body += '\n';
+    body += '\n';
     body += "---" + boundary.toLatin1() + "---";
 
     return body;

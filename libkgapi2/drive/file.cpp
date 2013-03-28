@@ -599,8 +599,9 @@ DriveFilePtr DriveFile::Private::fromJSON(const QVariantMap &map)
     }
 
     const QVariantMap exportLinksData = map[QLatin1String("exportLinks")].toMap();
-    Q_FOREACH (const QString &format, exportLinksData.keys()) {
-        file->d->exportLinks.insert(format, exportLinksData[format].toUrl());
+    const QVariantMap::ConstIterator iter = exportLinksData.constBegin();
+    for ( ; iter != exportLinksData.constEnd(); ++iter) {
+        file->d->exportLinks.insert(iter.key(), iter.value().toUrl());
     }
 
     file->d->originalFileName = map[QLatin1String("originalFileName")].toString();

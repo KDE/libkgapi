@@ -15,8 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBKGAPI2_DRIVECHILDREFERENCE_H
-#define LIBKGAPI2_DRIVECHILDREFERENCE_H
+#ifndef LIBKGAPI2_DRIVEPARENTREFERENCE_H
+#define LIBKGAPI2_DRIVEPARENTREFERENCE_H
 
 #include <libkgapi2/types.h>
 #include <libkgapi2/object.h>
@@ -79,4 +79,4 @@ class LIBKGAPI2_EXPORT DriveParentReference: public KGAPI2::Object
 
 } /* namespace KGAPI2 */
 
-#endif // LIBKGAPI2_DRIVECHILDREFERENCE_H
+#endif // LIBKGAPI2_DRIVEPARENTREFERENCE_H

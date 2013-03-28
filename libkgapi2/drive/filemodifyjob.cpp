@@ -84,8 +84,9 @@ DriveFileModifyJob::DriveFileModifyJob(const QMap< QString, DriveFilePtr > &file
     DriveFileAbstractUploadJob(files, account, parent),
     d(new Private)
 {
-    Q_FOREACH (const QString &filePath, files.keys()) {
-        d->files.insert(filePath, files.value(filePath)->id());
+    QMap<QString,DriveFilePtr>::ConstIterator iter = files.constBegin();
+    for ( ; iter != files.constEnd(); ++iter) {
+        d->files.insert(iter.key(), iter.value()->id());
     }
 }
 

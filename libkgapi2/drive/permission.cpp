@@ -285,7 +285,7 @@ QByteArray DrivePermission::toJSON(const DrivePermissionPtr &permission)
     }
 
     QVariantList additionalRoles;
-    Q_FOREACH (DrivePermission::Role additionalRole, permission->additionalRoles()) {
+    Q_FOREACH (DrivePermission::Role additionalRole, permission->additionalRoles()) { // krazy:exclude=foreach it's POD
         additionalRoles << Private::roleToName(additionalRole);
     }
     if (!additionalRoles.isEmpty()) {

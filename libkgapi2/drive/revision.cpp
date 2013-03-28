@@ -105,8 +105,9 @@ DriveRevisionPtr DriveRevision::Private::fromJSON(const QVariantMap &map)
     revision->d->fileSize = map[QLatin1String("fileSize")].toLongLong();
 
     const QVariantMap exportLinks = map[QLatin1String("exportLinks")].toMap();
-    Q_FOREACH (const QString &exportLink, exportLinks.keys()) {
-        revision->d->exportLinks.insert(exportLink, exportLinks.value(exportLink).toUrl());
+    QVariantMap::ConstIterator iter = exportLinks.constBegin();
+    for ( ; iter != exportLinks.constEnd(); ++iter) {
+        revision->d->exportLinks.insert(iter.key(), iter.value().toUrl());
     }
 
     return revision;
