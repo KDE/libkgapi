@@ -59,7 +59,7 @@ QUrl fetchAppsUrl()
 
 QUrl fetchChildReference(const QString &folderId, const QString &referenceId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
     url.addPath(folderId);
     url.addPath(QLatin1String("children"));
     url.addPath(referenceId);
@@ -87,7 +87,7 @@ QUrl createChildReference(const QString &folderId)
 
 QUrl deleteChildReference(const QString &folderId, const QString &referenceId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
     url.addPath(folderId);
     url.addPath(QLatin1String("children"));
     url.addPath(referenceId);
@@ -97,7 +97,7 @@ QUrl deleteChildReference(const QString &folderId, const QString &referenceId)
 
 QUrl fetchChangeUrl(const QString &changeId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/changes");
+    KUrl url("https://www.googleapis.com/drive/v2/changes");
     url.addPath(changeId);
 
     return url;
@@ -105,7 +105,7 @@ QUrl fetchChangeUrl(const QString &changeId)
 
 QUrl copyFileUrl(const QString &fileId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
     url.addPath(fileId);
     url.addPath(QLatin1String("copy"));
 
@@ -114,7 +114,7 @@ QUrl copyFileUrl(const QString &fileId)
 
 QUrl deleteFileUrl(const QString &fileId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
     url.addPath(fileId);
 
     return url;
@@ -122,7 +122,7 @@ QUrl deleteFileUrl(const QString &fileId)
 
 QUrl fetchFileUrl(const QString &fileId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
     url.addPath(fileId);
 
     return url;
@@ -130,17 +130,17 @@ QUrl fetchFileUrl(const QString &fileId)
 
 QUrl fetchFilesUrl()
 {
-    return KUrl("http://www.googleapis.com/drive/v2/files");
+    return KUrl("https://www.googleapis.com/drive/v2/files");
 }
 
 QUrl fetchChangesUrl()
 {
-    return KUrl("http://www.googleapis.com/drive/v2/changes");
+    return KUrl("https://www.googleapis.com/drive/v2/changes");
 }
 
 QUrl touchFileUrl(const QString &fileId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
     url.addPath(fileId);
     url.addPath(QLatin1String("touch"));
 
@@ -149,7 +149,7 @@ QUrl touchFileUrl(const QString &fileId)
 
 QUrl trashFileUrl(const QString &fileId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
     url.addPath(fileId);
     url.addPath(QLatin1String("trash"));
 
@@ -158,7 +158,7 @@ QUrl trashFileUrl(const QString &fileId)
 
 QUrl untrashFileUrl(const QString &fileId)
 {
-    KUrl url("http://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
     url.addPath(fileId);
     url.addPath(QLatin1String("untrash"));
 
