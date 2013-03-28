@@ -27,57 +27,58 @@
 #include <QtNetwork/QNetworkRequest>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileDeleteJob::Private
+class FileDeleteJob::Private
 {
   public:
     QStringList filesIDs;
 };
 
-DriveFileDeleteJob::DriveFileDeleteJob(const QString &fileId,
-                                       const AccountPtr &account,
-                                       QObject *parent):
+FileDeleteJob::FileDeleteJob(const QString &fileId,
+                             const AccountPtr &account,
+                             QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
     d->filesIDs << fileId;
 }
 
-DriveFileDeleteJob::DriveFileDeleteJob(const QStringList &filesIds,
-                                       const AccountPtr &account,
-                                       QObject *parent):
+FileDeleteJob::FileDeleteJob(const QStringList &filesIds,
+                             const AccountPtr &account,
+                             QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
     d->filesIDs << filesIds;
 }
 
-DriveFileDeleteJob::DriveFileDeleteJob(const DriveFilePtr &file,
-                                       const AccountPtr &account,
-                                       QObject *parent):
+FileDeleteJob::FileDeleteJob(const FilePtr &file,
+                             const AccountPtr &account,
+                             QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
     d->filesIDs << file->id();
 }
 
-DriveFileDeleteJob::DriveFileDeleteJob(const DriveFilesList &files,
-                                       const AccountPtr &account,
-                                       QObject *parent):
+FileDeleteJob::FileDeleteJob(const FilesList &files,
+                             const AccountPtr &account,
+                             QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
-    Q_FOREACH (const DriveFilePtr &file, files) {
+    Q_FOREACH(const FilePtr & file, files) {
         d->filesIDs << file->id();
     }
 }
 
-DriveFileDeleteJob::~DriveFileDeleteJob()
+FileDeleteJob::~FileDeleteJob()
 {
     delete d;
 }
 
-void DriveFileDeleteJob::start()
+void FileDeleteJob::start()
 {
     if (d->filesIDs.isEmpty()) {
         emitFinished();

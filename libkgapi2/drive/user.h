@@ -31,14 +31,17 @@
 namespace KGAPI2
 {
 
+namespace Drive
+{
+
 /**
  * @brief The authenticated user.
  */
-class LIBKGAPI2_EXPORT DriveUser
+class LIBKGAPI2_EXPORT User
 {
   public:
-    explicit DriveUser(const DriveUser &other);
-    virtual ~DriveUser();
+    explicit User(const User &other);
+    virtual ~User();
 
     /**
      * @brief Returns a plain text displayable name for this user.
@@ -61,15 +64,17 @@ class LIBKGAPI2_EXPORT DriveUser
      */
     QString permissionId() const;
 
-    static DriveUserPtr fromJSON(const QVariantMap &jsonMap);
+    static UserPtr fromJSON(const QVariantMap &jsonMap);
 
   private:
-    explicit DriveUser();
+    explicit User();
 
     class Private;
     Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

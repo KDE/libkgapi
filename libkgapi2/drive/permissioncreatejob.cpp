@@ -31,33 +31,34 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DrivePermissionCreateJob::Private
+class PermissionCreateJob::Private
 {
   public:
-    Private(DrivePermissionCreateJob *parent);
+    Private(PermissionCreateJob *parent);
     void processNext();
 
-    DrivePermissionsList permissions;
+    PermissionsList permissions;
     QString fileId;
 
   private:
-    DrivePermissionCreateJob* const q;
+    PermissionCreateJob *const q;
 };
 
-DrivePermissionCreateJob::Private::Private(DrivePermissionCreateJob *parent):
+PermissionCreateJob::Private::Private(PermissionCreateJob *parent):
     q(parent)
 {
 }
 
-void DrivePermissionCreateJob::Private::processNext()
+void PermissionCreateJob::Private::processNext()
 {
     if (permissions.isEmpty()) {
         q->emitFinished();
         return;
     }
 
-    const DrivePermissionPtr permission = permissions.takeFirst();
+    const PermissionPtr permission = permissions.takeFirst();
 
     const QUrl url = DriveService::createPermissionUrl(fileId);
 
@@ -65,14 +66,14 @@ void DrivePermissionCreateJob::Private::processNext()
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
     request.setUrl(url);
 
-    const QByteArray rawData = DrivePermission::toJSON(permission);
+    const QByteArray rawData = Permission::toJSON(permission);
     q->enqueueRequest(request, rawData, QLatin1String("application/json"));
 }
 
-DrivePermissionCreateJob::DrivePermissionCreateJob(const QString &fileId,
-                                                   const DrivePermissionPtr &permission,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
+PermissionCreateJob::PermissionCreateJob(const QString &fileId,
+                                         const PermissionPtr &permission,
+                                         const AccountPtr &account,
+                                         QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
@@ -80,10 +81,10 @@ DrivePermissionCreateJob::DrivePermissionCreateJob(const QString &fileId,
     d->permissions << permission;
 }
 
-DrivePermissionCreateJob::DrivePermissionCreateJob(const QString &fileId,
-                                                   const DrivePermissionsList &permissions,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
+PermissionCreateJob::PermissionCreateJob(const QString &fileId,
+                                         const PermissionsList &permissions,
+                                         const AccountPtr &account,
+                                         QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
@@ -91,24 +92,24 @@ DrivePermissionCreateJob::DrivePermissionCreateJob(const QString &fileId,
     d->permissions = permissions;
 }
 
-DrivePermissionCreateJob::~DrivePermissionCreateJob()
+PermissionCreateJob::~PermissionCreateJob()
 {
     delete d;
 }
 
-void DrivePermissionCreateJob::start()
+void PermissionCreateJob::start()
 {
     d->processNext();
 }
 
-ObjectsList DrivePermissionCreateJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                           const QByteArray &rawData)
+ObjectsList PermissionCreateJob::handleReplyWithItems(const QNetworkReply *reply,
+                                                      const QByteArray &rawData)
 {
-   const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
-        items << DrivePermission::fromJSON(rawData);
+        items << Permission::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));

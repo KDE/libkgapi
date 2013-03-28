@@ -28,8 +28,11 @@
 namespace KGAPI2
 {
 
+namespace Drive
+{
+
 /**
- * @brief DriveChange contains the representation of a change to a file
+ * @brief Change contains the representation of a change to a file
  *
  * Getters and setters' documentation is based on Google Drive's API v2 reference
  * @see <a href="https://developers.google.com/drive/v2/reference/changes">Changes</a>
@@ -38,12 +41,12 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveChange: public KGAPI2::Object
+class LIBKGAPI2_EXPORT Change: public KGAPI2::Object
 {
   public:
-    explicit DriveChange();
-    explicit DriveChange(const DriveChange& other);
-    virtual ~DriveChange();
+    explicit Change();
+    explicit Change(const Change& other);
+    virtual ~Change();
 
     /**
      * @brief Returns the id of the change.
@@ -70,16 +73,18 @@ class LIBKGAPI2_EXPORT DriveChange: public KGAPI2::Object
      *
      * Present if the file has not been deleted.
      */
-    DriveFilePtr file() const;
+    FilePtr file() const;
 
-    static DriveChangePtr fromJSON(const QByteArray &jsonData);
-    static DriveChangesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
+    static ChangePtr fromJSON(const QByteArray &jsonData);
+    static ChangesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
 
   private:
     class Private;
     Private * const d;
     friend class Private;
 };
+
+} /* namespace Drive */
 
 } /* namespace KGAPI2 */
 

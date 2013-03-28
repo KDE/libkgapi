@@ -30,28 +30,31 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveChildReferenceCreateJob : public KGAPI2::CreateJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT ChildReferenceCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveChildReferenceCreateJob(const QString &folderId,
-                                          const QString &childId,
-                                          const AccountPtr &account,
-                                          QObject *parent = 0);
-    explicit DriveChildReferenceCreateJob(const QString &folderId,
-                                          const QStringList &childrenIds,
-                                          const AccountPtr &account,
-                                          QObject *parent = 0);
-    explicit DriveChildReferenceCreateJob(const QString &folderId,
-                                          const DriveChildReferencePtr &reference,
-                                          const AccountPtr &account,
-                                          QObject *parent = 0);
-    explicit DriveChildReferenceCreateJob(const QString &folderId,
-                                          const DriveChildReferencesList &references,
-                                          const AccountPtr &account,
-                                          QObject *parent = 0);
-    virtual ~DriveChildReferenceCreateJob();
+    explicit ChildReferenceCreateJob(const QString &folderId,
+                                     const QString &childId,
+                                     const AccountPtr &account,
+                                     QObject *parent = 0);
+    explicit ChildReferenceCreateJob(const QString &folderId,
+                                     const QStringList &childrenIds,
+                                     const AccountPtr &account,
+                                     QObject *parent = 0);
+    explicit ChildReferenceCreateJob(const QString &folderId,
+                                     const ChildReferencePtr &reference,
+                                     const AccountPtr &account,
+                                     QObject *parent = 0);
+    explicit ChildReferenceCreateJob(const QString &folderId,
+                                     const ChildReferencesList &references,
+                                     const AccountPtr &account,
+                                     QObject *parent = 0);
+    virtual ~ChildReferenceCreateJob();
 
   protected:
     virtual void start();
@@ -60,9 +63,11 @@ class LIBKGAPI2_EXPORT DriveChildReferenceCreateJob : public KGAPI2::CreateJob
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

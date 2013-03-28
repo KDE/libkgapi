@@ -22,78 +22,78 @@
 #include <qjson/serializer.h>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-DrivePermission::Role DrivePermission::Private::roleFromName(const QString &roleName)
+Permission::Role Permission::Private::roleFromName(const QString &roleName)
 {
     if (roleName == QLatin1String("owner")) {
-        return DrivePermission::OwnerRole;
+        return Permission::OwnerRole;
     } else if (roleName == QLatin1String("reader")) {
-        return DrivePermission::ReaderRole;
+        return Permission::ReaderRole;
     } else if (roleName == QLatin1String("writer")) {
-        return DrivePermission::WriterRole;
+        return Permission::WriterRole;
     } else if (roleName == QLatin1String("commenter")) {
-        return DrivePermission::CommenterRole;
+        return Permission::CommenterRole;
     } else {
-        return DrivePermission::UndefinedRole;
+        return Permission::UndefinedRole;
     }
 }
 
-DrivePermission::Type DrivePermission::Private::typeFromName(const QString &typeName)
+Permission::Type Permission::Private::typeFromName(const QString &typeName)
 {
     if (typeName == QLatin1String("user")) {
-        return DrivePermission::TypeUser;
+        return Permission::TypeUser;
     } else if (typeName == QLatin1String("group")) {
-        return DrivePermission::TypeGroup;
+        return Permission::TypeGroup;
     } else if (typeName == QLatin1String("domain")) {
-        return DrivePermission::TypeDomain;
+        return Permission::TypeDomain;
     } else if (typeName == QLatin1String("anyone")) {
-        return DrivePermission::TypeAnyone;
+        return Permission::TypeAnyone;
     } else {
-        return DrivePermission::UndefinedType;
+        return Permission::UndefinedType;
     }
 }
 
-QString DrivePermission::Private::roleToName(DrivePermission::Role role)
+QString Permission::Private::roleToName(Permission::Role role)
 {
     switch (role) {
-        case DrivePermission::OwnerRole:
-            return QLatin1String("owner");
-        case DrivePermission::ReaderRole:
-            return QLatin1String("reader");
-        case DrivePermission::WriterRole:
-            return QLatin1String("writer");
-        case DrivePermission::CommenterRole:
-            return QLatin1String("commented");
-        default:
-            return QString();
+    case Permission::OwnerRole:
+        return QLatin1String("owner");
+    case Permission::ReaderRole:
+        return QLatin1String("reader");
+    case Permission::WriterRole:
+        return QLatin1String("writer");
+    case Permission::CommenterRole:
+        return QLatin1String("commented");
+    default:
+        return QString();
     }
 }
 
-QString DrivePermission::Private::typeToName(DrivePermission::Type type)
+QString Permission::Private::typeToName(Permission::Type type)
 {
     switch (type) {
-        case DrivePermission::TypeUser:
-            return QLatin1String("user");
-        case DrivePermission::TypeGroup:
-            return QLatin1String("group");
-        case DrivePermission::TypeDomain:
-            return QLatin1String("domain");
-        case DrivePermission::TypeAnyone:
-            return QLatin1String("anyone");
-        default:
-            return QString();
+    case Permission::TypeUser:
+        return QLatin1String("user");
+    case Permission::TypeGroup:
+        return QLatin1String("group");
+    case Permission::TypeDomain:
+        return QLatin1String("domain");
+    case Permission::TypeAnyone:
+        return QLatin1String("anyone");
+    default:
+        return QString();
     }
 }
 
-DrivePermissionPtr DrivePermission::Private::fromJSON(const QVariantMap &map)
+PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
 {
     if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#permission"))
-    {
-        return DrivePermissionPtr();
+            map[QLatin1String("kind")].toString() != QLatin1String("drive#permission")) {
+        return PermissionPtr();
     }
 
-    DrivePermissionPtr permission(new DrivePermission());
+    PermissionPtr permission(new Permission());
     permission->setEtag(map[QLatin1String("etag")].toString());
     permission->d->id = map[QLatin1String("id")].toString();
     permission->d->selfLink = map[QLatin1String("selfLink")].toUrl();
@@ -102,7 +102,7 @@ DrivePermissionPtr DrivePermission::Private::fromJSON(const QVariantMap &map)
     permission->d->role = Private::roleFromName(map[QLatin1String("role")].toString());
 
     const QStringList additionalRoles = map[QLatin1String("additionalRoles")].toStringList();
-    Q_FOREACH (const QString &additionalRole, additionalRoles) {
+    Q_FOREACH(const QString & additionalRole, additionalRoles) {
         permission->d->additionalRoles << Private::roleFromName(additionalRole);
     }
 
@@ -116,14 +116,14 @@ DrivePermissionPtr DrivePermission::Private::fromJSON(const QVariantMap &map)
 }
 
 
-DrivePermission::Private::Private():
-    role(KGAPI2::DrivePermission::UndefinedRole),
-    type(KGAPI2::DrivePermission::UndefinedType),
+Permission::Private::Private():
+    role(Permission::UndefinedRole),
+    type(Permission::UndefinedType),
     withLink(false)
 {
 }
 
-DrivePermission::Private::Private(const Private &other):
+Permission::Private::Private(const Private &other):
     id(other.id),
     selfLink(other.selfLink),
     name(other.name),
@@ -137,135 +137,133 @@ DrivePermission::Private::Private(const Private &other):
 {
 }
 
-DrivePermission::DrivePermission():
+Permission::Permission():
     KGAPI2::Object(),
     d(new Private)
 {
 }
 
-DrivePermission::DrivePermission(const DrivePermission &other):
+Permission::Permission(const Permission &other):
     KGAPI2::Object(other),
     d(new Private(*(other.d)))
 { }
 
-DrivePermission::~DrivePermission()
+Permission::~Permission()
 {
     delete d;
 }
 
-QString DrivePermission::id() const
+QString Permission::id() const
 {
     return d->id;
 }
 
-void DrivePermission::setId(const QString &id)
+void Permission::setId(const QString &id)
 {
     d->id = id;
 }
 
-QUrl DrivePermission::selfLink() const
+QUrl Permission::selfLink() const
 {
     return d->selfLink;
 }
 
-QString DrivePermission::name() const
+QString Permission::name() const
 {
     return d->name;
 }
 
-DrivePermission::Role DrivePermission::role() const
+Permission::Role Permission::role() const
 {
     return d->role;
 }
 
-void DrivePermission::setRole(DrivePermission::Role role)
+void Permission::setRole(Permission::Role role)
 {
     d->role = role;
 }
 
-QList<DrivePermission::Role> DrivePermission::additionalRoles() const
+QList<Permission::Role> Permission::additionalRoles() const
 {
     return d->additionalRoles;
 }
 
-void DrivePermission::setAdditionalRoles(const QList<DrivePermission::Role> &additionalRoles)
+void Permission::setAdditionalRoles(const QList<Permission::Role> &additionalRoles)
 {
     d->additionalRoles = additionalRoles;
 }
 
-DrivePermission::Type DrivePermission::type() const
+Permission::Type Permission::type() const
 {
     return d->type;
 }
 
-void DrivePermission::setType(DrivePermission::Type type)
+void Permission::setType(Permission::Type type)
 {
     d->type = type;
 }
 
-QString DrivePermission::authKey() const
+QString Permission::authKey() const
 {
     return d->authKey;
 }
 
-bool DrivePermission::withLink() const
+bool Permission::withLink() const
 {
     return d->withLink;
 }
 
-void DrivePermission::setWithLink(bool withLink)
+void Permission::setWithLink(bool withLink)
 {
     d->withLink = withLink;
 }
 
-QUrl DrivePermission::photoLink() const
+QUrl Permission::photoLink() const
 {
     return d->photoLink;
 }
 
-QString DrivePermission::value() const
+QString Permission::value() const
 {
     return d->value;
 }
 
-void DrivePermission::setValue(const QString &value)
+void Permission::setValue(const QString &value)
 {
     d->value = value;
 }
 
-DrivePermissionPtr DrivePermission::fromJSON(const QByteArray &jsonData)
+PermissionPtr Permission::fromJSON(const QByteArray &jsonData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant json = parser.parse(jsonData, &ok);
     if (!ok) {
-        return DrivePermissionPtr();
+        return PermissionPtr();
     }
     const QVariantMap map = json.toMap();
 
     return Private::fromJSON(map);
 }
 
-DrivePermissionsList DrivePermission::fromJSONFeed(const QByteArray &jsonData)
+PermissionsList Permission::fromJSONFeed(const QByteArray &jsonData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant json = parser.parse(jsonData, &ok);
     if (!ok) {
-        return DrivePermissionsList();
+        return PermissionsList();
     }
     const QVariantMap map = json.toMap();
     if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#permissionList"))
-    {
-        return DrivePermissionsList();
+            map[QLatin1String("kind")].toString() != QLatin1String("drive#permissionList")) {
+        return PermissionsList();
     }
 
-    DrivePermissionsList permissions;
+    PermissionsList permissions;
     const QVariantList items = map[QLatin1String("items")].toList();
-    Q_FOREACH (const QVariant &item, items)
-    {
-        const DrivePermissionPtr permission = Private::fromJSON(item.toMap());
+    Q_FOREACH(const QVariant & item, items) {
+        const PermissionPtr permission = Private::fromJSON(item.toMap());
         if (!permission.isNull()) {
             permissions << permission;
         }
@@ -273,19 +271,19 @@ DrivePermissionsList DrivePermission::fromJSONFeed(const QByteArray &jsonData)
     return permissions;
 }
 
-QByteArray DrivePermission::toJSON(const DrivePermissionPtr &permission)
+QByteArray Permission::toJSON(const PermissionPtr &permission)
 {
     QVariantMap map;
 
-    if (!permission->role() == DrivePermission::UndefinedRole) {
+    if (!permission->role() == Permission::UndefinedRole) {
         map[QLatin1String("role")] = Private::roleToName(permission->role());
     }
-    if (!permission->type() == DrivePermission::UndefinedType) {
+    if (!permission->type() == Permission::UndefinedType) {
         map[QLatin1String("type")] = Private::typeToName(permission->type());
     }
 
     QVariantList additionalRoles;
-    Q_FOREACH (DrivePermission::Role additionalRole, permission->additionalRoles()) { // krazy:exclude=foreach it's POD
+    Q_FOREACH(Permission::Role additionalRole, permission->additionalRoles()) {  // krazy:exclude=foreach it's POD
         additionalRoles << Private::roleToName(additionalRole);
     }
     if (!additionalRoles.isEmpty()) {

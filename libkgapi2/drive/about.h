@@ -31,6 +31,9 @@
 namespace KGAPI2
 {
 
+namespace Drive
+{
+
 /**
  * @brief DriveAbout contains information about the current user along with
  *        Google Drive API settings.
@@ -42,7 +45,7 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveAbout: public KGAPI2::Object
+class LIBKGAPI2_EXPORT About: public KGAPI2::Object
 {
 
 public:
@@ -72,7 +75,7 @@ public:
         class Private;
         Private *const d;
         friend class Private;
-        friend class DriveAbout;
+        friend class About;
     };
 
     typedef QSharedPointer<Format> FormatPtr;
@@ -112,7 +115,7 @@ public:
             class Private;
             Private *const d;
             friend class Private;
-            friend class DriveAbout;
+            friend class About;
         };
 
         typedef QSharedPointer<RoleSet> RoleSetPtr;
@@ -137,7 +140,7 @@ public:
         class Private;
         Private *const d;
         friend class Private;
-        friend class DriveAbout;
+        friend class About;
     };
 
     typedef QSharedPointer<AdditionalRoleInfo> AdditionalRoleInfoPtr;
@@ -168,7 +171,7 @@ public:
         class Private;
         Private *const d;
         friend class Private;
-        friend class DriveAbout;
+        friend class About;
     };
 
     typedef QSharedPointer<Feature> FeaturePtr;
@@ -200,14 +203,14 @@ public:
         class Private;
         Private *const d;
         friend class Private;
-        friend class DriveAbout;
+        friend class About;
     };
 
     typedef QSharedPointer<MaxUploadSize> MaxUploadSizePtr;
     typedef QList<MaxUploadSizePtr> MaxUploadSizesList;
 
-    explicit DriveAbout(const DriveAbout &other);
-    virtual ~DriveAbout();
+    explicit About(const About &other);
+    virtual ~About();
 
     /**
      * @brief Returns the link back to this item.
@@ -302,22 +305,24 @@ public:
     /**
      * @brief Returns the authenticated user.
      */
-    DriveUserPtr user() const;
+    UserPtr user() const;
 
     /**
      * @brief Constructs a new DriveAbout object from given JSON data
      *
      * @param jsonData
      */
-    static DriveAboutPtr fromJSON(const QByteArray &jsonData);
+    static AboutPtr fromJSON(const QByteArray &jsonData);
 
   private:
-    explicit DriveAbout();
+    explicit About();
 
     class Private;
     Private *const d;
     friend class Private;
 };
+
+} /* namespace Drive */
 
 } /* namespace KGAPI2 */
 

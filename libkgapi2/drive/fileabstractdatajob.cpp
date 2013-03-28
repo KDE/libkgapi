@@ -24,8 +24,9 @@
 #include "utils.h"
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileAbstractDataJob::Private
+class FileAbstractDataJob::Private
 {
   public:
     Private();
@@ -38,31 +39,31 @@ class DriveFileAbstractDataJob::Private
     QString timedTextTrackName;
 };
 
-DriveFileAbstractDataJob::Private::Private():
+FileAbstractDataJob::Private::Private():
     convert(false),
     ocr(false),
     pinned(false)
 {
 }
 
-DriveFileAbstractDataJob::DriveFileAbstractDataJob(const AccountPtr &account,
-                                                   QObject *parent):
+FileAbstractDataJob::FileAbstractDataJob(const AccountPtr &account,
+                                         QObject *parent):
     Job(account, parent),
     d(new Private)
 {
 }
 
-DriveFileAbstractDataJob::~DriveFileAbstractDataJob()
+FileAbstractDataJob::~FileAbstractDataJob()
 {
     delete d;
 }
 
-bool DriveFileAbstractDataJob::convert() const
+bool FileAbstractDataJob::convert() const
 {
     return d->convert;
 }
 
-void DriveFileAbstractDataJob::setConvert(bool convert)
+void FileAbstractDataJob::setConvert(bool convert)
 {
     if (isRunning()) {
         kWarning() << "Can't modify setConvert property when job is running";
@@ -72,12 +73,12 @@ void DriveFileAbstractDataJob::setConvert(bool convert)
     d->convert = convert;
 }
 
-bool DriveFileAbstractDataJob::ocr() const
+bool FileAbstractDataJob::ocr() const
 {
     return d->ocr;
 }
 
-void DriveFileAbstractDataJob::setOcr(bool ocr)
+void FileAbstractDataJob::setOcr(bool ocr)
 {
     if (isRunning()) {
         kWarning() << "Can't modify ocr property when job is running";
@@ -87,12 +88,12 @@ void DriveFileAbstractDataJob::setOcr(bool ocr)
     d->ocr = ocr;
 }
 
-QString DriveFileAbstractDataJob::ocrLanguage() const
+QString FileAbstractDataJob::ocrLanguage() const
 {
     return d->ocrLanguage;
 }
 
-void DriveFileAbstractDataJob::setOcrLanguage(const QString &ocrLanguage)
+void FileAbstractDataJob::setOcrLanguage(const QString &ocrLanguage)
 {
     if (isRunning()) {
         kWarning() << "Can't modify ocrLanguage property when job is running";
@@ -102,12 +103,12 @@ void DriveFileAbstractDataJob::setOcrLanguage(const QString &ocrLanguage)
     d->ocrLanguage = ocrLanguage;
 }
 
-bool DriveFileAbstractDataJob::pinned() const
+bool FileAbstractDataJob::pinned() const
 {
     return d->pinned;
 }
 
-void DriveFileAbstractDataJob::setPinned(bool pinned)
+void FileAbstractDataJob::setPinned(bool pinned)
 {
     if (isRunning()) {
         kWarning() << "Can't modify pinned property when job is running";
@@ -117,13 +118,13 @@ void DriveFileAbstractDataJob::setPinned(bool pinned)
     d->pinned = pinned;
 }
 
-QString DriveFileAbstractDataJob::timedTextLanguage() const
+QString FileAbstractDataJob::timedTextLanguage() const
 {
     return d->timedTextLanguage;
 }
 
 
-void DriveFileAbstractDataJob::setTimedTextLanguage(const QString &timedTextLanguage)
+void FileAbstractDataJob::setTimedTextLanguage(const QString &timedTextLanguage)
 {
     if (isRunning()) {
         kWarning() << "Can't modify timedTextLanguage property when job is running";
@@ -133,12 +134,12 @@ void DriveFileAbstractDataJob::setTimedTextLanguage(const QString &timedTextLang
     d->timedTextLanguage = timedTextLanguage;
 }
 
-QString DriveFileAbstractDataJob::timedTextTrackName() const
+QString FileAbstractDataJob::timedTextTrackName() const
 {
     return d->timedTextLanguage;
 }
 
-void DriveFileAbstractDataJob::setTimedTextTrackName(const QString &timedTextTrackName)
+void FileAbstractDataJob::setTimedTextTrackName(const QString &timedTextTrackName)
 {
     if (isRunning()) {
         kWarning() << "Can't modify timedTextTrackName property when job is running";
@@ -148,7 +149,7 @@ void DriveFileAbstractDataJob::setTimedTextTrackName(const QString &timedTextTra
     d->timedTextTrackName = timedTextTrackName;
 }
 
-QUrl DriveFileAbstractDataJob::updateUrl(QUrl &url)
+QUrl FileAbstractDataJob::updateUrl(QUrl &url)
 {
     url.removeQueryItem(QLatin1String("convert"));
     url.addQueryItem(QLatin1String("convert"), Utils::bool2Str(d->convert));

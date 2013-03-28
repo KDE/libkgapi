@@ -32,11 +32,12 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileFetchJob::Private
+class FileFetchJob::Private
 {
   public:
-    Private(DriveFileFetchJob *parent);
+    Private(FileFetchJob *parent);
     void processNext();
     QNetworkRequest createRequest(const QUrl &url);
 
@@ -46,17 +47,17 @@ class DriveFileFetchJob::Private
     bool updateViewedDate;
 
   private:
-    DriveFileFetchJob * const q;
+    FileFetchJob *const q;
 };
 
-DriveFileFetchJob::Private::Private(DriveFileFetchJob *parent):
+FileFetchJob::Private::Private(FileFetchJob *parent):
     isFeed(false),
     updateViewedDate(false),
     q(parent)
 {
 }
 
-QNetworkRequest DriveFileFetchJob::Private::createRequest(const QUrl &url)
+QNetworkRequest FileFetchJob::Private::createRequest(const QUrl &url)
 {
     QNetworkRequest request;
     request.setUrl(url);
@@ -65,7 +66,7 @@ QNetworkRequest DriveFileFetchJob::Private::createRequest(const QUrl &url)
     return request;
 }
 
-void DriveFileFetchJob::Private::processNext()
+void FileFetchJob::Private::processNext()
 {
     QUrl url;
 
@@ -84,40 +85,40 @@ void DriveFileFetchJob::Private::processNext()
     q->enqueueRequest(createRequest(url));
 }
 
-DriveFileFetchJob::DriveFileFetchJob(const QString &fileId,
-                                     const AccountPtr &account, QObject *parent):
+FileFetchJob::FileFetchJob(const QString &fileId,
+                           const AccountPtr &account, QObject *parent):
     FetchJob(account, parent),
     d(new Private(this))
 {
     d->filesIDs << fileId;
 }
 
-DriveFileFetchJob::DriveFileFetchJob(const QStringList &filesIds,
-                                     const AccountPtr &account, QObject *parent):
+FileFetchJob::FileFetchJob(const QStringList &filesIds,
+                           const AccountPtr &account, QObject *parent):
     FetchJob(account, parent),
     d(new Private(this))
 {
     d->filesIDs << filesIds;
 }
 
-DriveFileFetchJob::DriveFileFetchJob(const AccountPtr &account, QObject *parent):
+FileFetchJob::FileFetchJob(const AccountPtr &account, QObject *parent):
     FetchJob(account, parent),
     d(new Private(this))
 {
     d->isFeed = true;
 }
 
-DriveFileFetchJob::~DriveFileFetchJob()
+FileFetchJob::~FileFetchJob()
 {
     delete d;
 }
 
-bool DriveFileFetchJob::updateViewedDate() const
+bool FileFetchJob::updateViewedDate() const
 {
     return d->updateViewedDate;
 }
 
-void DriveFileFetchJob::setUpdateViewedDate(bool updateViewedDate)
+void FileFetchJob::setUpdateViewedDate(bool updateViewedDate)
 {
     if (isRunning()) {
         kWarning() << "Can't modify updateViewedDate property when job is running.";
@@ -127,13 +128,13 @@ void DriveFileFetchJob::setUpdateViewedDate(bool updateViewedDate)
     d->updateViewedDate = updateViewedDate;
 }
 
-void DriveFileFetchJob::start()
+void FileFetchJob::start()
 {
     d->processNext();
 }
 
-ObjectsList DriveFileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                    const QByteArray &rawData)
+ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
+                                               const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -143,7 +144,7 @@ ObjectsList DriveFileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
         if (d->isFeed) {
             FeedData feedData;
 
-            items << DriveFile::fromJSONFeed(rawData, feedData);
+            items << File::fromJSONFeed(rawData, feedData);
 
             if (feedData.nextPageUrl.isValid()) {
                 const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
@@ -151,7 +152,7 @@ ObjectsList DriveFileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
             }
 
         } else {
-            items << DriveFile::fromJSON(rawData);
+            items << File::fromJSON(rawData);
 
             d->processNext();
         }

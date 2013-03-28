@@ -24,49 +24,50 @@
 #include "driveservice.h"
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileUntrashJob::Private
+class FileUntrashJob::Private
 {
 };
 
-DriveFileUntrashJob::DriveFileUntrashJob(const QString &fileId,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    DriveFileAbstractModifyJob(fileId, account, parent),
+FileUntrashJob::FileUntrashJob(const QString &fileId,
+                               const AccountPtr &account,
+                               QObject *parent):
+    FileAbstractModifyJob(fileId, account, parent),
     d(new Private)
 {
 }
 
-DriveFileUntrashJob::DriveFileUntrashJob(const QStringList &filesIds,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    DriveFileAbstractModifyJob(filesIds, account, parent),
+FileUntrashJob::FileUntrashJob(const QStringList &filesIds,
+                               const AccountPtr &account,
+                               QObject *parent):
+    FileAbstractModifyJob(filesIds, account, parent),
     d(new Private)
 {
 }
 
-DriveFileUntrashJob::DriveFileUntrashJob(const DriveFilePtr &file,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    DriveFileAbstractModifyJob(file, account, parent),
+FileUntrashJob::FileUntrashJob(const FilePtr &file,
+                               const AccountPtr &account,
+                               QObject *parent):
+    FileAbstractModifyJob(file, account, parent),
     d(new Private)
 {
 }
 
-DriveFileUntrashJob::DriveFileUntrashJob(const DriveFilesList &files,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    DriveFileAbstractModifyJob(files, account, parent),
+FileUntrashJob::FileUntrashJob(const FilesList &files,
+                               const AccountPtr &account,
+                               QObject *parent):
+    FileAbstractModifyJob(files, account, parent),
     d(new Private)
 {
 }
 
-DriveFileUntrashJob::~DriveFileUntrashJob()
+FileUntrashJob::~FileUntrashJob()
 {
     delete d;
 }
 
-QUrl DriveFileUntrashJob::url(const QString &fileId)
+QUrl FileUntrashJob::url(const QString &fileId)
 {
     return DriveService::untrashFileUrl(fileId);
 }

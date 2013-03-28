@@ -28,16 +28,21 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DrivePermissionCreateJob : public KGAPI2::CreateJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
   public:
-    explicit DrivePermissionCreateJob(const QString &fileId, const DrivePermissionPtr &permission,
-                                      const AccountPtr &account, QObject *parent = 0);
-    explicit DrivePermissionCreateJob(const QString &fileId, const DrivePermissionsList &permissions,
-                                      const AccountPtr &account, QObject *parent = 0);
-    virtual ~DrivePermissionCreateJob();
+    explicit PermissionCreateJob(const QString &fileId,
+                                 const PermissionPtr &permission,
+                                 const AccountPtr &account, QObject *parent = 0);
+    explicit PermissionCreateJob(const QString &fileId,
+                                 const PermissionsList &permissions,
+                                 const AccountPtr &account, QObject *parent = 0);
+    virtual ~PermissionCreateJob();
 
   protected:
     virtual void start();
@@ -46,9 +51,11 @@ class LIBKGAPI2_EXPORT DrivePermissionCreateJob : public KGAPI2::CreateJob
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

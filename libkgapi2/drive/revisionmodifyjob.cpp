@@ -31,46 +31,47 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveRevisionModifyJob::Private
+class RevisionModifyJob::Private
 {
   public:
-    Private(DriveRevisionModifyJob *parent);
+    Private(RevisionModifyJob *parent);
     void processNext();
 
     QString fileId;
-    DriveRevisionsList revisions;
+    RevisionsList revisions;
 
   private:
-    DriveRevisionModifyJob *q;
+    RevisionModifyJob *q;
 };
 
-DriveRevisionModifyJob::Private::Private(DriveRevisionModifyJob *parent):
+RevisionModifyJob::Private::Private(RevisionModifyJob *parent):
     q(parent)
 {
 }
 
-void DriveRevisionModifyJob::Private::processNext()
+void RevisionModifyJob::Private::processNext()
 {
     if (revisions.isEmpty()) {
         q->emitFinished();
         return;
     }
 
-    const DriveRevisionPtr revision = revisions.takeFirst();
+    const RevisionPtr revision = revisions.takeFirst();
     const QUrl url = DriveService::modifyRevisionUrl(fileId, revision->id());
 
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
-    const QByteArray rawData = DriveRevision::toJSON(revision);
+    const QByteArray rawData = Revision::toJSON(revision);
     q->enqueueRequest(request, rawData, QLatin1String("application/json"));
 }
 
-DriveRevisionModifyJob::DriveRevisionModifyJob(const QString &fileId,
-                                               const DriveRevisionPtr &revision,
-                                               const AccountPtr &account,
-                                               QObject *parent): 
+RevisionModifyJob::RevisionModifyJob(const QString &fileId,
+                                     const RevisionPtr &revision,
+                                     const AccountPtr &account,
+                                     QObject *parent):
     ModifyJob(account, parent),
     d(new Private(this))
 {
@@ -78,7 +79,9 @@ DriveRevisionModifyJob::DriveRevisionModifyJob(const QString &fileId,
     d->revisions << revision;
 }
 
-DriveRevisionModifyJob::DriveRevisionModifyJob(const QString &fileId, const DriveRevisionsList &revisions, const AccountPtr &account, QObject *parent): 
+RevisionModifyJob::RevisionModifyJob(const QString &fileId,
+                                     const RevisionsList &revisions,
+                                     const AccountPtr &account, QObject *parent):
     ModifyJob(account, parent),
     d(new Private(this))
 {
@@ -86,24 +89,24 @@ DriveRevisionModifyJob::DriveRevisionModifyJob(const QString &fileId, const Driv
     d->revisions << revisions;
 }
 
-DriveRevisionModifyJob::~DriveRevisionModifyJob()
+RevisionModifyJob::~RevisionModifyJob()
 {
     delete d;
 }
 
-void DriveRevisionModifyJob::start()
+void RevisionModifyJob::start()
 {
     d->processNext();
 }
 
-ObjectsList DriveRevisionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                         const QByteArray &rawData)
+ObjectsList RevisionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
+                                                    const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
-        items << DriveRevision::fromJSON(rawData);
+        items << Revision::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));
@@ -117,3 +120,4 @@ ObjectsList DriveRevisionModifyJob::handleReplyWithItems(const QNetworkReply *re
 }
 
 #include "revisionmodifyjob.moc"
+

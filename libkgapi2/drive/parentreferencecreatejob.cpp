@@ -31,71 +31,72 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveParentReferenceCreateJob::Private
+class ParentReferenceCreateJob::Private
 {
   public:
-    Private(DriveParentReferenceCreateJob *parent);
+    Private(ParentReferenceCreateJob *parent);
     void processNext();
 
     QString fileId;
-    DriveParentReferencesList references;
+    ParentReferencesList references;
 
-  private:
-    DriveParentReferenceCreateJob *q;
+private:
+    ParentReferenceCreateJob *q;
 };
 
-DriveParentReferenceCreateJob::Private::Private(DriveParentReferenceCreateJob *parent):
+ParentReferenceCreateJob::Private::Private(ParentReferenceCreateJob *parent):
     q(parent)
 {
 }
 
-void DriveParentReferenceCreateJob::Private::processNext()
+void ParentReferenceCreateJob::Private::processNext()
 {
     if (references.isEmpty()) {
         q->emitFinished();
         return;
     }
 
-    const DriveParentReferencePtr reference = references.takeFirst();
+    const ParentReferencePtr reference = references.takeFirst();
     const QUrl url = DriveService::createParentReferenceUrl(fileId);
 
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
     request.setUrl(url);
 
-    const QByteArray rawData = DriveParentReference::toJSON(reference);
+    const QByteArray rawData = ParentReference::toJSON(reference);
     q->enqueueRequest(request, rawData, QLatin1String("application/json"));
 }
 
-DriveParentReferenceCreateJob::DriveParentReferenceCreateJob(const QString &fileId,
-                                                             const QString &parentId,
-                                                             const AccountPtr &account,
-                                                             QObject *parent): 
+ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
+                                                   const QString &parentId,
+                                                   const AccountPtr &account,
+                                                   QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
     d->fileId = fileId;
-    d->references << DriveParentReferencePtr(new DriveParentReference(parentId));
+    d->references << ParentReferencePtr(new ParentReference(parentId));
 }
 
-DriveParentReferenceCreateJob::DriveParentReferenceCreateJob(const QString &fileId,
-                                                             const QStringList &parentsIds,
-                                                             const AccountPtr &account,
-                                                             QObject *parent): 
+ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
+                                                   const QStringList &parentsIds,
+                                                   const AccountPtr &account,
+                                                   QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
     d->fileId = fileId;
-    Q_FOREACH (const QString &parentId, parentsIds) {
-        d->references << DriveParentReferencePtr(new DriveParentReference(parentId));
+    Q_FOREACH(const QString & parentId, parentsIds) {
+        d->references << ParentReferencePtr(new ParentReference(parentId));
     }
 }
 
-DriveParentReferenceCreateJob::DriveParentReferenceCreateJob(const QString &fileId,
-                                                             const DriveParentReferencePtr &reference,
-                                                             const AccountPtr &account,
-                                                             QObject *parent): 
+ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
+                                                   const ParentReferencePtr &reference,
+                                                   const AccountPtr &account,
+                                                   QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
@@ -103,10 +104,10 @@ DriveParentReferenceCreateJob::DriveParentReferenceCreateJob(const QString &file
     d->references << reference;
 }
 
-DriveParentReferenceCreateJob::DriveParentReferenceCreateJob(const QString &fileId,
-                                                             const DriveParentReferencesList &references,
-                                                             const AccountPtr &account,
-                                                             QObject *parent):
+ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
+                                                   const ParentReferencesList &references,
+                                                   const AccountPtr &account,
+                                                   QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
@@ -114,24 +115,24 @@ DriveParentReferenceCreateJob::DriveParentReferenceCreateJob(const QString &file
     d->references << references;
 }
 
-DriveParentReferenceCreateJob::~DriveParentReferenceCreateJob()
+ParentReferenceCreateJob::~ParentReferenceCreateJob()
 {
     delete d;
 }
 
-void DriveParentReferenceCreateJob::start()
+void ParentReferenceCreateJob::start()
 {
     d->processNext();
 }
 
-KGAPI2::ObjectsList DriveParentReferenceCreateJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                                        const QByteArray &rawData)
+ObjectsList ParentReferenceCreateJob::handleReplyWithItems(const QNetworkReply *reply,
+                                                           const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
-        items << DriveParentReference::fromJSON(rawData);
+        items << ParentReference::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));

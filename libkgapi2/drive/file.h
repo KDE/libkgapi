@@ -34,8 +34,11 @@
 namespace KGAPI2
 {
 
+namespace Drive
+{
+
 /**
- * @brief DriveFile contains metadata for a file.
+ * @brief File contains metadata for a file.
  * Getters and setters' documentation is based on Google Drive's API v2 reference
  * @see <a href="https://developers.google.com/drive/v2/reference/files">Files</a>
  *
@@ -43,7 +46,7 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
+class LIBKGAPI2_EXPORT File: public KGAPI2::Object
 {
 
   public:
@@ -123,7 +126,7 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         class Private;
         Private *const d;
         friend class Private;
-        friend class DriveFile::Private;
+        friend class File::Private;
     };
 
     typedef QSharedPointer<Labels> LabelsPtr;
@@ -156,7 +159,7 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         class Private;
         Private *const d;
         friend class Private;
-        friend class DriveFile::Private;
+        friend class File::Private;
     };
 
     typedef QSharedPointer<IndexableText> IndexableTextPtr;
@@ -267,7 +270,7 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         class Private;
         Private *const d;
         friend class Private;
-        friend class DriveFile::Private;
+        friend class File::Private;
     };
 
     typedef QSharedPointer<ImageMediaMetadata> ImageMediaMetadataPtr;
@@ -288,14 +291,14 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
         class Private;
         Private * const d;
         friend class Private;
-        friend class DriveFile::Private;
+        friend class File::Private;
     };
 
     typedef QSharedPointer<Thumbnail> ThumbnailPtr;
 
-    explicit DriveFile();
-    explicit DriveFile(const DriveFile &other);
-    virtual ~DriveFile();
+    explicit File();
+    explicit File(const File &other);
+    virtual ~File();
 
     /**
      * @brief Returns the id of the file.
@@ -350,7 +353,7 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
     /**
      * @brief Returns a group of labels for the file.
      */
-    DriveFile::LabelsPtr labels() const;
+    File::LabelsPtr labels() const;
 
     /**
      * @brief Sets a group of labels for the file.
@@ -398,12 +401,12 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
      *
      * This property can only be written, and is not returned by files.get
      */
-    DriveFile::IndexableTextPtr& indexableText();
+    File::IndexableTextPtr& indexableText();
 
     /**
      * @brief Returns the permissions for the authenticated user on this file.
      */
-    DrivePermissionPtr userPermission() const;
+    PermissionPtr userPermission() const;
 
     /**
      * @brief Returns the file extension used when downloading this file.
@@ -450,7 +453,7 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
      * On insert, if no folders are provided, the file will be placed in the
      * default root folder.
      */
-    DriveParentReferencesList parents() const;
+    ParentReferencesList parents() const;
 
     /**
      * @brief Sets the collection of parent folders which contain this file.
@@ -461,7 +464,7 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
      *
      * @param parents
      */
-    void setParents(const DriveParentReferencesList &parents);
+    void setParents(const ParentReferencesList &parents);
 
     /**
      * @brief Returns the links for exporting Google Docs to specific formats.
@@ -546,7 +549,7 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
      * This will only be present for image types, and its contents will depend
      * on what can be parsed from the image content.
      */
-    DriveFile::ImageMediaMetadataPtr imageMediaMetadata() const;
+    File::ImageMediaMetadataPtr imageMediaMetadata() const;
 
     /**
      * @brief Retrusn thumbnail for the file.
@@ -559,18 +562,20 @@ class LIBKGAPI2_EXPORT DriveFile: public KGAPI2::Object
 
     bool shared() const;
 
-    DriveUsersList owners() const;
+    UsersList owners() const;
 
-    DriveUserPtr lastModifyingUser() const;
+    UserPtr lastModifyingUser() const;
 
-    static DriveFilePtr fromJSON(const QByteArray &jsonData);
-    static DriveFilesList fromJSONFeed(const  QByteArray &jsonData, FeedData &feedData);
-    static QByteArray toJSON(const DriveFilePtr &file);
+    static FilePtr fromJSON(const QByteArray &jsonData);
+    static FilesList fromJSONFeed(const  QByteArray &jsonData, FeedData &feedData);
+    static QByteArray toJSON(const FilePtr &file);
 
   private:
     Private * const d;
     friend class Private;
 };
+
+} /* namespace Drive */
 
 } /* namespace KGAPI2 */
 

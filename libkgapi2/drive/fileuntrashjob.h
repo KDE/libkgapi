@@ -28,29 +28,34 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileUntrashJob : public KGAPI2::DriveFileAbstractModifyJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileUntrashJob : public KGAPI2::Drive::FileAbstractModifyJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveFileUntrashJob(const QString &fileId,
-                                 const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileUntrashJob(const QStringList &filesIds,
-                                 const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileUntrashJob(const DriveFilePtr &file,
-                                 const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileUntrashJob(const DriveFilesList &files,
-                                 const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileUntrashJob();
+    explicit FileUntrashJob(const QString &fileId,
+                            const AccountPtr &account, QObject *parent = 0);
+    explicit FileUntrashJob(const QStringList &filesIds,
+                            const AccountPtr &account, QObject *parent = 0);
+    explicit FileUntrashJob(const FilePtr &file,
+                            const AccountPtr &account, QObject *parent = 0);
+    explicit FileUntrashJob(const FilesList &files,
+                            const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileUntrashJob();
 
   protected:
     virtual QUrl url(const QString &fileId);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

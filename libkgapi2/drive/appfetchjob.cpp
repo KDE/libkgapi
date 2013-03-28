@@ -32,33 +32,34 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveAppFetchJob::Private
+class AppFetchJob::Private
 {
   public:
     QString appId;
 };
 
-DriveAppFetchJob::DriveAppFetchJob(const AccountPtr &account, QObject *parent):
+AppFetchJob::AppFetchJob(const AccountPtr &account, QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
 }
 
-DriveAppFetchJob::DriveAppFetchJob(const QString &appId, const AccountPtr &account,
-                                   QObject *parent):
+AppFetchJob::AppFetchJob(const QString &appId, const AccountPtr &account,
+                         QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
     d->appId = appId;
 }
 
-DriveAppFetchJob::~DriveAppFetchJob()
+AppFetchJob::~AppFetchJob()
 {
     delete d;
 }
 
-void DriveAppFetchJob::start()
+void AppFetchJob::start()
 {
     QNetworkRequest request;
     if (d->appId.isEmpty()) {
@@ -71,8 +72,8 @@ void DriveAppFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList DriveAppFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                   const QByteArray &rawData)
+ObjectsList AppFetchJob::handleReplyWithItems(const QNetworkReply *reply,
+                                              const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -80,9 +81,9 @@ ObjectsList DriveAppFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->appId.isEmpty()) {
-            items << DriveApp::fromJSONFeed(rawData);
+            items << App::fromJSONFeed(rawData);
         } else {
-            items << DriveApp::fromJSON(rawData);
+            items << App::fromJSON(rawData);
         }
     } else {
         setError(KGAPI2::InvalidResponse);

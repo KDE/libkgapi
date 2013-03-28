@@ -32,8 +32,9 @@
 #include <QtNetwork/QNetworkReply>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveAboutFetchJob::Private
+class AboutFetchJob::Private
 {
   public:
     Private();
@@ -43,25 +44,25 @@ class DriveAboutFetchJob::Private
     qlonglong startChangeId;
 };
 
-DriveAboutFetchJob::Private::Private():
+AboutFetchJob::Private::Private():
     includeSubscribed(true),
     maxChangeIdCount(0),
     startChangeId(0)
 {
 }
 
-DriveAboutFetchJob::DriveAboutFetchJob(const AccountPtr &account, QObject *parent):
+AboutFetchJob::AboutFetchJob(const AccountPtr &account, QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
 }
 
-DriveAboutFetchJob::~DriveAboutFetchJob()
+AboutFetchJob::~AboutFetchJob()
 {
     delete d;
 }
 
-void DriveAboutFetchJob::setIncludeSubscribed(bool includeSubscribed)
+void AboutFetchJob::setIncludeSubscribed(bool includeSubscribed)
 {
     if (isRunning()) {
         kWarning() << "Can't modify includeSubscribed property when job is running";
@@ -71,12 +72,12 @@ void DriveAboutFetchJob::setIncludeSubscribed(bool includeSubscribed)
     d->includeSubscribed = includeSubscribed;
 }
 
-bool DriveAboutFetchJob::includeSubscribed() const
+bool AboutFetchJob::includeSubscribed() const
 {
     return d->includeSubscribed;
 }
 
-void DriveAboutFetchJob::setMaxChangeIdCount(qlonglong maxChangeIdCount)
+void AboutFetchJob::setMaxChangeIdCount(qlonglong maxChangeIdCount)
 {
     if (isRunning()) {
         kWarning() << "Can't modify maxChangeIdCount property when job is running";
@@ -86,12 +87,12 @@ void DriveAboutFetchJob::setMaxChangeIdCount(qlonglong maxChangeIdCount)
     d->maxChangeIdCount = maxChangeIdCount;
 }
 
-qlonglong DriveAboutFetchJob::maxChangeIdCount() const
+qlonglong AboutFetchJob::maxChangeIdCount() const
 {
     return d->maxChangeIdCount;
 }
 
-void DriveAboutFetchJob::setStartChangeId(qlonglong startChangeId)
+void AboutFetchJob::setStartChangeId(qlonglong startChangeId)
 {
     if (isRunning()) {
         kWarning() << "Can't modify startChangeId property when job is running";
@@ -101,21 +102,21 @@ void DriveAboutFetchJob::setStartChangeId(qlonglong startChangeId)
     d->startChangeId = startChangeId;
 }
 
-qlonglong DriveAboutFetchJob::startChangeId() const
+qlonglong AboutFetchJob::startChangeId() const
 {
     return d->startChangeId;
 }
 
-DriveAboutPtr DriveAboutFetchJob::aboutData() const
+AboutPtr AboutFetchJob::aboutData() const
 {
     if (isRunning() || items().count() == 0) {
-        return DriveAboutPtr();
+        return AboutPtr();
     }
 
-    return items().first().dynamicCast<DriveAbout>();
+    return items().first().dynamicCast<About>();
 }
 
-void DriveAboutFetchJob::start()
+void AboutFetchJob::start()
 {
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
@@ -124,15 +125,15 @@ void DriveAboutFetchJob::start()
     enqueueRequest(request);
 }
 
-KGAPI2::ObjectsList DriveAboutFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                             const QByteArray &rawData)
+KGAPI2::ObjectsList AboutFetchJob::handleReplyWithItems(const QNetworkReply *reply,
+                                                        const QByteArray &rawData)
 {
     ObjectsList items;
 
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
-        DriveAboutPtr about = DriveAbout::fromJSON(rawData);
+        AboutPtr about = About::fromJSON(rawData);
         items << about;
     } else {
         setError(KGAPI2::InvalidResponse);

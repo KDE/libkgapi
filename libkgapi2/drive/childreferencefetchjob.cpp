@@ -31,26 +31,27 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveChildReferenceFetchJob::Private
+class ChildReferenceFetchJob::Private
 {
   public:
-    Private(DriveChildReferenceFetchJob *parent);
+    Private(ChildReferenceFetchJob *parent);
     QNetworkRequest createRequest(const QUrl &url);
 
     QString folderId;
     QString childId;
 
   private:
-    DriveChildReferenceFetchJob *q;
+    ChildReferenceFetchJob *q;
 };
 
-DriveChildReferenceFetchJob::Private::Private(DriveChildReferenceFetchJob *parent):
+ChildReferenceFetchJob::Private::Private(ChildReferenceFetchJob *parent):
     q(parent)
 {
 }
 
-QNetworkRequest DriveChildReferenceFetchJob::Private::createRequest(const QUrl &url)
+QNetworkRequest ChildReferenceFetchJob::Private::createRequest(const QUrl &url)
 {
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -59,19 +60,19 @@ QNetworkRequest DriveChildReferenceFetchJob::Private::createRequest(const QUrl &
     return request;
 }
 
-DriveChildReferenceFetchJob::DriveChildReferenceFetchJob(const QString &folderId,
-                                                         const AccountPtr &account,
-                                                         QObject *parent):
+ChildReferenceFetchJob::ChildReferenceFetchJob(const QString &folderId,
+                                               const AccountPtr &account,
+                                               QObject *parent):
     FetchJob(account, parent),
     d(new Private(this))
 {
     d->folderId = folderId;
 }
 
-DriveChildReferenceFetchJob::DriveChildReferenceFetchJob(const QString &folderId,
-                                                         const QString &childId,
-                                                         const AccountPtr &account,
-                                                         QObject *parent):
+ChildReferenceFetchJob::ChildReferenceFetchJob(const QString &folderId,
+                                               const QString &childId,
+                                               const AccountPtr &account,
+                                               QObject *parent):
     FetchJob(account, parent),
     d(new Private(this))
 {
@@ -79,12 +80,12 @@ DriveChildReferenceFetchJob::DriveChildReferenceFetchJob(const QString &folderId
     d->childId = childId;
 }
 
-DriveChildReferenceFetchJob::~DriveChildReferenceFetchJob()
+ChildReferenceFetchJob::~ChildReferenceFetchJob()
 {
     delete d;
 }
 
-void DriveChildReferenceFetchJob::start()
+void ChildReferenceFetchJob::start()
 {
     QUrl url;
     if (d->childId.isEmpty()) {
@@ -97,8 +98,8 @@ void DriveChildReferenceFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList DriveChildReferenceFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                              const QByteArray &rawData)
+ObjectsList ChildReferenceFetchJob::handleReplyWithItems(const QNetworkReply *reply,
+                                                         const QByteArray &rawData)
 {
     ObjectsList items;
     FeedData feedData;
@@ -107,9 +108,9 @@ ObjectsList DriveChildReferenceFetchJob::handleReplyWithItems(const QNetworkRepl
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->childId.isEmpty()) {
-            items << DriveChildReference::fromJSONFeed(rawData, feedData);
+            items << ChildReference::fromJSONFeed(rawData, feedData);
         } else {
-            items << DriveChildReference::fromJSON(rawData);
+            items << ChildReference::fromJSON(rawData);
         }
     } else {
         setError(KGAPI2::InvalidResponse);

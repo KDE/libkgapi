@@ -22,10 +22,11 @@
 #include <qjson/serializer.h>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveRevision::Private
+class Revision::Private
 {
-public:
+  public:
     Private();
     Private(const Private& other);
 
@@ -41,15 +42,15 @@ public:
     QUrl downloadUrl;
     QMap<QString, QUrl> exportLinks;
     QString lastModifyingUserName;
-    DriveUserPtr lastModifyingUser;
+    UserPtr lastModifyingUser;
     QString originalFilename;
     QString md5Checksum;
     qlonglong fileSize;
 
-    static DriveRevisionPtr fromJSON(const QVariantMap &map);
+    static RevisionPtr fromJSON(const QVariantMap &map);
 };
 
-DriveRevision::Private::Private():
+Revision::Private::Private():
     pinned(false),
     published(false),
     publishAuto(false),
@@ -58,7 +59,7 @@ DriveRevision::Private::Private():
 {
 }
 
-DriveRevision::Private::Private(const Private& other):
+Revision::Private::Private(const Private& other):
     id(other.id),
     selfLink(other.selfLink),
     mimeType(other.mimeType),
@@ -78,15 +79,15 @@ DriveRevision::Private::Private(const Private& other):
 {
 }
 
-DriveRevisionPtr DriveRevision::Private::fromJSON(const QVariantMap &map)
+RevisionPtr Revision::Private::fromJSON(const QVariantMap &map)
 {
     if (!map.contains(QLatin1String("kind")) ||
         map[QLatin1String("kind")].toString() != QLatin1String("drive#revision"))
     {
-        return DriveRevisionPtr();
+        return RevisionPtr();
     }
 
-    DriveRevisionPtr revision(new DriveRevision);
+    RevisionPtr revision(new Revision);
     revision->setEtag(map[QLatin1String("etag")].toString());
     revision->d->id = map[QLatin1String("id")].toString();
     revision->d->selfLink = map[QLatin1String("selfLink")].toUrl();
@@ -99,7 +100,7 @@ DriveRevisionPtr DriveRevision::Private::fromJSON(const QVariantMap &map)
     revision->d->publishedOutsideDomain = map[QLatin1String("publishedOutsideDomain")].toBool();
     revision->d->downloadUrl = map[QLatin1String("downloadUrl")].toUrl();
     revision->d->lastModifyingUserName = map[QLatin1String("lastModifyingUserName")].toString();
-    revision->d->lastModifyingUser = DriveUser::fromJSON(map[QLatin1String("lastModifyingUser")].toMap());
+    revision->d->lastModifyingUser = User::fromJSON(map[QLatin1String("lastModifyingUser")].toMap());
     revision->d->originalFilename = map[QLatin1String("originalFilename")].toString();
     revision->d->md5Checksum = map[QLatin1String("md5Checksum")].toString();
     revision->d->fileSize = map[QLatin1String("fileSize")].toLongLong();
@@ -113,144 +114,144 @@ DriveRevisionPtr DriveRevision::Private::fromJSON(const QVariantMap &map)
     return revision;
 }
 
-DriveRevision::DriveRevision():
+Revision::Revision():
     KGAPI2::Object(),
     d(new Private)
 {
 }
 
-DriveRevision::DriveRevision(const DriveRevision& other):
+Revision::Revision(const Revision& other):
     KGAPI2::Object(other),
     d(new Private(*(other.d)))
 {
 }
 
-DriveRevision::~DriveRevision()
+Revision::~Revision()
 {
     delete d;
 }
 
-QString DriveRevision::id() const
+QString Revision::id() const
 {
     return d->id;
 }
 
-QUrl DriveRevision::selfLink() const
+QUrl Revision::selfLink() const
 {
     return d->selfLink;
 }
 
-QString DriveRevision::mimeType() const
+QString Revision::mimeType() const
 {
     return d->mimeType;
 }
 
-KDateTime DriveRevision::modifiedDate() const
+KDateTime Revision::modifiedDate() const
 {
     return d->modifiedDate;
 }
 
-bool DriveRevision::pinned() const
+bool Revision::pinned() const
 {
     return d->pinned;
 }
 
-void DriveRevision::setPinned(bool pinned)
+void Revision::setPinned(bool pinned)
 {
     d->pinned = pinned;
 }
 
-bool DriveRevision::published() const
+bool Revision::published() const
 {
     return d->published;
 }
 
-void DriveRevision::setPublished(bool published)
+void Revision::setPublished(bool published)
 {
     d->published = published;
 }
 
-QUrl DriveRevision::publishedLink() const
+QUrl Revision::publishedLink() const
 {
     return d->publishedLink;
 }
 
-bool DriveRevision::publishAuto() const
+bool Revision::publishAuto() const
 {
     return d->publishAuto;
 }
 
-void DriveRevision::setPublishAuto(bool publishAuto)
+void Revision::setPublishAuto(bool publishAuto)
 {
     d->publishAuto = publishAuto;
 }
 
-bool DriveRevision::publishedOutsideDomain() const
+bool Revision::publishedOutsideDomain() const
 {
     return d->publishedOutsideDomain;
 }
 
-void DriveRevision::setPublishedOutsideDomain(bool publishedOutsideDomain)
+void Revision::setPublishedOutsideDomain(bool publishedOutsideDomain)
 {
     d->publishedOutsideDomain = publishedOutsideDomain;
 }
 
-QUrl DriveRevision::downloadUrl() const
+QUrl Revision::downloadUrl() const
 {
     return d->downloadUrl;
 }
 
-QMap< QString, QUrl > DriveRevision::exportLinks() const
+QMap< QString, QUrl > Revision::exportLinks() const
 {
     return d->exportLinks;
 }
 
-QString DriveRevision::lastModifyingUserName() const
+QString Revision::lastModifyingUserName() const
 {
     return d->lastModifyingUserName;
 }
 
-DriveUserPtr DriveRevision::lastModifyingUser() const
+UserPtr Revision::lastModifyingUser() const
 {
     return d->lastModifyingUser;
 }
 
-QString DriveRevision::originalFilename() const
+QString Revision::originalFilename() const
 {
     return d->originalFilename;
 }
 
-QString DriveRevision::md5Checksum() const
+QString Revision::md5Checksum() const
 {
     return d->md5Checksum;
 }
 
-qlonglong DriveRevision::fileSize() const
+qlonglong Revision::fileSize() const
 {
     return d->fileSize;
 }
 
-DriveRevisionPtr DriveRevision::fromJSON(const QByteArray &jsonData)
+RevisionPtr Revision::fromJSON(const QByteArray &jsonData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant data = parser.parse(jsonData, &ok);
 
     if (!ok) {
-        return DriveRevisionPtr();
+        return RevisionPtr();
     }
 
     return Private::fromJSON(data.toMap());
 }
 
-DriveRevisionsList DriveRevision::fromJSONFeed(const QByteArray &jsonData)
+RevisionsList Revision::fromJSONFeed(const QByteArray &jsonData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant data = parser.parse(jsonData, &ok);
 
     if (!ok) {
-        return DriveRevisionsList();
+        return RevisionsList();
     }
 
     const QVariantMap map = data.toMap();
@@ -258,13 +259,13 @@ DriveRevisionsList DriveRevision::fromJSONFeed(const QByteArray &jsonData)
     if (!map.contains(QLatin1String("kind")) ||
         map[QLatin1String("kind")].toString() != QLatin1String("drive#revisionList"))
     {
-        return DriveRevisionsList();
+        return RevisionsList();
     }
 
-    DriveRevisionsList list;
+    RevisionsList list;
     const QVariantList items = map[QLatin1String("items")].toList();
     Q_FOREACH (const QVariant &item, items) {
-        const DriveRevisionPtr revision = Private::fromJSON(item.toMap());
+        const RevisionPtr revision = Private::fromJSON(item.toMap());
 
         if (!revision.isNull()) {
             list << revision;
@@ -274,7 +275,7 @@ DriveRevisionsList DriveRevision::fromJSONFeed(const QByteArray &jsonData)
     return list;
 }
 
-QByteArray DriveRevision::toJSON(const DriveRevisionPtr &revision)
+QByteArray Revision::toJSON(const RevisionPtr &revision)
 {
     QVariantMap map;
 

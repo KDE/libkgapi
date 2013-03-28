@@ -79,41 +79,46 @@ class Calendar;
 typedef QSharedPointer<Calendar> CalendarPtr;
 typedef QList<CalendarPtr> CalendarsList;
 
-class DriveAbout;
-typedef QSharedPointer<DriveAbout> DriveAboutPtr;
-typedef QList<DriveAboutPtr> DriveAboutsList;
+namespace Drive
+{
 
-class DriveApp;
-typedef QSharedPointer<DriveApp> DriveAppPtr;
-typedef QList<DriveAppPtr> DriveAppsList;
+class About;
+typedef QSharedPointer<About> AboutPtr;
+typedef QList<AboutPtr> AboutsList;
 
-class DriveChange;
-typedef QSharedPointer<DriveChange> DriveChangePtr;
-typedef QList<DriveChangePtr> DriveChangesList;
+class App;
+typedef QSharedPointer<App> AppPtr;
+typedef QList<AppPtr> AppsList;
 
-class DriveChildReference;
-typedef QSharedPointer<DriveChildReference> DriveChildReferencePtr;
-typedef QList<DriveChildReferencePtr> DriveChildReferencesList;
+class Change;
+typedef QSharedPointer<Change> ChangePtr;
+typedef QList<ChangePtr> ChangesList;
 
-class DriveFile;
-typedef QSharedPointer<DriveFile> DriveFilePtr;
-typedef QList<DriveFilePtr> DriveFilesList;
+class ChildReference;
+typedef QSharedPointer<ChildReference> ChildReferencePtr;
+typedef QList<ChildReferencePtr> ChildReferencesList;
 
-class DriveParentReference;
-typedef QSharedPointer<DriveParentReference> DriveParentReferencePtr;
-typedef QList<DriveParentReferencePtr> DriveParentReferencesList;
+class File;
+typedef QSharedPointer<File> FilePtr;
+typedef QList<FilePtr> FilesList;
 
-class DrivePermission;
-typedef QSharedPointer<DrivePermission> DrivePermissionPtr;
-typedef QList<DrivePermissionPtr> DrivePermissionsList;
+class ParentReference;
+typedef QSharedPointer<ParentReference> ParentReferencePtr;
+typedef QList<ParentReferencePtr> ParentReferencesList;
 
-class DriveRevision;
-typedef QSharedPointer<DriveRevision> DriveRevisionPtr;
-typedef QList<DriveRevisionPtr> DriveRevisionsList;
+class Permission;
+typedef QSharedPointer<Permission> PermissionPtr;
+typedef QList<PermissionPtr> PermissionsList;
 
-class DriveUser;
-typedef QSharedPointer<DriveUser> DriveUserPtr;
-typedef QList<DriveUserPtr> DriveUsersList;
+class Revision;
+typedef QSharedPointer<Revision> RevisionPtr;
+typedef QList<RevisionPtr> RevisionsList;
+
+class User;
+typedef QSharedPointer<User> UserPtr;
+typedef QList<UserPtr> UsersList;
+
+}
 
 class Event;
 typedef QSharedPointer<Event> EventPtr;

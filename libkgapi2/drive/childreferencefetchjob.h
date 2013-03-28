@@ -28,32 +28,37 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveChildReferenceFetchJob : public KGAPI2::FetchJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT ChildReferenceFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveChildReferenceFetchJob(const QString &folderId,
-                                         const AccountPtr &account,
-                                         QObject *parent = 0);
-    explicit DriveChildReferenceFetchJob(const QString &folderId,
-                                         const QString &childId,
-                                         const AccountPtr &account,
-                                         QObject *parent = 0);
-    virtual ~DriveChildReferenceFetchJob();
+    explicit ChildReferenceFetchJob(const QString &folderId,
+                                    const AccountPtr &account,
+                                    QObject *parent = 0);
+    explicit ChildReferenceFetchJob(const QString &folderId,
+                                    const QString &childId,
+                                    const AccountPtr &account,
+                                    QObject *parent = 0);
+    virtual ~ChildReferenceFetchJob();
 
   protected:
     virtual void start();
     virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData);
+            const QByteArray &rawData);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
 };
 
-}  //namespace KGAPI2
+} // namespace Drive
+
+} // namespace KGAPI2
 
 #endif // KGAPI2_DRIVECHILDREFERENCEFETCHJOB_H

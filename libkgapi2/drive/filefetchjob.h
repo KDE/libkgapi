@@ -30,7 +30,10 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileFetchJob : public KGAPI2::FetchJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
@@ -41,16 +44,17 @@ class LIBKGAPI2_EXPORT DriveFileFetchJob : public KGAPI2::FetchJob
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool updateViewedDate READ updateViewedDate WRITE setUpdateViewedDate)
+    Q_PROPERTY(bool updateViewedDate
+               READ updateViewedDate
+               WRITE setUpdateViewedDate)
 
   public:
-
-    explicit DriveFileFetchJob(const QString &fileId,
-                               const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileFetchJob(const QStringList &filesIds,
-                               const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileFetchJob(const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileFetchJob();
+    explicit FileFetchJob(const QString &fileId,
+                          const AccountPtr &account, QObject *parent = 0);
+    explicit FileFetchJob(const QStringList &filesIds,
+                          const AccountPtr &account, QObject *parent = 0);
+    explicit FileFetchJob(const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileFetchJob();
 
     bool updateViewedDate() const;
     void setUpdateViewedDate(bool updateViewedDate);
@@ -58,14 +62,16 @@ class LIBKGAPI2_EXPORT DriveFileFetchJob : public KGAPI2::FetchJob
   protected:
     virtual void start();
     virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData);
+            const QByteArray &rawData);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

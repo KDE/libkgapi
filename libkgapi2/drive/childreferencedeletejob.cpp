@@ -27,18 +27,19 @@
 #include <QtNetwork/QNetworkRequest>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveChildReferenceDeleteJob::Private
+class ChildReferenceDeleteJob::Private
 {
   public:
     QString folderId;
     QStringList childrenIds;
 };
 
-DriveChildReferenceDeleteJob::DriveChildReferenceDeleteJob(const QString &folderId,
-                                                           const QString &childId,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
+ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
+                                                 const QString &childId,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -46,10 +47,10 @@ DriveChildReferenceDeleteJob::DriveChildReferenceDeleteJob(const QString &folder
     d->childrenIds << childId;
 }
 
-DriveChildReferenceDeleteJob::DriveChildReferenceDeleteJob(const QString &folderId,
-                                                           const QStringList &childrenIds,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
+ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
+                                                 const QStringList &childrenIds,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -57,10 +58,10 @@ DriveChildReferenceDeleteJob::DriveChildReferenceDeleteJob(const QString &folder
     d->childrenIds << childrenIds;
 }
 
-DriveChildReferenceDeleteJob::DriveChildReferenceDeleteJob(const QString &folderId,
-                                                           const DriveChildReferencePtr &reference,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
+ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
+                                                 const ChildReferencePtr &reference,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -68,25 +69,25 @@ DriveChildReferenceDeleteJob::DriveChildReferenceDeleteJob(const QString &folder
     d->childrenIds << reference->id();
 }
 
-DriveChildReferenceDeleteJob::DriveChildReferenceDeleteJob(const QString &folderId,
-                                                           const DriveChildReferencesList &references,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
+ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
+                                                 const ChildReferencesList &references,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
     d->folderId = folderId;
-    Q_FOREACH (const DriveChildReferencePtr &reference, references) {
+    Q_FOREACH(const ChildReferencePtr & reference, references) {
         d->childrenIds << reference->id();
     }
 }
 
-DriveChildReferenceDeleteJob::~DriveChildReferenceDeleteJob()
+ChildReferenceDeleteJob::~ChildReferenceDeleteJob()
 {
     delete d;
 }
 
-void DriveChildReferenceDeleteJob::start()
+void ChildReferenceDeleteJob::start()
 {
     if (d->childrenIds.isEmpty()) {
         emitFinished();

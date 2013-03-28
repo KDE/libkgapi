@@ -30,29 +30,34 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveRevisionDeleteJob : public KGAPI2::DeleteJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT RevisionDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveRevisionDeleteJob(const QString &fileId, const QString &revisionId,
-                                    const AccountPtr &account, QObject *parent = 0);
-    explicit DriveRevisionDeleteJob(const QString &fileId, const QStringList &revisionsIds,
-                                    const AccountPtr &account, QObject *parent = 0);
-    explicit DriveRevisionDeleteJob(const QString &fileId, const DriveRevisionPtr &revision,
-                                    const AccountPtr &account, QObject *parent = 0);
-    explicit DriveRevisionDeleteJob(const QString &fileId,const DriveRevisionsList &revisions,
-                                    const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveRevisionDeleteJob();
+    explicit RevisionDeleteJob(const QString &fileId, const QString &revisionId,
+                               const AccountPtr &account, QObject *parent = 0);
+    explicit RevisionDeleteJob(const QString &fileId, const QStringList &revisionsIds,
+                               const AccountPtr &account, QObject *parent = 0);
+    explicit RevisionDeleteJob(const QString &fileId, const RevisionPtr &revision,
+                               const AccountPtr &account, QObject *parent = 0);
+    explicit RevisionDeleteJob(const QString &fileId, const RevisionsList &revisions,
+                               const AccountPtr &account, QObject *parent = 0);
+    virtual ~RevisionDeleteJob();
 
   protected:
     virtual void start();
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

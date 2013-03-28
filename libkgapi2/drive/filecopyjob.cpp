@@ -30,27 +30,28 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileCopyJob::Private
+class FileCopyJob::Private
 {
   public:
-    Private(DriveFileCopyJob *parent);
+    Private(FileCopyJob *parent);
     void processNext();
 
-    QMap<QString, DriveFilePtr > files;
+    QMap<QString, FilePtr > files;
 
-    QList<DriveFilePtr> copies;
+    QList<FilePtr> copies;
 
   private:
-    DriveFileCopyJob * const q;
+    FileCopyJob *const q;
 };
 
-DriveFileCopyJob::Private::Private(DriveFileCopyJob *parent):
+FileCopyJob::Private::Private(FileCopyJob *parent):
     q(parent)
 {
 }
 
-void DriveFileCopyJob::Private::processNext()
+void FileCopyJob::Private::processNext()
 {
     if (files.isEmpty()) {
         q->emitFinished();
@@ -58,7 +59,7 @@ void DriveFileCopyJob::Private::processNext()
     }
 
     const QString fileId = files.keys().first();
-    const DriveFilePtr file = files.take(fileId);
+    const FilePtr file = files.take(fileId);
 
     QUrl url = DriveService::copyFileUrl(fileId);
     q->updateUrl(url);
@@ -66,71 +67,71 @@ void DriveFileCopyJob::Private::processNext()
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
-    const QByteArray rawData = DriveFile::toJSON(file);
+    const QByteArray rawData = File::toJSON(file);
 
     q->enqueueRequest(request, rawData, QLatin1String("application/json"));
 }
 
-DriveFileCopyJob::DriveFileCopyJob(const QString &sourceFileId,
-                                   const DriveFilePtr &destinationFile,
-                                   const AccountPtr &account,
-                                   QObject *parent):
-    DriveFileAbstractDataJob(account, parent),
+FileCopyJob::FileCopyJob(const QString &sourceFileId,
+                         const FilePtr &destinationFile,
+                         const AccountPtr &account,
+                         QObject *parent):
+    FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
     d->files.insert(sourceFileId, destinationFile);
 }
 
-DriveFileCopyJob::DriveFileCopyJob(const DriveFilePtr &sourceFile,
-                                   const DriveFilePtr &destinationFile,
-                                   const AccountPtr &account,
-                                   QObject *parent):
-    DriveFileAbstractDataJob(account, parent),
+FileCopyJob::FileCopyJob(const FilePtr &sourceFile,
+                         const FilePtr &destinationFile,
+                         const AccountPtr &account,
+                         QObject *parent):
+    FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
     d->files.insert(sourceFile->id(), destinationFile);
 }
 
-DriveFileCopyJob::DriveFileCopyJob(const QMap< QString, DriveFilePtr > &files,
-                                   const AccountPtr &account,
-                                   QObject *parent):
-    DriveFileAbstractDataJob(account, parent),
+FileCopyJob::FileCopyJob(const QMap< QString, FilePtr > &files,
+                         const AccountPtr &account,
+                         QObject *parent):
+    FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
     d->files = files;
 }
 
-DriveFileCopyJob::DriveFileCopyJob(const QMap< DriveFilePtr, DriveFilePtr > &files,
-                                   const AccountPtr &account,
-                                   QObject *parent):
-    DriveFileAbstractDataJob(account, parent),
+FileCopyJob::FileCopyJob(const QMap< FilePtr, FilePtr > &files,
+                         const AccountPtr &account,
+                         QObject *parent):
+    FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
-    QMap<DriveFilePtr, DriveFilePtr>::ConstIterator iter = files.constBegin();
-    for ( ; iter != files.constEnd(); ++iter) {
+    QMap<FilePtr, FilePtr>::ConstIterator iter = files.constBegin();
+    for (; iter != files.constEnd(); ++iter) {
         d->files.insert(iter.key()->id(), iter.value());
     }
 }
 
-DriveFileCopyJob::~DriveFileCopyJob()
+FileCopyJob::~FileCopyJob()
 {
     delete d;
 }
 
-DriveFilesList DriveFileCopyJob::files() const
+FilesList FileCopyJob::files() const
 {
     return d->copies;
 }
 
-void DriveFileCopyJob::start()
+void FileCopyJob::start()
 {
     d->processNext();
 }
 
-void DriveFileCopyJob::dispatchRequest(QNetworkAccessManager *accessManager,
-                                       const QNetworkRequest &request,
-                                       const QByteArray &data,
-                                       const QString &contentType)
+void FileCopyJob::dispatchRequest(QNetworkAccessManager *accessManager,
+                                  const QNetworkRequest &request,
+                                  const QByteArray &data,
+                                  const QString &contentType)
 {
     QNetworkRequest r = request;
     r.setHeader(QNetworkRequest::ContentTypeHeader, contentType);
@@ -139,13 +140,13 @@ void DriveFileCopyJob::dispatchRequest(QNetworkAccessManager *accessManager,
 }
 
 
-void DriveFileCopyJob::handleReply(const QNetworkReply *reply,
-                                   const QByteArray &rawData)
+void FileCopyJob::handleReply(const QNetworkReply *reply,
+                              const QByteArray &rawData)
 {
-   const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
-        d->copies << DriveFile::fromJSON(rawData);
+        d->copies << File::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));

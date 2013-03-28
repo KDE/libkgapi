@@ -32,46 +32,47 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DrivePermissionModifyJob::Private
+class PermissionModifyJob::Private
 {
   public:
-    Private(DrivePermissionModifyJob *parent);
+    Private(PermissionModifyJob *parent);
     void processNext();
 
     QString fileId;
-    DrivePermissionsList permissions;
+    PermissionsList permissions;
 
   private:
-    DrivePermissionModifyJob *q;
+    PermissionModifyJob *q;
 };
 
-DrivePermissionModifyJob::Private::Private(DrivePermissionModifyJob *parent):
+PermissionModifyJob::Private::Private(PermissionModifyJob *parent):
     q(parent)
 {
 }
 
-void DrivePermissionModifyJob::Private::processNext()
+void PermissionModifyJob::Private::processNext()
 {
     if (permissions.isEmpty()) {
         q->emitFinished();
         return;
     }
 
-    const DrivePermissionPtr permission = permissions.takeFirst();
+    const PermissionPtr permission = permissions.takeFirst();
     const QUrl url = DriveService::modifyPermissionUrl(fileId, permission->id());
 
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
-    const QByteArray rawData = DrivePermission::toJSON(permission);
+    const QByteArray rawData = Permission::toJSON(permission);
     q->enqueueRequest(request, rawData, QLatin1String("application/json"));
 }
 
-DrivePermissionModifyJob::DrivePermissionModifyJob(const QString &fileId,
-                                                   const DrivePermissionPtr &permission,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
+PermissionModifyJob::PermissionModifyJob(const QString &fileId,
+                                         const PermissionPtr &permission,
+                                         const AccountPtr &account,
+                                         QObject *parent):
     ModifyJob(account, parent),
     d(new Private(this))
 {
@@ -79,10 +80,10 @@ DrivePermissionModifyJob::DrivePermissionModifyJob(const QString &fileId,
     d->permissions << permission;
 }
 
-DrivePermissionModifyJob::DrivePermissionModifyJob(const QString &fileId,
-                                                   const DrivePermissionsList &permissions,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
+PermissionModifyJob::PermissionModifyJob(const QString &fileId,
+                                         const PermissionsList &permissions,
+                                         const AccountPtr &account,
+                                         QObject *parent):
     ModifyJob(account, parent),
     d(new Private(this))
 {
@@ -90,24 +91,24 @@ DrivePermissionModifyJob::DrivePermissionModifyJob(const QString &fileId,
     d->permissions << permissions;
 }
 
-DrivePermissionModifyJob::~DrivePermissionModifyJob()
+PermissionModifyJob::~PermissionModifyJob()
 {
     delete d;
 }
 
-void DrivePermissionModifyJob::start()
+void PermissionModifyJob::start()
 {
     d->processNext();
 }
 
-ObjectsList DrivePermissionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                           const QByteArray &rawData)
+ObjectsList PermissionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
+        const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
-        items << DrivePermission::fromJSON(rawData);
+        items << Permission::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));

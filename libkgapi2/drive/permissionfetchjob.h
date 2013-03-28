@@ -28,32 +28,37 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DrivePermissionFetchJob : public KGAPI2::FetchJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
 {
 
     Q_OBJECT
 
   public:
-    explicit DrivePermissionFetchJob(const QString &fileId, const AccountPtr &account,
-                                     QObject *parent = 0);
-    explicit DrivePermissionFetchJob(const DriveFilePtr &file, const AccountPtr &account,
-                                     QObject *parent = 0);
-    explicit DrivePermissionFetchJob(const QString &fileId, const QString &permissionId,
-                                     const AccountPtr &account, QObject *parent = 0);
-    explicit DrivePermissionFetchJob(const DriveFilePtr &file, const QString &permissionId,
-                                     const AccountPtr &account, QObject *parent = 0);
-    virtual ~DrivePermissionFetchJob();
+    explicit PermissionFetchJob(const QString &fileId, const AccountPtr &account,
+                                QObject *parent = 0);
+    explicit PermissionFetchJob(const FilePtr &file, const AccountPtr &account,
+                                QObject *parent = 0);
+    explicit PermissionFetchJob(const QString &fileId, const QString &permissionId,
+                                const AccountPtr &account, QObject *parent = 0);
+    explicit PermissionFetchJob(const FilePtr &file, const QString &permissionId,
+                                const AccountPtr &account, QObject *parent = 0);
+    virtual ~PermissionFetchJob();
 
   protected:
     virtual void start();
     virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData);
+            const QByteArray &rawData);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

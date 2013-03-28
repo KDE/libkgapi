@@ -30,29 +30,34 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileDeleteJob : public KGAPI2::DeleteJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveFileDeleteJob(const QString &fileId,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileDeleteJob(const QStringList &filesIds,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileDeleteJob(const DriveFilePtr &file,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileDeleteJob(const DriveFilesList &files,
-                                const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileDeleteJob();
+    explicit FileDeleteJob(const QString &fileId,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileDeleteJob(const QStringList &filesIds,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileDeleteJob(const FilePtr &file,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileDeleteJob(const FilesList &files,
+                           const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileDeleteJob();
 
   protected:
     virtual void start();
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

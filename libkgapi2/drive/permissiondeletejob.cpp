@@ -28,18 +28,19 @@
 #include <QtNetwork/QNetworkRequest>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DrivePermissionDeleteJob::Private
+class PermissionDeleteJob::Private
 {
   public:
     QString fileId;
     QStringList permissionsIds;
 };
 
-DrivePermissionDeleteJob::DrivePermissionDeleteJob(const QString &fileId,
-                                                   const DrivePermissionPtr &permission,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
+PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
+                                         const PermissionPtr &permission,
+                                         const AccountPtr &account,
+                                         QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -47,10 +48,10 @@ DrivePermissionDeleteJob::DrivePermissionDeleteJob(const QString &fileId,
     d->permissionsIds << permission->id();
 }
 
-DrivePermissionDeleteJob::DrivePermissionDeleteJob(const QString &fileId,
-                                                   const QString &permissionId,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
+PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
+                                         const QString &permissionId,
+                                         const AccountPtr &account,
+                                         QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -58,23 +59,23 @@ DrivePermissionDeleteJob::DrivePermissionDeleteJob(const QString &fileId,
     d->permissionsIds << permissionId;
 }
 
-DrivePermissionDeleteJob::DrivePermissionDeleteJob(const QString &fileId,
-                                                   const DrivePermissionsList &permissions,
-                                                   const AccountPtr &account,
-                                                   QObject *parent): 
+PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
+                                         const PermissionsList &permissions,
+                                         const AccountPtr &account,
+                                         QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
     d->fileId = fileId;
-    Q_FOREACH (const DrivePermissionPtr &permission, permissions) {
+    Q_FOREACH(const PermissionPtr & permission, permissions) {
         d->permissionsIds << permission->id();
     }
 }
 
-DrivePermissionDeleteJob::DrivePermissionDeleteJob(const QString &fileId,
-                                                   const QStringList &permissionsIds,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
+PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
+                                         const QStringList &permissionsIds,
+                                         const AccountPtr &account,
+                                         QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -82,12 +83,12 @@ DrivePermissionDeleteJob::DrivePermissionDeleteJob(const QString &fileId,
     d->permissionsIds << permissionsIds;
 }
 
-DrivePermissionDeleteJob::~DrivePermissionDeleteJob()
+PermissionDeleteJob::~PermissionDeleteJob()
 {
     delete d;
 }
 
-void DrivePermissionDeleteJob::start()
+void PermissionDeleteJob::start()
 {
     if (d->permissionsIds.isEmpty()) {
         emitFinished();

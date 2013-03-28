@@ -30,20 +30,23 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileAbstractModifyJob : public KGAPI2::ModifyJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileAbstractModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveFileAbstractModifyJob(const QString &fileId,const AccountPtr &account,
-                               QObject *parent = 0);
-    explicit DriveFileAbstractModifyJob(const QStringList &filesIds,
-                               const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileAbstractModifyJob(const DriveFilePtr &file,
-                               const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileAbstractModifyJob(const DriveFilesList &files,
-                               const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileAbstractModifyJob();
+    explicit FileAbstractModifyJob(const QString &fileId,
+                                   const AccountPtr &account, QObject *parent = 0);
+    explicit FileAbstractModifyJob(const QStringList &filesIds,
+                                   const AccountPtr &account, QObject *parent = 0);
+    explicit FileAbstractModifyJob(const FilePtr &file,
+                                   const AccountPtr &account, QObject *parent = 0);
+    explicit FileAbstractModifyJob(const FilesList &files,
+                                   const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileAbstractModifyJob();
 
   protected:
     virtual void start();
@@ -54,10 +57,12 @@ class LIBKGAPI2_EXPORT DriveFileAbstractModifyJob : public KGAPI2::ModifyJob
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

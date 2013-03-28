@@ -28,10 +28,13 @@
 namespace KGAPI2
 {
 
+namespace Drive
+{
+
 /**
  * @brief A fetch job that retrieves DriveAbout data.
  */
-class LIBKGAPI2_EXPORT DriveAboutFetchJob : public KGAPI2::FetchJob
+class LIBKGAPI2_EXPORT AboutFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
@@ -47,7 +50,9 @@ class LIBKGAPI2_EXPORT DriveAboutFetchJob : public KGAPI2::FetchJob
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool includeSubscribed READ includeSubscribed WRITE setIncludeSubscribed)
+    Q_PROPERTY(bool includeSubscribed
+               READ includeSubscribed
+               WRITE setIncludeSubscribed)
 
     /**
      * @brief Maximum number of remaining change IDs to count.
@@ -56,7 +61,9 @@ class LIBKGAPI2_EXPORT DriveAboutFetchJob : public KGAPI2::FetchJob
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(qlonglong maxChangeIdCount READ maxChangeIdCount WRITE setMaxChangeIdCount)
+    Q_PROPERTY(qlonglong maxChangeIdCount
+               READ maxChangeIdCount
+               WRITE setMaxChangeIdCount)
 
     /**
      * @brief Change ID to start counting from when calculating number of
@@ -66,7 +73,9 @@ class LIBKGAPI2_EXPORT DriveAboutFetchJob : public KGAPI2::FetchJob
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(qlonglong startChangeId READ startChangeId WRITE setStartChangeId)
+    Q_PROPERTY(qlonglong startChangeId
+               READ startChangeId
+               WRITE setStartChangeId)
 
   public:
     /**
@@ -84,8 +93,8 @@ class LIBKGAPI2_EXPORT DriveAboutFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request with
      * @param parent
      */
-    explicit DriveAboutFetchJob(const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveAboutFetchJob();
+    explicit AboutFetchJob(const AccountPtr &account, QObject *parent = 0);
+    virtual ~AboutFetchJob();
 
     /**
      * @brief Returns whether to include shared and public files to change IDs count.
@@ -130,7 +139,7 @@ class LIBKGAPI2_EXPORT DriveAboutFetchJob : public KGAPI2::FetchJob
      *
      * This method can only be called after the job has emitted finished()
      */
-    DriveAboutPtr aboutData() const;
+    AboutPtr aboutData() const;
 
   protected:
     /**
@@ -153,6 +162,8 @@ class LIBKGAPI2_EXPORT DriveAboutFetchJob : public KGAPI2::FetchJob
     friend class Private;
 
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

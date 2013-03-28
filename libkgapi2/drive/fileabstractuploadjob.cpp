@@ -36,38 +36,40 @@
 #include <QCryptographicHash>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileAbstractUploadJob::Private
+class FileAbstractUploadJob::Private
 {
   public:
-    Private(DriveFileAbstractUploadJob *parent);
+    Private(FileAbstractUploadJob *parent);
     void processNext();
     QByteArray buildMultipart(const QString &filePath,
-                              const DriveFilePtr &metaData,
+                              const FilePtr &metaData,
                               QString &boundary);
     QByteArray readFile(const QString &filePath, QString &contentType);
 
     void _k_uploadProgress(qint64 bytesSent, qint64 totalBytes);
 
     int originalFilesCount;
-    QMap<QString, DriveFilePtr> files;
+    QMap<QString, FilePtr> files;
 
-    QMap<QString, DriveFilePtr> uploadedFiles;
+    QMap<QString, FilePtr> uploadedFiles;
 
 
     bool useContentAsIndexableText;
 
   private:
-    DriveFileAbstractUploadJob * const q;
+    FileAbstractUploadJob *const q;
 };
 
-DriveFileAbstractUploadJob::Private::Private(DriveFileAbstractUploadJob *parent):
+FileAbstractUploadJob::Private::Private(FileAbstractUploadJob *parent):
     useContentAsIndexableText(false),
     q(parent)
 {
 }
 
-QByteArray DriveFileAbstractUploadJob::Private::readFile(const QString &filePath, QString &contentType)
+QByteArray FileAbstractUploadJob::Private::readFile(const QString &filePath,
+                                                    QString &contentType)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
@@ -86,9 +88,9 @@ QByteArray DriveFileAbstractUploadJob::Private::readFile(const QString &filePath
     return output;
 }
 
-QByteArray DriveFileAbstractUploadJob::Private::buildMultipart(const QString &filePath,
-                                                               const DriveFilePtr &metaData,
-                                                               QString &boundary)
+QByteArray FileAbstractUploadJob::Private::buildMultipart(const QString &filePath,
+                                                          const FilePtr &metaData,
+                                                          QString &boundary)
 {
     QString fileContentType;
     QByteArray fileContent;
@@ -106,7 +108,7 @@ QByteArray DriveFileAbstractUploadJob::Private::buildMultipart(const QString &fi
     body += "---" + boundary.toLatin1() + '\n';
     body += "Content-Type: application/json; charset=UTF-8\n";
     body += '\n';
-    body += DriveFile::toJSON(metaData);
+    body += File::toJSON(metaData);
     body += '\n';
     body += '\n';
     body += "---" + boundary.toLatin1() + '\n';
@@ -120,7 +122,7 @@ QByteArray DriveFileAbstractUploadJob::Private::buildMultipart(const QString &fi
     return body;
 }
 
-void DriveFileAbstractUploadJob::Private::processNext()
+void FileAbstractUploadJob::Private::processNext()
 {
     if (files.isEmpty()) {
         q->emitFinished();
@@ -134,7 +136,7 @@ void DriveFileAbstractUploadJob::Private::processNext()
         return;
     }
 
-    const DriveFilePtr metaData = files.take(filePath);
+    const FilePtr metaData = files.take(filePath);
 
     QUrl url = q->createUrl(filePath, metaData);
     q->updateUrl(url);
@@ -177,8 +179,8 @@ void DriveFileAbstractUploadJob::Private::processNext()
     q->enqueueRequest(request, rawData, contentType);
 }
 
-void DriveFileAbstractUploadJob::Private::_k_uploadProgress(qint64 bytesSent,
-                                                            qint64 totalBytes)
+void FileAbstractUploadJob::Private::_k_uploadProgress(qint64 bytesSent,
+        qint64 totalBytes)
 {
     // Each file consists of 100 units, so if we have two files, one already
     // uploaded and the other one uploaded from 50%, the values are (150, 200)
@@ -189,55 +191,55 @@ void DriveFileAbstractUploadJob::Private::_k_uploadProgress(qint64 bytesSent,
     q->emitProgress(processedParts + currentFileParts, originalFilesCount * 100);
 }
 
-DriveFileAbstractUploadJob::DriveFileAbstractUploadJob(const QString &filePath,
-                                                       const AccountPtr &account,
-                                                       QObject *parent):
-    DriveFileAbstractDataJob(account, parent),
+FileAbstractUploadJob::FileAbstractUploadJob(const QString &filePath,
+                                             const AccountPtr &account,
+                                             QObject *parent):
+    FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
-    d->files.insert(filePath, DriveFilePtr());
+    d->files.insert(filePath, FilePtr());
     d->originalFilesCount = 1;
 }
 
-DriveFileAbstractUploadJob::DriveFileAbstractUploadJob(const QString &filePath,
-                                                       const DriveFilePtr &metaData,
-                                                       const AccountPtr &account,
-                                                       QObject *parent):
-    DriveFileAbstractDataJob(account, parent),
+FileAbstractUploadJob::FileAbstractUploadJob(const QString &filePath,
+                                             const FilePtr &metaData,
+                                             const AccountPtr &account,
+                                             QObject *parent):
+    FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
     d->files.insert(filePath, metaData);
     d->originalFilesCount = 1;
 }
 
-DriveFileAbstractUploadJob::DriveFileAbstractUploadJob(const QStringList &filePaths,
-                                                       const AccountPtr &account,
-                                                       QObject *parent):
-    DriveFileAbstractDataJob(account, parent),
+FileAbstractUploadJob::FileAbstractUploadJob(const QStringList &filePaths,
+                                             const AccountPtr &account,
+                                             QObject *parent):
+    FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
-    Q_FOREACH (const QString &filePath, filePaths) {
-        d->files.insert(filePath, DriveFilePtr());
+    Q_FOREACH(const QString & filePath, filePaths) {
+        d->files.insert(filePath, FilePtr());
     }
     d->originalFilesCount = d->files.count();
 }
 
-DriveFileAbstractUploadJob::DriveFileAbstractUploadJob(const QMap< QString, DriveFilePtr > &files,
-                                                       const AccountPtr &account,
-                                                       QObject *parent):
-    DriveFileAbstractDataJob(account, parent),
+FileAbstractUploadJob::FileAbstractUploadJob(const QMap< QString, FilePtr > &files,
+                                             const AccountPtr &account,
+                                             QObject *parent):
+    FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
     d->files = files;
     d->originalFilesCount = d->files.count();
 }
 
-DriveFileAbstractUploadJob::~DriveFileAbstractUploadJob()
+FileAbstractUploadJob::~FileAbstractUploadJob()
 {
     delete d;
 }
 
-void DriveFileAbstractUploadJob::setUseContentAsIndexableText(bool useContentAsIndexableText)
+void FileAbstractUploadJob::setUseContentAsIndexableText(bool useContentAsIndexableText)
 {
     if (isRunning()) {
         kWarning() << "Can't modify useContentAsIndexableText property when job is running";
@@ -247,31 +249,31 @@ void DriveFileAbstractUploadJob::setUseContentAsIndexableText(bool useContentAsI
     d->useContentAsIndexableText = useContentAsIndexableText;
 }
 
-bool DriveFileAbstractUploadJob::useContentAsIndexableText() const
+bool FileAbstractUploadJob::useContentAsIndexableText() const
 {
     return d->useContentAsIndexableText;
 }
 
-void DriveFileAbstractUploadJob::start()
+void FileAbstractUploadJob::start()
 {
     d->processNext();
 }
 
-void DriveFileAbstractUploadJob::dispatchRequest(QNetworkAccessManager *accessManager,
-                                                 const QNetworkRequest &request,
-                                                 const QByteArray &data,
-                                                 const QString &contentType)
+void FileAbstractUploadJob::dispatchRequest(QNetworkAccessManager *accessManager,
+                                            const QNetworkRequest &request,
+                                            const QByteArray &data,
+                                            const QString &contentType)
 {
     Q_UNUSED(contentType)
 
     QNetworkReply *reply = dispatch(accessManager, request, data);
 
-    connect(reply, SIGNAL(uploadProgress(qint64,qint64)),
-            this, SLOT(_k_uploadProgress(qint64,qint64)));
+    connect(reply, SIGNAL(uploadProgress(qint64, qint64)),
+            this, SLOT(_k_uploadProgress(qint64, qint64)));
 }
 
-void DriveFileAbstractUploadJob::handleReply(const QNetworkReply *reply,
-                                             const QByteArray &rawData)
+void FileAbstractUploadJob::handleReply(const QNetworkReply *reply,
+                                        const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -279,7 +281,7 @@ void DriveFileAbstractUploadJob::handleReply(const QNetworkReply *reply,
         const QNetworkRequest request = reply->request();
         const QString filePath = request.attribute(QNetworkRequest::User).toString();
 
-        DriveFilePtr file = DriveFile::fromJSON(rawData);
+        FilePtr file = File::fromJSON(rawData);
 
         d->uploadedFiles.insert(filePath, file);
     } else {

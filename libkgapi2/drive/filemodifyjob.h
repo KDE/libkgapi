@@ -29,7 +29,10 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileModifyJob : public KGAPI2::DriveFileAbstractUploadJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUploadJob
 {
     Q_OBJECT
 
@@ -68,17 +71,18 @@ class LIBKGAPI2_EXPORT DriveFileModifyJob : public KGAPI2::DriveFileAbstractUplo
     Q_PROPERTY(bool updateViewedDate
                READ updateViewedDate
                WRITE setUpdateViewedDate)
+
   public:
-    explicit DriveFileModifyJob(const QString &filePath, const QString &fileId,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileModifyJob(const QString &filePath,
-                                const DriveFilePtr &metaData,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileModifyJob(const QMap< QString /* file path */, QString /* file ID */ > &files,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileModifyJob(const QMap< QString /* file path */, DriveFilePtr /* metadata */ > &files,
-                                const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileModifyJob();
+    explicit FileModifyJob(const QString &filePath, const QString &fileId,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileModifyJob(const QString &filePath,
+                           const FilePtr &metaData,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileModifyJob(const QMap < QString /* file path */, QString /* file ID */ > &files,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileModifyJob(const QMap < QString /* file path */, FilePtr /* metadata */ > &files,
+                           const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileModifyJob();
 
     bool createNewRevision() const;
     void setCreateNewRevision(bool createNewRevision);
@@ -90,18 +94,20 @@ class LIBKGAPI2_EXPORT DriveFileModifyJob : public KGAPI2::DriveFileAbstractUplo
     void setUpdateViewedDate(bool updateViewedDate);
 
   protected:
-    virtual QNetworkReply* dispatch(QNetworkAccessManager *accessManager,
+    virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
                                     const QNetworkRequest &request,
                                     const QByteArray &data);
     virtual QUrl createUrl(const QString &filePath,
-                           const DriveFilePtr &metaData);
+                           const FilePtr &metaData);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

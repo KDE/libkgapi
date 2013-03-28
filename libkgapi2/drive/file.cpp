@@ -25,10 +25,11 @@
 #include <qjson/serializer.h>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
 ///// DriveFile::Labels
 
-class DriveFile::Labels::Private
+class File::Labels::Private
 {
   public:
     Private();
@@ -41,7 +42,7 @@ class DriveFile::Labels::Private
     bool viewed;
 };
 
-DriveFile::Labels::Private::Private():
+File::Labels::Private::Private():
     starred(false),
     hidden(false),
     trashed(false),
@@ -50,7 +51,7 @@ DriveFile::Labels::Private::Private():
 {
 }
 
-DriveFile::Labels::Private::Private(const Private &other):
+File::Labels::Private::Private(const Private &other):
     starred(other.starred),
     hidden(other.hidden),
     trashed(other.trashed),
@@ -59,73 +60,73 @@ DriveFile::Labels::Private::Private(const Private &other):
 {
 }
 
-DriveFile::Labels::Labels():
+File::Labels::Labels():
     d(new Private)
 {
 }
 
-DriveFile::Labels::Labels(const Labels& other):
+File::Labels::Labels(const Labels& other):
     d(new Private(*(other.d)))
 { }
 
-DriveFile::Labels::~Labels()
+File::Labels::~Labels()
 {
     delete d;
 }
 
-bool DriveFile::Labels::starred() const
+bool File::Labels::starred() const
 {
     return d->starred;
 }
 
-void DriveFile::Labels::setStarred(bool starred)
+void File::Labels::setStarred(bool starred)
 {
     d->starred = starred;
 }
 
-bool DriveFile::Labels::hidden() const
+bool File::Labels::hidden() const
 {
     return d->hidden;
 }
 
-void DriveFile::Labels::setHidden(bool hidden)
+void File::Labels::setHidden(bool hidden)
 {
     d->hidden = hidden;
 }
 
-bool DriveFile::Labels::trashed() const
+bool File::Labels::trashed() const
 {
     return d->trashed;
 }
 
-void DriveFile::Labels::setTrashed(bool trashed)
+void File::Labels::setTrashed(bool trashed)
 {
     d->trashed = trashed;
 }
 
-bool DriveFile::Labels::restricted() const
+bool File::Labels::restricted() const
 {
     return d->restricted;
 }
 
-void DriveFile::Labels::setRestricted(bool restricted)
+void File::Labels::setRestricted(bool restricted)
 {
     d->restricted = restricted;
 }
 
-bool DriveFile::Labels::viewed() const
+bool File::Labels::viewed() const
 {
     return d->viewed;
 }
 
-void DriveFile::Labels::setViewed(bool viewed)
+void File::Labels::setViewed(bool viewed)
 {
     d->viewed = viewed;
 }
 
 ///// DriveFile::ImageMediaMetadata
 
-class DriveFile::IndexableText::Private
+class File::IndexableText::Private
 {
   public:
     Private();
@@ -134,43 +135,43 @@ class DriveFile::IndexableText::Private
     QString text;
 };
 
-DriveFile::IndexableText::Private::Private()
+File::IndexableText::Private::Private()
 {
 }
 
-DriveFile::IndexableText::Private::Private(const Private &other):
+File::IndexableText::Private::Private(const Private &other):
     text(other.text)
 {
 }
 
-DriveFile::IndexableText::IndexableText():
+File::IndexableText::IndexableText():
     d(new Private)
 {
 }
 
-DriveFile::IndexableText::IndexableText(const IndexableText& other):
+File::IndexableText::IndexableText(const IndexableText& other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveFile::IndexableText::~IndexableText()
+File::IndexableText::~IndexableText()
 {
     delete d;
 }
 
-QString DriveFile::IndexableText::text() const
+QString File::IndexableText::text() const
 {
     return d->text;
 }
 
-void DriveFile::IndexableText::setText(const QString &text)
+void File::IndexableText::setText(const QString &text)
 {
     d->text = text;
 }
 
 ///// DriveFile::ImageMediaMetadata::Location
 
-class DriveFile::ImageMediaMetadata::Location::Private
+class File::ImageMediaMetadata::Location::Private
 {
   public:
     Private();
@@ -181,53 +182,53 @@ class DriveFile::ImageMediaMetadata::Location::Private
     qreal altitude;
 };
 
-DriveFile::ImageMediaMetadata::Location::Private::Private():
+File::ImageMediaMetadata::Location::Private::Private():
     latitude(-1),
     longitude(-1),
     altitude(0)
 {
 }
 
-DriveFile::ImageMediaMetadata::Location::Private::Private(const Private &other):
+File::ImageMediaMetadata::Location::Private::Private(const Private &other):
     latitude(other.latitude),
     longitude(other.longitude),
     altitude(other.altitude)
 {
 }
 
-DriveFile::ImageMediaMetadata::Location::Location():
+File::ImageMediaMetadata::Location::Location():
     d(new Private)
 {
 }
 
-DriveFile::ImageMediaMetadata::Location::Location(const Location& other):
+File::ImageMediaMetadata::Location::Location(const Location& other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveFile::ImageMediaMetadata::Location::~Location()
+File::ImageMediaMetadata::Location::~Location()
 {
     delete d;
 }
 
-qreal DriveFile::ImageMediaMetadata::Location::latitude() const
+qreal File::ImageMediaMetadata::Location::latitude() const
 {
     return d->latitude;
 }
 
-qreal DriveFile::ImageMediaMetadata::Location::longitude() const
+qreal File::ImageMediaMetadata::Location::longitude() const
 {
     return d->longitude;
 }
 
-qreal DriveFile::ImageMediaMetadata::Location::altitude() const
+qreal File::ImageMediaMetadata::Location::altitude() const
 {
     return d->altitude;
 }
 
 ///// DriveFile::ImageMediaMetadata
 
-class DriveFile::ImageMediaMetadata::Private
+class File::ImageMediaMetadata::Private
 {
   public:
     Private();
@@ -256,7 +257,7 @@ class DriveFile::ImageMediaMetadata::Private
     QString lens;
 };
 
-DriveFile::ImageMediaMetadata::Private::Private():
+File::ImageMediaMetadata::Private::Private():
     width(-1),
     height(-1),
     rotation(-1),
@@ -271,7 +272,7 @@ DriveFile::ImageMediaMetadata::Private::Private():
 {
 }
 
-DriveFile::ImageMediaMetadata::Private::Private(const Private &other):
+File::ImageMediaMetadata::Private::Private(const Private &other):
     width(other.width),
     height(other.height),
     rotation(other.rotation),
@@ -296,7 +297,7 @@ DriveFile::ImageMediaMetadata::Private::Private(const Private &other):
 {
 }
 
-DriveFile::ImageMediaMetadata::ImageMediaMetadata(const QVariantMap &map):
+File::ImageMediaMetadata::ImageMediaMetadata(const QVariantMap &map):
     d(new Private)
 {
     d->width = map[QLatin1String("width")].toInt();
@@ -321,123 +322,123 @@ DriveFile::ImageMediaMetadata::ImageMediaMetadata(const QVariantMap &map):
     d->lens = map[QLatin1String("lens")].toString();
 
     const QVariantMap locationData = map[QLatin1String("location")].toMap();
-    DriveFile::ImageMediaMetadata::LocationPtr location(new DriveFile::ImageMediaMetadata::Location);
+    File::ImageMediaMetadata::LocationPtr location(new File::ImageMediaMetadata::Location);
     location->d->latitude = locationData[QLatin1String("latitude")].toReal();
     location->d->longitude = locationData[QLatin1String("longitude")].toReal();
     location->d->altitude = locationData[QLatin1String("altitude")].toReal();
 }
 
-DriveFile::ImageMediaMetadata::ImageMediaMetadata(const ImageMediaMetadata& other):
+File::ImageMediaMetadata::ImageMediaMetadata(const ImageMediaMetadata& other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveFile::ImageMediaMetadata::~ImageMediaMetadata()
+File::ImageMediaMetadata::~ImageMediaMetadata()
 {
     delete d;
 }
 
-int DriveFile::ImageMediaMetadata::width() const
+int File::ImageMediaMetadata::width() const
 {
     return d->width;
 }
 
-int DriveFile::ImageMediaMetadata::height() const
+int File::ImageMediaMetadata::height() const
 {
     return d->height;
 }
 
-int DriveFile::ImageMediaMetadata::rotation() const
+int File::ImageMediaMetadata::rotation() const
 {
     return d->rotation;
 }
 
-DriveFile::ImageMediaMetadata::LocationPtr DriveFile::ImageMediaMetadata::location() const
+File::ImageMediaMetadata::LocationPtr File::ImageMediaMetadata::location() const
 {
     return d->location;
 }
 
-QString DriveFile::ImageMediaMetadata::date() const
+QString File::ImageMediaMetadata::date() const
 {
     return d->date;
 }
 
-QString DriveFile::ImageMediaMetadata::cameraMake() const
+QString File::ImageMediaMetadata::cameraMake() const
 {
     return d->cameraMake;
 }
 
-QString DriveFile::ImageMediaMetadata::cameraModel() const
+QString File::ImageMediaMetadata::cameraModel() const
 {
     return d->cameraModel;
 }
 
-float DriveFile::ImageMediaMetadata::exposureTime() const
+float File::ImageMediaMetadata::exposureTime() const
 {
     return d->exposureTime;
 }
 
-float DriveFile::ImageMediaMetadata::aperture() const
+float File::ImageMediaMetadata::aperture() const
 {
     return d->aperture;
 }
 
-bool DriveFile::ImageMediaMetadata::flashUsed() const
+bool File::ImageMediaMetadata::flashUsed() const
 {
     return d->flashUsed;
 }
 
-float DriveFile::ImageMediaMetadata::focalLength() const
+float File::ImageMediaMetadata::focalLength() const
 {
     return d->focalLength;
 }
 
-int DriveFile::ImageMediaMetadata::isoSpeed() const
+int File::ImageMediaMetadata::isoSpeed() const
 {
     return d->isoSpeed;
 }
 
-QString DriveFile::ImageMediaMetadata::meteringMode() const
+QString File::ImageMediaMetadata::meteringMode() const
 {
     return d->meteringMode;
 }
 
-QString DriveFile::ImageMediaMetadata::sensor() const
+QString File::ImageMediaMetadata::sensor() const
 {
     return d->sensor;
 }
 
-QString DriveFile::ImageMediaMetadata::exposureMode() const
+QString File::ImageMediaMetadata::exposureMode() const
 {
     return d->exposureMode;
 }
 
-QString DriveFile::ImageMediaMetadata::colorSpace() const
+QString File::ImageMediaMetadata::colorSpace() const
 {
     return d->colorSpace;
 }
 
-QString DriveFile::ImageMediaMetadata::whiteBalance() const
+QString File::ImageMediaMetadata::whiteBalance() const
 {
     return d->whiteBalance;
 }
 
-float DriveFile::ImageMediaMetadata::exposureBias() const
+float File::ImageMediaMetadata::exposureBias() const
 {
     return d->exposureBias;
 }
 
-float DriveFile::ImageMediaMetadata::maxApertureValue() const
+float File::ImageMediaMetadata::maxApertureValue() const
 {
     return d->maxApertureValue;
 }
 
-int DriveFile::ImageMediaMetadata::subjectDistance() const
+int File::ImageMediaMetadata::subjectDistance() const
 {
     return d->subjectDistance;
 }
 
-QString DriveFile::ImageMediaMetadata::lens() const
+QString File::ImageMediaMetadata::lens() const
 {
     return d->lens;
 }
@@ -445,7 +446,7 @@ QString DriveFile::ImageMediaMetadata::lens() const
 
 ////// DriveFile::Thumbnail
 
-class DriveFile::Thumbnail::Private
+class File::Thumbnail::Private
 {
   public:
     Private();
@@ -455,17 +456,17 @@ class DriveFile::Thumbnail::Private
     QString mimeType;
 };
 
-DriveFile::Thumbnail::Private::Private()
+File::Thumbnail::Private::Private()
 {
 }
 
-DriveFile::Thumbnail::Private::Private(const Private &other):
+File::Thumbnail::Private::Private(const Private &other):
     image(other.image),
     mimeType(other.mimeType)
 {
 }
 
-DriveFile::Thumbnail::Thumbnail(const QVariantMap &map):
+File::Thumbnail::Thumbnail(const QVariantMap &map):
     d(new Private)
 {
     const QByteArray ba = QByteArray::fromBase64(map[QLatin1String("image")].toByteArray());
@@ -473,29 +474,29 @@ DriveFile::Thumbnail::Thumbnail(const QVariantMap &map):
     d->mimeType = map[QLatin1String("mimeType")].toString();
 }
 
-DriveFile::Thumbnail::Thumbnail(const DriveFile::Thumbnail &other):
+File::Thumbnail::Thumbnail(const File::Thumbnail &other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveFile::Thumbnail::~Thumbnail()
+File::Thumbnail::~Thumbnail()
 {
     delete d;
 }
 
-QImage DriveFile::Thumbnail::image() const
+QImage File::Thumbnail::image() const
 {
     return d->image;
 }
 
-QString DriveFile::Thumbnail::mimeType() const
+QString File::Thumbnail::mimeType() const
 {
     return d->mimeType;
 }
 
 ////// DriveFile
 
-DriveFile::Private::Private():
+File::Private::Private():
     fileSize(-1),
     quotaBytesUsed(-1),
     editable(false),
@@ -505,7 +506,7 @@ DriveFile::Private::Private():
 {
 }
 
-DriveFile::Private::Private(const Private& other):
+File::Private::Private(const Private& other):
     id(other.id),
     selfLink(other.selfLink),
     title(other.title),
@@ -546,15 +547,15 @@ DriveFile::Private::Private(const Private& other):
 {
 }
 
-DriveFilePtr DriveFile::Private::fromJSON(const QVariantMap &map)
+FilePtr File::Private::fromJSON(const QVariantMap &map)
 {
     if (!map.contains(QLatin1String("kind")) ||
         map[QLatin1String("kind")].toString() != QLatin1String("drive#file"))
     {
-        return DriveFilePtr();
+        return FilePtr();
     }
 
-    DriveFilePtr file(new DriveFile());
+    FilePtr file(new File());
     file->setEtag(map[QLatin1String("etag")].toString());
     file->d->id = map[QLatin1String("id")].toString();
     file->d->selfLink = map[QLatin1String("selfLink")].toUrl();
@@ -563,7 +564,7 @@ DriveFilePtr DriveFile::Private::fromJSON(const QVariantMap &map)
     file->d->description = map[QLatin1String("description")].toString();
 
     const QVariantMap labelsData =  map[QLatin1String("lables")].toMap();
-    DriveFile::LabelsPtr labels(new DriveFile::Labels());
+    File::LabelsPtr labels(new File::Labels());
     labels->d->starred = labelsData[QLatin1String("starred")].toBool();
     labels->d->hidden = labelsData[QLatin1String("hidden")].toBool();
     labels->d->trashed = labelsData[QLatin1String("trashed")].toBool();
@@ -578,12 +579,12 @@ DriveFilePtr DriveFile::Private::fromJSON(const QVariantMap &map)
     file->d->downloadUrl = map[QLatin1String("downloadUrl")].toUrl();
 
     const QVariantMap indexableTextData = map[QLatin1String("indexableText")].toMap();
-    DriveFile::IndexableTextPtr indexableText(new DriveFile::IndexableText());
+    File::IndexableTextPtr indexableText(new File::IndexableText());
     indexableText->d->text = indexableTextData[QLatin1String("text")].toString();
     file->d->indexableText = indexableText;
 
     const QVariantMap userPermissionData = map[QLatin1String("userPermission")].toMap();
-    file->d->userPermission = DrivePermission::Private::fromJSON(userPermissionData);
+    file->d->userPermission = Permission::Private::fromJSON(userPermissionData);
 
     file->d->fileExtension = map[QLatin1String("fileExtension")].toString();
     file->d->md5Checksum = map[QLatin1String("md5Checksum")].toString();
@@ -595,11 +596,11 @@ DriveFilePtr DriveFile::Private::fromJSON(const QVariantMap &map)
     const QVariantList parents = map[QLatin1String("parents")].toList();
     Q_FOREACH (const QVariant &parent, parents)
     {
-        file->d->parents << DriveParentReference::Private::fromJSON(parent.toMap());
+        file->d->parents << ParentReference::Private::fromJSON(parent.toMap());
     }
 
     const QVariantMap exportLinksData = map[QLatin1String("exportLinks")].toMap();
-    const QVariantMap::ConstIterator iter = exportLinksData.constBegin();
+    QVariantMap::ConstIterator iter = exportLinksData.constBegin();
     for ( ; iter != exportLinksData.constEnd(); ++iter) {
         file->d->exportLinks.insert(iter.key(), iter.value().toUrl());
     }
@@ -617,10 +618,10 @@ DriveFilePtr DriveFile::Private::fromJSON(const QVariantMap &map)
 
     const QVariantMap imageMetaData = map[QLatin1String("imageMediaMetadata")].toMap();
     file->d->imageMediaMetadata =
-        DriveFile::ImageMediaMetadataPtr(new DriveFile::ImageMediaMetadata(imageMetaData));
+        File::ImageMediaMetadataPtr(new File::ImageMediaMetadata(imageMetaData));
 
     const QVariantMap thumbnailData = map[QLatin1String("thumbnail")].toMap();
-    DriveFile::ThumbnailPtr thumbnail(new DriveFile::Thumbnail(thumbnailData));
+    File::ThumbnailPtr thumbnail(new File::Thumbnail(thumbnailData));
     file->d->thumbnail = thumbnail;
 
     file->d->webViewLink = map[QLatin1String("webViewLink")].toUrl();
@@ -629,285 +630,285 @@ DriveFilePtr DriveFile::Private::fromJSON(const QVariantMap &map)
 
     const QVariantList ownersList = map[QLatin1String("owners")].toList();
     Q_FOREACH (const QVariant &owner, ownersList) {
-        file->d->owners << DriveUser::fromJSON(owner.toMap());
+        file->d->owners << User::fromJSON(owner.toMap());
     }
 
     const QVariantMap lastModifyingUser = map[QLatin1String("lastModifyingUser")].toMap();
-    file->d->lastModifyingUser = DriveUser::fromJSON(lastModifyingUser);
+    file->d->lastModifyingUser = User::fromJSON(lastModifyingUser);
 
     return file;
 }
 
-DriveFile::DriveFile():
+File::File():
     KGAPI2::Object(),
     d(new Private)
 {
 }
 
-DriveFile::DriveFile(const DriveFile& other):
+File::File(const File& other):
     KGAPI2::Object(other),
     d(new Private(*(other.d)))
 { }
 
-DriveFile::~DriveFile()
+File::~File()
 {
     delete d;
 }
 
-QString DriveFile::id() const
+QString File::id() const
 {
     return d->id;
 }
 
-QUrl DriveFile::selfLink() const
+QUrl File::selfLink() const
 {
     return d->selfLink;
 }
 
-QString DriveFile::title() const
+QString File::title() const
 {
     return d->title;
 }
 
-void DriveFile::setTitle(const QString& title)
+void File::setTitle(const QString& title)
 {
     d->title = title;
 }
 
-QString DriveFile::mimeType() const
+QString File::mimeType() const
 {
     return d->mimeType;
 }
 
-void DriveFile::setMimeType(const QString& mimeType)
+void File::setMimeType(const QString& mimeType)
 {
     d->mimeType = mimeType;
 }
 
-QString DriveFile::description() const
+QString File::description() const
 {
     return d->description;
 }
 
-void DriveFile::setDescription(const QString& description)
+void File::setDescription(const QString& description)
 {
     d->description = description;
 }
 
-DriveFile::LabelsPtr DriveFile::labels() const
+File::LabelsPtr File::labels() const
 {
     return d->labels;
 }
 
-void DriveFile::setLabels(const DriveFile::LabelsPtr &labels)
+void File::setLabels(const File::LabelsPtr &labels)
 {
     d->labels = labels;
 }
 
-KDateTime DriveFile::createdDate() const
+KDateTime File::createdDate() const
 {
     return d->createdDate;
 }
 
-KDateTime DriveFile::modifiedDate() const
+KDateTime File::modifiedDate() const
 {
     return d->modifiedDate;
 }
 
-void DriveFile::setModifiedDate(const KDateTime& modifiedDate)
+void File::setModifiedDate(const KDateTime& modifiedDate)
 {
     d->modifiedDate = modifiedDate;
 }
 
-KDateTime DriveFile::modifiedByMeDate() const
+KDateTime File::modifiedByMeDate() const
 {
     return d->modifiedByMeDate;
 }
 
-QUrl DriveFile::downloadUrl() const
+QUrl File::downloadUrl() const
 {
     return d->downloadUrl;
 }
 
-DriveFile::IndexableTextPtr& DriveFile::indexableText()
+File::IndexableTextPtr& File::indexableText()
 {
     return d->indexableText;
 }
 
-DrivePermissionPtr DriveFile::userPermission() const
+PermissionPtr File::userPermission() const
 {
     return d->userPermission;
 }
 
-QString DriveFile::fileExtension() const
+QString File::fileExtension() const
 {
     return d->fileExtension;
 }
 
-QString DriveFile::md5Checksum() const
+QString File::md5Checksum() const
 {
     return d->md5Checksum;
 }
 
-qlonglong DriveFile::fileSize() const
+qlonglong File::fileSize() const
 {
     return d->fileSize;
 }
 
-QUrl DriveFile::alternateLink() const
+QUrl File::alternateLink() const
 {
     return d->alternateLink;
 }
 
-QUrl DriveFile::embedLink() const
+QUrl File::embedLink() const
 {
     return d->embedLink;
 }
 
-KDateTime DriveFile::sharedWithMeDate() const
+KDateTime File::sharedWithMeDate() const
 {
     return d->sharedWithMeDate;
 }
 
-DriveParentReferencesList DriveFile::parents() const
+ParentReferencesList File::parents() const
 {
     return d->parents;
 }
 
-void DriveFile::setParents(const DriveParentReferencesList &parents)
+void File::setParents(const ParentReferencesList &parents)
 {
     d->parents = parents;
 }
 
-QMap< QString, QUrl > DriveFile::exportLinks() const
+QMap< QString, QUrl > File::exportLinks() const
 {
     return d->exportLinks;
 }
 
-QString DriveFile::originalFileName() const
+QString File::originalFileName() const
 {
     return d->originalFileName;
 }
 
-qlonglong DriveFile::quotaBytesUsed() const
+qlonglong File::quotaBytesUsed() const
 {
     return d->quotaBytesUsed;
 }
 
-QStringList DriveFile::ownerNames() const
+QStringList File::ownerNames() const
 {
     return d->ownerNames;
 }
 
-QString DriveFile::lastModifyingUserName() const
+QString File::lastModifyingUserName() const
 {
     return d->lastModifyingUserName;
 }
 
-bool DriveFile::editable() const
+bool File::editable() const
 {
     return d->editable;
 }
 
-bool DriveFile::writersCanShare() const
+bool File::writersCanShare() const
 {
     return d->writersCanShare;
 }
 
-QUrl DriveFile::thumbnailLink() const
+QUrl File::thumbnailLink() const
 {
     return d->thumbnailLink;
 }
 
-KDateTime DriveFile::lastViewedByMeDate() const
+KDateTime File::lastViewedByMeDate() const
 {
     return d->lastViewedByMeDate;
 }
 
-void DriveFile::setLastViewedByMeDate(const KDateTime& lastViewedByMeDate)
+void File::setLastViewedByMeDate(const KDateTime& lastViewedByMeDate)
 {
     d->lastViewedByMeDate = lastViewedByMeDate;
 }
 
-QUrl DriveFile::webContentLink() const
+QUrl File::webContentLink() const
 {
     return d->webContentLink;
 }
 
-bool DriveFile::explicitlyTrashed() const
+bool File::explicitlyTrashed() const
 {
     return d->explicitlyTrashed;
 }
 
-DriveFile::ImageMediaMetadataPtr DriveFile::imageMediaMetadata() const
+File::ImageMediaMetadataPtr File::imageMediaMetadata() const
 {
     return d->imageMediaMetadata;
 }
 
-DriveFile::ThumbnailPtr DriveFile::thumbnail() const
+File::ThumbnailPtr File::thumbnail() const
 {
     return d->thumbnail;
 }
 
-QUrl DriveFile::webViewLink() const
+QUrl File::webViewLink() const
 {
     return d->webViewLink;
 }
 
-QUrl DriveFile::iconLink() const
+QUrl File::iconLink() const
 {
     return d->iconLink;
 }
 
-bool DriveFile::shared() const
+bool File::shared() const
 {
     return d->shared;
 }
 
-DriveUsersList DriveFile::owners() const
+UsersList File::owners() const
 {
     return d->owners;
 }
 
-DriveUserPtr DriveFile::lastModifyingUser() const
+UserPtr File::lastModifyingUser() const
 {
     return d->lastModifyingUser;
 }
 
-DriveFilePtr DriveFile::fromJSON(const QByteArray &jsonData)
+FilePtr File::fromJSON(const QByteArray &jsonData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant data = parser.parse(jsonData, &ok);
 
     if (!ok) {
-        return DriveFilePtr();
+        return FilePtr();
     }
 
     return Private::fromJSON(data.toMap());
 }
 
-DriveFilesList DriveFile::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
+FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant data = parser.parse(jsonData, &ok);
 
     if (!ok) {
-        return DriveFilesList();
+        return FilesList();
     }
 
     const QVariantMap map = data.toMap();
     if (!map.contains(QLatin1String("kind")) ||
         map[QLatin1String("kind")].toString() != QLatin1String("drive#fileList"))
     {
-        return DriveFilesList();
+        return FilesList();
     }
 
-    DriveFilesList list;
+    FilesList list;
     const QVariantList items = map[QLatin1String("items")].toList();
     Q_FOREACH (const QVariant &item, items) {
-        const DriveFilePtr file = Private::fromJSON(item.toMap());
+        const FilePtr file = Private::fromJSON(item.toMap());
 
         if (!file.isNull()) {
             list << file;
@@ -921,7 +922,7 @@ DriveFilesList DriveFile::fromJSONFeed(const QByteArray &jsonData, FeedData &fee
     return list;
 }
 
-QByteArray DriveFile::toJSON(const DriveFilePtr &file)
+QByteArray File::toJSON(const FilePtr &file)
 {
     QVariantMap map;
 
@@ -945,8 +946,8 @@ QByteArray DriveFile::toJSON(const DriveFilePtr &file)
     map[QLatin1String("title")] = file->title();
 
     QVariantList parents;
-    Q_FOREACH (const DriveParentReferencePtr &parent, file->parents()) {
-        parents << DriveParentReference::Private::toJSON(parent);
+    Q_FOREACH (const ParentReferencePtr &parent, file->parents()) {
+        parents << ParentReference::Private::toJSON(parent);
     }
     map[QLatin1String("parents")] = parents;
 

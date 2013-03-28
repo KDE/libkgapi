@@ -23,8 +23,9 @@
 #include <qjson/serializer.h>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveChildReference::Private
+class ChildReference::Private
 {
   public:
     Private();
@@ -34,102 +35,101 @@ class DriveChildReference::Private
     QUrl selfLink;
     QUrl childLink;
 
-    static DriveChildReferencePtr fromJSON(const QVariantMap &map);
+    static ChildReferencePtr fromJSON(const QVariantMap &map);
 };
 
-DriveChildReference::Private::Private()
+ChildReference::Private::Private()
 {
 }
 
-DriveChildReference::Private::Private(const Private &other):
+ChildReference::Private::Private(const Private &other):
     id(other.id),
     selfLink(other.selfLink),
     childLink(other.childLink)
 {
 }
 
-DriveChildReferencePtr DriveChildReference::Private::fromJSON(const QVariantMap &map)
+ChildReferencePtr ChildReference::Private::fromJSON(const QVariantMap &map)
 {
     if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#childReference"))
-    {
-        return DriveChildReferencePtr();
+            map[QLatin1String("kind")].toString() != QLatin1String("drive#childReference")) {
+        return ChildReferencePtr();
     }
 
-    DriveChildReferencePtr reference(new DriveChildReference(map[QLatin1String("id")].toString()));
+    ChildReferencePtr reference(new ChildReference(map[QLatin1String("id")].toString()));
     reference->d->selfLink = map[QLatin1String("selfLink")].toUrl();
     reference->d->childLink = map[QLatin1String("childLink")].toUrl();
 
     return reference;
 }
 
-DriveChildReference::DriveChildReference(const QString &id):
+ChildReference::ChildReference(const QString &id):
     KGAPI2::Object(),
     d(new Private)
 {
     d->id = id;
 }
 
-DriveChildReference::DriveChildReference(const DriveChildReference &other):
+ChildReference::ChildReference(const ChildReference &other):
     KGAPI2::Object(other),
     d(new Private(*(other.d)))
 {
 }
 
-DriveChildReference::~DriveChildReference()
+ChildReference::~ChildReference()
 {
     delete d;
 }
 
-QString DriveChildReference::id() const
+QString ChildReference::id() const
 {
     return d->id;
 }
 
-QUrl DriveChildReference::selfLink() const
+QUrl ChildReference::selfLink() const
 {
     return d->selfLink;
 }
 
-QUrl DriveChildReference::childLink() const
+QUrl ChildReference::childLink() const
 {
     return d->childLink;
 }
 
-DriveChildReferencePtr DriveChildReference::fromJSON(const QByteArray &jsonData)
+ChildReferencePtr ChildReference::fromJSON(const QByteArray &jsonData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant data = parser.parse(jsonData, &ok);
 
     if (!ok) {
-        return DriveChildReferencePtr();
+        return ChildReferencePtr();
     }
 
     return Private::fromJSON(data.toMap());
 }
 
-DriveChildReferencesList DriveChildReference::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
+ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
+                                                 FeedData &feedData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant data = parser.parse(jsonData, &ok);
 
     if (!ok) {
-        return DriveChildReferencesList();
+        return ChildReferencesList();
     }
 
     const QVariantMap map = data.toMap();
     if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#childList"))
-    {
-        return DriveChildReferencesList();
+            map[QLatin1String("kind")].toString() != QLatin1String("drive#childList")) {
+        return ChildReferencesList();
     }
 
-    DriveChildReferencesList list;
+    ChildReferencesList list;
     const QVariantList items = map[QLatin1String("items")].toList();
-    Q_FOREACH (const QVariant &item, items) {
-        DriveChildReferencePtr reference = Private::fromJSON(item.toMap());
+    Q_FOREACH(const QVariant & item, items) {
+        ChildReferencePtr reference = Private::fromJSON(item.toMap());
 
         if (!reference.isNull()) {
             list << reference;
@@ -143,7 +143,7 @@ DriveChildReferencesList DriveChildReference::fromJSONFeed(const QByteArray &jso
     return list;
 }
 
-QByteArray DriveChildReference::toJSON(const DriveChildReferencePtr &reference)
+QByteArray ChildReference::toJSON(const ChildReferencePtr &reference)
 {
     QVariantMap map;
 

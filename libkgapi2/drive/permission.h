@@ -30,8 +30,11 @@
 namespace KGAPI2
 {
 
+namespace Drive
+{
+
 /**
- * @brief DrivePermission contains a permission for a file.
+ * @brief Permission contains a permission for a file.
  *
  * Getters and setters' documentation is based on Google Drive's API v2 reference
  * @see <a href="https://developers.google.com/drive/v2/reference/permissions">Permissions</a>
@@ -40,7 +43,7 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
+class LIBKGAPI2_EXPORT Permission: public KGAPI2::Object
 {
 
   public:
@@ -62,9 +65,9 @@ class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
         TypeAnyone = 3
     };
 
-    explicit DrivePermission();
-    explicit DrivePermission(const DrivePermission &other);
-    virtual ~DrivePermission();
+    explicit Permission();
+    explicit Permission(const Permission &other);
+    virtual ~Permission();
 
     /**
      * @brief Returns the id of the permission.
@@ -91,12 +94,12 @@ class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
     /**
      * @brief Returns the primary role for this user.
      */
-    DrivePermission::Role role() const;
+    Permission::Role role() const;
 
     /**
      * @brief Sets the primary role for this user.
      */
-    void setRole(DrivePermission::Role role);
+    void setRole(Permission::Role role);
 
     /**
      * @brief Returns additional roles for this user. Only commenter is currently allowed.
@@ -113,14 +116,14 @@ class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
     /**
      * @brief Returns the account type.
      */
-    DrivePermission::Type type() const;
+    Permission::Type type() const;
 
     /**
      * @brief Sets the account type.
      *
      * @param type
      */
-    void setType(DrivePermission::Type type);
+    void setType(Permission::Type type);
 
     /**
      * @brief Returns the authkey parameter required for this permission.
@@ -164,14 +167,16 @@ class LIBKGAPI2_EXPORT DrivePermission: public KGAPI2::Object
      */
     void setValue(const QString &value);
 
-    static DrivePermissionPtr fromJSON(const QByteArray &jsonData);
-    static DrivePermissionsList fromJSONFeed(const QByteArray &jsonData);
-    static QByteArray toJSON(const DrivePermissionPtr &permission);
+    static PermissionPtr fromJSON(const QByteArray &jsonData);
+    static PermissionsList fromJSONFeed(const QByteArray &jsonData);
+    static QByteArray toJSON(const PermissionPtr &permission);
 
   private:
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} /* namespace Drive */
 
 } /* namespace KGAPI2 */
 

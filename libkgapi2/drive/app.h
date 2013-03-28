@@ -30,7 +30,10 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveApp: public KGAPI2::Object
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT App: public KGAPI2::Object
 {
     class Private;
 
@@ -58,15 +61,15 @@ class LIBKGAPI2_EXPORT DriveApp: public KGAPI2::Object
         class Private;
         Private *const d;
         friend class Private;
-        friend class DriveApp::Private;
+        friend class App::Private;
     };
 
     typedef QSharedPointer<Icon> IconPtr;
     typedef QList<IconPtr> IconsList;
 
-    explicit DriveApp();
-    explicit DriveApp(const DriveApp &other);
-    virtual ~DriveApp();
+    explicit App();
+    explicit App(const App &other);
+    virtual ~App();
 
     QString id() const;
     QString name() const;
@@ -83,13 +86,15 @@ class LIBKGAPI2_EXPORT DriveApp: public KGAPI2::Object
     QStringList secondaryFileExtensions() const;
     IconsList icons() const;
 
-    static DriveAppsList fromJSONFeed(const QByteArray &jsonData);
-    static DriveAppPtr fromJSON(const QByteArray &jsonData);
+    static AppsList fromJSONFeed(const QByteArray &jsonData);
+    static AppPtr fromJSON(const QByteArray &jsonData);
 
   private:
     Private *const d;
     friend class Private;
 };
+
+} /* namespace Drive */
 
 } /* namespace KGAPI2 */
 

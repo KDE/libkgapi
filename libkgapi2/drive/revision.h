@@ -31,8 +31,11 @@
 namespace KGAPI2
 {
 
+namespace Drive
+{
+
 /**
- * @brief DriveRevision contains a revision of a file.
+ * @brief Revision contains a revision of a file.
  *
  * Getters and setters' documentation is based on Google Drive's API v2 reference
  * @see <a href="https://developers.google.com/drive/v2/reference/revisions">Revisions</a>
@@ -41,13 +44,13 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveRevision: public KGAPI2::Object
+class LIBKGAPI2_EXPORT Revision: public KGAPI2::Object
 {
 
   public:
-    explicit DriveRevision();
-    explicit DriveRevision(const DriveRevision &other);
-    virtual ~DriveRevision();
+    explicit Revision();
+    explicit Revision(const Revision &other);
+    virtual ~Revision();
 
     /**
      * @brief Returns the id of the revision.
@@ -156,7 +159,7 @@ class LIBKGAPI2_EXPORT DriveRevision: public KGAPI2::Object
      *
      * This is a map from the export format to URL.
      */
-    QMap<QString /* format */, QUrl /* url */> exportLinks() const;
+    QMap < QString /* format */, QUrl /* url */ > exportLinks() const;
 
     /**
      * @brief Returns the name of the last user to modify this revision.
@@ -166,7 +169,7 @@ class LIBKGAPI2_EXPORT DriveRevision: public KGAPI2::Object
     /**
      * @brief Returns object representing the last user to modify this revision
      */
-    DriveUserPtr lastModifyingUser() const;
+    UserPtr lastModifyingUser() const;
 
     /**
      * @brief Returns the original filename when this revision was created.
@@ -189,15 +192,17 @@ class LIBKGAPI2_EXPORT DriveRevision: public KGAPI2::Object
      */
     qlonglong fileSize() const;
 
-    static DriveRevisionPtr fromJSON(const QByteArray &jsonData);
-    static DriveRevisionsList fromJSONFeed(const QByteArray &jsonData);
-    static QByteArray toJSON(const DriveRevisionPtr &revision);
+    static RevisionPtr fromJSON(const QByteArray &jsonData);
+    static RevisionsList fromJSONFeed(const QByteArray &jsonData);
+    static QByteArray toJSON(const RevisionPtr &revision);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} /* namespace Drive */
 
 } /* namespace KGAPI2 */
 

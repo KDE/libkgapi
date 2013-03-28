@@ -23,45 +23,46 @@
 #include "driveservice.h"
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileTouchJob::Private
+class FileTouchJob::Private
 {
 };
 
-DriveFileTouchJob::DriveFileTouchJob(const QString &fileId,
-                                     const AccountPtr &account, QObject *parent):
-    DriveFileAbstractModifyJob(fileId, account, parent),
+FileTouchJob::FileTouchJob(const QString &fileId,
+                           const AccountPtr &account, QObject *parent):
+    FileAbstractModifyJob(fileId, account, parent),
     d(new Private)
 {
 }
 
-DriveFileTouchJob::DriveFileTouchJob(const QStringList &filesIds,
-                                     const AccountPtr &account, QObject *parent):
-    DriveFileAbstractModifyJob(filesIds, account, parent),
+FileTouchJob::FileTouchJob(const QStringList &filesIds,
+                           const AccountPtr &account, QObject *parent):
+    FileAbstractModifyJob(filesIds, account, parent),
     d(new Private)
 {
 }
 
-DriveFileTouchJob::DriveFileTouchJob(const DriveFilePtr &file,
-                                     const AccountPtr &account, QObject *parent):
-    DriveFileAbstractModifyJob(file, account, parent),
+FileTouchJob::FileTouchJob(const FilePtr &file,
+                           const AccountPtr &account, QObject *parent):
+    FileAbstractModifyJob(file, account, parent),
     d(new Private)
 {
 }
 
-DriveFileTouchJob::DriveFileTouchJob(const DriveFilesList &files,
-                                     const AccountPtr &account, QObject *parent):
-    DriveFileAbstractModifyJob(files, account, parent),
+FileTouchJob::FileTouchJob(const FilesList &files,
+                           const AccountPtr &account, QObject *parent):
+    FileAbstractModifyJob(files, account, parent),
     d(new Private)
 {
 }
 
-DriveFileTouchJob::~DriveFileTouchJob()
+FileTouchJob::~FileTouchJob()
 {
     delete d;
 }
 
-QUrl DriveFileTouchJob::url(const QString &fileId)
+QUrl FileTouchJob::url(const QString &fileId)
 {
     return DriveService::touchFileUrl(fileId);
 }

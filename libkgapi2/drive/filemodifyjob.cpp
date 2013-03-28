@@ -29,78 +29,79 @@
 #include <QtNetwork/QNetworkAccessManager>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileModifyJob::Private
+class FileModifyJob::Private
 {
   public:
     Private();
 
-    QMap<QString /* filepath */, QString /* fileId */ > files;
+    QMap < QString /* filepath */, QString /* fileId */ > files;
 
     bool createNewRevision;
     bool changeModifiedDate;
     bool updateViewedDate;
 };
 
-DriveFileModifyJob::Private::Private():
+FileModifyJob::Private::Private():
     createNewRevision(true),
     changeModifiedDate(false),
     updateViewedDate(true)
 {
 }
 
-DriveFileModifyJob::DriveFileModifyJob(const QString &filePath,
-                                       const QString &fileId,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    DriveFileAbstractUploadJob(filePath, account, parent),
+FileModifyJob::FileModifyJob(const QString &filePath,
+                             const QString &fileId,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(filePath, account, parent),
     d(new Private)
 {
     d->files.insert(filePath, fileId);
 }
 
-DriveFileModifyJob::DriveFileModifyJob(const QString &filePath,
-                                       const DriveFilePtr &metaData,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    DriveFileAbstractUploadJob(filePath, account, parent),
+FileModifyJob::FileModifyJob(const QString &filePath,
+                             const FilePtr &metaData,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(filePath, account, parent),
     d(new Private)
 {
     d->files.insert(filePath, metaData->id());
 }
 
-DriveFileModifyJob::DriveFileModifyJob(const QMap< QString, QString > &files,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    DriveFileAbstractUploadJob(files.keys(), account, parent),
+FileModifyJob::FileModifyJob(const QMap< QString, QString > &files,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(files.keys(), account, parent),
     d(new Private)
 {
     d->files = files;
 }
 
-DriveFileModifyJob::DriveFileModifyJob(const QMap< QString, DriveFilePtr > &files,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    DriveFileAbstractUploadJob(files, account, parent),
+FileModifyJob::FileModifyJob(const QMap< QString, FilePtr > &files,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(files, account, parent),
     d(new Private)
 {
-    QMap<QString,DriveFilePtr>::ConstIterator iter = files.constBegin();
-    for ( ; iter != files.constEnd(); ++iter) {
+    QMap<QString, FilePtr>::ConstIterator iter = files.constBegin();
+    for (; iter != files.constEnd(); ++iter) {
         d->files.insert(iter.key(), iter.value()->id());
     }
 }
 
-DriveFileModifyJob::~DriveFileModifyJob()
+FileModifyJob::~FileModifyJob()
 {
     delete d;
 }
 
-bool DriveFileModifyJob::createNewRevision() const
+bool FileModifyJob::createNewRevision() const
 {
     return d->createNewRevision;
 }
 
-void DriveFileModifyJob::setCreateNewRevision(bool createNewRevision)
+void FileModifyJob::setCreateNewRevision(bool createNewRevision)
 {
     if (isRunning()) {
         kWarning() << "Can't modify createNewRevision property when the job is running";
@@ -110,12 +111,12 @@ void DriveFileModifyJob::setCreateNewRevision(bool createNewRevision)
     d->createNewRevision = createNewRevision;
 }
 
-bool DriveFileModifyJob::updateModifiedDate() const
+bool FileModifyJob::updateModifiedDate() const
 {
     return d->updateViewedDate;
 }
 
-void DriveFileModifyJob::setUpdateModifiedDate(bool updateModifiedDate)
+void FileModifyJob::setUpdateModifiedDate(bool updateModifiedDate)
 {
     if (isRunning()) {
         kWarning() << "Can't modify updateModifiedDate property when the job is running";
@@ -125,12 +126,12 @@ void DriveFileModifyJob::setUpdateModifiedDate(bool updateModifiedDate)
     d->updateViewedDate = updateModifiedDate;
 }
 
-bool DriveFileModifyJob::updateViewedDate() const
+bool FileModifyJob::updateViewedDate() const
 {
     return d->updateViewedDate;
 }
 
-void DriveFileModifyJob::setUpdateViewedDate(bool updateViewedDate)
+void FileModifyJob::setUpdateViewedDate(bool updateViewedDate)
 {
     if (isRunning()) {
         kWarning() << "Can't modify updateViewedDate property when job is running";
@@ -140,8 +141,8 @@ void DriveFileModifyJob::setUpdateViewedDate(bool updateViewedDate)
     d->updateViewedDate = updateViewedDate;
 }
 
-QUrl DriveFileModifyJob::createUrl(const QString &filePath,
-                                   const DriveFilePtr &metaData)
+QUrl FileModifyJob::createUrl(const QString &filePath,
+                              const FilePtr &metaData)
 {
     QUrl url;
 
@@ -158,9 +159,9 @@ QUrl DriveFileModifyJob::createUrl(const QString &filePath,
     return url;
 }
 
-QNetworkReply* DriveFileModifyJob::dispatch(QNetworkAccessManager *accessManager,
-                                            const QNetworkRequest &request,
-                                            const QByteArray &data)
+QNetworkReply *FileModifyJob::dispatch(QNetworkAccessManager *accessManager,
+                                       const QNetworkRequest &request,
+                                       const QByteArray &data)
 {
     return accessManager->put(request, data);
 }

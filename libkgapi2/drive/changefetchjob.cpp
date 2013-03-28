@@ -32,11 +32,12 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveChangeFetchJob::Private
+class ChangeFetchJob::Private
 {
   public:
-    Private(DriveChangeFetchJob *parent);
+    Private(ChangeFetchJob *parent);
     QNetworkRequest createRequest(const QUrl &url);
 
     QString changeId;
@@ -47,10 +48,10 @@ class DriveChangeFetchJob::Private
     qlonglong startChangeId;
 
   private:
-    DriveChangeFetchJob *q;
+    ChangeFetchJob *q;
 };
 
-DriveChangeFetchJob::Private::Private(DriveChangeFetchJob *parent):
+ChangeFetchJob::Private::Private(ChangeFetchJob *parent):
     includeDeleted(true),
     includeSubscribed(true),
     maxResults(0),
@@ -59,7 +60,7 @@ DriveChangeFetchJob::Private::Private(DriveChangeFetchJob *parent):
 {
 }
 
-QNetworkRequest DriveChangeFetchJob::Private::createRequest(const QUrl &url)
+QNetworkRequest ChangeFetchJob::Private::createRequest(const QUrl &url)
 {
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -69,27 +70,27 @@ QNetworkRequest DriveChangeFetchJob::Private::createRequest(const QUrl &url)
 }
 
 
-DriveChangeFetchJob::DriveChangeFetchJob(const QString &changeId,
-                                         const AccountPtr &account,
-                                         QObject *parent):
+ChangeFetchJob::ChangeFetchJob(const QString &changeId,
+                               const AccountPtr &account,
+                               QObject *parent):
     FetchJob(account, parent),
     d(new Private(this))
 {
     d->changeId = changeId;
 }
 
-DriveChangeFetchJob::DriveChangeFetchJob(const AccountPtr &account, QObject *parent):
+ChangeFetchJob::ChangeFetchJob(const AccountPtr &account, QObject *parent):
     FetchJob(account, parent),
     d(new Private(this))
 {
 }
 
-DriveChangeFetchJob::~DriveChangeFetchJob()
+ChangeFetchJob::~ChangeFetchJob()
 {
     delete d;
 }
 
-void DriveChangeFetchJob::setIncludeDeleted(bool includeDeleted)
+void ChangeFetchJob::setIncludeDeleted(bool includeDeleted)
 {
     if (isRunning()) {
         kWarning() << "Can't modify includeDeleted property when job is running";
@@ -99,12 +100,12 @@ void DriveChangeFetchJob::setIncludeDeleted(bool includeDeleted)
     d->includeDeleted = includeDeleted;
 }
 
-bool DriveChangeFetchJob::includeDeleted() const
+bool ChangeFetchJob::includeDeleted() const
 {
     return d->includeDeleted;
 }
 
-void DriveChangeFetchJob::setIncludeSubscribed(bool includeSubscribed)
+void ChangeFetchJob::setIncludeSubscribed(bool includeSubscribed)
 {
     if (isRunning()) {
         kWarning() << "Can't modify includeSubscribed property when job is running";
@@ -114,12 +115,12 @@ void DriveChangeFetchJob::setIncludeSubscribed(bool includeSubscribed)
     d->includeSubscribed = includeSubscribed;
 }
 
-bool DriveChangeFetchJob::includeSubscribed() const
+bool ChangeFetchJob::includeSubscribed() const
 {
     return d->includeSubscribed;
 }
 
-void DriveChangeFetchJob::setMaxResults(int maxResults)
+void ChangeFetchJob::setMaxResults(int maxResults)
 {
     if (isRunning()) {
         kWarning() << "Can't modify maxResults property when job is running";
@@ -129,12 +130,12 @@ void DriveChangeFetchJob::setMaxResults(int maxResults)
     d->maxResults = maxResults;
 }
 
-int DriveChangeFetchJob::maxResults() const
+int ChangeFetchJob::maxResults() const
 {
     return d->maxResults;
 }
 
-void DriveChangeFetchJob::setStartChangeId(qlonglong startChangeId)
+void ChangeFetchJob::setStartChangeId(qlonglong startChangeId)
 {
     if (isRunning()) {
         kWarning() << "Can't modify startChangeId property when job is running";
@@ -143,12 +144,12 @@ void DriveChangeFetchJob::setStartChangeId(qlonglong startChangeId)
     d->startChangeId = startChangeId;
 }
 
-qlonglong DriveChangeFetchJob::startChangeId() const
+qlonglong ChangeFetchJob::startChangeId() const
 {
     return d->startChangeId;
 }
 
-void DriveChangeFetchJob::start()
+void ChangeFetchJob::start()
 {
     QUrl url;
     if (d->changeId.isEmpty()) {
@@ -170,8 +171,8 @@ void DriveChangeFetchJob::start()
 }
 
 
-ObjectsList DriveChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                      const QByteArray &rawData)
+ObjectsList ChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply,
+        const QByteArray &rawData)
 {
     FeedData feedData;
     feedData.requestUrl = reply->request().url();
@@ -183,9 +184,9 @@ ObjectsList DriveChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->changeId.isEmpty()) {
-            items << DriveChange::fromJSONFeed(rawData, feedData);
+            items << Change::fromJSONFeed(rawData, feedData);
         } else {
-            items << DriveChange::fromJSON(rawData);
+            items << Change::fromJSON(rawData);
         }
     } else {
         setError(KGAPI2::InvalidResponse);

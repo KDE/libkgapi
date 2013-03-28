@@ -30,26 +30,29 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileCopyJob : public KGAPI2::DriveFileAbstractDataJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileCopyJob : public KGAPI2::Drive::FileAbstractDataJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveFileCopyJob(const QString &sourceFileId,
-                              const DriveFilePtr &destinationFile,
-                              const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileCopyJob(const DriveFilePtr &sourceFile,
-                              const DriveFilePtr &destinationFile,
-                              const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileCopyJob(const QMap< QString /* source file id */,
-                                          DriveFilePtr /* destination file */ > &files,
-                              const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileCopyJob(const QMap< DriveFilePtr /* source file */,
-                                          DriveFilePtr /* destination file */ > &files,
-                              const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileCopyJob();
+    explicit FileCopyJob(const QString &sourceFileId,
+                         const FilePtr &destinationFile,
+                         const AccountPtr &account, QObject *parent = 0);
+    explicit FileCopyJob(const FilePtr &sourceFile,
+                         const FilePtr &destinationFile,
+                         const AccountPtr &account, QObject *parent = 0);
+    explicit FileCopyJob(const QMap < QString /* source file id */,
+                         FilePtr /* destination file */ > &files,
+                         const AccountPtr &account, QObject *parent = 0);
+    explicit FileCopyJob(const QMap < FilePtr /* source file */,
+                         FilePtr /* destination file */ > &files,
+                         const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileCopyJob();
 
-    DriveFilesList files() const;
+    FilesList files() const;
 
   protected:
     virtual void handleReply(const QNetworkReply *reply,
@@ -63,10 +66,12 @@ class LIBKGAPI2_EXPORT DriveFileCopyJob : public KGAPI2::DriveFileAbstractDataJo
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

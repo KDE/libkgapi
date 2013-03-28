@@ -28,29 +28,34 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveRevisionModifyJob : public KGAPI2::ModifyJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT RevisionModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveRevisionModifyJob(const QString &fileId,
-                                    const DriveRevisionPtr &revision,
-                                    const AccountPtr &account, QObject *parent = 0);
-    explicit DriveRevisionModifyJob(const QString &fileId,
-                                    const DriveRevisionsList &revisions,
-                                    const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveRevisionModifyJob();
+    explicit RevisionModifyJob(const QString &fileId,
+                               const RevisionPtr &revision,
+                               const AccountPtr &account, QObject *parent = 0);
+    explicit RevisionModifyJob(const QString &fileId,
+                               const RevisionsList &revisions,
+                               const AccountPtr &account, QObject *parent = 0);
+    virtual ~RevisionModifyJob();
 
   protected:
     virtual void start();
     virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData);
+            const QByteArray &rawData);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

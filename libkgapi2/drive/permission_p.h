@@ -23,7 +23,10 @@
 namespace KGAPI2
 {
 
-class DrivePermission::Private
+namespace Drive
+{
+
+class Permission::Private
 {
   public:
     Private();
@@ -42,10 +45,12 @@ class DrivePermission::Private
 
     static Role roleFromName(const QString &roleName);
     static Type typeFromName(const QString &typeName);
-    static QString roleToName(DrivePermission::Role role);
-    static QString typeToName(DrivePermission::Type type);
-    static DrivePermissionPtr fromJSON(const QVariantMap &map);
+    static QString roleToName(Permission::Role role);
+    static QString typeToName(Permission::Type type);
+    static PermissionPtr fromJSON(const QVariantMap &map);
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

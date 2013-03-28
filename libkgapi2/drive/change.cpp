@@ -23,8 +23,9 @@
 #include <qjson/parser.h>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveChange::Private
+class Change::Private
 {
   public:
     Private();
@@ -34,18 +35,18 @@ class DriveChange::Private
     QString fileId;
     QUrl selfLink;
     bool deleted;
-    DriveFilePtr file;
+    FilePtr file;
 
-    static DriveChangePtr fromJSON(const  QVariantMap &map);
+    static ChangePtr fromJSON(const  QVariantMap &map);
 };
 
-DriveChange::Private::Private():
+Change::Private::Private():
     id(-1),
     deleted(false)
 {
 }
 
-DriveChange::Private::Private(const Private &other):
+Change::Private::Private(const Private &other):
     id(other.id),
     fileId(other.fileId),
     selfLink(other.selfLink),
@@ -54,104 +55,102 @@ DriveChange::Private::Private(const Private &other):
 {
 }
 
-DriveChangePtr DriveChange::Private::fromJSON(const QVariantMap &map)
+ChangePtr Change::Private::fromJSON(const QVariantMap &map)
 {
     if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#change"))
-    {
-        return DriveChangePtr();
+            map[QLatin1String("kind")].toString() != QLatin1String("drive#change")) {
+        return ChangePtr();
     }
 
-    DriveChangePtr change(new DriveChange);
+    ChangePtr change(new Change);
     change->d->id = map[QLatin1String("id")].toLongLong();
     change->d->fileId = map[QLatin1String("fileId")].toString();
     change->d->selfLink = map[QLatin1String("selfLink")].toUrl();
     change->d->deleted = map[QLatin1String("deleted")].toBool();
-    change->d->file = DriveFile::Private::fromJSON(map[QLatin1String("file")].toMap());
+    change->d->file = File::Private::fromJSON(map[QLatin1String("file")].toMap());
 
     return change;
 }
 
-DriveChange::DriveChange():
+Change::Change():
     KGAPI2::Object(),
     d(new Private)
 {
 }
 
-DriveChange::DriveChange(const DriveChange &other):
+Change::Change(const Change &other):
     KGAPI2::Object(other),
     d(new Private(*(other.d)))
 {
 }
 
-DriveChange::~DriveChange()
+Change::~Change()
 {
     delete d;
 }
 
-qlonglong DriveChange::id() const
+qlonglong Change::id() const
 {
     return d->id;
 }
 
-QString DriveChange::fileId() const
+QString Change::fileId() const
 {
     return d->fileId;
 }
 
-QUrl DriveChange::selfLink() const
+QUrl Change::selfLink() const
 {
     return d->selfLink;
 }
 
-bool DriveChange::deleted() const
+bool Change::deleted() const
 {
     return d->deleted;
 }
 
-DriveFilePtr DriveChange::file() const
+FilePtr Change::file() const
 {
     return d->file;
 }
 
-DriveChangePtr DriveChange::fromJSON(const QByteArray &jsonData)
+ChangePtr Change::fromJSON(const QByteArray &jsonData)
 {
     QJson::Parser parser;
     bool ok;
 
     const QVariant data = parser.parse(jsonData, &ok);
     if (!ok) {
-        return DriveChangePtr();
+        return ChangePtr();
     }
 
     return Private::fromJSON(data.toMap());
 }
 
-DriveChangesList DriveChange::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
+ChangesList Change::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 {
     QJson::Parser parser;
     bool ok;
 
     const QVariant data = parser.parse(jsonData, &ok);
     if (!ok) {
-        return DriveChangesList();
+        return ChangesList();
     }
 
     const QVariantMap map = data.toMap();
     if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#changeList"))
-    {
-        return DriveChangesList();
+            map[QLatin1String("kind")].toString() != QLatin1String("drive#changeList")) {
+        return ChangesList();
     }
 
     if (map.contains(QLatin1String("nextLink"))) {
         feedData.nextPageUrl = map[QLatin1String("nextLink")].toUrl();
     }
 
-    DriveChangesList list;
+    ChangesList list;
     const QVariantList items = map[QLatin1String("items")].toList();
-    Q_FOREACH (const QVariant &item, items) {
-        const DriveChangePtr change = Private::fromJSON(item.toMap());
+    Q_FOREACH(const QVariant & item, items) {
+        const ChangePtr change = Private::fromJSON(item.toMap());
 
         if (!change.isNull()) {
             list << change;

@@ -28,29 +28,34 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileTouchJob : public KGAPI2::DriveFileAbstractModifyJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileTouchJob : public KGAPI2::Drive::FileAbstractModifyJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveFileTouchJob(const QString &fileId, const AccountPtr &account,
-                               QObject *parent = 0);
-    explicit DriveFileTouchJob(const QStringList &filesIds,
-                               const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileTouchJob(const DriveFilePtr &file,
-                               const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileTouchJob(const DriveFilesList &files,
-                               const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileTouchJob();
+    explicit FileTouchJob(const QString &fileId, const AccountPtr &account,
+                          QObject *parent = 0);
+    explicit FileTouchJob(const QStringList &filesIds,
+                          const AccountPtr &account, QObject *parent = 0);
+    explicit FileTouchJob(const FilePtr &file,
+                          const AccountPtr &account, QObject *parent = 0);
+    explicit FileTouchJob(const FilesList &files,
+                          const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileTouchJob();
 
   protected:
     virtual QUrl url(const QString &fileId);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

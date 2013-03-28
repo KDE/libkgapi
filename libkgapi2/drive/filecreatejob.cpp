@@ -29,59 +29,60 @@
 #include <QtNetwork/QNetworkAccessManager>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileCreateJob::Private
+class FileCreateJob::Private
 {
 
 };
 
-DriveFileCreateJob::DriveFileCreateJob(const QString &filePath,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    DriveFileAbstractUploadJob(filePath, account, parent),
+FileCreateJob::FileCreateJob(const QString &filePath,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(filePath, account, parent),
     d(new Private)
 {
 }
 
-DriveFileCreateJob::DriveFileCreateJob(const QString &filePath,
-                                       const DriveFilePtr &metaData,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    DriveFileAbstractUploadJob(filePath, metaData, account, parent),
+FileCreateJob::FileCreateJob(const QString &filePath,
+                             const FilePtr &metaData,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(filePath, metaData, account, parent),
     d(new Private)
 {
 }
 
-DriveFileCreateJob::DriveFileCreateJob(const QStringList &filePaths,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    DriveFileAbstractUploadJob(filePaths, account, parent),
+FileCreateJob::FileCreateJob(const QStringList &filePaths,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(filePaths, account, parent),
     d(new Private)
 {
 }
 
-DriveFileCreateJob::DriveFileCreateJob(const QMap< QString, DriveFilePtr > &files,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    DriveFileAbstractUploadJob(files, account, parent),
+FileCreateJob::FileCreateJob(const QMap< QString, FilePtr > &files,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(files, account, parent),
     d(new Private)
 {
 }
 
-DriveFileCreateJob::~DriveFileCreateJob()
+FileCreateJob::~FileCreateJob()
 {
     delete d;
 }
 
-QNetworkReply* DriveFileCreateJob::dispatch(QNetworkAccessManager *accessManager,
-                                            const QNetworkRequest &request,
-                                            const QByteArray &data)
+QNetworkReply *FileCreateJob::dispatch(QNetworkAccessManager *accessManager,
+                                       const QNetworkRequest &request,
+                                       const QByteArray &data)
 {
     return accessManager->post(request, data);
 }
 
-QUrl DriveFileCreateJob::createUrl(const QString &filePath,
-                                   const DriveFilePtr &metaData)
+QUrl FileCreateJob::createUrl(const QString &filePath,
+                              const FilePtr &metaData)
 {
     Q_UNUSED(filePath)
 

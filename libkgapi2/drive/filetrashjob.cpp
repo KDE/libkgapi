@@ -24,45 +24,46 @@
 #include "driveservice.h"
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileTrashJob::Private
+class FileTrashJob::Private
 {
 };
 
-DriveFileTrashJob::DriveFileTrashJob(const QString &fileId,
-                                     const AccountPtr &account, QObject *parent):
-    DriveFileAbstractModifyJob(fileId, account, parent),
+FileTrashJob::FileTrashJob(const QString &fileId,
+                           const AccountPtr &account, QObject *parent):
+    FileAbstractModifyJob(fileId, account, parent),
     d(new Private)
 {
 }
 
-DriveFileTrashJob::DriveFileTrashJob(const QStringList &filesIds,
-                                     const AccountPtr &account, QObject *parent):
-    DriveFileAbstractModifyJob(filesIds, account, parent),
+FileTrashJob::FileTrashJob(const QStringList &filesIds,
+                           const AccountPtr &account, QObject *parent):
+    FileAbstractModifyJob(filesIds, account, parent),
     d(new Private)
 {
 }
 
-DriveFileTrashJob::DriveFileTrashJob(const DriveFilePtr &file,
-                                     const AccountPtr &account, QObject *parent):
-    DriveFileAbstractModifyJob(file, account, parent),
+FileTrashJob::FileTrashJob(const FilePtr &file,
+                           const AccountPtr &account, QObject *parent):
+    FileAbstractModifyJob(file, account, parent),
     d(new Private)
 {
 }
 
-DriveFileTrashJob::DriveFileTrashJob(const DriveFilesList &files,
-                                     const AccountPtr &account, QObject *parent):
-    DriveFileAbstractModifyJob(files, account, parent),
+FileTrashJob::FileTrashJob(const FilesList &files,
+                           const AccountPtr &account, QObject *parent):
+    FileAbstractModifyJob(files, account, parent),
     d(new Private)
 {
 }
 
-DriveFileTrashJob::~DriveFileTrashJob()
+FileTrashJob::~FileTrashJob()
 {
     delete d;
 }
 
-QUrl DriveFileTrashJob::url(const QString &fileId)
+QUrl FileTrashJob::url(const QString &fileId)
 {
     return DriveService::trashFileUrl(fileId);
 }

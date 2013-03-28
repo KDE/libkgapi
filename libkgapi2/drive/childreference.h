@@ -28,8 +28,11 @@
 namespace KGAPI2
 {
 
+namespace Drive
+{
+
 /**
- * @brief DriveChildReference contains a reference to a folder's child.
+ * @brief ChildReference contains a reference to a folder's child.
  *
  * Getters and setters' documentation is based on Google Drive's API v2 reference
  * @see <a href="https://developers.google.com/drive/v2/reference/children">Children</a>
@@ -38,13 +41,13 @@ namespace KGAPI2
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT DriveChildReference: public KGAPI2::Object
+class LIBKGAPI2_EXPORT ChildReference: public KGAPI2::Object
 {
 
   public:
-    explicit DriveChildReference(const QString &id);
-    explicit DriveChildReference(const DriveChildReference &other);
-    virtual ~DriveChildReference();
+    explicit ChildReference(const QString &id);
+    explicit ChildReference(const ChildReference &other);
+    virtual ~ChildReference();
 
     /**
      * @brief Returns the id of the child.
@@ -61,15 +64,18 @@ class LIBKGAPI2_EXPORT DriveChildReference: public KGAPI2::Object
      */
     QUrl childLink() const;
 
-    static DriveChildReferencePtr fromJSON(const QByteArray &jsonData);
-    static DriveChildReferencesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
-    static QByteArray toJSON(const DriveChildReferencePtr &reference);
+    static ChildReferencePtr fromJSON(const QByteArray &jsonData);
+    static ChildReferencesList fromJSONFeed(const QByteArray &jsonData,
+                                            FeedData &feedData);
+    static QByteArray toJSON(const ChildReferencePtr &reference);
 
   private:
     class Private;
     Private * const d;
     friend class Private;
 };
+
+} /* namespace Drive */
 
 } /* namespace KGAPI2 */
 

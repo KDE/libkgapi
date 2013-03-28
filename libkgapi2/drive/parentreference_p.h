@@ -29,7 +29,10 @@
 namespace KGAPI2
 {
 
-class DriveParentReference::Private
+namespace Drive
+{
+
+class ParentReference::Private
 {
   public:
     Private();
@@ -40,10 +43,12 @@ class DriveParentReference::Private
     QUrl parentLink;
     bool isRoot;
 
-    static DriveParentReferencePtr fromJSON(const QVariantMap &map);
-    static QVariantMap toJSON(const DriveParentReferencePtr &reference);
+    static ParentReferencePtr fromJSON(const QVariantMap &map);
+    static QVariantMap toJSON(const ParentReferencePtr &reference);
 };
 
-}
+} // namespace Drive
+
+} // namespace KGAPI2
 
 #endif // LIBKGAPI2_DRIVEPARENTREFERENCE_P_H

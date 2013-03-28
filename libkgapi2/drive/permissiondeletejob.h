@@ -31,29 +31,38 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DrivePermissionDeleteJob :  KGAPI2::DeleteJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT PermissionDeleteJob :  KGAPI2::DeleteJob
 {
     Q_OBJECT
 
   public:
-    explicit DrivePermissionDeleteJob(const QString &fileId, const DrivePermissionPtr &permission,
-                                      const AccountPtr &account, QObject *parent = 0);
-    explicit DrivePermissionDeleteJob(const QString &fileId, const QString &permissionId,
-                                      const AccountPtr &account, QObject *parent = 0);
-    explicit DrivePermissionDeleteJob(const QString &fileId, const DrivePermissionsList &permissions,
-                                      const AccountPtr &account, QObject *parent = 0);
-    explicit DrivePermissionDeleteJob(const QString &fileId, const QStringList &permissionsIds,
-                                      const AccountPtr &account, QObject *parent = 0);
-    virtual ~DrivePermissionDeleteJob();
+    explicit PermissionDeleteJob(const QString &fileId,
+                                 const PermissionPtr &permission,
+                                 const AccountPtr &account, QObject *parent = 0);
+    explicit PermissionDeleteJob(const QString &fileId,
+                                 const QString &permissionId,
+                                 const AccountPtr &account, QObject *parent = 0);
+    explicit PermissionDeleteJob(const QString &fileId,
+                                 const PermissionsList &permissions,
+                                 const AccountPtr &account, QObject *parent = 0);
+    explicit PermissionDeleteJob(const QString &fileId,
+                                 const QStringList &permissionsIds,
+                                 const AccountPtr &account, QObject *parent = 0);
+    virtual ~PermissionDeleteJob();
 
   protected:
     virtual void start();
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

@@ -29,18 +29,19 @@
 #include <QtNetwork/QNetworkRequest>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveParentReferenceDeleteJob::Private
+class ParentReferenceDeleteJob::Private
 {
   public:
     QString fileId;
     QStringList referencesIds;
 };
 
-DriveParentReferenceDeleteJob::DriveParentReferenceDeleteJob(const QString &fileId,
-                                                             const QString &referenceId,
-                                                             const AccountPtr &account,
-                                                             QObject *parent): 
+ParentReferenceDeleteJob::ParentReferenceDeleteJob(const QString &fileId,
+                                                   const QString &referenceId,
+                                                   const AccountPtr &account,
+                                                   QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -48,10 +49,10 @@ DriveParentReferenceDeleteJob::DriveParentReferenceDeleteJob(const QString &file
     d->referencesIds << referenceId;
 }
 
-DriveParentReferenceDeleteJob::DriveParentReferenceDeleteJob(const QString &fileId,
-                                                             const QStringList &referencesIds,
-                                                             const AccountPtr &account,
-                                                             QObject *parent):
+ParentReferenceDeleteJob::ParentReferenceDeleteJob(const QString &fileId,
+                                                   const QStringList &referencesIds,
+                                                   const AccountPtr &account,
+                                                   QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -59,10 +60,10 @@ DriveParentReferenceDeleteJob::DriveParentReferenceDeleteJob(const QString &file
     d->referencesIds << referencesIds;
 }
 
-DriveParentReferenceDeleteJob::DriveParentReferenceDeleteJob(const QString &fileId,
-                                                             const DriveParentReferencePtr &reference,
-                                                             const AccountPtr &account,
-                                                             QObject *parent): 
+ParentReferenceDeleteJob::ParentReferenceDeleteJob(const QString &fileId,
+                                                   const ParentReferencePtr &reference,
+                                                   const AccountPtr &account,
+                                                   QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -70,25 +71,25 @@ DriveParentReferenceDeleteJob::DriveParentReferenceDeleteJob(const QString &file
     d->referencesIds << reference->id();
 }
 
-DriveParentReferenceDeleteJob::DriveParentReferenceDeleteJob(const QString &fileId,
-                                                             const DriveParentReferencesList &references,
-                                                             const AccountPtr &account,
-                                                             QObject *parent):
+ParentReferenceDeleteJob::ParentReferenceDeleteJob(const QString &fileId,
+                                                   const ParentReferencesList &references,
+                                                   const AccountPtr &account,
+                                                   QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
     d->fileId = fileId;
-    Q_FOREACH (const DriveParentReferencePtr &reference, references) {
+    Q_FOREACH(const ParentReferencePtr & reference, references) {
         d->referencesIds << reference->id();
     }
 }
 
-DriveParentReferenceDeleteJob::~DriveParentReferenceDeleteJob()
+ParentReferenceDeleteJob::~ParentReferenceDeleteJob()
 {
     delete d;
 }
 
-void DriveParentReferenceDeleteJob::start()
+void ParentReferenceDeleteJob::start()
 {
     if (d->referencesIds.isEmpty()) {
         emitFinished();

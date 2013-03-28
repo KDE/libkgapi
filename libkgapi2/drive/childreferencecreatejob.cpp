@@ -31,71 +31,72 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveChildReferenceCreateJob::Private
+class ChildReferenceCreateJob::Private
 {
   public:
-    Private(DriveChildReferenceCreateJob *parent);
+    Private(ChildReferenceCreateJob *parent);
     void processNext();
 
     QString folderId;
-    DriveChildReferencesList references;
+    ChildReferencesList references;
 
   private:
-    DriveChildReferenceCreateJob *q;
+    ChildReferenceCreateJob *q;
 };
 
-DriveChildReferenceCreateJob::Private::Private(DriveChildReferenceCreateJob *parent):
+ChildReferenceCreateJob::Private::Private(ChildReferenceCreateJob *parent):
     q(parent)
 {
 }
 
-void DriveChildReferenceCreateJob::Private::processNext()
+void ChildReferenceCreateJob::Private::processNext()
 {
     if (references.isEmpty()) {
         q->emitFinished();
         return;
     }
 
-    const DriveChildReferencePtr reference = references.takeFirst();
+    const ChildReferencePtr reference = references.takeFirst();
     const QUrl url = DriveService::createChildReference(folderId);
 
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
     request.setUrl(url);
 
-    const QByteArray rawData = DriveChildReference::toJSON(reference);
+    const QByteArray rawData = ChildReference::toJSON(reference);
     q->enqueueRequest(request, rawData, QLatin1String("application/json"));
 }
 
-DriveChildReferenceCreateJob::DriveChildReferenceCreateJob(const QString &folderId,
-                                                           const QString &childId,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
+ChildReferenceCreateJob::ChildReferenceCreateJob(const QString &folderId,
+                                                 const QString &childId,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
     d->folderId = folderId;
-    d->references << DriveChildReferencePtr(new DriveChildReference(childId));
+    d->references << ChildReferencePtr(new ChildReference(childId));
 }
 
-DriveChildReferenceCreateJob::DriveChildReferenceCreateJob(const QString &folderId,
-                                                           const QStringList &childrenIds,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
+ChildReferenceCreateJob::ChildReferenceCreateJob(const QString &folderId,
+                                                 const QStringList &childrenIds,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
     d->folderId = folderId;
-    Q_FOREACH (const QString &childId, childrenIds) {
-        d->references << DriveChildReferencePtr(new DriveChildReference(childId));
+    Q_FOREACH(const QString & childId, childrenIds) {
+        d->references << ChildReferencePtr(new ChildReference(childId));
     }
 }
 
-DriveChildReferenceCreateJob::DriveChildReferenceCreateJob(const QString &folderId,
-                                                           const DriveChildReferencePtr &reference,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
+ChildReferenceCreateJob::ChildReferenceCreateJob(const QString &folderId,
+                                                 const ChildReferencePtr &reference,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
@@ -103,10 +104,10 @@ DriveChildReferenceCreateJob::DriveChildReferenceCreateJob(const QString &folder
     d->references << reference;
 }
 
-DriveChildReferenceCreateJob::DriveChildReferenceCreateJob(const QString &folderId,
-                                                           const DriveChildReferencesList &references,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
+ChildReferenceCreateJob::ChildReferenceCreateJob(const QString &folderId,
+                                                 const ChildReferencesList &references,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     CreateJob(account, parent),
     d(new Private(this))
 {
@@ -114,24 +115,24 @@ DriveChildReferenceCreateJob::DriveChildReferenceCreateJob(const QString &folder
     d->references << references;
 }
 
-DriveChildReferenceCreateJob::~DriveChildReferenceCreateJob()
+ChildReferenceCreateJob::~ChildReferenceCreateJob()
 {
     delete d;
 }
 
-void DriveChildReferenceCreateJob::start()
+void ChildReferenceCreateJob::start()
 {
     d->processNext();
 }
 
-ObjectsList DriveChildReferenceCreateJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                               const QByteArray &rawData)
+ObjectsList ChildReferenceCreateJob::handleReplyWithItems(const QNetworkReply *reply,
+                                                          const QByteArray &rawData)
 {
-   const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
-        items << DriveChildReference::fromJSON(rawData);
+        items << ChildReference::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));

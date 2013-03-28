@@ -31,25 +31,26 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveFileAbstractModifyJob::Private
+class FileAbstractModifyJob::Private
 {
   public:
-    Private(DriveFileAbstractModifyJob *parent);
+    Private(FileAbstractModifyJob *parent);
     void processNext();
 
     QStringList filesIds;
 
   private:
-    DriveFileAbstractModifyJob *q;
+    FileAbstractModifyJob *q;
 };
 
-DriveFileAbstractModifyJob::Private::Private(DriveFileAbstractModifyJob *parent):
+FileAbstractModifyJob::Private::Private(FileAbstractModifyJob *parent):
     q(parent)
 {
 }
 
-void DriveFileAbstractModifyJob::Private::processNext()
+void FileAbstractModifyJob::Private::processNext()
 {
     if (filesIds.isEmpty()) {
         q->emitFinished();
@@ -66,62 +67,62 @@ void DriveFileAbstractModifyJob::Private::processNext()
     q->enqueueRequest(request);
 }
 
-DriveFileAbstractModifyJob::DriveFileAbstractModifyJob(const QString &fileId,
-                                     const AccountPtr &account,
-                                     QObject *parent):
+FileAbstractModifyJob::FileAbstractModifyJob(const QString &fileId,
+                                             const AccountPtr &account,
+                                             QObject *parent):
     ModifyJob(account, parent),
     d(new Private(this))
 {
     d->filesIds << fileId;
 }
 
-DriveFileAbstractModifyJob::DriveFileAbstractModifyJob(const QStringList &filesIds,
-                                     const AccountPtr &account,
-                                     QObject *parent):
+FileAbstractModifyJob::FileAbstractModifyJob(const QStringList &filesIds,
+                                             const AccountPtr &account,
+                                             QObject *parent):
     ModifyJob(account, parent),
     d(new Private(this))
 {
     d->filesIds << filesIds;
 }
 
-DriveFileAbstractModifyJob::DriveFileAbstractModifyJob(const DriveFilePtr &file,
-                                     const AccountPtr &account,
-                                     QObject *parent):
+FileAbstractModifyJob::FileAbstractModifyJob(const FilePtr &file,
+                                             const AccountPtr &account,
+                                             QObject *parent):
     ModifyJob(account, parent),
     d(new Private(this))
 {
     d->filesIds << file->id();
 }
 
-DriveFileAbstractModifyJob::DriveFileAbstractModifyJob(const DriveFilesList &files,
-                                     const AccountPtr &account,
-                                     QObject *parent):
+FileAbstractModifyJob::FileAbstractModifyJob(const FilesList &files,
+                                             const AccountPtr &account,
+                                             QObject *parent):
     ModifyJob(account, parent),
     d(new Private(this))
 {
-    Q_FOREACH (const DriveFilePtr &file, files) {
+    Q_FOREACH(const FilePtr & file, files) {
         d->filesIds << file->id();
     }
 }
 
-DriveFileAbstractModifyJob::~DriveFileAbstractModifyJob()
+FileAbstractModifyJob::~FileAbstractModifyJob()
 {
     delete d;
 }
 
-void DriveFileAbstractModifyJob::start()
+void FileAbstractModifyJob::start()
 {
     d->processNext();
 }
 
-KGAPI2::ObjectsList DriveFileAbstractModifyJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                            const QByteArray &rawData)
+ObjectsList FileAbstractModifyJob::handleReplyWithItems(const QNetworkReply *reply,
+                                                        const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
-        items << DriveFile::fromJSON(rawData);
+        items << File::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));

@@ -30,27 +30,28 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveRevisionFetchJob::Private
+class RevisionFetchJob::Private
 {
   public:
     QString fileId;
     QString revisionId;
 };
 
-DriveRevisionFetchJob::DriveRevisionFetchJob(const QString &fileId,
-                                             const AccountPtr &account,
-                                             QObject *parent):
+RevisionFetchJob::RevisionFetchJob(const QString &fileId,
+                                   const AccountPtr &account,
+                                   QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
     d->fileId = fileId;
 }
 
-DriveRevisionFetchJob::DriveRevisionFetchJob(const QString &fileId,
-                                             const QString &revisionId,
-                                             const AccountPtr &account,
-                                             QObject *parent): 
+RevisionFetchJob::RevisionFetchJob(const QString &fileId,
+                                   const QString &revisionId,
+                                   const AccountPtr &account,
+                                   QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
@@ -58,12 +59,12 @@ DriveRevisionFetchJob::DriveRevisionFetchJob(const QString &fileId,
     d->revisionId = revisionId;
 }
 
-DriveRevisionFetchJob::~DriveRevisionFetchJob()
+RevisionFetchJob::~RevisionFetchJob()
 {
     delete d;
 }
 
-void DriveRevisionFetchJob::start()
+void RevisionFetchJob::start()
 {
     QNetworkRequest request;
     if (d->revisionId.isEmpty()) {
@@ -76,8 +77,8 @@ void DriveRevisionFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList DriveRevisionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                        const QByteArray &rawData)
+ObjectsList RevisionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
+        const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -85,9 +86,9 @@ ObjectsList DriveRevisionFetchJob::handleReplyWithItems(const QNetworkReply *rep
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->revisionId.isEmpty()) {
-            items << DriveRevision::fromJSONFeed(rawData);
+            items << Revision::fromJSONFeed(rawData);
         } else {
-            items << DriveRevision::fromJSON(rawData);
+            items << Revision::fromJSON(rawData);
         }
     } else {
         setError(KGAPI2::InvalidResponse);

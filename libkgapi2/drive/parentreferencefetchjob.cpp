@@ -31,27 +31,28 @@
 #include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveParentReferenceFetchJob::Private
+class ParentReferenceFetchJob::Private
 {
   public:
     QString fileId;
     QString referenceId;
 };
 
-DriveParentReferenceFetchJob::DriveParentReferenceFetchJob(const QString &fileId,
-                                                           const AccountPtr &account,
-                                                           QObject *parent):
-    FetchJob(account, parent),
+ParentReferenceFetchJob::ParentReferenceFetchJob(const QString &fileId,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
+                                                 FetchJob(account, parent),
     d(new Private)
 {
     d->fileId = fileId;
 }
 
-DriveParentReferenceFetchJob::DriveParentReferenceFetchJob(const QString &fileId,
-                                                           const QString &referenceId,
-                                                           const AccountPtr &account,
-                                                           QObject *parent): 
+ParentReferenceFetchJob::ParentReferenceFetchJob(const QString &fileId,
+                                                 const QString &referenceId,
+                                                 const AccountPtr &account,
+                                                 QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
@@ -59,12 +60,12 @@ DriveParentReferenceFetchJob::DriveParentReferenceFetchJob(const QString &fileId
     d->referenceId = referenceId;
 }
 
-DriveParentReferenceFetchJob::~DriveParentReferenceFetchJob()
+ParentReferenceFetchJob::~ParentReferenceFetchJob()
 {
     delete d;
 }
 
-void DriveParentReferenceFetchJob::start()
+void ParentReferenceFetchJob::start()
 {
     QNetworkRequest request;
     if (d->referenceId.isEmpty()) {
@@ -77,8 +78,8 @@ void DriveParentReferenceFetchJob::start()
     enqueueRequest(request);
 }
 
-KGAPI2::ObjectsList DriveParentReferenceFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                                       const QByteArray &rawData)
+ObjectsList ParentReferenceFetchJob::handleReplyWithItems(const QNetworkReply *reply,
+                                                          const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -86,9 +87,9 @@ KGAPI2::ObjectsList DriveParentReferenceFetchJob::handleReplyWithItems(const QNe
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->referenceId.isEmpty()) {
-            items << DriveParentReference::fromJSONFeed(rawData);
+            items << ParentReference::fromJSONFeed(rawData);
         } else {
-            items << DriveParentReference::fromJSON(rawData);
+            items << ParentReference::fromJSON(rawData);
         }
     } else {
         setError(KGAPI2::InvalidResponse);

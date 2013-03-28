@@ -25,7 +25,10 @@
 namespace KGAPI2
 {
 
-class DriveFile::Private
+namespace Drive
+{
+
+class File::Private
 {
   public:
     Private();
@@ -42,14 +45,14 @@ class DriveFile::Private
     KDateTime modifiedByMeDate;
     QUrl downloadUrl;
     IndexableTextPtr indexableText;
-    DrivePermissionPtr userPermission;
+    PermissionPtr userPermission;
     QString fileExtension;
     QString md5Checksum;
     qlonglong fileSize;
     QUrl alternateLink;
     QUrl embedLink;
     KDateTime sharedWithMeDate;
-    DriveParentReferencesList parents;
+    ParentReferencesList parents;
     QMap<QString,QUrl> exportLinks;
     QString originalFileName;
     qlonglong quotaBytesUsed;
@@ -66,12 +69,14 @@ class DriveFile::Private
     QUrl webViewLink;
     QUrl iconLink;
     bool shared;
-    DriveUsersList owners;
-    DriveUserPtr lastModifyingUser;
+    UsersList owners;
+    UserPtr lastModifyingUser;
 
-    static DriveFilePtr fromJSON(const QVariantMap &map);
+    static FilePtr fromJSON(const QVariantMap &map);
 
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

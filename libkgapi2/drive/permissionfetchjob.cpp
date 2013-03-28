@@ -33,8 +33,9 @@
 #include <KLocalizedString>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DrivePermissionFetchJob::Private
+class PermissionFetchJob::Private
 {
   public:
     QString fileId;
@@ -42,28 +43,28 @@ class DrivePermissionFetchJob::Private
 
 };
 
-DrivePermissionFetchJob::DrivePermissionFetchJob(const QString &fileId,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
+PermissionFetchJob::PermissionFetchJob(const QString &fileId,
+                                       const AccountPtr &account,
+                                       QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
     d->fileId = fileId;
 }
 
-DrivePermissionFetchJob::DrivePermissionFetchJob(const DriveFilePtr &file,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
+PermissionFetchJob::PermissionFetchJob(const FilePtr &file,
+                                       const AccountPtr &account,
+                                       QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
     d->fileId = file->id();
 }
 
-DrivePermissionFetchJob::DrivePermissionFetchJob(const QString &fileId,
-                                                 const QString &permissionId,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
+PermissionFetchJob::PermissionFetchJob(const QString &fileId,
+                                       const QString &permissionId,
+                                       const AccountPtr &account,
+                                       QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
@@ -71,10 +72,10 @@ DrivePermissionFetchJob::DrivePermissionFetchJob(const QString &fileId,
     d->permissionId = permissionId;
 }
 
-DrivePermissionFetchJob::DrivePermissionFetchJob(const DriveFilePtr &file,
-                                                 const QString &permissionId,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
+PermissionFetchJob::PermissionFetchJob(const FilePtr &file,
+                                       const QString &permissionId,
+                                       const AccountPtr &account,
+                                       QObject *parent):
     FetchJob(account, parent),
     d(new Private)
 {
@@ -82,12 +83,12 @@ DrivePermissionFetchJob::DrivePermissionFetchJob(const DriveFilePtr &file,
     d->permissionId = permissionId;
 }
 
-DrivePermissionFetchJob::~DrivePermissionFetchJob()
+PermissionFetchJob::~PermissionFetchJob()
 {
     delete d;
 }
 
-void DrivePermissionFetchJob::start()
+void PermissionFetchJob::start()
 {
     QNetworkRequest request;
     if (d->permissionId.isEmpty()) {
@@ -100,8 +101,8 @@ void DrivePermissionFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList DrivePermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                          const QByteArray &rawData)
+ObjectsList PermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
+        const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -109,9 +110,9 @@ ObjectsList DrivePermissionFetchJob::handleReplyWithItems(const QNetworkReply *r
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->permissionId.isEmpty()) {
-            items << DrivePermission::fromJSONFeed(rawData);
+            items << Permission::fromJSONFeed(rawData);
         } else {
-            items << DrivePermission::fromJSON(rawData);
+            items << Permission::fromJSON(rawData);
         }
     } else {
         setError(KGAPI2::InvalidResponse);

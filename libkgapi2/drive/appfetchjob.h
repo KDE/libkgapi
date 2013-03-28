@@ -28,22 +28,29 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveAppFetchJob : public KGAPI2::FetchJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT AppFetchJob : public KGAPI2::FetchJob
 {
   public:
-    explicit DriveAppFetchJob(const AccountPtr &account, QObject *parent = 0);
-    explicit DriveAppFetchJob(const QString &appId, const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveAppFetchJob();
+    explicit AppFetchJob(const AccountPtr &account, QObject *parent = 0);
+    explicit AppFetchJob(const QString &appId, const AccountPtr &account,
+                         QObject *parent = 0);
+    virtual ~AppFetchJob();
 
   protected:
     virtual void start();
-    virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData);
+    virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
+                                                     const QByteArray &rawData);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

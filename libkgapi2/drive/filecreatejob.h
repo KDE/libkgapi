@@ -28,21 +28,24 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileCreateJob : public KGAPI2::DriveFileAbstractUploadJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileCreateJob : public KGAPI2::Drive::FileAbstractUploadJob
 {
     Q_OBJECT
 
   public:
-    explicit DriveFileCreateJob(const QString &filePath,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileCreateJob(const QString &filePath,
-                                const DriveFilePtr &metaData,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileCreateJob(const QStringList &filePaths,
-                                const AccountPtr &account, QObject *parent = 0);
-    explicit DriveFileCreateJob(const QMap< QString /* filepath */, DriveFilePtr /* metadata */ > &files,
-                                const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileCreateJob();
+    explicit FileCreateJob(const QString &filePath,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileCreateJob(const QString &filePath,
+                           const FilePtr &metaData,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileCreateJob(const QStringList &filePaths,
+                           const AccountPtr &account, QObject *parent = 0);
+    explicit FileCreateJob(const QMap < QString /* filepath */, FilePtr /* metadata */ > &files,
+                           const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileCreateJob();
 
   protected:
     virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
@@ -50,14 +53,16 @@ class LIBKGAPI2_EXPORT DriveFileCreateJob : public KGAPI2::DriveFileAbstractUplo
                                     const QByteArray &data);
 
     virtual QUrl createUrl(const QString &filePath,
-                           const DriveFilePtr &metaData);
+                           const FilePtr &metaData);
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

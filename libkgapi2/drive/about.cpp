@@ -21,10 +21,11 @@
 #include <qjson/parser.h>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
 ///// DriveAbout::Format
 
-class DriveAbout::Format::Private
+class About::Format::Private
 {
   public:
     Private();
@@ -34,44 +35,44 @@ class DriveAbout::Format::Private
     QStringList targets;
 };
 
-DriveAbout::Format::Private::Private()
+About::Format::Private::Private()
 {
 }
 
-DriveAbout::Format::Private::Private(const Private &other):
+About::Format::Private::Private(const Private &other):
     source(other.source),
     targets(other.targets)
 {
 }
 
-DriveAbout::Format::Format():
+About::Format::Format():
     d(new Private)
 {
 }
 
-DriveAbout::Format::Format(const DriveAbout::Format &other):
+About::Format::Format(const About::Format &other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveAbout::Format::~Format()
+About::Format::~Format()
 {
     delete d;
 }
 
-QString DriveAbout::Format::source() const
+QString About::Format::source() const
 {
     return d->source;
 }
 
-QStringList DriveAbout::Format::targets() const
+QStringList About::Format::targets() const
 {
     return d->targets;
 }
 
 ///// DriveAbout::AdditionalRoleInfo::RoleSet
 
-class DriveAbout::AdditionalRoleInfo::RoleSet::Private
+class About::AdditionalRoleInfo::RoleSet::Private
 {
   public:
     Private();
@@ -81,44 +82,44 @@ class DriveAbout::AdditionalRoleInfo::RoleSet::Private
     QStringList additionalRoles;
 };
 
-DriveAbout::AdditionalRoleInfo::RoleSet::Private::Private()
+About::AdditionalRoleInfo::RoleSet::Private::Private()
 {
 }
 
-DriveAbout::AdditionalRoleInfo::RoleSet::Private::Private(const Private &other):
+About::AdditionalRoleInfo::RoleSet::Private::Private(const Private &other):
     primaryRole(other.primaryRole),
     additionalRoles(other.additionalRoles)
 {
 }
 
-DriveAbout::AdditionalRoleInfo::RoleSet::RoleSet():
+About::AdditionalRoleInfo::RoleSet::RoleSet():
     d(new Private)
 {
 }
 
-DriveAbout::AdditionalRoleInfo::RoleSet::RoleSet(const DriveAbout::AdditionalRoleInfo::RoleSet &other):
+About::AdditionalRoleInfo::RoleSet::RoleSet(const About::AdditionalRoleInfo::RoleSet &other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveAbout::AdditionalRoleInfo::RoleSet::~RoleSet()
+About::AdditionalRoleInfo::RoleSet::~RoleSet()
 {
     delete d;
 }
 
-QString DriveAbout::AdditionalRoleInfo::RoleSet::primaryRole() const
+QString About::AdditionalRoleInfo::RoleSet::primaryRole() const
 {
     return d->primaryRole;
 }
 
-QStringList DriveAbout::AdditionalRoleInfo::RoleSet::additionalRoles() const
+QStringList About::AdditionalRoleInfo::RoleSet::additionalRoles() const
 {
     return d->additionalRoles;
 }
 
 ///// DriveAbout::AdditionalRoleInfo
 
-class DriveAbout::AdditionalRoleInfo::Private
+class About::AdditionalRoleInfo::Private
 {
   public:
     Private();
@@ -128,44 +129,44 @@ class DriveAbout::AdditionalRoleInfo::Private
     RoleSetsList roleSets;
 };
 
-DriveAbout::AdditionalRoleInfo::Private::Private()
+About::AdditionalRoleInfo::Private::Private()
 {
 }
 
-DriveAbout::AdditionalRoleInfo::Private::Private(const Private &other):
+About::AdditionalRoleInfo::Private::Private(const Private &other):
     type(other.type),
     roleSets(other.roleSets)
 {
 }
 
-DriveAbout::AdditionalRoleInfo::AdditionalRoleInfo():
+About::AdditionalRoleInfo::AdditionalRoleInfo():
     d(new Private)
 {
 }
 
-DriveAbout::AdditionalRoleInfo::AdditionalRoleInfo(const DriveAbout::AdditionalRoleInfo &other):
+About::AdditionalRoleInfo::AdditionalRoleInfo(const About::AdditionalRoleInfo &other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveAbout::AdditionalRoleInfo::~AdditionalRoleInfo()
+About::AdditionalRoleInfo::~AdditionalRoleInfo()
 {
     delete d;
 }
 
-QString DriveAbout::AdditionalRoleInfo::type() const
+QString About::AdditionalRoleInfo::type() const
 {
     return d->type;
 }
 
-DriveAbout::AdditionalRoleInfo::RoleSetsList DriveAbout::AdditionalRoleInfo::roleSets() const
+About::AdditionalRoleInfo::RoleSetsList About::AdditionalRoleInfo::roleSets() const
 {
     return d->roleSets;
 }
 
 ///// DriveAbout::Feature
 
-class DriveAbout::Feature::Private
+class About::Feature::Private
 {
   public:
     Private();
@@ -175,45 +176,45 @@ class DriveAbout::Feature::Private
     qreal featureRate;
 };
 
-DriveAbout::Feature::Private::Private():
+About::Feature::Private::Private():
     featureRate(-1)
 {
 }
 
-DriveAbout::Feature::Private::Private(const Private &other):
+About::Feature::Private::Private(const Private &other):
     featureName(other.featureName),
     featureRate(other.featureRate)
 {
 }
 
-DriveAbout::Feature::Feature():
+About::Feature::Feature():
     d(new Private)
 {
 }
 
-DriveAbout::Feature::Feature(const DriveAbout::Feature &other):
+About::Feature::Feature(const About::Feature &other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveAbout::Feature::~Feature()
+About::Feature::~Feature()
 {
     delete d;
 }
 
-QString DriveAbout::Feature::featureName() const
+QString About::Feature::featureName() const
 {
     return d->featureName;
 }
 
-qreal DriveAbout::Feature::featureRate() const
+qreal About::Feature::featureRate() const
 {
     return d->featureRate;
 }
 
 ///// DriveAbout::MaxUploadSize
 
-class DriveAbout::MaxUploadSize::Private
+class About::MaxUploadSize::Private
 {
   public:
     Private();
@@ -223,44 +224,44 @@ class DriveAbout::MaxUploadSize::Private
     qlonglong size;
 };
 
-DriveAbout::MaxUploadSize::Private::Private():
+About::MaxUploadSize::Private::Private():
     size(-1)
 {
 }
 
-DriveAbout::MaxUploadSize::Private::Private(const Private &other):
+About::MaxUploadSize::Private::Private(const Private &other):
     type(other.type),
     size(other.size)
 {
 }
 
-DriveAbout::MaxUploadSize::MaxUploadSize():
+About::MaxUploadSize::MaxUploadSize():
     d(new Private)
 {
 }
 
-DriveAbout::MaxUploadSize::MaxUploadSize(const DriveAbout::MaxUploadSize &other):
+About::MaxUploadSize::MaxUploadSize(const About::MaxUploadSize &other):
     d(new Private(*(other.d)))
 { }
 
-DriveAbout::MaxUploadSize::~MaxUploadSize()
+About::MaxUploadSize::~MaxUploadSize()
 {
     delete d;
 }
 
-QString DriveAbout::MaxUploadSize::type() const
+QString About::MaxUploadSize::type() const
 {
     return d->type;
 }
 
-qlonglong DriveAbout::MaxUploadSize::size() const
+qlonglong About::MaxUploadSize::size() const
 {
     return d->size;
 }
 
 ///// DriveAbout
 
-class DriveAbout::Private
+class About::Private
 {
   public:
     Private();
@@ -283,10 +284,10 @@ class DriveAbout::Private
     MaxUploadSizesList maxUploadSizes;
     QString permissionId;
     bool isCurrentAppInstalled;
-    DriveUserPtr user;
+    UserPtr user;
 };
 
-DriveAbout::Private::Private():
+About::Private::Private():
     quotaBytesTotal(-1),
     quotaBytesUsed(-1),
     quotaBytesUsedInTrash(-1),
@@ -297,7 +298,7 @@ DriveAbout::Private::Private():
 {
 }
 
-DriveAbout::Private::Private(const DriveAbout::Private &other):
+About::Private::Private(const About::Private &other):
     selfLink(other.selfLink),
     name(other.name),
     quotaBytesTotal(other.quotaBytesTotal),
@@ -319,129 +320,129 @@ DriveAbout::Private::Private(const DriveAbout::Private &other):
 {
 }
 
-DriveAbout::DriveAbout():
+About::About():
     KGAPI2::Object(),
     d(new Private)
 {
 }
 
-DriveAbout::DriveAbout(const DriveAbout &other):
+About::About(const About &other):
     KGAPI2::Object(other),
     d(new Private(*(other.d)))
 {
 }
 
-DriveAbout::~DriveAbout()
+About::~About()
 {
     delete d;
 }
 
-QUrl DriveAbout::selfLink() const
+QUrl About::selfLink() const
 {
     return d->selfLink;
 }
 
-QString DriveAbout::name() const
+QString About::name() const
 {
     return d->name;
 }
 
-qlonglong DriveAbout::quotaBytesTotal() const
+qlonglong About::quotaBytesTotal() const
 {
     return d->quotaBytesTotal;
 }
 
-qlonglong DriveAbout::quotaBytesUsed() const
+qlonglong About::quotaBytesUsed() const
 {
     return d->quotaBytesUsed;
 }
 
-qlonglong DriveAbout::quotaBytesUsedInTrash() const
+qlonglong About::quotaBytesUsedInTrash() const
 {
     return d->quotaBytesUsedInTrash;
 }
 
-qlonglong DriveAbout::quotaBytesUserAggregate() const
+qlonglong About::quotaBytesUserAggregate() const
 {
     return d->quotaBytesUsedAggregate;
 }
 
-qlonglong DriveAbout::largestChangeId() const
+qlonglong About::largestChangeId() const
 {
     return d->largestChangeId;
 }
-qlonglong DriveAbout::remainingChangeIds() const
+qlonglong About::remainingChangeIds() const
 {
     return d->remainingChangeIds;
 }
 
-QString DriveAbout::rootFolderId() const
+QString About::rootFolderId() const
 {
     return d->rootFolderId;
 }
 
-QString DriveAbout::domainSharingPolicy() const
+QString About::domainSharingPolicy() const
 {
     return d->domainSharingPolicy;
 }
 
-DriveAbout::FormatsList DriveAbout::importFormats() const
+About::FormatsList About::importFormats() const
 {
     return d->importFormats;
 }
 
-DriveAbout::FormatsList DriveAbout::exportFormats() const
+About::FormatsList About::exportFormats() const
 {
     return d->exportFormats;
 }
 
-DriveAbout::AdditionalRoleInfosList DriveAbout::additionalRoleInfo() const
+About::AdditionalRoleInfosList About::additionalRoleInfo() const
 {
     return d->additionalRoleInfo;
 }
 
-DriveAbout::FeaturesList DriveAbout::features() const
+About::FeaturesList About::features() const
 {
     return d->features;
 }
 
-DriveAbout::MaxUploadSizesList DriveAbout::maxUploadSizes() const
+About::MaxUploadSizesList About::maxUploadSizes() const
 {
     return d->maxUploadSizes;
 }
 
-QString DriveAbout::permissionId() const
+QString About::permissionId() const
 {
     return d->permissionId;
 }
 
-bool DriveAbout::isCurrentAppInstalled() const
+bool About::isCurrentAppInstalled() const
 {
     return d->isCurrentAppInstalled;
 }
 
-DriveUserPtr DriveAbout::user() const
+UserPtr About::user() const
 {
     return d->user;
 }
 
-DriveAboutPtr DriveAbout::fromJSON(const QByteArray &jsonData)
+AboutPtr About::fromJSON(const QByteArray &jsonData)
 {
     QJson::Parser parser;
     bool ok;
     const QVariant json = parser.parse(jsonData, &ok);
     if (!ok) {
-        return DriveAboutPtr();
+        return AboutPtr();
     }
     const QVariantMap map = json.toMap();
 
     if (!map.contains(QLatin1String("kind")) ||
         map[QLatin1String("kind")].toString() != QLatin1String("drive#about")) {
 
-        return DriveAboutPtr();
+        return AboutPtr();
     }
 
-    DriveAboutPtr about(new DriveAbout());
+    AboutPtr about(new About());
     about->setEtag(map.value(QLatin1String("etag")).toString());
     about->d->selfLink = map.value(QLatin1String("selfLink")).toUrl();
     about->d->name = map.value(QLatin1String("name")).toString();
@@ -515,7 +516,7 @@ DriveAboutPtr DriveAbout::fromJSON(const QByteArray &jsonData)
         about->d->maxUploadSizes << maxUploadSize;
     }
 
-    about->d->user = DriveUser::fromJSON(map.value(QLatin1String("user")).toMap());
+    about->d->user = User::fromJSON(map.value(QLatin1String("user")).toMap());
 
     return about;
 }

@@ -28,7 +28,10 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileAbstractDataJob : public KGAPI2::Job
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileAbstractDataJob : public KGAPI2::Job
 {
 
     Q_OBJECT
@@ -40,7 +43,9 @@ class LIBKGAPI2_EXPORT DriveFileAbstractDataJob : public KGAPI2::Job
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool convert READ convert WRITE setConvert)
+    Q_PROPERTY(bool convert
+               READ convert
+               WRITE setConvert)
 
     /**
      * Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads.
@@ -49,7 +54,9 @@ class LIBKGAPI2_EXPORT DriveFileAbstractDataJob : public KGAPI2::Job
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool ocr READ ocr WRITE setOcr)
+    Q_PROPERTY(bool ocr
+               READ ocr
+               WRITE setOcr)
 
     /**
      * If ocr is true, hints at the language to use. Valid values are
@@ -57,7 +64,9 @@ class LIBKGAPI2_EXPORT DriveFileAbstractDataJob : public KGAPI2::Job
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(QString  ocrLanguage READ ocrLanguage WRITE setOcrLanguage)
+    Q_PROPERTY(QString  ocrLanguage
+               READ ocrLanguage
+               WRITE setOcrLanguage)
 
     /**
      * Whether to pin the head revision of the new file.
@@ -66,26 +75,32 @@ class LIBKGAPI2_EXPORT DriveFileAbstractDataJob : public KGAPI2::Job
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool pinned READ pinned WRITE setPinned)
+    Q_PROPERTY(bool pinned
+               READ pinned
+               WRITE setPinned)
 
     /**
      * The language of timed text,
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(QString timedTextLanguage READ timedTextLanguage WRITE setTimedTextLanguage)
+    Q_PROPERTY(QString timedTextLanguage
+               READ timedTextLanguage
+               WRITE setTimedTextLanguage)
 
     /**
      * The timed text track name.
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(QString timedTextTrackName READ timedTextTrackName WRITE setTimedTextTrackName)
+    Q_PROPERTY(QString timedTextTrackName
+               READ timedTextTrackName
+               WRITE setTimedTextTrackName)
 
   public:
-    explicit DriveFileAbstractDataJob(const AccountPtr &account,
-                                      QObject *parent = 0);
-    virtual ~DriveFileAbstractDataJob();
+    explicit FileAbstractDataJob(const AccountPtr &account,
+                                 QObject *parent = 0);
+    virtual ~FileAbstractDataJob();
 
     bool convert() const;
     void setConvert(bool convert);
@@ -110,11 +125,13 @@ class LIBKGAPI2_EXPORT DriveFileAbstractDataJob : public KGAPI2::Job
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
 };
 
-}
+} // namespace Drive
+
+} // namespace KGAPI2
 
 #endif // KGAPI2_DRIVEFILEABSTRACTDATAJOB_H

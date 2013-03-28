@@ -31,7 +31,10 @@
 namespace KGAPI2
 {
 
-class LIBKGAPI2_EXPORT DriveFileAbstractUploadJob : public KGAPI2::DriveFileAbstractDataJob
+namespace Drive
+{
+
+class LIBKGAPI2_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstractDataJob
 {
     Q_OBJECT
 
@@ -47,25 +50,25 @@ class LIBKGAPI2_EXPORT DriveFileAbstractUploadJob : public KGAPI2::DriveFileAbst
                WRITE setUseContentAsIndexableText)
 
   public:
-    explicit DriveFileAbstractUploadJob(const QString &filePath,
-                                        const AccountPtr &account,
-                                        QObject *parent = 0);
-    explicit DriveFileAbstractUploadJob(const QString &filePath,
-                                        const DriveFilePtr &metaData,
-                                        const AccountPtr &account,
-                                        QObject *parent = 0);
-    explicit DriveFileAbstractUploadJob(const QStringList &filePaths,
-                                        const AccountPtr &account,
-                                        QObject *parent = 0);
-    explicit DriveFileAbstractUploadJob(const QMap<QString /* file path */,
-                                                   DriveFilePtr /* metadata */ > &files,
-                                        const AccountPtr &account, QObject *parent = 0);
-    virtual ~DriveFileAbstractUploadJob();
+    explicit FileAbstractUploadJob(const QString &filePath,
+                                   const AccountPtr &account,
+                                   QObject *parent = 0);
+    explicit FileAbstractUploadJob(const QString &filePath,
+                                   const FilePtr &metaData,
+                                   const AccountPtr &account,
+                                   QObject *parent = 0);
+    explicit FileAbstractUploadJob(const QStringList &filePaths,
+                                   const AccountPtr &account,
+                                   QObject *parent = 0);
+    explicit FileAbstractUploadJob(const QMap < QString /* file path */,
+                                   FilePtr /* metadata */ > &files,
+                                   const AccountPtr &account, QObject *parent = 0);
+    virtual ~FileAbstractUploadJob();
 
     bool useContentAsIndexableText() const;
     void setUseContentAsIndexableText(bool useContentAsIndexableText);
 
-    QMap<QString /* file path */, DriveFilePtr /* metadata */> files() const;
+    QMap < QString /* file path */, FilePtr /* metadata */ > files() const;
 
   protected:
     virtual void start();
@@ -76,19 +79,21 @@ class LIBKGAPI2_EXPORT DriveFileAbstractUploadJob : public KGAPI2::DriveFileAbst
     virtual void handleReply(const QNetworkReply *reply,
                              const QByteArray &rawData);
 
-    virtual QUrl createUrl(const QString &filePath, const DriveFilePtr &metaData) = 0;
-    virtual QNetworkReply* dispatch(QNetworkAccessManager *accessManager,
+    virtual QUrl createUrl(const QString &filePath, const FilePtr &metaData) = 0;
+    virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
                                     const QNetworkRequest &request,
                                     const QByteArray &data) = 0;
 
   private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
     Q_PRIVATE_SLOT(d, void _k_uploadProgress(qint64 uploadedBytes, qint64 totalBytes))
 
 };
+
+} // namespace Drive
 
 } // namespace KGAPI2
 

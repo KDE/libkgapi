@@ -22,9 +22,9 @@
 #include "user.h"
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-
-class DriveUser::Private
+class User::Private
 {
   public:
     Private();
@@ -36,12 +36,12 @@ class DriveUser::Private
     QString permissionId;
 };
 
-DriveUser::Private::Private():
+User::Private::Private():
     isAuthenticatedUser(false)
 {
 }
 
-DriveUser::Private::Private(const Private &other):
+User::Private::Private(const Private &other):
     displayName(other.displayName),
     pictureUrl(other.pictureUrl),
     isAuthenticatedUser(other.isAuthenticatedUser),
@@ -49,50 +49,50 @@ DriveUser::Private::Private(const Private &other):
 {
 }
 
-DriveUser::DriveUser():
+User::User():
     d(new Private)
 {
 }
 
-DriveUser::DriveUser(const DriveUser &other):
+User::User(const User &other):
     d(new Private(*(other.d)))
 {
 }
 
-DriveUser::~DriveUser()
+User::~User()
 {
     delete d;
 }
 
-QString DriveUser::displayName() const
+QString User::displayName() const
 {
     return d->displayName;
 }
 
-QUrl DriveUser::pictureUrl() const
+QUrl User::pictureUrl() const
 {
     return d->pictureUrl;
 }
 
-bool DriveUser::isAuthenticatedUser() const
+bool User::isAuthenticatedUser() const
 {
     return d->isAuthenticatedUser;
 }
 
-QString DriveUser::permissionId() const
+QString User::permissionId() const
 {
     return d->permissionId;
 }
 
-DriveUserPtr DriveUser::fromJSON(const QVariantMap &map)
+UserPtr User::fromJSON(const QVariantMap &map)
 {
     if (!map.contains(QLatin1String("kind")) ||
         map[QLatin1String("kind")].toString() != QLatin1String("drive#user"))
     {
-        return DriveUserPtr();
+        return UserPtr();
     }
 
-    DriveUserPtr user(new DriveUser());
+    UserPtr user(new User());
     user->d->displayName = map[QLatin1String("displayName")].toString();
     const QVariantMap picture = map[QLatin1String("picture")].toMap();
     user->d->pictureUrl = picture[QLatin1String("url")].toUrl();

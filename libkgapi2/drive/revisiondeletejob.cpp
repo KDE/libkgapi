@@ -27,18 +27,19 @@
 #include <QtNetwork/QNetworkRequest>
 
 using namespace KGAPI2;
+using namespace KGAPI2::Drive;
 
-class DriveRevisionDeleteJob::Private
+class RevisionDeleteJob::Private
 {
   public:
     QString fileId;
     QStringList revisionsIds;
 };
 
-DriveRevisionDeleteJob::DriveRevisionDeleteJob(const QString &fileId,
-                                               const QString &revisionId,
-                                               const AccountPtr &account,
-                                               QObject *parent):
+RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
+                                     const QString &revisionId,
+                                     const AccountPtr &account,
+                                     QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -46,10 +47,10 @@ DriveRevisionDeleteJob::DriveRevisionDeleteJob(const QString &fileId,
     d->revisionsIds << revisionId;
 }
 
-DriveRevisionDeleteJob::DriveRevisionDeleteJob(const QString &fileId,
-                                               const QStringList &revisionsIds,
-                                               const AccountPtr &account,
-                                               QObject *parent): 
+RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
+                                     const QStringList &revisionsIds,
+                                     const AccountPtr &account,
+                                     QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -57,10 +58,10 @@ DriveRevisionDeleteJob::DriveRevisionDeleteJob(const QString &fileId,
     d->revisionsIds << revisionsIds;
 }
 
-DriveRevisionDeleteJob::DriveRevisionDeleteJob(const QString &fileId,
-                                               const DriveRevisionPtr &revision,
-                                               const AccountPtr &account,
-                                               QObject *parent):
+RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
+                                     const RevisionPtr &revision,
+                                     const AccountPtr &account,
+                                     QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
@@ -68,25 +69,25 @@ DriveRevisionDeleteJob::DriveRevisionDeleteJob(const QString &fileId,
     d->revisionsIds << revision->id();
 }
 
-DriveRevisionDeleteJob::DriveRevisionDeleteJob(const QString &fileId,
-                                               const DriveRevisionsList &revisions,
-                                               const AccountPtr &account,
-                                               QObject *parent):
+RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
+                                     const RevisionsList &revisions,
+                                     const AccountPtr &account,
+                                     QObject *parent):
     DeleteJob(account, parent),
     d(new Private)
 {
     d->fileId = fileId;
-    Q_FOREACH (const DriveRevisionPtr &revision, revisions) {
+    Q_FOREACH(const RevisionPtr & revision, revisions) {
         d->revisionsIds << revision->id();
     }
 }
 
-DriveRevisionDeleteJob::~DriveRevisionDeleteJob()
+RevisionDeleteJob::~RevisionDeleteJob()
 {
     delete d;
 }
 
-void DriveRevisionDeleteJob::start()
+void RevisionDeleteJob::start()
 {
     if (d->revisionsIds.isEmpty()) {
         emitFinished();
