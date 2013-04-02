@@ -875,6 +875,11 @@ UserPtr File::lastModifyingUser() const
     return d->lastModifyingUser;
 }
 
+bool File::isFolder() const
+{
+    return (d->mimeType == QLatin1String("application/vnd.google-apps.folder"));
+}
+
 FilePtr File::fromJSON(const QByteArray &jsonData)
 {
     QJson::Parser parser;

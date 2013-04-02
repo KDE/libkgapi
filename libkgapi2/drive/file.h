@@ -566,6 +566,8 @@ class LIBKGAPI2_EXPORT File: public KGAPI2::Object
 
     UserPtr lastModifyingUser() const;
 
+    bool isFolder() const;
+
     static FilePtr fromJSON(const QByteArray &jsonData);
     static FilesList fromJSONFeed(const  QByteArray &jsonData, FeedData &feedData);
     static QByteArray toJSON(const FilePtr &file);
