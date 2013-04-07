@@ -120,6 +120,7 @@ set(LibKGAPI_drive_SRCS
     drive/filecreatejob.cpp
     drive/filedeletejob.cpp
     drive/filefetchjob.cpp
+    drive/filefetchcontentjob.cpp
     drive/filemodifyjob.cpp
     drive/filetouchjob.cpp
     drive/filetrashjob.cpp
@@ -159,6 +160,7 @@ set(LibKGAPI_drive_HDRS
     drive/filecreatejob.h
     drive/filedeletejob.h
     drive/filefetchjob.h
+    drive/filefetchcontentjob.h
     drive/filemodifyjob.h
     drive/filetouchjob.h
     drive/filetrashjob.h
