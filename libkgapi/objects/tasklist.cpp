@@ -16,50 +16,7 @@
 */
 
 #include "tasklist.h"
-#include "tasklist_p.h"
 
 using namespace KGAPI::Objects;
 
-TaskListPrivate::TaskListPrivate()
-{ }
-
-TaskListPrivate::TaskListPrivate (const TaskListPrivate& other):
-    title(other.title),
-    uid(other.uid)
-{ }
-
-TaskList::TaskList():
-    d(new TaskListPrivate)
-{ }
-
-TaskList::TaskList (const TaskList& other):
-    Object(other),
-    d(new TaskListPrivate(*(other.d)))
-{ }
-
-
-TaskList::~TaskList()
-{
-    delete d;
-}
-
-void TaskList::setUid(const QString &uid)
-{
-    d->uid = uid;
-}
-
-QString TaskList::uid() const
-{
-    return d->uid;
-}
-
-void TaskList::setTitle(const QString& title)
-{
-    d->title = title;
-}
-
-QString TaskList::title() const
-{
-    return d->title;
-}
-
+#include "common/tasklist.inc.cpp"

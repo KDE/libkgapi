@@ -34,7 +34,7 @@ class ReplyPrivate;
 /**
  * Represents a reply received from a Google service.
  */
-class LIBKGAPI_EXPORT Reply: public QNetworkReply
+class LIBKGAPI_EXPORT_DEPRECATED Reply: public QNetworkReply
 {
   public:
     /**
@@ -45,6 +45,7 @@ class LIBKGAPI_EXPORT Reply: public QNetworkReply
      * @param serviceName Name of service this reply relates to.
      * @param replyData List of objects contained in this reply
      * @param request Original request this is a reply to
+     * @param rawData Raw content of the reply
      */
     Reply(const KGAPI::Request::RequestType requestType, const KGAPI::Error error,
           const QString &serviceName, const QList< KGAPI::Object* > &replyData,
@@ -66,13 +67,13 @@ class LIBKGAPI_EXPORT Reply: public QNetworkReply
      * Returns name of service this reply came from. Note that
      * the service name relates to a KGAPI::Service subclasses.
      */
-    const QString& serviceName() const;
+    QString serviceName() const;
 
     /**
      * Returns list of KGAPI::Object objects representing data
      * received from the remote service.
      */
-    const QList< KGAPI::Object* >& replyData() const;
+    QList< KGAPI::Object* > replyData() const;
 
     /**
      * Returns the original request passed to KGAPI::AccessManager.

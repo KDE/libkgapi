@@ -21,8 +21,8 @@
 #include <libkgapi/object.h>
 #include <libkgapi/libkgapi_export.h>
 
-#include <KABC/Addressee>
-#include <KDateTime>
+#include <KDE/KABC/Addressee>
+#include <KDE/KDateTime>
 
 #include <QtCore/QList>
 #include <QtCore/QMetaType>
@@ -33,12 +33,10 @@ namespace KGAPI
 namespace Objects
 {
 
-class ContactPrivate;
-
 /**
  * Represents a single contact.
  */
-class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
+class LIBKGAPI_EXPORT_DEPRECATED Contact : public KGAPI::Object, public KABC::Addressee
 {
   public:
     typedef QSharedPointer<Contact> Ptr;
@@ -51,9 +49,16 @@ class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
      * Constructs a new contact.
      */
     Contact();
-    Contact(const Contact &other);
-    Contact(const KABC::Addressee &other);
+    explicit Contact(const KABC::Addressee &other);
 
+    /**
+     * Copy constructor
+     */
+    Contact(const Contact &other);
+
+    /**
+     * Destructor
+     */
     ~Contact();
 
     /**
@@ -248,7 +253,9 @@ class LIBKGAPI_EXPORT Contact : public KGAPI::Object, public KABC::Addressee
     static KABC::Address::Type addressSchemeToType(const QString &scheme, const bool primary = false);
 
   private:
-    ContactPrivate* d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

@@ -1,6 +1,10 @@
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
-MACRO(LIBKGOOGLE_TESTS)
+include_directories(${CMAKE_SOURCE_DIR}/libkgapi)
+
+remove_definitions(-DQT_NO_CAST_FROM_ASCII)
+
+MACRO(LIBKGAPI_TESTS)
        FOREACH(_testname ${ARGN})
                kde4_add_unit_test(${_testname} TESTNAME libkgapi-${_testname} ${_testname}.cpp)
                target_link_libraries(${_testname}
@@ -15,9 +19,9 @@ MACRO(LIBKGOOGLE_TESTS)
                                      ${KDE4_KDEUI_LIBS}
                                      kgapi)
        ENDFOREACH(_testname)
-ENDMACRO(LIBKGOOGLE_TESTS)
+ENDMACRO(LIBKGAPI_TESTS)
 
-LIBKGOOGLE_TESTS(
+LIBKGAPI_TESTS(
     objectsaccountinfotests
     objectscalendartests
     objectscontacttests
@@ -26,6 +30,7 @@ LIBKGOOGLE_TESTS(
     objectstasktests
     objectstasklisttests
     objectslocationtests
+    objectstaticmapurltests
     servicesaccountinfotests
     servicescalendartests
     servicescontactstests

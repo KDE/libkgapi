@@ -31,7 +31,7 @@ namespace Services
 
 class TasksPrivate;
 
-class LIBKGAPI_EXPORT Tasks: public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED Tasks: public KGAPI::Service
 {
   public:
 
@@ -40,7 +40,7 @@ class LIBKGAPI_EXPORT Tasks: public KGAPI::Service
     /**
      * Implementation of KGAPI::Service::name().
      */
-    static const QString& serviceName();
+    static QString serviceName();
 
     /**
      * Implementation of KGAPI::Service::JSONToObject()
@@ -85,7 +85,7 @@ class LIBKGAPI_EXPORT Tasks: public KGAPI::Service
      *
      * https://www.googleapis.com/auth/tasks
      */
-    const QUrl& scopeUrl() const;
+    QUrl scopeUrl() const;
 
     /**
      * Returns URL for KGAPI::Request::Create requests for tasks.
@@ -176,8 +176,7 @@ class LIBKGAPI_EXPORT Tasks: public KGAPI::Service
     static bool supportsJSONWrite(QString* urlParam);
 
   private:
-    TasksPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(Tasks);
+    //krazy:exclude=dpointer
 };
 
 } /* namespace Services */

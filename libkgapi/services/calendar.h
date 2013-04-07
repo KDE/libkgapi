@@ -22,10 +22,10 @@
 #include <libkgapi/libkgapi_export.h>
 
 #ifdef WITH_KCAL
-#include <KCal/IncidenceBase>
+#include <KDE/KCal/IncidenceBase>
 using namespace KCal;
 #else
-#include <KCalCore/IncidenceBase>
+#include <KDE/KCalCore/IncidenceBase>
 using namespace KCalCore;
 #endif
 
@@ -42,7 +42,7 @@ class CalendarPrivate;
 /**
 * Represents Google Calendar service.
 */
-class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED Calendar: public KGAPI::Service
 {
   public:
     static QUrl ScopeUrl;
@@ -50,7 +50,7 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
     /**
      * Implementation of KGAPI::Service::name().
      */
-    static const QString& serviceName();
+    static QString serviceName();
 
     /**
      * Implementation of KGAPI::Service::JSONToObject().
@@ -102,7 +102,6 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
     /**
      * Returns URL for updating existing calendar.
      *
-     * @param user "default" or user@gmail.com
      * @param calendarID ID of calendar to modify
      */
     static QUrl updateCalendarUrl(const QString &calendarID);
@@ -171,7 +170,7 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
      *
      * https://www.google.com/calendar/feeds/
      */
-    const QUrl& scopeUrl() const;
+    QUrl scopeUrl() const;
 
     /**
      * Returns whether service supports reading data in JSON format.
@@ -192,8 +191,7 @@ class LIBKGAPI_EXPORT Calendar: public KGAPI::Service
     static bool supportsJSONWrite(QString* urlParam);
 
   private:
-    CalendarPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(Calendar);
+    //krazy:exclude=dpointer
 };
 
 } // namespace Services

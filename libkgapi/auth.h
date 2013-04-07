@@ -56,7 +56,7 @@ class AuthWidget;
  * emitted. When Auth fails to open the KWallet, KGAPI::Auth::error() is
  * emitted respective error code.
  */
-class LIBKGAPI_EXPORT Auth: public QObject
+class LIBKGAPI_EXPORT_DEPRECATED Auth: public QObject
 {
 
     Q_OBJECT
@@ -67,8 +67,6 @@ class LIBKGAPI_EXPORT Auth: public QObject
      */
     static Auth* instance();
 
-    virtual ~Auth();
-
     /**
      * Initialize the authentication framework.
      *
@@ -76,7 +74,7 @@ class LIBKGAPI_EXPORT Auth: public QObject
      * time.
      *
      * @param folder Default KWallet folder, @see setKWalletFolder()
-     * @param apiClient Client's API key
+     * @param apiKey Client's API key
      * @param apiSecret Client's sercret API key
      */
     void init(const QString &folder, const QString &apiKey, const QString &apiSecret);
@@ -107,14 +105,14 @@ class LIBKGAPI_EXPORT Auth: public QObject
      *
      * @return Returns client's API key.
      */
-    const QString &apiKey() const;
+    QString apiKey() const;
 
     /**
      * Returns API secret key set during module initialization.
      *
      * @return Returns client's secret API key.
      */
-    const QString &apiSecret() const;
+    QString apiSecret() const;
 
     /**
      * Retrieves \p account from KWallet.
@@ -238,7 +236,7 @@ class LIBKGAPI_EXPORT Auth: public QObject
      * called so if you want to change or remove it call \sa setUsername again
      * with empty string or \sa clearCredentials.
      *
-     * @param QString username to use
+     * @param username username to use
      */
     void setUsername(const QString &username);
 
@@ -253,7 +251,7 @@ class LIBKGAPI_EXPORT Auth: public QObject
      * called so if you want to change or remove it call \sa setPassword again
      * with empty string or \sa clearCredentials.
      *
-     * @param QString password to use
+     * @param password password to use
      */
     void setPassword(const QString &password);
 
@@ -270,7 +268,7 @@ class LIBKGAPI_EXPORT Auth: public QObject
      * If you want to prevent the dialog from closing, use your own
      * KDialog and use authenticateWithWidget() method to obtain an AuthWidget.
      *
-     * @param bool Whether auto close or not the dialog
+     * @param close Whether auto close or not the dialog
      */
     void KDE_DEPRECATED setDialogAutoClose(bool close);
 
@@ -305,6 +303,7 @@ class LIBKGAPI_EXPORT Auth: public QObject
 
     Auth();
     Auth(const Auth& other);
+    virtual ~Auth();
     Auth& operator=(const Auth &other);
 
 };

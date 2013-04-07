@@ -39,7 +39,7 @@ void ObjectsContactTests::testIMTypeConversion()
     QCOMPARE(Contact::IMProtocolToScheme(KGAPI::Objects::Contact::MSN),
              QString("MSN"));
     QCOMPARE(Contact::IMProtocolToScheme(KGAPI::Objects::Contact::Other),
-             QString("OTHER"));
+             QString("Other"));
     QCOMPARE(Contact::IMProtocolToScheme(KGAPI::Objects::Contact::QQ),
              QString("QQ"));
     QCOMPARE(Contact::IMProtocolToScheme(KGAPI::Objects::Contact::Skype),
@@ -76,14 +76,14 @@ void ObjectsContactTests::testIMTypeConversion()
              QString("http://schemas.google.com/g/2005#JABBER"));
     QCOMPARE(Contact::IMProtocolNameToScheme("MSN"),
              QString("http://schemas.google.com/g/2005#MSN"));
-    QCOMPARE(Contact::IMProtocolNameToScheme("OTHER"),
-             QString("http://schemas.google.com/g/2005#OTHER"));
     QCOMPARE(Contact::IMProtocolNameToScheme("QQ"),
              QString("http://schemas.google.com/g/2005#QQ"));
     QCOMPARE(Contact::IMProtocolNameToScheme("SKYPE"),
              QString("http://schemas.google.com/g/2005#SKYPE"));
     QCOMPARE(Contact::IMProtocolNameToScheme("YAHOO"),
              QString("http://schemas.google.com/g/2005#YAHOO"));
+    QCOMPARE(Contact::IMProtocolNameToScheme("RandomProtocol"),
+             QString("RandomProtocol"));
 
     QCOMPARE(Contact::IMSchemeToProtocol("http://schemas.google.com/g/2005#AIM"),
              KGAPI::Objects::Contact::AIM);

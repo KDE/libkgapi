@@ -8,5 +8,5 @@ Description: A C++ library for accessing Google services.
 URL: http://projects.kde.org/libkgapi
 Requires:
 Version: ${KGAPI_VERSION}
-Libs: -L${LIB_INSTALL_DIR} -lkgapi
+Libs: -L${LIB_INSTALL_DIR} -lkgapi -lkgapi2
 Cflags: -I${INCLUDE_INSTALL_DIR}

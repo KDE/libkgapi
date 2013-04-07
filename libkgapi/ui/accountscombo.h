@@ -32,20 +32,25 @@ class Account;
 namespace Ui
 {
 
-class LIBKGAPI_EXPORT AccountsCombo : public KComboBox
+class AccountsComboPrivate;
+
+class LIBKGAPI_EXPORT_DEPRECATED AccountsCombo : public KComboBox
 {
     Q_OBJECT
 
-public:
+  public:
     explicit AccountsCombo(QWidget *parent = 0);
 
     virtual ~AccountsCombo();
 
     KGAPI::Account::Ptr currentAccount() const;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void reload();
 
+  private:
+    AccountsComboPrivate * const d_ptr;
+    Q_DECLARE_PRIVATE(AccountsCombo);
 };
 
 }

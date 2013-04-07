@@ -48,8 +48,7 @@ class AuthPrivate: public QObject
     Q_OBJECT
 
   public:
-    AuthPrivate(Auth* const parent);
-
+    explicit AuthPrivate(Auth* const parent);
     virtual ~AuthPrivate();
 
     QString kwalletFolder;

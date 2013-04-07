@@ -32,7 +32,7 @@ void ServicesLatitudeTests::testJSONParser_data()
     QTest::addColumn<qint32>("altitude");
     QTest::addColumn<qint32>("altitudeAccuracy");
     QTest::addColumn<QByteArray>("jsonData");
-    
+
     QTest::newRow("location1")
         << (qulonglong) 1340366314362
         << (float) 49.6664083
@@ -60,7 +60,7 @@ void ServicesLatitudeTests::testJSONParser()
 {
     KGAPI::Objects::Location *location;
     KGAPI::Services::Latitude *service;
-    
+
     QFETCH(qulonglong, timestamp);
     QFETCH(float, latitude);
     QFETCH(float, longitude);
@@ -70,11 +70,11 @@ void ServicesLatitudeTests::testJSONParser()
     QFETCH(qint32, altitude);
     QFETCH(qint32, altitudeAccuracy);
     QFETCH(QByteArray, jsonData);
-    
+
     service = new KGAPI::Services::Latitude();
-    
+
     location = dynamic_cast<KGAPI::Objects::Location*>(service->JSONToObject(jsonData));
-    
+
     QCOMPARE(location->timestamp(), timestamp);
     QCOMPARE(location->latitude(), latitude);
     QCOMPARE(location->longitude(), longitude);
@@ -83,7 +83,7 @@ void ServicesLatitudeTests::testJSONParser()
     QCOMPARE(location->heading(), heading);
     QCOMPARE(location->altitude(), altitude);
     QCOMPARE(location->altitudeAccuracy(), altitudeAccuracy);
-    
+
     delete location;
     delete service;
 }

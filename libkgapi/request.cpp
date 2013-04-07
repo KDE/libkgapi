@@ -17,8 +17,8 @@
 
 #include "request.h"
 #include "account.h"
+#include "debug.h"
 
-#include <kdebug.h>
 #include <qglobal.h>
 
 namespace KGAPI
@@ -98,7 +98,7 @@ bool Request::setServiceName(const QString& serviceName)
     Q_D(Request);
 
     if (QMetaType::type(qPrintable(serviceName)) == 0) {
-        kWarning() << "Trying to use unregistered service " << serviceName;
+        KGAPIWarning() << "Trying to use unregistered service " << serviceName;
         return false;
     }
 

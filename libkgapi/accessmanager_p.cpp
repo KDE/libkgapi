@@ -21,6 +21,7 @@
 #include "request.h"
 #include "reply.h"
 #include "service.h"
+#include "debug.h"
 
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
@@ -30,11 +31,7 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-#include <KDebug>
-
 #define RequestAttribute QNetworkRequest::User
-
-extern int debugArea();
 
 using namespace KGAPI;
 
@@ -70,14 +67,12 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     /* Delete the reply after we leave this method */
     reply->deleteLater();
 
-#ifdef DEBUG_RAWDATA
     QStringList headers;
-    Q_FOREACH(const QString &str, reply->rawHeaderList()) {
-        headers << str + ": " + reply->rawHeader(str.toLatin1());
+    Q_FOREACH(const QByteArray &str, reply->rawHeaderList()) {
+        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(reply->rawHeader(str));
     }
-    kDebug() << headers;
-    kDebug() << rawData;
-#endif
+    KGAPIDebugRawData() << headers;
+    KGAPIDebugRawData() << rawData;
 
     int processedItems = -1;
     int totalItems = -1;
@@ -94,7 +89,7 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         /* Workaround for a bug (??), when QNetworkReply does not report HTTP/1.1 401 Unauthorized
          * as an error. */
         if (!reply->rawHeaderList().isEmpty()) {
-            QString status = reply->rawHeaderList().first();
+            QString status = QLatin1String(reply->rawHeaderList().first());
             if (status.startsWith(QLatin1String("HTTP/1.1 401")))
                 replyCode = KGAPI::Unauthorized;
         }
@@ -107,13 +102,13 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         break;
 
     case KGAPI::TemporarilyMoved:  /** << Temporarily moved - Google provides a new URL where to send the request */
-        kDebug() << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
+        KGAPIDebug() << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
         request->setRealUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
         nam_sendRequest(request);
         return;
 
     case KGAPI::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
-        kWarning() << "Bad request, Google replied '" << rawData << "'";
+        KGAPIWarning() << "Bad request, Google replied '" << rawData << "'";
         Q_EMIT q->error(KGAPI::BadRequest, i18n("Bad request."));
         return;
 
@@ -160,8 +155,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
             try {
                 auth->authenticate(account, true);
             } catch (KGAPI::Exception::BaseException &e) {
-                Q_EMIT q->error(KGAPI::InvalidAccount, e.what());
-                Q_EMIT request->error(KGAPI::InvalidAccount, e.what());
+                Q_EMIT q->error(KGAPI::InvalidAccount, QLatin1String(e.what()));
+                Q_EMIT request->error(KGAPI::InvalidAccount, QLatin1String(e.what()));
                 return;
             }
         }
@@ -169,8 +164,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         return;
 
     case KGAPI::Forbidden: {
-        kWarning() << "Requested resource is forbidden.";
-        kWarning() << rawData;
+        KGAPIWarning() << "Requested resource is forbidden.";
+        KGAPIDebugRawData() << rawData;
         QString msg = parseErrorMessage(rawData);
         Q_EMIT q->error(KGAPI::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", msg));
         Q_EMIT request->error(KGAPI::Forbidden, i18n("Requested resource is forbidden.\n\nGoogle replied '%1'", msg));
@@ -178,8 +173,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     }
 
     case KGAPI::NotFound: {
-        kWarning() << "Requested resource does not exist";
-        kWarning() << rawData;
+        KGAPIWarning() << "Requested resource does not exist";
+        KGAPIDebugRawData() << rawData;
         QString msg = parseErrorMessage(rawData);
         Q_EMIT q->error(KGAPI::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", msg));
         Q_EMIT request->error(KGAPI::NotFound, i18n("Requested resource does not exist.\n\nGoogle replied '%1'", msg));
@@ -187,8 +182,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     }
 
     case KGAPI::Conflict: {
-        kWarning() << "Conflict. Remote resource is newer then local.";
-        kWarning() << rawData;
+        KGAPIWarning() << "Conflict. Remote resource is newer then local.";
+        KGAPIDebugRawData() << rawData;
         QString msg = parseErrorMessage(rawData);
         Q_EMIT q->error(KGAPI::Conflict, i18n("Conflict. Remote resource is newer than local.\n\nGoogle replied '%1'", msg));
         Q_EMIT request->error(KGAPI::Conflict, i18n("Conflict. Remote resource is newer than local.\n\nGoogle replied '%1'", msg));
@@ -196,8 +191,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     }
 
     case KGAPI::Gone: {
-        kWarning() << "Requested resource does not exist anymore.";
-        kWarning() << rawData;
+        KGAPIWarning() << "Requested resource does not exist anymore.";
+        KGAPIDebugRawData() << rawData;
         QString msg = parseErrorMessage(rawData);
         Q_EMIT q->error(KGAPI::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", msg));
         Q_EMIT request->error(KGAPI::Gone, i18n("Requested resource does not exist anymore.\n\nGoogle replied '%1'", msg));
@@ -205,8 +200,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     }
 
     case KGAPI::InternalError: {
-        kWarning() << "Internal server error.";
-        kWarning() << rawData;
+        KGAPIWarning() << "Internal server error.";
+        KGAPIDebugRawData() << rawData;
         QString msg = parseErrorMessage(rawData);
         Q_EMIT q->error(KGAPI::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", msg));
         Q_EMIT request->error(KGAPI::InternalError, i18n("Internal server error. Try again later.\n\nGoogle replied '%1'", msg));
@@ -214,8 +209,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     }
 
     case KGAPI::QuotaExceeded: {
-        kWarning() << "User quota exceeded.";
-        kWarning() << rawData;
+        KGAPIWarning() << "User quota exceeded.";
+        KGAPIDebugRawData() << rawData;
         QString msg = parseErrorMessage(rawData);
         Q_EMIT q->error(KGAPI::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", msg));
         Q_EMIT request->error(KGAPI::QuotaExceeded, i18n("User quota exceeded. Try again later.\n\nGoogle replied '%1'", msg));
@@ -223,8 +218,8 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     }
 
     default:{  /** Something went wrong, there's nothing we can do about it */
-        kWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
-                   << ", Google replied '" << rawData << "'";
+        KGAPIWarning() << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        KGAPIDebugRawData() << rawData;
         QString msg = parseErrorMessage(rawData);
         Q_EMIT q->error(KGAPI::UnknownError, i18n("Unknown error.\n\nGoogle replied '%1'", msg));
         Q_EMIT request->error(KGAPI::UnknownError, msg);
@@ -244,19 +239,19 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
         KGAPI::FeedData feedData;
         feedData.requestUrl = reply->request().url();
 
-        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/javascript")) {
+        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("application/json")) ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/plain")) ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/javascript"))) {
 
             replyData = service->parseJSONFeed(rawData, feedData);
 
-        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
-                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
+        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("application/atom+xml")) ||
+                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/xml"))) {
 
             replyData = service->parseXMLFeed(rawData, feedData);
 
         } else {
-            kDebug() << "Unknown reply content type!";
+            KGAPIDebug() << "Unknown reply content type!";
             Q_EMIT q->error(KGAPI::InvalidResponse, i18n("Unknown reply content type."));
             Q_EMIT request->error(KGAPI::InvalidResponse, i18n("Unknown reply content type."));
             return;
@@ -274,14 +269,14 @@ void AccessManagerPrivate::nam_replyReceived(QNetworkReply* reply)
     case KGAPI::Request::Create:
     case KGAPI::Request::Update:
     case KGAPI::Request::Patch: {
-        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/json") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/plain") ||
-                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/javascript")) {
+        if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("application/json")) ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/plain")) ||
+                reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/javascript"))) {
 
             replyData.append(service->JSONToObject(rawData));
 
-        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("application/atom+xml") ||
-                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/xml")) {
+        } else if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("application/atom+xml")) ||
+                   reply->header(QNetworkRequest::ContentTypeHeader).toString().contains(QLatin1String("text/xml"))) {
 
             replyData.append(service->XMLToObject(rawData));
 
@@ -325,16 +320,14 @@ void AccessManagerPrivate::nam_sendRequest(KGAPI::Request* request)
 
     QNetworkRequest nr;
 
-    kDebug() << "Sending request to " << request->url();
+    KGAPIDebug() << "Sending request to " << request->url();
 
-#ifdef DEBUG_RAWDATA
-    kDebug() << request->requestData();
-#endif
+    KGAPIDebugRawData() << request->requestData();
 
     int type = QMetaType::type(qPrintable(request->serviceName()));
     KGAPI::Service *service = static_cast<KGAPI::Service*>(QMetaType::construct(type));
     if (!service) {
-        kWarning() << "Failed to resolve service " << request->serviceName();
+        KGAPIWarning() << "Failed to resolve service " << request->serviceName();
         Q_EMIT q->error(KGAPI::UnknownService, i18n("Invalid request, service %1 is not registered.", request->serviceName()));
         return;
     }
@@ -344,13 +337,11 @@ void AccessManagerPrivate::nam_sendRequest(KGAPI::Request* request)
     nr.setUrl(request->realUrl());
     nr.setAttribute(QNetworkRequest::User, QVariant::fromValue(request));
 
-#ifdef DEBUG_RAWDATA
     QStringList headers;
-    Q_FOREACH(const QString &str, nr.rawHeaderList()) {
-        headers << str + ": " + nr.rawHeader(str.toLatin1());
+    Q_FOREACH(const QByteArray &str, nr.rawHeaderList()) {
+        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(nr.rawHeader(str));
     }
-    kDebug() << headers;
-#endif
+    KGAPIDebugRawData() << headers;
 
     delete service;
 
@@ -401,7 +392,7 @@ void AccessManagerPrivate::authenticated()
 
 void AccessManagerPrivate::submitCache()
 {
-    kDebug() << "Cache contains" << cache.size() << "requests";
+    KGAPIDebug() << "Cache contains" << cache.size() << "requests";
     while (!cache.isEmpty() && cacheSemaphore->available())
         nam_sendRequest(cache.dequeue());
 }
@@ -416,19 +407,19 @@ QString AccessManagerPrivate::parseErrorMessage(const QByteArray &json) const
         QString message;
         QVariantMap map = data.toMap();
 
-        if (map.contains("error")) {
-            map = map["error"].toMap();
+        if (map.contains(QLatin1String("error"))) {
+            map = map.value(QLatin1String("error")).toMap();
         }
 
-        if (map.contains("message")) {
-            message.append(map["message"].toString());
+        if (map.contains(QLatin1String("message"))) {
+            message.append(map.value(QLatin1String("message")).toString());
         } else {
-            message = QString(json);
+            message = QLatin1String(json);
         }
 
         return message;
 
     } else {
-        return QString(json);
+        return QLatin1String(json);
     }
 }

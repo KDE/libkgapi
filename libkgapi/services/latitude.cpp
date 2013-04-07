@@ -21,23 +21,21 @@
 #include "accessmanager.h"
 #include "objects/location.h"
 
-#include <KDateTime>
-#include <kurl.h>
-
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-#include <QDebug>
+#include <libkgapi2/latitude/latitudeservice.h>
+#include <libkgapi2/latitude/location.h>
 
 using namespace KGAPI;
 using namespace Services;
 
-QUrl Latitude::ScopeUrl("https://www.googleapis.com/auth/latitude.all.best");
+QUrl Latitude::ScopeUrl(KGAPI2::LatitudeService::scopeUrl());
 
-static const QString serviceNameStr("KGAPI::Services::Latitude");
+static const QString serviceNameStr = QLatin1String("KGAPI::Services::Latitude");
 
 
-const QString& Latitude::serviceName()
+QString Latitude::serviceName()
 {
     if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
         qRegisterMetaType< KGAPI::Services::Latitude >(serviceNameStr.toLatin1().constData());
@@ -49,71 +47,27 @@ const QString& Latitude::serviceName()
 
 Object * Latitude::JSONToObject(const QByteArray & jsonData)
 {
-    QJson::Parser parser;
-    QVariantMap data;
-    bool ok;
-
-    data = parser.parse(jsonData, &ok).toMap();
-
-    if (!ok) {
-        return 0;
-    }
-
-    QVariantMap info = data["data"].toMap();
-
-    return parseLocation(info);
+    KGAPI2::LocationPtr location = KGAPI2::LatitudeService::JSONToLocation(jsonData);
+    return new Objects::Location(*reinterpret_cast<Objects::Location*>(location.data()));
 }
 
 QByteArray Latitude::objectToJSON(Object * object)
 {
-    QVariantMap map, output;
-    Objects::Location *location = static_cast<Objects::Location*>(object);
-
-    map["kind"] = "latitude#location";
-    map["latitude"] = QString::number(location->latitude());
-    map["longitude"] = QString::number(location->longitude());
-
-    if (location->timestamp() != 0) {
-        map["timestampMs"] = location->timestamp();
-    }
-    if (location->accuracy() != -1) {
-        map["accuracy"] = location->accuracy();
-    }
-    if (location->speed() != -1) {
-        map["speed"] = location->speed();
-    }
-    if (location->heading() != -1) {
-        map["heading"] = location->heading();
-    }
-
-    map["altitude"] = location->altitude();
-
-    if (location->altitudeAccuracy() != 0) {
-        map["altitudeAccuracy"] = location->altitudeAccuracy();
-    }
-
-    output["data"] = map;
-
-    QJson::Serializer serializer;
-    return serializer.serialize(output);
+    KGAPI2::LocationPtr location(new KGAPI2::Location(*reinterpret_cast<KGAPI2::Location*>(object)));
+    return KGAPI2::LatitudeService::locationToJSON(location);
 }
 
 QList< Object * > Latitude::parseJSONFeed(const QByteArray & jsonFeed, FeedData & feedData)
 {
-    Q_UNUSED(feedData);
+    QList< KGAPI::Object* > list;
+    KGAPI2::ObjectsList objects = KGAPI2::LatitudeService::parseLocationJSONFeed(jsonFeed, feedData);
 
-    QList< KGAPI::Object* > output;
-    QJson::Parser parser;
-
-    QVariantMap map = parser.parse(jsonFeed).toMap();
-    QVariantMap data = map["data"].toMap();
-
-    Q_FOREACH(const QVariant &c, data["items"].toList()) {
-        QVariantMap location = c.toMap();
-        output << parseLocation(location);
+    Q_FOREACH(const KGAPI2::ObjectPtr &object, objects) {
+        KGAPI2::LocationPtr location = object.dynamicCast<KGAPI2::Location>();
+        list << new Objects::Location(*reinterpret_cast<Objects::Location*>(location.data()));
     }
 
-    return output;
+    return list;
 }
 
 QByteArray Latitude::objectToXML(Object * object)
@@ -138,121 +92,50 @@ QList< Object * > Latitude::parseXMLFeed(const QByteArray & xmlFeed, FeedData & 
     return QList< KGAPI::Object * >();
 }
 
-Object * Latitude::parseLocation(const QVariantMap map)
-{
-    Objects::Location * object = new Objects::Location();
-
-    if (map.contains("timestampMs")) {
-        object->setTimestamp(map["timestampMs"].toULongLong());
-    }
-    if (map.contains("latitude")) {
-        object->setLatitude(map["latitude"].toFloat());
-    }
-    if (map.contains("longitude")) {
-        object->setLongitude(map["longitude"].toFloat());
-    }
-    if (map.contains("accuracy")) {
-        object->setAccuracy(map["accuracy"].toInt());
-    }
-    if (map.contains("speed")) {
-        object->setSpeed(map["speed"].toInt());
-    }
-    if (map.contains("heading")) {
-        object->setHeading(map["heading"].toInt());
-    }
-    if (map.contains("altitude")) {
-        object->setAltitude(map["altitude"].toInt());
-    }
-    if (map.contains("altitudeAccuracy")) {
-        object->setAltitudeAccuracy(map["altitudeAccuracy"].toInt());
-    }
-
-    return object;
-}
-
-
 QString Latitude::protocolVersion() const
 {
-    return "1";
+    return KGAPI2::LatitudeService::APIVersion();
 }
 
-const QUrl & Latitude::scopeUrl() const
+QUrl Latitude::scopeUrl() const
 {
-    return Latitude::ScopeUrl;
+    return KGAPI2::LatitudeService::scopeUrl();
 }
 
 QUrl Latitude::retrieveCurrentLocationUrl(const Latitude::Granularity granularity)
 {
-    KUrl url("https://www.googleapis.com/latitude/v1/currentLocation");
-
-    if (granularity == City) {
-        url.addQueryItem("granularity", "city");
-    } else if (granularity == Best) {
-        url.addQueryItem("granularity", "best");
-    }
-
-    return QUrl(url);
+    return KGAPI2::LatitudeService::retrieveCurrentLocationUrl(static_cast<KGAPI2::Latitude::Granularity>(granularity));
 }
 
 QUrl Latitude::deleteCurrentLocationUrl()
 {
-    return QUrl("https://www.googleapis.com/latitude/v1/currentLocation");
+    return KGAPI2::LatitudeService::deleteCurrentLocationUrl();
 }
 
 QUrl Latitude::insertCurrentLocationUrl()
 {
-    return QUrl("https://www.googleapis.com/latitude/v1/currentLocation");
+    return KGAPI2::LatitudeService::insertCurrentLocationUrl();
 }
 
 QUrl Latitude::locationHistoryUrl(const Latitude::Granularity granularity, const int maxResults,
                                   const qlonglong maxTime, const qlonglong minTime)
 {
-    KUrl url("https://www.googleapis.com/latitude/v1/location");
-
-    if (granularity == City) {
-        url.addQueryItem("granularity", "city");
-    } else if (granularity == Best) {
-        url.addQueryItem("granularity", "best");
-    }
-
-    if (maxResults > 0) {
-        url.addQueryItem("max-results", QString::number(maxResults));
-    }
-
-    if ((maxTime > 0) && (maxTime >= minTime)) {
-        url.addQueryItem("max-time", QString::number(maxTime));
-    }
-
-    if ((minTime > 0) && (minTime <= maxTime)) {
-        url.addQueryItem("min-time", QString::number(minTime));
-    }
-
-    return url;
+    return KGAPI2::LatitudeService::locationHistoryUrl(
+            static_cast<KGAPI2::Latitude::Granularity>(granularity), maxResults,
+            maxTime, minTime);
 }
 
 QUrl Latitude::retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granularity)
 {
-    KUrl url("https://www.googleapis.com/latitude/v1/location/");
-    url.addPath(QString::number(id));
-
-     if (granularity == City) {
-        url.addQueryItem("granularity", "city");
-     } else if (granularity == Best) {
-        url.addQueryItem("granularity", "best");
-     }
-
-    return url;
+    return KGAPI2::LatitudeService::retrieveLocationUrl(id, static_cast<KGAPI2::Latitude::Granularity>(granularity));
 }
 
 QUrl Latitude::insertLocationUrl()
 {
-    return QUrl("https://www.googleapis.com/latitude/v1/location");
+    return KGAPI2::LatitudeService::insertLocationUrl();
 }
 
 QUrl Latitude::deleteLocationUrl(const qlonglong id)
 {
-    KUrl url("https://www.googleapis.com/latitude/v1/location/");
-    url.addPath(QString::number(id));
-
-    return url;
+    return KGAPI2::LatitudeService::deleteLocationUrl(id);
 }

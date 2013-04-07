@@ -29,8 +29,6 @@ namespace KGAPI
 namespace Objects
 {
 
-class AccountInfoPrivate;
-
 /**
  * AccountInfo contains information about user's Google account.
  *
@@ -42,7 +40,7 @@ class AccountInfoPrivate;
  *
  * The accountInfo service provides read-only access.
  */
-class LIBKGAPI_EXPORT AccountInfo : public KGAPI::Object
+class LIBKGAPI_EXPORT_DEPRECATED AccountInfo : public KGAPI::Object
 {
   public:
     AccountInfo();
@@ -171,10 +169,12 @@ class LIBKGAPI_EXPORT AccountInfo : public KGAPI::Object
     /**
      * Returns URL of user's photo.
      */
-    const QString& photoUrl() const;
+    QString photoUrl() const;
 
   private:
-    AccountInfoPrivate* d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

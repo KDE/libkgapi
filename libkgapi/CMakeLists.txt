@@ -1,19 +1,28 @@
-set(libkgapi_SRCS 
+add_definitions(-DLIBKGAPI1)
+
+set(KGAPI_SOVERSION 1)
+
+set(libkgapi_SRCS
     accessmanager.cpp
     accessmanager_p.cpp
     account.cpp
     auth.cpp
     auth_p.cpp
+    debug.cpp
     fetchlistjob.cpp
     object.cpp
     request.cpp
     reply.cpp
     objects/accountinfo.cpp
     objects/calendar.cpp
-    objects/reminder.cpp
     objects/contact.cpp
     objects/contactsgroup.cpp
     objects/event.cpp
+    objects/location.cpp
+    objects/reminder.cpp
+    objects/staticmapmarker.cpp
+    objects/staticmappath.cpp
+    objects/staticmapurl.cpp
     objects/task.cpp
     objects/tasklist.cpp
     objects/location.cpp
@@ -30,6 +39,7 @@ set(libkgapi_SRCS
     services/contacts.cpp
     services/tasks.cpp
     services/latitude.cpp
+    services/staticmap.cpp
     ui/accountscombo.cpp
     ui/authwidget.cpp
     ui/authwidget_p.cpp
@@ -52,7 +62,8 @@ set(services_HDRS
     services/calendar.h
     services/contacts.h
     services/tasks.h
-    services/latitude.h)
+    services/latitude.h
+    services/staticmap.h)
 
 set(objects_HDRS
     objects/accountinfo.h
@@ -63,7 +74,11 @@ set(objects_HDRS
     objects/event.h
     objects/task.h
     objects/tasklist.h
-    objects/location.h)
+    objects/location.h
+    objects/staticmapmarker.h
+    objects/staticmappath.h
+    objects/staticmapurl.h
+)
 
 set(objects_drive_HDRS
     objects/drive/about.h
@@ -79,15 +94,17 @@ set(ui_HDRS
     ui/accountscombo.h
     ui/authwidget.h)
 
-kde4_add_library(kgapi SHARED ${libkgapi_SRCS})
+kde4_add_library(kgapi SHARED ${libkgapi_SRCS} ${moc_SRCS})
 
-set_target_properties(kgapi PROPERTIES VERSION ${KGAPI_VERSION} SOVERSION ${KGAPI_VERSION_MAJOR} DEFINE_SYMBOL LIBKGAPI_LIBRARY)
+set_target_properties(kgapi PROPERTIES VERSION ${KGAPI_VERSION} SOVERSION ${KGAPI_SOVERSION})
+add_dependencies(kgapi kgapi2)
 
 target_link_libraries(kgapi
 		      ${KDE4_KDECORE_LIBS}
 		      ${KDE4_KDEWEBKIT_LIBS}
 		      ${KDE4_KDEUI_LIBS}
 		      ${KDEPIMLIBS_KABC_LIBS}
+		      ${KDEPIMLIBS_KCALCORE_LIBS}
 		      ${KDEPIMLIBS_KMIME_LIBS}
                       ${qjson_LIBRARIES}        # for Debian
                       ${QJSON_LIBRARY}          # for Mac OSX
@@ -96,13 +113,8 @@ target_link_libraries(kgapi
 		      ${QT_QTWEBKIT_LIBRARY}
 		      ${QT_QTNETWORK_LIBRARY}
 		      ${QT_QTXML_LIBRARY}
-		      ${KCALENDAR_LIBRARIES}
+		      kgapi2
 )
-
-if(NOT WIN32)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libkgapi.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig )
-endif(NOT WIN32)
 
 install(TARGETS kgapi EXPORT kgapiLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES ${libkgapi_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi)
@@ -111,3 +123,23 @@ install(FILES ${objects_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/object
 install(FILES ${objects_drive_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/objects/drive)
 install(FILES ${ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi/ui)
 
+if(NOT WIN32)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libkgapi.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgapi.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+endif(NOT WIN32)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/LibKGAPIConfig.cmake.in
+               ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPIConfig.cmake @ONLY)
+
+# this file is used by to check if the installed version can be used.
+macro_write_basic_cmake_version_file(${CMAKE_CURRENT_BINARY_DIR}/LibKGAPIConfigVersion.cmake
+                                     ${KGAPI_VERSION_MAJOR} ${KGAPI_VERSION_MINOR} ${KGAPI_VERSION_RELEASE})
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPIConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPIConfigVersion.cmake
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI)
+
+# Install the file with the exported targets
+install(EXPORT kgapiLibraryTargets
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/LibKGAPI
+        FILE LibKGAPITargetsWithPrefix.cmake)

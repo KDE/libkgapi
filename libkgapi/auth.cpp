@@ -54,7 +54,7 @@ Auth::Auth():
 {
     Q_D(Auth);
 
-    d->kwalletFolder = "libkgapi";
+    d->kwalletFolder = QLatin1String("libkgapi");
     d->kwallet = 0;
 }
 
@@ -86,12 +86,12 @@ QString Auth::kwalletFolder() const
     return d_func()->kwalletFolder;
 }
 
-const QString& Auth::apiKey() const
+QString Auth::apiKey() const
 {
     return d_func()->apiKey;
 }
 
-const QString& Auth::apiSecret() const
+QString Auth::apiSecret() const
 {
     return d_func()->apiSecret;
 }
@@ -145,9 +145,9 @@ QList< KGAPI::Account::Ptr > Auth::getAccounts()
         d->kwallet->readMap(accName, map);
 
         /* Make sure we ignore authentication entries from libkgoogle 0.2 */
-        if (!map.contains("accessToken")
-            || !map.contains("refreshToken")
-            || !map.contains("scopes")) {
+        if (!map.contains(QLatin1String("accessToken"))
+            || !map.contains(QLatin1String("refreshToken"))
+            || !map.contains(QLatin1String("scopes"))) {
 
             continue;
         }
@@ -158,13 +158,14 @@ QList< KGAPI::Account::Ptr > Auth::getAccounts()
             continue;
         }
 
-        QStringList scopes = map["scopes"].split(',');
+        QStringList scopes = map.value(QLatin1String("scopes")).split(QLatin1Char(','));
         QList< QUrl > scopeUrls;
         Q_FOREACH(const QString & scope, scopes) {
             scopeUrls << QUrl(scope);
         }
 
-        Account::Ptr account(new Account(accName, map["accessToken"], map["refreshToken"], scopeUrls));
+        Account::Ptr account(new Account(accName, map.value(QLatin1String("accessToken")),
+					 map.value(QLatin1String("refreshToken")), scopeUrls));
 
         accounts.append(account);
         d->accountsCache.insert(account->accountName(), account);
@@ -201,9 +202,9 @@ void Auth::storeAccount(const KGAPI::Account::Ptr &account)
     }
 
     QMap< QString, QString > map;
-    map["accessToken"] = account->accessToken();
-    map["refreshToken"] = account->refreshToken();
-    map["scopes"] = scopes.join(",");
+    map.insert(QLatin1String("accessToken"), account->accessToken());
+    map.insert(QLatin1String("refreshToken"), account->refreshToken());
+    map.insert(QLatin1String("scopes"), scopes.join(QLatin1String(",")));
     d->kwallet->writeMap(account->accountName(), map);
 
     /* If the account is not yet in cache then put it in there. Otherwise
@@ -273,8 +274,8 @@ bool Auth::revoke(Account::Ptr &account)
 
         if (d->kwallet->removeEntry(account->accountName()) == 0) {
 
-            account->setAccessToken("");
-            account->setRefreshToken("");
+            account->setAccessToken(QLatin1String(""));
+            account->setRefreshToken(QLatin1String(""));
             account->setScopes(QList< QUrl >());
 
             if (d->accountsCache.contains(account->accountName())) {

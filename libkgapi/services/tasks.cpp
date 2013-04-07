@@ -19,51 +19,27 @@
 #include "object.h"
 #include "objects/task.h"
 #include "objects/tasklist.h"
-#include "accessmanager.h"
 
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
 #include <QtCore/QVariant>
 
+#include <libkgapi2/tasks/tasksservice.h>
+#include <libkgapi2/tasks/task.h>
+#include <libkgapi2/tasks/tasklist.h>
+
 using namespace KGAPI;
 using namespace Services;
 
-#ifdef WITH_KCAL
-using namespace KCal;
-#else
 using namespace KCalCore;
-#endif
 
-namespace KGAPI
-{
+QUrl Tasks::ScopeUrl(KGAPI2::TasksService::scopeUrl());
 
-namespace Services
-{
-
-class TasksPrivate
-{
-  public:
-    static QList< KGAPI::Object* > parseTaskListJSONFeed(const QVariantList &items);
-    static QList< KGAPI::Object* > parseTasksJSONFeed(const QVariantList &items);
-
-    static KGAPI::Object* JSONToTaskList(QVariantMap jsonData);
-    static QVariantMap taskListToJSON(KGAPI::Object *taskList);
-
-    static KGAPI::Object* JSONToTask(QVariantMap jsonData);
-    static QVariantMap taskToJSON(KGAPI::Object *task);
-};
-
-}
-
-}
-
-QUrl Tasks::ScopeUrl("https://www.googleapis.com/auth/tasks");
-
-static const QString serviceNameStr("KGAPI::Services::Tasks");
+static const QString serviceNameStr = QLatin1String("KGAPI::Services::Tasks");
 
 
-const QString& Tasks::serviceName()
+QString Tasks::serviceName()
 {
     if (QMetaType::type(serviceNameStr.toLatin1().constData()) == 0) {
         qRegisterMetaType< KGAPI::Services::Tasks >(serviceNameStr.toLatin1().constData());
@@ -97,37 +73,22 @@ QList< KGAPI::Object* > Tasks::parseXMLFeed(const QByteArray& xmlFeed, FeedData&
 
 QList< KGAPI::Object* > Tasks::parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
-    QJson::Parser parser;
-
     QList< KGAPI::Object* > list;
-    QVariantMap feed = parser.parse(jsonFeed).toMap();
-
-    if (feed["kind"].toString() == "tasks#taskLists") {
-        list = TasksPrivate::parseTaskListJSONFeed(feed["items"].toList());
-
-        if (feed.contains("nextPageToken")) {
-            feedData.nextPageUrl = fetchTaskListsUrl();
-            feedData.nextPageUrl.addQueryItem("pageToken", feed["nextPageToken"].toString());
-            if (feedData.nextPageUrl.queryItemValue("maxResults").isEmpty()) {
-                feedData.nextPageUrl.addQueryItem("maxResults", "20");
-            }
-        }
-
-    } else if (feed["kind"].toString() == "tasks#tasks") {
-        list = TasksPrivate::parseTasksJSONFeed(feed["items"].toList());
-
-        if (feed.contains("nextPageToken")) {
-            QString taskListId = feedData.requestUrl.toString().remove("https://www.googleapis.com/tasks/v1/lists/");
-            taskListId = taskListId.left(taskListId.indexOf("/"));
-
-            feedData.nextPageUrl = fetchAllTasksUrl(taskListId);
-            feedData.nextPageUrl.addQueryItem("pageToken", feed["nextPageToken"].toString());
-            if (feedData.nextPageUrl.queryItemValue("maxResults").isEmpty()) {
-                feedData.nextPageUrl.addQueryItem("maxResults", "20");
-            }
-        }
+    KGAPI2::ObjectsList objects = KGAPI2::TasksService::parseJSONFeed(jsonFeed, feedData);
+    if (objects.isEmpty()) {
+        return list;
     }
 
+    bool isList = (objects.first().dynamicCast<KGAPI2::TaskList>() != 0);
+    Q_FOREACH(const KGAPI2::ObjectPtr &object, objects) {
+        if (isList) {
+            KGAPI2::TaskListPtr taskList = object.dynamicCast<KGAPI2::TaskList>();
+            list << new Objects::TaskList(*reinterpret_cast<Objects::TaskList*>(taskList.data()));
+        } else {
+            KGAPI2::TaskPtr task = object.dynamicCast<KGAPI2::Task>();
+            list << new Objects::Task(*reinterpret_cast<Objects::Task*>(task.data()));
+        }
+    }
 
     return list;
 }
@@ -135,232 +96,106 @@ QList< KGAPI::Object* > Tasks::parseJSONFeed(const QByteArray& jsonFeed, FeedDat
 KGAPI::Object* Tasks::JSONToObject(const QByteArray& jsonData)
 {
     QJson::Parser parser;
-    KGAPI::Object *object = 0;
+    const QVariantMap data = parser.parse(jsonData).toMap();
 
-    QVariantMap data = parser.parse(jsonData).toMap();
-
-    if (data["kind"].toString() == "tasks#taskList") {
-        object = TasksPrivate::JSONToTaskList(data);
-    } else if (data["kind"].toString() == "tasks#task") {
-        object = TasksPrivate::JSONToTask(data);
+    if (data.value(QLatin1String("kind")).toString() == QLatin1String("tasks#taskList")) {
+        KGAPI2::TaskListPtr taskList = KGAPI2::TasksService::JSONToTaskList(jsonData);
+        return new Objects::TaskList(*reinterpret_cast<Objects::TaskList*>(taskList.data()));
+    } else if (data.value(QLatin1String("kind")).toString() == QLatin1String("tasks#task")) {
+        KGAPI2::TaskPtr task = KGAPI2::TasksService::JSONToTask(jsonData);
+        return new Objects::Task(*reinterpret_cast<Objects::Task*>(task.data()));
     }
 
-    return object;
+    return 0;
 }
 
 QByteArray Tasks::objectToJSON(KGAPI::Object* object)
 {
-    QVariantMap map;
-
     if (dynamic_cast< const Objects::TaskList* >(object)) {
-        map = TasksPrivate::taskListToJSON(object);
+        KGAPI2::TaskListPtr taskList(new KGAPI2::TaskList(*reinterpret_cast<KGAPI2::TaskList*>(object)));
+        return KGAPI2::TasksService::taskListToJSON(taskList);
     } else if (dynamic_cast< const Objects::Task* >(object)) {
-        map = TasksPrivate::taskToJSON(object);
+        KGAPI2::TaskPtr task(new KGAPI2::Task(*reinterpret_cast<KGAPI2::Task*>(object)));
+        return KGAPI2::TasksService::taskToJSON(task);
     }
 
-    QJson::Serializer serializer;
-    return serializer.serialize(map);
+    return QByteArray();
 }
 
-const QUrl& Tasks::scopeUrl() const
+QUrl Tasks::scopeUrl() const
 {
-    return Tasks::ScopeUrl;
+    return KGAPI2::TasksService::scopeUrl();
 }
 
 QUrl Tasks::fetchAllTasksUrl(const QString& tasklistID)
 {
-    return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks";
+    return KGAPI2::TasksService::fetchAllTasksUrl(tasklistID);
 }
 
 QUrl Tasks::fetchTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-    return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID;
+    return KGAPI2::TasksService::fetchTaskUrl(tasklistID, taskID);
 }
 
 QUrl Tasks::createTaskUrl(const QString& tasklistID)
 {
-    return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks";
+    return KGAPI2::TasksService::createTaskUrl(tasklistID);
 }
 
 QUrl Tasks::updateTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-    return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID;
+    return KGAPI2::TasksService::updateTaskUrl(tasklistID, taskID);
 }
 
 QUrl Tasks::removeTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-    return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID;
+    return KGAPI2::TasksService::removeTaskUrl(tasklistID, taskID);
 }
 
 QUrl Tasks::moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString& newParent)
 {
-    QString parent = (!newParent.isEmpty()) ? "?parent=" + newParent : "";
-    return "https://www.googleapis.com/tasks/v1/lists/" + tasklistID + "/tasks/" + taskID + "/move" + parent;
+    return KGAPI2::TasksService::moveTaskUrl(tasklistID, taskID, newParent);
 }
 
 QUrl Tasks::fetchTaskListsUrl()
 {
-    return QUrl("https://www.googleapis.com/tasks/v1/users/@me/lists");
+    return KGAPI2::TasksService::fetchTaskListsUrl();
 }
 
 QUrl Tasks::createTaskListUrl()
 {
-    return QUrl("https://www.googleapis.com/tasks/v1/users/@me/lists");
+    return KGAPI2::TasksService::createTaskListUrl();
 }
 
 QUrl Tasks::updateTaskListUrl(const QString& tasklistID)
 {
-    return "https://www.googleapis.com/tasks/v1/users/@me/lists/" + tasklistID;
+    return KGAPI2::TasksService::updateTaskListUrl(tasklistID);
 }
 
 QUrl Tasks::removeTaskListUrl(const QString& tasklistID)
 {
-    return "https://www.googleapis.com/tasks/v1/users/@me/lists/" + tasklistID;
+    return KGAPI2::TasksService::removeTaskListUrl(tasklistID);
 }
 
 QString Tasks::protocolVersion() const
 {
-    return "";
+    return QString();
 }
 
 bool Tasks::supportsJSONRead(QString* urlParam)
 {
-    if (urlParam)
+    if (urlParam) {
         urlParam->clear();
+    }
 
     return true;
 }
 
 bool Tasks::supportsJSONWrite(QString* urlParam)
 {
-    if (urlParam)
+    if (urlParam) {
         urlParam->clear();
+    }
 
     return true;
-}
-
-/******************************* PRIVATE ******************************/
-
-KGAPI::Object* TasksPrivate::JSONToTaskList(QVariantMap jsonData)
-{
-    Objects::TaskList *object = new Objects::TaskList();
-
-    object->setUid(jsonData["id"].toString());
-    object->setEtag(jsonData["etag"].toString());
-    object->setTitle(jsonData["title"].toString());
-
-    return dynamic_cast< KGAPI::Object* >(object);
-}
-
-KGAPI::Object* TasksPrivate::JSONToTask(QVariantMap jsonData)
-{
-    Objects::Task *object = new Objects::Task();
-
-    object->setUid(jsonData["id"].toString());
-    object->setEtag(jsonData["etag"].toString());
-    object->setSummary(jsonData["title"].toString());;
-    object->setLastModified(AccessManager::RFC3339StringToDate(jsonData["updated"].toString()));
-    object->setDescription(jsonData["notes"].toString());
-
-    if (jsonData["status"].toString() == "needsAction") {
-        object->setStatus(Incidence::StatusNeedsAction);
-    } else if (jsonData["status"].toString() == "completed") {
-        object->setStatus(Incidence::StatusCompleted);
-    } else {
-        object->setStatus(Incidence::StatusNone);
-    }
-
-    object->setDtDue(AccessManager::RFC3339StringToDate(jsonData["due"].toString()));
-
-    if (object->status() == Incidence::StatusCompleted) {
-        object->setCompleted(AccessManager::RFC3339StringToDate(jsonData["completed"].toString()));
-    }
-
-    object->setDeleted(jsonData["deleted"].toBool());
-
-    if (jsonData.contains("parent")) {
-#ifdef WITH_KCAL
-        object->setRelatedToUid(jsonData["parent"].toString());
-#else
-        object->setRelatedTo(jsonData["parent"].toString(), Incidence::RelTypeParent);
-#endif
-    }
-
-    return dynamic_cast< KGAPI::Object* >(object);
-}
-
-QVariantMap TasksPrivate::taskListToJSON(KGAPI::Object* taskList)
-{
-    QVariantMap output;
-    Objects::TaskList *object = static_cast< Objects::TaskList* >(taskList);
-
-    output["kind"] = "tasks#taskList";
-    if (!object->uid().isEmpty()) {
-        output["id"] = object->uid();
-    }
-    output["title"] = object->title();
-
-    return output;
-}
-
-QVariantMap TasksPrivate::taskToJSON(KGAPI::Object* task)
-{
-    QVariantMap output;
-    Objects::Task *object = static_cast< Objects::Task* >(task);
-
-    output["kind"] = "tasks#task";
-
-    if (!object->uid().isEmpty()) {
-        output["id"] = object->uid();
-    }
-
-    output["title"] = object->summary();
-    output["notes"] = object->description();
-
-#ifdef WITH_KCAL
-    if (!object->relatedToUid().isEmpty()) {
-        output["parent"] = object->relatedToUid();
-    }
-#else
-    if (!object->relatedTo(Incidence::RelTypeParent).isEmpty()) {
-        output["parent"] = object->relatedTo(Incidence::RelTypeParent);
-    }
-#endif
-
-    if (object->dtDue().isValid()) {
-        /* Google accepts only UTC time strictly in this format :( */
-        output["due"] = object->dtDue().toUtc().toString("%Y-%m-%dT%H:%M:%S.%:sZ");
-    }
-
-    if ((object->status() == Incidence::StatusCompleted) && object->completed().isValid()) {
-        /* Google accepts only UTC time strictly in this format :( */
-        output["completed"] = object->completed().toUtc().toString("%Y-%m-%dT%H:%M:%S.%:sZ");
-        output["status"] = "completed";
-    } else {
-        output["status"] = "needsAction";
-    }
-
-    return output;
-}
-
-QList< KGAPI::Object* > TasksPrivate::parseTaskListJSONFeed(const QVariantList &items)
-{
-    QList< KGAPI::Object* > list;
-
-    Q_FOREACH(const QVariant &item, items) {
-        list.append(JSONToTaskList(item.toMap()));
-    }
-
-    return list;
-}
-
-QList< KGAPI::Object* > TasksPrivate::parseTasksJSONFeed(const QVariantList &items)
-{
-    QList< KGAPI::Object* > list;
-
-    Q_FOREACH(const QVariant &item, items) {
-        list.append(JSONToTask(item.toMap()));
-    }
-
-    return list;
 }

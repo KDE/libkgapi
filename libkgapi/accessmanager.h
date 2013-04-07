@@ -21,7 +21,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 
-#include <KDateTime>
+#include <KDE/KDateTime>
 
 #include <libkgapi/common.h>
 #include <libkgapi/libkgapi_export.h>
@@ -44,7 +44,7 @@ class AccessManagerPrivate;
  * AccessManager allows application to send and receive requests from
  * Google services.
  */
-class LIBKGAPI_EXPORT AccessManager: public QObject
+class LIBKGAPI_EXPORT_DEPRECATED AccessManager: public QObject
 {
 
     Q_OBJECT

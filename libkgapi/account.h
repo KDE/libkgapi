@@ -29,8 +29,6 @@
 namespace KGAPI
 {
 
-class AccountPrivate;
-
 /**
  * Account class represents a single Google account.
  *
@@ -42,15 +40,8 @@ class AccountPrivate;
  * to KGAPI::Auth::authenticate() to retrieve new tokens that would grant access
  * to the new set of scopes only
  */
-class LIBKGAPI_EXPORT Account
+class LIBKGAPI_EXPORT_DEPRECATED Account
 {
-
-    /**
-     * Grants access of KGAPI::Auth to KGAPI::Account::m_scopesChanged
-     */
-    friend class AuthPrivate;
-    friend class Auth;
-
   public:
 
     typedef QSharedPointer< Account > Ptr;
@@ -93,7 +84,7 @@ class LIBKGAPI_EXPORT Account
     /**
      * @return Returns access token for the account.
      */
-    const QString& accessToken() const;
+    QString accessToken() const;
 
     /**
      * Sets a new access token for account.
@@ -105,7 +96,7 @@ class LIBKGAPI_EXPORT Account
     /**
      * @return Returns refresh token.
      */
-    const QString& refreshToken() const;
+    QString refreshToken() const;
 
     /**
      * Sets a new refresh token for the access token.
@@ -117,7 +108,7 @@ class LIBKGAPI_EXPORT Account
     /**
      * @return Returns list of scopes the account is authenticated against.
      */
-    const QList< QUrl > &scopes() const;
+    QList< QUrl > scopes() const;
 
     /**
      * Sets new scopes. Use must re-authenticate to allow access to the new scopes.
@@ -150,7 +141,15 @@ class LIBKGAPI_EXPORT Account
     void removeScope(const QUrl &scope);
 
   private:
-    AccountPrivate* d;
+    class Private;
+    Private * const d;
+    friend class Private;
+
+    /**
+     * Grants access of KGAPI::Auth to KGAPI::Account::m_scopesChanged
+     */
+    friend class AuthPrivate;
+    friend class Auth;
 
     /**
      * Whether scopes were changed or not.
@@ -164,7 +163,7 @@ class LIBKGAPI_EXPORT Account
      * performs full re-authentication it sets this attribute to FALSE and next time it
      * will just refresh existing tokens until the scopes are changed again.
      */
-    bool m_scopesChanged;
+    bool m_scopesChanged; //krazy:exclude=dpointer
 };
 
 } /* namespace KGAPI */

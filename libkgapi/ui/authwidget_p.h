@@ -27,28 +27,32 @@
 #include <QWebView>
 #include <QLabel>
 
-class QNetworkReply;
+namespace KGAPI2 {
+    class Job;
+}
 
 namespace KGAPI {
-
-class Reply;
+    typedef Account::Ptr AccountPtr;
 
 namespace Ui {
 
-class AuthWidgetPrivate: public QObject {
+class AuthWidget::Private: public QObject {
 
     Q_OBJECT
 
   public:
-    explicit AuthWidgetPrivate(AuthWidget *parent);
+    explicit Private(AuthWidget *parent);
 
-    virtual ~AuthWidgetPrivate();
+    virtual ~Private();
 
     bool showProgressBar;
     QString username;
     QString password;
-    KGAPI::Account::Ptr account;
+    AccountPtr account;
     AuthWidget::Progress progress;
+
+    QString apiKey;
+    QString secretKey;
 
     QProgressBar *progressbar;
     QVBoxLayout *vbox;
@@ -60,16 +64,18 @@ class AuthWidgetPrivate: public QObject {
     void webviewUrlChanged(const QUrl &url);
     void webviewFinished();
 
-    void networkRequestFinished(QNetworkReply *reply);
-    void accountInfoReceived(KGAPI::Reply *reply);
+    void tokensReceived(KGAPI2::Job *job);
+    void accountInfoReceived(KGAPI2::Job *job);
 
   private:
     void setupUi();
     void setProgress(AuthWidget::Progress progress);
 
-    AuthWidget *q_ptr;
-    Q_DECLARE_PUBLIC(AuthWidget);
+    AuthWidget *q;
+
+    friend class AuthWidget;
 };
+
 
 } /* namespace Ui */
 

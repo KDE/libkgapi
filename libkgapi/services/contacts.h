@@ -37,15 +37,15 @@ class ContactsPrivate;
 /**
  * Represents Google Contacts service.
  */
-class LIBKGAPI_EXPORT Contacts: public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED Contacts: public KGAPI::Service
 {
-public:
+  public:
     static QUrl ScopeUrl;
 
     /**
      * Implementation of KGAPI::Service::name().
      */
-    static const QString& serviceName();
+    static QString serviceName();
 
     /**
      * Implementation of KGAPI::Service::JSONToObject().
@@ -87,7 +87,7 @@ public:
      *
      * https://www.google.com/m8/feeds/
      */
-    const QUrl& scopeUrl() const;
+    QUrl scopeUrl() const;
 
     /**
      * Returns URL for KGAPI::Request::Create requests.
@@ -156,7 +156,7 @@ public:
      * Returns URL for KGAPI::Request::Update requests.
      *
      * @param user User (user@gmail.com)) in whose addressbook to look
-     * @param groupID ID of group to update.
+     * @param groupId ID of group to update.
      */
     static QUrl updateGroupUrl(const QString &user, const QString &groupId);
 
@@ -164,7 +164,7 @@ public:
      * Returns URL for KGAPI::Request::Remove requests.
      *
      * @param user User (user@gmail.com) in whose addressbook to look
-     * @param groupID ID of group to delete
+     * @param groupId ID of group to delete
      */
     static QUrl removeGroupUrl(const QString &user, const QString &groupId);
 
@@ -196,11 +196,8 @@ public:
      */
     static bool supportsJSONWrite(QString* urlParam);
 
-protected:
-    ContactsPrivate *d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(Contacts);
+  private:
+    //krazy:exclude=dpointer
 
 };
 

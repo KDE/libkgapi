@@ -63,7 +63,7 @@ void FetchListJob::start()
         account = auth->getAccount(d->accountName);
     } catch (KGAPI::Exception::BaseException &e) {
         setError(e.code());
-        setErrorText(e.what());
+        setErrorText(QLatin1String(e.what()));
         emitResult();
         return;
     }

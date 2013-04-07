@@ -36,7 +36,7 @@ class AuthWidgetPrivate;
  *
  * @since 0.3.2
  */
-class LIBKGAPI_EXPORT AuthWidget : public QWidget
+class LIBKGAPI_EXPORT_DEPRECATED AuthWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(bool showProgressBar WRITE setShowProgressBar READ getShowProgressBar);
@@ -77,7 +77,7 @@ class LIBKGAPI_EXPORT AuthWidget : public QWidget
       * called so if you want to change or remove it call \sa setUsername again
       * with empty string or \sa clearCredentials.
       *
-      * @param QString username to use
+      * @param username username to use
       */
     void setUsername(const QString &username);
 
@@ -91,7 +91,7 @@ class LIBKGAPI_EXPORT AuthWidget : public QWidget
      * called so if you want to change or remove it call \sa setPassword again
      * with empty string or \sa clearCredentials.
      *
-     * @param QString password to use
+     * @param password password to use
      */
     void setPassword(const QString &password);
 
@@ -106,7 +106,7 @@ class LIBKGAPI_EXPORT AuthWidget : public QWidget
     /**
      * Sets an account for which to obtain authentication.
      */
-    void setAccount(KGAPI::Account::Ptr &account);
+    void setAccount(const KGAPI::Account::Ptr &account);
 
     /**
      * Sets whether to show progressbar above the webview when loading
@@ -156,8 +156,9 @@ class LIBKGAPI_EXPORT AuthWidget : public QWidget
     void progress(KGAPI::Ui::AuthWidget::Progress progress);
 
   private:
-    AuthWidgetPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(AuthWidget);
+    class Private;
+    Private * const d;
+    friend class Private;
 };
 
 } /* namespace Ui */

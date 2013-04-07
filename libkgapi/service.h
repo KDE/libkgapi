@@ -38,7 +38,7 @@ class Object;
  * about a Google service and implements parsers for objects
  * from service.
  */
-class LIBKGAPI_EXPORT Service
+class LIBKGAPI_EXPORT_DEPRECATED Service
 {
 
   public:
@@ -82,7 +82,7 @@ class LIBKGAPI_EXPORT Service
     /**
      * Returns service scope URL.
      */
-    virtual const QUrl& scopeUrl() const = 0;
+    virtual QUrl scopeUrl() const = 0;
 
 };
 

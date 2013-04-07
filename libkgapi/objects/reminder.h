@@ -23,17 +23,10 @@
 
 #include <QtCore/QMetaType>
 
-#ifdef WITH_KCAL
-#include <KCal/Alarm>
-#include <KCal/Incidence>
-typedef KCal::Alarm* AlarmPtr;
-using namespace KCal;
-#else
-#include <KCalCore/Alarm>
-#include <KCalCore/Incidence>
+#include <KDE/KCalCore/Alarm>
+#include <KDE/KCalCore/Incidence>
 typedef KCalCore::Alarm::Ptr AlarmPtr;
 using namespace KCalCore;
-#endif
 
 namespace KGAPI
 {
@@ -46,7 +39,7 @@ class ReminderPrivate;
 /**
  * Represents default calendar reminder.
  */
-class LIBKGAPI_EXPORT Reminder
+class LIBKGAPI_EXPORT_DEPRECATED Reminder
 {
     public:
         typedef QSharedPointer< Reminder > Ptr;
@@ -69,7 +62,9 @@ class LIBKGAPI_EXPORT Reminder
         AlarmPtr toAlarm(Incidence *incidence) const;
 
     private:
-        ReminderPrivate* d;
+        class Private;
+        Private * const d;
+        friend class Private;
 };
 
 } // namespace Objects

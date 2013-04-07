@@ -25,18 +25,11 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QDateTime>
 
-#include <KDebug>
 #include <KSystemTimeZones>
 #include <kdeversion.h>
 #include <kglobal.h>
 
-static const KCatalogLoader loader("libkgapi");
-
-int debugArea()
-{
-    static int s_area = KDebug::registerArea("libkgapi");
-    return s_area;
-}
+static const KCatalogLoader loader(QLatin1String("libkgapi"));
 
 using namespace KGAPI;
 

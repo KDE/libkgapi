@@ -31,7 +31,7 @@ void ObjectsLocationTests::testLocation_data()
     QTest::addColumn<qint32>("heading");
     QTest::addColumn<qint32>("altitude");
     QTest::addColumn<qint32>("altitudeAccuracy");
-    
+
     QTest::newRow("location1")
         << (qulonglong) 1340366314362
         << (float) 49.6664083
@@ -53,7 +53,7 @@ void ObjectsLocationTests::testDefaultLocation_data()
     QTest::addColumn<qint32>("heading");
     QTest::addColumn<qint32>("altitude");
     QTest::addColumn<qint32>("altitudeAccuracy");
-    
+
     QTest::newRow("defaultLocation")
         << (qulonglong) 0
         << (float) 91
@@ -68,7 +68,7 @@ void ObjectsLocationTests::testDefaultLocation_data()
 void ObjectsLocationTests::testLocation()
 {
     KGAPI::Objects::Location location;
-    
+
     QFETCH(qulonglong, timestamp);
     QFETCH(float, latitude);
     QFETCH(float, longitude);
@@ -77,7 +77,7 @@ void ObjectsLocationTests::testLocation()
     QFETCH(qint32, heading);
     QFETCH(qint32, altitude);
     QFETCH(qint32, altitudeAccuracy);
-    
+
     location.setTimestamp(timestamp);
     location.setLatitude(latitude);
     location.setLongitude(longitude);
@@ -86,7 +86,7 @@ void ObjectsLocationTests::testLocation()
     location.setHeading(heading);
     location.setAltitude(altitude);
     location.setAltitudeAccuracy(altitudeAccuracy);
-    
+
     QCOMPARE(location.timestamp(), timestamp);
     QCOMPARE(location.latitude(), latitude);
     QCOMPARE(location.longitude(), longitude);
@@ -101,7 +101,7 @@ void ObjectsLocationTests::testDefaultLocation()
 {
 
     KGAPI::Objects::Location location;
-    
+
     QFETCH(qulonglong, timestamp);
     QFETCH(float, latitude);
     QFETCH(float, longitude);
@@ -110,7 +110,7 @@ void ObjectsLocationTests::testDefaultLocation()
     QFETCH(qint32, heading);
     QFETCH(qint32, altitude);
     QFETCH(qint32, altitudeAccuracy);
-    
+
     QCOMPARE(location.timestamp(), timestamp);
     QCOMPARE(location.latitude(), latitude);
     QCOMPARE(location.longitude(), longitude);

@@ -19,11 +19,16 @@
 #define LIBKGAPI_COMMON_H
 
 #include <stdexcept>
+#include <libkgapi/libkgapi_export.h>
+
+#include <libkgapi2/types.h>
 
 #include <qstring.h>
 #include <qurl.h>
 
-#include <klocalizedstring.h>
+#include <KDE/KLocalizedString>
+
+//krazy:excludeall=inline
 
 namespace KGAPI
 {
@@ -72,10 +77,10 @@ namespace Exception
 * Exceptions are available only for libkgapi errors. Errors returned by Google
 * service will be always notified about asynchronously via error() signal.
 */
-class BaseException: public std::runtime_error
+class KGAPI_DEPRECATED BaseException: public std::runtime_error
 {
 public:
-    BaseException(const QString &what):
+    explicit BaseException(const QString &what):
         std::runtime_error(what.toUtf8().constData()) { };
     /**
     * Returns KGAPI::Error code of the exception.
@@ -88,10 +93,10 @@ public:
 /**
 * @see KGAPI::Error::UnknownError
 */
-class UnknownError: public BaseException
+class KGAPI_DEPRECATED UnknownError: public BaseException
 {
   public:
-    UnknownError():
+    explicit UnknownError():
         BaseException(i18n("An unknown error has occurred.")) { };
     KGAPI::Error code() const {
         return KGAPI::UnknownError;
@@ -101,10 +106,10 @@ class UnknownError: public BaseException
 /**
 * @see KGAPI::Error::AuthError
 */
-class AuthError: public BaseException
+class KGAPI_DEPRECATED AuthError: public BaseException
 {
   public:
-    AuthError(const QString &what = QString()):
+    explicit AuthError(const QString &what = QString()):
         BaseException(what) { };
     KGAPI::Error code() const {
         return KGAPI::AuthError;
@@ -114,10 +119,10 @@ class AuthError: public BaseException
 /**
 * @see KGAPI::Error::UnknownAccount
 */
-class UnknownAccount: public BaseException
+class KGAPI_DEPRECATED UnknownAccount: public BaseException
 {
   public:
-    UnknownAccount(const QString &accName = QString()):
+    explicit UnknownAccount(const QString &accName = QString()):
         BaseException(i18n("Unknown account '%1'", accName)) { };
     KGAPI::Error code() const {
         return KGAPI::UnknownAccount;
@@ -127,10 +132,10 @@ class UnknownAccount: public BaseException
 /**
 * @see KGAPI::Error::UnknownService
 */
-class UnknownService: public BaseException
+class KGAPI_DEPRECATED UnknownService: public BaseException
 {
   public:
-    UnknownService(const QString &serviceName = QString()):
+    explicit UnknownService(const QString &serviceName = QString()):
         BaseException(i18n("Unknown service '%1'", serviceName)) { };
     KGAPI::Error code() const {
         return KGAPI::UnknownService;
@@ -140,10 +145,10 @@ class UnknownService: public BaseException
 /**
 * @see KGAPI::Error::InvalidResponse
 */
-class InvalidResponse: public BaseException
+class KGAPI_DEPRECATED InvalidResponse: public BaseException
 {
   public:
-    InvalidResponse(const QString &what = QString()):
+    explicit InvalidResponse(const QString &what = QString()):
         BaseException(what) { };
     KGAPI::Error code() const {
         return KGAPI::InvalidResponse;
@@ -153,10 +158,10 @@ class InvalidResponse: public BaseException
 /**
 * @see KGAPI::Error::BackendNotReady
 */
-class BackendNotReady: public BaseException
+class KGAPI_DEPRECATED BackendNotReady: public BaseException
 {
   public:
-    BackendNotReady():
+    explicit BackendNotReady():
         BaseException(i18n("KWallet is not opened.")) { };
     KGAPI::Error code() const {
         return KGAPI::BackendNotReady;
@@ -166,10 +171,10 @@ class BackendNotReady: public BaseException
 /**
 * @see KGAPI::Error::InvalidAccount
 */
-class InvalidAccount: public BaseException
+class KGAPI_DEPRECATED InvalidAccount: public BaseException
 {
   public:
-    InvalidAccount():
+    explicit InvalidAccount():
         BaseException(i18n("The account is invalid.")) { };
     KGAPI::Error code() const {
         return KGAPI::InvalidAccount;
@@ -181,22 +186,7 @@ class InvalidAccount: public BaseException
 /**
  * Struct to store additional information about a feed.
  */
-class FeedData {
-
-  public:
-    FeedData():
-        startIndex(0),
-        itemsPerPage(0),
-        totalResults(0)
-    { };
-
-    int startIndex;     /// Index of first item on current feed page.
-    int itemsPerPage;   /// Number of items per feed page. This will be same  for all pages (except for the last one which can be shorter).
-    int totalResults;   /// Number of all items.
-    QUrl nextPageUrl;   /// Link to next page of feed.
-    QUrl requestUrl;    /// Original URL of the request. This value is filled by AccessManager when passing the structure to a service
-};
-
+KGAPI_DEPRECATED typedef KGAPI2::FeedData FeedData;
 
 } /* namespace KGAPI */
 

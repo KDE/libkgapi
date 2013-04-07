@@ -32,9 +32,9 @@ class Object;
 namespace Services
 {
 
-class LIBKGAPI_EXPORT Latitude : public KGAPI::Service
+class LIBKGAPI_EXPORT_DEPRECATED Latitude : public KGAPI::Service
 {
-public:
+  public:
     enum Granularity {
         City, Best
     };
@@ -44,7 +44,7 @@ public:
     /**
      * Implementation of KGAPI::Service::name().
      */
-    static const QString& serviceName();
+    static QString serviceName();
 
     /**
      * Implementation of KGAPI::Service::JSONToObject().
@@ -84,7 +84,7 @@ public:
     /**
      * Returns service scope URL for Google Latitude service
      */
-    const QUrl& scopeUrl() const;
+    QUrl scopeUrl() const;
 
     /**
      *  Returns URL for KGAPI::Request::Fetch requests.
@@ -104,7 +104,8 @@ public:
     /**
      * Returns URL for KGAPI::Request::FetchAll requests.
      *
-     * @param maxResult Maximum amount of results to return
+     * @param granularity Precision of the coordinates
+     * @param maxResults Maximum amount of results to return
      * @param maxTime Maximum timestamp since epoch (in ms)
      * @param minTime Minimum timestamp since epoch (in ms)
      */
@@ -126,8 +127,9 @@ public:
      */
     static QUrl deleteLocationUrl(const qlonglong id);
 
-private:
-    KGAPI::Object* parseLocation(const QVariantMap map);
+  private:
+    //krazy:exclude=dpointer
+
 };
 
 } // namespace Services

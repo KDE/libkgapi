@@ -24,14 +24,8 @@
 #include <QtCore/QMetaType>
 #include <QtCore/QSharedPointer>
 
-#ifdef WITH_KCAL
-#include <KCal/Todo>
-#include <boost/shared_ptr.hpp>
-typedef boost::shared_ptr<KCal::Todo> TodoPtr;
-#else
-#include <KCalCore/Todo>
+#include <KDE/KCalCore/Todo>
 typedef KCalCore::Todo::Ptr TodoPtr;
-#endif
 
 namespace KGAPI
 {
@@ -39,13 +33,7 @@ namespace KGAPI
 namespace Objects
 {
 
-class TaskData;
-
-#ifdef WITH_KCAL
-class LIBKGAPI_EXPORT Task: public KGAPI::Object, public KCal::Todo
-#else
-class LIBKGAPI_EXPORT Task: public KGAPI::Object, public KCalCore::Todo
-#endif
+class LIBKGAPI_EXPORT_DEPRECATED Task: public KGAPI::Object, public KCalCore::Todo
 {
   public:
     typedef QList<Task> List;
@@ -53,18 +41,16 @@ class LIBKGAPI_EXPORT Task: public KGAPI::Object, public KCalCore::Todo
 
     Task();
     Task(const Task& other);
-#ifdef WITH_KCAL
-    Task(const KCal::Todo &other);
-#else
-    Task(const KCalCore::Todo &other);
-#endif
+    explicit Task(const KCalCore::Todo &other);
     virtual ~Task();
 
     void setDeleted(const bool deleted);
     bool deleted() const;
 
   private:
-    QSharedDataPointer< TaskData > d;
+    class Private;
+    Private * const d;
+    friend class Private;
 
 };
 

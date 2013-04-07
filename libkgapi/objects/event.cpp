@@ -16,80 +16,18 @@
 */
 
 #include "event.h"
-#include "event_p.h"
 
-#include <QtCore/QVariant>
-#include <QtCore/QString>
+using namespace KGAPI::Objects;
 
-using namespace KGAPI;
+#include "common/event.inc.cpp"
 
-#ifdef WITH_KCAL
-using namespace KCal;
-#else
-using namespace KCalCore;
-#endif
-
-Objects::EventData::EventData():
-    deleted(false),
-    useDefaultReminders(false)
-{ }
-
-Objects::EventData::EventData(const Objects::EventData &other):
-    QSharedData(other),
-    deleted(other.deleted),
-    useDefaultReminders(other.useDefaultReminders)
-{ }
-
-Objects::Event::Event()
-{
-    d = new EventData;
-}
-
-Objects::Event::Event(const Objects::Event &other):
-    KGAPI::Object(other),
-#ifdef WITH_KCAL
-    KCal::Event(other),
-#else
-    KCalCore::Event(other),
-#endif
-    d(other.d)
-{ }
-
-#ifdef WITH_KCAL
-Objects::Event::Event(const KCal::Event &event):
-    KCal::Event(event),
-#else
-Objects::Event::Event(const KCalCore::Event &event):
-    KCalCore::Event(event),
-#endif
-    d(new EventData)
-{ }
-
-Objects::Event::~Event()
-{ }
-
-void Objects::Event::setDeleted(const bool deleted)
+void Event::setDeleted(const bool deleted)
 {
     d->deleted = deleted;
 }
 
-bool Objects::Event::deleted() const
-{
-    return d->deleted;
-}
-
-void Objects::Event::setUseDefaultReminders(const bool& useDefault)
+void Event::setUseDefaultReminders(const bool& useDefault)
 {
     d->useDefaultReminders = useDefault;
 }
 
-bool Objects::Event::useDefaultReminders() const
-{
-    return d->useDefaultReminders;
-}
-
-Objects::Event& Objects::Event::operator=(const Objects::Event& other)
-{
-    d = other.d;
-    return *this;
-}

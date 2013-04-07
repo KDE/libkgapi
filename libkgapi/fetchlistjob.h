@@ -18,7 +18,7 @@
 #ifndef LIBKGAPI_FETCHLISTJOB_H
 #define LIBKGAPI_FETCHLISTJOB_H
 
-#include <KJob>
+#include <KDE/KJob>
 
 #include <QtCore/QUrl>
 
@@ -39,7 +39,7 @@ class FetchListJobPrivate;
  * automatically handle multiple replies and will finish when all data chunks
  * are received.
  */
-class LIBKGAPI_EXPORT FetchListJob: public KJob
+class LIBKGAPI_EXPORT_DEPRECATED FetchListJob: public KJob
 {
 
     Q_OBJECT

@@ -2,10 +2,10 @@
     Copyright (C) 2012  Jan Grulich <grulja@gmail.com>
     Copyright (C) 2012  Dan Vratil <dan@progdan.cz>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation; either version 2 of
+    the License, or (at your option) any later version.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -54,7 +54,7 @@ class MainWindow : public QMainWindow
         void authenticate();
 
         /**
-         * Authentication was successfull and we retrieved a new KGAPI::Account
+         * Authentication was successful and we retrieved a new KGAPI::Account
          */
         void authenticationFinished(KGAPI::Account::Ptr& acc);
 
@@ -81,7 +81,7 @@ class MainWindow : public QMainWindow
         void replyReceived(KGAPI::Reply *reply);
 
         /**
-         * An error occured during an operation
+         * An error occurred during an operation
          */
         void error(KGAPI::Error err,QString msg);
 
