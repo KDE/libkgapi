@@ -573,8 +573,8 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->labels = labels;
 
     // FIXME FIXME FIXME Verify the date format
-    file->d->createdDate = KDateTime::fromString(map[QLatin1String("createdDate")].toString(), KDateTime::KDateTime::RFC3339Date);
-    file->d->modifiedDate = KDateTime::fromString(map[QLatin1String("modifiedDate")].toString(), KDateTime::KDateTime::RFC3339Date);
+    file->d->createdDate = KDateTime::fromString(map[QLatin1String("createdDate")].toString(), KDateTime::RFC3339Date);
+    file->d->modifiedDate = KDateTime::fromString(map[QLatin1String("modifiedDate")].toString(), KDateTime::RFC3339Date);
     file->d->modifiedByMeDate = KDateTime::fromString(map[QLatin1String("modifiedByMeDate")].toString(), KDateTime::RFC3339Date);
     file->d->downloadUrl = map[QLatin1String("downloadUrl")].toUrl();
 
