@@ -85,7 +85,7 @@ QByteArray FileFetchContentJob::data() const
 void FileFetchContentJob::start()
 {
     QNetworkRequest request(d->url);
-    request.setRawHeader("Authorization", "Bearer" + account()->accessToken().toLatin1());
+    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
 
     enqueueRequest(request);
 }
