@@ -655,6 +655,11 @@ File::~File()
     delete d;
 }
 
+QString File::folderMimeType()
+{
+    return QLatin1String("application/vnd.google-apps.folder");
+}
+
 QString File::id() const
 {
     return d->id;
@@ -877,7 +882,7 @@ UserPtr File::lastModifyingUser() const
 
 bool File::isFolder() const
 {
-    return (d->mimeType == QLatin1String("application/vnd.google-apps.folder"));
+    return (d->mimeType == File::folderMimeType());
 }
 
 FilePtr File::fromJSON(const QByteArray &jsonData)
@@ -933,21 +938,32 @@ QByteArray File::toJSON(const FilePtr &file)
 
     map[QLatin1String("description")] = file->description();
 
-    QVariantMap indexableText;
-    indexableText[QLatin1String("text")] = file->indexableText()->text();
-    map[QLatin1String("indexableText")] = indexableText;
+    if (file->indexableText()) {
+        QVariantMap indexableText;
+        indexableText[QLatin1String("text")] = file->indexableText()->text();
+        map[QLatin1String("indexableText")] = indexableText;
+    }
 
-    QVariantMap labels;
-    labels[QLatin1String("hidden")] = file->labels()->hidden();
-    labels[QLatin1String("restricted")] = file->labels()->restricted();
-    labels[QLatin1String("starred")] = file->labels()->starred();
-    labels[QLatin1String("trashed")] = file->labels()->trashed();
-    labels[QLatin1String("viewed")] = file->labels()->viewed();
-    map[QLatin1String("labels")] = labels;
+    if (file->labels()) {
+        QVariantMap labels;
+        labels[QLatin1String("hidden")] = file->labels()->hidden();
+        labels[QLatin1String("restricted")] = file->labels()->restricted();
+        labels[QLatin1String("starred")] = file->labels()->starred();
+        labels[QLatin1String("trashed")] = file->labels()->trashed();
+        labels[QLatin1String("viewed")] = file->labels()->viewed();
+        map[QLatin1String("labels")] = labels;
+    }
 
-    map[QLatin1String("lastViewedByMeDate")] = file->lastViewedByMeDate().toString(KDateTime::RFC3339Date);
+    if (file->lastViewedByMeDate().isValid()) {
+        map[QLatin1String("lastViewedByMeDate")] = file->lastViewedByMeDate().toString(KDateTime::RFC3339Date);
+    }
+
     map[QLatin1String("mimeType")] = file->mimeType();
-    map[QLatin1String("modifiedDate")] = file->modifiedDate().toString(KDateTime::RFC3339Date);
+
+    if (file->modifiedDate().isValid()) {
+        map[QLatin1String("modifiedDate")] = file->modifiedDate().toString(KDateTime::RFC3339Date);
+    }
+
     map[QLatin1String("title")] = file->title();
 
     QVariantList parents;

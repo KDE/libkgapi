@@ -301,6 +301,11 @@ class LIBKGAPI2_EXPORT File: public KGAPI2::Object
     virtual ~File();
 
     /**
+     * @brief Returns mimetype of folders
+     */
+    static QString folderMimeType();
+
+    /**
      * @brief Returns the id of the file.
      */
     QString id() const;
