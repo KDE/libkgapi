@@ -165,6 +165,11 @@ QUrl untrashFileUrl(const QString &fileId)
     return url;
 }
 
+QUrl uploadMetadataFileUrl()
+{
+    return KUrl("https://www.googleapis.com/drive/v2/files");
+}
+
 QUrl uploadMediaFileUrl(const QString &fileId)
 {
     KUrl url("https://www.googleapis.com/upload/drive/v2/files");

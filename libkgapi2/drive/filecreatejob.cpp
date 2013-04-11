@@ -36,6 +36,22 @@ class FileCreateJob::Private
 
 };
 
+FileCreateJob::FileCreateJob(const FilePtr &metadata,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(metadata, account, parent),
+    d(new Private)
+{
+}
+
+FileCreateJob::FileCreateJob(const FilesList &metadata,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(metadata, account, parent),
+    d(new Private)
+{
+}
+
 FileCreateJob::FileCreateJob(const QString &filePath,
                              const AccountPtr &account,
                              QObject *parent):
@@ -84,9 +100,9 @@ QNetworkReply *FileCreateJob::dispatch(QNetworkAccessManager *accessManager,
 QUrl FileCreateJob::createUrl(const QString &filePath,
                               const FilePtr &metaData)
 {
-    Q_UNUSED(filePath)
-
-    if (metaData.isNull()) {
+    if (filePath.isEmpty() && !metaData.isNull()) {
+        return DriveService::uploadMetadataFileUrl();
+    } else if (metaData.isNull()) {
         return DriveService::uploadMediaFileUrl();
     } else {
         return DriveService::uploadMultipartFileUrl();

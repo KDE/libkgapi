@@ -36,6 +36,10 @@ class LIBKGAPI2_EXPORT FileCreateJob : public KGAPI2::Drive::FileAbstractUploadJ
     Q_OBJECT
 
   public:
+    explicit FileCreateJob(const FilePtr &metadata, const AccountPtr &account,
+                           QObject *parent = 0);
+    explicit FileCreateJob(const FilesList &metadata, const AccountPtr &account,
+                           QObject *parent = 0);
     explicit FileCreateJob(const QString &filePath,
                            const AccountPtr &account, QObject *parent = 0);
     explicit FileCreateJob(const QString &filePath,

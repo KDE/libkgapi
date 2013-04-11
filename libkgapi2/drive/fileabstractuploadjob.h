@@ -50,6 +50,12 @@ class LIBKGAPI2_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstrac
                WRITE setUseContentAsIndexableText)
 
   public:
+    explicit FileAbstractUploadJob(const FilePtr &metadata,
+                                   const AccountPtr &account,
+                                   QObject *parent = 0);
+    explicit FileAbstractUploadJob(const FilesList &metadata,
+                                   const AccountPtr &account,
+                                   QObject *parent = 0);
     explicit FileAbstractUploadJob(const QString &filePath,
                                    const AccountPtr &account,
                                    QObject *parent = 0);

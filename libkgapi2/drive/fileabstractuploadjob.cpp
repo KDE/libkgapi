@@ -130,7 +130,7 @@ void FileAbstractUploadJob::Private::processNext()
     }
 
     const QString filePath = files.keys().first();
-    if (!QFile::exists(filePath)) {
+    if (!filePath.startsWith(QLatin1String("?=")) && !QFile::exists(filePath)) {
         kWarning() << filePath << "is not a valid file path";
         processNext();
         return;
@@ -138,7 +138,13 @@ void FileAbstractUploadJob::Private::processNext()
 
     const FilePtr metaData = files.take(filePath);
 
-    QUrl url = q->createUrl(filePath, metaData);
+    QUrl url;
+    if (filePath.startsWith(QLatin1String("?="))) {
+        url = q->createUrl(QString(), metaData);
+    } else {
+        url = q->createUrl(filePath, metaData);
+    }
+
     q->updateUrl(url);
     url.addQueryItem(QLatin1String("useContentAsIndexableText"), Utils::bool2Str(useContentAsIndexableText));
 
@@ -157,7 +163,7 @@ void FileAbstractUploadJob::Private::processNext()
             return;
         }
 
-    } else {
+    } else if (!filePath.startsWith(QLatin1String("?="))) {
         url.addQueryItem(QLatin1String("uploadType"), QLatin1String("multipart"));
 
         QString boundary;
@@ -168,6 +174,9 @@ void FileAbstractUploadJob::Private::processNext()
             processNext();
             return;
         }
+    } else {
+        rawData = File::toJSON(metaData);
+        contentType = QLatin1String("application/json");
     }
 
     request.setUrl(url);
@@ -189,6 +198,29 @@ void FileAbstractUploadJob::Private::_k_uploadProgress(qint64 bytesSent,
     int currentFileParts = 100.0 * ((qreal) bytesSent / (qreal) totalBytes);
 
     q->emitProgress(processedParts + currentFileParts, originalFilesCount * 100);
+}
+
+FileAbstractUploadJob::FileAbstractUploadJob(const FilePtr &metadata,
+                                             const AccountPtr &account,
+                                             QObject *parent):
+    FileAbstractDataJob(account, parent),
+    d(new Private(this))
+{
+    d->files.insert(QLatin1String("?=0"), metadata);
+    d->originalFilesCount = 1;
+}
+
+FileAbstractUploadJob::FileAbstractUploadJob(const FilesList &metadata,
+                                             const AccountPtr &account,
+                                             QObject *parent):
+    FileAbstractDataJob(account, parent),
+    d(new Private(this))
+{
+    int i = 0;
+    Q_FOREACH (const FilePtr &file, metadata) {
+        d->files.insert(QString::fromLatin1("?=%1").arg(i), file);
+    }
+    d->originalFilesCount = d->files.count();
 }
 
 FileAbstractUploadJob::FileAbstractUploadJob(const QString &filePath,
