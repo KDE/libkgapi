@@ -29,6 +29,7 @@
 
 #include "auth.h"
 #include "ui/authwidget.h"
+#include "ui/authwidget_p.h"
 #include "services/accountinfo.h"
 
 using namespace KGAPI;
@@ -128,6 +129,8 @@ KGAPI::Ui::AuthWidget* AuthPrivate::fullAuthentication(KGAPI::Account::Ptr &acco
     Q_Q(Auth);
 
     Ui::AuthWidget *widget =  new Ui::AuthWidget();
+    widget->d->apiKey = apiKey;
+    widget->d->secretKey = apiSecret;
     widget->setProperty("autoSaveAccount", QVariant(autoSave));
 
     connect(widget, SIGNAL(error(KGAPI::Error,QString)),
