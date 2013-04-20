@@ -18,9 +18,11 @@ set(LibKGAPI_VERSION ${LibKGAPI_VERSION_MAJOR}.${LibKGAPI_VERSION_MINOR}.${LibKG
 set(LibKGAPI_INSTALL_PREFIX "${rootDir}")
 set(LibKGAPI_INCLUDE_DIR "@INCLUDE_INSTALL_DIR@")
 
-add_library(kgapi2 SHARED IMPORTED)
+# Import the exported targets
+if(NOT TARGET kgapi2)
+  include(${_currentDir}/LibKGAPI2TargetsWithPrefix.cmake)
+endif()
 
-# import the exported targets (only once)
 if(NOT TARGET kgapi)
   include(${_currentDir}/LibKGAPITargetsWithPrefix.cmake)
 endif()
