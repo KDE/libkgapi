@@ -20,7 +20,7 @@ set(LibKGAPI_INCLUDE_DIR "@INCLUDE_INSTALL_DIR@")
 
 # Import the exported targets
 if(NOT TARGET kgapi2)
-  include(${_currentDir}/LibKGAPI2TargetsWithPrefix.cmake)
+  include(${_currentDir}/../LibKGAPI2/LibKGAPI2TargetsWithPrefix.cmake)
 endif()
 
 if(NOT TARGET kgapi)
