@@ -861,8 +861,8 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
      * property that we can match against the MSCDOTZIDTable */
     KCalCore::ICalFormat format;
     /* Use a copy of @event, otherwise it would be deleted when ptr is destroyed */
-    KCalCore::Incidence::Ptr ptr(new Event(*event));
-    const QString vcard = format.toICalString(ptr);
+    KCalCore::Incidence::Ptr incidence = event.dynamicCast<KCalCore::Incidence>();
+    const QString vcard = format.toICalString(incidence);
     const QStringList properties = vcard.split(QLatin1Char('\n'));
     int CDOId = -1;
     Q_FOREACH(const QString &property, properties) {
