@@ -20,3 +20,28 @@
 using namespace KGAPI2;
 
 #include "common/account.inc.cpp"
+
+QUrl Account::accountInfoScopeUrl()
+{
+    return QUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.profile"));
+}
+
+QUrl Account::calendarScopeUrl()
+{
+    return QUrl(QLatin1String("https://www.googleapis.com/auth/calendar"));
+}
+
+QUrl Account::contactsScopeUrl()
+{
+    return QUrl(QLatin1String("https://www.google.com/m8/feeds/"));
+}
+
+QUrl Account::latitudeScopeUrl()
+{
+    return QUrl(QLatin1String("https://www.googleapis.com/auth/latitude.all.best"));
+}
+
+QUrl Account::tasksScopeUrl()
+{
+    return QUrl(QLatin1String("https://www.googleapis.com/auth/tasks"));
+}

@@ -91,11 +91,6 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     return output;
 }
 
-QUrl scopeUrl()
-{
-    return QUrl::fromEncoded("https://www.google.com/m8/feeds/");
-}
-
 QUrl fetchAllContactsUrl(const QString& user, const bool &showDeleted)
 {
     KUrl url("https://www.google.com/m8/feeds/contacts/");

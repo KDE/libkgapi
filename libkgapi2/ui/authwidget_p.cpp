@@ -19,7 +19,6 @@
 #include "account.h"
 #include "debug.h"
 #include "accountinfo/accountinfo.h"
-#include "accountinfo/accountinfoservice.h"
 #include "accountinfo/accountinfofetchjob.h"
 #include "private/newtokensfetchjob_p.h"
 

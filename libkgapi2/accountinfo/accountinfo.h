@@ -206,6 +206,12 @@ class LIBKGAPI2_EXPORT AccountInfo : public KGAPI2::Object
      */
     QString photoUrl() const;
 
+    /**
+     * @brief Parses raw JSON data into AccountInfo object.
+     *
+     * @param jsonData JSON data to parse
+     */
+    static AccountInfoPtr fromJSON(const QByteArray &jsonData);
   private:
     class Private;
     Private * const d;

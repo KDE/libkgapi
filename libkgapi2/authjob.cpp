@@ -23,7 +23,6 @@
 #include "account.h"
 #include "debug.h"
 #include "job_p.h"
-#include "accountinfo/accountinfoservice.h"
 #include "ui/authwidget.h"
 #include "ui/authwidget_p.h"
 #include "private/newtokensfetchjob_p.h"
@@ -189,7 +188,7 @@ void AuthJob::start()
 
     if (d->account->refreshToken().isEmpty() || (d->account->m_scopesChanged == true)) {
 
-        d->account->addScope(AccountInfoService::emailScopeUrl());
+        d->account->addScope(Account::accountInfoScopeUrl());
 
         /* Pre-fill the username in the dialog so that user knows what account
          * (s)he is re-authenticating for */

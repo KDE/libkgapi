@@ -29,10 +29,11 @@
 #include <libkgapi2/calendar/calendarservice.h>
 #include <libkgapi2/calendar/calendar.h>
 #include <libkgapi2/calendar/event.h>
+#include <libkgapi2/account.h>
 
 using namespace KGAPI;
 
-QUrl Services::Calendar::ScopeUrl(KGAPI2::CalendarService::scopeUrl());
+QUrl Services::Calendar::ScopeUrl(KGAPI2::Account::calendarScopeUrl());
 
 static const QString serviceNameStr(QLatin1String("KGAPI::Services::Calendar"));
 
@@ -142,7 +143,7 @@ QList< KGAPI::Object* > Services::Calendar::parseXMLFeed(const QByteArray& xmlFe
 
 QUrl Services::Calendar::scopeUrl() const
 {
-    return KGAPI2::CalendarService::scopeUrl();
+    return KGAPI2::Account::calendarScopeUrl();
 }
 
 QUrl Services::Calendar::fetchCalendarsUrl()

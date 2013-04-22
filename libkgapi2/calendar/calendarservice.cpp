@@ -73,11 +73,6 @@ namespace Private
 
 /************* URLS **************/
 
-QUrl scopeUrl()
-{
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/calendar"));
-}
-
 QUrl fetchCalendarsUrl()
 {
     return QUrl(QLatin1String("https://www.googleapis.com/calendar/v3/users/me/calendarList"));

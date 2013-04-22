@@ -26,6 +26,7 @@
 #include <QtCore/QList>
 #include <QtCore/QSharedPointer>
 
+#include <libkgapi2/types.h>
 #include <libkgapi2/libkgapi2_export.h>
 
 namespace KGAPI2

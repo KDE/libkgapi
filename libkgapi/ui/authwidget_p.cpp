@@ -20,7 +20,6 @@
 #include "debug.h"
 
 #include <libkgapi2/account.h>
-#include <libkgapi2/accountinfo/accountinfoservice.h>
 #include <libkgapi2/accountinfo/accountinfo.h>
 #include <libkgapi2/accountinfo/accountinfofetchjob.h>
 #include <libkgapi2/private/newtokensfetchjob_p.h>

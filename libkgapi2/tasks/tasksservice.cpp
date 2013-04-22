@@ -77,11 +77,6 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     return list;
 }
 
-QUrl scopeUrl()
-{
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/tasks"));
-}
-
 QUrl fetchAllTasksUrl(const QString& tasklistID)
 {
     KUrl url("https://www.googleapis.com/tasks/v1/lists/");

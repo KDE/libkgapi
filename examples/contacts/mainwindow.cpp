@@ -22,7 +22,6 @@
 
 #include <libkgapi2/contacts/contact.h>
 #include <libkgapi2/contacts/contactfetchjob.h>
-#include <libkgapi2/contacts/contactsservice.h>
 #include <libkgapi2/authjob.h>
 #include <libkgapi2/account.h>
 
@@ -54,7 +53,7 @@ MainWindow::~MainWindow()
 void MainWindow::authenticate()
 {
     KGAPI2::AccountPtr account(new KGAPI2::Account);
-    account->setScopes( QList<QUrl>() << KGAPI2::ContactsService::scopeUrl() );
+    account->setScopes( QList<QUrl>() << KGAPI2::Account::contactsScopeUrl() );
 
     /* Create AuthJob to retrieve OAuth tokens for the account */
     KGAPI2::AuthJob *authJob = new KGAPI2::AuthJob(

@@ -24,3 +24,34 @@
 using namespace KGAPI2;
 
 #include "common/accountinfo.inc.cpp"
+
+#include <qjson/parser.h>
+#include <QtCore/QVariantMap>
+
+AccountInfoPtr AccountInfo::fromJSON(const QByteArray& jsonData)
+{
+    QJson::Parser parser;
+    QVariantMap data;
+    bool ok;
+
+    data = parser.parse(jsonData, &ok).toMap();
+    if (!ok) {
+        return AccountInfoPtr();
+    }
+
+    AccountInfoPtr accountInfo(new AccountInfo);
+    accountInfo->setId(data.value(QLatin1String("id")).toString());
+    accountInfo->setEmail(data.value(QLatin1String("email")).toString());
+    accountInfo->setName(data.value(QLatin1String("name")).toString());
+    accountInfo->setGivenName(data.value(QLatin1String("given_name")).toString());
+    accountInfo->setFamilyName(data.value(QLatin1String("family_name")).toString());
+    accountInfo->setBirthday(data.value(QLatin1String("birthday")).toString());
+    accountInfo->setGender(data.value(QLatin1String("gender")).toString());
+    accountInfo->setLink(data.value(QLatin1String("link")).toString());
+    accountInfo->setLocale(data.value(QLatin1String("locale")).toString());
+    accountInfo->setTimezone(data.value(QLatin1String("timezone")).toString());
+    accountInfo->setPhotoUrl(data.value(QLatin1String("picture")).toString());
+    accountInfo->setVerifiedEmail(data.value(QLatin1String("verified_email")).toBool());
+
+    return accountInfo;
+}

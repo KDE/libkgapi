@@ -26,11 +26,12 @@
 
 #include <libkgapi2/latitude/latitudeservice.h>
 #include <libkgapi2/latitude/location.h>
+#include <libkgapi2/account.h>
 
 using namespace KGAPI;
 using namespace Services;
 
-QUrl Latitude::ScopeUrl(KGAPI2::LatitudeService::scopeUrl());
+QUrl Latitude::ScopeUrl(KGAPI2::Account::latitudeScopeUrl());
 
 static const QString serviceNameStr = QLatin1String("KGAPI::Services::Latitude");
 
@@ -99,7 +100,7 @@ QString Latitude::protocolVersion() const
 
 QUrl Latitude::scopeUrl() const
 {
-    return KGAPI2::LatitudeService::scopeUrl();
+    return Latitude::ScopeUrl;
 }
 
 QUrl Latitude::retrieveCurrentLocationUrl(const Latitude::Granularity granularity)

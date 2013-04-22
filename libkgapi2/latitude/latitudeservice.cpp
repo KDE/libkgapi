@@ -141,11 +141,6 @@ QString APIVersion()
     return QLatin1String("1");
 }
 
-QUrl scopeUrl()
-{
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/latitude.all.best"));
-}
-
 QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity)
 {
     KUrl url("https://www.googleapis.com/latitude/v1/currentLocation");

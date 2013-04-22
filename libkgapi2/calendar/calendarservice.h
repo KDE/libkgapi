@@ -165,13 +165,6 @@ namespace CalendarService
      */
     LIBKGAPI2_EXPORT QUrl moveEventUrl(const QString &sourceCalendar, const QString &destCalendar, const QString &eventID);
 
-    /**
-     * @brief Returns service scope URL
-     *
-     * https://www.google.com/calendar/feeds/
-     */
-    LIBKGAPI2_EXPORT QUrl scopeUrl();
-
 } // namespace CalendarService
 
 } // namespace KGAPI
