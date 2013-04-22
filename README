@@ -15,10 +15,8 @@ Currently supported APIs:
 Dependencies:
 -------------
   - KDE Libraries >= 4.7.0
-  - KDEPIM Libraries >= 4.6 (version >= 4.4 supported with -DUSE_KCAL=TRUE switch, see below)
+  - KDEPIM Libraries >= 4.11
   - QJSON
-  - Boost (when using -DUSE_KCAL=TRUE switch)
-
 
 Compiling:
 ----------
@@ -30,6 +28,9 @@ Compiling:
   # As root:
   make install
 
+If you intend to use LibKGAPI with KDE 4.11 or newer, you can run CMake with
+-DDISABLE_DEPRECATED=TRUE argument to skip building deprecated LibKGAPI API.
+
 To compile example applications, run cmake with -DBUILD_EXAMPLES=TRUE argument.
 To compile automated tests, run 'make buildtests'. To run automated tests, run 'make test'
 
@@ -39,9 +40,6 @@ Submit bugs and feature requests to KDE bugzilla, product libkgapi:
 
 https://bugs.kde.org/enter_bug.cgi?product=libkgapi
 
-
-Backwards compatibility with KDEPIM 4.4:
-----------------------------------------
-If you want to use this resources with KDEPIM Libraries >= 4.4, you can run cmake with -DUSE_KCAL=TRUE.
-This switch will enable backwards compatibility with old KDEPIM Libraries by using obsolete KCal API 
-instead of new KCalCore API. During compilation you will see lot of deprecation warning, but it's OK.
+API Documentation:
+------------------
+http://api.kde.org/extragear-api/libs-apidocs/libkgapi/html/index.html
