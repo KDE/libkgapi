@@ -27,7 +27,7 @@ target_link_libraries(staticmaps-example
         ${QT_QTCORE_LIBRARY}
         ${KDE4_KDECORE_LIBS}
         ${KDEPIMLIBS_KABC_LIBS}
-        kgapi
+        kgapi2
 )
 
-add_dependencies(staticmaps-example kgapi)
+add_dependencies(staticmaps-example kgapi2)

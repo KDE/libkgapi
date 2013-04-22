@@ -43,11 +43,10 @@ if (NOT DISABLE_DEPRECATED)
     add_subdirectory(libkgapi)
 endif(NOT DISABLE_DEPRECATED)
 
-# FIXME: Port examples to LibKGAPI2
-option(BUILD_EXAMPLES "Build example applications (requires deprecated API)" FALSE)
-if (BUILD_EXAMPLES AND NOT DISABLE_DEPRECATED)
+option(BUILD_EXAMPLES "Build example applications" FALSE)
+if (BUILD_EXAMPLES)
     add_subdirectory(examples)
-endif(BUILD_EXAMPLES AND NOT DISABLE_DEPRECATED)
+endif(BUILD_EXAMPLES)
 
 add_subdirectory(libkgapi2)
 

@@ -27,7 +27,7 @@ target_link_libraries(contacts-example
         ${QT_QTCORE_LIBRARY}
         ${KDE4_KDECORE_LIBS}
         ${KDEPIMLIBS_KABC_LIBS}
-        kgapi
+        kgapi2
 )
 
-add_dependencies(contacts-example kgapi)
+add_dependencies(contacts-example kgapi2)
