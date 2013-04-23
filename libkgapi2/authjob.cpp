@@ -188,7 +188,7 @@ void AuthJob::start()
 
     if (d->account->refreshToken().isEmpty() || (d->account->m_scopesChanged == true)) {
 
-        d->account->addScope(Account::accountInfoScopeUrl());
+        d->account->addScope(Account::accountInfoEmailScopeUrl());
 
         /* Pre-fill the username in the dialog so that user knows what account
          * (s)he is re-authenticating for */

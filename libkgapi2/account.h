@@ -161,6 +161,11 @@ class LIBKGAPI2_EXPORT Account
     static QUrl accountInfoScopeUrl();
 
     /**
+     * Returns scope URL to retrieve AccountInfo with email.
+     */
+    static QUrl accountInfoEmailScopeUrl();
+
+    /**
      * Returns scope URL for Google Calendar service.
      */
     static QUrl calendarScopeUrl();

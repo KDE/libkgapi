@@ -26,6 +26,11 @@ QUrl Account::accountInfoScopeUrl()
     return QUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.profile"));
 }
 
+QUrl Account::accountInfoEmailScopeUrl()
+{
+    return QUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.email"));
+}
+
 QUrl Account::calendarScopeUrl()
 {
     return QUrl(QLatin1String("https://www.googleapis.com/auth/calendar"));
