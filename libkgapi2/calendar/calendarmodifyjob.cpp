@@ -25,6 +25,7 @@
 #include "calendar.h"
 #include "debug.h"
 #include "utils.h"
+#include "private/queuehelper_p.h"
 
 #include <KDE/KLocalizedString>
 
@@ -36,7 +37,7 @@ using namespace KGAPI2;
 class CalendarModifyJob::Private
 {
   public:
-    CalendarsList calendars;
+    QueueHelper<CalendarPtr> calendars;
 };
 
 CalendarModifyJob::CalendarModifyJob(const CalendarPtr& calendar, const AccountPtr& account, QObject* parent):
@@ -60,12 +61,12 @@ CalendarModifyJob::~CalendarModifyJob()
 
 void CalendarModifyJob::start()
 {
-    if (d->calendars.isEmpty()) {
+    if (d->calendars.atEnd()) {
         emitFinished();
         return;
     }
 
-    const CalendarPtr calendar = d->calendars.takeFirst();
+    const CalendarPtr calendar = d->calendars.current();
 
     const QUrl url = CalendarService::updateCalendarUrl(calendar->uid());
     QNetworkRequest request;
@@ -89,14 +90,15 @@ ObjectsList CalendarModifyJob::handleReplyWithItems(const QNetworkReply *reply, 
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
-    if (ct == KGAPI2::JSON) {
-        items << CalendarService::JSONToCalendar(rawData).dynamicCast<Object>();
-    } else {
+    if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));
         emitFinished();
+        return items;
     }
 
+    items << CalendarService::JSONToCalendar(rawData).dynamicCast<Object>();
+    d->calendars.currentProcessed();
     // Enqueue next item or finish
     start();
 

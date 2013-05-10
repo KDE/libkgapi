@@ -23,6 +23,7 @@
 #include "account.h"
 #include "contact.h"
 #include "contactsservice.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -37,7 +38,7 @@ class ContactFetchPhotoJob::Private
     Private(ContactFetchPhotoJob *parent);
     void processNextContact();
 
-    ContactsList contacts;
+    QueueHelper<ContactPtr> contacts;
 
   private:
     ContactFetchPhotoJob * const q;
@@ -50,12 +51,12 @@ ContactFetchPhotoJob::Private::Private(ContactFetchPhotoJob *parent):
 
 void ContactFetchPhotoJob::Private::processNextContact()
 {
-    if (contacts.isEmpty()) {
+    if (contacts.atEnd()) {
         q->emitFinished();
         return;
     }
 
-    const ContactPtr contact = contacts.takeFirst();
+    const ContactPtr contact = contacts.current();
     const QUrl url = ContactsService::photoUrl(q->account()->accountName(), contact->uid());
     QNetworkRequest request;
     request.setUrl(url);
@@ -93,6 +94,7 @@ void ContactFetchPhotoJob::start()
 void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     if (reply->error() == QNetworkReply::ContentNotFoundError) {
+        d->contacts.currentProcessed();
         d->processNextContact();
     }
 
@@ -100,15 +102,8 @@ void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteAr
     contact->setPhoto(QImage::fromData(rawData));
 
     Q_EMIT photoFetched(this, contact);
+    d->contacts.currentProcessed();
     d->processNextContact();
-}
-
-ObjectsList ContactFetchPhotoJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
-{
-    Q_UNUSED(reply)
-    Q_UNUSED(rawData)
-
-    return ObjectsList();
 }
 
 #include "contactfetchphotojob.moc"

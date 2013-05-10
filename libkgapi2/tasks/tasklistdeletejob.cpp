@@ -24,6 +24,7 @@
 #include "account.h"
 #include "debug.h"
 #include "tasklist.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 
@@ -35,7 +36,7 @@ class TaskListDeleteJob::Private
     Private(TaskListDeleteJob *parent);
     void processNextTaskList();
 
-    QStringList taskListsIds;
+    QueueHelper<QString> taskListsIds;
 
   private:
     TaskListDeleteJob * const q;
@@ -48,12 +49,12 @@ TaskListDeleteJob::Private::Private(TaskListDeleteJob *parent):
 
 void TaskListDeleteJob::Private::processNextTaskList()
 {
-   if (taskListsIds.isEmpty()) {
+   if (taskListsIds.atEnd()) {
         q->emitFinished();
         return;
     }
 
-    const QString taskListId = taskListsIds.takeFirst();
+    const QString taskListId = taskListsIds.current();
     const QUrl url = TasksService::removeTaskListUrl(taskListId);
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -110,5 +111,13 @@ void TaskListDeleteJob::start()
 {
     d->processNextTaskList();
 }
+
+void TaskListDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray& rawData)
+{
+    d->taskListsIds.currentProcessed();
+
+    KGAPI2::DeleteJob::handleReply(reply, rawData);
+}
+
 
 #include "tasklistdeletejob.moc"

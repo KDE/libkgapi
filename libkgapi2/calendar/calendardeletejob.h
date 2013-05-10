@@ -98,6 +98,13 @@ class LIBKGAPI2_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
      */
     virtual void start();
 
+    /**
+     * @brief KGAPI2::Job::handleReply implementation
+     *
+     * @param reply
+     * @param rawData
+     */
+    virtual void handleReply(const QNetworkReply* reply, const QByteArray& rawData);
   private:
     class Private;
     Private * const d;

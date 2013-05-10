@@ -93,15 +93,6 @@ class LIBKGAPI2_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
     virtual void handleReply(const QNetworkReply *reply,
                              const QByteArray &rawData);
 
-    /**
-     * @brief KGAPI2::Job::handleReplyWithItems implementation
-     *
-     * @param reply
-     * @param rawData
-     */
-    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray &rawData);
-
   private:
     class Private;
     Private * const d;

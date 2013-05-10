@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "utils.h"
 #include "account.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 
@@ -36,7 +37,7 @@ class ContactDeleteJob::Private
     Private(ContactDeleteJob *parent);
     void processNextContact();
 
-    QStringList contactIds;
+    QueueHelper<QString> contactIds;
 
   private:
     ContactDeleteJob * const q;
@@ -49,12 +50,12 @@ ContactDeleteJob::Private::Private(ContactDeleteJob* parent):
 
 void ContactDeleteJob::Private::processNextContact()
 {
-    if (contactIds.isEmpty()) {
+    if (contactIds.atEnd()) {
         q->emitFinished();
         return;
     }
 
-    const QString contactId = contactIds.takeFirst();
+    const QString contactId = contactIds.current();
     const QUrl url = ContactsService::removeContactUrl(q->account()->accountName(), contactId);
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -114,6 +115,7 @@ void ContactDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray 
     Q_UNUSED(reply)
     Q_UNUSED(rawData)
 
+    d->contactIds.currentProcessed();
     d->processNextContact();
 }
 

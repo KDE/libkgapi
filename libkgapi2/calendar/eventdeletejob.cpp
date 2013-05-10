@@ -24,6 +24,7 @@
 #include "account.h"
 #include "debug.h"
 #include "event.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 
@@ -32,7 +33,7 @@ using namespace KGAPI2;
 class EventDeleteJob::Private
 {
   public:
-    QStringList eventsIds;
+    QueueHelper<QString> eventsIds;
     QString calendarId;
 };
 
@@ -78,12 +79,12 @@ EventDeleteJob::~EventDeleteJob()
 
 void EventDeleteJob::start()
 {
-    if (d->eventsIds.isEmpty()) {
+    if (d->eventsIds.atEnd()) {
         emitFinished();
         return;
     }
 
-    const QString eventId = d->eventsIds.takeFirst();
+    const QString eventId = d->eventsIds.current();
     const QUrl url = CalendarService::removeEventUrl(d->calendarId, eventId);
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
@@ -97,5 +98,13 @@ void EventDeleteJob::start()
 
     enqueueRequest(request);
 }
+
+void EventDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray& rawData)
+{
+    d->eventsIds.currentProcessed();
+
+    KGAPI2::DeleteJob::handleReply(reply, rawData);
+}
+
 
 #include "eventdeletejob.moc"

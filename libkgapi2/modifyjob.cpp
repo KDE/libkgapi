@@ -81,6 +81,15 @@ void ModifyJob::aboutToStart()
     Job::aboutToStart();
 }
 
+ObjectsList ModifyJob::handleReplyWithItems(const QNetworkReply* reply,
+                                            const QByteArray& rawData)
+{
+    Q_UNUSED(reply)
+    Q_UNUSED(rawData)
+
+    return ObjectsList();
+}
+
 
 
 #include "modifyjob.moc"

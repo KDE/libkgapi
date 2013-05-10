@@ -48,7 +48,8 @@ class LIBKGAPI2_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarCreateJob(const CalendarPtr &calendar, const AccountPtr &account, QObject* parent = 0);
+    explicit CalendarCreateJob(const CalendarPtr &calendar,
+                               const AccountPtr &account, QObject* parent = 0);
 
     /**
      * @brief Constructs a job that will create given @p calendars in user's
@@ -58,7 +59,8 @@ class LIBKGAPI2_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarCreateJob(const CalendarsList &calendars, const AccountPtr &account, QObject* parent = 0);
+    explicit CalendarCreateJob(const CalendarsList &calendars,
+                               const AccountPtr &account, QObject* parent = 0);
 
     /**
      * @brief Destructor
@@ -78,7 +80,8 @@ class LIBKGAPI2_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
      * @param reply
      * @param rawData
      */
-    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData);
+    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply,
+                                             const QByteArray& rawData);
 
   private:
     class Private;

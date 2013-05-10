@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "event.h"
 #include "utils.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -39,7 +40,7 @@ class EventMoveJob::Private
     Private(EventMoveJob *parent);
     void processNextEvent();
 
-    QStringList eventsIds;
+    QueueHelper<QString> eventsIds;
     QString source;
     QString destination;
 
@@ -54,12 +55,12 @@ EventMoveJob::Private::Private(EventMoveJob *parent):
 
 void EventMoveJob::Private::processNextEvent()
 {
-   if (eventsIds.isEmpty()) {
+   if (eventsIds.atEnd()) {
         q->emitFinished();
         return;
     }
 
-    const QString eventId = eventsIds.takeFirst();
+    const QString eventId = eventsIds.current();
     const QUrl url = CalendarService::moveEventUrl(source, destination, eventId);
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -144,14 +145,15 @@ KGAPI2::ObjectsList EventMoveJob::handleReplyWithItems(const QNetworkReply *repl
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
-    if (ct == KGAPI2::JSON) {
-        items << CalendarService::JSONToEvent(rawData).dynamicCast<Event>();
-    } else {
+    if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));
         emitFinished();
+        return items;
     }
 
+    items << CalendarService::JSONToEvent(rawData).dynamicCast<Event>();
+    d->eventsIds.currentProcessed();
     // Enqueue next item or finish
     d->processNextEvent();
 
