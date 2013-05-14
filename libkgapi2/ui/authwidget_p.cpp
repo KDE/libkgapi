@@ -30,6 +30,7 @@
 #include <KDE/KUrl>
 #include <KDE/KLocalizedString>
 #include <KIO/AccessManager>
+#include <KDE/KWebView>
 
 #include <QtCore/QStringBuilder>
 

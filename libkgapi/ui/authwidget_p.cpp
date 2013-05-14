@@ -30,6 +30,7 @@
 
 #include <KUrl>
 #include <KIO/AccessManager>
+#include <KDE/KWebView>
 
 #include <QStringBuilder>
 
