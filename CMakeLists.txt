@@ -38,19 +38,19 @@ include_directories(
           ${Boost_INCLUDE_DIR}
 )
 
-option(DISABLE_DEPRECATED "Disable deprecated API" FALSE)
-if (NOT DISABLE_DEPRECATED)
+option(KGAPI_DISABLE_DEPRECATED "Disable deprecated API" FALSE)
+if (NOT KGAPI_DISABLE_DEPRECATED)
     add_subdirectory(libkgapi)
-endif(NOT DISABLE_DEPRECATED)
+endif(NOT KGAPI_DISABLE_DEPRECATED)
 
-option(BUILD_EXAMPLES "Build example applications" FALSE)
-if (BUILD_EXAMPLES)
+option(KGAPI_BUILD_EXAMPLES "Build example applications" FALSE)
+if (KGAPI_BUILD_EXAMPLES)
     add_subdirectory(examples)
-endif(BUILD_EXAMPLES)
+endif(KGAPI_BUILD_EXAMPLES)
 
 add_subdirectory(libkgapi2)
 
 # FIXME: Port tests to LibKGAPI2
-if (NOT DISABLE_DEPRECATED)
+if (NOT KGAPI_DISABLE_DEPRECATED)
     add_subdirectory(tests)
-endif (NOT DISABLE_DEPRECATED)
+endif (NOT KGAPI_DISABLE_DEPRECATED)
