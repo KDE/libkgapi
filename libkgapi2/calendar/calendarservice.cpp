@@ -837,7 +837,120 @@ static QMap<int, QString> initMSCDOTZIDTable()
     return map;
 }
 
+static QMap<QString, QString> initMSStandardTimeTZTable()
+{
+    QMap<QString, QString> map;
+
+
+    /* Based on "Microsoft Time Zone Index Values"
+     * http://support.microsoft.com/kb/973627
+     *
+     * The mapping is not exact, since the the TZID usually refers to a
+     * region of multiple countries, so I always picked one of the countries
+     * in the specified region and used it's TZID.
+     *
+     * The Olson timezones are taken from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     */
+    map.insert(QLatin1String("Dateline Standard Time"), QLatin1String("Pacific/Kwajalein"));    /* (GMT-12:00) International Date Line West */
+    map.insert(QLatin1String("Samoa Standard Time"), QLatin1String("Pacific/Apia"));            /* (GMT-11:00) Midway Island, Samoa */
+    map.insert(QLatin1String("Hawaiian Standard Time"), QLatin1String("Pacific/Honolulu"));     /* (GMT-10:00) Hawaii */
+    map.insert(QLatin1String("Alaskan Standard Time"), QLatin1String("America/Anchorage"));     /* (GMT-09:00) Alaska */
+    map.insert(QLatin1String("Pacific Standard Time"), QLatin1String("America/Los_Angeles"));   /* (GMT-08:00) Pacific Time (US and Canada); Tijuana */
+    map.insert(QLatin1String("Mountain Standard Time"), QLatin1String("America/Denver"));       /* (GMT-07:00) Mountain Time (US and Canada) */
+    map.insert(QLatin1String("Mexico Standard Time 2"), QLatin1String("America/Chihuahua"));    /* (GMT-07:00) Chihuahua, La Paz, Mazatlan */
+    map.insert(QLatin1String("U.S. Mountain Standard Time"), QLatin1String("America/Phoenix")); /* (GMT-07:00) Arizona */
+    map.insert(QLatin1String("Central Standard Time"), QLatin1String("America/Chicago"));       /* (GMT-06:00) Central Time (US and Canada */
+    map.insert(QLatin1String("Canada Central Standard Time"), QLatin1String("America/Winnipeg"));       /* (GMT-06:00) Saskatchewan */
+    map.insert(QLatin1String("Mexico Standard Time"), QLatin1String("America/Mexico_City"));    /* (GMT-06:00) Guadalajara, Mexico City, Monterrey */
+    map.insert(QLatin1String("Central America Standard Time"), QLatin1String("America/Chicago"));       /* (GMT-06:00) Central America */
+    map.insert(QLatin1String("Eastern Standard Time"), QLatin1String("America/New_York"));      /* (GMT-05:00) Eastern Time (US and Canada) */
+    map.insert(QLatin1String("U.S. Eastern Standard Time"), QLatin1String("America/New_York")); /* (GMT-05:00) Indiana (East) */
+    map.insert(QLatin1String("S.A. Pacific Standard Time"), QLatin1String("America/Bogota"));   /* (GMT-05:00) Bogota, Lima, Quito */
+    map.insert(QLatin1String("Atlantic Standard Time"), QLatin1String("America/Halifax"));      /* (GMT-04:00) Atlantic Time (Canada) */
+    map.insert(QLatin1String("S.A. Western Standard Time"), QLatin1String("America/La_Paz"));   /* (GMT-04:00) Caracas, La Paz */
+    map.insert(QLatin1String("Pacific S.A. Standard Time"), QLatin1String("America/Santiago")); /* (GMT-04:00) Santiago */
+    map.insert(QLatin1String("Newfoundland and Labrador Standard Time"), QLatin1String("America/St_Johns"));    /* (GMT-03:30) Newfoundland and Labrador */
+    map.insert(QLatin1String("E. South America Standard Time"), QLatin1String("America/Brazil"));       /* (GMT-03:00) Brasilia */
+    map.insert(QLatin1String("S.A. Eastern Standard Time"), QLatin1String("America/Argentina/Buenos_Aires"));   /* (GMT-03:00) Buenos Aires, Georgetown */
+    map.insert(QLatin1String("Greenland Standard Time"), QLatin1String("America/Greenland"));   /* (GMT-03:00) Greenland */
+    map.insert(QLatin1String("Mid-Atlantic Standard Time"), QLatin1String("America/Noronha"));  /* (GMT-02:00) Mid-Atlantic */
+    map.insert(QLatin1String("Azores Standard Time"), QLatin1String("Atlantic/Portugal"));      /* (GMT-01:00) Azores */
+    map.insert(QLatin1String("Cape Verde Standard Time"), QLatin1String("Atlantic/Cape_Verde"));        /* (GMT-01:00) Cape Verde Islands */
+    map.insert(QLatin1String("GMT Standard Time"), QLatin1String("Europe/London"));             /* (GMT) Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London */
+    map.insert(QLatin1String("Greenwich Standard Time"), QLatin1String("Africa/Casablanca"));   /* (GMT) Casablanca, Monrovia */
+    map.insert(QLatin1String("Central Europe Standard Time"), QLatin1String("Europe/Prague"));  /* (GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague */
+    map.insert(QLatin1String("Central European Standard Time"), QLatin1String("Europe/Sarajevo"));      /* (GMT+01:00) Sarajevo, Skopje, Warsaw, Zagreb */
+    map.insert(QLatin1String("Romance Standard Time"), QLatin1String("Europe/Brussels"));       /* (GMT+01:00) Brussels, Copenhagen, Madrid, Paris */
+    map.insert(QLatin1String("W. Europe Standard Time"), QLatin1String("Europe/Amsterdam"));    /* (GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna */
+    map.insert(QLatin1String("W. Central Africa Standard Time"), QLatin1String("Africa/Bangui"));       /* (GMT+01:00) West Central Africa */
+    map.insert(QLatin1String("E. Europe Standard Time"), QLatin1String("Europe/Bucharest"));    /* (GMT+02:00) Bucharest */
+    map.insert(QLatin1String("Egypt Standard Time"), QLatin1String("Africa/Cairo"));            /* (GMT+02:00) Cairo */
+    map.insert(QLatin1String("FLE Standard Time"), QLatin1String("Europe/Helsinki"));           /* (GMT+02:00) Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius */
+    map.insert(QLatin1String("GTB Standard Time"), QLatin1String("Europe/Athens"));             /* (GMT+02:00) Athens, Istanbul, Minsk */
+    map.insert(QLatin1String("Israel Standard Time"), QLatin1String("Europe/Athens"));          /* (GMT+02:00) Jerusalem */
+    map.insert(QLatin1String("South Africa Standard Time"), QLatin1String("Africa/Harare"));    /* (GMT+02:00) Harare, Pretoria */
+    map.insert(QLatin1String("Russian Standard Time"), QLatin1String("Europe/Moscow"));         /* (GMT+03:00) Moscow, St. Petersburg, Volgograd */
+    map.insert(QLatin1String("Arab Standard Time"), QLatin1String("Asia/Kuwait"));              /* (GMT+03:00) Kuwait, Riyadh */
+    map.insert(QLatin1String("E. Africa Standard Time"), QLatin1String("Africa/Nairobi"));      /* (GMT+03:00) Nairobi */
+    map.insert(QLatin1String("Arabic Standard Time"), QLatin1String("Asia/Baghdad"));           /* (GMT+03:00) Baghdad */
+    map.insert(QLatin1String("Iran Standard Time"), QLatin1String("Asia/Tehran"));              /* (GMT+03:30) Tehran */
+    map.insert(QLatin1String("Arabian Standard Time"), QLatin1String("Asia/Dubai"));            /* (GMT+04:00) Abu Dhabi, Muscat */
+    map.insert(QLatin1String("Caucasus Standard Time"), QLatin1String("Asia/Tbilisi"));         /* (GMT+04:00) Baku, Tbilisi, Yerevan */
+    map.insert(QLatin1String("Transitional Islamic State of Afghanistan Standard Time"), QLatin1String("Asia/Kabul"));  /* (GMT+04:30) Kabul */
+    map.insert(QLatin1String("Ekaterinburg Standard Time"), QLatin1String("Asia/Yekaterinburg"));       /* (GMT+05:00) Ekaterinburg */
+    map.insert(QLatin1String("West Asia Standard Time"), QLatin1String("Asia/Karachi"));        /* (GMT+05:00) Islamabad, Karachi, Tashkent */
+    map.insert(QLatin1String("India Standard Time"), QLatin1String("Asia/Calcutta"));           /* (GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi */
+    map.insert(QLatin1String("Nepal Standard Time"), QLatin1String("Asia/Calcutta"));           /* (GMT+05:45) Kathmandu */
+    map.insert(QLatin1String("Central Asia Standard Time"), QLatin1String("Asia/Dhaka"));       /* (GMT+06:00) Astana, Dhaka */
+    map.insert(QLatin1String("Sri Lanka Standard Time"), QLatin1String("Asia/Colombo"));        /* (GMT+06:00) Sri Jayawardenepura */
+    map.insert(QLatin1String("N. Central Asia Standard Time"), QLatin1String("Asia/Omsk"));     /* (GMT+06:00) Almaty, Novosibirsk */
+    map.insert(QLatin1String("Myanmar Standard Time"), QLatin1String("Asia/Rangoon"));          /* (GMT+06:30) Yangon Rangoon */
+    map.insert(QLatin1String("S.E. Asia Standard Time"), QLatin1String("Asia/Bangkok"));        /* (GMT+07:00) Bangkok, Hanoi, Jakarta */
+    map.insert(QLatin1String("North Asia Standard Time"), QLatin1String("Asia/Krasnoyarsk"));   /* (GMT+07:00) Krasnoyarsk */
+    map.insert(QLatin1String("China Standard Time"), QLatin1String("Asia/Shanghai"));           /* (GMT+08:00) Beijing, Chongqing, Hong Kong SAR, Urumqi */
+    map.insert(QLatin1String("Singapore Standard Time"), QLatin1String("Asia/Singapore"));      /* (GMT+08:00) Kuala Lumpur, Singapore */
+    map.insert(QLatin1String("Taipei Standard Time"), QLatin1String("Asia/Taipei"));            /* (GMT+08:00) Taipei */
+    map.insert(QLatin1String("W. Australia Standard Time"), QLatin1String("Australia/Perth"));  /* (GMT+08:00) Perth */
+    map.insert(QLatin1String("North Asia East Standard Time"), QLatin1String("Asia/Irkutsk"));  /* (GMT+08:00) Irkutsk, Ulaanbaatar */
+    map.insert(QLatin1String("Korea Standard Time"), QLatin1String("Asia/Seoul"));              /* (GMT+09:00) Seoul */
+    map.insert(QLatin1String("Tokyo Standard Time"), QLatin1String("Asia/Tokyo"));              /* (GMT+09:00) Osaka, Sapporo, Tokyo */
+    map.insert(QLatin1String("Yakutsk Standard Time"), QLatin1String("Asia/Yakutsk"));          /* (GMT+09:00) Yakutsk */
+    map.insert(QLatin1String("A.U.S. Central Standard Time"), QLatin1String("Australia/Darwin"));       /* (GMT+09:30) Darwin */
+    map.insert(QLatin1String("Cen. Australia Standard Time"), QLatin1String("Australia/Adelaide"));     /* (GMT+09:30) Adelaide */
+    map.insert(QLatin1String("A.U.S. Eastern Standard Time"), QLatin1String("Australia/Sydney"));       /* (GMT+10:00) Canberra, Melbourne, Sydney */
+    map.insert(QLatin1String("E. Australia Standard Time"), QLatin1String("Australia/Brisbane"));       /* (GMT+10:00) Brisbane */
+    map.insert(QLatin1String("Tasmania Standard Time"), QLatin1String("Australia/Hobart"));     /* (GMT+10:00) Hobart */
+    map.insert(QLatin1String("Vladivostok Standard Time"), QLatin1String("Asia/Vladivostok"));  /* (GMT+10:00) Vladivostok */
+    map.insert(QLatin1String("West Pacific Standard Time"), QLatin1String("Pacific/Guam"));     /* (GMT+10:00) Guam, Port Moresby */
+    map.insert(QLatin1String("Central Pacific Standard Time"), QLatin1String("Pacific/Noumea"));        /* (GMT+11:00) Magadan, Solomon Islands, New Caledonia */
+    map.insert(QLatin1String("Fiji Islands Standard Time"), QLatin1String("Pacific/Fiji"));     /* (GMT+12:00) Fiji Islands, Kamchatka, Marshall Islands */
+    map.insert(QLatin1String("New Zealand Standard Time"), QLatin1String("Pacific/Auckland"));  /* (GMT+12:00) Auckland, Wellington */
+    map.insert(QLatin1String("Tonga Standard Time"), QLatin1String("Pacific/Tongatapu"));       /* (GMT+13:00) Nuku'alofa */
+    map.insert(QLatin1String("Azerbaijan Standard Time"), QLatin1String("America/Argentina/Buenos_Aires"));     /* (GMT-03:00) Buenos Aires */
+    map.insert(QLatin1String("Middle East Standard Time"), QLatin1String("Asia/Beirut"));       /* (GMT+02:00) Beirut */
+    map.insert(QLatin1String("Jordan Standard Time"), QLatin1String("Asia/Amman"));             /* (GMT+02:00) Amman */
+    map.insert(QLatin1String("Central Standard Time (Mexico)"), QLatin1String("America/Mexico_City"));  /* (GMT-06:00) Guadalajara, Mexico City, Monterrey - New */
+    map.insert(QLatin1String("Mountain Standard Time (Mexico)"), QLatin1String("America/Ojinaga"));     /* (GMT-07:00) Chihuahua, La Paz, Mazatlan - New */
+    map.insert(QLatin1String("Pacific Standard Time (Mexico)"), QLatin1String("America/Tijuana"));      /* (GMT-08:00) Tijuana, Baja California */
+    map.insert(QLatin1String("Namibia Standard Time"), QLatin1String("Africa/Windhoek"));       /* (GMT+02:00) Windhoek */
+    map.insert(QLatin1String("Georgian Standard Time"), QLatin1String("Asia/Tbilisi"));         /* (GMT+03:00) Tbilisi */
+    map.insert(QLatin1String("Central Brazilian Standard Time"), QLatin1String("America/Manaus"));      /*(GMT-04:00) Manaus */
+    map.insert(QLatin1String("Montevideo Standard Time"), QLatin1String("America/Montevideo"));        /* (GMT-03:00) Montevideo */
+    map.insert(QLatin1String("Armenian Standard Time"), QLatin1String("Asia/Yerevan"));         /* (GMT+04:00) Yerevan */
+    map.insert(QLatin1String("Venezuela Standard Time"), QLatin1String("America/Caracas"));     /* (GMT-04:30) Caracas */
+    map.insert(QLatin1String("Argentina Standard Time"), QLatin1String("America/Argentina/Buenos_Aires"));      /* (GMT-03:00) Buenos Aires */
+    map.insert(QLatin1String("Morocco Standard Time"), QLatin1String("Africa/Casablanca"));     /* (GMT) Casablanca */
+    map.insert(QLatin1String("Pakistan Standard Time"), QLatin1String("Asia/Karachi"));         /* (GMT+05:00) Islamabad, Karachi */
+    map.insert(QLatin1String("Mauritius Standard Time"), QLatin1String("Indian/Mauritius"));    /* (GMT+04:00) Port Louis */
+    map.insert(QLatin1String("UTC"), QLatin1String("UTC"));                                     /* (GMT) Coordinated Universal Time */
+    map.insert(QLatin1String("Paraguay Standard Time"), QLatin1String("America/Asuncion"));     /* (GMT-04:00) Asuncion */
+    map.insert(QLatin1String("Kamchatka Standard Time"), QLatin1String("Asia/Kamchatka"));      /* (GMT+12:00) Petropavlovsk-Kamchatsky */
+
+    return map;
+}
+
 static const QMap<int, QString> MSCDOTZIDTable = initMSCDOTZIDTable();
+static const QMap<QString, QString> MSSTTZTable = initMSStandardTimeTZTable();
 
 QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& event)
 {
@@ -864,8 +977,7 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
         if (property.startsWith(QLatin1String("X-MICROSOFT-CDO-TZID"))) {
             QStringList parsed = property.split(QLatin1Char(':'));
             if (parsed.length() != 2) {
-                /* Fail */
-                return tzid;
+                break;
             }
 
             CDOId = parsed.at(1).toInt();
@@ -898,11 +1010,6 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
             {
                 return QLatin1String("Europe/Sarajevo");
             }
-
-            /* This should never ever happen. I don't know what to do if it happens */
-            else {
-                return tzid;
-            }
         }
 
         if (MSCDOTZIDTable.contains(CDOId)) {
@@ -910,10 +1017,14 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
         }
     }
 
-    /* Fail. The event does not have a valid timezone, does not contain
-     * X-MICROSOFT-CDO-TZID or we failed to map the CDO-TZID to a real timezone.
-     * We are screwed. Just return the original TZID and hope Google will accept it
-     * (though we know they won't) */
+    /* We failed to map to X-MICROSOFT-CDO-TZID. Let's try mapping the TZID
+     * onto the Microsoft Standard Time Time Zones */
+    if (MSSTTZTable.contains(tzid)) {
+        return MSSTTZTable.value(tzid);
+    }
+
+    /* Fail/ Just return the original TZID and hope Google will accept it
+     * (though we know it won't) */
     return tzid;
 }
 
