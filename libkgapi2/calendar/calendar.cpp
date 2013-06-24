@@ -26,3 +26,23 @@
 using namespace KGAPI2;
 
 #include "common/calendar.inc.cpp"
+
+QColor Calendar::backgroundColor() const
+{
+    return d->backgroundColor;
+}
+
+void Calendar::setBackgroundColor(const QColor &color)
+{
+    d->backgroundColor = color;
+}
+
+QColor Calendar::foregroundColor() const
+{
+    return d->foregroundColor;
+}
+
+void Calendar::setForegroundColor(const QColor &color)
+{
+    d->foregroundColor = color;
+}

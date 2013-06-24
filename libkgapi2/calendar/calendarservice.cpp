@@ -198,6 +198,8 @@ ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
     calendar->setDetails(data.value(QLatin1String("description")).toString());
     calendar->setLocation(data.value(QLatin1String("location")).toString());
     calendar->setTimezone(data.value(QLatin1String("timeZone")).toString());
+    calendar->setBackgroundColor(QColor(data.value(QLatin1String("backgroundColor")).toString()));
+    calendar->setForegroundColor(QColor(data.value(QLatin1String("foregroundColor")).toString()));
 
     if ((data.value(QLatin1String("accessRole")).toString() == QLatin1String("writer")) ||
         (data.value(QLatin1String("accessRole")).toString() == QLatin1String("owner"))) {

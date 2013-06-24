@@ -19,6 +19,8 @@
  *
  */
 
+#include <QtGui/QColor>
+
 class Calendar::Private
 {
   public:
@@ -32,6 +34,8 @@ class Calendar::Private
     QString timezone;
     QString location;
     bool editable;
+    QColor backgroundColor;
+    QColor foregroundColor;
 
     RemindersList reminders;
 };
@@ -48,7 +52,9 @@ Calendar::Private::Private(const Private &other) :
     timezone(other.timezone),
     location(other.location),
     editable(other.editable),
-    reminders(other.reminders)
+    reminders(other.reminders),
+    backgroundColor(other.backgroundColor),
+    foregroundColor(other.foregroundColor)
 {
 }
 
