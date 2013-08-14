@@ -17,7 +17,7 @@ find_package(KDE4 4.6.0 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
 
-find_package(KdepimLibs 4.5.63 REQUIRED)
+find_package(KdepimLibs 4.11.40 REQUIRED)
 
 find_package(QJSON REQUIRED)
 macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http://qjson.sourceforge.net/" TRUE)
