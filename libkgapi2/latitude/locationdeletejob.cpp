@@ -28,7 +28,7 @@
 
 #include <QtNetwork/QNetworkRequest>
 
-#include <KDE/KLocalizedDate>
+#include <klocalizeddate.h>
 
 using namespace KGAPI2;
 
