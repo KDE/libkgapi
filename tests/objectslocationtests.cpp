@@ -33,7 +33,7 @@ void ObjectsLocationTests::testLocation_data()
     QTest::addColumn<qint32>("altitudeAccuracy");
 
     QTest::newRow("location1")
-        << (qulonglong) 1340366314362
+        << (qulonglong) 1340366314362ULL
         << (float) 49.6664083
         << (float) 17.1053383
         << 25
@@ -55,7 +55,7 @@ void ObjectsLocationTests::testDefaultLocation_data()
     QTest::addColumn<qint32>("altitudeAccuracy");
 
     QTest::newRow("defaultLocation")
-        << (qulonglong) 0
+        << (qulonglong) 0ULL
         << (float) 91
         << (float) 181
         << -1
