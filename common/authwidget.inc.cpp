@@ -24,7 +24,7 @@ AuthWidget::AuthWidget(QWidget* parent):
 
 AuthWidget::~AuthWidget()
 {
-
+    delete d;
 }
 
 void AuthWidget::setUsername(const QString& username)
