@@ -341,14 +341,20 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         // If there's a timezone specified in the "start" entity, then use it
         if (startData.contains(QLatin1String("timeZone"))) {
             const KTimeZone tz = KSystemTimeZones::zone(startData.value(QLatin1String("timeZone")).toString());
-            KGAPIDebug() << startData.value(QLatin1String("timeZone")).toString() << tz.name();
-            dtStart.setTimeSpec(KDateTime::Spec(tz));
+            if (tz.isValid()) {
+                dtStart.setTimeSpec(KDateTime::Spec(tz));
+            } else {
+                KGAPIWarning() << "Invalid timezone" << startData.value(QLatin1String("timeZone")).toString();
+            }
 
         // Otherwise try to fallback to calendar-wide timezone
         } else if (!timezone.isEmpty()) {
             const KTimeZone tz = KSystemTimeZones::zone(timezone);
-            KGAPIDebug() << timezone << tz.name();
-            dtStart.setTimeSpec(KDateTime::Spec(tz));
+            if (tz.isValid()) {
+                dtStart.setTimeSpec(KDateTime::Spec(tz));
+            } else {
+                KGAPIWarning() << "Invalid timezone" << timezone;
+            }
         }
     }
     event->setDtStart(dtStart);
@@ -366,10 +372,18 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         dtEnd = KDateTime::fromString(endData.value(QLatin1String("dateTime")).toString(), KDateTime::RFC3339Date);
         if (endData.contains(QLatin1String("timeZone"))) {
             const KTimeZone tz = KSystemTimeZones::zone(endData.value(QLatin1String("timeZone")).toString());
-            dtEnd.setTimeSpec(KDateTime::Spec(tz));
+            if (tz.isValid()) {
+                dtEnd.setTimeSpec(KDateTime::Spec(tz));
+            } else {
+                KGAPIWarning() << "Invalid timezone" << endData.value(QLatin1String("timeZone")).toString();
+            }
         } else if (!timezone.isEmpty()) {
             const KTimeZone tz = KSystemTimeZones::zone(timezone);
-            dtEnd.setTimeSpec(KDateTime::Spec(tz));
+            if (tz.isValid()) {
+                dtEnd.setTimeSpec(KDateTime::Spec(tz));
+            } else {
+                KGAPIWarning() << "Invalid timezone" << timezone;
+            }
         }
     }
     event->setDtEnd(dtEnd);
