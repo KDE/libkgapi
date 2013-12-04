@@ -23,6 +23,7 @@
 #include "calendar.h"
 #include "event.h"
 #include "reminder.h"
+#include "debug.h"
 
 #include <KCalCore/Alarm>
 #include <KCalCore/Event>
@@ -35,6 +36,7 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
+#include <KDateTime>
 #include <KSystemTimeZones>
 #include <KUrl>
 
@@ -51,7 +53,7 @@ namespace Private
     KCalCore::DateList parseRDate(const QString &rule);
 
     ObjectPtr JSONToCalendar(const QVariantMap &data);
-    ObjectPtr JSONToEvent(const QVariantMap &data);
+    ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString());
 
     /**
      * Checks whether TZID is in Olson format and converts it to it if neccessarry
@@ -286,7 +288,7 @@ EventPtr JSONToEvent(const QByteArray& jsonData)
     return Private::JSONToEvent(data).staticCast<Event>();
 }
 
-ObjectPtr Private::JSONToEvent(const QVariantMap& data)
+ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
 {
     EventPtr event(new Event);
 
@@ -336,11 +338,19 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data)
         event->setAllDay(true);
     } else if (startData.contains(QLatin1String("dateTime"))) {
         dtStart = KDateTime::fromString(startData.value(QLatin1String("dateTime")).toString(), KDateTime::RFC3339Date);
+        // If there's a timezone specified in the "start" entity, then use it
+        if (startData.contains(QLatin1String("timeZone"))) {
+            const KTimeZone tz = KSystemTimeZones::zone(startData.value(QLatin1String("timeZone")).toString());
+            KGAPIDebug() << startData.value(QLatin1String("timeZone")).toString() << tz.name();
+            dtStart.setTimeSpec(KDateTime::Spec(tz));
+
+        // Otherwise try to fallback to calendar-wide timezone
+        } else if (!timezone.isEmpty()) {
+            const KTimeZone tz = KSystemTimeZones::zone(timezone);
+            KGAPIDebug() << timezone << tz.name();
+            dtStart.setTimeSpec(KDateTime::Spec(tz));
+        }
     }
-    /*if (startData.contains("timeZone")) {
-        KTimeZone tz = KSystemTimeZones::zone(startData["timeZone"].toString());
-        dtStart.setTimeSpec(KDateTime::Spec(tz));
-    }*/
     event->setDtStart(dtStart);
 
     /* End date */
@@ -354,11 +364,14 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data)
         event->setAllDay(true);
     } else if (endData.contains(QLatin1String("dateTime"))) {
         dtEnd = KDateTime::fromString(endData.value(QLatin1String("dateTime")).toString(), KDateTime::RFC3339Date);
+        if (endData.contains(QLatin1String("timeZone"))) {
+            const KTimeZone tz = KSystemTimeZones::zone(endData.value(QLatin1String("timeZone")).toString());
+            dtEnd.setTimeSpec(KDateTime::Spec(tz));
+        } else if (!timezone.isEmpty()) {
+            const KTimeZone tz = KSystemTimeZones::zone(timezone);
+            dtEnd.setTimeSpec(KDateTime::Spec(tz));
+        }
     }
-    /*if (endData.contains("timeZone")) {
-        KTimeZone tz = KSystemTimeZones::zone(endData["timeZone"].toString());
-        dtEnd.setTimeSpec(KDateTime::Spec(tz));
-    }*/
     event->setDtEnd(dtEnd);
 
     /* Transparency */
@@ -671,6 +684,7 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 
     ObjectsList list;
 
+    QString timezone;
     if (data.value(QLatin1String("kind")) == QLatin1String("calendar#events")) {
         if (data.contains(QLatin1String("nextPageToken"))) {
             QString calendarId = feedData.requestUrl.toString().remove(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
@@ -683,13 +697,17 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
                 feedData.nextPageUrl.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
             }
         }
+        if (data.contains(QLatin1String("timeZone"))) {
+            // This should always be in Olson format
+            timezone = data.value(QLatin1String("timeZone")).toString();
+        }
     } else {
         return ObjectsList();
     }
 
     const QVariantList items = data.value(QLatin1String("items")).toList();
     Q_FOREACH(const QVariant &i, items) {
-        list.append(Private::JSONToEvent(i.toMap()));
+        list.append(Private::JSONToEvent(i.toMap(), timezone));
     }
 
     return list;
