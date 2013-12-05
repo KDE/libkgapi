@@ -28,11 +28,6 @@ Compiling:
   # As root:
   make install
 
-If you intend to use LibKGAPI with KDE 4.11 or newer, you can run CMake with
--DKGAPI_DISABLE_DEPRECATED=TRUE argument to skip building deprecated LibKGAPI API.
-This will become default in next version. The KDE <=4.10 compatibility API will be
-dropped later during 2.x cycle.
-
 To compile example applications, run cmake with -DKGAPI_BUILD_EXAMPLES=TRUE argument.
 To compile automated tests, run 'make buildtests'. To run automated tests, run 'make test'
 
