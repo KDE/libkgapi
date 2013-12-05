@@ -38,11 +38,6 @@ include_directories(
           ${Boost_INCLUDE_DIR}
 )
 
-option(KGAPI_DISABLE_DEPRECATED "Disable deprecated API" FALSE)
-if (NOT KGAPI_DISABLE_DEPRECATED)
-    add_subdirectory(libkgapi)
-endif(NOT KGAPI_DISABLE_DEPRECATED)
-
 option(KGAPI_BUILD_EXAMPLES "Build example applications" FALSE)
 if (KGAPI_BUILD_EXAMPLES)
     add_subdirectory(examples)

@@ -23,4 +23,45 @@
 
 using namespace KGAPI2;
 
-#include "common/object.inc.cpp"
+class Object::Private
+{
+  public:
+    Private();
+    Private(const Private& other);
+
+    QString etag;
+};
+
+Object::Private::Private()
+{
+}
+
+Object::Private::Private(const Private& other):
+    etag(other.etag)
+{
+}
+
+Object::Object():
+    d(new Private())
+{
+}
+
+Object::Object(const Object& other):
+    d(new Private(*(other.d)))
+{
+}
+
+Object::~Object()
+{
+    delete d;
+}
+
+void Object::setEtag(const QString& etag)
+{
+    d->etag = etag;
+}
+
+QString Object::etag() const
+{
+    return d->etag;
+}

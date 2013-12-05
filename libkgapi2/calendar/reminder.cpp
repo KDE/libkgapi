@@ -23,8 +23,71 @@
 #include "reminder.h"
 
 using namespace KGAPI2;
+using namespace KCalCore;
 
-#include "common/reminder.inc.cpp"
+class Reminder::Private
+{
+  public:
+    Private();
+    Private(const Private &other);
+    ~Private() {};
+
+    Alarm::Type type;
+    Duration offset;
+};
+
+Reminder::Private::Private():
+    type(Alarm::Invalid)
+{
+}
+
+Reminder::Private::Private(const Private &other):
+    type(other.type),
+    offset(other.offset)
+{
+}
+
+Reminder::Reminder():
+    d(new Private)
+{
+}
+
+Reminder::Reminder (const Alarm::Type &type, const Duration& startOffset):
+    d(new Private)
+{
+    d->type = type;
+    d->offset = startOffset;
+}
+
+Reminder::Reminder (const Reminder& other):
+    d(new Private(*(other.d)))
+{
+}
+
+Reminder::~Reminder()
+{
+    delete d;
+}
+
+void Reminder::setType (const Alarm::Type& type)
+{
+    d->type = type;
+}
+
+Alarm::Type Reminder::type() const
+{
+    return d->type;
+}
+
+void Reminder::setStartOffset (const Duration& startOffset)
+{
+    d->offset = startOffset;
+}
+
+Duration Reminder::startOffset() const
+{
+    return d->offset;
+}
 
 // In LibKGAPI1 we return AlarmPtr
 Alarm* Reminder::toAlarm (Incidence* incidence) const

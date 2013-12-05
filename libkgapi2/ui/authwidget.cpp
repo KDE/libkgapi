@@ -24,4 +24,92 @@
 
 using namespace KGAPI2;
 
-#include "common/authwidget.inc.cpp"
+
+AuthWidget::AuthWidget(QWidget* parent):
+    QWidget(parent),
+    d(new Private(this))
+{
+
+}
+
+AuthWidget::~AuthWidget()
+{
+    delete d;
+}
+
+void AuthWidget::setUsername(const QString& username)
+{
+    d->username = username;
+}
+
+void AuthWidget::setPassword(const QString& password)
+{
+    d->password = password;
+}
+
+void AuthWidget::clearCredentials()
+{
+    d->username.clear();
+    d->password.clear();
+}
+
+void AuthWidget::setAccount(const AccountPtr& account)
+{
+    d->account = account;
+}
+
+void AuthWidget::setShowProgressBar(bool showProgressBar)
+{
+    d->showProgressBar = showProgressBar;
+
+    if (showProgressBar && d->progress == UserLogin) {
+        d->progressbar->setVisible(true);
+    } else {
+        d->progressbar->setVisible(false);
+    }
+}
+
+bool AuthWidget::getShowProgressBar() const
+{
+    return d->showProgressBar;
+}
+
+AuthWidget::Progress AuthWidget::getProgress() const
+{
+    return d->progress;
+}
+
+void AuthWidget::authenticate()
+{
+    Q_ASSERT(!d->apiKey.isEmpty());
+
+    if (d->account.isNull()) {
+        Q_EMIT error(InvalidAccount, i18n("Invalid account"));
+        return;
+    }
+    if (d->account->scopes().isEmpty()) {
+        Q_EMIT error(InvalidAccount, i18n("No scopes to authenticate for"));
+        return;
+    }
+
+    QStringList scopes;
+    Q_FOREACH(const QUrl & scope, d->account->scopes()) {
+        scopes << scope.toString();
+    }
+
+    KUrl url("https://accounts.google.com/o/oauth2/auth");
+    url.addQueryItem(QLatin1String("client_id"), d->apiKey);
+    url.addQueryItem(QLatin1String("redirect_uri"), QLatin1String("urn:ietf:wg:oauth:2.0:oob"));
+    url.addQueryItem(QLatin1String("scope"), scopes.join(QLatin1String(" ")));
+    url.addQueryItem(QLatin1String("response_type"), QLatin1String("code"));
+
+    KGAPIDebugRawData() << "Requesting new token:" << url;
+
+    d->webview->setVisible(true);
+    if (d->showProgressBar) {
+        d->progressbar->setVisible(true);
+    }
+
+    d->webview->setUrl(url);
+    d->setProgress(AuthWidget::UserLogin);
+}

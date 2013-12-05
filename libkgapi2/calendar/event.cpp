@@ -23,7 +23,63 @@
 
 using namespace KGAPI2;
 
-#include "common/event.inc.cpp"
+class Event::Private
+{
+  public:
+    explicit Private();
+    Private(const Private &other);
+
+    bool deleted;
+    bool useDefaultReminders;
+};
+
+Event::Private::Private():
+    deleted(false),
+    useDefaultReminders(false)
+{
+}
+
+Event::Private::Private(const Private &other):
+    deleted(other.deleted),
+    useDefaultReminders(other.useDefaultReminders)
+{
+}
+
+Event::Event():
+    Object(),
+    KCalCore::Event(),
+    d(new Private)
+{
+}
+
+Event::Event(const Event &other):
+    Object(other),
+    KCalCore::Event(other),
+    d(new Private(*(other.d)))
+{
+}
+
+Event::Event(const KCalCore::Event &other):
+    Object(),
+    KCalCore::Event(other),
+    d(new Private)
+{
+}
+
+Event::~Event()
+{
+    delete d;
+}
+
+bool Event::deleted() const
+{
+    return d->deleted;
+}
+
+bool Event::useDefaultReminders() const
+{
+    return d->useDefaultReminders;
+}
 
 void Event::setDeleted(bool deleted)
 {

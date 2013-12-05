@@ -23,4 +23,59 @@
 
 using namespace KGAPI2;
 
-#include "common/task.inc.cpp"
+
+class Task::Private
+{
+
+  public:
+    Private();
+    Private (const Private&);
+
+    bool deleted;
+};
+
+Task::Private::Private():
+    deleted(false)
+{
+}
+
+Task::Private::Private(const Private &other):
+    deleted(other.deleted)
+{
+}
+
+Task::Task():
+    Object(),
+    KCalCore::Todo(),
+    d(new Private)
+{
+}
+
+Task::Task(const Task& other):
+    Object(other),
+    KCalCore::Todo(other),
+    d(new Private(*(other.d)))
+{
+}
+
+Task::Task(const KCalCore::Todo &other):
+    Object(),
+    KCalCore::Todo(other),
+    d(new Private)
+{
+}
+
+Task::~Task()
+{
+    delete d;
+}
+
+void Task::setDeleted(const bool deleted)
+{
+    d->deleted = deleted;
+}
+
+bool Task::deleted() const
+{
+    return d->deleted;
+}

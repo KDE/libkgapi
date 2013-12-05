@@ -21,12 +21,198 @@
 
 #include "accountinfo.h"
 
-using namespace KGAPI2;
-
-#include "common/accountinfo.inc.cpp"
-
 #include <qjson/parser.h>
 #include <QtCore/QVariantMap>
+
+using namespace KGAPI2;
+
+
+class AccountInfo::Private
+{
+public:
+    Private();
+    Private(const Private &other);
+    ~Private();
+
+    QString id;
+    QString email;
+    QString name;
+    QString givenName;
+    QString familyName;
+
+    QString birthday;
+    QString gender;
+
+    QString link;
+    QString locale;
+    QString timezone;
+
+    bool verifiedEmail;
+
+    QString pictureUrl;
+};
+
+AccountInfo::Private::Private():
+    verifiedEmail(false)
+{
+}
+
+AccountInfo::Private::Private(const Private &other):
+    id(other.id),
+    email(other.email),
+    name(other.name),
+    givenName(other.givenName),
+    familyName(other.familyName),
+    birthday(other.birthday),
+    gender(other.gender),
+    link(other.link),
+    locale(other.locale),
+    timezone(other.timezone),
+    verifiedEmail(other.verifiedEmail),
+    pictureUrl(other.pictureUrl)
+{
+}
+
+AccountInfo::Private::~Private()
+{
+}
+
+AccountInfo::AccountInfo():
+    Object(),
+    d(new Private)
+{
+}
+
+AccountInfo::AccountInfo(const AccountInfo &other):
+    Object(other),
+    d(new Private(*(other.d)))
+{
+}
+
+AccountInfo::~AccountInfo()
+{
+    delete d;
+}
+
+void AccountInfo::setId(const QString &id)
+{
+    d->id = id;
+}
+
+QString AccountInfo::id() const
+{
+    return d->id;
+}
+
+void AccountInfo::setEmail(const QString &email)
+{
+    d->email = email;
+}
+
+QString AccountInfo::email() const
+{
+    return d->email;
+}
+
+void AccountInfo::setName(const QString &name)
+{
+    d->name = name;
+}
+
+QString AccountInfo::name() const
+{
+    return d->name;
+}
+
+void AccountInfo::setGivenName(const QString &givenName)
+{
+    d->givenName = givenName;
+}
+
+QString AccountInfo::givenName() const
+{
+    return d->givenName;
+}
+
+void AccountInfo::setFamilyName(const QString &familyName)
+{
+    d->familyName = familyName;
+}
+
+QString AccountInfo::familyName() const
+{
+    return d->familyName;
+}
+
+void AccountInfo::setBirthday(const QString &birthday)
+{
+    d->birthday = birthday;
+}
+
+QString AccountInfo::birthday() const
+{
+    return d->birthday;
+}
+
+void AccountInfo::setGender(const QString &gender)
+{
+    d->gender = gender;
+}
+
+QString AccountInfo::gender() const
+{
+    return d->gender;
+}
+
+void AccountInfo::setLink(const QString &link)
+{
+    d->link = link;
+}
+
+QString AccountInfo::link() const
+{
+    return d->link;
+}
+
+void AccountInfo::setLocale(const QString &locale)
+{
+    d->locale = locale;
+}
+
+QString AccountInfo::locale() const
+{
+    return d->locale;
+}
+
+void AccountInfo::setTimezone(const QString &timezone)
+{
+    d->timezone = timezone;
+}
+
+QString AccountInfo::timezone() const
+{
+    return d->timezone;
+}
+
+void AccountInfo::setVerifiedEmail(const bool verifiedEmail)
+{
+    d->verifiedEmail = verifiedEmail;
+}
+
+bool AccountInfo::verifiedEmail() const
+{
+    return d->verifiedEmail;
+}
+
+void AccountInfo::setPhotoUrl(const QString &url)
+{
+    d->pictureUrl = url;
+}
+
+QString AccountInfo::photoUrl() const
+{
+    return d->pictureUrl;
+}
 
 AccountInfoPtr AccountInfo::fromJSON(const QByteArray& jsonData)
 {
