@@ -108,7 +108,7 @@ class LIBKGAPI2_EXPORT AuthWidget : public QWidget
     /**
      * Sets an account for which to obtain authentication.
      */
-    void setAccount(const KGAPI2::Account::Ptr &account);
+    void setAccount(const KGAPI2::AccountPtr &account);
 
     /**
      * Sets whether to show progressbar above the webview when loading

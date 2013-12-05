@@ -38,19 +38,9 @@ namespace KGAPI2
  * @since 0.3
  */
 class LIBKGAPI2_EXPORT Task: public KGAPI2::Object,
-                            public KCalCore::Todo
+                             public KCalCore::Todo
 {
   public:
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef TaskPtr Ptr;
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef QList<Task> List;
 
     /**
      * @brief Constructor

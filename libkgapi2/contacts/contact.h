@@ -39,14 +39,9 @@ namespace KGAPI2
  * @since 0.1
  */
 class LIBKGAPI2_EXPORT Contact : public KGAPI2::Object,
-                                public KABC::Addressee
+                                 public KABC::Addressee
 {
   public:
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef ContactPtr Ptr;
 
     /**
      * @brief Instant Messaging Protocols

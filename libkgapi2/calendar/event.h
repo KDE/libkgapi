@@ -38,20 +38,9 @@ namespace KGAPI2
  * @since 0.1
  */
 class LIBKGAPI2_EXPORT Event: public KGAPI2::Object,
-                             public KCalCore::Event
+                              public KCalCore::Event
 {
   public:
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef EventPtr Ptr;
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef QList<Event> List;
-
     /**
      * @brief Constructor
      */

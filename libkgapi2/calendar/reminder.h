@@ -43,16 +43,6 @@ class LIBKGAPI2_EXPORT Reminder
   public:
 
     /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef ReminderPtr Ptr;
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef RemindersList List;
-
-    /**
      * @brief Constrcutor
      */
     explicit Reminder();

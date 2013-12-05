@@ -53,12 +53,6 @@ class LIBKGAPI2_EXPORT Account
 {
 
   public:
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef KGAPI2::AccountPtr Ptr;
-
     /**
      * @brief Constructs an invalid account.
      */

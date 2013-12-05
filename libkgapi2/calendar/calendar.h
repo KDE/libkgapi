@@ -41,17 +41,6 @@ class LIBKGAPI2_EXPORT Calendar: public KGAPI2::Object
 {
 
   public:
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef CalendarPtr Ptr;
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef QList<Calendar> List;
-
     /**
      * @brief Constructor
      */

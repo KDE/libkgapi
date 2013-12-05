@@ -39,14 +39,9 @@ namespace KGAPI2
  * @since 0.4
  */
 class LIBKGAPI2_EXPORT Location : public KGAPI2::Object,
-                                 public KABC::Geo
+                                  public KABC::Geo
 {
   public:
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef LocationPtr Ptr;
 
     /**
      * @brief Constructor

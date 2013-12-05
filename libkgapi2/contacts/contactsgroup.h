@@ -49,11 +49,6 @@ class LIBKGAPI2_EXPORT ContactsGroup : public KGAPI2::Object
   public:
 
     /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef ContactsGroupPtr Ptr;
-
-    /**
      * @brief Constructor
      */
     ContactsGroup();

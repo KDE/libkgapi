@@ -41,16 +41,6 @@ class LIBKGAPI2_EXPORT TaskList: public KGAPI2::Object
   public:
 
     /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef TaskListPtr Ptr;
-
-    /**
-     * @deprecated Provided for backward compatibility. Will be removed in future.
-     */
-    KGAPI_DEPRECATED typedef QList<TaskList> List;
-
-    /**
      * @brief Constructor
      */
     TaskList();
