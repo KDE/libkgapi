@@ -1,6 +1,9 @@
 add_subdirectory(includes)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 set(LibKGAPI_core_SRCS
     account.cpp
@@ -25,7 +28,7 @@ set(LibKGAPI_core_HDRS
     modifyjob.h
     object.h
     types.h
-    libkgapi2_export.h
+    ${CMAKE_CURRENT_BINARY_DIR}/libkgapi2_export.h
 )
 
 set(LibKGAPI_accountinfo_SRCS
@@ -184,6 +187,8 @@ kde4_add_library(kgapi2 SHARED
     ${LibKGAPI_tasks_SRCS}
     ${LibKGAPI_ui_SRCS}
 )
+
+generate_export_header(kgapi2 BASE_NAME libkgapi2)
 
 set_target_properties(kgapi2
     PROPERTIES VERSION ${KGAPI_VERSION}
