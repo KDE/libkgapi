@@ -224,11 +224,6 @@ install(FILES ${LibKGAPI_ui_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/u
 
 # === CMake stuff
 
-if(NOT WIN32)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libkgapi2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkgapi2.pc)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkgapi2.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
-endif(NOT WIN32)
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/LibKGAPI2Config.cmake.in
                ${CMAKE_CURRENT_BINARY_DIR}/LibKGAPI2Config.cmake @ONLY)
 
