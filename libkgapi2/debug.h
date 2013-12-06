@@ -1,5 +1,5 @@
 /*
-    Copyright 2013  Dan Vratil <dan@progdan.cz>
+    Copyright 2013  Daniel Vrátil <dvratil@redhat.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -15,8 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KGAPI_DEBUG
-#define KGAPI_DEBUG
+#ifndef LIBKGAPI2_DEBUG_H
+#define LIBKGAPI2_DEBUG_H
 
 #include <KDebug>
 
@@ -27,4 +27,4 @@ int rawDataDebugArea();
 #define KGAPIWarning() kWarning(debugArea())
 #define KGAPIDebugRawData() kDebug(rawDataDebugArea())
 
-#endif // KGAPI_DEBUG
+#endif // LIBKGAPI2_DEBUG_H
