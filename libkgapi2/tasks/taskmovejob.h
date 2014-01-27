@@ -147,14 +147,6 @@ class LIBKGAPI2_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
     virtual void handleReply(const QNetworkReply *reply,
                              const QByteArray& rawData);
 
-    /**
-     * @brief KGAPI2::ModifyJob::handleReplyWithItems implementation
-     *
-     * @param reply
-     * @param rawData
-     */
-    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData);
-
   private:
     class Private;
     Private * const d;

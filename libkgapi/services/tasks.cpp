@@ -28,13 +28,14 @@
 #include <libkgapi2/tasks/tasksservice.h>
 #include <libkgapi2/tasks/task.h>
 #include <libkgapi2/tasks/tasklist.h>
+#include <libkgapi2/account.h>
 
 using namespace KGAPI;
 using namespace Services;
 
 using namespace KCalCore;
 
-QUrl Tasks::ScopeUrl(KGAPI2::TasksService::scopeUrl());
+QUrl Tasks::ScopeUrl(KGAPI2::Account::tasksScopeUrl());
 
 static const QString serviceNameStr = QLatin1String("KGAPI::Services::Tasks");
 
@@ -124,7 +125,7 @@ QByteArray Tasks::objectToJSON(KGAPI::Object* object)
 
 QUrl Tasks::scopeUrl() const
 {
-    return KGAPI2::TasksService::scopeUrl();
+    return Tasks::ScopeUrl;
 }
 
 QUrl Tasks::fetchAllTasksUrl(const QString& tasklistID)

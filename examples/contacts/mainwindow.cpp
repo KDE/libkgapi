@@ -20,18 +20,15 @@
 #include "mainwindow.h"
 #include "ui_main.h"
 
-#include <libkgapi/objects/contact.h>
-#include <libkgapi/services/contacts.h>
-#include <libkgapi/auth.h>
-#include <libkgapi/accessmanager.h>
-#include <libkgapi/fetchlistjob.h>
-#include <libkgapi/request.h>
-#include <libkgapi/reply.h>
+#include <libkgapi2/contacts/contact.h>
+#include <libkgapi2/contacts/contactfetchjob.h>
+#include <libkgapi2/authjob.h>
+#include <libkgapi2/account.h>
 
-#include <QListWidgetItem>
-#include <QDebug>
-#include <KJob>
-#include <QStringBuilder>
+#include <QtGui/QListWidgetItem>
+#include <QtCore/QStringBuilder>
+
+#include <KDE/KLocalizedString>
 
 MainWindow::MainWindow(QWidget * parent):
     QMainWindow(parent),
@@ -46,60 +43,42 @@ MainWindow::MainWindow(QWidget * parent):
             this, SLOT(fetchContactList()));
     connect(m_ui->contactList, SIGNAL(itemSelectionChanged()),
             this, SLOT(contactSelected()));
-
-    /* Retrieve instance of KGAPI::Auth */
-    KGAPI::Auth * auth = KGAPI::Auth::instance();
-
-    /* Initialize the KGAPI::Auth - set KWallet forlder and keys from
-     * your Google application */
-    auth->init(QLatin1String("KGAPI example"), QLatin1String("554041944266.apps.googleusercontent.com"),
-               QLatin1String("mdT1DjzohxN3npUUzkENT0gO"));
-    connect(auth, SIGNAL(authenticated(KGAPI::Account::Ptr&)),
-            this, SLOT(authenticationFinished(KGAPI::Account::Ptr&)));
-    connect(auth, SIGNAL(error(KGAPI::Error,QString)),
-            this, SLOT(error(KGAPI::Error,QString)));
-
-    /* Construct KGAPI::AccessManager which we will use to communicate with
-     * Google */
-    m_accessManager = new KGAPI::AccessManager();
-    connect(m_accessManager, SIGNAL(replyReceived(KGAPI::Reply*)),
-           this, SLOT(replyReceived(KGAPI::Reply*)));
-    connect(m_accessManager, SIGNAL(error(KGAPI::Error,QString)),
-           this, SLOT(error(KGAPI::Error,QString)));
-
 }
 
 MainWindow::~MainWindow()
 {
-    /* Remove the KGAPI::Account from KWallet */
-    KGAPI::Auth *auth = KGAPI::Auth::instance();
-    auth->revoke(m_account);
-
     delete m_ui;
 }
 
-
 void MainWindow::authenticate()
 {
-    KGAPI::Auth *auth = KGAPI::Auth::instance();
+    KGAPI2::AccountPtr account(new KGAPI2::Account);
+    account->setScopes( QList<QUrl>() << KGAPI2::Account::contactsScopeUrl() );
 
-    /* Create a new account */
-    KGAPI::Account::Ptr account(new KGAPI::Account());
-    /* Set scopes we want the account to have access to */
-    account->addScope(KGAPI::Services::Contacts::ScopeUrl);
-
-    /* Try to authenticate, or fail */
-    try {
-        auth->authenticate(account, true);
-    } catch (KGAPI::Exception::BaseException &e) {
-        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % QLatin1String(e.what()));
-        m_ui->errorLabel->setVisible(true);
-    }
+    /* Create AuthJob to retrieve OAuth tokens for the account */
+    KGAPI2::AuthJob *authJob = new KGAPI2::AuthJob(
+        account,
+        QLatin1String("554041944266.apps.googleusercontent.com"),
+        QLatin1String("mdT1DjzohxN3npUUzkENT0gO"));
+    connect(authJob, SIGNAL(finished(KGAPI2::Job*)),
+             this, SLOT(slotAuthJobFinished(KGAPI2::Job*)));
 }
 
-void MainWindow::authenticationFinished(KGAPI::Account::Ptr& account)
+void MainWindow::slotAuthJobFinished(KGAPI2::Job *job)
 {
-    m_account = account;
+    KGAPI2::AuthJob *authJob = qobject_cast<KGAPI2::AuthJob*>(job);
+    Q_ASSERT(authJob);
+    /* Always remember to delete the jobs, otherwise your application will
+     * leak memory. */
+    authJob->deleteLater();
+
+    if (authJob->error() != KGAPI2::NoError) {
+        m_ui->errorLabel->setText(i18n("Error: %1").arg(authJob->errorString()));
+        m_ui->errorLabel->setVisible(true);
+        return;
+    }
+
+    m_account = authJob->account();
 
     m_ui->authStatusLabel->setText(i18n("Authenticated"));
     m_ui->contactListButton->setEnabled(true);
@@ -109,52 +88,37 @@ void MainWindow::authenticationFinished(KGAPI::Account::Ptr& account)
 void MainWindow::fetchContactList()
 {
     if (m_account.isNull()) {
-        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % i18n("Please authenticate first"));
+        m_ui->errorLabel->setText(i18n("Error: Please authenticate first"));
         m_ui->errorLabel->setVisible(true);
         m_ui->authButton->setVisible(true);
         return;
     }
 
-    /* Retrieve URL to which we will send the request */
-    QUrl url = KGAPI::Services::Contacts::fetchAllContactsUrl(m_account->accountName(), true);
-
-    KGAPI::FetchListJob *fetchJob;
-    /* FetchList job is a comfortable way to retrieve many items from Google.
-     * Set URL, name of service we want to use and name of the account to use */
-    fetchJob = new KGAPI::FetchListJob(url, KGAPI::Services::Contacts::serviceName(), m_account->accountName());
-    connect(fetchJob, SIGNAL(finished(KJob*)), this, SLOT(fetchJobFinished(KJob*)));
-    fetchJob->setAutoDelete(true);
-    fetchJob->start();
+    KGAPI2::ContactFetchJob *fetchJob = new KGAPI2::ContactFetchJob(m_account, this);
+    connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
+            this, SLOT(slotFetchJobFinished(KGAPI2::Job*)));
 
     m_ui->contactListButton->setEnabled(false);
 }
 
-void MainWindow::error(KGAPI::Error err, QString msg)
+void MainWindow::slotFetchJobFinished(KGAPI2::Job *job)
 {
-    Q_UNUSED(err);
+    KGAPI2::ContactFetchJob *fetchJob = qobject_cast<KGAPI2::ContactFetchJob*>(job);
+    Q_ASSERT(fetchJob);
+    fetchJob->deleteLater();
 
-    m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % msg);
-    m_ui->errorLabel->setVisible(true);
-    m_ui->contactListButton->setEnabled(true);
-}
-
-void MainWindow::fetchJobFinished(KJob * job)
-{
-    if (job->error()) {
-        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % job->errorString());
+    if (fetchJob->error() != KGAPI2::NoError) {
+        m_ui->errorLabel->setText(i18n("Error: %1").arg(fetchJob->errorString()));
         m_ui->errorLabel->setVisible(true);
         m_ui->contactListButton->setEnabled(true);
         return;
     }
 
-    KGAPI::FetchListJob *fetchJob = dynamic_cast<KGAPI::FetchListJob *>(job);
-
     /* Get all items the job has retrieved */
-    QList< KGAPI::Object * > objects = fetchJob->items();
+    const KGAPI2::ObjectsList objects = fetchJob->items();
 
-    Q_FOREACH (KGAPI::Object * object, objects) {
-
-        KGAPI::Objects::Contact *contact = static_cast<KGAPI::Objects::Contact *>(object);
+    Q_FOREACH (const KGAPI2::ObjectPtr &object, objects) {
+        const KGAPI2::ContactPtr contact = object.dynamicCast<KGAPI2::Contact>();
 
         /* Convert the contact to QListWidget item */
         QListWidgetItem *item = new QListWidgetItem(m_ui->contactList);
@@ -174,53 +138,46 @@ void MainWindow::contactSelected()
         return;
     }
 
-    QString id = m_ui->contactList->selectedItems().at(0)->data(Qt::UserRole).toString();
-    QUrl url = KGAPI::Services::Contacts::fetchContactUrl(m_account->accountName(), id);
+    const QString id = m_ui->contactList->selectedItems().at(0)->data(Qt::UserRole).toString();
 
-    /* Construct a new request that we will send to retrieve a specific selected contact */
-    KGAPI::Request * request;
-    request = new KGAPI::Request(url, KGAPI::Request::Fetch, KGAPI::Services::Contacts::serviceName(), m_account);
-
-    m_accessManager->sendRequest(request);
+    KGAPI2::ContactFetchJob *fetchJob = new KGAPI2::ContactFetchJob(id, m_account);
+    connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
+            this, SLOT(slotContactFetchJobFinished(KGAPI2::Job*)));
 }
 
-
-void MainWindow::replyReceived(KGAPI::Reply * reply)
+void MainWindow::slotContactFetchJobFinished(KGAPI2::Job *job)
 {
-    m_ui->contactListButton->setEnabled(true);
+    KGAPI2::ContactFetchJob *fetchJob = qobject_cast<KGAPI2::ContactFetchJob*>(job);
+    Q_ASSERT(fetchJob);
+    fetchJob->deleteLater();
 
-    if (reply->error() != KGAPI::OK) {
-        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % reply->errorString());
+
+    if (fetchJob->error() != KGAPI2::NoError) {
+        m_ui->errorLabel->setText(i18n("Error: %1").arg(fetchJob->errorString()));
         m_ui->errorLabel->setVisible(true);
-        delete reply;
+        m_ui->contactListButton->setEnabled(true);
         return;
     }
 
     /* Get all items we have received from Google (should be just one) */
-    QList<KGAPI::Object *> info = reply->replyData();
-
-    if (info.length() != 1) {
-        m_ui->errorLabel->setText(QLatin1String("<b>") % i18n("Error:") % QLatin1String("</b> ") % i18n("Server sent unexpected amount of contacts"));
+    KGAPI2::ObjectsList objects = fetchJob->items();
+    if (objects.count() != 1) {
+        m_ui->errorLabel->setText(i18n("Error: Server sent unexpected amount of contacts"));
         m_ui->errorLabel->setVisible(true);
-        delete reply;
         return;
     }
 
-    KGAPI::Objects::Contact *contact = static_cast<KGAPI::Objects::Contact *>(info.first());
+    KGAPI2::ContactPtr contact = objects.first().dynamicCast<KGAPI2::Contact>();
 
-    QString text = QLatin1String("Name: ") % contact->name() % QLatin1Char('\n');
+    QString text = i18n("Name: %1").arg(contact->name());
 
     if (!contact->phoneNumbers().isEmpty()) {
-        text += QLatin1String("Phone: ") % contact->phoneNumbers().first().number() % QLatin1Char('\n');
+        text += QLatin1Char('\n') % i18n("Phone: %1").arg(contact->phoneNumbers().first().number());
     }
 
     if (!contact->emails().isEmpty()) {
-        text += QLatin1String("Email: ") % contact->emails().first() % QLatin1Char('\n');
+        text += QLatin1Char('\n') % i18n("Email: %1").arg(contact->emails().first());
     }
 
     m_ui->contactInfo->setText(text);
-
-    /* Always remember to delete the reply, otherwise your application will
-     * have memory leaks */
-    delete reply;
 }

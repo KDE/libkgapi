@@ -54,8 +54,10 @@ ObjectsList CreateJob::items() const
     return d->items;
 }
 
-void CreateJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request,
-                                const QByteArray& data, const QString& contentType)
+void CreateJob::dispatchRequest(QNetworkAccessManager* accessManager,
+                                const QNetworkRequest& request,
+                                const QByteArray& data,
+                                const QString& contentType)
 {
     QNetworkRequest r = request;
     if (!r.hasRawHeader("Content-Type")) {
@@ -77,5 +79,13 @@ void CreateJob::aboutToStart()
     Job::aboutToStart();
 }
 
+ObjectsList CreateJob::handleReplyWithItems(const QNetworkReply* reply,
+                                            const QByteArray& rawData)
+{
+    Q_UNUSED(reply)
+    Q_UNUSED(rawData)
+
+    return ObjectsList();
+}
 
 #include "createjob.moc"

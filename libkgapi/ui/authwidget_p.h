@@ -33,6 +33,8 @@ namespace KGAPI2 {
 
 namespace KGAPI {
     typedef Account::Ptr AccountPtr;
+    class AuthPrivate;
+
 
 namespace Ui {
 
@@ -74,6 +76,7 @@ class AuthWidget::Private: public QObject {
     AuthWidget *q;
 
     friend class AuthWidget;
+    friend class AuthPrivate;
 };
 
 

@@ -33,7 +33,6 @@ class LIBKGAPI_EXPORT_DEPRECATED AccountInfo : public KGAPI::Service
 {
   public:
     static QUrl ScopeUrl;
-    static QUrl EmailScopeUrl;
 
     /**
      * Implements KGAPI::Service::JSONToObject().

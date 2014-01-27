@@ -19,8 +19,8 @@
 #include "objects/accountinfo.h"
 #include "common.h"
 
-#include <libkgapi2/accountinfo/accountinfoservice.h>
 #include <libkgapi2/accountinfo/accountinfo.h>
+#include <libkgapi2/account.h>
 
 #include <QtCore/QVariantMap>
 
@@ -29,14 +29,13 @@
 using namespace KGAPI;
 using namespace Services;
 
-QUrl AccountInfo::ScopeUrl(KGAPI2::AccountInfoService::scopeUrl());
-QUrl AccountInfo::EmailScopeUrl(KGAPI2::AccountInfoService::emailScopeUrl());
+QUrl AccountInfo::ScopeUrl(KGAPI2::Account::accountInfoScopeUrl());
 
 static const QString serviceNameStr(QLatin1String("KGAPI::Services::AccountInfo"));
 
 QString AccountInfo::protocolVersion() const
 {
-    return KGAPI2::AccountInfoService::APIVersion();
+    return QLatin1String("0");
 }
 
 QUrl AccountInfo::scopeUrl() const
@@ -46,7 +45,7 @@ QUrl AccountInfo::scopeUrl() const
 
 QUrl AccountInfo::fetchUrl()
 {
-    return KGAPI2::AccountInfoService::fetchUrl();
+    return QUrl(QLatin1String("https://www.googleapis.com/oauth2/v1/userinfo"));
 }
 
 QString AccountInfo::serviceName()
@@ -61,7 +60,7 @@ QString AccountInfo::serviceName()
 
 KGAPI::Object* AccountInfo::JSONToObject(const QByteArray &jsonData)
 {
-    KGAPI2::AccountInfoPtr acc = KGAPI2::AccountInfoService::JSONToAccountInfo(jsonData);
+    KGAPI2::AccountInfoPtr acc = KGAPI2::AccountInfo::fromJSON(jsonData);
     return new Objects::AccountInfo(*reinterpret_cast<KGAPI::Objects::AccountInfo*>(acc.data()));
 }
 

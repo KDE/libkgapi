@@ -1,7 +1,7 @@
 project(libkgapi)
-set(KGAPI_VERSION_MAJOR 1)
-set(KGAPI_VERSION_MINOR 9)
-set(KGAPI_VERSION_RELEASE 80)
+set(KGAPI_VERSION_MAJOR 2)
+set(KGAPI_VERSION_MINOR 0)
+set(KGAPI_VERSION_RELEASE 2)
 set(KGAPI_VERSION "${KGAPI_VERSION_MAJOR}.${KGAPI_VERSION_MINOR}.${KGAPI_VERSION_RELEASE}")
 
 cmake_minimum_required(VERSION 2.8)
@@ -17,7 +17,7 @@ find_package(KDE4 4.6.0 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
 
-find_package(KdepimLibs 4.5.63 REQUIRED)
+find_package(KdepimLibs 4.11.40 REQUIRED)
 
 find_package(QJSON REQUIRED)
 macro_log_feature(QJSON_FOUND "QJSON" "Qt library for handling JSON data" "http://qjson.sourceforge.net/" TRUE)
@@ -38,20 +38,19 @@ include_directories(
           ${Boost_INCLUDE_DIR}
 )
 
-option(DISABLE_DEPRECATED "Disable deprecated API" FALSE)
-if (NOT DISABLE_DEPRECATED)
+option(KGAPI_DISABLE_DEPRECATED "Disable deprecated API" FALSE)
+if (NOT KGAPI_DISABLE_DEPRECATED)
     add_subdirectory(libkgapi)
-endif(NOT DISABLE_DEPRECATED)
+endif(NOT KGAPI_DISABLE_DEPRECATED)
 
-# FIXME: Port examples to LibKGAPI2
-option(BUILD_EXAMPLES "Build example applications (requires deprecated API)" FALSE)
-if (BUILD_EXAMPLES AND NOT DISABLE_DEPRECATED)
+option(KGAPI_BUILD_EXAMPLES "Build example applications" FALSE)
+if (KGAPI_BUILD_EXAMPLES)
     add_subdirectory(examples)
-endif(BUILD_EXAMPLES AND NOT DISABLE_DEPRECATED)
+endif(KGAPI_BUILD_EXAMPLES)
 
 add_subdirectory(libkgapi2)
 
 # FIXME: Port tests to LibKGAPI2
-if (NOT DISABLE_DEPRECATED)
+if (NOT KGAPI_DISABLE_DEPRECATED)
     add_subdirectory(tests)
-endif (NOT DISABLE_DEPRECATED)
+endif (NOT KGAPI_DISABLE_DEPRECATED)

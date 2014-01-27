@@ -19,13 +19,14 @@
 
 #include "mainwindow.h"
 #include "ui_main.h"
-#include <libkgapi/objects/staticmapurl.h>
-#include <QDebug>
+
+#include <libkgapi2/staticmaps/staticmapurl.h>
+
+using namespace KGAPI2;
 
 MainWindow::MainWindow(QWidget * parent) :
     QMainWindow(parent),
-    m_ui(new Ui::MainWindow),
-    m_map(new KGAPI::Services::StaticMap(this))
+    m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
 
@@ -33,8 +34,6 @@ MainWindow::MainWindow(QWidget * parent) :
             this, SLOT(getImage()));
     connect(m_ui->addMarker, SIGNAL(clicked(bool)),
             this, SLOT(addMarker()));
-    connect(m_map, SIGNAL(tileFetched(QPixmap)),
-            this, SLOT(showImage(QPixmap)));
 }
 
 MainWindow::~MainWindow()
@@ -42,14 +41,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::addMarker()
 {
-    KGAPI::Objects::StaticMapMarker marker;
+    StaticMapMarker marker;
 
     if (!m_ui->markerLocation->text().isEmpty()) {
 
         if (!m_ui->markerLabel->text().isEmpty())
             marker.setLabel(QChar(m_ui->markerLabel->text().at(0)));
 
-        marker.setSize((KGAPI::Objects::StaticMapMarker::MarkerSize)m_ui->markerSize->currentIndex());
+        marker.setSize((StaticMapMarker::MarkerSize) m_ui->markerSize->currentIndex());
         marker.setColor(m_ui->markerColor->color());
         marker.setLocation(m_ui->markerLocation->text());
 
@@ -60,19 +59,19 @@ void MainWindow::addMarker()
 
 void MainWindow::getImage()
 {
-    KGAPI::Objects::StaticMapUrl map;
+    StaticMapUrl map;
     KABC::Address addr;
 
     switch (m_ui->locationType->currentIndex()) {
-	case KGAPI::Objects::StaticMapUrl::String:
+	case StaticMapUrl::String:
 	    map.setLocation(m_ui->locationString->text());
 	    break;
-	case KGAPI::Objects::StaticMapUrl::KABCAddress:
+	case StaticMapUrl::KABCAddress:
 	    addr.setLocality(m_ui->locationCity->text());
 	    addr.setStreet(m_ui->locationStreet->text());
 	    map.setLocation(addr);
 	    break;
-	case KGAPI::Objects::StaticMapUrl::KABCGeo:
+	case StaticMapUrl::KABCGeo:
 	    map.setLocation(KABC::Geo(m_ui->locationLatitude->value(),
 				      m_ui->locationLongitude->value()));
 	    break;
@@ -80,25 +79,23 @@ void MainWindow::getImage()
 
     map.setZoomLevel(m_ui->zoom->value());
     map.setSize(QSize(m_ui->width->value(), m_ui->height->value()));
-    map.setScale(KGAPI::Objects::StaticMapUrl::Scale(m_ui->scale->currentIndex()+1));
-    map.setFormat((KGAPI::Objects::StaticMapUrl::ImageFormat)(m_ui->format->currentIndex()));
-    map.setMapType((KGAPI::Objects::StaticMapUrl::MapType)(m_ui->map->currentIndex()));
+    map.setScale(static_cast<StaticMapUrl::Scale>(m_ui->scale->currentIndex() + 1));
+    map.setFormat(static_cast<StaticMapUrl::ImageFormat>(m_ui->format->currentIndex()));
+    map.setMapType(static_cast<StaticMapUrl::MapType>(m_ui->map->currentIndex()));
     map.setSensorUsed(m_ui->sensor->currentIndex());
     map.setMarkers(m_markers);
 
-    qDebug() << "Size: " << map.size();
-    qDebug() << "Format: " << map.format();
-    qDebug() << "Scale: " << map.scale();
-    qDebug() << "Zoom: " << map.zoomLevel();
-    qDebug() << "Sensor: " << map.sensorUsed();
-    qDebug() << "Map type: " << map.mapType();
-    qDebug() << "Valid: " << map.isValid();
-    qDebug() << "Url: " << map.url();
-
-    m_map->fetchTile(map.url());
+    StaticMapTileFetchJob *fetchJob = new StaticMapTileFetchJob(map.url(), this);
+    connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
+            this, SLOT(slotTileFetched(KGAPI2::Job*)));
 }
 
-void MainWindow::showImage(const QPixmap & pixmap)
+void MainWindow::slotTileFetched(KGAPI2::Job *job)
 {
+    StaticMapTileFetchJob *fetchJob = qobject_cast<StaticMapTileFetchJob*>(job);
+    Q_ASSERT(fetchJob);
+    fetchJob->deleteLater();
+
+    const QPixmap pixmap = fetchJob->tilePixmap();
     m_ui->label->setPixmap(pixmap);
 }

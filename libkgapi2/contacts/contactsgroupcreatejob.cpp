@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "utils.h"
 #include "account.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -36,7 +37,7 @@ using namespace KGAPI2;
 class ContactsGroupCreateJob::Private
 {
   public:
-    ContactsGroupsList groups;
+    QueueHelper<ContactsGroupPtr> groups;
 };
 
 ContactsGroupCreateJob::ContactsGroupCreateJob(const ContactsGroupsList& groups, const AccountPtr& account, QObject* parent):
@@ -60,12 +61,12 @@ ContactsGroupCreateJob::~ContactsGroupCreateJob()
 
 void ContactsGroupCreateJob::start()
 {
-    if (d->groups.isEmpty()) {
+    if (d->groups.atEnd()) {
         emitFinished();
         return;
     }
 
-    const ContactsGroupPtr contact = d->groups.takeFirst();
+    const ContactsGroupPtr contact = d->groups.current();
     const QUrl url = ContactsService::createGroupUrl(account()->accountName());
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
@@ -96,8 +97,10 @@ ObjectsList ContactsGroupCreateJob::handleReplyWithItems(const QNetworkReply *re
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
         items << ContactsService::JSONToContactsGroup(rawData);
+        d->groups.currentProcessed();
     } else if (ct == KGAPI2::XML) {
         items << ContactsService::XMLToContactsGroup(rawData);
+        d->groups.currentProcessed();
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));

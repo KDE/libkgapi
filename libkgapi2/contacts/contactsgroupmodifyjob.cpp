@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "utils.h"
 #include "account.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -36,7 +37,7 @@ using namespace KGAPI2;
 class ContactsGroupModifyJob::Private
 {
   public:
-    ContactsGroupsList groups;
+    QueueHelper<ContactsGroupPtr> groups;
 };
 
 ContactsGroupModifyJob::ContactsGroupModifyJob(const ContactsGroupsList& groups, const AccountPtr& account, QObject* parent):
@@ -61,12 +62,12 @@ ContactsGroupModifyJob::~ContactsGroupModifyJob()
 
 void ContactsGroupModifyJob::start()
 {
-    if (d->groups.isEmpty()) {
+    if (d->groups.atEnd()) {
         emitFinished();
         return;
     }
 
-    const ContactsGroupPtr group = d->groups.takeFirst();
+    const ContactsGroupPtr group = d->groups.current();
 
     const QUrl url = ContactsService::updateGroupUrl(account()->accountName(), group->id());
     QNetworkRequest request;
@@ -98,12 +99,15 @@ ObjectsList ContactsGroupModifyJob::handleReplyWithItems(const QNetworkReply *re
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
         items << ContactsService::JSONToContactsGroup(rawData);
+        d->groups.currentProcessed();
     } else if (ct == KGAPI2::XML) {
         items << ContactsService::XMLToContactsGroup(rawData);
+        d->groups.currentProcessed();
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));
         emitFinished();
+        return items;
     }
 
     // Enqueue next item or finish

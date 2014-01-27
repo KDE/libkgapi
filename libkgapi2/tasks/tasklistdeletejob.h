@@ -100,6 +100,14 @@ class LIBKGAPI2_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
      */
     virtual void start();
 
+    /**
+     * @brief KGAPI2::Job::handleReply
+     *
+     * @param reply
+     * @param rawData
+     */
+    virtual void handleReply(const QNetworkReply* reply, const QByteArray& rawData);
+
   private:
     class Private;
     Private * const d;

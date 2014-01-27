@@ -20,19 +20,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QtGui/QMainWindow>
 
-#include <libkgapi/common.h>
-#include <libkgapi/account.h>
+#include <libkgapi2/types.h>
 
 namespace Ui {
     class MainWindow;
 }
 
-namespace KGAPI {
-  class AccessManager;
-  class Reply;
-  class Request;
+namespace KGAPI2 {
+  class Job;
 };
 
 class KJob;
@@ -42,54 +39,49 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    public:
-        explicit MainWindow(QWidget *parent = 0);
-        virtual ~MainWindow();
+  public:
+    explicit MainWindow(QWidget *parent = 0);
+    virtual ~MainWindow();
 
-    private Q_SLOTS:
-        /**
-         * Retrieves tokens from Google that we will use to authenticate
-         * fursther requests
-         */
-        void authenticate();
+  private Q_SLOTS:
+    /**
+     * Retrieves tokens from Google that we will use to authenticate
+     * fursther requests
+     */
+    void authenticate();
 
-        /**
-         * Authentication was successful and we retrieved a new KGAPI::Account
-         */
-        void authenticationFinished(KGAPI::Account::Ptr& acc);
+    /**
+     * Authentication has finished
+     */
+    void slotAuthJobFinished(KGAPI2::Job *job);
 
+    /**
+     * All contacts were fetched.
+     */
+    void slotFetchJobFinished(KGAPI2::Job *job);
 
-        /**
-         * Retrieves list of all contacts from user's Google Contacts
-         * addressbook */
-        void fetchContactList();
+    /**
+     * Contact details were fetched.
+     */
+    void slotContactFetchJobFinished(KGAPI2::Job *job);
 
-        /**
-         * All contacts were successfully retrieved
-         */
-        void fetchJobFinished(KJob *job);
+    /**
+     * Retrieves list of all contacts from user's Google Contacts
+     * addressbook
+     */
+    void fetchContactList();
 
-        /**
-         * A specific contact in contact list has been selected. Sends a request
-         * to Google to retrieve full details about the specific contact
-         */
-        void contactSelected();
+    /**
+     * A specific contact in contact list has been selected. Sends a request
+     * to Google to retrieve full details about the specific contact
+     */
+    void contactSelected();
 
-        /**
-         * We have successfully retrieved a complete contact data from Google
-         */
-        void replyReceived(KGAPI::Reply *reply);
+  private:
+    Ui::MainWindow *m_ui;
 
-        /**
-         * An error occurred during an operation
-         */
-        void error(KGAPI::Error err,QString msg);
+    KGAPI2::AccountPtr m_account;
 
-    private:
-        Ui::MainWindow *m_ui;
-
-        KGAPI::Account::Ptr m_account;
-        KGAPI::AccessManager *m_accessManager;
 };
 
 #endif // MAINWINDOW_H

@@ -34,7 +34,7 @@ void ServicesLatitudeTests::testJSONParser_data()
     QTest::addColumn<QByteArray>("jsonData");
 
     QTest::newRow("location1")
-        << (qulonglong) 1340366314362
+        << Q_UINT64_C(1340366314362)
         << (float) 49.6664083
         << (float) 17.1053383
         << 25

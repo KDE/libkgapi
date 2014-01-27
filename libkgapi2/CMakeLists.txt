@@ -31,7 +31,6 @@ set(LibKGAPI_core_HDRS
 set(LibKGAPI_accountinfo_SRCS
     accountinfo/accountinfo.cpp
     accountinfo/accountinfofetchjob.cpp
-    accountinfo/accountinfoservice.cpp
 )
 
 set(LibKGAPI_accountinfo_HDRS
@@ -66,7 +65,6 @@ set(LibKGAPI_contacts_HDRS
     contacts/contactsgroupdeletejob.h
     contacts/contactsgroupfetchjob.h
     contacts/contactsgroupmodifyjob.h
-    contacts/contactsservice.h
 )
 
 set(LibKGAPI_calendar_SRCS
@@ -91,7 +89,6 @@ set(LibKGAPI_calendar_HDRS
     calendar/calendardeletejob.h
     calendar/calendarfetchjob.h
     calendar/calendarmodifyjob.h
-    calendar/calendarservice.h
     calendar/event.h
     calendar/eventcreatejob.h
     calendar/eventdeletejob.h
@@ -191,7 +188,6 @@ set(LibKGAPI_latitude_SRCS
 )
 
 set(LibKGAPI_latitude_HDRS
-    latitude/latitudeservice.h
     latitude/location.h
     latitude/locationcreatejob.h
     latitude/locationdeletejob.h
@@ -244,7 +240,6 @@ set(LibKGAPI_tasks_HDRS
     tasks/tasklistdeletejob.h
     tasks/tasklistfetchjob.h
     tasks/tasklistmodifyjob.h
-    tasks/tasksservice.h
 )
 
 set(LibKGAPI_ui_SRCS

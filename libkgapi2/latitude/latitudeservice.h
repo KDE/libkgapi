@@ -81,11 +81,6 @@ namespace LatitudeService
     LIBKGAPI2_EXPORT QString APIVersion();
 
     /**
-     * @brief Returns service scope URL for Google Latitude service
-     */
-    LIBKGAPI2_EXPORT QUrl scopeUrl();
-
-    /**
      * @brief Returns URL for fetch current user's location
      *
      * @param granularity

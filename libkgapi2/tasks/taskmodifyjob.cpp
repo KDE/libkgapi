@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "task.h"
 #include "utils.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -36,7 +37,7 @@ using namespace KGAPI2;
 class TaskModifyJob::Private
 {
   public:
-    TasksList tasks;
+    QueueHelper<TaskPtr> tasks;
     QString taskListId;
 };
 
@@ -65,13 +66,12 @@ TaskModifyJob::~TaskModifyJob()
 
 void TaskModifyJob::start()
 {
-    if (d->tasks.isEmpty()) {
+    if (d->tasks.atEnd()) {
         emitFinished();
         return;
     }
 
-    const TaskPtr task = d->tasks.takeFirst();
-
+    const TaskPtr task = d->tasks.current();
     const QUrl url = TasksService::updateTaskUrl(d->taskListId, task->uid());
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
@@ -93,14 +93,15 @@ ObjectsList TaskModifyJob::handleReplyWithItems(const QNetworkReply *reply, cons
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
-    if (ct == KGAPI2::JSON) {
-        items << TasksService::JSONToTask(rawData).dynamicCast<Object>();
-    } else {
+    if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));
         emitFinished();
+        return items;
     }
 
+    items << TasksService::JSONToTask(rawData).dynamicCast<Object>();
+    d->tasks.currentProcessed();
     // Enqueue next item or finish
     start();
 

@@ -20,7 +20,6 @@
  */
 
 #include "accountinfofetchjob.h"
-#include "accountinfoservice.h"
 #include "account.h"
 #include "accountinfo.h"
 #include "debug.h"
@@ -50,9 +49,8 @@ AccountInfoFetchJob::~AccountInfoFetchJob()
 
 void AccountInfoFetchJob::start()
 {
-    QNetworkRequest request(AccountInfoService::fetchUrl());
+    QNetworkRequest request(QUrl(QLatin1String("https://www.googleapis.com/oauth2/v1/userinfo")));
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setRawHeader("GData-Version", AccountInfoService::APIVersion().toLatin1());
 
     QStringList headers;
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
@@ -70,7 +68,7 @@ ObjectsList AccountInfoFetchJob::handleReplyWithItems(const QNetworkReply *reply
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
-        items << AccountInfoService::JSONToAccountInfo(rawData).dynamicCast<Object>();
+        items << AccountInfo::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));

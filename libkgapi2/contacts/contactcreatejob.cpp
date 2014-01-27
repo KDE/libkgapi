@@ -25,6 +25,7 @@
 #include "utils.h"
 #include "debug.h"
 #include "account.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -40,7 +41,7 @@ class ContactCreateJob::Private
     Private(ContactCreateJob *parent);
     void processNextContact();
 
-    ContactsList contacts;
+    QueueHelper<ContactPtr> contacts;
 
   private:
     ContactCreateJob * const q;
@@ -53,13 +54,12 @@ ContactCreateJob::Private::Private(ContactCreateJob *parent):
 
 void ContactCreateJob::Private::processNextContact()
 {
-    if (contacts.isEmpty()) {
+    if (contacts.atEnd()) {
         q->emitFinished();
         return;
     }
 
-    const ContactPtr contact = contacts.takeFirst();
-
+    const ContactPtr contact = contacts.current();
     const QUrl url = ContactsService::createContactUrl(q->account()->accountName());
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -141,12 +141,15 @@ ObjectsList ContactCreateJob::handleReplyWithItems(const QNetworkReply *reply, c
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
         items << ContactsService::JSONToContact(rawData).dynamicCast<Object>();
+        d->contacts.currentProcessed();
     } else if (ct == KGAPI2::XML) {
         items << ContactsService::XMLToContact(rawData).dynamicCast<Object>();
+        d->contacts.currentProcessed();
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));
         emitFinished();
+        return items;
     }
 
     // Enqueue next item or finish

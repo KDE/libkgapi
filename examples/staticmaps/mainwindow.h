@@ -20,10 +20,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QPixmap>
-#include <libkgapi/services/staticmap.h>
-#include <libkgapi/objects/staticmapmarker.h>
+#include <QtGui/QMainWindow>
+#include <QtGui/QPixmap>
+
+#include <libkgapi2/staticmaps/staticmaptilefetchjob.h>
+#include <libkgapi2/staticmaps/staticmapmarker.h>
 
 namespace Ui
 {
@@ -34,19 +35,19 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     explicit MainWindow(QWidget * parent = 0);
     virtual ~MainWindow();
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void getImage();
     void addMarker();
-    void showImage(const QPixmap & pixmap);
+    void slotTileFetched(KGAPI2::Job*);
 
-private:
+  private:
     Ui::MainWindow * m_ui;
-    KGAPI::Services::StaticMap * m_map;
-    QList<KGAPI::Objects::StaticMapMarker> m_markers;
+
+    QList<KGAPI2::StaticMapMarker> m_markers;
 };
 
 #endif // MAINWINDOW_H

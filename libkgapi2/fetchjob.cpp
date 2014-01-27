@@ -81,5 +81,14 @@ void FetchJob::aboutToStart()
     Job::aboutToStart();
 }
 
+ObjectsList FetchJob::handleReplyWithItems(const QNetworkReply* reply, const QByteArray& rawData)
+{
+    Q_UNUSED(reply)
+    Q_UNUSED(rawData)
+
+    return ObjectsList();
+}
+
+
 
 #include "fetchjob.moc"

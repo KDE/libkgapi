@@ -26,6 +26,7 @@
 #include "calendar.h"
 #include "debug.h"
 #include "utils.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -37,7 +38,7 @@ using namespace KGAPI2;
 class CalendarCreateJob::Private
 {
   public:
-    CalendarsList calendars;
+    QueueHelper<CalendarPtr> calendars;
 };
 
 CalendarCreateJob::CalendarCreateJob(const CalendarPtr& calendar, const AccountPtr& account, QObject* parent):
@@ -62,13 +63,12 @@ CalendarCreateJob::~CalendarCreateJob()
 
 void CalendarCreateJob::start()
 {
-    if (d->calendars.isEmpty()) {
+    if (d->calendars.atEnd()) {
         emitFinished();
         return;
     }
 
-    CalendarPtr calendar = d->calendars.takeFirst();
-
+    CalendarPtr calendar = d->calendars.current();
     const QUrl url = CalendarService::createCalendarUrl();
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
@@ -91,15 +91,15 @@ ObjectsList CalendarCreateJob::handleReplyWithItems(const QNetworkReply *reply, 
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
-    if (ct == KGAPI2::JSON) {
-        items << CalendarService::JSONToCalendar(rawData).dynamicCast<Object>();
-    } else {
+    if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));
         emitFinished();
+        return items;
     }
 
-    // Enqueue next item or finish
+    items << CalendarService::JSONToCalendar(rawData).dynamicCast<Object>();
+    d->calendars.currentProcessed();
     start();
 
     return items;

@@ -25,9 +25,9 @@
 #include "debug.h"
 #include "utils.h"
 #include "account.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
-#include <grp.h>
 
 using namespace KGAPI2;
 
@@ -37,7 +37,7 @@ class ContactsGroupDeleteJob::Private
     Private(ContactsGroupDeleteJob *parent);
     QNetworkRequest createRequest(const QUrl &url) const;
 
-    QStringList groupsIds;
+    QueueHelper<QString> groupsIds;
 
   private:
     ContactsGroupDeleteJob * const q;
@@ -102,16 +102,24 @@ ContactsGroupDeleteJob::~ContactsGroupDeleteJob()
 
 void ContactsGroupDeleteJob::start()
 {
-    if (d->groupsIds.isEmpty()) {
+    if (d->groupsIds.atEnd()) {
         emitFinished();
         return;
     }
 
-    const QString groupId = d->groupsIds.takeFirst();
+    const QString groupId = d->groupsIds.current();
     const QUrl url = ContactsService::removeGroupUrl(account()->accountName(), groupId);
     const QNetworkRequest request = d->createRequest(url);
 
     enqueueRequest(request);
 }
+
+void ContactsGroupDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray& rawData)
+{
+    d->groupsIds.currentProcessed();
+
+    KGAPI2::DeleteJob::handleReply(reply, rawData);
+}
+
 
 #include "contactsgroupdeletejob.moc"

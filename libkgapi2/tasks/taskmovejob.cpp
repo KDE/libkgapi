@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "task.h"
 #include "utils.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -37,7 +38,7 @@ class TaskMoveJob::Private
     Private(TaskMoveJob *parent);
     void processNextTask();
 
-    QStringList tasksIds;
+    QueueHelper<QString> tasksIds;
     QString taskListId;
     QString newParentId;
 
@@ -52,12 +53,12 @@ TaskMoveJob::Private::Private(TaskMoveJob *parent):
 
 void TaskMoveJob::Private::processNextTask()
 {
-    if (tasksIds.isEmpty()) {
+    if (tasksIds.atEnd()) {
         q->emitFinished();
         return;
     }
 
-    const QString taskId = tasksIds.takeFirst();
+    const QString taskId = tasksIds.current();
     const QUrl url = TasksService::moveTaskUrl(taskListId, taskId, newParentId);
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -140,15 +141,8 @@ void TaskMoveJob::handleReply(const QNetworkReply *reply, const QByteArray& rawD
     Q_UNUSED(reply)
     Q_UNUSED(rawData)
 
+    d->tasksIds.currentProcessed();
     d->processNextTask();
-}
-
-ObjectsList TaskMoveJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
-{
-    Q_UNUSED(reply)
-    Q_UNUSED(rawData)
-
-    return ObjectsList();
 }
 
 #include "taskmovejob.moc"

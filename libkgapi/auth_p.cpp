@@ -29,7 +29,9 @@
 
 #include "auth.h"
 #include "ui/authwidget.h"
+#include "ui/authwidget_p.h"
 #include "services/accountinfo.h"
+#include <libkgapi2/account.h>
 
 using namespace KGAPI;
 using namespace KWallet;
@@ -102,7 +104,8 @@ KGAPI::Ui::AuthWidget* AuthPrivate::authenticate(Account::Ptr& account, bool aut
 
     if (account->refreshToken().isEmpty() || (account->m_scopesChanged == true)) {
 
-        account->addScope(Services::AccountInfo::EmailScopeUrl);
+        account->addScope(KGAPI2::Account::accountInfoScopeUrl());
+        account->addScope(KGAPI2::Account::accountInfoEmailScopeUrl());
 
         /* Pre-fill the username in the dialog so that user knows what account
          * (s)he is re-authenticating for */
@@ -128,6 +131,8 @@ KGAPI::Ui::AuthWidget* AuthPrivate::fullAuthentication(KGAPI::Account::Ptr &acco
     Q_Q(Auth);
 
     Ui::AuthWidget *widget =  new Ui::AuthWidget();
+    widget->d->apiKey = apiKey;
+    widget->d->secretKey = apiSecret;
     widget->setProperty("autoSaveAccount", QVariant(autoSave));
 
     connect(widget, SIGNAL(error(KGAPI::Error,QString)),

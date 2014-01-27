@@ -26,6 +26,8 @@
 
 namespace KGAPI {
 
+class AuthPrivate;
+
 namespace Ui {
 
 class AuthWidgetPrivate;
@@ -159,6 +161,7 @@ class LIBKGAPI_EXPORT_DEPRECATED AuthWidget : public QWidget
     class Private;
     Private * const d;
     friend class Private;
+    friend class KGAPI::AuthPrivate;
 };
 
 } /* namespace Ui */

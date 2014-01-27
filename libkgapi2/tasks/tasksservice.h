@@ -70,13 +70,6 @@ namespace TasksService
     LIBKGAPI2_EXPORT ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
-     * @brief Returns scope URL for Google Tasks service.
-     *
-     * https://www.googleapis.com/auth/tasks
-     */
-    LIBKGAPI2_EXPORT QUrl scopeUrl();
-
-    /**
      * @brief Returns URL to create a single task
      *
      * @param tasklistID ID of parent task list

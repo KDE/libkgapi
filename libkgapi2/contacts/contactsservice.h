@@ -93,13 +93,6 @@ namespace ContactsService
     LIBKGAPI2_EXPORT QString APIVersion();
 
     /**
-     * @brief Returns scope URL for Google Calendar service.
-     *
-     * https://www.google.com/m8/feeds/
-     */
-    LIBKGAPI2_EXPORT QUrl scopeUrl();
-
-    /**
      * @brief Returns URL for creating contacts
      *
      * @param user User. "default" or user@gmail.com}

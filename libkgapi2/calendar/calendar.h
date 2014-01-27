@@ -26,6 +26,8 @@
 #include <libkgapi2/types.h>
 #include <libkgapi2/libkgapi2_export.h>
 
+#include <QtGui/QColor>
+
 namespace KGAPI2
 {
 
@@ -155,6 +157,38 @@ class LIBKGAPI2_EXPORT Calendar: public KGAPI2::Object
      * @brief Returns defalut reminders for all events in the calendar.
      */
     RemindersList defaultReminders() const;
+
+    /**
+     * @brief Returns calendar background color.
+     *
+     * @since 2.1
+     */
+    QColor backgroundColor() const;
+
+    /**
+     * @brief Sets calendar backgrond color.
+     *
+     * @param color
+     *
+     * @since 2.1
+     */
+    void setBackgroundColor(const QColor &color);
+
+    /**
+     * @brief Returns calendar foreground color.
+     *
+     * @since 2.1
+     */
+    QColor foregroundColor() const;
+
+    /**
+     * @brief Sets calendar foreground color
+     *
+     * @param color
+     *
+     * @since 2.1
+     */
+    void setForegroundColor(const QColor &color);
 
   protected:
     class Private;

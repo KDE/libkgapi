@@ -46,7 +46,7 @@ void AuthWidget::Private::setupUi()
     progressbar->setValue(0);
     vbox->addWidget(progressbar);
 
-    webview = new QWebView(q);
+    webview = new KWebView(q);
     vbox->addWidget(webview);
     connect(webview, SIGNAL(loadProgress(int)), progressbar, SLOT(setValue(int)));
     connect(webview, SIGNAL(urlChanged(QUrl)), this, SLOT(webviewUrlChanged(QUrl)));

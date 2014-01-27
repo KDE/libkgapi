@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "utils.h"
 #include "account.h"
+#include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -40,7 +41,7 @@ class ContactModifyJob::Private
     Private(ContactModifyJob *parent);
     void processNextContact();
 
-    ContactsList contacts;
+    QueueHelper<ContactPtr> contacts;
 
   private:
     ContactModifyJob *q;
@@ -53,12 +54,12 @@ ContactModifyJob::Private::Private(ContactModifyJob *parent):
 
 void ContactModifyJob::Private::processNextContact()
 {
-    if (contacts.isEmpty()) {
+    if (contacts.atEnd()) {
         q->emitFinished();
         return;
     }
 
-    const ContactPtr contact = contacts.takeFirst();
+    const ContactPtr contact = contacts.current();
 
     const QUrl url = ContactsService::updateContactUrl(q->account()->accountName(), contact->uid());
     QNetworkRequest request;
@@ -145,12 +146,15 @@ ObjectsList ContactModifyJob::handleReplyWithItems(const QNetworkReply *reply, c
     ObjectsList items;
     if (ct == KGAPI2::JSON) {
         items << ContactsService::JSONToContact(rawData);
+        d->contacts.currentProcessed();
     } else if (ct == KGAPI2::XML) {
         items << ContactsService::XMLToContact(rawData);
+        d->contacts.currentProcessed();
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Invalid response content type"));
         emitFinished();
+        return items;
     }
 
     // Enqueue next item or finish

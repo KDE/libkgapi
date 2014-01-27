@@ -96,15 +96,14 @@ class LIBKGAPI2_EXPORT CreateJob: public KGAPI2::Job
     /**
      * @brief A reply handler that returns items parsed from \@ rawData
      *
-     * This method must be reimplemented in all CreateJob subclasses. It is called
+     * This method can be reimplemented in a FetchJob subclasses. It is called
      * automatically when a reply is received and the returned items are stored
-     * in CreateJob and accessible via CreateJob::items when the job has finished.
+     * in FetchJob and accessible via FetchJob::items when the job has finished.
      *
      * If you need more control over handling reply and items, you can reimplement
-     * CreateJob::handleReply and leave implementation of this method empty.
-     * Note that reimplementing CreateJob::handleReply usually requires
-     * reimplementing CreateJob::items as well and storing the parsed items in
-     * your implementation.
+     * FetchJob::handleReply. Note that reimplementing FetchJob::handleReply
+     * usually requires reimplementing FetchJob::items as well and storing the
+     * parsed items in your implementation.
      *
      * @param reply A QNetworkReply received from Google server
      * @param rawData Content of body of the @p reply. Don't use
@@ -114,7 +113,7 @@ class LIBKGAPI2_EXPORT CreateJob: public KGAPI2::Job
      * @return Items parsed from @p rawData
      */
     virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray &rawData) = 0;
+                                             const QByteArray &rawData);
 
 
   private:

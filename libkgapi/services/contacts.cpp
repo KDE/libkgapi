@@ -28,11 +28,12 @@
 #include <libkgapi2/contacts/contactsservice.h>
 #include <libkgapi2/contacts/contact.h>
 #include <libkgapi2/contacts/contactsgroup.h>
+#include <libkgapi2/account.h>
 
 using namespace KGAPI;
 using namespace KGAPI::Services;
 
-QUrl Contacts::ScopeUrl(KGAPI2::ContactsService::scopeUrl());
+QUrl Contacts::ScopeUrl(KGAPI2::Account::contactsScopeUrl());
 
 static const QString serviceNameStr = QLatin1String("KGAPI::Services::Contacts");
 
@@ -172,7 +173,7 @@ QList< KGAPI::Object* > Contacts::parseXMLFeed(const QByteArray& xmlFeed, FeedDa
 
 QUrl Contacts::scopeUrl() const
 {
-    return KGAPI2::ContactsService::scopeUrl();
+    return Contacts::ScopeUrl;
 }
 
 QUrl Contacts::fetchAllContactsUrl(const QString& user, const bool &showDeleted)

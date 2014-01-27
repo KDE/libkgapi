@@ -155,6 +155,35 @@ class LIBKGAPI2_EXPORT Account
      */
     void removeScope(const QUrl &scope);
 
+    /**
+     * Returns scope URL for AccountInfo service.
+     */
+    static QUrl accountInfoScopeUrl();
+
+    /**
+     * Returns scope URL to retrieve AccountInfo with email.
+     */
+    static QUrl accountInfoEmailScopeUrl();
+
+    /**
+     * Returns scope URL for Google Calendar service.
+     */
+    static QUrl calendarScopeUrl();
+
+    /**
+     * Returns scope URL for Google Tasks service.
+     */
+    static QUrl tasksScopeUrl();
+
+    /**
+     * Returns scope URL for Google Contacts service.
+     */
+    static QUrl contactsScopeUrl();
+
+    /**
+     * Returns scope URL for Google Latitude service.
+     */
+    static QUrl latitudeScopeUrl();
   private:
     class Private;
     Private * const d;
