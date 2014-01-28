@@ -58,7 +58,7 @@ class LIBKGAPI_EXPORT_DEPRECATED Account
      *
      * @param account Google account name (usually user.name@gmail.com)
      * @param accessToken Access token to \p scopes for \p account
-     * @param refreshToken Refres token
+     * @param refreshToken Refresh token
      * @param scopes List of scopes
      */
     explicit Account(const QString &account, const QString &accessToken = QString(),
