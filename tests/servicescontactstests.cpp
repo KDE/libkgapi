@@ -29,20 +29,20 @@
 
 class IM {
   public:
-      explicit IM() { };
+      explicit IM() { }
       IM(const QString &address, const KGAPI::Objects::Contact::IMProtocol &protocol):
         address(address),
-        protocol(protocol) { };
+        protocol(protocol) { }
       QString address;
       KGAPI::Objects::Contact::IMProtocol protocol;
 };
 
-Q_DECLARE_METATYPE(IM);
-Q_DECLARE_METATYPE(QList< IM >);
-Q_DECLARE_METATYPE(KABC::PhoneNumber::List);
-Q_DECLARE_METATYPE(KABC::Address::List);
-Q_DECLARE_METATYPE(KABC::PhoneNumber);
-Q_DECLARE_METATYPE(KABC::Address);
+Q_DECLARE_METATYPE(IM)
+Q_DECLARE_METATYPE(QList< IM >)
+Q_DECLARE_METATYPE(KABC::PhoneNumber::List)
+Q_DECLARE_METATYPE(KABC::Address::List)
+Q_DECLARE_METATYPE(KABC::PhoneNumber)
+Q_DECLARE_METATYPE(KABC::Address)
 
 
 void ServicesContactsTests::compareGroups(const KGAPI::Objects::ContactsGroup *group, const QSettings &src, bool fromSerializer)
