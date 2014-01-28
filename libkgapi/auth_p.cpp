@@ -25,7 +25,7 @@
 #include <qjson/parser.h>
 
 #include <qnetworkreply.h>
-#include <qnetworkrequest.h>
+#include <QNetworkRequest>
 
 #include "auth.h"
 #include "ui/authwidget.h"

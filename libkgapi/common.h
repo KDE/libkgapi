@@ -23,8 +23,8 @@
 
 #include <libkgapi2/types.h>
 
-#include <qstring.h>
-#include <qurl.h>
+#include <QString>
+#include <QUrl>
 
 #include <KDE/KLocalizedString>
 

@@ -21,8 +21,8 @@
 #include <libkgapi/service.h>
 #include <libkgapi/libkgapi_export.h>
 
-#include <qmetatype.h>
-#include <qdom.h>
+#include <QMetaType>
+#include <QDomDocument>
 
 namespace KGAPI
 {
