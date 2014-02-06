@@ -563,7 +563,7 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->mimeType = map[QLatin1String("mimeType")].toString();
     file->d->description = map[QLatin1String("description")].toString();
 
-    const QVariantMap labelsData =  map[QLatin1String("lables")].toMap();
+    const QVariantMap labelsData =  map[QLatin1String("labels")].toMap();
     File::LabelsPtr labels(new File::Labels());
     labels->d->starred = labelsData[QLatin1String("starred")].toBool();
     labels->d->hidden = labelsData[QLatin1String("hidden")].toBool();
