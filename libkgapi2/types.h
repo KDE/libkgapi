@@ -79,6 +79,47 @@ class Calendar;
 typedef QSharedPointer<Calendar> CalendarPtr;
 typedef QList<CalendarPtr> CalendarsList;
 
+namespace Drive
+{
+
+class About;
+typedef QSharedPointer<About> AboutPtr;
+typedef QList<AboutPtr> AboutsList;
+
+class App;
+typedef QSharedPointer<App> AppPtr;
+typedef QList<AppPtr> AppsList;
+
+class Change;
+typedef QSharedPointer<Change> ChangePtr;
+typedef QList<ChangePtr> ChangesList;
+
+class ChildReference;
+typedef QSharedPointer<ChildReference> ChildReferencePtr;
+typedef QList<ChildReferencePtr> ChildReferencesList;
+
+class File;
+typedef QSharedPointer<File> FilePtr;
+typedef QList<FilePtr> FilesList;
+
+class ParentReference;
+typedef QSharedPointer<ParentReference> ParentReferencePtr;
+typedef QList<ParentReferencePtr> ParentReferencesList;
+
+class Permission;
+typedef QSharedPointer<Permission> PermissionPtr;
+typedef QList<PermissionPtr> PermissionsList;
+
+class Revision;
+typedef QSharedPointer<Revision> RevisionPtr;
+typedef QList<RevisionPtr> RevisionsList;
+
+class User;
+typedef QSharedPointer<User> UserPtr;
+typedef QList<UserPtr> UsersList;
+
+}
+
 class Event;
 typedef QSharedPointer<Event> EventPtr;
 typedef QList<EventPtr> EventsList;
@@ -98,6 +139,16 @@ typedef QList<TaskPtr> TasksList;
 class TaskList;
 typedef QSharedPointer<TaskList> TaskListPtr;
 typedef QList<TaskListPtr> TaskListsList;
+
+template<class T>
+ObjectsList operator<<(ObjectsList &objectsList, const QList< QSharedPointer<T> > &list)
+{
+    Q_FOREACH (const QSharedPointer<T> &item, list) {
+        objectsList << item;
+    }
+
+    return objectsList;
+}
 
 /**
  * @brief Job error codes
@@ -141,5 +192,7 @@ enum ContentType {
 };
 
 } // namespace KGAPI2
+
+
 
 #endif // LIBKGAPI2_TYPES_H
