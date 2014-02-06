@@ -56,9 +56,9 @@ Calendar::Private::Private(const Private &other) :
     timezone(other.timezone),
     location(other.location),
     editable(other.editable),
-    reminders(other.reminders),
     backgroundColor(other.backgroundColor),
-    foregroundColor(other.foregroundColor)
+    foregroundColor(other.foregroundColor),
+    reminders(other.reminders)
 {
 }
 
