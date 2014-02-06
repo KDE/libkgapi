@@ -150,6 +150,18 @@ class LIBKGAPI2_EXPORT Account
     void removeScope(const QUrl &scope);
 
     /**
+     * @since 2.0.82
+     * Returns expire date time token
+     */
+    QDateTime expireDateTime() const;
+
+    /**
+     * @since 2.0.82
+     * set expire date time
+     */
+    void setExpireDateTime(const QDateTime &expire);
+
+    /**
      * Returns scope URL for AccountInfo service.
      */
     static QUrl accountInfoScopeUrl();
@@ -178,7 +190,8 @@ class LIBKGAPI2_EXPORT Account
      * Returns scope URL for Google Latitude service.
      */
     static QUrl latitudeScopeUrl();
-  private:
+
+private:
     class Private;
     Private * const d;
 

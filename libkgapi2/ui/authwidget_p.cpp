@@ -32,6 +32,8 @@
 #include <KIO/AccessManager>
 #include <KDE/KWebView>
 
+#include <QDateTime>
+
 #include <QtCore/QStringBuilder>
 
 
@@ -174,6 +176,7 @@ void AuthWidget::Private::tokensReceived(KGAPI2::Job* job)
 
     account->setAccessToken(tokensFetchJob->accessToken());
     account->setRefreshToken(tokensFetchJob->refreshToken());
+    account->setExpireDateTime(QDateTime::currentDateTime().addSecs(tokensFetchJob->expiresIn()));
     tokensFetchJob->deleteLater();
 
     KGAPI2::AccountInfoFetchJob *fetchJob = new KGAPI2::AccountInfoFetchJob(account, this);

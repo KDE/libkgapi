@@ -42,6 +42,7 @@ class LIBKGAPI2_EXPORT NewTokensFetchJob : public KGAPI2::Job
 
     QString accessToken() const;
     QString refreshToken() const;
+    qulonglong expiresIn() const;
 
   protected:
     virtual void start();

@@ -16,6 +16,7 @@
 */
 
 #include "account.h"
+#include <QDateTime>
 
 using namespace KGAPI2;
 
@@ -28,10 +29,12 @@ class Account::Private
     QString accName;
     QString accessToken;
     QString refreshToken;
+    QDateTime expireDateTime;
     QList< QUrl > scopes;
 };
 
 Account::Private::Private()
+    : expireDateTime(QDateTime())
 { }
 
 
@@ -39,6 +42,7 @@ Account::Private::Private(const Private& other):
     accName(other.accName),
     accessToken(other.accessToken),
     refreshToken(other.refreshToken),
+    expireDateTime(other.expireDateTime),
     scopes(other.scopes)
 { }
 
@@ -126,6 +130,16 @@ void Account::removeScope(const QUrl &scope)
         d->scopes.removeOne(scope);
         m_scopesChanged = true;
     }
+}
+
+QDateTime Account::expireDateTime() const
+{
+    return d->expireDateTime;
+}
+
+void Account::setExpireDateTime(const QDateTime &expire)
+{
+    d->expireDateTime = expire;
 }
 
 QUrl Account::accountInfoScopeUrl()

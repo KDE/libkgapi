@@ -34,12 +34,19 @@ using namespace KGAPI2;
 class NewTokensFetchJob::Private
 {
   public:
+    Private()
+        : expiresIn(0)
+    {
+
+    }
+
     QString tmpToken;
     QString apiKey;
     QString secretKey;
 
     QString accessToken;
     QString refreshToken;
+    qulonglong expiresIn;
 };
 
 NewTokensFetchJob::NewTokensFetchJob(const QString &tmpToken, const QString &apiKey, const QString &secretKey, QObject *parent):
@@ -74,6 +81,16 @@ QString NewTokensFetchJob::refreshToken() const
     }
 
     return d->refreshToken;
+}
+
+qulonglong NewTokensFetchJob::expiresIn() const
+{
+    if (isRunning()) {
+        kWarning() << "Called expiresIn() on running job!";
+        return 0;
+    }
+
+    return d->expiresIn;
 }
 
 void NewTokensFetchJob::start()
@@ -120,6 +137,7 @@ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray
 
     d->accessToken = parsed_data.value(QLatin1String("access_token")).toString();
     d->refreshToken = parsed_data.value(QLatin1String("refresh_token")).toString();
+    d->expiresIn = parsed_data.value(QLatin1String("expires_in")).toULongLong();
 }
 
 #include "newtokensfetchjob_p.moc"
