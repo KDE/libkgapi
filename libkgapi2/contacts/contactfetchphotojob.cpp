@@ -96,6 +96,10 @@ void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteAr
     if (reply->error() == QNetworkReply::ContentNotFoundError) {
         d->contacts.currentProcessed();
         d->processNextContact();
+        // If the last photo failed, make sure we don't fail the whole job!
+        setError(KGAPI2::NoError);
+        setErrorString(QString());
+        return;
     }
 
     ContactPtr contact = reply->request().attribute(QNetworkRequest::User).value<ContactPtr>();

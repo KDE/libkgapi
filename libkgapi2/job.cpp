@@ -209,7 +209,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             } else if ((interval > maxTimeout) && (maxTimeout > 0)) {
                 const QString msg = parseErrorMessage(rawData);
                 q->setError(KGAPI2::QuotaExceeded);
-                q->setErrorString(i18n("Maximum quota exceeded. Try again later.\\n\nGoogle replied '%1'", msg));
+                q->setErrorString(i18n("Maximum quota exceeded. Try again later.\n\nGoogle replied '%1'", msg));
                 q->emitFinished();
                 return;
             } else {
