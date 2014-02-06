@@ -963,6 +963,14 @@ QByteArray File::toJSON(const FilePtr &file)
     if (file->modifiedDate().isValid()) {
         map[QLatin1String("modifiedDate")] = file->modifiedDate().toString(KDateTime::RFC3339Date);
     }
+    if (file->createdDate().isValid()) {
+        map[QLatin1String("createdDate")] = file->createdDate().toString(KDateTime::RFC3339Date);
+    }
+    if (file->modifiedByMeDate().isValid()) {
+        map[QLatin1String("modifiedByMeDate")] = file->modifiedByMeDate().toString(KDateTime::RFC3339Date);
+    }
+
+    map[QLatin1String("fileSize")] = file->d->fileSize;
 
     map[QLatin1String("title")] = file->title();
 
