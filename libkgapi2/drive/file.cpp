@@ -894,7 +894,6 @@ FilePtr File::fromJSON(const QByteArray &jsonData)
     if (!ok) {
         return FilePtr();
     }
-
     return Private::fromJSON(data.toMap());
 }
 
@@ -936,6 +935,7 @@ QByteArray File::toJSON(const FilePtr &file)
 {
     QVariantMap map;
 
+    map[QLatin1String("kind")] = QLatin1String("drive#file");
     map[QLatin1String("description")] = file->description();
 
     if (file->indexableText()) {
