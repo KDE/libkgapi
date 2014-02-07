@@ -979,6 +979,69 @@ QByteArray File::toJSON(const FilePtr &file)
         parents << ParentReference::Private::toJSON(parent);
     }
     map[QLatin1String("parents")] = parents;
+    map[QLatin1String("etag")] = file->etag();
+    map[QLatin1String("id")] = file->d->id;
+    map[QLatin1String("selfLink")] = file->d->selfLink;
+    map[QLatin1String("downloadUrl")] = file->d->downloadUrl;
+
+    map[QLatin1String("fileExtension")] = file->d->fileExtension;
+    map[QLatin1String("md5Checksum")] = file->d->md5Checksum ;
+    map[QLatin1String("alternateLink")] = file->d->alternateLink;
+    map[QLatin1String("embedLink")] = file->d->embedLink;
+    map[QLatin1String("sharedWithMeDate")] = file->d->sharedWithMeDate.toString(KDateTime::RFC3339Date);
+
+
+    map[QLatin1String("originalFileName")] = file->d->originalFileName;
+    map[QLatin1String("quotaBytesUsed")] = file->d->quotaBytesUsed;
+    map[QLatin1String("ownerNames")] = QVariant(file->d->ownerNames);
+    map[QLatin1String("lastModifyingUserName")] = file->d->lastModifyingUserName;
+    map[QLatin1String("editable")] = file->d->editable;
+    map[QLatin1String("writersCanShare")] = file->d->writersCanShare;
+    map[QLatin1String("thumbnailLink")] = file->d->thumbnailLink;
+    map[QLatin1String("lastViewedByMeDate")] = file->d->lastViewedByMeDate.toString(KDateTime::RFC3339Date);
+    map[QLatin1String("webContentLink")] = file->d->webContentLink;
+    map[QLatin1String("explicitlyTrashed")] = file->d->explicitlyTrashed;
+
+    map[QLatin1String("webViewLink")] = file->d->webViewLink;
+    map[QLatin1String("iconLink")] = file->d->iconLink;
+    map[QLatin1String("shared")] = file->d->shared;
+
+#if 0
+    const QVariantMap userPermissionData = map[QLatin1String("userPermission")].toMap();
+    file->d->userPermission = Permission::Private::fromJSON(userPermissionData);
+
+    const QVariantList parents = map[QLatin1String("parents")].toList();
+    Q_FOREACH (const QVariant &parent, parents)
+    {
+        file->d->parents << ParentReference::Private::fromJSON(parent.toMap());
+    }
+
+    const QVariantMap exportLinksData = map[QLatin1String("exportLinks")].toMap();
+    QVariantMap::ConstIterator iter = exportLinksData.constBegin();
+    for ( ; iter != exportLinksData.constEnd(); ++iter) {
+        file->d->exportLinks.insert(iter.key(), iter.value().toUrl());
+    }
+
+
+    const QVariantMap imageMetaData = map[QLatin1String("imageMediaMetadata")].toMap();
+    file->d->imageMediaMetadata =
+        File::ImageMediaMetadataPtr(new File::ImageMediaMetadata(imageMetaData));
+
+    const QVariantMap thumbnailData = map[QLatin1String("thumbnail")].toMap();
+    File::ThumbnailPtr thumbnail(new File::Thumbnail(thumbnailData));
+    file->d->thumbnail = thumbnail;
+
+
+    const QVariantList ownersList = map[QLatin1String("owners")].toList();
+    Q_FOREACH (const QVariant &owner, ownersList) {
+        file->d->owners << User::fromJSON(owner.toMap());
+    }
+
+    const QVariantMap lastModifyingUser = map[QLatin1String("lastModifyingUser")].toMap();
+    file->d->lastModifyingUser = User::fromJSON(lastModifyingUser);
+
+#endif
+
 
     QJson::Serializer serializer;
     return serializer.serialize(map);
