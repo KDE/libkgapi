@@ -555,7 +555,7 @@ QByteArray eventToJSON(const EventPtr& event)
     }
 
     if (!dates.isEmpty()) {
-        recurrence << QLatin1String("RDATE;VALUE=DATA:") + dates.join(QLatin1String(","));
+        recurrence << QString(QLatin1String("RDATE;VALUE=DATA:") + dates.join(QLatin1String(",")));
     }
 
     dates.clear();
@@ -564,7 +564,7 @@ QByteArray eventToJSON(const EventPtr& event)
     }
 
     if (!dates.isEmpty()) {
-        recurrence << QLatin1String("EXDATE;VALUE=DATE:") + dates.join(QLatin1String(","));
+        recurrence << QString(QLatin1String("EXDATE;VALUE=DATE:") + dates.join(QLatin1String(",")));
     }
 
     if (!recurrence.isEmpty()) {

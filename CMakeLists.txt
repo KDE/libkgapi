@@ -20,7 +20,8 @@ find_package(QJSON REQUIRED)
 set_package_properties(QJSON PROPERTIES DESCRIPTION "Qt library for handling JSON data" URL "http://qjson.sourceforge.net/" TYPE REQUIRED PURPOSE "JSON response/request support")
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_NO_KEYWORDS -DQT_NO_CAST_FROM_ASCII)
+add_definitions(-DQT_NO_KEYWORDS -DQT_NO_CAST_FROM_ASCII)
+add_definitions(-DQT_USE_QSTRINGBUILDER)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
