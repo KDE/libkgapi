@@ -58,6 +58,9 @@ QVariantMap ParentReference::Private::toJSON(const ParentReferencePtr &reference
 {
     QVariantMap map;
     map[QLatin1String("id")] = reference->id();
+    map[QLatin1String("selfLink")] = reference->d->selfLink;
+    map[QLatin1String("parentLink")] = reference->d->parentLink;
+    map[QLatin1String("isRoot")] = reference->d->isRoot;
 
     return map;
 }
