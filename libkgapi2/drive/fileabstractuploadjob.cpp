@@ -63,6 +63,7 @@ class FileAbstractUploadJob::Private
 };
 
 FileAbstractUploadJob::Private::Private(FileAbstractUploadJob *parent):
+    originalFilesCount(0),
     useContentAsIndexableText(false),
     q(parent)
 {
