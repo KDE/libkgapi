@@ -275,10 +275,10 @@ QByteArray Permission::toJSON(const PermissionPtr &permission)
 {
     QVariantMap map;
 
-    if (!permission->role() == Permission::UndefinedRole) {
+    if (permission->role() != Permission::UndefinedRole) {
         map[QLatin1String("role")] = Private::roleToName(permission->role());
     }
-    if (!permission->type() == Permission::UndefinedType) {
+    if (permission->type() != Permission::UndefinedType) {
         map[QLatin1String("type")] = Private::typeToName(permission->type());
     }
 
