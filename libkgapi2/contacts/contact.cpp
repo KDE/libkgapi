@@ -33,7 +33,7 @@ class Contact::Private
 {
 
   public:
-    Private() { };
+    Private() : deleted(false) { };
     Private(const Private &other);
     ~Private() { };
 
