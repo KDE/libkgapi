@@ -897,6 +897,15 @@ FilePtr File::fromJSON(const QByteArray &jsonData)
     return Private::fromJSON(data.toMap());
 }
 
+FilePtr File::fromJSON(const QVariantMap &jsonData)
+{
+    if (jsonData.isEmpty()) {
+        return FilePtr();
+    }
+    return Private::fromJSON(jsonData);
+}
+
+
 FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 {
     QJson::Parser parser;

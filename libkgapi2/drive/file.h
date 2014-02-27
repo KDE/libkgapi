@@ -577,7 +577,9 @@ class LIBKGAPI2_EXPORT File: public KGAPI2::Object
     static FilesList fromJSONFeed(const  QByteArray &jsonData, FeedData &feedData);
     static QByteArray toJSON(const FilePtr &file);
 
-  private:
+    static FilePtr fromJSON(const QVariantMap &jsonData);
+
+private:
     Private * const d;
     friend class Private;
 };
