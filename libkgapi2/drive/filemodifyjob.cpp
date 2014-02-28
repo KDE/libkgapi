@@ -50,6 +50,15 @@ FileModifyJob::Private::Private():
 {
 }
 
+FileModifyJob::FileModifyJob(const FilePtr &metadata,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractUploadJob(metadata, account, parent),
+    d(new Private)
+{
+    d->files.insert(QLatin1String("?=0"), metadata->id());
+}
+
 FileModifyJob::FileModifyJob(const QString &filePath,
                              const QString &fileId,
                              const AccountPtr &account,
@@ -86,7 +95,8 @@ FileModifyJob::FileModifyJob(const QMap< QString, FilePtr > &files,
     d(new Private)
 {
     QMap<QString, FilePtr>::ConstIterator iter = files.constBegin();
-    for (; iter != files.constEnd(); ++iter) {
+    QMap<QString, FilePtr>::ConstIterator iterEnd = files.constEnd();
+    for (; iter != iterEnd; ++iter) {
         d->files.insert(iter.key(), iter.value()->id());
     }
 }

@@ -73,6 +73,8 @@ class LIBKGAPI2_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUploadJ
                WRITE setUpdateViewedDate)
 
   public:
+    explicit FileModifyJob(const FilePtr &metadata,
+                           const AccountPtr &account, QObject *parent = 0);
     explicit FileModifyJob(const QString &filePath, const QString &fileId,
                            const AccountPtr &account, QObject *parent = 0);
     explicit FileModifyJob(const QString &filePath,
