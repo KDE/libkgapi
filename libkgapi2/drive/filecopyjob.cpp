@@ -108,7 +108,8 @@ FileCopyJob::FileCopyJob(const QMap< FilePtr, FilePtr > &files,
     d(new Private(this))
 {
     QMap<FilePtr, FilePtr>::ConstIterator iter = files.constBegin();
-    for (; iter != files.constEnd(); ++iter) {
+    QMap<FilePtr, FilePtr>::ConstIterator iterEnd = files.constEnd();
+    for (; iter != iterEnd; ++iter) {
         d->files.insert(iter.key()->id(), iter.value());
     }
 }
