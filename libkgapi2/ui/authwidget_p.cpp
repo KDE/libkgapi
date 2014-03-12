@@ -22,15 +22,16 @@
 #include "accountinfo/accountinfofetchjob.h"
 #include "private/newtokensfetchjob_p.h"
 
+#include <QtWebKit/QWebView>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebElement>
+#include <QtNetwork/QNetworkProxy>
 
 #include <qjson/parser.h>
 
 #include <KDE/KUrl>
 #include <KDE/KLocalizedString>
 #include <KIO/AccessManager>
-#include <KDE/KWebView>
 
 #include <QDateTime>
 
@@ -71,7 +72,10 @@ void AuthWidget::Private::setupUi()
     progressbar->setValue(0);
     vbox->addWidget(progressbar);
 
-    webview = new KWebView(q);
+    webview = new QWebView(q);
+    KIO::AccessManager *m = new KIO::AccessManager(webview);
+    webview->page()->networkAccessManager()->setProxyFactory(m->proxyFactory());
+
     vbox->addWidget(webview);
     connect(webview, SIGNAL(loadProgress(int)), progressbar, SLOT(setValue(int)));
     connect(webview, SIGNAL(urlChanged(QUrl)), this, SLOT(webviewUrlChanged(QUrl)));
