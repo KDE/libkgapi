@@ -108,6 +108,34 @@ class LIBKGAPI2_EXPORT AuthJob : public KGAPI2::Job
      */
     AccountPtr account() const;
 
+    /**
+      * Sets the username that will be used when authenticate is called
+      *
+      * The username will be automatically filled in the Google login
+      * form in the authentication widget.
+      *
+      * Be aware that the username will be set every time \sa authenticate is
+      * called so if you want to change or remove it call \sa setUsername again
+      * with empty string or \sa clearCredentials.
+      *
+      * @param username username to use
+      */
+    void setUsername(const QString &username);
+
+    /**
+     * Sets the password that will be used when authenticate is called
+     *
+     * The password will be automatically filled in the Google login
+     * form in the authentication widget.
+     *
+     * Be aware that the password will be set every time \sa authenticate is
+     * called so if you want to change or remove it call \sa setPassword again
+     * with empty string or \sa clearCredentials.
+     *
+     * @param password password to use
+     */
+    void setPassword(const QString &password);
+
   protected:
 
     /**
