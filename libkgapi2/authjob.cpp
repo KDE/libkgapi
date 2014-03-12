@@ -147,6 +147,16 @@ AccountPtr AuthJob::account() const
     return d->account;
 }
 
+void AuthJob::setUsername(const QString& username)
+{
+    d->username = username;
+}
+
+void AuthJob::setPassword(const QString& password)
+{
+    d->password = password;
+}
+
 void AuthJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
 {
     Q_UNUSED(reply);
