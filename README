@@ -10,7 +10,7 @@ Currently supported APIs:
   - Tasks API v1 (https://developers.google.com/google-apps/tasks)
   - Latitude API v1 (https://developers.google.com/latitude/v1/)
   - Static Google Maps API v2 (https://developers.google.com/maps/documentation/staticmaps/)
-
+  - Drive API v2 (https://developers.google.com/drive/v2/reference)
 
 Dependencies:
 -------------
