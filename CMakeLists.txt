@@ -1,48 +1,77 @@
-project(libkgapi)
+cmake_minimum_required(VERSION 2.8.12)
 
-set(KGAPI_VERSION_MAJOR 2)
-set(KGAPI_VERSION_MINOR 1)
-set(KGAPI_VERSION_RELEASE 40)
-set(KGAPI_VERSION "${KGAPI_VERSION_MAJOR}.${KGAPI_VERSION_MINOR}.${KGAPI_VERSION_RELEASE}")
+project(kgapi)
 
-cmake_minimum_required(VERSION 2.8)
+# ECM setup
+find_package(ECM 0.0.14 CONFIG REQUIRED)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
+include(ECMGenerateHeaders)
+include(ECMGeneratePriFile)
+include(ECMPackageConfigHelpers)
+include(ECMSetupVersion)
+include(FeatureSummary)
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDEFrameworkCompilerSettings)
 
-find_package(Qt4 4.7.0 REQUIRED QtCore QtWebKit QtNetwork QtXML QtTest)
-find_package(KDE4 4.6.0 REQUIRED)
-include(KDE4Defaults)
-include(MacroLibrary)
+set(KF5_VERSION "4.98.0")
 
-find_package(KdepimLibs 4.11.40 REQUIRED)
+ecm_setup_version(${KF5_VERSION}
+    VARIABLE_PREFIX LIBKGAPI
+    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
+    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5GAPIConfigVersion.cmake"
+    SOVERSION 5
+)
 
-find_package(QJSON REQUIRED)
-set_package_properties(QJSON PROPERTIES DESCRIPTION "Qt library for handling JSON data" URL "http://qjson.sourceforge.net/" TYPE REQUIRED PURPOSE "JSON response/request support")
+############## Find Packages ##############
+set(REQUIRED_QT_VERSION "5.2.0")
+find_package(Qt5WebKitWidgets ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-add_definitions(-DQT_NO_KEYWORDS -DQT_NO_CAST_FROM_ASCII)
-add_definitions(-DQT_USE_QSTRINGBUILDER)
-add_definitions(-DQT_NO_CAST_TO_ASCII)
+find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5CalendarCore ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5Abc ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${QT_INCLUDE_DIR}
-    ${CMAKE_BINARY_DIR}
-    ${KDEPIMLIBS_INCLUDE_DIRS}
-    ${KDE4_INCLUDES}
-    ${QJSON_INCLUDE_DIR}
-    ${Boost_INCLUDE_DIR}
+############## Targets ##############
+
+add_definitions(-DTRANSLATION_DOMAIN=\"kgapi5\")
+
+add_subdirectory(src)
+#add_subdirectory(autotests)
+#add_subdirectory(tests)
+
+############## CMake Config Files ##############
+message("${CMAKECONFIG_INSTALL_DIR}")
+set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KF5GAPI")
+
+ecm_configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/KF5GAPIConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/KF5GAPIConfig.cmake"
+    INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/KF5GAPIConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/KF5GAPIConfigVersion.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    COMPONENT Devel
+)
+
+install(EXPORT KF5GAPITargets
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    FILE KF5GAPITargets.cmake
+    NAMESPACE KF5::
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}"
+    COMPONENT Devel
 )
 
 
-add_subdirectory(libkgapi2)
-
-option(KGAPI_BUILD_EXAMPLES "Build example applications" FALSE)
-if (KGAPI_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif(KGAPI_BUILD_EXAMPLES)
-
-# FIXME: Port tests to LibKGAPI2
-#add_subdirectory(tests)
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
