@@ -25,9 +25,9 @@
 #include "debug.h"
 #include "authjob.h"
 
-#include <KDE/KLocalizedString>
+#include <KLocalizedString>
 
-#include <qjson/parser.h>
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 
@@ -56,13 +56,10 @@ void Job::Private::init()
 
 QString Job::Private::parseErrorMessage(const QByteArray &json)
 {
-    QJson::Parser parser;
-    bool ok;
-
-    QVariant data = parser.parse(json, &ok);
-    if (ok) {
+    QJsonDocument document = QJsonDocument::fromJson(json);
+    if (!document.isNull()) {
+        QVariantMap map = document.toVariant().toMap();
         QString message;
-        QVariantMap map = data.toMap();
 
         if (map.contains(QLatin1String("error"))) {
             map = map.value(QLatin1String("error")).toMap();
@@ -430,5 +427,5 @@ void Job::aboutToStart()
     d->dispatchTimer->setInterval(0);
 }
 
-
-#include "job.moc"
+#include "moc_job.cpp"
+#include "moc_job_p.cpp"

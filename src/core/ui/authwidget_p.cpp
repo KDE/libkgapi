@@ -22,24 +22,21 @@
 #include "accountinfo/accountinfofetchjob.h"
 #include "private/newtokensfetchjob_p.h"
 
-#include <QtWebKit/QWebView>
-#include <QtWebKit/QWebFrame>
-#include <QtWebKit/QWebElement>
-#include <QtNetwork/QNetworkProxy>
+#include <QWebView>
+#include <QWebFrame>
+#include <QWebElement>
+#include <QNetworkProxy>
+#include <QDateTime>
+#include <QStringBuilder>
 
 #include <qjson/parser.h>
 
-#include <KDE/KUrl>
-#include <KDE/KLocalizedString>
+#include <KUrl>
+#include <KLocalizedString>
 #include <KIO/AccessManager>
-
-#include <QDateTime>
-
-#include <QtCore/QStringBuilder>
 
 
 using namespace KGAPI2;
-
 
 AuthWidget::Private::Private(AuthWidget *parent):
     QObject(),

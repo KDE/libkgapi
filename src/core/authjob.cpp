@@ -27,13 +27,13 @@
 #include "ui/authwidget_p.h"
 #include "private/newtokensfetchjob_p.h"
 
-#include <QtGui/QWidget>
+#include <QWidget>
+#include <QJsonDocument>
 
-#include <KDE/KDialog>
-#include <KDE/KLocalizedString>
-#include <KDE/KWindowSystem>
+#include <KDialog>
+#include <KLocalizedString>
+#include <KWindowSystem>
 
-#include <qjson/parser.h>
 
 using namespace KGAPI2;
 
@@ -161,16 +161,15 @@ void AuthJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
 {
     Q_UNUSED(reply);
 
-    QJson::Parser parser;
-    bool ok = true;
-    QVariantMap map = parser.parse(rawData, &ok).toMap();
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(i18n("Failed to parse newly fetched tokens"));
         emitFinished();
         return;
     }
+
+    QVariantMap map = document.toVariant().toMap();
 
     /* Expected structure:
      * {
@@ -239,4 +238,4 @@ void AuthJob::start()
     }
 }
 
-#include "authjob.moc"
+#include "moc_authjob.cpp"

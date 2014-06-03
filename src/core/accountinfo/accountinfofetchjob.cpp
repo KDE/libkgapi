@@ -25,10 +25,10 @@
 #include "debug.h"
 #include "utils.h"
 
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
-#include <KDE/KLocalizedString>
+#include <KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -78,4 +78,4 @@ ObjectsList AccountInfoFetchJob::handleReplyWithItems(const QNetworkReply *reply
     return items;
 }
 
-#include "accountinfofetchjob.moc"
+#include "moc_accountinfofetchjob.cpp"

@@ -21,8 +21,8 @@
 
 #include "deletejob.h"
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
@@ -68,5 +68,3 @@ void DeleteJob::handleReply(const QNetworkReply *reply, const QByteArray& rawDat
 
     start();
 }
-
-#include "deletejob.moc"

@@ -21,7 +21,7 @@
 
 #include "utils.h"
 
-#include <KDE/KDateTime>
+#include <KDateTime>
 
 KGAPI2::ContentType Utils::stringToContentType(const QString& contentType)
 {

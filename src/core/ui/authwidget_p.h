@@ -23,10 +23,10 @@
 #include "ui/authwidget.h"
 #include "types.h"
 
-#include <QtGui/QProgressBar>
-#include <QtGui/QVBoxLayout>
-#include <QtWebKit/QWebView>
-#include <QtGui/QLabel>
+#include <QProgressBar>
+#include <QVBoxLayout>
+#include <QWebView>
+#include <QLabel>
 
 namespace KGAPI2 {
 

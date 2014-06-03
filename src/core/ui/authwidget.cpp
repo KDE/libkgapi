@@ -19,8 +19,8 @@
 #include "authwidget_p.h"
 #include "debug.h"
 
-#include <KDE/KUrl>
-#include <KDE/KLocalizedString>
+#include <KUrl>
+#include <KLocalizedString>
 
 using namespace KGAPI2;
 

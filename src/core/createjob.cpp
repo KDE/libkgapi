@@ -21,8 +21,8 @@
 
 #include "createjob.h"
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
@@ -87,5 +87,3 @@ ObjectsList CreateJob::handleReplyWithItems(const QNetworkReply* reply,
 
     return ObjectsList();
 }
-
-#include "createjob.moc"

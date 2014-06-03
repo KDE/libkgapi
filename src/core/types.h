@@ -22,11 +22,11 @@
 #ifndef LIBKGAPI2_TYPES_H
 #define LIBKGAPI2_TYPES_H
 
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapicore_export.h"
 
-#include <QtCore/QSharedPointer>
-#include <QtCore/QList>
-#include <QtCore/QUrl>
+#include <QSharedPointer>
+#include <QList>
+#include <QUrl>
 
 namespace KGAPI2
 {
@@ -34,7 +34,7 @@ namespace KGAPI2
 /**
  * @brief Structure to store additional information about a feed.
  */
-class LIBKGAPI2_EXPORT FeedData {
+class KGAPICORE_EXPORT FeedData {
 
   public:
     explicit FeedData():

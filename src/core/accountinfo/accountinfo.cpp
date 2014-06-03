@@ -21,8 +21,9 @@
 
 #include "accountinfo.h"
 
-#include <qjson/parser.h>
-#include <QtCore/QVariantMap>
+#include <QJsonDocument>
+
+#include <QVariantMap>
 
 using namespace KGAPI2;
 
@@ -216,14 +217,13 @@ QString AccountInfo::photoUrl() const
 
 AccountInfoPtr AccountInfo::fromJSON(const QByteArray& jsonData)
 {
-    QJson::Parser parser;
-    QVariantMap data;
-    bool ok;
-
-    data = parser.parse(jsonData, &ok).toMap();
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return AccountInfoPtr();
     }
+
+    QVariantMap data;
+    data = document.toVariant().toMap();
 
     AccountInfoPtr accountInfo(new AccountInfo);
     accountInfo->setId(data.value(QLatin1String("id")).toString());

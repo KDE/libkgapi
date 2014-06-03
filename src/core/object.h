@@ -22,12 +22,12 @@
 #ifndef LIBKGAPI2_OBJECT_H
 #define LIBKGAPI2_OBJECT_H
 
-#include <QtCore/QString>
-#include <QtCore/QList>
-#include <QtCore/QSharedPointer>
+#include <QString>
+#include <QList>
+#include <QSharedPointer>
 
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "types.h"
+#include "kgapicore_export.h"
 
 namespace KGAPI2
 {
@@ -42,7 +42,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT Object
+class KGAPICORE_EXPORT Object
 {
   public:
     /**

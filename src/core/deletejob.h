@@ -22,8 +22,8 @@
 #ifndef LIBKGAPI2_DELETEJOB_H
 #define LIBKGAPI2_DELETEJOB_H
 
-#include <libkgapi2/job.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "job.h"
+#include "kgapicore_export.h"
 
 namespace KGAPI2 {
 
@@ -34,7 +34,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT DeleteJob : public KGAPI2::Job
+class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
 {
     Q_OBJECT
 

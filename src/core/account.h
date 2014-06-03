@@ -18,14 +18,14 @@
 #ifndef LIBKGAPI2_ACCOUNT_H
 #define LIBKGAPI2_ACCOUNT_H
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QUrl>
-#include <QtCore/QMetaType>
-#include <QtCore/QSharedPointer>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QMetaType>
+#include <QSharedPointer>
 
-#include <libkgapi2/libkgapi2_export.h>
-#include <libkgapi2/types.h>
+#include "kgapicore_export.h"
+#include "types.h"
 
 namespace KGAPI2
 {
@@ -49,7 +49,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.1
  */
-class LIBKGAPI2_EXPORT Account
+class KGAPICORE_EXPORT Account
 {
 
   public:

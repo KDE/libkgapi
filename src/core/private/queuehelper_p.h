@@ -23,7 +23,7 @@
 #ifndef LIBKGAPI2_PRIVATE_QUEUEHELPER_H
 #define LIBKGAPI2_PRIVATE_QUEUEHELPER_H
 
-#include <QtCore/QQueue>
+#include <QQueue>
 
 template<typename T>
 class QueueHelper

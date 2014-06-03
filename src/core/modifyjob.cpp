@@ -21,8 +21,8 @@
 
 #include "modifyjob.h"
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
@@ -89,7 +89,3 @@ ObjectsList ModifyJob::handleReplyWithItems(const QNetworkReply* reply,
 
     return ObjectsList();
 }
-
-
-
-#include "modifyjob.moc"

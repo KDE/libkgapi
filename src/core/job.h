@@ -22,10 +22,10 @@
 #ifndef LIBKGAPI2_JOB_H
 #define LIBKGAPI2_JOB_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "types.h"
+#include "kgapicore_export.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -49,7 +49,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT Job : public QObject
+class KGAPICORE_EXPORT Job : public QObject
 {
     Q_OBJECT
 

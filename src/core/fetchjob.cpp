@@ -22,8 +22,8 @@
 #include "fetchjob.h"
 #include "debug.h"
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
@@ -88,7 +88,3 @@ ObjectsList FetchJob::handleReplyWithItems(const QNetworkReply* reply, const QBy
 
     return ObjectsList();
 }
-
-
-
-#include "fetchjob.moc"

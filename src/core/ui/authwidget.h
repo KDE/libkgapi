@@ -18,12 +18,11 @@
 #ifndef LIBKGAPI2_UI_AUTHWIDGET_H
 #define LIBKGAPI2_UI_AUTHWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
-#include <libkgapi2/types.h>
-#include <libkgapi2/account.h>
-#include <libkgapi2/libkgapi2_export.h>
-#include <libkgapi2/account.h>
+#include "types.h"
+#include "account.h"
+#include "kgapicore_export.h"
 
 namespace KGAPI {
     typedef KGAPI2::Account Account;
@@ -37,7 +36,7 @@ namespace KGAPI2 {
  *
  * @since 0.3.2
  */
-class LIBKGAPI2_EXPORT AuthWidget : public QWidget
+class KGAPICORE_EXPORT AuthWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(bool showProgressBar WRITE setShowProgressBar READ getShowProgressBar)

@@ -21,13 +21,13 @@
 #include "newtokensfetchjob_p.h"
 #include "debug.h"
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
-#include <qjson/parser.h>
+#include <QJsonDocument>
 
-#include <KDE/KLocalizedString>
+#include <KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -121,17 +121,15 @@ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray
 {
     Q_UNUSED(reply);
 
-    QJson::Parser parser;
-    bool ok;
-
-    QVariantMap parsed_data = parser.parse(rawData, &ok).toMap();
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
         KGAPIDebug() << "Failed to parse server response.";
         KGAPIDebugRawData() << rawData;
         setError(KGAPI2::AuthCancelled);
         setErrorString(i18n("Failed to parse server response."));
         return;
     }
+    QVariantMap parsed_data = document.toVariant().toMap();
 
     KGAPIDebugRawData() << "Retrieved new tokens pair:" << parsed_data;
 
@@ -140,4 +138,4 @@ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray
     d->expiresIn = parsed_data.value(QLatin1String("expires_in")).toULongLong();
 }
 
-#include "newtokensfetchjob_p.moc"
+#include "newtokensfetchjob.moc"

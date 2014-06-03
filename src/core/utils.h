@@ -22,9 +22,9 @@
 #ifndef LIBKGAPI2_UTILS_H
 #define LIBKGAPI2_UTILS_H
 
-#include <QtCore/QString>
+#include <QString>
 
-#include <libkgapi2/types.h>
+#include "types.h"
 
 namespace Utils
 {

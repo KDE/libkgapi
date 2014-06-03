@@ -22,8 +22,8 @@
 #ifndef LIBKGAPI2_ACCOUNTINFOFETCHJOB_H
 #define LIBKGAPI2_ACCOUNTINFOFETCHJOB_H
 
-#include <libkgapi2/fetchjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "fetchjob.h"
+#include "kgapicore_export.h"
 
 namespace KGAPI2 {
 
@@ -36,7 +36,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since: 2.0
  */
-class LIBKGAPI2_EXPORT AccountInfoFetchJob : public KGAPI2::FetchJob
+class KGAPICORE_EXPORT AccountInfoFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 

@@ -23,9 +23,10 @@
 #define KGAPI_JOB_P_H
 
 #include "job.h"
-#include <QtCore/QQueue>
-#include <QtCore/QTimer>
-#include <QtNetwork/QNetworkReply>
+
+#include <QQueue>
+#include <QTimer>
+#include <QNetworkReply>
 
 #include <KIO/AccessManager>
 

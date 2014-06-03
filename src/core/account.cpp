@@ -16,6 +16,7 @@
 */
 
 #include "account.h"
+
 #include <QDateTime>
 
 using namespace KGAPI2;
