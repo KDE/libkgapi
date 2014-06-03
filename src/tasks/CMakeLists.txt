@@ -1,0 +1,74 @@
+set(kgapitasks_SRCS
+    task.cpp
+    taskcreatejob.cpp
+    taskdeletejob.cpp
+    taskfetchjob.cpp
+    tasklist.cpp
+    tasklistcreatejob.cpp
+    tasklistdeletejob.cpp
+    tasklistfetchjob.cpp
+    tasklistmodifyjob.cpp
+    taskmodifyjob.cpp
+    taskmovejob.cpp
+    tasksservice.cpp
+)
+
+ecm_generate_headers(kgapitasks_HEADERS
+    HEADER_NAMES
+    Task
+    TaskCreateJob
+    TaskDeleteJob
+    TaskFetchJob
+    TaskList
+    TaskListCreateJob
+    TaskListDeleteJob
+    TaskListFetchJob
+    TaskListModifyJob
+    TaskModifyJob
+    TaskMoveJob
+    REQUIRED_HEADERS kgapitasks_HEADERS
+)
+
+add_library(KF5GAPITasks
+    ${kgapitasks_SRCS}
+)
+
+generate_export_header(KF5GAPITasks BASE_NAME kgapitasks)
+
+add_library(KF5::GAPITasks ALIAS KF5GAPITasks)
+target_include_directories(KF5GAPITasks INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
+target_include_directories(KF5GAPITasks PUBLIC "$<BUILD_INTERFACE:${KGAPI_SOURCE_DIR}/src;${KAGAPI_BINARY_DIR}/src>")
+
+target_link_libraries(KF5GAPITasks
+PUBLIC
+    KF5::GAPICore
+    KF5::CalendarCore
+)
+
+set_target_properties(KF5GAPITasks PROPERTIES
+    VERSION ${KGAPI_VERSION_STRING}
+    SOVERSION ${KGAPI_SOVERSION}
+    EXPORT_NAME GAPI
+)
+
+install(TARGETS
+    KF5GAPITasks
+    EXPORT KF5GAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+)
+
+install(FILES
+    ${kgapitasks_HEADERS}
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Tasks"
+    COMPONENT Devel
+)
+
+ecm_generate_pri_file(BASE_NAME KGAPITasks
+    LIB_NAME KF5GAPITasks
+    DEPS "GAPICore CalendarCore"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
+)
+
+install(FILES
+    "${PRI_FILENAME}"
+    DESTINATION "${ECM_MKSPECS_INSTALL_DIR}"
+)

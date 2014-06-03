@@ -22,8 +22,8 @@
 #ifndef LIBKGAPI2_TASKCREATEJOB_H
 #define LIBKGAPI2_TASKCREATEJOB_H
 
-#include <libkgapi2/createjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "createjob.h"
+#include "kgapitasks_export.h"
 
 namespace KGAPI2 {
 
@@ -33,7 +33,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT TaskCreateJob : public KGAPI2::CreateJob
+class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 

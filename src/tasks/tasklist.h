@@ -23,9 +23,9 @@
 #ifndef LIBKGAPI2_TASKLIST_H
 #define LIBKGAPI2_TASKLIST_H
 
-#include <libkgapi2/object.h>
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "object.h"
+#include "types.h"
+#include "kgapitasks_export.h"
 
 namespace KGAPI2
 {
@@ -36,7 +36,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since: 0.3
  */
-class LIBKGAPI2_EXPORT TaskList: public KGAPI2::Object
+class KGAPITASKS_EXPORT TaskList: public KGAPI2::Object
 {
   public:
 

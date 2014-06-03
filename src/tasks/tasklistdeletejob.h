@@ -22,8 +22,8 @@
 #ifndef LIBKGAPI2_TASKLISTDELETEJOB_H
 #define LIBKGAPI2_TASKLISTDELETEJOB_H
 
-#include <libkgapi2/deletejob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "deletejob.h"
+#include "kgapitasks_export.h"
 
 namespace KGAPI2 {
 
@@ -37,7 +37,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
+class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
 {
 
     Q_OBJECT

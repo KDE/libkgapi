@@ -20,8 +20,7 @@
 #include "task.h"
 #include "tasklist.h"
 
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+#include <QJsonDocument>
 
 #include <KUrl>
 #include <QtCore/QVariant>
@@ -43,10 +42,13 @@ namespace Private
 
 ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
-    QJson::Parser parser;
+    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+    if (document.isNull()) {
+        return ObjectsList();
+    }
 
     ObjectsList list;
-    const QVariantMap feed = parser.parse(jsonFeed).toMap();
+    const QVariantMap feed = document.toVariant().toMap();
 
     if (feed.value(QLatin1String("kind")).toString() == QLatin1String("tasks#taskLists")) {
         list = Private::parseTaskListJSONFeed(feed.value(QLatin1String("items")).toList());
@@ -181,9 +183,8 @@ ObjectPtr Private::JSONToTaskList(QVariantMap jsonData)
 
 TaskListPtr JSONToTaskList(const QByteArray& jsonData)
 {
-    QJson::Parser parser;
-
-    const QVariantMap data = parser.parse(jsonData).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    const QVariantMap data = document.toVariant().toMap();
 
     if (data.value(QLatin1String("kind")).toString() == QLatin1String("tasks#taskList")) {
         return Private::JSONToTaskList(data).staticCast<TaskList>();
@@ -227,9 +228,8 @@ ObjectPtr Private::JSONToTask(QVariantMap jsonData)
 
 TaskPtr JSONToTask(const QByteArray& jsonData)
 {
-    QJson::Parser parser;
-
-    const QVariantMap data = parser.parse(jsonData).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    const QVariantMap data = document.toVariant().toMap();
 
     if (data.value(QLatin1String("kind")).toString() == QLatin1String("tasks#task")) {
         return Private::JSONToTask(data).staticCast<Task>();
@@ -248,8 +248,8 @@ QByteArray taskListToJSON(const TaskListPtr &taskList)
     }
     output.insert(QLatin1String("title"), taskList->title());
 
-    QJson::Serializer serializer;
-    return serializer.serialize(output);
+    QJsonDocument document = QJsonDocument::fromVariant(output);
+    return document.toJson();
 }
 
 QByteArray taskToJSON(const TaskPtr &task)
@@ -282,8 +282,8 @@ QByteArray taskToJSON(const TaskPtr &task)
         output.insert(QLatin1String("status"), QLatin1String("needsAction"));
     }
 
-    QJson::Serializer serializer;
-    return serializer.serialize(output);
+    QJsonDocument document = QJsonDocument::fromVariant(output);
+    return document.toJson();
 }
 
 ObjectsList Private::parseTaskListJSONFeed(const QVariantList &items)

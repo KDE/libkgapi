@@ -22,11 +22,11 @@
 #ifndef LIBKGAPI2_TASK_H
 #define LIBKGAPI2_TASK_H
 
-#include <libkgapi2/object.h>
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "object.h"
+#include "types.h"
+#include "kgapitasks_export.h"
 
-#include <KDE/KCalCore/Todo>
+#include <KCalCore/Todo>
 
 namespace KGAPI2
 {
@@ -37,8 +37,8 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.3
  */
-class LIBKGAPI2_EXPORT Task: public KGAPI2::Object,
-                             public KCalCore::Todo
+class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
+                              public KCalCore::Todo
 {
   public:
 
