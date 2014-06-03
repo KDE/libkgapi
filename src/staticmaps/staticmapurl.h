@@ -19,15 +19,15 @@
 #ifndef LIBKGAPI2_STATICMAPURL_H
 #define LIBKGAPI2_STATICMAPURL_H
 
-#include <libkgapi2/staticmaps/staticmapmarker.h>
-#include <libkgapi2/staticmaps/staticmappath.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "staticmapmarker.h"
+#include "staticmappath.h"
+#include "kgapimaps_export.h"
 
 #include <QtCore/QUrl>
 #include <QtCore/QSize>
 
-#include <KDE/KABC/Address>
-#include <KDE/KABC/Geo>
+#include <KABC/Address>
+#include <KABC/Geo>
 
 namespace KGAPI2
 {
@@ -39,7 +39,7 @@ namespace KGAPI2
  * @author Jan Grulich <grulja@gmail.com>
  * @since 0.4
  */
-class LIBKGAPI2_EXPORT StaticMapUrl
+class KGAPIMAPS_EXPORT StaticMapUrl
 {
   public:
 

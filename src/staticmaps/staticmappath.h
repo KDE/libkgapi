@@ -20,12 +20,12 @@
 #ifndef LIBKGAPI2_STATICMAPPATH_H
 #define LIBKGAPI2_STATICMAPPATH_H
 
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapimaps_export.h"
 
 #include <QtGui/QColor>
 
-#include <KDE/KABC/Address>
-#include <KDE/KABC/Geo>
+#include <KABC/Address>
+#include <KABC/Geo>
 
 namespace KGAPI2
 {
@@ -37,7 +37,7 @@ namespace KGAPI2
  * @author Jan Grulich <grulja@gmail.com>
  * @since 0.4
  */
-class LIBKGAPI2_EXPORT StaticMapPath
+class KGAPIMAPS_EXPORT StaticMapPath
 {
   public:
 
