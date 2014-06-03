@@ -20,11 +20,10 @@
 #include "latitudeservice.h"
 #include "location.h"
 
-#include <KDE/KDateTime>
-#include <KDE/KUrl>
+#include <KDateTime>
+#include <KUrl>
 
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+#include <QJsonDocument>
 
 namespace KGAPI2 {
 
@@ -37,16 +36,11 @@ namespace Private
 
 LocationPtr JSONToLocation(const QByteArray & jsonData)
 {
-    QJson::Parser parser;
-    QVariantMap data;
-    bool ok;
-
-    data = parser.parse(jsonData, &ok).toMap();
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return LocationPtr();
     }
-
+    const QVariantMap data = document.toVariant().toMap();
     const QVariantMap info = data.value(QLatin1String("data")).toMap();
 
     return Private::parseLocation(info);
@@ -81,8 +75,8 @@ QByteArray locationToJSON(const LocationPtr &location)
 
     output.insert(QLatin1String("data"), map);
 
-    QJson::Serializer serializer;
-    return serializer.serialize(output);
+    QJsonDocument document = QJsonDocument::fromVariant(output);
+    return document.toJson();
 }
 
 ObjectsList parseLocationJSONFeed(const QByteArray & jsonFeed, FeedData & feedData)
@@ -90,9 +84,9 @@ ObjectsList parseLocationJSONFeed(const QByteArray & jsonFeed, FeedData & feedDa
     Q_UNUSED(feedData);
 
     ObjectsList output;
-    QJson::Parser parser;
 
-    const QVariantMap map = parser.parse(jsonFeed).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+    const QVariantMap map = document.toVariant().toMap();
     const QVariantMap data = map.value(QLatin1String("data")).toMap();
     const QVariantList items = data.value(QLatin1String("items")).toList();
     Q_FOREACH(const QVariant &c, items) {

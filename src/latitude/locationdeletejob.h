@@ -22,8 +22,8 @@
 #ifndef LIBKGAPI2_LOCATIONDELETEJOB_H
 #define LIBKGAPI2_LOCATIONDELETEJOB_H
 
-#include <libkgapi2/deletejob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "deletejob.h"
+#include "kgapilatitude_export.h"
 
 namespace KGAPI2 {
 
@@ -36,7 +36,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT LocationDeleteJob : public KGAPI2::DeleteJob
+class KGAPILATITUDE_EXPORT LocationDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 

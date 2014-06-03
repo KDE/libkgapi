@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "location.h"
 #include "utils.h"
+#include "latitudeservice.h"
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -111,4 +112,4 @@ ObjectsList LocationFetchJob::handleReplyWithItems(const QNetworkReply *reply, c
     return items;
 }
 
-#include "locationfetchjob.moc"
+#include "moc_locationfetchjob.cpp"

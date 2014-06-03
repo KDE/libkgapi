@@ -20,11 +20,11 @@
 #ifndef LIBKGAPI2_OBJECTS_LOCATION_H
 #define LIBKGAPI2_OBJECTS_LOCATION_H
 
-#include <libkgapi2/object.h>
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "object.h"
+#include "types.h"
+#include "kgapilatitude_export.h"
 
-#include <KDE/KABC/Geo>
+#include <KABC/Geo>
 
 #include <QtCore/QSharedPointer>
 
@@ -38,8 +38,8 @@ namespace KGAPI2
  * @author Jan Grulich <grulja@gmail.com>
  * @since 0.4
  */
-class LIBKGAPI2_EXPORT Location : public KGAPI2::Object,
-                                  public KABC::Geo
+class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
+                                      public KABC::Geo
 {
   public:
 

@@ -22,9 +22,9 @@
 #ifndef LIBKGAPI2_LOCATIONFETCHJOB_H
 #define LIBKGAPI2_LOCATIONFETCHJOB_H
 
-#include <libkgapi2/fetchjob.h>
-#include <libkgapi2/libkgapi2_export.h>
-#include "latitudeservice.h"
+#include "fetchjob.h"
+#include "latitude.h"
+#include "kgapilatitude_export.h"
 
 namespace KGAPI2 {
 
@@ -35,7 +35,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT LocationFetchJob : public KGAPI2::FetchJob
+class KGAPILATITUDE_EXPORT LocationFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
