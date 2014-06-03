@@ -18,8 +18,8 @@
 #ifndef LIBKGAPI2_CONTACTSSERVICE_H
 #define LIBKGAPI2_CONTACTSSERVICE_H
 
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "types.h"
+#include "kgapicontacts_export.h"
 
 #include <QtCore/QUrl>
 
@@ -42,14 +42,14 @@ namespace ContactsService
      *
      * @param jsonData
      */
-    LIBKGAPI2_EXPORT ContactPtr JSONToContact(const QByteArray& jsonData);
+    KGAPICONTACTS_EXPORT ContactPtr JSONToContact(const QByteArray& jsonData);
 
     /**
      * @brief Parses JSON data into ContactsGroup object
      *
      * @param jsonData
      */
-    LIBKGAPI2_EXPORT ContactsGroupPtr JSONToContactsGroup(const QByteArray& jsonData);
+    KGAPICONTACTS_EXPORT ContactsGroupPtr JSONToContactsGroup(const QByteArray& jsonData);
 
     /**
      * @brief Parses JSON feed into list of ContactsGroups or Events.
@@ -57,47 +57,47 @@ namespace ContactsService
      * @param jsonFeed
      * @param feedData The structure will be filled with additional data
      */
-    LIBKGAPI2_EXPORT ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
+    KGAPICONTACTS_EXPORT ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
      * @brief Parses XML data into Contact object
      *
      * @param xmlData
      */
-    LIBKGAPI2_EXPORT ContactPtr XMLToContact(const QByteArray& xmlData);
+    KGAPICONTACTS_EXPORT ContactPtr XMLToContact(const QByteArray& xmlData);
 
     /**
      * @brief Serializes a Contact object into XML
      *
      * @param contact
      */
-    LIBKGAPI2_EXPORT QByteArray contactToXML(const ContactPtr& contact);
+    KGAPICONTACTS_EXPORT QByteArray contactToXML(const ContactPtr& contact);
 
     /**
      * @brief Parses XML data into ContactsGroup object
      *
      * @param xmlData
      */
-    LIBKGAPI2_EXPORT ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData);
+    KGAPICONTACTS_EXPORT ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData);
 
     /**
      * @brief Serializes a ContactsGroup object into XML
      *
      * @param group
      */
-    LIBKGAPI2_EXPORT QByteArray contactsGroupToXML(const ContactsGroupPtr& group);
+    KGAPICONTACTS_EXPORT QByteArray contactsGroupToXML(const ContactsGroupPtr& group);
 
     /**
      * @brief Supported API version
      */
-    LIBKGAPI2_EXPORT QString APIVersion();
+    KGAPICONTACTS_EXPORT QString APIVersion();
 
     /**
      * @brief Returns URL for creating contacts
      *
      * @param user User. "default" or user@gmail.com}
      */
-    LIBKGAPI2_EXPORT QUrl createContactUrl(const QString &user);
+    KGAPICONTACTS_EXPORT QUrl createContactUrl(const QString &user);
 
     /**
      * @brief Returns URL for fetching all contacts in addressbook
@@ -105,7 +105,7 @@ namespace ContactsService
      * @param user User. "default" or user@gmail.com
      * @param showDeleted Whether to fetch deleted contacts placeholders as well
      */
-    LIBKGAPI2_EXPORT QUrl fetchAllContactsUrl(const QString &user, const bool &showDeleted);
+    KGAPICONTACTS_EXPORT QUrl fetchAllContactsUrl(const QString &user, const bool &showDeleted);
 
     /**
      * @brief Returns URL for fetching specific contact
@@ -113,7 +113,7 @@ namespace ContactsService
      * @param user User. "default" or user@gmail.com
      * @param contactID ID of contact to fetch
      */
-    LIBKGAPI2_EXPORT QUrl fetchContactUrl(const QString &user, const QString &contactID);
+    KGAPICONTACTS_EXPORT QUrl fetchContactUrl(const QString &user, const QString &contactID);
 
     /**
      * @brief Returns URL for updating a single contact
@@ -121,7 +121,7 @@ namespace ContactsService
      * @param user User. "default" or user@gmail.com
      * @param contactID ID of contact to update
      */
-    LIBKGAPI2_EXPORT QUrl updateContactUrl(const QString &user, const QString &contactID);
+    KGAPICONTACTS_EXPORT QUrl updateContactUrl(const QString &user, const QString &contactID);
 
     /**
      * @brief Returns URL for removing a single contact
@@ -129,14 +129,14 @@ namespace ContactsService
      * @param user User. "default" or user@gmail.com
      * @param contactID ID of contact to remove
      */
-    LIBKGAPI2_EXPORT QUrl removeContactUrl(const QString &user, const QString &contactID);
+    KGAPICONTACTS_EXPORT QUrl removeContactUrl(const QString &user, const QString &contactID);
 
     /**
      * Returns URL for KGAPI::Request::FetchAll requests.
      *
      * @param user User ("default" or user@gmail.com) in whose addressbook to look.
      */
-    LIBKGAPI2_EXPORT QUrl fetchAllGroupsUrl(const QString &user);
+    KGAPICONTACTS_EXPORT QUrl fetchAllGroupsUrl(const QString &user);
 
     /**
      * @brief Returns URL for fetching all contacts groups
@@ -144,14 +144,14 @@ namespace ContactsService
      * @param user User ("default" or user@gmail.com) in whose addressbook to look
      * @param groupId ID of group of which to fetch all data.
      */
-    LIBKGAPI2_EXPORT QUrl fetchGroupUrl(const QString &user, const QString &groupId);
+    KGAPICONTACTS_EXPORT QUrl fetchGroupUrl(const QString &user, const QString &groupId);
 
     /**
      * @brief Returns URL for creating a new contacts group
      *
      * @param user User (user@gmail.com) in whose addressbook to create a group.
      */
-    LIBKGAPI2_EXPORT QUrl createGroupUrl(const QString &user);
+    KGAPICONTACTS_EXPORT QUrl createGroupUrl(const QString &user);
 
     /**
      * @brief Returns URL for updating a single contacts group
@@ -159,7 +159,7 @@ namespace ContactsService
      * @param user User (user@gmail.com)) in whose addressbook to look
      * @param groupId ID of group to update.
      */
-    LIBKGAPI2_EXPORT QUrl updateGroupUrl(const QString &user, const QString &groupId);
+    KGAPICONTACTS_EXPORT QUrl updateGroupUrl(const QString &user, const QString &groupId);
 
     /**
      * @brief Returns URL for removing a single contacts group
@@ -167,7 +167,7 @@ namespace ContactsService
      * @param user User (user@gmail.com) in whose addressbook to look
      * @param groupId ID of group to delete
      */
-    LIBKGAPI2_EXPORT QUrl removeGroupUrl(const QString &user, const QString &groupId);
+    KGAPICONTACTS_EXPORT QUrl removeGroupUrl(const QString &user, const QString &groupId);
 
     /**
      * @brief Returns URL for modifying photo.
@@ -178,7 +178,7 @@ namespace ContactsService
      * @param user User (user@gmail.com) in whose addressbook to lok
      * @param contactId ID of contacts whose photo to update
      */
-    LIBKGAPI2_EXPORT QUrl photoUrl(const QString &user, const QString &contactId);
+    KGAPICONTACTS_EXPORT QUrl photoUrl(const QString &user, const QString &contactId);
 
 } // namespace ContactsService
 

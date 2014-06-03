@@ -22,13 +22,11 @@
 
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
+#include <QJsonDocument>
 #include <KDE/KUrl>
 
 /* Qt::escape() */
 #include <QTextDocument>
-
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
 
 #include <QDebug>
 
@@ -52,9 +50,8 @@ namespace Private
 ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
     ObjectsList output;
-    QJson::Parser parser;
-
-    const QVariantMap head = parser.parse(jsonFeed).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+    const QVariantMap head = document.toVariant().toMap();
     const QVariantMap feed = head.value(QLatin1String("feed")).toMap();
     const QVariantList categories = feed.value(QLatin1String("category")).toList();
     Q_FOREACH(const QVariant &c, categories) {
@@ -284,9 +281,8 @@ ObjectPtr Private::JSONToContactsGroup(const QVariantMap& data)
 
 ContactsGroupPtr JSONToContactsGroup(const QByteArray& jsonData)
 {
-    QJson::Parser parser;
-
-    const QVariantMap data = parser.parse(jsonData).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    const QVariantMap data = document.toVariant().toMap();
     const QVariantMap entry = data.value(QLatin1String("entry")).toMap();
     const QVariantList categories = entry.value(QLatin1String("category")).toList();
 
@@ -552,9 +548,8 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
 
 ContactPtr JSONToContact(const QByteArray& jsonData)
 {
-    QJson::Parser parser;
-
-    const QVariantMap data = parser.parse(jsonData).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    const QVariantMap data = document.toVariant().toMap();
     const QVariantMap entry = data.value(QLatin1String("entry")).toMap();
     const QVariantList categories = entry.value(QLatin1String("category")).toList();
 
@@ -669,7 +664,7 @@ QByteArray contactToXML(const ContactPtr& contact)
 
     /* Homepage */
     if (!contact->url().isEmpty()) {
-        output.append("<gContact:website rel=\"home-page\" href=\"").append(Qt::escape(contact->url().prettyUrl()).toUtf8()).append("\" />");
+        output.append("<gContact:website rel=\"home-page\" href=\"").append(Qt::escape(contact->url().toString()).toUtf8()).append("\" />");
     }
 
     /* Blog */
