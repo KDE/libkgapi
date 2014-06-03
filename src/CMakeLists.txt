@@ -1,4 +1,4 @@
-#add_subdirectory(calendar)
+add_subdirectory(calendar)
 #add_subdirectory(contacts)
 add_subdirectory(core)
 #add_subdirectory(drive)

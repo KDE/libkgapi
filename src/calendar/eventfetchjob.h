@@ -22,8 +22,8 @@
 #ifndef LIBKGAPI2_EVENTFETCHJOB_H
 #define LIBKGAPI2_EVENTFETCHJOB_H
 
-#include <libkgapi2/fetchjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "fetchjob.h"
+#include "kgapicalendar_export.h"
 
 namespace KGAPI2 {
 
@@ -34,7 +34,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT EventFetchJob : public KGAPI2::FetchJob
+class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 

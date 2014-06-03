@@ -22,9 +22,9 @@
 #ifndef LIBKGAPI2_CALENDAR_H
 #define LIBKGAPI2_CALENDAR_H
 
-#include <libkgapi2/object.h>
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "object.h"
+#include "types.h"
+#include "kgapicalendar_export.h"
 
 #include <QtGui/QColor>
 
@@ -37,7 +37,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.1
  */
-class LIBKGAPI2_EXPORT Calendar: public KGAPI2::Object
+class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
 {
 
   public:

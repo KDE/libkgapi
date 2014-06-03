@@ -21,8 +21,8 @@
 #ifndef LIBKGAPI2_CALENDARDELETEJOB_H
 #define LIBKGAPI2_CALENDARDELETEJOB_H
 
-#include <libkgapi2/deletejob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "deletejob.h"
+#include "kgapicalendar_export.h"
 
 namespace KGAPI2 {
 
@@ -36,7 +36,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
+class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 

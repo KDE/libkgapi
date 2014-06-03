@@ -22,8 +22,8 @@
 #ifndef KGAPI2_EVENTMOVEJOB_H
 #define KGAPI2_EVENTMOVEJOB_H
 
-#include <libkgapi2/modifyjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "modifyjob.h"
+#include "kgapicalendar_export.h"
 
 namespace KGAPI2
 {
@@ -34,7 +34,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class LIBKGAPI2_EXPORT EventMoveJob : public KGAPI2::ModifyJob
+class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 

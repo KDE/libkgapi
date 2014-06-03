@@ -22,11 +22,11 @@
 #ifndef LIBKGAPI2_EVENT_H
 #define LIBKGAPI2_EVENT_H
 
-#include <libkgapi2/object.h>
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "object.h"
+#include "types.h"
+#include "kgapicalendar_export.h"
 
-#include <KDE/KCalCore/Event>
+#include <KCalCore/Event>
 
 namespace KGAPI2
 {
@@ -37,7 +37,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.1
  */
-class LIBKGAPI2_EXPORT Event: public KGAPI2::Object,
+class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
                               public KCalCore::Event
 {
   public:

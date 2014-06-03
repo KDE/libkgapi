@@ -20,8 +20,10 @@
 
 #include <KDebug>
 
-int debugArea();
-int rawDataDebugArea();
+#include "kgapicore_export.h"
+
+KGAPICORE_EXPORT int debugArea();
+KGAPICORE_EXPORT int rawDataDebugArea();
 
 #define KGAPIDebug() kDebug(debugArea())
 #define KGAPIWarning() kWarning(debugArea())

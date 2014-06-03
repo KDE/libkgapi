@@ -33,8 +33,7 @@
 #include <KCalCore/RecurrenceRule>
 #include <KCalCore/ICalFormat>
 
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+#include <QJsonDocument>
 
 #include <KDateTime>
 #include <KSystemTimeZones>
@@ -177,9 +176,8 @@ QString APIVersion()
 
 CalendarPtr JSONToCalendar(const QByteArray& jsonData)
 {
-    QJson::Parser parser;
-
-    QVariantMap calendar = parser.parse(jsonData).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    QVariantMap calendar = document.toVariant().toMap();
 
     if ((calendar.value(QLatin1String("kind")) != QLatin1String("calendar#calendarListEntry")) &&
         (calendar.value(QLatin1String("kind")) != QLatin1String("calendar#calendar"))) {
@@ -246,15 +244,14 @@ QByteArray calendarToJSON(const CalendarPtr& calendar)
 	entry.insert(QLatin1String("timeZone"), calendar->timezone());
     }
 
-    QJson::Serializer serializer;
-    return serializer.serialize(entry);
+    QJsonDocument document = QJsonDocument::fromVariant(entry);
+    return document.toJson();
 }
 
 ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
-    QJson::Parser parser;
-
-    QVariantMap data = parser.parse(jsonFeed).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+    QVariantMap data = document.toVariant().toMap();
 
     ObjectsList list;
 
@@ -280,8 +277,8 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
 
 EventPtr JSONToEvent(const QByteArray& jsonData)
 {
-    QJson::Parser parser;
-    QVariantMap data = parser.parse(jsonData).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    QVariantMap data = document.toVariant().toMap();
 
     if (data.value(QLatin1String("kind")) != QLatin1String("calendar#event")) {
         return EventPtr();
@@ -688,15 +685,14 @@ QByteArray eventToJSON(const EventPtr& event)
      * http://code.google.com/apis/gdata/docs/2.0/elements.html
      */
 
-    QJson::Serializer serializer;
-    return serializer.serialize(data);
+    QJsonDocument document = QJsonDocument::fromVariant(data);
+    return document.toJson();
 }
 
 ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
-    QJson::Parser parser;
-
-    QVariantMap data = parser.parse(jsonFeed).toMap();
+    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+    QVariantMap data = document.toVariant().toMap();
 
     ObjectsList list;
 

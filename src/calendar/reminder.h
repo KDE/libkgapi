@@ -22,12 +22,12 @@
 #ifndef LIBKGAPI2_REMINDER_H
 #define LIBKGAPI2_REMINDER_H
 
-#include <libkgapi2/object.h>
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "object.h"
+#include "types.h"
+#include "kgapicalendar_export.h"
 
-#include <KDE/KCalCore/Alarm>
-#include <KDE/KCalCore/Incidence>
+#include <KCalCore/Alarm>
+#include <KCalCore/Incidence>
 
 namespace KGAPI2
 {
@@ -38,7 +38,7 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.4
  */
-class LIBKGAPI2_EXPORT Reminder
+class KGAPICALENDAR_EXPORT Reminder
 {
   public:
 

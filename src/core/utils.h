@@ -25,6 +25,7 @@
 #include <QString>
 
 #include "types.h"
+#include "kgapicore_export.h"
 
 namespace Utils
 {
@@ -37,21 +38,21 @@ namespace Utils
      *
      * @since 2.0
      */
-    KGAPI2::ContentType stringToContentType(const QString &contentType);
+    KGAPICORE_EXPORT KGAPI2::ContentType stringToContentType(const QString &contentType);
 
     /**
      * @brief Converts given boolean value to strings "true" or "false".
      *
      * @param val
      */
-    QString bool2Str(bool val);
+    KGAPICORE_EXPORT QString bool2Str(bool val);
 
     /**
      * @brief Converts given timestamp into RFC3339 date string
      *
      * @param timestamp
      */
-    QString ts2Str(quint64 timestamp);
+    KGAPICORE_EXPORT QString ts2Str(quint64 timestamp);
 
 } // namespace Utils
 

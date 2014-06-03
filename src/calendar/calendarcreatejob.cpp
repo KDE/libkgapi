@@ -28,10 +28,10 @@
 #include "utils.h"
 #include "private/queuehelper_p.h"
 
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
-#include <KDE/KLocalizedString>
+#include <KLocalizedString>
 
 using namespace KGAPI2;
 
