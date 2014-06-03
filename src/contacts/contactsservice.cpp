@@ -23,7 +23,6 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 #include <QJsonDocument>
-#include <KDE/KUrl>
 
 /* Qt::escape() */
 #include <QTextDocument>
@@ -45,6 +44,11 @@ namespace Private
 
     ObjectPtr JSONToContactsGroup(const QVariantMap &map);
     ObjectPtr JSONToContact(const QVariantMap& map);
+
+    static const QUrl GoogleApisUrl(QLatin1String("https://www.google.com"));
+    static const QString ContactsBasePath(QLatin1String("/m8/feeds/contacts"));
+    static const QString ContactsGroupBasePath(QLatin1String("/m8/feeds/groups"));
+    static const QString PhotoBasePath(QLatin1String("/m8/feeds/photos/media"));
 }
 
 ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
@@ -76,7 +80,7 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     Q_FOREACH(const QVariant &l, links) {
         const QVariantMap link = l.toMap();
         if (link.value(QLatin1String("rel")).toString() == QLatin1String("next")) {
-            feedData.nextPageUrl = KUrl(link.value(QLatin1String("href")).toString());
+            feedData.nextPageUrl = QUrl(link.value(QLatin1String("href")).toString());
             break;
         }
     }
@@ -90,9 +94,8 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 
 QUrl fetchAllContactsUrl(const QString& user, const bool &showDeleted)
 {
-    KUrl url("https://www.google.com/m8/feeds/contacts/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
     url.addQueryItem(QLatin1String("alt"), QLatin1String("json"));
     if (showDeleted) {
         url.addQueryItem(QLatin1String("showdeleted"), QLatin1String("true"));
@@ -110,21 +113,16 @@ QUrl fetchContactUrl(const QString& user, const QString& contactID)
         id = contactID;
     }
 
-    KUrl url("https://www.google.com/m8/feeds/contacts/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
-    url.addPath(id);
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
     url.addQueryItem(QLatin1String("alt"), QLatin1String("json"));
-
     return url;
 }
 
 QUrl createContactUrl(const QString& user)
 {
-    KUrl url("https://www.google.com/m8/feeds/contacts/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
     return url;
 }
 
@@ -137,11 +135,8 @@ QUrl updateContactUrl(const QString& user, const QString& contactID)
         id = contactID;
     }
 
-    KUrl url("https://www.google.com/m8/feeds/contacts/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
-    url.addPath(id);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
     return url;
 }
 
@@ -154,21 +149,16 @@ QUrl removeContactUrl(const QString& user, const QString& contactID)
         id = contactID;
     }
 
-    KUrl url("https://www.google.com/m8/feeds/contacts/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
-    url.addPath(id);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
     return url;
 }
 
 QUrl fetchAllGroupsUrl(const QString &user)
 {
-    KUrl url("https://www.google.com/m8/feeds/groups/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
     url.addQueryItem(QLatin1String("alt"), QLatin1String("json"));
-
     return url;
 }
 
@@ -181,10 +171,8 @@ QUrl fetchGroupUrl(const QString &user, const QString &groupId)
         id = groupId;
     }
 
-    KUrl url("https://www.google.com/m8/feeds/groups/");
-    url.addPath(user);
-    url.addPath(QLatin1String("base"));
-    url.addPath(id);
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/base/") % id);
     url.addQueryItem(QLatin1String("alt"), QLatin1String("json"));
 
     return url;
@@ -192,10 +180,8 @@ QUrl fetchGroupUrl(const QString &user, const QString &groupId)
 
 QUrl createGroupUrl(const QString &user)
 {
-    KUrl url("https://www.google.com/m8/feeds/groups/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
     return url;
 }
 
@@ -208,11 +194,8 @@ QUrl updateGroupUrl(const QString &user, const QString &groupId)
         id = groupId;
     }
 
-    KUrl url("https://www.google.com/m8/feeds/groups/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
-    url.addPath(id);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
     return url;
 }
 
@@ -225,11 +208,8 @@ QUrl removeGroupUrl(const QString &user, const QString &groupId)
         id = groupId;
     }
 
-    KUrl url("https://www.google.com/m8/feeds/groups/");
-    url.addPath(user);
-    url.addPath(QLatin1String("full"));
-    url.addPath(id);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
     return url;
 }
 
@@ -242,10 +222,8 @@ QUrl photoUrl(const QString& user, const QString& contactID)
         id = contactID;
     }
 
-    KUrl url("https://www.google.com/m8/feeds/photos/media/");
-    url.addPath(user);
-    url.addPath(id);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::PhotoBasePath % QLatin1Char('/') % user % QLatin1Char('/') % id);
     return url;
 }
 
@@ -435,7 +413,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
             const QVariantMap web = w.toMap();
 
             if (web.value(QLatin1String("rel")).toString() == QLatin1String("home-page")) {
-                contact->setUrl(KUrl(web.value(QLatin1String("href")).toString()));
+                contact->setUrl(QUrl(web.value(QLatin1String("href")).toString()));
                 continue;
             }
 
@@ -983,7 +961,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         /* Websites */
         if (e.tagName() == QLatin1String("gContact:website")) {
             if (e.attribute(QLatin1String("rel"), QString()) == QLatin1String("home-page")) {
-                contact->setUrl(KUrl(e.attribute(QLatin1String("href"), QString())));
+                contact->setUrl(QUrl(e.attribute(QLatin1String("href"), QString())));
                 continue;
             }
 

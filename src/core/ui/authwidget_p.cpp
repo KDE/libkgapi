@@ -31,7 +31,6 @@
 
 #include <qjson/parser.h>
 
-#include <KUrl>
 #include <KLocalizedString>
 #include <KIO/AccessManager>
 

@@ -103,7 +103,7 @@ bool Contact::deleted() const
 
 void Contact::setPhotoUrl(const QString& photoUrl)
 {
-    d->photoUrl = KUrl(photoUrl);
+    d->photoUrl = QUrl(photoUrl);
 }
 
 void Contact::setPhotoUrl(const QUrl& photoUrl)

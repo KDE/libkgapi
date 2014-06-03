@@ -22,7 +22,6 @@
 
 #include <QJsonDocument>
 
-#include <KUrl>
 #include <QtCore/QVariant>
 
 namespace KGAPI2
@@ -38,6 +37,10 @@ namespace Private
 
     ObjectPtr JSONToTaskList(QVariantMap jsonData);
     ObjectPtr JSONToTask(QVariantMap jsonData);
+
+    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
+    static const QString TasksBasePath(QLatin1String("/tasks/v1/lists"));
+    static const QString TasksListsBasePath(QLatin1String("/tasks/v1/users/@me/lists"));
 }
 
 ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
@@ -81,60 +84,43 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 
 QUrl fetchAllTasksUrl(const QString& tasklistID)
 {
-    KUrl url("https://www.googleapis.com/tasks/v1/lists/");
-    url.addPath(tasklistID);
-    url.addPath(QLatin1String("tasks"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks"));
     return url;
 }
 
 QUrl fetchTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-    KUrl url("https://www.googleapis.com/tasks/v1/lists/");
-    url.addPath(tasklistID);
-    url.addPath(QLatin1String("tasks"));
-    url.addPath(taskID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID);
     return url;
 }
 
 QUrl createTaskUrl(const QString& tasklistID)
 {
-    KUrl url("https://www.googleapis.com/tasks/v1/lists/");
-    url.addPath(tasklistID);
-    url.addPath(QLatin1String("tasks"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks"));
     return url;
 }
 
 QUrl updateTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-    KUrl url("https://www.googleapis.com/tasks/v1/lists/");
-    url.addPath(tasklistID);
-    url.addPath(QLatin1String("tasks"));
-    url.addPath(taskID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID);
     return url;
 }
 
 QUrl removeTaskUrl(const QString& tasklistID, const QString& taskID)
 {
-    KUrl url("https://www.googleapis.com/tasks/v1/lists/");
-    url.addPath(tasklistID);
-    url.addPath(QLatin1String("tasks"));
-    url.addPath(taskID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID);
     return url;
 }
 
 QUrl moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString& newParent)
 {
-    KUrl url("https://www.googleapis.com/tasks/v1/lists/");
-    url.addPath(tasklistID);
-    url.addPath(QLatin1String("tasks"));
-    url.addPath(taskID);
-    url.addPath(QLatin1String("move"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID % QLatin1String("/move"));
     if (!newParent.isEmpty()) {
         url.addQueryItem(QLatin1String("parent"), newParent);
     }
@@ -144,27 +130,29 @@ QUrl moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString
 
 QUrl fetchTaskListsUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/tasks/v1/users/@me/lists"));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksListsBasePath);
+    return url;
 }
 
 QUrl createTaskListUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/tasks/v1/users/@me/lists"));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksListsBasePath);
+    return url;
 }
 
 QUrl updateTaskListUrl(const QString& tasklistID)
 {
-    KUrl url("https://www.googleapis.com/tasks/v1/users/@me/lists/");
-    url.addPath(tasklistID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksListsBasePath % QLatin1Char('/') % tasklistID);
     return url;
 }
 
 QUrl removeTaskListUrl(const QString& tasklistID)
 {
-    KUrl url("https://www.googleapis.com/tasks/v1/users/@me/lists/");
-    url.addPath(tasklistID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TasksListsBasePath % QLatin1Char('/') % tasklistID);
     return url;
 }
 

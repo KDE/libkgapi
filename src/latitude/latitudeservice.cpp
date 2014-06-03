@@ -21,7 +21,6 @@
 #include "location.h"
 
 #include <KDateTime>
-#include <KUrl>
 
 #include <QJsonDocument>
 
@@ -32,6 +31,10 @@ namespace LatitudeService {
 namespace Private
 {
     LocationPtr parseLocation(const QVariantMap map);
+
+    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
+    static const QString LocationBasePath(QLatin1String("/latitude/v1/location"));
+    static const QString CurrentLocationBasePath(QLatin1String("/latitude/v1/currentLocation"));
 }
 
 LocationPtr JSONToLocation(const QByteArray & jsonData)
@@ -137,31 +140,36 @@ QString APIVersion()
 
 QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity)
 {
-    KUrl url("https://www.googleapis.com/latitude/v1/currentLocation");
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CurrentLocationBasePath);
     if (granularity == Latitude::City) {
         url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
     } else if (granularity == Latitude::Best) {
         url.addQueryItem(QLatin1String("granularity"), QLatin1String("best"));
     }
 
-    return QUrl(url);
+    return url;
 }
 
 QUrl deleteCurrentLocationUrl()
 {
-    return KUrl("https://www.googleapis.com/latitude/v1/currentLocation");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CurrentLocationBasePath);
+    return url;
 }
 
 QUrl insertCurrentLocationUrl()
 {
-    return KUrl("https://www.googleapis.com/latitude/v1/currentLocation");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CurrentLocationBasePath);
+    return url;
 }
 
 QUrl locationHistoryUrl(const Latitude::Granularity granularity, const int maxResults,
                         const qlonglong maxTime, const qlonglong minTime)
 {
-    KUrl url("https://www.googleapis.com/latitude/v1/location");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::LocationBasePath);
 
     if (granularity == Latitude::City) {
         url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
@@ -186,8 +194,8 @@ QUrl locationHistoryUrl(const Latitude::Granularity granularity, const int maxRe
 
 QUrl retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granularity)
 {
-    KUrl url("https://www.googleapis.com/latitude/v1/location/");
-    url.addPath(QString::number(id));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::LocationBasePath % QLatin1Char('/') % QString::number(id));
 
      if (granularity == Latitude::City) {
         url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
@@ -200,14 +208,15 @@ QUrl retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granula
 
 QUrl insertLocationUrl()
 {
-    return KUrl("https://www.googleapis.com/latitude/v1/location");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::LocationBasePath);
+    return url;
 }
 
 QUrl deleteLocationUrl(const qlonglong id)
 {
-    KUrl url("https://www.googleapis.com/latitude/v1/location/");
-    url.addPath(QString::number(id));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::LocationBasePath);
     return url;
 }
 

@@ -19,7 +19,6 @@
 #include "authwidget_p.h"
 #include "debug.h"
 
-#include <KUrl>
 #include <KLocalizedString>
 
 using namespace KGAPI2;
@@ -97,7 +96,7 @@ void AuthWidget::authenticate()
         scopes << scope.toString();
     }
 
-    KUrl url("https://accounts.google.com/o/oauth2/auth");
+    QUrl url(QLatin1String("https://accounts.google.com/o/oauth2/auth"));
     url.addQueryItem(QLatin1String("client_id"), d->apiKey);
     url.addQueryItem(QLatin1String("redirect_uri"), QLatin1String("urn:ietf:wg:oauth:2.0:oob"));
     url.addQueryItem(QLatin1String("scope"), scopes.join(QLatin1String(" ")));

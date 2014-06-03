@@ -22,17 +22,24 @@
 #include "driveservice.h"
 #include "utils.h"
 
-#include <KDE/KUrl>
-
 namespace KGAPI2
 {
+
+namespace Private
+{
+    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
+    static const QString AppsBasePath(QLatin1String("/drive/v2/about"));
+    static const QString FilesBasePath(QLatin1String("/drive/v2/files"));
+    static const QString ChangeBasePath(QLatin1String("/drive/v2/changes"));
+}
 
 namespace DriveService
 {
 
 QUrl fetchAboutUrl(bool includeSubscribed, qlonglong maxChangeIdCount, qlonglong startChangeId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/about");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::AppsBasePath);
     url.addQueryItem(QLatin1String("includeSubscribed"), Utils::bool2Str(includeSubscribed));
     if (maxChangeIdCount > 0) {
         url.addQueryItem(QLatin1String("maxChangeIdCount"), QString::number(maxChangeIdCount));
@@ -46,272 +53,227 @@ QUrl fetchAboutUrl(bool includeSubscribed, qlonglong maxChangeIdCount, qlonglong
 
 QUrl fetchAppUrl(const QString &appId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/apps");
-    url.addPath(appId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::AppsBasePath % QLatin1Char('/') % appId);
     return url;
 }
 
 QUrl fetchAppsUrl()
 {
-    return KUrl("https://www.googleapis.com/drive/v2/apps/");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::AppsBasePath);
+    return url;
 }
 
 QUrl fetchChildReference(const QString &folderId, const QString &referenceId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(folderId);
-    url.addPath(QLatin1String("children"));
-    url.addPath(referenceId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % folderId % QLatin1String("/children/") % referenceId);
     return url;
 }
 
 QUrl fetchChildReferences(const QString &folderId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(folderId);
-    url.addPath(QLatin1String("children"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % folderId % QLatin1String("/children"));
     return url;
 }
 
 QUrl createChildReference(const QString &folderId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(folderId);
-    url.addPath(QLatin1String("children"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % folderId % QLatin1String("/children"));
     return url;
 }
 
 QUrl deleteChildReference(const QString &folderId, const QString &referenceId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(folderId);
-    url.addPath(QLatin1String("children"));
-    url.addPath(referenceId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % folderId % QLatin1String("/children/") % referenceId);
     return url;
 }
 
 QUrl fetchChangeUrl(const QString &changeId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/changes");
-    url.addPath(changeId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ChangeBasePath % QLatin1Char('/') % changeId);
     return url;
 }
 
 QUrl copyFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("copy"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/copy"));
     return url;
 }
 
 QUrl deleteFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId);
     return url;
 }
 
 QUrl fetchFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId);
     return url;
 }
 
 QUrl fetchFilesUrl()
 {
-    return KUrl("https://www.googleapis.com/drive/v2/files");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath);
+    return url;
 }
 
 QUrl fetchChangesUrl()
 {
-    return KUrl("https://www.googleapis.com/drive/v2/changes");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::ChangeBasePath);
+    return url;
 }
 
 QUrl touchFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("touch"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/touch"));
     return url;
 }
 
 QUrl trashFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("trash"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/trash"));
     return url;
 }
 
 QUrl untrashFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("untrash"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/untrash"));
     return url;
 }
 
 QUrl uploadMetadataFileUrl()
 {
-    return KUrl("https://www.googleapis.com/drive/v2/files");
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath);
+    return url;
 }
 
 QUrl uploadMediaFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/upload/drive/v2/files");
+    QUrl url(Private::GoogleApisUrl);
     if (!fileId.isEmpty()) {
-        url.addPath(fileId);
+        url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId);
+    } else {
+        url.setPath(Private::FilesBasePath);
     }
-
     return url;
 }
 
 QUrl uploadMultipartFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
+    QUrl url(Private::GoogleApisUrl);
     if (!fileId.isEmpty()) {
-        url.addPath(fileId);
+        url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId);
+    } else {
+        url.setPath(Private::FilesBasePath);
     }
-
     return url;
 }
 
 QUrl fetchParentReferenceUrl(const QString &fileId, const QString &referenceId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("parents"));
-    url.addPath(referenceId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/parents/") % referenceId);
     return url;
 }
 
 QUrl fetchParentReferencesUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("parents"));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/parents"));
 
     return url;
 }
 
 QUrl createParentReferenceUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("parents"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/parents"));
     return url;
 }
 
 QUrl deleteParentReferenceUrl(const QString &fileId, const QString &referenceId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("parents"));
-    url.addPath(referenceId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/parents/") % referenceId);
     return url;
 }
 
 QUrl fetchPermissionsUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("permissions"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/premissions"));
     return url;
 }
 
 QUrl fetchPermissionUrl(const QString &fileId, const QString &permissionId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("permissions"));
-    url.addPath(permissionId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/permissions/") % permissionId);
     return url;
 }
 
 QUrl createPermissionUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("permissions"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/permissions"));
     return url;
 }
 
 QUrl deletePermissionUrl(const QString &fileId, const QString &permissionId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("permissions"));
-    url.addPath(permissionId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/permissions/") % permissionId);
     return url;
 }
 
 QUrl modifyPermissionUrl(const QString &fileId, const QString &permissionId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("permissions"));
-    url.addPath(permissionId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/permissions/") % permissionId);
     return url;
 }
 
 QUrl fetchRevisionUrl(const QString &fileId, const QString &revisionId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("revisions"));
-    url.addPath(revisionId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/revisions/") % revisionId);
     return url;
 }
 
 QUrl fetchRevisionsUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("revisions"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/revisions"));
     return url;
 }
 
 QUrl deleteRevisionUrl(const QString &fileId, const QString &revisionId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("revisions"));
-    url.addPath(revisionId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/revisions/") % revisionId);
     return url;
 }
 
 QUrl modifyRevisionUrl(const QString &fileId, const QString &revisionId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files/");
-    url.addPath(fileId);
-    url.addPath(QLatin1String("revisions"));
-    url.addPath(revisionId);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/revisions/") % revisionId);
     return url;
 }
 

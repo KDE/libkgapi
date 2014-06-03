@@ -18,8 +18,6 @@
 
 #include "staticmapurl.h"
 
-#include <KDE/KUrl>
-
 using namespace KGAPI2;
 
 
@@ -362,7 +360,7 @@ void StaticMapUrl::setZoomLevel(const quint32 zoom)
 
 QUrl StaticMapUrl::url() const
 {
-    KUrl url("http://maps.googleapis.com/maps/api/staticmap");
+    QUrl url(QLatin1String("http://maps.googleapis.com/maps/api/staticmap"));
 
     if (d->locationType != Undefined) {
         QString param;

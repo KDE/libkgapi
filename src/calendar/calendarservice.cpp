@@ -37,7 +37,6 @@
 
 #include <KDateTime>
 #include <KSystemTimeZones>
-#include <KUrl>
 
 #include <QtCore/QVariant>
 
@@ -70,101 +69,89 @@ namespace Private
      */
     QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
 
+    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
+    static const QString CalendarListBasePath(QLatin1String("calendar/v3/users/me/calendarList"));
+    static const QString CalendarBasePath(QLatin1String("calendar/v3/calendars"));
 }
 
 /************* URLS **************/
 
 QUrl fetchCalendarsUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/calendar/v3/users/me/calendarList"));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarListBasePath);
+    return url;
 }
 
 QUrl fetchCalendarUrl(const QString& calendarID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/users/me/calendarList/"));
-    url.addPath(calendarID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarListBasePath % QLatin1Char('/') % calendarID);
     return url;
 }
 
 QUrl updateCalendarUrl(const QString &calendarID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
-    url.addPath(calendarID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarListBasePath % QLatin1Char('/') % calendarID);
     return url;
 }
 
 QUrl createCalendarUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/calendar/v3/calendars"));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath);
+    return url;
 }
 
 QUrl removeCalendarUrl(const QString& calendarID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
-    url.addPath(calendarID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID);
     return url;
 }
 
 QUrl fetchEventsUrl(const QString& calendarID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
-    url.addPath(calendarID);
-    url.addPath(QLatin1String("events"));
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
     url.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
-
     return url;
 }
 
 QUrl fetchEventUrl(const QString& calendarID, const QString& eventID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
-    url.addPath(calendarID);
-    url.addPath(QLatin1String("events"));
-    url.addPath(eventID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
     return url;
 }
 
 QUrl updateEventUrl(const QString& calendarID, const QString& eventID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
-    url.addPath(calendarID);
-    url.addPath(QLatin1String("events"));
-    url.addPath(eventID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
     return url;
 }
 
 QUrl createEventUrl(const QString& calendarID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
-    url.addPath(calendarID);
-    url.addPath(QLatin1String("events"));
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
     return url;
 }
 
 QUrl removeEventUrl(const QString& calendarID, const QString& eventID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
-    url.addPath(calendarID);
-    url.addPath(QLatin1String("events"));
-    url.addPath(eventID);
-
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
     return url;
 }
 
 QUrl moveEventUrl(const QString& sourceCalendar, const QString& destCalendar, const QString& eventID)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
-    url.addPath(sourceCalendar);
-    url.addPath(QLatin1String("events"));
-    url.addPath(eventID);
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % sourceCalendar % QLatin1String("/events/") % eventID);
     url.addQueryItem(QLatin1String("destination"), destCalendar);
-
     return url;
 }
 
