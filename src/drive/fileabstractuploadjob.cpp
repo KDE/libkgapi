@@ -30,7 +30,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#include <KMimeType>
+#include <QMimeType>
+#include <QMimeDatabase>
 #include <QFile>
 #include <QCryptographicHash>
 
@@ -77,8 +78,9 @@ QByteArray FileAbstractUploadJob::Private::readFile(const QString &filePath,
         return QByteArray();
     }
 
-    const KMimeType::Ptr mimeType = KMimeType::findByNameAndContent(filePath, &file);
-    contentType = mimeType->name();
+    const QMimeDatabase db;
+    const QMimeType mime = db.mimeTypeForFileNameAndData(filePath, &file);
+    contentType = mime.name();
 
     file.reset();
     QByteArray output = file.readAll();
