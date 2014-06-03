@@ -16,7 +16,7 @@ set(kgapicore_SRCS
     utils.cpp
 )
 
-ecm_generate_headers(kgapicore_base_HEADERS
+ecm_generate_headers(kgapicore_base_CamelCase_HEADERS
     HEADER_NAMES
     Account
     AuthJob
@@ -29,10 +29,10 @@ ecm_generate_headers(kgapicore_base_HEADERS
     Object
     Types
     Utils
-    REQUIRED_HEADERS kgapicore_HEADERS
+    REQUIRED_HEADERS kgapicore_base_HEADERS
 )
 
-ecm_generate_headers(kgapicore_accountinfo_HEADERS
+ecm_generate_headers(kgapicore_accountinfo_CamelCase_HEADERS
     HEADER_NAMES
     AccountInfo
     AccountInfoFetchJob
@@ -40,7 +40,7 @@ ecm_generate_headers(kgapicore_accountinfo_HEADERS
     RELATIVE accountinfo
 )
 
-ecm_generate_headers(kgapicore_ui_HEADERS
+ecm_generate_headers(kgapicore_ui_CamelCase_HEADERS
     HEADER_NAMES
     AuthWidget
     REQUIRED_HEADERS kgapicore_ui_HEADERS
@@ -76,10 +76,19 @@ install(TARGETS
 )
 
 install(FILES
+    ${kgapicore_base_CamelCase_HEADERS}
+    ${kgapicore_accountinfo_CamelCase_HEADERS}
+    ${kgapicore_ui_CamelCase_HEADERS}
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI"
+    COMPONENT Devel
+)
+
+install(FILES
     ${kgapicore_base_HEADERS}
     ${kgapicore_accountinfo_HEADERS}
     ${kgapicore_ui_HEADERS}
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI"
+    "${CMAKE_CURRENT_BINARY_DIR}/kgapicore_export.h"
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi"
     COMPONENT Devel
 )
 

@@ -13,7 +13,7 @@ set(kgapitasks_SRCS
     tasksservice.cpp
 )
 
-ecm_generate_headers(kgapitasks_HEADERS
+ecm_generate_headers(kgapitasks_CamelCase_HEADERS
     HEADER_NAMES
     Task
     TaskCreateJob
@@ -57,8 +57,15 @@ install(TARGETS
 )
 
 install(FILES
-    ${kgapitasks_HEADERS}
+    ${kgapitasks_CamelCase_HEADERS}
     DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Tasks"
+    COMPONENT Devel
+)
+
+install(FILES
+    ${kgapitasks_HEADERS}
+    "${CMAKE_CURRENT_BINARY_DIR}/kgapitasks_export.h"
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/tasks"
     COMPONENT Devel
 )
 

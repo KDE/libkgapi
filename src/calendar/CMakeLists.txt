@@ -14,7 +14,7 @@ set(kgapicalendar_SRCS
     reminder.cpp
 )
 
-ecm_generate_headers(kgapicalendar_HEADERS
+ecm_generate_headers(kgapicalendar_CamelCase_HEADERS
     HEADER_NAMES
     Calendar
     CalendarCreateJob
@@ -59,8 +59,15 @@ install(TARGETS
 )
 
 install(FILES
-    ${kgapicalendar_HEADERS}
+    ${kgapicalendar_CamelCase_HEADERS}
     DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Calendar"
+    COMPONENT Devel
+)
+
+install(FILES
+    ${kgapicalendar_HEADERS}
+    "${CMAKE_CURRENT_BINARY_DIR}/kgapicalendar_export.h"
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/calendar"
     COMPONENT Devel
 )
 

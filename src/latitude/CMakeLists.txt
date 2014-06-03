@@ -8,7 +8,7 @@ set(kgapilatitude_SRCS
     locationfetchjob.cpp
 )
 
-ecm_generate_headers(kgapilatitude_HEADERS
+ecm_generate_headers(kgapilatitude_CamelCase_HEADERS
     HEADER_NAMES
     Location
     LocationCreateJob
@@ -47,8 +47,15 @@ install(TARGETS
 )
 
 install(FILES
-    ${kgapilatitude_HEADERS}
+    ${kgapilatitude_CamelCase_HEADERS}
     DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Latitude"
+    COMPONENT Devel
+)
+
+install(FILES
+    ${kgapilatitude_HEADERS}
+    "${CMAKE_CURRENT_BINARY_DIR}/kgapilatitude_export.h"
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/latitude"
     COMPONENT Devel
 )
 

@@ -5,7 +5,7 @@ set(kgapimaps_SRCS
     staticmapurl.cpp
 )
 
-ecm_generate_headers(kgapimaps_HEADERS
+ecm_generate_headers(kgapimaps_CamelCase_HEADERS
     HEADER_NAMES
     StaticMapMarker
     StaticMapPath
@@ -42,8 +42,15 @@ install(TARGETS
 )
 
 install(FILES
-    ${kgapimaps_HEADERS}
+    ${kgapimaps_CamelCase_HEADERS}
     DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Maps"
+    COMPONENT Devel
+)
+
+install(FILES
+    ${kgapimaps_HEADERS}
+    "${CMAKE_CURRENT_BINARY_DIR}/kgapimaps_export.h"
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/maps"
     COMPONENT Devel
 )
 

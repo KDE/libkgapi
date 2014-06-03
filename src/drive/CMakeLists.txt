@@ -39,7 +39,7 @@ set(kgapidrive_SRCS
     user.cpp
 )
 
-ecm_generate_headers(kgapidrive_HEADERS
+ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     HEADER_NAMES
     About
     AboutFetchJob
@@ -108,8 +108,15 @@ install(TARGETS
 )
 
 install(FILES
-    ${kgapidrive_HEADERS}
+    ${kgapidrive_CamelCase_HEADERS}
     DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Drive"
+    COMPONENT Devel
+)
+
+install(FILES
+    ${kgapidrive_HEADERS}
+    "${CMAKE_CURRENT_BINARY_DIR}/kgapidrive_export.h"
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/drive"
     COMPONENT Devel
 )
 

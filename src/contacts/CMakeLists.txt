@@ -13,7 +13,7 @@ set(kgapicontacts_SRCS
     contactsservice.cpp
 )
 
-ecm_generate_headers(kgapicontacts_HEADERS
+ecm_generate_headers(kgapicontacts_CamelCase_HEADERS
     HEADER_NAMES
     Contact
     ContactCreateJob
@@ -57,8 +57,15 @@ install(TARGETS
 )
 
 install(FILES
-    ${kgapicontacts_HEADERS}
+    ${kgapicontacts_CamelCase_HEADERS}
     DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Contacts"
+    COMPONENT Devel
+)
+
+install(FILES
+    ${kgapicontacts_HEADERS}
+    "${CMAKE_CURRENT_BINARY_DIR}/kgapicontacts_export.h"
+    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/contacts"
     COMPONENT Devel
 )
 
