@@ -98,7 +98,7 @@ bool ContactFetchJob::fetchDeleted() const
 void ContactFetchJob::setFetchDeleted(bool fetchDeleted)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify fetchDeleted property when job is running";
+        KGAPIWarning() << "Can't modify fetchDeleted property when job is running";
         return;
     }
 
@@ -113,7 +113,7 @@ quint64 ContactFetchJob::fetchOnlyUpdated()
 void ContactFetchJob::setFetchOnlyUpdated(quint64 timestamp)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify fetchOnlyUpdated property when job is running";
+        KGAPIWarning() << "Can't modify fetchOnlyUpdated property when job is running";
         return;
     }
 
@@ -128,7 +128,7 @@ QString ContactFetchJob::filter() const
 void ContactFetchJob::setFilter(const QString &query)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify filter property when job is running";
+        KGAPIWarning() << "Can't modify filter property when job is running";
         return;
     }
 

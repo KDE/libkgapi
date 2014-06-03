@@ -17,14 +17,36 @@
 
 #include "debug.h"
 
-int debugArea()
+class DebugPrivate
 {
-    static int area = KDebug::registerArea("LibKGAPI", false);
-    return area;
-}
+public:
+    DebugPrivate()
+        : debugRawData(!qgetenv("KGAPI_DEBUG_RAWDATA").isEmpty())
+        , nullDebug(0)
+    {
+        if (debugRawData) {
+            nullDebug = new QDebug(&nullString);
+        }
+    }
 
-int rawDataDebugArea()
+    ~DebugPrivate()
+    {
+        delete nullDebug;
+    }
+
+
+    bool debugRawData;
+    QString nullString;
+    QDebug *nullDebug;
+};
+
+Q_GLOBAL_STATIC(DebugPrivate, sInstance)
+
+QDebug KGAPIDebugRawData()
 {
-    static int rd_area = KDebug::registerArea("LibKGAPI (raw data)", false);
-    return rd_area;
+    if (sInstance()->debugRawData) {
+        return *sInstance()->nullDebug;
+    } else {
+        return qDebug();
+    }
 }

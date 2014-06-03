@@ -121,7 +121,7 @@ bool FileFetchJob::updateViewedDate() const
 void FileFetchJob::setUpdateViewedDate(bool updateViewedDate)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify updateViewedDate property when job is running.";
+        KGAPIWarning() << "Can't modify updateViewedDate property when job is running.";
         return;
     }
 

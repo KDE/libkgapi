@@ -99,7 +99,7 @@ EventFetchJob::~EventFetchJob()
 void EventFetchJob::setFetchDeleted(bool fetchDeleted)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify fetchDeleted property when job is running";
+        KGAPIWarning() << "Can't modify fetchDeleted property when job is running";
         return;
     }
 
@@ -114,7 +114,7 @@ bool EventFetchJob::fetchDeleted()
 void EventFetchJob::setFetchOnlyUpdated(quint64 timestamp)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify setFetchOnlyUpdated property when job is running";
+        KGAPIWarning() << "Can't modify setFetchOnlyUpdated property when job is running";
         return;
     }
 
@@ -129,7 +129,7 @@ quint64 EventFetchJob::fetchOnlyUpdated()
 void EventFetchJob::setTimeMax(quint64 timestamp)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify timeMax property when job is running";
+        KGAPIWarning() << "Can't modify timeMax property when job is running";
         return;
     }
 
@@ -144,7 +144,7 @@ quint64 EventFetchJob::timeMax() const
 void EventFetchJob::setTimeMin(quint64 timestamp)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify timeMin property when job is running";
+        KGAPIWarning() << "Can't modify timeMin property when job is running";
         return;
     }
 
@@ -159,7 +159,7 @@ quint64 EventFetchJob::timeMin() const
 void EventFetchJob::setFilter(const QString &query)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify filter property when job is running";
+        KGAPIWarning() << "Can't modify filter property when job is running";
         return;
     }
 

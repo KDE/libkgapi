@@ -66,7 +66,7 @@ NewTokensFetchJob::~NewTokensFetchJob()
 QString NewTokensFetchJob::accessToken() const
 {
     if (isRunning()) {
-        kWarning() << "Called accessToken() on running job!";
+        KGAPIWarning() << "Called accessToken() on running job!";
         return QString();
     }
 
@@ -76,7 +76,7 @@ QString NewTokensFetchJob::accessToken() const
 QString NewTokensFetchJob::refreshToken() const
 {
     if (isRunning()) {
-        kWarning() << "Called refreshToken() on running job!";
+        KGAPIWarning() << "Called refreshToken() on running job!";
         return QString();
     }
 
@@ -86,7 +86,7 @@ QString NewTokensFetchJob::refreshToken() const
 qulonglong NewTokensFetchJob::expiresIn() const
 {
     if (isRunning()) {
-        kWarning() << "Called expiresIn() on running job!";
+        KGAPIWarning() << "Called expiresIn() on running job!";
         return 0;
     }
 

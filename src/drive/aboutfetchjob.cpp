@@ -65,7 +65,7 @@ AboutFetchJob::~AboutFetchJob()
 void AboutFetchJob::setIncludeSubscribed(bool includeSubscribed)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify includeSubscribed property when job is running";
+        KGAPIWarning() << "Can't modify includeSubscribed property when job is running";
         return;
     }
 
@@ -80,7 +80,7 @@ bool AboutFetchJob::includeSubscribed() const
 void AboutFetchJob::setMaxChangeIdCount(qlonglong maxChangeIdCount)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify maxChangeIdCount property when job is running";
+        KGAPIWarning() << "Can't modify maxChangeIdCount property when job is running";
         return;
     }
 
@@ -95,7 +95,7 @@ qlonglong AboutFetchJob::maxChangeIdCount() const
 void AboutFetchJob::setStartChangeId(qlonglong startChangeId)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify startChangeId property when job is running";
+        KGAPIWarning() << "Can't modify startChangeId property when job is running";
         return;
     }
 

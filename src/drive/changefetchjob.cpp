@@ -93,7 +93,7 @@ ChangeFetchJob::~ChangeFetchJob()
 void ChangeFetchJob::setIncludeDeleted(bool includeDeleted)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify includeDeleted property when job is running";
+        KGAPIWarning() << "Can't modify includeDeleted property when job is running";
         return;
     }
 
@@ -108,7 +108,7 @@ bool ChangeFetchJob::includeDeleted() const
 void ChangeFetchJob::setIncludeSubscribed(bool includeSubscribed)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify includeSubscribed property when job is running";
+        KGAPIWarning() << "Can't modify includeSubscribed property when job is running";
         return;
     }
 
@@ -123,7 +123,7 @@ bool ChangeFetchJob::includeSubscribed() const
 void ChangeFetchJob::setMaxResults(int maxResults)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify maxResults property when job is running";
+        KGAPIWarning() << "Can't modify maxResults property when job is running";
         return;
     }
 
@@ -138,7 +138,7 @@ int ChangeFetchJob::maxResults() const
 void ChangeFetchJob::setStartChangeId(qlonglong startChangeId)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify startChangeId property when job is running";
+        KGAPIWarning() << "Can't modify startChangeId property when job is running";
     }
 
     d->startChangeId = startChangeId;

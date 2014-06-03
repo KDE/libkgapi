@@ -18,15 +18,21 @@
 #ifndef LIBKGAPI2_DEBUG_H
 #define LIBKGAPI2_DEBUG_H
 
-#include <KDebug>
+#include <QDebug>
 
 #include "kgapicore_export.h"
 
-KGAPICORE_EXPORT int debugArea();
-KGAPICORE_EXPORT int rawDataDebugArea();
+KGAPICORE_EXPORT QDebug KGAPIDebugRawData();
 
-#define KGAPIDebug() kDebug(debugArea())
-#define KGAPIWarning() kWarning(debugArea())
-#define KGAPIDebugRawData() kDebug(rawDataDebugArea())
+
+KGAPICORE_EXPORT inline QDebug KGAPIDebug()
+{
+    return qDebug();
+}
+
+KGAPICORE_EXPORT inline QDebug KGAPIWarning()
+{
+    return qWarning();
+}
 
 #endif // LIBKGAPI2_DEBUG_H

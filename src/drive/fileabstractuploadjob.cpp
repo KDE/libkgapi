@@ -74,7 +74,7 @@ QByteArray FileAbstractUploadJob::Private::readFile(const QString &filePath,
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
-        kWarning() << "Failed to access" << filePath;
+        KGAPIWarning() << "Failed to access" << filePath;
         return QByteArray();
     }
 
@@ -132,7 +132,7 @@ void FileAbstractUploadJob::Private::processNext()
 
     const QString filePath = files.keys().first();
     if (!filePath.startsWith(QLatin1String("?=")) && !QFile::exists(filePath)) {
-        kWarning() << filePath << "is not a valid file path";
+        KGAPIWarning() << filePath << "is not a valid file path";
         processNext();
         return;
     }
@@ -275,7 +275,7 @@ FileAbstractUploadJob::~FileAbstractUploadJob()
 void FileAbstractUploadJob::setUseContentAsIndexableText(bool useContentAsIndexableText)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify useContentAsIndexableText property when job is running";
+        KGAPIWarning() << "Can't modify useContentAsIndexableText property when job is running";
         return;
     }
 

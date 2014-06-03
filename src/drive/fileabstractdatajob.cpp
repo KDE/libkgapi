@@ -66,7 +66,7 @@ bool FileAbstractDataJob::convert() const
 void FileAbstractDataJob::setConvert(bool convert)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify setConvert property when job is running";
+        KGAPIWarning() << "Can't modify setConvert property when job is running";
         return;
     }
 
@@ -81,7 +81,7 @@ bool FileAbstractDataJob::ocr() const
 void FileAbstractDataJob::setOcr(bool ocr)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify ocr property when job is running";
+        KGAPIWarning() << "Can't modify ocr property when job is running";
         return;
     }
 
@@ -96,7 +96,7 @@ QString FileAbstractDataJob::ocrLanguage() const
 void FileAbstractDataJob::setOcrLanguage(const QString &ocrLanguage)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify ocrLanguage property when job is running";
+        KGAPIWarning() << "Can't modify ocrLanguage property when job is running";
         return;
     }
 
@@ -111,7 +111,7 @@ bool FileAbstractDataJob::pinned() const
 void FileAbstractDataJob::setPinned(bool pinned)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify pinned property when job is running";
+        KGAPIWarning() << "Can't modify pinned property when job is running";
         return;
     }
 
@@ -127,7 +127,7 @@ QString FileAbstractDataJob::timedTextLanguage() const
 void FileAbstractDataJob::setTimedTextLanguage(const QString &timedTextLanguage)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify timedTextLanguage property when job is running";
+        KGAPIWarning() << "Can't modify timedTextLanguage property when job is running";
         return;
     }
 
@@ -142,7 +142,7 @@ QString FileAbstractDataJob::timedTextTrackName() const
 void FileAbstractDataJob::setTimedTextTrackName(const QString &timedTextTrackName)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify timedTextTrackName property when job is running";
+        KGAPIWarning() << "Can't modify timedTextTrackName property when job is running";
         return;
     }
 

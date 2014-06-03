@@ -114,7 +114,7 @@ bool FileModifyJob::createNewRevision() const
 void FileModifyJob::setCreateNewRevision(bool createNewRevision)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify createNewRevision property when the job is running";
+        KGAPIWarning() << "Can't modify createNewRevision property when the job is running";
         return;
     }
 
@@ -129,7 +129,7 @@ bool FileModifyJob::updateModifiedDate() const
 void FileModifyJob::setUpdateModifiedDate(bool updateModifiedDate)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify updateModifiedDate property when the job is running";
+        KGAPIWarning() << "Can't modify updateModifiedDate property when the job is running";
         return;
     }
 
@@ -144,7 +144,7 @@ bool FileModifyJob::updateViewedDate() const
 void FileModifyJob::setUpdateViewedDate(bool updateViewedDate)
 {
     if (isRunning()) {
-        kWarning() << "Can't modify updateViewedDate property when job is running";
+        KGAPIWarning() << "Can't modify updateViewedDate property when job is running";
         return;
     }
 
