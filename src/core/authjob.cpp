@@ -28,9 +28,11 @@
 #include "private/newtokensfetchjob_p.h"
 
 #include <QWidget>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QDialogButtonBox>
 #include <QJsonDocument>
 
-#include <KDialog>
 #include <KLocalizedString>
 #include <KWindowSystem>
 
@@ -220,12 +222,17 @@ void AuthJob::start()
     }
 
     if (widget) {
-        KDialog *dlg = new KDialog();
+        QDialog *dlg = new QDialog();
         dlg->setModal(true);
         KWindowSystem::setMainWindow(dlg, KWindowSystem::activeWindow());
 
-        dlg->setMainWidget(widget);
-        connect(dlg, SIGNAL(cancelClicked()),
+        QVBoxLayout *layout = new QVBoxLayout(dlg);
+        layout->addWidget(widget, 2);
+
+        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Cancel, Qt::Horizontal);
+        layout->addWidget(buttons, 0);
+
+        connect(buttons, SIGNAL(rejected()),
                 dlg, SLOT(delayedDestruct()));
         connect(widget, SIGNAL(authenticated(KGAPI2::AccountPtr)),
                 dlg, SLOT(delayedDestruct()));
@@ -233,7 +240,6 @@ void AuthJob::start()
                 dlg, SLOT(delayedDestruct()));
 
         dlg->show();
-        dlg->setButtons(KDialog::Cancel);
         widget->authenticate();
     }
 }
