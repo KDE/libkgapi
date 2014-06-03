@@ -18,10 +18,8 @@
 #include "parentreference.h"
 #include "parentreference_p.h"
 
-#include <QtCore/QVariantMap>
-
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+#include <QVariantMap>
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -105,27 +103,23 @@ bool ParentReference::isRoot() const
 
 ParentReferencePtr ParentReference::fromJSON(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return ParentReferencePtr();
     }
 
+    const QVariant data = document.toVariant();
     return Private::fromJSON(data.toMap());
 }
 
 ParentReferencesList ParentReference::fromJSONFeed(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return ParentReferencesList();
     }
 
+    const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
     if (!map.contains(QLatin1String("kind")) ||
             map[QLatin1String("kind")].toString() != QLatin1String("kind#parentList")) {
@@ -149,6 +143,6 @@ QByteArray ParentReference::toJSON(const ParentReferencePtr &reference)
 {
     const QVariantMap map = Private::toJSON(reference);
 
-    QJson::Serializer serializer;
-    return serializer.serialize(map);
+    QJsonDocument document = QJsonDocument::fromVariant(map);
+    return document.toJson();
 }

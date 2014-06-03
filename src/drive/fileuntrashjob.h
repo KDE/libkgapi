@@ -22,8 +22,8 @@
 #ifndef KGAPI2_DRIVEFILEUNTRASHJOB_H
 #define KGAPI2_DRIVEFILEUNTRASHJOB_H
 
-#include <libkgapi2/drive/fileabstractmodifyjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "fileabstractmodifyjob.h"
+#include "kgapidrive_export.h"
 
 namespace KGAPI2
 {
@@ -31,7 +31,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT FileUntrashJob : public KGAPI2::Drive::FileAbstractModifyJob
+class KGAPIDRIVE_EXPORT FileUntrashJob : public KGAPI2::Drive::FileAbstractModifyJob
 {
     Q_OBJECT
 

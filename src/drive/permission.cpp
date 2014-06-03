@@ -18,8 +18,7 @@
 #include "permission.h"
 #include "permission_p.h"
 
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -235,12 +234,11 @@ void Permission::setValue(const QString &value)
 
 PermissionPtr Permission::fromJSON(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant json = parser.parse(jsonData, &ok);
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return PermissionPtr();
     }
+    const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
 
     return Private::fromJSON(map);
@@ -248,12 +246,11 @@ PermissionPtr Permission::fromJSON(const QByteArray &jsonData)
 
 PermissionsList Permission::fromJSONFeed(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant json = parser.parse(jsonData, &ok);
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return PermissionsList();
     }
+    const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
     if (!map.contains(QLatin1String("kind")) ||
             map[QLatin1String("kind")].toString() != QLatin1String("drive#permissionList")) {
@@ -296,6 +293,6 @@ QByteArray Permission::toJSON(const PermissionPtr &permission)
         map[QLatin1String("value")] = permission->value();
     }
 
-    QJson::Serializer serializer;
-    return serializer.serialize(map);
+    QJsonDocument document = QJsonDocument::fromVariant(map);
+    return document.toJson();
 }

@@ -18,8 +18,7 @@
 #include "revision.h"
 #include "user.h"
 
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -233,27 +232,23 @@ qlonglong Revision::fileSize() const
 
 RevisionPtr Revision::fromJSON(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return RevisionPtr();
     }
 
+    const QVariant data = document.toVariant();
     return Private::fromJSON(data.toMap());
 }
 
 RevisionsList Revision::fromJSONFeed(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return RevisionsList();
     }
 
+    const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
 
     if (!map.contains(QLatin1String("kind")) ||
@@ -284,6 +279,6 @@ QByteArray Revision::toJSON(const RevisionPtr &revision)
     map[QLatin1String("publishAuto")] = revision->publishAuto();
     map[QLatin1String("publishedOutsideDomain")] = revision->publishedOutsideDomain();
 
-    QJson::Serializer serializer;
-    return serializer.serialize(map);
+    QJsonDocument document = QJsonDocument::fromVariant(map);
+    return document.toJson();
 }

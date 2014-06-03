@@ -22,8 +22,8 @@
 #ifndef KGAPI2_DRIVEABOUTFETCHJOB_H
 #define KGAPI2_DRIVEABOUTFETCHJOB_H
 
-#include <libkgapi2/fetchjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "fetchjob.h"
+#include "kgapidrive_export.h"
 
 namespace KGAPI2
 {
@@ -34,7 +34,7 @@ namespace Drive
 /**
  * @brief A fetch job that retrieves DriveAbout data.
  */
-class LIBKGAPI2_EXPORT AboutFetchJob : public KGAPI2::FetchJob
+class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 

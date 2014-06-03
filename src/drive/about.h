@@ -18,9 +18,9 @@
 #ifndef LIBKGAPI2_DRIVE_ABOUT_H
 #define LIBKGAPI2_DRIVE_ABOUT_H
 
-#include <libkgapi2/types.h>
-#include <libkgapi2/object.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "types.h"
+#include "object.h"
+#include "kgapidrive_export.h"
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
@@ -45,7 +45,7 @@ namespace Drive
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT About: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT About: public KGAPI2::Object
 {
 
 public:

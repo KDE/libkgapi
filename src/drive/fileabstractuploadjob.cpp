@@ -27,11 +27,11 @@
 #include "file.h"
 #include "utils.h"
 
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
-#include <KDE/KLocalizedString>
-#include <KDE/KMimeType>
+#include <KLocalizedString>
+#include <KMimeType>
 #include <QFile>
 #include <QCryptographicHash>
 
@@ -328,4 +328,4 @@ void FileAbstractUploadJob::handleReply(const QNetworkReply *reply,
 }
 
 
-#include "fileabstractuploadjob.moc"
+#include "moc_fileabstractuploadjob.cpp"

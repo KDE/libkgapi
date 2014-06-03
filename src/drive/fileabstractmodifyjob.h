@@ -22,8 +22,8 @@
 #ifndef KGAPI2_DRIVEFILEABSTRACTMODIFYJOB_H
 #define KGAPI2_DRIVEFILEABSTRACTMODIFYJOB_H
 
-#include <libkgapi2/modifyjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "modifyjob.h"
+#include "kgapidrive_export.h"
 
 #include <QtCore/QStringList>
 
@@ -33,7 +33,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT FileAbstractModifyJob : public KGAPI2::ModifyJob
+class KGAPIDRIVE_EXPORT FileAbstractModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 

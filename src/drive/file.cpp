@@ -21,8 +21,8 @@
 #include "permission_p.h"
 #include "parentreference_p.h"
 #include "user.h"
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -887,13 +887,11 @@ bool File::isFolder() const
 
 FilePtr File::fromJSON(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return FilePtr();
     }
+    const QVariant data = document.toVariant();
     return Private::fromJSON(data.toMap());
 }
 
@@ -908,14 +906,11 @@ FilePtr File::fromJSON(const QVariantMap &jsonData)
 
 FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return FilesList();
     }
-
+    const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
     if (!map.contains(QLatin1String("kind")) ||
         map[QLatin1String("kind")].toString() != QLatin1String("drive#fileList"))
@@ -1051,9 +1046,8 @@ QByteArray File::toJSON(const FilePtr &file)
 
 #endif
 
-
-    QJson::Serializer serializer;
-    return serializer.serialize(map);
+    QJsonDocument document = QJsonDocument::fromVariant(map);
+    return document.toJson();
 }
 
 

@@ -23,8 +23,8 @@
 #ifndef KGAPI2_DRIVEFILEMODIFYJOB_H
 #define KGAPI2_DRIVEFILEMODIFYJOB_H
 
-#include <libkgapi2/drive/fileabstractuploadjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "fileabstractuploadjob.h"
+#include "kgapidrive_export.h"
 
 namespace KGAPI2
 {
@@ -32,7 +32,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUploadJob
+class KGAPIDRIVE_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUploadJob
 {
     Q_OBJECT
 

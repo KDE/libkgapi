@@ -18,18 +18,17 @@
 #ifndef LIBKGAPI2_DRIVEFILE_H
 #define LIBKGAPI2_DRIVEFILE_H
 
-#include <libkgapi2/object.h>
-#include <libkgapi2/types.h>
-#include <libkgapi2/drive/change.h>
+#include "object.h"
+#include "types.h"
+#include "change.h"
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QUrl>
-#include <QtCore/QVariantMap>
-#include <QtGui/QImage>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QVariantMap>
+#include <QImage>
 
-#include <KDE/KDateTime>
-#include <boost/graph/graph_concepts.hpp>
+#include <KDateTime>
 
 namespace KGAPI2
 {
@@ -46,7 +45,7 @@ namespace Drive
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class LIBKGAPI2_EXPORT File: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 {
 
   public:

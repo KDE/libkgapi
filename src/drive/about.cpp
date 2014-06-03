@@ -18,7 +18,7 @@
 #include "about.h"
 #include "user.h"
 
-#include <qjson/parser.h>
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -428,13 +428,11 @@ UserPtr About::user() const
 
 AboutPtr About::fromJSON(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant json = parser.parse(jsonData, &ok);
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return AboutPtr();
     }
-    const QVariantMap map = json.toMap();
+    const QVariantMap map = document.toVariant().toMap();
 
     if (!map.contains(QLatin1String("kind")) ||
         map[QLatin1String("kind")].toString() != QLatin1String("drive#about")) {

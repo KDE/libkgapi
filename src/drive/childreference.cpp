@@ -17,10 +17,8 @@
 
 #include "childreference.h"
 
-#include <QtCore/QVariantMap>
-
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+#include <QVariantMap>
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -98,28 +96,24 @@ QUrl ChildReference::childLink() const
 
 ChildReferencePtr ChildReference::fromJSON(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return ChildReferencePtr();
     }
 
+    const QVariant data = document.toVariant();
     return Private::fromJSON(data.toMap());
 }
 
 ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
                                                  FeedData &feedData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return ChildReferencesList();
     }
 
+    const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
     if (!map.contains(QLatin1String("kind")) ||
             map[QLatin1String("kind")].toString() != QLatin1String("drive#childList")) {
@@ -149,6 +143,6 @@ QByteArray ChildReference::toJSON(const ChildReferencePtr &reference)
 
     map[QLatin1String("id")] = reference->id();
 
-    QJson::Serializer serializer;
-    return serializer.serialize(map);
+    QJsonDocument document = QJsonDocument::fromVariant(map);
+    return document.toJson();
 }

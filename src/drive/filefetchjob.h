@@ -22,8 +22,8 @@
 #ifndef KGAPI2_DRIVEFILEFETCHJOB_H
 #define KGAPI2_DRIVEFILEFETCHJOB_H
 
-#include <libkgapi2/fetchjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "fetchjob.h"
+#include "kgapidrive_export.h"
 
 #include <QtCore/QStringList>
 
@@ -33,7 +33,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT FileFetchJob : public KGAPI2::FetchJob
+class KGAPIDRIVE_EXPORT FileFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 

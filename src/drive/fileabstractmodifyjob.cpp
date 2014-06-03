@@ -134,4 +134,4 @@ ObjectsList FileAbstractModifyJob::handleReplyWithItems(const QNetworkReply *rep
     return items;
 }
 
-#include "fileabstractmodifyjob.moc"
+#include "moc_fileabstractmodifyjob.cpp"

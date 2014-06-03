@@ -22,8 +22,8 @@
 #ifndef KGAPI2_DRIVEFILEDELETEJOB_H
 #define KGAPI2_DRIVEFILEDELETEJOB_H
 
-#include <libkgapi2/deletejob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "deletejob.h"
+#include "kgapidrive_export.h"
 
 #include <QtCore/QStringList>
 
@@ -33,7 +33,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT FileDeleteJob : public KGAPI2::DeleteJob
+class KGAPIDRIVE_EXPORT FileDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 

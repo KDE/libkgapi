@@ -22,8 +22,8 @@
 #ifndef KGAPI2_DRIVEPERMISSIONCREATEJOB_H
 #define KGAPI2_DRIVEPERMISSIONCREATEJOB_H
 
-#include <libkgapi2/createjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "createjob.h"
+#include "kgapidrive_export.h"
 
 namespace KGAPI2
 {
@@ -31,7 +31,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
+class KGAPIDRIVE_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 

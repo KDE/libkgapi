@@ -18,9 +18,9 @@
 #ifndef LIBKGAPI2_DRIVE_APP_H
 #define LIBKGAPI2_DRIVE_APP_H
 
-#include <libkgapi2/types.h>
-#include <libkgapi2/object.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "types.h"
+#include "object.h"
+#include "kgapidrive_export.h"
 
 #include <QtCore/QSharedPointer>
 #include <QtCore/QString>
@@ -33,7 +33,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT App: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
 {
     class Private;
 

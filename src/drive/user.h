@@ -21,8 +21,8 @@
 #ifndef KGAPI2_DRIVEUSER_H
 #define KGAPI2_DRIVEUSER_H
 
-#include <libkgapi2/types.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "types.h"
+#include "kgapidrive_export.h"
 
 #include <QtCore/QString>
 #include <QtCore/QUrl>
@@ -37,7 +37,7 @@ namespace Drive
 /**
  * @brief The authenticated user.
  */
-class LIBKGAPI2_EXPORT User
+class KGAPIDRIVE_EXPORT User
 {
   public:
     explicit User(const User &other);

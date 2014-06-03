@@ -17,9 +17,9 @@
 
 #include "app.h"
 
-#include <QtCore/QVariantMap>
+#include <QVariantMap>
+#include <QJsonDocument>
 
-#include <qjson/parser.h>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -275,25 +275,21 @@ App::IconsList App::icons() const
 
 AppPtr App::fromJSON(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return AppPtr();
     }
-
+    const QVariant data = document.toVariant();
     return Private::fromJSON(data.toMap());
 }
 
 AppsList App::fromJSONFeed(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-    const QVariant data = parser.parse(jsonData, &ok);
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return AppsList();
     }
-
+    const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
     if (!map.contains(QLatin1String("kind")) ||
             map[QLatin1String("kind")].toString() != QLatin1String("drive#appList")) {

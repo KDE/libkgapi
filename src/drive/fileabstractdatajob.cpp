@@ -178,4 +178,4 @@ QUrl FileAbstractDataJob::updateUrl(QUrl &url)
 }
 
 
-#include "fileabstractdatajob.moc"
+#include "moc_fileabstractdatajob.cpp"

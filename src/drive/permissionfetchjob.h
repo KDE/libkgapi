@@ -22,8 +22,8 @@
 #ifndef KGAPI2_DRIVEPERMISSIONFETCHJOB_H
 #define KGAPI2_DRIVEPERMISSIONFETCHJOB_H
 
-#include <libkgapi2/fetchjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "fetchjob.h"
+#include "kgapidrive_export.h"
 
 namespace KGAPI2
 {
@@ -31,7 +31,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
+class KGAPIDRIVE_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
 {
 
     Q_OBJECT

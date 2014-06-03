@@ -22,8 +22,8 @@
 #ifndef KGAPI2_DRIVEFILEABSTRACTUPLOADJOB_H
 #define KGAPI2_DRIVEFILEABSTRACTUPLOADJOB_H
 
-#include <libkgapi2/drive/fileabstractdatajob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "fileabstractdatajob.h"
+#include "kgapidrive_export.h"
 
 #include <QtCore/QStringList>
 #include <QtCore/QMap>
@@ -34,7 +34,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstractDataJob
+class KGAPIDRIVE_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstractDataJob
 {
     Q_OBJECT
 

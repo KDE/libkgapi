@@ -23,8 +23,8 @@
 #ifndef KGAPI2_DRIVEPERMISSIONMODIFYJOB_H
 #define KGAPI2_DRIVEPERMISSIONMODIFYJOB_H
 
-#include <libkgapi2/modifyjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "modifyjob.h"
+#include "kgapidrive_export.h"
 
 namespace KGAPI2
 {
@@ -32,7 +32,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class LIBKGAPI2_EXPORT PermissionModifyJob : public KGAPI2::ModifyJob
+class KGAPIDRIVE_EXPORT PermissionModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 

@@ -18,9 +18,8 @@
 #include "change.h"
 #include "file_p.h"
 
-#include <QtCore/QVariantMap>
-
-#include <qjson/parser.h>
+#include <QVariantMap>
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -116,27 +115,23 @@ FilePtr Change::file() const
 
 ChangePtr Change::fromJSON(const QByteArray &jsonData)
 {
-    QJson::Parser parser;
-    bool ok;
-
-    const QVariant data = parser.parse(jsonData, &ok);
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return ChangePtr();
     }
 
+    const QVariant data = document.toVariant();
     return Private::fromJSON(data.toMap());
 }
 
 ChangesList Change::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 {
-    QJson::Parser parser;
-    bool ok;
-
-    const QVariant data = parser.parse(jsonData, &ok);
-    if (!ok) {
+    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    if (document.isNull()) {
         return ChangesList();
     }
 
+    const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
     if (!map.contains(QLatin1String("kind")) ||
             map[QLatin1String("kind")].toString() != QLatin1String("drive#changeList")) {
