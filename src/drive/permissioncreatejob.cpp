@@ -28,7 +28,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
-#include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -112,7 +111,7 @@ ObjectsList PermissionCreateJob::handleReplyWithItems(const QNetworkReply *reply
         items << Permission::fromJSON(rawData);
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
     }
 

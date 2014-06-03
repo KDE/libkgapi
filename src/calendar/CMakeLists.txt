@@ -45,8 +45,6 @@ target_link_libraries(KF5GAPICalendar
 PUBLIC
     KF5::GAPICore
     KF5::CalendarCore
-PRIVATE
-    KF5::I18n
 )
 
 set_target_properties(KF5GAPICalendar PROPERTIES

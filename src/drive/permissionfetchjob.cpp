@@ -30,7 +30,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <qjson/parser.h>
-#include <KLocalizedString>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -116,7 +115,7 @@ ObjectsList PermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
         }
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
     }
 
     emitFinished();

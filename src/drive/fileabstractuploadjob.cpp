@@ -30,7 +30,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#include <KLocalizedString>
 #include <KMimeType>
 #include <QFile>
 #include <QCryptographicHash>
@@ -319,7 +318,7 @@ void FileAbstractUploadJob::handleReply(const QNetworkReply *reply,
         d->uploadedFiles.insert(filePath, file);
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
         return;
     }

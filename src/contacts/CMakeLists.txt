@@ -43,8 +43,6 @@ target_link_libraries(KF5GAPIContacts
 PUBLIC
     KF5::GAPICore
     KF5::Abc
-PRIVATE
-    KF5::I18n
 )
 
 set_target_properties(KF5GAPIContacts PROPERTIES

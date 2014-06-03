@@ -21,7 +21,6 @@
 
 #include "calendar.h"
 
-#include <KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -91,7 +90,7 @@ QString Calendar::uid() const
 
 QString Calendar::title() const
 {
-    return d->title.isEmpty() ? i18n("Google Calendar") : d->title;
+    return d->title.isEmpty() ? QObject::tr("Google Calendar") : d->title;
 }
 
 void Calendar::setTitle(const QString &title)

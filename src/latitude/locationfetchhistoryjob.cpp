@@ -29,7 +29,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
-#include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -149,7 +148,7 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
         items << LatitudeService::parseLocationJSONFeed(rawData, feedData);
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
     }
 

@@ -28,7 +28,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
-#include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -92,7 +91,7 @@ ObjectsList TaskListFetchJob::handleReplyWithItems(const QNetworkReply *reply,
         items =  TasksService::parseJSONFeed(rawData, feedData);
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
         return items;
     }

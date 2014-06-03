@@ -31,7 +31,6 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtCore/QBuffer>
 
-#include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -152,7 +151,7 @@ ObjectsList ContactModifyJob::handleReplyWithItems(const QNetworkReply *reply, c
         d->contacts.currentProcessed();
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
         return items;
     }

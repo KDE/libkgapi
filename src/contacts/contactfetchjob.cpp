@@ -29,7 +29,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
-#include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
 

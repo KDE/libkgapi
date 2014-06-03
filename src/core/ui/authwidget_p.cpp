@@ -31,7 +31,6 @@
 
 #include <qjson/parser.h>
 
-#include <KLocalizedString>
 #include <KIO/AccessManager>
 
 
@@ -56,7 +55,7 @@ void AuthWidget::Private::setupUi()
     q->setLayout(vbox);
 
     label = new QLabel(q);
-    label->setText(QLatin1String("<b>") % i18n("Authorizing token. This should take just a moment...") % QLatin1String("</b>"));
+    label->setText(QLatin1String("<b>") % tr("Authorizing token. This should take just a moment...") % QLatin1String("</b>"));
     label->setWordWrap(true);
     label->setAlignment(Qt::AlignCenter);
     label->setVisible(false);
@@ -153,14 +152,14 @@ void AuthWidget::Private::webviewFinished()
         } else {
             KGAPIDebug() << "Parsing token page failed. Title:" << title;
             KGAPIDebugRawData() << webview->page()->mainFrame()->toHtml();
-            emitError(AuthError, i18n("Parsing token page failed."));
+            emitError(AuthError, tr("Parsing token page failed."));
             return;
         }
 
         if (token.isEmpty()) {
             KGAPIDebug() << "Failed to obtain token.";
             KGAPIDebugRawData() << webview->page()->mainFrame()->toHtml();
-            emitError(AuthError, i18n("Failed to obtain token."));
+            emitError(AuthError, tr("Failed to obtain token."));
             return;
         }
 

@@ -62,8 +62,6 @@ PUBLIC
     KF5::CoreAddons
     KF5::KDELibs4Support
     Qt5::WebKitWidgets
-PRIVATE
-    KF5::I18n
 )
 
 set_target_properties(KF5GAPICore PROPERTIES

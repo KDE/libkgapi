@@ -27,7 +27,6 @@
 
 #include <QJsonDocument>
 
-#include <KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -126,7 +125,7 @@ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray
         KGAPIDebug() << "Failed to parse server response.";
         KGAPIDebugRawData() << rawData;
         setError(KGAPI2::AuthCancelled);
-        setErrorString(i18n("Failed to parse server response."));
+        setErrorString(tr("Failed to parse server response."));
         return;
     }
     QVariantMap parsed_data = document.toVariant().toMap();

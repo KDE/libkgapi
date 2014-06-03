@@ -26,7 +26,6 @@
 #include "driveservice.h"
 #include "utils.h"
 
-#include <KDE/KLocalizedString>
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -137,7 +136,7 @@ KGAPI2::ObjectsList AboutFetchJob::handleReplyWithItems(const QNetworkReply *rep
         items << about;
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
     }
 
     emitFinished();

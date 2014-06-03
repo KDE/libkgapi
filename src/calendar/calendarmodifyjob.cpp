@@ -27,7 +27,6 @@
 #include "utils.h"
 #include "private/queuehelper_p.h"
 
-#include <KDE/KLocalizedString>
 
 #include <QtNetwork/QNetworkRequest>
 #include <QNetworkReply>
@@ -92,7 +91,7 @@ ObjectsList CalendarModifyJob::handleReplyWithItems(const QNetworkReply *reply, 
     ObjectsList items;
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
         return items;
     }

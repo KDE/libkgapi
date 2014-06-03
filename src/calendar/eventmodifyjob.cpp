@@ -30,7 +30,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
-#include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -94,7 +93,7 @@ ObjectsList EventModifyJob::handleReplyWithItems(const QNetworkReply *reply, con
     ObjectsList items;
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
         return items;
     }

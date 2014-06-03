@@ -19,7 +19,6 @@
 #include "authwidget_p.h"
 #include "debug.h"
 
-#include <KLocalizedString>
 
 using namespace KGAPI2;
 
@@ -83,11 +82,11 @@ void AuthWidget::authenticate()
     Q_ASSERT(!d->apiKey.isEmpty());
 
     if (d->account.isNull()) {
-        Q_EMIT error(InvalidAccount, i18n("Invalid account"));
+        Q_EMIT error(InvalidAccount, tr("Invalid account"));
         return;
     }
     if (d->account->scopes().isEmpty()) {
-        Q_EMIT error(InvalidAccount, i18n("No scopes to authenticate for"));
+        Q_EMIT error(InvalidAccount, tr("No scopes to authenticate for"));
         return;
     }
 

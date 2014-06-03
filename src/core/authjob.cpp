@@ -33,7 +33,6 @@
 #include <QDialogButtonBox>
 #include <QJsonDocument>
 
-#include <KLocalizedString>
 #include <KWindowSystem>
 
 
@@ -166,7 +165,7 @@ void AuthJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
     QJsonDocument document = QJsonDocument::fromJson(rawData);
     if (document.isNull()) {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Failed to parse newly fetched tokens"));
+        setErrorString(tr("Failed to parse newly fetched tokens"));
         emitFinished();
         return;
     }
@@ -213,7 +212,7 @@ void AuthJob::start()
 
         if (d->account->accountName().isEmpty()) {
             setError(KGAPI2::InvalidAccount);
-            setErrorString(i18n("Account name is empty"));
+            setErrorString(tr("Account name is empty"));
             emitFinished();
             return;
         }

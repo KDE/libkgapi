@@ -27,7 +27,6 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
 
-#include <KDE/KLocalizedString>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -92,7 +91,7 @@ ObjectsList RevisionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
         }
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
     }
 
     emitFinished();
