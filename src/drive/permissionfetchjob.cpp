@@ -29,7 +29,6 @@
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
-#include <qjson/parser.h>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;

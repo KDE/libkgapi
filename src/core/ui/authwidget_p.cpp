@@ -29,8 +29,6 @@
 #include <QDateTime>
 #include <QStringBuilder>
 
-#include <qjson/parser.h>
-
 #include <KIO/AccessManager>
 
 
