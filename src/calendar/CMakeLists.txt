@@ -28,6 +28,7 @@ ecm_generate_headers(kgapicalendar_CamelCase_HEADERS
     EventModifyJob
     EventMoveJob
     Reminder
+    PREFIX KGAPI/Calendar
     REQUIRED_HEADERS kgapicalendar_HEADERS
 )
 

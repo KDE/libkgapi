@@ -16,6 +16,7 @@ ecm_generate_headers(kgapilatitude_CamelCase_HEADERS
     LocationFetchHistoryJob
     LocationFetchJob
     Latitude
+    PREFIX KGAPI/Latitude
     REQUIRED_HEADERS kgapilatitude_HEADERS
 )
 

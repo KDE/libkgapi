@@ -11,6 +11,7 @@ ecm_generate_headers(kgapimaps_CamelCase_HEADERS
     StaticMapPath
     StaticMapTileFetchJob
     StaticMapUrl
+    PREFIX KGAPI/Maps
     REQUIRED_HEADERS kgapimaps_HEADERS
 )
 

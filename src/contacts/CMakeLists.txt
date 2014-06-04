@@ -26,6 +26,7 @@ ecm_generate_headers(kgapicontacts_CamelCase_HEADERS
     ContactsGroupDeleteJob
     ContactsGroupFetchJob
     ContactsGroupModifyJob
+    PREFIX KGAPI/Contacts
     REQUIRED_HEADERS kgapicontacts_HEADERS
 )
 

@@ -78,6 +78,7 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     RevisionFetchJob
     RevisionModifyJob
     User
+    PREFIX KGAPI/Drive
     REQUIRED_HEADERS kgapidrive_HEADERS
 )
 
@@ -99,7 +100,7 @@ PUBLIC
 set_target_properties(KF5GAPIDrive PROPERTIES
     VERSION ${KGAPI_VERSION_STRING}
     SOVERSION ${KGAPI_SOVERSION}
-    EXPORT_NAME GAPI
+    EXPORT_NAME GAPIDrive
 )
 
 install(TARGETS

@@ -26,6 +26,7 @@ ecm_generate_headers(kgapitasks_CamelCase_HEADERS
     TaskListModifyJob
     TaskModifyJob
     TaskMoveJob
+    PREFIX KGAPI/Tasks
     REQUIRED_HEADERS kgapitasks_HEADERS
 )
 
