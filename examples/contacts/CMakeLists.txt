@@ -1,22 +1,17 @@
 project(contacts-example)
 
-find_package(KDE4 REQUIRED)
-find_package(KdepimLibs REQUIRED)
-
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
+kde_enable_exceptions()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${KDE4_INCLUDES})
+)
 
 set(contacts_example_SRCS main.cpp mainwindow.cpp)
 set(contacts_example_HDRS mainwindow.h)
-kde4_add_ui_files(contacts_example_SRCS ui/main.ui)
+qt5_wrap_ui(contacts_example_SRCS ui/main.ui)
 
-qt4_wrap_cpp(contacts_example_HDRS_MOC ${contacts_example_HDRS})
+qt5_wrap_cpp(contacts_example_HDRS_MOC ${contacts_example_HDRS})
 
 add_executable(contacts-example
         ${contacts_example_SRCS}
@@ -24,9 +19,7 @@ add_executable(contacts-example
 )
 
 target_link_libraries(contacts-example
-        ${QT_QTCORE_LIBRARY}
-        ${KDE4_KDECORE_LIBS}
-        ${KDEPIMLIBS_KABC_LIBS}
+        KF5::Abc
         kgapi2
 )
 
