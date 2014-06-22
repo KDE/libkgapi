@@ -3,6 +3,7 @@ macro(install_headers _dir)
 endmacro()
 
 install_headers(AccountInfo)
+install_headers(Blogger)
 install_headers(Calendar)
 install_headers(Contacts)
 install_headers(Drive)

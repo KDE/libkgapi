@@ -191,6 +191,11 @@ class LIBKGAPI2_EXPORT Account
      */
     static QUrl latitudeScopeUrl();
 
+    /**
+     * Returns scope URL for Google Blogger service.
+     */
+    static QUrl bloggerScopeUrl();
+
 private:
     class Private;
     Private * const d;

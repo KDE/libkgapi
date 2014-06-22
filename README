@@ -11,6 +11,7 @@ Currently supported APIs:
   - Latitude API v1 (https://developers.google.com/latitude/v1/)
   - Static Google Maps API v2 (https://developers.google.com/maps/documentation/staticmaps/)
   - Drive API v2 (https://developers.google.com/drive/v2/reference)
+  - Blogger API v3 (https://developers.google.com/blogger/docs/3.0/reference/)
 
 Dependencies:
 -------------

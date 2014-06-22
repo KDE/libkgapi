@@ -41,6 +41,51 @@ set(LibKGAPI_accountinfo_HDRS
     accountinfo/accountinfofetchjob.h
 )
 
+set(LibKGAPI_blogger_SRCS
+    blogger/blog.cpp
+    blogger/blogfetchjob.cpp
+    blogger/bloggerservice.cpp
+    blogger/comment.cpp
+    blogger/commentapprovejob.cpp
+    blogger/commentdeletecontentjob.cpp
+    blogger/commentdeletejob.cpp
+    blogger/commentfetchjob.cpp
+    blogger/page.cpp
+    blogger/pagecreatejob.cpp
+    blogger/pagedeletejob.cpp
+    blogger/pagefetchjob.cpp
+    blogger/pagemodifyjob.cpp
+    blogger/post.cpp
+    blogger/postcreatejob.cpp
+    blogger/postdeletejob.cpp
+    blogger/postfetchjob.cpp
+    blogger/postmodifyjob.cpp
+    blogger/postpublishjob.cpp
+    blogger/postsearchjob.cpp
+)
+
+set(LibKGAPI_blogger_HDRS
+    blogger/blog.h
+    blogger/blogfetchjob.h
+    blogger/comment.h
+    blogger/commentapprovejob.h
+    blogger/commentdeletecontentjob.h
+    blogger/commentdeletejob.h
+    blogger/commentfetchjob.h
+    blogger/page.h
+    blogger/pagecreatejob.h
+    blogger/pagedeletejob.h
+    blogger/pagefetchjob.h
+    blogger/pagemodifyjob.h
+    blogger/post.h
+    blogger/postcreatejob.h
+    blogger/postdeletejob.h
+    blogger/postfetchjob.h
+    blogger/postmodifyjob.h
+    blogger/postpublishjob.h
+    blogger/postsearchjob.h
+)
+
 set(LibKGAPI_contacts_SRCS
     contacts/contact.cpp
     contacts/contactcreatejob.cpp
@@ -259,6 +304,7 @@ set(LibKGAPI_ui_HDRS
 kde4_add_library(kgapi2 SHARED
     ${LibKGAPI_core_SRCS}
     ${LibKGAPI_accountinfo_SRCS}
+    ${LibKGAPI_blogger_SRCS}
     ${LibKGAPI_contacts_SRCS}
     ${LibKGAPI_calendar_SRCS}
     ${LibKGAPI_drive_SRCS}
@@ -296,6 +342,7 @@ target_link_libraries(kgapi2
 install(TARGETS kgapi2 EXPORT kgapi2LibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES ${LibKGAPI_core_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2)
 install(FILES ${LibKGAPI_accountinfo_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/accountinfo)
+install(FILES ${LibKGAPI_blogger_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/blogger)
 install(FILES ${LibKGAPI_contacts_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/contacts)
 install(FILES ${LibKGAPI_calendar_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/calendar)
 install(FILES ${LibKGAPI_drive_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/libkgapi2/drive)

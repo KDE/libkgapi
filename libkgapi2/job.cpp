@@ -110,6 +110,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
     const QByteArray rawData = reply->readAll();
 
     KGAPIDebug() << "Received reply from" << reply->url();
+    KGAPIDebug() << "Status code: " << replyCode;
     KGAPIDebugRawData() << rawData;
 
     switch (replyCode) {
@@ -266,7 +267,7 @@ void Job::Private::_k_dispatchTimeout()
     const Request r = requestQueue.dequeue();
     currentRequest = r;
 
-    KGAPIDebug() << "Dispatching request to" << r.request.url();
+    KGAPIDebug() << q << "Dispatching request to" << r.request.url();
     KGAPIDebugRawData() << r.rawData;
 
     q->dispatchRequest(accessManager, r.request, r.rawData, r.contentType);
