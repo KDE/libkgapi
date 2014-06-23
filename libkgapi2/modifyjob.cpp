@@ -20,9 +20,11 @@
  */
 
 #include "modifyjob.h"
+#include "debug.h"
 
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
+#include <QBuffer>
 
 using namespace KGAPI2;
 
@@ -30,6 +32,7 @@ class ModifyJob::Private
 {
   public:
     ObjectsList items;
+    QBuffer buffer;
 };
 
 ModifyJob::ModifyJob(QObject* parent):
@@ -66,11 +69,25 @@ void ModifyJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNet
         r.setRawHeader("If-Match", "*");
     }
 
-    accessManager->put(r, data);
+    // Note: there is a problem with PUT when using KIO::AccessManager - it does
+    // not transfer the body correctly.
+    // Using sendCustomRequest() works just fine.
+    //accessManager->put(r, data);
+    if (data.size() > 0) {
+        r.setHeader(QNetworkRequest::ContentLengthHeader, data.size());
+
+        d->buffer.close();
+        d->buffer.setData(data);
+        d->buffer.open(QIODevice::ReadOnly);
+        accessManager->sendCustomRequest(r, "PUT", &d->buffer);
+    } else {
+        accessManager->sendCustomRequest(r, "PUT");
+    }
 }
 
 void ModifyJob::handleReply( const QNetworkReply *reply, const QByteArray &rawData )
 {
+    d->buffer.close();
     d->items << handleReplyWithItems(reply, rawData);
 }
 
