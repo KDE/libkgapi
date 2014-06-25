@@ -16,9 +16,11 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
-set(KF5_VERSION "4.98.0")
+set(KDEPIMLIBS_LIB_VERSION "4.70.0")
+set(KF5_VERSION "4.100.0")
+set(KGAPI_LIB_VERSION "4.70.0")
 
-ecm_setup_version(${KF5_VERSION}
+ecm_setup_version(${KGAPI_LIB_VERSION}
     VARIABLE_PREFIX KGAPI
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
     PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5GAPIConfigVersion.cmake"
@@ -29,9 +31,9 @@ ecm_setup_version(${KF5_VERSION}
 set(REQUIRED_QT_VERSION "5.2.0")
 find_package(Qt5WebKitWidgets ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 
-find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
-find_package(KF5CalendarCore ${KF5_VERSION} CONFIG REQUIRED)
-find_package(KF5Abc ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5CoreAddons ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
+find_package(KF5CalendarCore ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
+find_package(KF5Abc ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
 #find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 
 
