@@ -26,6 +26,7 @@
 #include <QWebFrame>
 #include <QWebElement>
 #include <QNetworkProxy>
+
 #include <QDateTime>
 #include <QStringBuilder>
 
@@ -68,12 +69,24 @@ void AuthWidget::Private::setupUi()
     webview = new QWebView(q);
     KIO::AccessManager *m = new KIO::AccessManager(webview);
     webview->page()->networkAccessManager()->setProxyFactory(m->proxyFactory());
+    connect(webview->page()->networkAccessManager(), SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
+            this, SLOT(onSslError(QNetworkReply*,QList<QSslError>)));
+
 
     vbox->addWidget(webview);
     connect(webview, SIGNAL(loadProgress(int)), progressbar, SLOT(setValue(int)));
     connect(webview, SIGNAL(urlChanged(QUrl)), this, SLOT(webviewUrlChanged(QUrl)));
-    connect(webview, SIGNAL(loadFinished(bool)), this, SLOT(webviewFinished()));
+    connect(webview, SIGNAL(loadFinished(bool)), this, SLOT(webviewFinished(bool)));
 }
+
+void AuthWidget::Private::onSslError(QNetworkReply *reply, const QList<QSslError> &errors)
+{
+    Q_FOREACH (const QSslError &error, errors) {
+        KGAPIDebug() << "SSL ERROR: " << error.errorString();
+    }
+    reply->ignoreSslErrors();
+}
+
 
 void AuthWidget::Private::setProgress(AuthWidget::Progress progress)
 {
@@ -111,8 +124,12 @@ void AuthWidget::Private::webviewUrlChanged(const QUrl &url)
     }
 }
 
-void AuthWidget::Private::webviewFinished()
+void AuthWidget::Private::webviewFinished(bool ok)
 {
+    if (!ok) {
+        KGAPIWarning() << "Failed to load" << webview->url();
+    }
+
     QUrl url = webview->url();
     KGAPIDebug() << url;
 

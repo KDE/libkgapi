@@ -107,7 +107,6 @@ void AuthWidget::authenticate()
     if (d->showProgressBar) {
         d->progressbar->setVisible(true);
     }
-
     d->webview->setUrl(url);
     d->setProgress(AuthWidget::UserLogin);
 }

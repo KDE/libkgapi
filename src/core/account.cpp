@@ -172,3 +172,8 @@ QUrl Account::tasksScopeUrl()
 {
     return QUrl(QLatin1String("https://www.googleapis.com/auth/tasks"));
 }
+
+QUrl Account::bloggerScopeUrl()
+{
+    return QUrl(QLatin1String("https://www.googleapis.com/auth/blogger"));
+}

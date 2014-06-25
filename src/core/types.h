@@ -140,6 +140,26 @@ class TaskList;
 typedef QSharedPointer<TaskList> TaskListPtr;
 typedef QList<TaskListPtr> TaskListsList;
 
+namespace Blogger
+{
+class Blog;
+typedef QSharedPointer<Blog> BlogPtr;
+typedef QList<BlogPtr> BlogsList;
+
+class Comment;
+typedef QSharedPointer<Comment> CommentPtr;
+typedef QList<CommentPtr> CommentsList;
+
+class Page;
+typedef QSharedPointer<Page> PagePtr;
+typedef QList<PagePtr> PagesList;
+
+class Post;
+typedef QSharedPointer<Post> PostPtr;
+typedef QList<PostPtr> PostsList;
+
+}
+
 template<class T>
 ObjectsList operator<<(ObjectsList &objectsList, const QList< QSharedPointer<T> > &list)
 {

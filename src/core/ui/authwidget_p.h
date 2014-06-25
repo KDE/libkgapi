@@ -56,9 +56,11 @@ class AuthWidget::Private: public QObject {
     QLabel *label;
 
   private Q_SLOTS:
+    void onSslError(QNetworkReply *reply, const QList<QSslError> &errors);
+
     void emitError(const KGAPI2::Error errCode, const QString &msg);
     void webviewUrlChanged(const QUrl &url);
-    void webviewFinished();
+    void webviewFinished(bool ok);
 
     void tokensReceived(KGAPI2::Job *job);
     void accountInfoReceived(KGAPI2::Job *job);
