@@ -21,14 +21,14 @@
 #define KGAPI2_BLOGGER_PAGEDELETEJOB_H
 
 #include <libkgapi2/deletejob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 
 namespace KGAPI2
 {
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT PageDeleteJob : public KGAPI2::DeleteJob
+class KGAPIBLOGGER_EXPORT PageDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 

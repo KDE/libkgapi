@@ -21,7 +21,7 @@
 #define KGAPI2_BLOGGER_COMMENTFETCHJOB_H
 
 #include <libkgapi2/fetchjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 
 #include <KDateTime>
 
@@ -30,7 +30,7 @@ namespace KGAPI2
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT CommentFetchJob : public KGAPI2::FetchJob
+class KGAPIBLOGGER_EXPORT CommentFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 

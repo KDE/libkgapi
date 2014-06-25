@@ -69,7 +69,7 @@ set_target_properties(KF5GAPIBlogger PROPERTIES
 )
 
 install(TARGETS
-    KF5GAPIDrive
+    KF5GAPIBlogger
     EXPORT KF5GAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 

@@ -20,8 +20,8 @@
 #ifndef KGAPI2_BLOG_H
 #define KGAPI2_BLOG_H
 
-#include <libkgapi2/object.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include <object.h>
+#include "kgapiblogger_export.h"
 
 #include <KDateTime>
 #include <QVariant>
@@ -32,7 +32,7 @@ namespace KGAPI2
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT Blog : public KGAPI2::Object
+class KGAPIBLOGGER_EXPORT Blog : public KGAPI2::Object
 {
   public:
     explicit Blog();

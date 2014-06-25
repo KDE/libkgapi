@@ -21,7 +21,7 @@
 #define KGAPI2_BLOGGER_PAGE_H
 
 #include <libkgapi2/object.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 #include <KDateTime>
 
 namespace KGAPI2
@@ -29,7 +29,7 @@ namespace KGAPI2
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT Page : public KGAPI2::Object
+class KGAPIBLOGGER_EXPORT Page : public KGAPI2::Object
 {
   public:
     enum Status {

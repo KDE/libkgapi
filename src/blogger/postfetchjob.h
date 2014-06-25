@@ -21,7 +21,7 @@
 #define KGAPI2_BLOGGER_POSTFETCHJOB_H
 
 #include <libkgapi2/fetchjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 
 #include <QStringList>
 
@@ -32,7 +32,7 @@ namespace KGAPI2
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT PostFetchJob : public  KGAPI2::FetchJob
+class KGAPIBLOGGER_EXPORT PostFetchJob : public  KGAPI2::FetchJob
 {
     Q_OBJECT
 

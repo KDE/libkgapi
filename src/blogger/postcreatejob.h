@@ -21,14 +21,14 @@
 #define KGAPI2_BLOGGER_POSTCREATEJOB_H
 
 #include <libkgapi2/createjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 
 namespace KGAPI2
 {
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT PostCreateJob : public KGAPI2::CreateJob
+class KGAPIBLOGGER_EXPORT PostCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 

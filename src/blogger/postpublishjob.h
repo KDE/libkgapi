@@ -21,7 +21,7 @@
 #define KGAPI2_BLOGGER_POSTPUBLISHJOB_H
 
 #include <libkgapi2/job.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 
 #include <KDateTime>
 
@@ -30,7 +30,7 @@ namespace KGAPI2
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT PostPublishJob : public KGAPI2::Job
+class KGAPIBLOGGER_EXPORT PostPublishJob : public KGAPI2::Job
 {
     Q_OBJECT
   public:

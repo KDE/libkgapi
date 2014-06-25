@@ -5,3 +5,5 @@ add_subdirectory(drive)
 add_subdirectory(latitude)
 add_subdirectory(staticmaps)
 add_subdirectory(tasks)
+# Port away qjson
+#add_subdirectory(blogger)

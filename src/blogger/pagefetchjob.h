@@ -23,14 +23,14 @@
 
 #include <libkgapi2/fetchjob.h>
 #include "page.h"
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 
 namespace KGAPI2
 {
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT PageFetchJob : public KGAPI2::FetchJob
+class KGAPIBLOGGER_EXPORT PageFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 

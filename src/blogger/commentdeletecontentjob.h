@@ -21,14 +21,14 @@
 #define KGAPI2_BLOGGER_COMMENTDELETECONTENTJOB_H
 
 #include <libkgapi2/modifyjob.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 
 namespace KGAPI2
 {
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT CommentDeleteContentJob : public KGAPI2::ModifyJob
+class KGAPIBLOGGER_EXPORT CommentDeleteContentJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 

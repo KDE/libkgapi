@@ -21,7 +21,7 @@
 #define KGAPI2_BLOGGER_POST_H
 
 #include <libkgapi2/object.h>
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapiblogger_export.h"
 
 #include <QVariant>
 #include <QStringList>
@@ -33,7 +33,7 @@ namespace KGAPI2
 namespace Blogger
 {
 
-class LIBKGAPI2_EXPORT Post : public KGAPI2::Object
+class KGAPIBLOGGER_EXPORT Post : public KGAPI2::Object
 {
   public:
     Post();
