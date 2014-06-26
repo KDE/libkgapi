@@ -23,7 +23,6 @@ generate_export_header(KF5GAPIMaps BASE_NAME kgapimaps)
 
 add_library(KF5::GAPIMaps ALIAS KF5GAPIMaps)
 target_include_directories(KF5GAPIMaps INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
-target_include_directories(KF5GAPIMaps PUBLIC "$<BUILD_INTERFACE:${KGAPI_SOURCE_DIR}/src;${KAGAPI_BINARY_DIR}/src>")
 
 target_link_libraries(KF5GAPIMaps
 PUBLIC

@@ -38,7 +38,6 @@ generate_export_header(KF5GAPIContacts BASE_NAME kgapicontacts)
 
 add_library(KF5::GAPIContacts ALIAS KF5GAPIContacts)
 target_include_directories(KF5GAPIContacts INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
-target_include_directories(KF5GAPIContacts PUBLIC "$<BUILD_INTERFACE:${KGAPI_SOURCE_DIR}/src;${KAGAPI_BINARY_DIR}/src>")
 
 target_link_libraries(KF5GAPIContacts
 PUBLIC

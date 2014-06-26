@@ -56,7 +56,6 @@ generate_export_header(KF5GAPICore BASE_NAME kgapicore)
 
 add_library(KF5::GAPICore ALIAS KF5GAPICore)
 target_include_directories(KF5GAPICore INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI;${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi>")
-target_include_directories(KF5GAPICore PUBLIC "$<BUILD_INTERFACE:${KGAPI_SOURCE_DIR}/src;${KAGAPI_BINARY_DIR}/src>")
 
 target_link_libraries(KF5GAPICore
 PUBLIC

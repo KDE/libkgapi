@@ -40,7 +40,6 @@ generate_export_header(KF5GAPICalendar BASE_NAME kgapicalendar)
 
 add_library(KF5::GAPICalendar ALIAS KF5GAPICalendar)
 target_include_directories(KF5GAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
-target_include_directories(KF5GAPICalendar PUBLIC "$<BUILD_INTERFACE:${KGAPI_SOURCE_DIR}/src;${KAGAPI_BINARY_DIR}/src>")
 
 target_link_libraries(KF5GAPICalendar
 PUBLIC

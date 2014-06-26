@@ -90,7 +90,6 @@ generate_export_header(KF5GAPIDrive BASE_NAME kgapidrive)
 
 add_library(KF5::GAPIDrive ALIAS KF5GAPIDrive)
 target_include_directories(KF5GAPIDrive INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
-target_include_directories(KF5GAPIDrive PUBLIC "$<BUILD_INTERFACE:${KGAPI_SOURCE_DIR}/src;${KAGAPI_BINARY_DIR}/src>")
 
 target_link_libraries(KF5GAPIDrive
 PUBLIC

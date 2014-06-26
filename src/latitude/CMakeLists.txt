@@ -28,7 +28,6 @@ generate_export_header(KF5GAPILatitude BASE_NAME kgapilatitude)
 
 add_library(KF5::GAPILatitude ALIAS KF5GAPILatitude)
 target_include_directories(KF5GAPILatitude INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
-target_include_directories(KF5GAPILatitude PUBLIC "$<BUILD_INTERFACE:${KGAPI_SOURCE_DIR}/src;${KAGAPI_BINARY_DIR}/src>")
 
 target_link_libraries(KF5GAPILatitude
 PUBLIC

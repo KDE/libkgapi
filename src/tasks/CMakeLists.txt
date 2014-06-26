@@ -38,7 +38,6 @@ generate_export_header(KF5GAPITasks BASE_NAME kgapitasks)
 
 add_library(KF5::GAPITasks ALIAS KF5GAPITasks)
 target_include_directories(KF5GAPITasks INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
-target_include_directories(KF5GAPITasks PUBLIC "$<BUILD_INTERFACE:${KGAPI_SOURCE_DIR}/src;${KAGAPI_BINARY_DIR}/src>")
 
 target_link_libraries(KF5GAPITasks
 PUBLIC
