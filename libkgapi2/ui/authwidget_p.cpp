@@ -42,6 +42,21 @@
 
 using namespace KGAPI2;
 
+WebView::WebView(QWidget *parent)
+    : QWebView(parent)
+{
+}
+
+
+WebView::~WebView()
+{
+
+}
+
+void WebView::contextMenuEvent(QContextMenuEvent *)
+{
+    //Not menu
+}
 
 AuthWidget::Private::Private(AuthWidget *parent):
     QObject(),
@@ -74,7 +89,7 @@ void AuthWidget::Private::setupUi()
     progressbar->setValue(0);
     vbox->addWidget(progressbar);
 
-    webview = new QWebView(q);
+    webview = new WebView(q);
     KIO::AccessManager *m = new KIO::AccessManager(webview);
     webview->page()->networkAccessManager()->setProxyFactory(m->proxyFactory());
     connect(webview->page()->networkAccessManager(), SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
