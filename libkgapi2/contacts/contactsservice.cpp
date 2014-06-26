@@ -835,7 +835,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
     QStringList groups;
     ContactPtr contact(new Contact);
 
-    for (int i = 0; i < data.count(); i++) {
+    for (int i = 0; i < data.count(); ++i) {
         const QDomNode n = data.at(i);
         const QDomElement e = n.toElement();
 
@@ -852,7 +852,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         if (e.tagName() == QLatin1String("gd:name")) {
             QDomNodeList l = e.childNodes();
-            for (uint i = 0; i < l.length(); i++) {
+            for (int i = 0; i < l.length(); ++i) {
                 const QDomElement el = l.at(i).toElement();
 
                 if (el.tagName() == QLatin1String("gd:fullname")) {
@@ -917,7 +917,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         /* Organization (work) - KABC supports only organization */
         if (e.tagName() == QLatin1String("gd:organization")) {
             const QDomNodeList l = e.childNodes();
-            for (uint i = 0; i < l.length(); i++) {
+            for (int i = 0; i < l.length(); ++i) {
                 const QDomElement el = l.at(i).toElement();
 
                 if (el.tagName() == QLatin1String("gd:orgName")) {
@@ -1025,7 +1025,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         if (e.tagName() == QLatin1String("gd:structuredPostalAddress")) {
             KABC::Address address;
             const QDomNodeList l = e.childNodes();
-            for (uint i = 0; i < l.length(); i++) {
+            for (int i = 0; i < l.length(); ++i) {
                 const QDomElement el = l.at(i).toElement();
 
                 if (el.tagName() == QLatin1String("gd:street")) {
@@ -1139,7 +1139,7 @@ ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData)
     ContactsGroupPtr group(new ContactsGroup);
     QStringList groups;
 
-    for (int i = 0; i < data.count(); i++) {
+    for (int i = 0; i < data.count(); ++i) {
         const QDomNode n = data.at(i);
         const QDomElement e = n.toElement();
 
