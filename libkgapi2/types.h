@@ -160,6 +160,21 @@ typedef QList<PostPtr> PostsList;
 
 }
 
+namespace Gmail
+{
+class Message;
+typedef QSharedPointer<Message> MessagePtr;
+typedef QList<MessagePtr> MessagesList;
+
+class Attachment;
+typedef QSharedPointer<Attachment> AttachmentPtr;
+typedef QList<AttachmentPtr> AttachmentsList;
+
+class Label;
+typedef QSharedPointer<Label> LabelPtr;
+typedef QList<LabelPtr> LabelsList;
+}
+
 template<class T>
 ObjectsList operator<<(ObjectsList &objectsList, const QList< QSharedPointer<T> > &list)
 {
