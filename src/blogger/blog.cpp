@@ -19,7 +19,7 @@
 
 #include "blog.h"
 
-#include <qjson/parser.h>
+#include <QJsonDocument>
 
 using namespace KGAPI2::Blogger;
 
@@ -148,27 +148,35 @@ BlogPtr Blog::Private::fromJSON(const QVariant &json)
 
 BlogPtr Blog::fromJSON(const QByteArray &rawData)
 {
-    QJson::Parser parser;
-    bool ok = false;
-    const QVariantMap json = parser.parse(rawData, &ok).toMap();
-    if (!ok || json[QLatin1String("kind")].toString() != QLatin1String("blogger#blog")) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
         return BlogPtr();
     }
 
-    return Private::fromJSON(json);
+    const QVariant json = document.toVariant();
+    const QVariantMap map = json.toMap();
+    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#blog")) {
+        return BlogPtr();
+    }
+
+    return Private::fromJSON(map);
 }
 
 BlogsList Blog::fromJSONFeed(const QByteArray &rawData)
 {
-    QJson::Parser parser;
-    bool ok = false;
-    const QVariantMap json = parser.parse(rawData, &ok).toMap();
-    if (!ok || json[QLatin1String("kind")].toString() != QLatin1String("blogger#blogList")) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
+        return BlogsList();
+    }
+
+    const QVariant json = document.toVariant();
+    const QVariantMap map = json.toMap();
+    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#blogList")) {
         return BlogsList();
     }
 
     BlogsList items;
-    const QVariantList blogs = json[QLatin1String("items")].toList();
+    const QVariantList blogs = map[QLatin1String("items")].toList();
     Q_FOREACH (const QVariant &blog, blogs) {
         items << Blog::Private::fromJSON(blog);
     }

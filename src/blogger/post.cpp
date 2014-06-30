@@ -19,8 +19,7 @@
 
 #include "post.h"
 
-#include <qjson/serializer.h>
-#include <qjson/parser.h>
+#include <QJsonDocument>
 
 #include <KUrl>
 
@@ -292,8 +291,8 @@ QVariant Post::Private::toJSON(const PostPtr &post)
         json[QLatin1String("labels")] = post->d->labels;
     }
     if (!post->d->customMetaData.isNull()) {
-        QJson::Serializer serializer;
-        json[QLatin1String("customMetaData")] = serializer.serialize(post->d->customMetaData);
+        QJsonDocument document = QJsonDocument::fromVariant(post->d->customMetaData);
+        json[QLatin1String("customMetaData")] = document.toJson(QJsonDocument::Compact);
     }
     if (!post->d->location.isEmpty() && post->d->latitude > -1 && post->d->longitude > -1) {
         QVariantMap location;
@@ -317,33 +316,41 @@ QVariant Post::Private::toJSON(const PostPtr &post)
 
 PostPtr Post::fromJSON(const QByteArray &rawData)
 {
-    QJson::Parser parser;
-    bool ok = false;
-    const QVariantMap json = parser.parse(rawData, &ok).toMap();
-    if (!ok || json[QLatin1String("kind")].toString() != QLatin1String("blogger#post")) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
         return PostPtr();
     }
 
-    return Private::fromJSON(json);
+    const QVariant json = document.toVariant();
+    const QVariantMap map = json.toMap();
+    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#post")) {
+        return PostPtr();
+    }
+
+    return Private::fromJSON(map);
 }
 
 ObjectsList Post::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
 {
-    QJson::Parser parser;
-    bool ok = false;
-    const QVariantMap json = parser.parse(rawData, &ok).toMap();
-    if (!ok || json[QLatin1String("kind")].toString() != QLatin1String("blogger#postList")) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
         return ObjectsList();
     }
 
-    if (!json[QLatin1String("nextPageToken")].toString().isEmpty()) {
+    const QVariant json = document.toVariant();
+    const QVariantMap map = json.toMap();
+    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#postList")) {
+        return ObjectsList();
+    }
+
+    if (!map[QLatin1String("nextPageToken")].toString().isEmpty()) {
         KUrl requestUrl(feedData.requestUrl);
         requestUrl.removeQueryItem(QLatin1String("pageToken"));
-        requestUrl.addQueryItem(QLatin1String("pageToken"), json[QLatin1String("nextPageToken")].toString());
+        requestUrl.addQueryItem(QLatin1String("pageToken"), map[QLatin1String("nextPageToken")].toString());
         feedData.nextPageUrl = requestUrl;
     }
     ObjectsList list;
-    Q_FOREACH (const QVariant &item, json[QLatin1String("items")].toList()) {
+    Q_FOREACH (const QVariant &item, map[QLatin1String("items")].toList()) {
         list << Private::fromJSON(item);
     }
     return list;
@@ -351,6 +358,6 @@ ObjectsList Post::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
 
 QByteArray Post::toJSON(const PostPtr &post)
 {
-    QJson::Serializer serializer;
-    return serializer.serialize(Private::toJSON(post));
+    QJsonDocument document = QJsonDocument::fromVariant(Private::toJSON(post));
+    return document.toJson(QJsonDocument::Compact);
 }

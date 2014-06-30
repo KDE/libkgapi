@@ -20,8 +20,8 @@
 #include "comment.h"
 
 #include <QVariant>
+#include <QJsonDocument>
 
-#include <qjson/parser.h>
 #include <KUrl>
 
 using namespace KGAPI2;
@@ -207,33 +207,39 @@ CommentPtr Comment::Private::fromJSON(const QVariant &json)
 
 CommentPtr Comment::fromJSON(const QByteArray &rawData)
 {
-    QJson::Parser parser;
-    bool ok = false;
-    const QVariantMap json = parser.parse(rawData, &ok).toMap();
-    if (!ok || json[QLatin1String("kind")].toString() != QLatin1String("blogger#comment")) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
+        return CommentPtr();
+    }
+    const QVariant json = document.toVariant();
+    const QVariantMap map = json.toMap();
+    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#comment")) {
         return CommentPtr();
     }
 
-    return Comment::Private::fromJSON(json);
+    return Comment::Private::fromJSON(map);
 }
 
 ObjectsList Comment::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
 {
-    QJson::Parser parser;
-    bool ok = false;
-    const QVariantMap json = parser.parse(rawData, &ok).toMap();
-    if (!ok || json[QLatin1String("kind")].toString() != QLatin1String("blogger#commentList")) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
+        return ObjectsList();
+    }
+    const QVariant json = document.toVariant();
+    const QVariantMap map = json.toMap();
+    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#commentList")) {
         return ObjectsList();
     }
 
     ObjectsList items;
-    if (!json[QLatin1String("nextPageToken")].toString().isEmpty()) {
+    if (!map[QLatin1String("nextPageToken")].toString().isEmpty()) {
         KUrl requestUrl(feedData.requestUrl);
         requestUrl.removeQueryItem(QLatin1String("pageToken"));
-        requestUrl.addQueryItem(QLatin1String("pageToken"), json[QLatin1String("nextPageToken")].toString());
+        requestUrl.addQueryItem(QLatin1String("pageToken"), map[QLatin1String("nextPageToken")].toString());
         feedData.nextPageUrl = requestUrl;
     }
-    Q_FOREACH (const QVariant &v, json[QLatin1String("items")].toList()) {
+    Q_FOREACH (const QVariant &v, map[QLatin1String("items")].toList()) {
         items << Comment::Private::fromJSON(v);
     }
 

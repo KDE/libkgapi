@@ -20,9 +20,7 @@
 #include "page.h"
 
 #include <QVariant>
-
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
+#include <QJsonDocument>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -236,27 +234,34 @@ QVariant Page::Private::toJSON(const PagePtr &page)
 
 PagePtr Page::fromJSON(const QByteArray &rawData)
 {
-    QJson::Parser parser;
-    bool ok = false;
-    const QVariantMap json = parser.parse(rawData, &ok).toMap();
-    if (!ok || json[QLatin1String("kind")].toString() != QLatin1String("blogger#page")) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
         return PagePtr();
     }
 
-    return Private::fromJSON(json);
+    const QVariant json = document.toVariant();
+    const QVariantMap map = json.toMap();
+    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#page")) {
+        return PagePtr();
+    }
+
+    return Private::fromJSON(map);
 }
 
 ObjectsList Page::fromJSONFeed(const QByteArray &rawData)
 {
-    QJson::Parser parser;
-    bool ok = false;
-    const QVariantMap json = parser.parse(rawData, &ok).toMap();
-    if (!ok || json[QLatin1String("kind")].toString() != QLatin1String("blogger#pageList")) {
+    QJsonDocument document = QJsonDocument::fromJson(rawData);
+    if (document.isNull()) {
+        return ObjectsList();
+    }
+    const QVariant json = document.toVariant();
+    const QVariantMap map = json.toMap();
+    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#pageList")) {
         return ObjectsList();
     }
 
     ObjectsList list;
-    Q_FOREACH (const QVariant &item, json[QLatin1String("items")].toList()) {
+    Q_FOREACH (const QVariant &item, map[QLatin1String("items")].toList()) {
         list << Private::fromJSON(item);
     }
     return list;
@@ -264,6 +269,6 @@ ObjectsList Page::fromJSONFeed(const QByteArray &rawData)
 
 QByteArray Page::toJSON(const PagePtr &page)
 {
-    QJson::Serializer serializer;
-    return serializer.serialize(Private::toJSON(page));
+    QJsonDocument document = QJsonDocument::fromVariant(Private::toJSON(page));
+    return document.toJson(QJsonDocument::Compact);
 }
