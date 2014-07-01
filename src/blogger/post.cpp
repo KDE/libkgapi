@@ -21,8 +21,6 @@
 
 #include <QJsonDocument>
 
-#include <KUrl>
-
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
@@ -344,7 +342,7 @@ ObjectsList Post::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
     }
 
     if (!map[QLatin1String("nextPageToken")].toString().isEmpty()) {
-        KUrl requestUrl(feedData.requestUrl);
+        QUrl requestUrl(feedData.requestUrl);
         requestUrl.removeQueryItem(QLatin1String("pageToken"));
         requestUrl.addQueryItem(QLatin1String("pageToken"), map[QLatin1String("nextPageToken")].toString());
         feedData.nextPageUrl = requestUrl;

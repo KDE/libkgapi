@@ -19,7 +19,10 @@
 
 #include "bloggerservice.h"
 
-#include <KUrl>
+inline QUrl operator%(const QUrl &url, const QString &path)
+{
+    return QUrl(url.toString() % QLatin1Char('/') % path);
+}
 
 namespace KGAPI2
 {
@@ -27,45 +30,34 @@ namespace BloggerService
 {
 namespace Private
 {
-    KUrl commentBaseUrl(const QString &blogId,
-                        const QString &postId = QString(),
-                        const QString &commentId = QString())
+    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
+
+    auto commentBasePath(const QString &blogId,
+                         const QString &postId = QString(),
+                         const QString &commentId = QString()) -> QString
     {
-        KUrl url(QLatin1String("https://www.googleapis.com/blogger/v3/blogs/"));
-        url.addPath(blogId);
-        if (!postId.isEmpty()) {
-            url.addPath(QLatin1String("posts"));
-            url.addPath(postId);
-        }
-        url.addPath(QLatin1String("comments"));
-        if (!commentId.isEmpty()) {
-            url.addPath(commentId);
-        }
-        return url;
+        const auto post = !postId.isEmpty() ? (QLatin1String("/posts/") % postId) : QString();
+        const auto comment = !commentId.isEmpty() ? (QLatin1Char('/') % commentId) : QString();
+        auto path = QLatin1String("blogger/v3/blogs/") % blogId 
+                        % post % QLatin1String("/comments") % comment;
+        return path;
     }
 
-    KUrl pageBaseUrl(const QString &blogId,
-                     const QString &pageId = QString())
+    auto pageBasePath(const QString &blogId,
+                      const QString &pageId = QString()) -> QString
     {
-        KUrl url(QLatin1String("https://www.googleapis.com/blogger/v3/blogs/"));
-        url.addPath(blogId);
-        url.addPath(QLatin1String("pages"));
-        if (!pageId.isEmpty()) {
-            url.addPath(pageId);
-        }
-        return url;
+        const auto page = !pageId.isEmpty() ? (QLatin1Char('/') % pageId) : QString();
+        const auto path = QLatin1String("blogger/v3/blogs/") % blogId
+                            % QLatin1String("/pages") % page;
+        return path;
     }
 
-    KUrl postBaseUrl(const QString &blogId,
-                     const QString &postId = QString())
+    auto postBasePath(const QString &blogId,
+                      const QString &postId = QString()) -> QString
     {
-        KUrl url(QLatin1String("https://www.googleapis.com/blogger/v3/blogs/"));
-        url.addPath(blogId);
-        url.addPath(QLatin1String("posts"));
-        if (!postId.isEmpty()) {
-            url.addPath(postId);
-        }
-        return url;
+        const auto post = !postId.isEmpty() ? (QLatin1Char('/') % postId) : QString();
+        const auto path = QLatin1String("blogger/v3/blogs/") % blogId % QLatin1String("/posts");
+        return path;
     }
 
 } // namespace Private
@@ -74,27 +66,23 @@ namespace Private
 
 
 using namespace KGAPI2;
+using namespace KGAPI2::BloggerService::Private;
 
 QUrl BloggerService::fetchBlogByBlogIdUrl(const QString &blogId)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/blogger/v3/blogs/"));
-    url.addPath(blogId);
-    return url;
+    return GoogleApisUrl % QLatin1String("/blogger/v3/blogs/") % blogId;
 }
 
 QUrl BloggerService::fetchBlogByBlogUrlUrl(const QString &blogUrl)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/blogger/v3/blogs/byurl"));
+    QUrl url = GoogleApisUrl % QLatin1String("/blogger/v3/blogs/byurl");
     url.addQueryItem(QLatin1String("url"), blogUrl);
     return url;
 }
 
 QUrl BloggerService::fetchBlogsByUserIdUrl(const QString &userId)
 {
-    KUrl url(QLatin1String("https://www.googleapis.com/blogger/v3/users/"));
-    url.addPath(userId);
-    url.addPath(QLatin1String("blogs"));
-    return url;
+    return GoogleApisUrl % QLatin1String("/blogger/v3/users/") % userId % QLatin1String("/blogs");
 }
 
 
@@ -102,101 +90,89 @@ QUrl BloggerService::fetchCommentsUrl(const QString &blogId,
                                       const QString &postId,
                                       const QString &commentId)
 {
-    return Private::commentBaseUrl(blogId, postId, commentId);
+    return GoogleApisUrl % commentBasePath(blogId, postId, commentId);
 }
 
 QUrl BloggerService::approveCommentUrl(const QString &blogId,
                                        const QString &postId,
                                        const QString &commentId)
 {
-    KUrl url = Private::commentBaseUrl(blogId, postId, commentId);
-    url.addPath(QLatin1String("approve"));
-    return url;
+    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QLatin1String("/approve");
 }
 
 QUrl BloggerService::markCommentAsSpamUrl(const QString &blogId,
                                           const QString &postId,
                                           const QString &commentId)
 {
-    KUrl url = Private::commentBaseUrl(blogId, postId, commentId);
-    url.addPath(QLatin1String("spam"));
-    return url;
+    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QLatin1String("/spam");
 }
 
 QUrl BloggerService::deleteCommentUrl(const QString &blogId,
                                       const QString &postId,
                                       const QString &commentId)
 {
-    return Private::commentBaseUrl(blogId, postId, commentId);
+    return GoogleApisUrl % commentBasePath(blogId, postId, commentId);
 }
 
 QUrl BloggerService::deleteCommentContentUrl(const QString &blogId,
                                              const QString &postId,
                                              const QString &commentId)
 {
-    KUrl url = Private::commentBaseUrl(blogId, postId, commentId);
-    url.addPath(QLatin1String("removecontent"));
-    return url;
+    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QLatin1String("/removecontent");
 }
 
 QUrl BloggerService::fetchPageUrl(const QString &blogId,
                                   const QString &pageId)
 {
-    return Private::pageBaseUrl(blogId, pageId);
+    return GoogleApisUrl % pageBasePath(blogId, pageId);
 }
 
 QUrl BloggerService::deletePageUrl(const QString &blogId, const QString &pageId)
 {
-    return Private::pageBaseUrl(blogId, pageId);
+    return GoogleApisUrl % pageBasePath(blogId, pageId);
 }
 
 QUrl BloggerService::modifyPageUrl(const QString &blogId, const QString &pageId)
 {
-    return Private::pageBaseUrl(blogId, pageId);
+    return GoogleApisUrl % pageBasePath(blogId, pageId);
 }
 
 QUrl BloggerService::createPageUrl(const QString &blogId)
 {
-    return Private::pageBaseUrl(blogId);
+    return GoogleApisUrl % pageBasePath(blogId);
 }
 
 QUrl BloggerService::fetchPostUrl(const QString &blogId, const QString &postId)
 {
-    return Private::postBaseUrl(blogId, postId);
+    return GoogleApisUrl % postBasePath(blogId, postId);
 }
 
 QUrl BloggerService::searchPostUrl(const QString &blogId)
 {
-    KUrl url = Private::postBaseUrl(blogId);
-    url.addPath(QLatin1String("search"));
-    return url;
+    return GoogleApisUrl % postBasePath(blogId) % QLatin1String("/search");
 }
 
 QUrl BloggerService::createPostUrl(const QString &blogId)
 {
-    return Private::postBaseUrl(blogId);
+    return GoogleApisUrl % postBasePath(blogId);
 }
 
 QUrl BloggerService::deletePostUrl(const QString &blogId, const QString &postId)
 {
-    return Private::postBaseUrl(blogId, postId);
+    return GoogleApisUrl % postBasePath(blogId, postId);
 }
 
 QUrl BloggerService::modifyPostUrl(const QString &blogId, const QString &postId)
 {
-    return Private::postBaseUrl(blogId, postId);
+    return GoogleApisUrl % postBasePath(blogId, postId);
 }
 
 QUrl BloggerService::publishPostUrl(const QString &blogId, const QString &postId)
 {
-    KUrl url = Private::postBaseUrl(blogId, postId);
-    url.addPath(QLatin1String("publish"));
-    return url;
+    return GoogleApisUrl % postBasePath(blogId, postId) % QLatin1String("/publish");
 }
 
 QUrl BloggerService::revertPostUrl(const QString &blogId, const QString &postId)
 {
-    KUrl url = Private::postBaseUrl(blogId, postId);
-    url.addPath(QLatin1String("revert"));
-    return url;
+    return GoogleApisUrl % postBasePath(blogId, postId) % QLatin1String("/revert");
 }
