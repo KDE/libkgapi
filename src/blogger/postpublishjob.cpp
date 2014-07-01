@@ -27,8 +27,6 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 
-#include <KLocalizedString>
-
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
@@ -140,7 +138,7 @@ void PostPublishJob::handleReply(const QNetworkReply *reply,
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
     }
 

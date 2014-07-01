@@ -26,8 +26,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#include <KLocalizedString>
-
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
@@ -101,7 +99,7 @@ ObjectsList CommentApproveJob::handleReplyWithItems(const QNetworkReply *reply, 
     ObjectsList items;
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
         return items;
     }

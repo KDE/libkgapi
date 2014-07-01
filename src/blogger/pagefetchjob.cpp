@@ -26,8 +26,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#include <KLocalizedString>
-
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
@@ -133,7 +131,7 @@ ObjectsList PageFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
         }
     } else {
         setError(KGAPI2::InvalidResponse);
-        setErrorString(i18n("Invalid response content type"));
+        setErrorString(tr("Invalid response content type"));
         emitFinished();
         return items;
     }

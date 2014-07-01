@@ -26,8 +26,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#include <KLocalizedString>
-
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
