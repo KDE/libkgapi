@@ -20,12 +20,11 @@
 #include "blogfetchjob.h"
 #include "blog.h"
 #include "bloggerservice.h"
+#include "account.h"
+#include "utils.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-
-#include <libkgapi2/account.h>
-#include <libkgapi2/utils.h>
 
 #include <KLocalizedString>
 

@@ -20,7 +20,7 @@
 #ifndef KGAPI2_BLOGGERSERVICE_H
 #define KGAPI2_BLOGGERSERVICE_H
 
-#include <libkgapi2/types.h>
+#include "types.h"
 #include "kgapiblogger_export.h"
 
 #include <QtCore/QUrl>

@@ -20,9 +20,8 @@
 #include "pagefetchjob.h"
 #include "bloggerservice.h"
 #include "page.h"
-
-#include <libkgapi2/utils.h>
-#include <libkgapi2/account.h>
+#include "utils.h"
+#include "account.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>

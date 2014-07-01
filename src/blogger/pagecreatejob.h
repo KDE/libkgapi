@@ -20,7 +20,7 @@
 #ifndef KGAPI2_BLOGGER_PAGECREATEJOB_H
 #define KGAPI2_BLOGGER_PAGECREATEJOB_H
 
-#include <libkgapi2/createjob.h>
+#include "createjob.h"
 #include "kgapiblogger_export.h"
 
 namespace KGAPI2

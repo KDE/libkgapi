@@ -20,7 +20,7 @@
 #ifndef KGAPI2_BLOGGER_POST_H
 #define KGAPI2_BLOGGER_POST_H
 
-#include <libkgapi2/object.h>
+#include "object.h"
 #include "kgapiblogger_export.h"
 
 #include <QVariant>

@@ -20,13 +20,12 @@
 #include "postpublishjob.h"
 #include "post.h"
 #include "bloggerservice.h"
+#include "account.h"
+#include "utils.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
-
-#include <libkgapi2/account.h>
-#include <libkgapi2/utils.h>
 
 #include <KLocalizedString>
 

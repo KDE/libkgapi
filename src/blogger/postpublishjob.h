@@ -20,7 +20,7 @@
 #ifndef KGAPI2_BLOGGER_POSTPUBLISHJOB_H
 #define KGAPI2_BLOGGER_POSTPUBLISHJOB_H
 
-#include <libkgapi2/job.h>
+#include "job.h"
 #include "kgapiblogger_export.h"
 
 #include <KDateTime>

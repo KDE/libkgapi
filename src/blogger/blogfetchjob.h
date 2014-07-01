@@ -20,7 +20,7 @@
 #ifndef BLOGFETCHJOB_H
 #define BLOGFETCHJOB_H
 
-#include <libkgapi2/fetchjob.h>
+#include "fetchjob.h"
 #include "kgapiblogger_export.h"
 
 namespace KGAPI2

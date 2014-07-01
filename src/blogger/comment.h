@@ -20,8 +20,9 @@
 #ifndef KGAPI2_BLOGGER_COMMENT_H
 #define KGAPI2_BLOGGER_COMMENT_H
 
-#include <libkgapi2/object.h>
+#include "object.h"
 #include "kgapiblogger_export.h"
+
 #include <KDateTime>
 
 namespace KGAPI2

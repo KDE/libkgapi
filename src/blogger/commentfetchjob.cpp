@@ -20,13 +20,11 @@
 #include "commentfetchjob.h"
 #include "comment.h"
 #include "bloggerservice.h"
+#include "utils.h"
+#include "account.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-
-#include <libkgapi2/types.h>
-#include <libkgapi2/utils.h>
-#include <libkgapi2/account.h>
 
 #include <KLocalizedString>
 

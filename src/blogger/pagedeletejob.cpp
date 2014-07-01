@@ -20,9 +20,8 @@
 #include "pagedeletejob.h"
 #include "page.h"
 #include "bloggerservice.h"
-
-#include <libkgapi2/account.h>
-#include <libkgapi2/utils.h>
+#include "account.h"
+#include "utils.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>

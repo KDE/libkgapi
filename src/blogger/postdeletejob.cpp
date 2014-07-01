@@ -20,8 +20,7 @@
 #include "postdeletejob.h"
 #include "post.h"
 #include "bloggerservice.h"
-
-#include <libkgapi2/account.h>
+#include "account.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>

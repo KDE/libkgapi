@@ -20,7 +20,7 @@
 #ifndef KGAPI2_BLOGGER_COMMENTFETCHJOB_H
 #define KGAPI2_BLOGGER_COMMENTFETCHJOB_H
 
-#include <libkgapi2/fetchjob.h>
+#include "fetchjob.h"
 #include "kgapiblogger_export.h"
 
 #include <KDateTime>

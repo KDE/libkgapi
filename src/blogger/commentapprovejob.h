@@ -20,7 +20,7 @@
 #ifndef KGAPI2_BLOGGER_COMMENTAPPROVEJOB_H
 #define KGAPI2_BLOGGER_COMMENTAPPROVEJOB_H
 
-#include <libkgapi2/modifyjob.h>
+#include "modifyjob.h"
 #include "kgapiblogger_export.h"
 
 namespace KGAPI2

@@ -20,7 +20,7 @@
 #ifndef KGAPI2_BLOG_H
 #define KGAPI2_BLOG_H
 
-#include <object.h>
+#include "object.h"
 #include "kgapiblogger_export.h"
 
 #include <KDateTime>

@@ -139,8 +139,8 @@ BlogPtr Blog::Private::fromJSON(const QVariant &json)
     blog->d->country = locale[QLatin1String("country")].toString();
     blog->d->languageVariant = locale[QLatin1String("variant")].toString();
     const QString metadata = map[QLatin1String("customMetaData")].toString();
-    QJson::Parser parser;
-    blog->d->customMetaData = parser.parse(metadata.toUtf8());
+    QJsonDocument document = QJsonDocument::fromJson(metadata.toUtf8());
+    blog->d->customMetaData = document.toVariant();
 
     return blog;
 }

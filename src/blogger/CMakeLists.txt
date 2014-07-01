@@ -23,14 +23,6 @@ set(kgapiblogger_SRCS
 
 ecm_generate_headers(kgapiblogger_CamelCase_HEADERS
     HEADER_NAMES
-    PageModifyJob
-    Post
-    PostCreateJob
-    PostDeleteJob
-    PostFetchJob
-    PostModifyJob
-    PostPublishJob
-    PostSearchJob
     Blog
     BlogFetchJob
     Comment
@@ -42,7 +34,14 @@ ecm_generate_headers(kgapiblogger_CamelCase_HEADERS
     PageCreateJob
     PageDeleteJob
     PageFetchJob
-
+    PageModifyJob
+    Post
+    PostCreateJob
+    PostDeleteJob
+    PostFetchJob
+    PostModifyJob
+    PostPublishJob
+    PostSearchJob
     PREFIX KGAPI/Blogger
     REQUIRED_HEADERS kgapiblogger_HEADERS
 )
