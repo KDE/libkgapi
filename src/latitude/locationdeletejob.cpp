@@ -103,4 +103,4 @@ void LocationDeleteJob::start()
     d->finished = true;
 }
 
-#include "locationdeletejob.moc"
+

@@ -106,4 +106,4 @@ ObjectsList TaskListModifyJob::handleReplyWithItems(const QNetworkReply *reply, 
     return items;
 }
 
-#include "tasklistmodifyjob.moc"
+

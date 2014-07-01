@@ -93,4 +93,4 @@ void CommentDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray 
 }
 
 
-#include "commentdeletejob.moc"
+

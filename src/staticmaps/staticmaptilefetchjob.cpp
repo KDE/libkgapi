@@ -93,4 +93,4 @@ void StaticMapTileFetchJob::handleReply(const QNetworkReply *reply,
 }
 
 
-#include "staticmaptilefetchjob.moc"
+

@@ -158,4 +158,4 @@ void FileCopyJob::handleReply(const QNetworkReply *reply,
     d->processNext();
 }
 
-#include "filecopyjob.moc"
+

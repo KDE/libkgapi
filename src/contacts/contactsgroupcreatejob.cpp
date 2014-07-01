@@ -112,4 +112,4 @@ ObjectsList ContactsGroupCreateJob::handleReplyWithItems(const QNetworkReply *re
     return items;
 }
 
-#include "contactsgroupcreatejob.moc"
+

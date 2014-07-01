@@ -160,4 +160,4 @@ KGAPI2::ObjectsList EventMoveJob::handleReplyWithItems(const QNetworkReply *repl
 }
 
 
-#include "eventmovejob.moc"
+

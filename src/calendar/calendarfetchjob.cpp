@@ -127,4 +127,4 @@ ObjectsList CalendarFetchJob::handleReplyWithItems(const QNetworkReply *reply, c
     return items;
 }
 
-#include "calendarfetchjob.moc"
+

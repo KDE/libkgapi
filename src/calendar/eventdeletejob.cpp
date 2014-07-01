@@ -107,4 +107,4 @@ void EventDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray& r
 }
 
 
-#include "eventdeletejob.moc"
+

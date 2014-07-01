@@ -120,4 +120,4 @@ void ContactDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray 
 }
 
 
-#include "contactdeletejob.moc"
+

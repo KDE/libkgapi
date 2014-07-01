@@ -94,4 +94,4 @@ void FileDeleteJob::start()
     enqueueRequest(request);
 }
 
-#include "filedeletejob.moc"
+

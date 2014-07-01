@@ -226,4 +226,4 @@ ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, cons
     return items;
 }
 
-#include "eventfetchjob.moc"
+

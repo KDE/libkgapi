@@ -103,4 +103,4 @@ void PermissionDeleteJob::start()
     enqueueRequest(request);
 }
 
-#include "permissiondeletejob.moc"
+

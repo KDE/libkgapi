@@ -121,4 +121,4 @@ ObjectsList PermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     return items;
 }
 
-#include "permissionfetchjob.moc"
+

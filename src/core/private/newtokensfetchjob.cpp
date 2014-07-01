@@ -137,4 +137,4 @@ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray
     d->expiresIn = parsed_data.value(QLatin1String("expires_in")).toULongLong();
 }
 
-#include "newtokensfetchjob.moc"
+

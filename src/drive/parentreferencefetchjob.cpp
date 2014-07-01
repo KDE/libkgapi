@@ -99,4 +99,4 @@ ObjectsList ParentReferenceFetchJob::handleReplyWithItems(const QNetworkReply *r
     return items;
 }
 
-#include "parentreferencefetchjob.moc"
+

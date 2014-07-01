@@ -104,4 +104,4 @@ ObjectsList CalendarModifyJob::handleReplyWithItems(const QNetworkReply *reply, 
     return items;
 }
 
-#include "calendarmodifyjob.moc"
+

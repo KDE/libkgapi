@@ -106,4 +106,4 @@ ObjectsList BlogFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     return items;
 }
 
-#include "blogfetchjob.moc"
+

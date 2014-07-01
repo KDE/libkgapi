@@ -126,4 +126,4 @@ void TaskDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray& ra
     KGAPI2::DeleteJob::handleReply(reply, rawData);
 }
 
-#include "taskdeletejob.moc"
+

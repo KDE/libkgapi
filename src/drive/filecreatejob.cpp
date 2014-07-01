@@ -109,4 +109,4 @@ QUrl FileCreateJob::createUrl(const QString &filePath,
     }
 }
 
-#include "filecreatejob.moc"
+

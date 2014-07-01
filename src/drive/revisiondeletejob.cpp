@@ -103,4 +103,4 @@ void RevisionDeleteJob::start()
     enqueueRequest(request);
 }
 
-#include "revisiondeletejob.moc"
+

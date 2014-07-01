@@ -110,4 +110,4 @@ void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteAr
     d->processNextContact();
 }
 
-#include "contactfetchphotojob.moc"
+

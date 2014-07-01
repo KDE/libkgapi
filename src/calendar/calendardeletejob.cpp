@@ -102,4 +102,4 @@ void CalendarDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray
 }
 
 
-#include "calendardeletejob.moc"
+

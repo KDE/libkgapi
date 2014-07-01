@@ -107,4 +107,4 @@ ObjectsList EventCreateJob::handleReplyWithItems(const QNetworkReply *reply, con
     return items;
 }
 
-#include "eventcreatejob.moc"
+

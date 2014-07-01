@@ -109,4 +109,4 @@ ObjectsList CommentApproveJob::handleReplyWithItems(const QNetworkReply *reply, 
     return items;
 }
 
-#include "commentapprovejob.moc"
+

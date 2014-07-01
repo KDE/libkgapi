@@ -120,4 +120,4 @@ ObjectsList PermissionModifyJob::handleReplyWithItems(const QNetworkReply *reply
     return items;
 }
 
-#include "permissionmodifyjob.moc"
+

@@ -100,4 +100,4 @@ ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, 
     return items;
 }
 
-#include "locationcreatejob.moc"
+

@@ -122,4 +122,4 @@ void ContactsGroupDeleteJob::handleReply(const QNetworkReply* reply, const QByte
 }
 
 
-#include "contactsgroupdeletejob.moc"
+

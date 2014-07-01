@@ -105,4 +105,4 @@ void ParentReferenceDeleteJob::start()
     enqueueRequest(request);
 }
 
-#include "parentreferencedeletejob.moc"
+

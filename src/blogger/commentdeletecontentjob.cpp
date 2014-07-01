@@ -97,4 +97,4 @@ ObjectsList CommentDeleteContentJob::handleReplyWithItems(const QNetworkReply *r
     return items;
 }
 
-#include "commentdeletecontentjob.moc"
+

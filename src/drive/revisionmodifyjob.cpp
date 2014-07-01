@@ -118,5 +118,5 @@ ObjectsList RevisionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
     return items;
 }
 
-#include "revisionmodifyjob.moc"
+
 

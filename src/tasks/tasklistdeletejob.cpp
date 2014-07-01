@@ -120,4 +120,4 @@ void TaskListDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray
 }
 
 
-#include "tasklistdeletejob.moc"
+

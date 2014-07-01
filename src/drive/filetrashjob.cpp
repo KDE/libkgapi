@@ -68,4 +68,4 @@ QUrl FileTrashJob::url(const QString &fileId)
     return DriveService::trashFileUrl(fileId);
 }
 
-#include "filetrashjob.moc"
+

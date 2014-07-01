@@ -84,5 +84,5 @@ ObjectsList PageCreateJob::handleReplyWithItems(const QNetworkReply *reply, cons
     return items;
 }
 
-#include "pagecreatejob.moc"
+
 

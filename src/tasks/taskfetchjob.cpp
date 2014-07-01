@@ -258,4 +258,4 @@ ObjectsList TaskFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     return items;
 }
 
-#include "taskfetchjob.moc"
+

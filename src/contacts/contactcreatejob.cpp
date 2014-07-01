@@ -157,4 +157,4 @@ ObjectsList ContactCreateJob::handleReplyWithItems(const QNetworkReply *reply, c
     return items;
 }
 
-#include "contactcreatejob.moc"
+

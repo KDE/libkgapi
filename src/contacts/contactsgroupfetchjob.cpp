@@ -126,4 +126,4 @@ ObjectsList ContactsGroupFetchJob::handleReplyWithItems(const QNetworkReply *rep
     return items;
 }
 
-#include "contactsgroupfetchjob.moc"
+

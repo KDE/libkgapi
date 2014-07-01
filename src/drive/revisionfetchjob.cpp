@@ -98,4 +98,4 @@ ObjectsList RevisionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     return items;
 }
 
-#include "revisionfetchjob.moc"
+

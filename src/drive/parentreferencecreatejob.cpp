@@ -144,4 +144,4 @@ ObjectsList ParentReferenceCreateJob::handleReplyWithItems(const QNetworkReply *
     return items;
 }
 
-#include "parentreferencecreatejob.moc"
+

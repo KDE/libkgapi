@@ -183,4 +183,4 @@ ObjectsList ContactFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
 }
 
 
-#include "contactfetchjob.moc"
+
