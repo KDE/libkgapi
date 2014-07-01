@@ -232,7 +232,7 @@ QByteArray calendarToJSON(const CalendarPtr& calendar)
     }
 
     QJsonDocument document = QJsonDocument::fromVariant(entry);
-    return document.toJson();
+    return document.toJson(QJsonDocument::Compact);
 }
 
 ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
@@ -673,7 +673,7 @@ QByteArray eventToJSON(const EventPtr& event)
      */
 
     QJsonDocument document = QJsonDocument::fromVariant(data);
-    return document.toJson();
+    return document.toJson(QJsonDocument::Compact);
 }
 
 ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)

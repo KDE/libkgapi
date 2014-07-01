@@ -144,5 +144,5 @@ QByteArray ParentReference::toJSON(const ParentReferencePtr &reference)
     const QVariantMap map = Private::toJSON(reference);
 
     QJsonDocument document = QJsonDocument::fromVariant(map);
-    return document.toJson();
+    return document.toJson(QJsonDocument::Compact);
 }

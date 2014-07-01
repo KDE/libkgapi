@@ -1047,7 +1047,7 @@ QByteArray File::toJSON(const FilePtr &file)
 #endif
 
     QJsonDocument document = QJsonDocument::fromVariant(map);
-    return document.toJson();
+    return document.toJson(QJsonDocument::Compact);
 }
 
 

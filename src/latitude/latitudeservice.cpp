@@ -79,7 +79,7 @@ QByteArray locationToJSON(const LocationPtr &location)
     output.insert(QLatin1String("data"), map);
 
     QJsonDocument document = QJsonDocument::fromVariant(output);
-    return document.toJson();
+    return document.toJson(QJsonDocument::Compact);
 }
 
 ObjectsList parseLocationJSONFeed(const QByteArray & jsonFeed, FeedData & feedData)

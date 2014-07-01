@@ -294,5 +294,5 @@ QByteArray Permission::toJSON(const PermissionPtr &permission)
     }
 
     QJsonDocument document = QJsonDocument::fromVariant(map);
-    return document.toJson();
+    return document.toJson(QJsonDocument::Compact);
 }

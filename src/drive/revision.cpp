@@ -280,5 +280,5 @@ QByteArray Revision::toJSON(const RevisionPtr &revision)
     map[QLatin1String("publishedOutsideDomain")] = revision->publishedOutsideDomain();
 
     QJsonDocument document = QJsonDocument::fromVariant(map);
-    return document.toJson();
+    return document.toJson(QJsonDocument::Compact);
 }

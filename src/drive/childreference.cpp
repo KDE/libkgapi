@@ -144,5 +144,5 @@ QByteArray ChildReference::toJSON(const ChildReferencePtr &reference)
     map[QLatin1String("id")] = reference->id();
 
     QJsonDocument document = QJsonDocument::fromVariant(map);
-    return document.toJson();
+    return document.toJson(QJsonDocument::Compact);
 }
