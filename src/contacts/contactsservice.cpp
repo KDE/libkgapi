@@ -787,7 +787,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
     }
 
     bool isGroup = false;
-    for (int i = 0; i < data.count(); i++) {
+    for (int i = 0; i < data.count(); ++i) {
         const QDomNode n = data.at(i);
         const QDomElement e = n.toElement();
 
@@ -808,7 +808,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
     QStringList groups;
     ContactPtr contact(new Contact);
 
-    for (int i = 0; i < data.count(); i++) {
+    for (int i = 0; i < data.count(); ++i) {
         const QDomNode n = data.at(i);
         const QDomElement e = n.toElement();
 
@@ -1091,7 +1091,7 @@ ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData)
     }
 
     bool isGroup = false;
-    for (int i = 0; i < data.count(); i++) {
+    for (int i = 0; i < data.count(); ++i) {
         const QDomNode n = data.at(i);
         const QDomElement e = n.toElement();
 
@@ -1112,7 +1112,7 @@ ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData)
     ContactsGroupPtr group(new ContactsGroup);
     QStringList groups;
 
-    for (int i = 0; i < data.count(); i++) {
+    for (int i = 0; i < data.count(); ++i) {
         const QDomNode n = data.at(i);
         const QDomElement e = n.toElement();
 

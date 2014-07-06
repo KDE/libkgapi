@@ -32,6 +32,18 @@ namespace KGAPI2 {
 
 class Job;
 
+class WebView : public QWebView
+{
+    Q_OBJECT
+public:
+    explicit WebView(QWidget *parent=0);
+    ~WebView();
+
+protected:
+    void contextMenuEvent( QContextMenuEvent *);
+};
+
+
 class AuthWidget::Private: public QObject {
 
     Q_OBJECT
@@ -52,7 +64,7 @@ class AuthWidget::Private: public QObject {
 
     QProgressBar *progressbar;
     QVBoxLayout *vbox;
-    QWebView *webview;
+    WebView *webview;
     QLabel *label;
 
   private Q_SLOTS:
