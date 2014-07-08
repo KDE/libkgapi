@@ -72,13 +72,13 @@ install(TARGETS
 )
 
 install(FILES
-    ${kgapidrive_CamelCase_HEADERS}
+    ${kgapiblogger_CamelCase_HEADERS}
     DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Blogger"
     COMPONENT Devel
 )
 
 install(FILES
-    ${kgapidrive_HEADERS}
+    ${kgapiblogger_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapiblogger_export.h"
     DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/blogger"
     COMPONENT Devel
