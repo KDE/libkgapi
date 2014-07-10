@@ -52,7 +52,7 @@ add_library(KF5GAPIBlogger
 
 generate_export_header(KF5GAPIBlogger BASE_NAME kgapiblogger)
 
-add_library(KF5::GAPIDrive ALIAS KF5GAPIBlogger)
+add_library(KF5::GAPIBlogger ALIAS KF5GAPIBlogger)
 target_include_directories(KF5GAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
 
 target_link_libraries(KF5GAPIBlogger
