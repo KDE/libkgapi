@@ -24,6 +24,7 @@
 
 #include <KABC/Address>
 #include <KABC/PhoneNumber>
+#include <QMap>
 
 #define SCHEME_URL QLatin1String("http://schemas.google.com/g/2005#")
 
