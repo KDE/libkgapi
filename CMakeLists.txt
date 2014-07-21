@@ -2,7 +2,7 @@ project(libkgapi)
 
 set(KGAPI_VERSION_MAJOR 2)
 set(KGAPI_VERSION_MINOR 1)
-set(KGAPI_VERSION_RELEASE 90)
+set(KGAPI_VERSION_RELEASE 95)
 set(KGAPI_VERSION "${KGAPI_VERSION_MAJOR}.${KGAPI_VERSION_MINOR}.${KGAPI_VERSION_RELEASE}")
 
 cmake_minimum_required(VERSION 2.8)
@@ -14,7 +14,7 @@ find_package(KDE4 4.12.0 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
 
-find_package(KdepimLibs 4.13.90 REQUIRED)
+find_package(KdepimLibs 4.13.95 REQUIRED)
 
 find_package(QJSON REQUIRED)
 set_package_properties(QJSON PROPERTIES DESCRIPTION "Qt library for handling JSON data" URL "http://qjson.sourceforge.net/" TYPE REQUIRED PURPOSE "JSON response/request support")
