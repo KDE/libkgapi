@@ -1,6 +1,7 @@
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${CMAKE_SOURCE_DIR}/libkgapi)
+include_directories(${CMAKE_SOURCE_DIR}/libkgapi2)
 
 remove_definitions(-DQT_NO_CAST_FROM_ASCII)
 
@@ -21,19 +22,33 @@ MACRO(LIBKGAPI_TESTS)
        ENDFOREACH(_testname)
 ENDMACRO(LIBKGAPI_TESTS)
 
-LIBKGAPI_TESTS(
-    objectsaccountinfotests
-    objectscalendartests
-    objectscontacttests
-    objectscontactsgrouptests
-    objectseventtests
-    objectstasktests
-    objectstasklisttests
-    objectslocationtests
-    objectstaticmapurltests
-    servicesaccountinfotests
-    servicescalendartests
-    servicescontactstests
-    serviceslatitudetests
-    servicestaskstests
-)
+macro(add_libkgapi2_test _module _testname)
+    kde4_add_unit_test(${_module}-${_testname} TESTNAME libkgapi2-${_module}-${_testname} ${_module}/${_testname}.cpp)
+    target_link_libraries(${_module}-${_testname}
+                          ${QT_QTTEST_LIBRARY}
+                          ${KDEPIMLIBS_KABC_LIBS}
+                          ${KDEPIMLIBS_KCALCORE_LIBS}
+                          ${qjson_LIBRARIES}
+                          ${QJSON_LIBRARY}
+                          ${QJSON_LIBRARIES}
+                          kgapi2)
+endmacro(add_libkgapi2_test)
+
+#LIBKGAPI_TESTS(
+#    objectsaccountinfotests
+#    objectscalendartests
+#    objectscontacttests
+#    objectscontactsgrouptests
+#    objectseventtests
+#    objectstasktests
+#    objectstasklisttests
+#    objectslocationtests
+#    objectstaticmapurltests
+#    servicesaccountinfotests
+#    servicescalendartests
+#    servicescontactstests
+#    serviceslatitudetests
+#    servicestaskstests
+#)
+
+add_libkgapi2_test(drive filesearchquerytest)

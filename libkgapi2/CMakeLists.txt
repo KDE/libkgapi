@@ -167,6 +167,7 @@ set(LibKGAPI_drive_SRCS
     drive/filefetchjob.cpp
     drive/filefetchcontentjob.cpp
     drive/filemodifyjob.cpp
+    drive/filesearchquery.cpp
     drive/filetouchjob.cpp
     drive/filetrashjob.cpp
     drive/fileuntrashjob.cpp

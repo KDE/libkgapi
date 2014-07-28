@@ -44,5 +44,4 @@ if (KGAPI_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif(KGAPI_BUILD_EXAMPLES)
 
-# FIXME: Port tests to LibKGAPI2
-#add_subdirectory(tests)
+add_subdirectory(tests)

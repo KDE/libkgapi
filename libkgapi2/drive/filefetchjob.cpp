@@ -20,6 +20,7 @@
  */
 
 #include "filefetchjob.h"
+#include "filesearchquery.h"
 #include "account.h"
 #include "debug.h"
 #include "driveservice.h"
@@ -41,6 +42,7 @@ class FileFetchJob::Private
     void processNext();
     QNetworkRequest createRequest(const QUrl &url);
 
+    FileSearchQuery searchQuery;
     QStringList filesIDs;
     bool isFeed;
 
@@ -72,6 +74,9 @@ void FileFetchJob::Private::processNext()
 
     if (isFeed) {
         url = DriveService::fetchFilesUrl();
+        if (!searchQuery.isEmpty()) {
+            url.addQueryItem(QLatin1String("q"), searchQuery.serialize());
+        }
     } else {
         if (filesIDs.isEmpty()) {
             q->emitFinished();
@@ -107,6 +112,16 @@ FileFetchJob::FileFetchJob(const AccountPtr &account, QObject *parent):
 {
     d->isFeed = true;
 }
+
+FileFetchJob::FileFetchJob(const FileSearchQuery &query,
+                           const AccountPtr &account, QObject *parent):
+    FetchJob(account, parent),
+    d(new Private(this))
+{
+    d->isFeed = true;
+    d->searchQuery = query;
+}
+
 
 FileFetchJob::~FileFetchJob()
 {

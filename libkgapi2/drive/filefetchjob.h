@@ -33,6 +33,8 @@ namespace KGAPI2
 namespace Drive
 {
 
+class FileSearchQuery;
+
 class LIBKGAPI2_EXPORT FileFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
@@ -52,6 +54,8 @@ class LIBKGAPI2_EXPORT FileFetchJob : public KGAPI2::FetchJob
     explicit FileFetchJob(const QString &fileId,
                           const AccountPtr &account, QObject *parent = 0);
     explicit FileFetchJob(const QStringList &filesIds,
+                          const AccountPtr &account, QObject *parent = 0);
+    explicit FileFetchJob(const FileSearchQuery &query,
                           const AccountPtr &account, QObject *parent = 0);
     explicit FileFetchJob(const AccountPtr &account, QObject *parent = 0);
     virtual ~FileFetchJob();
