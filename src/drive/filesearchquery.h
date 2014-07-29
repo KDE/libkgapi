@@ -20,7 +20,7 @@
 #ifndef KGAPI2_DRIVE_FILESEARCHQUERY_H
 #define KGAPI2_DRIVE_FILESEARCHQUERY_H
 
-#include <libkgapi2/libkgapi2_export.h>
+#include "kgapidrive_export.h"
 
 #include <QVariant>
 #include <QSharedDataPointer>
@@ -39,7 +39,7 @@ namespace Drive
  *
  * @since 2.3
  */
-class LIBKGAPI2_EXPORT FileSearchQuery
+class KGAPIDRIVE_EXPORT FileSearchQuery
 {
 public:
     enum Field {
