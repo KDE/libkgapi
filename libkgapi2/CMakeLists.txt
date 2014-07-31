@@ -208,6 +208,7 @@ set(LibKGAPI_drive_HDRS
     drive/filefetchjob.h
     drive/filefetchcontentjob.h
     drive/filemodifyjob.h
+    drive/filesearchquery.h
     drive/filetouchjob.h
     drive/filetrashjob.h
     drive/fileuntrashjob.h
