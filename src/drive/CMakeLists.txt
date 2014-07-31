@@ -20,10 +20,10 @@ set(kgapidrive_SRCS
     filefetchcontentjob.cpp
     filefetchjob.cpp
     filemodifyjob.cpp
+    filesearchquery.cpp
     filetouchjob.cpp
     filetrashjob.cpp
     fileuntrashjob.cpp
-    filesearchquery.cpp
     parentreference.cpp
     parentreferencecreatejob.cpp
     parentreferencedeletejob.cpp
@@ -62,10 +62,10 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     FileFetchContentJob
     FileFetchJob
     FileModifyJob
+    FileSearchQuery
     FileTouchJob
     FileTrashJob
     FileUntrashJob
-    FileSearchQuery
     ParentReference
     ParentReferenceCreateJob
     ParentReferenceDeleteJob
