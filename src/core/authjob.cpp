@@ -32,6 +32,7 @@
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QJsonDocument>
+#include <QPointer>
 
 #include <KWindowSystem>
 
@@ -48,6 +49,7 @@ class AuthJob::Private
 
     void _k_fullAuthenticationFinished(const KGAPI2::AccountPtr& account);
     void _k_fullAuthenticationFailed(KGAPI2::Error errorCode, const QString &errorMessage);
+    void _k_destructDelayed();
 
     AccountPtr account;
     QString apiKey;
@@ -56,6 +58,7 @@ class AuthJob::Private
 
     QString username;
     QString password;
+    QPointer<QDialog> dialog;
 
   private:
     AuthJob *q;
@@ -118,6 +121,17 @@ void AuthJob::Private::_k_fullAuthenticationFinished( const AccountPtr &account_
     account = account_;
     q->emitFinished();
 }
+
+void AuthJob::Private::_k_destructDelayed()
+{
+    if (!dialog)
+        return;
+    if (dialog->isVisible())
+        dialog->hide();
+    dialog->deleteLater();
+    dialog = 0;
+}
+
 
 AuthJob::AuthJob(const AccountPtr& account, const QString &apiKey, const QString &secretKey, QWidget* parent):
     Job(parent),
@@ -221,26 +235,27 @@ void AuthJob::start()
     }
 
     if (widget) {
-        QDialog *dlg = new QDialog();
-        dlg->setModal(true);
-        KWindowSystem::setMainWindow(dlg, KWindowSystem::activeWindow());
+        d->dialog = new QDialog();
+        d->dialog->setModal(true);
+        KWindowSystem::setMainWindow(d->dialog, KWindowSystem::activeWindow());
 
-        QVBoxLayout *layout = new QVBoxLayout(dlg);
+        QVBoxLayout *layout = new QVBoxLayout(d->dialog);
         layout->addWidget(widget, 2);
 
         QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Cancel, Qt::Horizontal);
         layout->addWidget(buttons, 0);
 
         connect(buttons, SIGNAL(rejected()),
-                dlg, SLOT(delayedDestruct()));
+                this, SLOT(_k_destructDelayed()));
         connect(widget, SIGNAL(authenticated(KGAPI2::AccountPtr)),
-                dlg, SLOT(delayedDestruct()));
+                this, SLOT(_k_destructDelayed()));
         connect(widget, SIGNAL(error(KGAPI2::Error,QString)),
-                dlg, SLOT(delayedDestruct()));
+                this, SLOT(_k_destructDelayed()));
 
-        dlg->show();
+        d->dialog->show();
         widget->authenticate();
     }
 }
+
 
 #include "moc_authjob.cpp"
