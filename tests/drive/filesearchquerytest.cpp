@@ -20,7 +20,7 @@
 #include <QObject>
 #include <QtTest/QTest>
 
-#include "drive/filesearchquery.h"
+#include "filesearchquery.h"
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;

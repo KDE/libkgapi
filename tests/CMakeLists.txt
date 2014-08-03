@@ -1,37 +1,37 @@
+include(ECMMarkAsTest)
+
+find_package(Qt5Test CONFIG REQUIRED)
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
-include_directories(${CMAKE_SOURCE_DIR}/libkgapi)
-include_directories(${CMAKE_SOURCE_DIR}/libkgapi2)
 
 remove_definitions(-DQT_NO_CAST_FROM_ASCII)
 
 MACRO(LIBKGAPI_TESTS)
        FOREACH(_testname ${ARGN})
-               kde4_add_unit_test(${_testname} TESTNAME libkgapi-${_testname} ${_testname}.cpp)
+               add_executable( ${_testname} ${_testname}.cpp )
+               add_test( ${_testname} ${_testname} )
+               ecm_mark_as_test(libkgapi-${_testname})
                target_link_libraries(${_testname}
-                                     ${QT_QTTEST_LIBRARY}
-                                     ${KDEPIMLIBS_KABC_LIBS}
-                                     ${KDEPIMLIBS_KMIME_LIBS}
-                                     ${KDEPIMLIBS_KCALCORE_LIBS}
-                                     ${qjson_LIBRARIES}        # for Debian
-                                     ${QJSON_LIBRARY}          # for Mac OSX
-                                     ${QJSON_LIBRARIES}
-                                     ${KDE4_KIO_LIBS}
-                                     ${KDE4_KDEUI_LIBS}
+                                     Qt5::Test
+                                     KF5::Abc
+                                     KF5::Mime
+                                     KF5::CalendarCore
+                                     KF5::KIOCore
+                                     
                                      kgapi)
        ENDFOREACH(_testname)
 ENDMACRO(LIBKGAPI_TESTS)
 
 macro(add_libkgapi2_test _module _testname)
-    kde4_add_unit_test(${_module}-${_testname} TESTNAME libkgapi2-${_module}-${_testname} ${_module}/${_testname}.cpp)
+    add_executable( ${_module}-${_testname} ${_module}/${_testname}.cpp )
+    add_test( ${_module}-${_testname} ${_module}-${_testname} )
+    ecm_mark_as_test(libkgapi2-${_module}-${_testname})
     target_link_libraries(${_module}-${_testname}
-                          ${QT_QTTEST_LIBRARY}
-                          ${KDEPIMLIBS_KABC_LIBS}
-                          ${KDEPIMLIBS_KCALCORE_LIBS}
-                          ${qjson_LIBRARIES}
-                          ${QJSON_LIBRARY}
-                          ${QJSON_LIBRARIES}
-                          kgapi2)
+                          Qt5::Test
+                          KF5::Abc
+                          KF5::CalendarCore
+                          KF5GAPIDrive)
 endmacro(add_libkgapi2_test)
 
 #LIBKGAPI_TESTS(
