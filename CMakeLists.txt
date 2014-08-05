@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(kgapi)
 
 # ECM setup
-find_package(ECM 1.0.0 CONFIG REQUIRED)
+find_package(ECM 1.1.0 CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -17,7 +17,7 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
 set(KDEPIMLIBS_LIB_VERSION "4.70.0")
-set(KF5_VERSION "4.100.0")
+set(KF5_VERSION "5.1.0")
 set(KGAPI_LIB_VERSION "4.70.0")
 
 ecm_setup_version(${KGAPI_LIB_VERSION}
