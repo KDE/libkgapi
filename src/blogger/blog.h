@@ -23,7 +23,7 @@
 #include "object.h"
 #include "kgapiblogger_export.h"
 
-#include <KDateTime>
+#include <QDateTime>
 #include <QVariant>
 
 namespace KGAPI2
@@ -41,8 +41,8 @@ class KGAPIBLOGGER_EXPORT Blog : public KGAPI2::Object
     QString id() const;
     QString name() const;
     QString description() const;
-    KDateTime published() const;
-    KDateTime updated() const;
+    QDateTime published() const;
+    QDateTime updated() const;
     QUrl url();
     uint postsCount() const;
     uint pagesCount() const;

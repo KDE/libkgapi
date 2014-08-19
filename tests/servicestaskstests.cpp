@@ -26,13 +26,13 @@ void ServicesTasksTests::compareTasks(const KGAPI::Objects::Task* task, const QS
     if (!fromSerializer) {
         QCOMPARE(task->uid(), values.value("uid").toString());
         QCOMPARE(task->etag(), values.value("etag").toString());
-        QCOMPARE(task->lastModified(), KDateTime::fromString(values.value("lastModified").toString(), KDateTime::RFC3339Date));
+        QCOMPARE(task->lastModified(), QDateTime::fromString(values.value("lastModified").toString(), Qt::ISODate));
     }
     QCOMPARE(task->summary(), values.value("summary").toString());
     QCOMPARE(task->description(), values.value("description").toString());
     QCOMPARE((int) task->status(), values.value("status").toInt());
-    QCOMPARE(task->dtDue(), KDateTime::fromString(values.value("due").toString(), KDateTime::RFC3339Date));
-    QCOMPARE(task->completed(), KDateTime::fromString(values.value("completed").toString(), KDateTime::RFC3339Date));
+    QCOMPARE(task->dtDue(), QDateTime::fromString(values.value("due").toString(), Qt::ISODate));
+    QCOMPARE(task->completed(), QDateTime::fromString(values.value("completed").toString(), Qt::ISODate));
     QCOMPARE(task->deleted(), values.value("deleted").toBool());
     QCOMPARE(task->relatedTo(), values.value("parent").toString());
 }

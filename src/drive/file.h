@@ -28,7 +28,7 @@
 #include <QVariantMap>
 #include <QImage>
 
-#include <KDateTime>
+#include <QDateTime>
 
 namespace KGAPI2
 {
@@ -369,14 +369,14 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     /**
      * @brief Returns the create time for this file.
      */
-    KDateTime createdDate() const;
+    QDateTime createdDate() const;
 
     /**
      * @brief Returns the last time this file was modified by anyone.
      *
      * This is only mutable on update when the setModifiedDate parameter is set.
      */
-    KDateTime modifiedDate() const;
+    QDateTime modifiedDate() const;
 
     /**
      * @brief Sets the last time this file was modified by anyone.
@@ -385,13 +385,13 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
      *
      * @param modifiedDate
      */
-    void setModifiedDate(const KDateTime &modifiedDate);
+    void setModifiedDate(const QDateTime &modifiedDate);
 
     /**
      * @brief Returns the last time this file was modified by the currently
      *        authenticated user.
      */
-    KDateTime modifiedByMeDate() const;
+    QDateTime modifiedByMeDate() const;
 
     /**
      * @brief Returns a short lived download URL for the file.
@@ -448,7 +448,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     /**
      * @brief Returns the time at which this file was shared with the user.
      */
-    KDateTime sharedWithMeDate() const;
+    QDateTime sharedWithMeDate() const;
 
     /**
      * @brief Returns the collection of parent folders which contain this file.
@@ -521,14 +521,14 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     /**
      * @brief Returns the last time this file was viewed by the user.
      */
-    KDateTime lastViewedByMeDate() const;
+    QDateTime lastViewedByMeDate() const;
 
     /**
      * @brief Sets the last time this file was viewed by the user.
      *
      * @param lastViewedByMeDate
      */
-    void setLastViewedByMeDate(const KDateTime &lastViewedByMeDate);
+    void setLastViewedByMeDate(const QDateTime &lastViewedByMeDate);
 
     /**
      * @brief Returns a link for downloading the content of the file in a browser

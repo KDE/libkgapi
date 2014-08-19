@@ -45,8 +45,8 @@ class PostFetchJob::Private
     bool fetchImages;
     uint maxResults;
     QStringList filterLabels;
-    KDateTime startDate;
-    KDateTime endDate;
+    QDateTime startDate;
+    QDateTime endDate;
     StatusFilters statusFilter;
 
   private:
@@ -139,22 +139,22 @@ void PostFetchJob::setFilterLabels(const QStringList &labels)
     d->filterLabels = labels;
 }
 
-KDateTime PostFetchJob::startDate() const
+QDateTime PostFetchJob::startDate() const
 {
     return d->startDate;
 }
 
-void PostFetchJob::setStartDate(const KDateTime &startDate)
+void PostFetchJob::setStartDate(const QDateTime &startDate)
 {
     d->startDate = startDate;
 }
 
-KDateTime PostFetchJob::endDate() const
+QDateTime PostFetchJob::endDate() const
 {
     return d->endDate;
 }
 
-void PostFetchJob::setEndDate(const KDateTime &endDate)
+void PostFetchJob::setEndDate(const QDateTime &endDate)
 {
     d->endDate = endDate;
 }
@@ -174,10 +174,10 @@ void PostFetchJob::start()
     QUrl url = BloggerService::fetchPostUrl(d->blogId, d->postId);
     if (d->postId.isEmpty()) {
         if (d->startDate.isValid()) {
-            url.addQueryItem(QLatin1String("startDate"), d->startDate.toString(KDateTime::RFC3339Date));
+            url.addQueryItem(QLatin1String("startDate"), d->startDate.toString(Qt::ISODate));
         }
         if (d->endDate.isValid()) {
-            url.addQueryItem(QLatin1String("endDate"), d->endDate.toString(KDateTime::RFC3339Date));
+            url.addQueryItem(QLatin1String("endDate"), d->endDate.toString(Qt::ISODate));
         }
         if (d->maxResults > 0) {
             url.addQueryItem(QLatin1String("maxResults"), QString::number(d->maxResults));

@@ -26,7 +26,7 @@
 #include <QtCore/QUrl>
 #include <QtCore/QVariantMap>
 
-#include <KDE/KDateTime>
+#include <QDateTime>
 
 namespace KGAPI2
 {
@@ -70,7 +70,7 @@ class KGAPIDRIVE_EXPORT Revision: public KGAPI2::Object
     /**
      * @brief Returns the last time this revision was modified.
      */
-    KDateTime modifiedDate() const;
+    QDateTime modifiedDate() const;
 
     /**
      * @brief Returns whether this revision is pinned to prevent automatic purging.

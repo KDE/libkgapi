@@ -18,7 +18,7 @@ include(KDEFrameworkCompilerSettings)
 
 set(KDEPIMLIBS_LIB_VERSION "4.70.0")
 set(KF5_VERSION "5.1.0")
-set(KGAPI_LIB_VERSION "4.70.0")
+set(KGAPI_LIB_VERSION "4.71.0")
 
 ecm_setup_version(${KGAPI_LIB_VERSION}
     VARIABLE_PREFIX KGAPI

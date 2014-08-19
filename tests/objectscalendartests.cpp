@@ -37,7 +37,7 @@ void ObjectsCalendarTests::testReminder_data()
     QTest::addColumn< Incidence::Ptr >("incidence");
 
     Incidence::Ptr incidence(new Event());
-    incidence->setDtStart(KDateTime::fromString("2012-01-01T00:00:00.000Z", KDateTime::RFC3339Date));
+    incidence->setDtStart(QDateTime::fromString("2012-01-01T00:00:00.000Z", Qt::ISODate));
     incidence->setDuration(Duration(1, KCalCore::Duration::Days));
 
     Alarm::Ptr alarm(new Alarm(incidence.data()));

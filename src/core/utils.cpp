@@ -21,7 +21,7 @@
 
 #include "utils.h"
 
-#include <KDateTime>
+#include <QDateTime>
 
 KGAPI2::ContentType Utils::stringToContentType(const QString& contentType)
 {
@@ -44,7 +44,7 @@ QString Utils::bool2Str(bool val)
 
 QString Utils::ts2Str(quint64 ts)
 {
-    KDateTime dt;
+    QDateTime dt;
     dt.setTime_t(ts);
-    return dt.toString(KDateTime::RFC3339Date);
+    return dt.toString(Qt::ISODate);
 }

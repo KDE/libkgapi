@@ -25,7 +25,7 @@
 
 #include <QStringList>
 
-#include <KDateTime>
+#include <QDateTime>
 
 namespace KGAPI2
 {
@@ -52,11 +52,11 @@ class KGAPIBLOGGER_EXPORT PostFetchJob : public  KGAPI2::FetchJob
                READ filterLabels
                WRITE setFilterLabels)
 
-    Q_PROPERTY(KDateTime startDate
+    Q_PROPERTY(QDateTime startDate
                READ startDate
                WRITE setStartDate)
 
-    Q_PROPERTY(KDateTime endDate
+    Q_PROPERTY(QDateTime endDate
                READ endDate
                WRITE setEndDate)
 
@@ -96,11 +96,11 @@ class KGAPIBLOGGER_EXPORT PostFetchJob : public  KGAPI2::FetchJob
     QStringList filterLabels() const;
     void setFilterLabels(const QStringList &labels);
 
-    KDateTime startDate() const;
-    void setStartDate(const KDateTime &startDate);
+    QDateTime startDate() const;
+    void setStartDate(const QDateTime &startDate);
 
-    KDateTime endDate() const;
-    void setEndDate(const KDateTime &endDate);
+    QDateTime endDate() const;
+    void setEndDate(const QDateTime &endDate);
 
     void setStatusFilter(StatusFilters filter);
     StatusFilters statusFilter() const;

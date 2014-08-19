@@ -27,7 +27,7 @@
 #include "kgapicontacts_export.h"
 
 #include <KABC/Addressee>
-#include <KDE/KDateTime>
+#include <QDateTime>
 
 namespace KGAPI2
 {
@@ -113,24 +113,24 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      *
      * @param created
      */
-    void setCreated(const KDateTime &created);
+    void setCreated(const QDateTime &created);
 
     /**
      * @brief Returns date and time when the contact was created.
      */
-    KDateTime created() const;
+    QDateTime created() const;
 
     /**
      * @brief Sets date and time or last modification
      *
      * @param updated
      */
-    void setUpdated(const KDateTime &updated);
+    void setUpdated(const QDateTime &updated);
 
     /**
      * @brief Returns date and time of last modification
      */
-    KDateTime updated() const;
+    QDateTime updated() const;
 
     /**
      * @brief Sets name of contact's spouse.

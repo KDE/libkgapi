@@ -34,8 +34,8 @@ class Post::Private
 
     QString id;
     QString blogId;
-    KDateTime published;
-    KDateTime updated;
+    QDateTime published;
+    QDateTime updated;
     QUrl url;
     QString title;
     QString content;
@@ -91,22 +91,22 @@ void Post::setBlogId(const QString &id)
     d->blogId = id;
 }
 
-KDateTime Post::published() const
+QDateTime Post::published() const
 {
     return d->published;
 }
 
-void Post::setPublished(const KDateTime &published)
+void Post::setPublished(const QDateTime &published)
 {
     d->published = published;
 }
 
-KDateTime Post::updated() const
+QDateTime Post::updated() const
 {
     return d->updated;
 }
 
-void Post::setUpdated(const KDateTime &updated)
+void Post::setUpdated(const QDateTime &updated)
 {
     d->updated = updated;
 }
@@ -239,8 +239,8 @@ PostPtr Post::Private::fromJSON(const QVariant &json)
 
     post->d->id = map[QLatin1String("id")].toString();
     post->d->blogId = map[QLatin1String("blog")].toMap()[QLatin1String("id")].toString();
-    post->d->published = KDateTime::fromString(map[QLatin1String("published")].toString(), KDateTime::RFC3339Date);
-    post->d->updated = KDateTime::fromString(map[QLatin1String("updated")].toString(), KDateTime::RFC3339Date);
+    post->d->published = QDateTime::fromString(map[QLatin1String("published")].toString(), Qt::ISODate);
+    post->d->updated = QDateTime::fromString(map[QLatin1String("updated")].toString(), Qt::ISODate);
     post->d->url = map[QLatin1String("url")].toUrl();
     post->d->title = map[QLatin1String("title")].toString();
     post->d->content = map[QLatin1String("content")].toString();
@@ -278,10 +278,10 @@ QVariant Post::Private::toJSON(const PostPtr &post)
     }
 
     if (post->d->published.isValid()) {
-        json[QLatin1String("published")] = post->d->published.toString(KDateTime::RFC3339Date);
+        json[QLatin1String("published")] = post->d->published.toString(Qt::ISODate);
     }
     if (post->d->updated.isValid()) {
-        json[QLatin1String("updated")] = post->d->updated.toString(KDateTime::RFC3339Date);
+        json[QLatin1String("updated")] = post->d->updated.toString(Qt::ISODate);
     }
     json[QLatin1String("title")] = post->d->title;
     json[QLatin1String("content")] = post->d->content;

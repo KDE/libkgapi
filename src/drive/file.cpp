@@ -573,9 +573,9 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->labels = labels;
 
     // FIXME FIXME FIXME Verify the date format
-    file->d->createdDate = KDateTime::fromString(map[QLatin1String("createdDate")].toString(), KDateTime::RFC3339Date);
-    file->d->modifiedDate = KDateTime::fromString(map[QLatin1String("modifiedDate")].toString(), KDateTime::RFC3339Date);
-    file->d->modifiedByMeDate = KDateTime::fromString(map[QLatin1String("modifiedByMeDate")].toString(), KDateTime::RFC3339Date);
+    file->d->createdDate = QDateTime::fromString(map[QLatin1String("createdDate")].toString(), Qt::ISODate);
+    file->d->modifiedDate = QDateTime::fromString(map[QLatin1String("modifiedDate")].toString(), Qt::ISODate);
+    file->d->modifiedByMeDate = QDateTime::fromString(map[QLatin1String("modifiedByMeDate")].toString(), Qt::ISODate);
     file->d->downloadUrl = map[QLatin1String("downloadUrl")].toUrl();
 
     const QVariantMap indexableTextData = map[QLatin1String("indexableText")].toMap();
@@ -591,7 +591,7 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->fileSize = map[QLatin1String("fileSize")].toLongLong();
     file->d->alternateLink = map[QLatin1String("alternateLink")].toUrl();
     file->d->embedLink = map[QLatin1String("embedLink")].toUrl();
-    file->d->sharedWithMeDate = KDateTime::fromString(map[QLatin1String("sharedWithMeDate")].toString(), KDateTime::RFC3339Date);
+    file->d->sharedWithMeDate = QDateTime::fromString(map[QLatin1String("sharedWithMeDate")].toString(), Qt::ISODate);
 
     const QVariantList parents = map[QLatin1String("parents")].toList();
     Q_FOREACH (const QVariant &parent, parents)
@@ -612,7 +612,7 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->editable = map[QLatin1String("editable")].toBool();
     file->d->writersCanShare = map[QLatin1String("writersCanShare")].toBool();
     file->d->thumbnailLink = map[QLatin1String("thumbnailLink")].toUrl();
-    file->d->lastViewedByMeDate = KDateTime::fromString(map[QLatin1String("lastViewedByMeDate")].toString(), KDateTime::RFC3339Date);
+    file->d->lastViewedByMeDate = QDateTime::fromString(map[QLatin1String("lastViewedByMeDate")].toString(), Qt::ISODate);
     file->d->webContentLink = map[QLatin1String("webContentLink")].toUrl();
     file->d->explicitlyTrashed = map[QLatin1String("explicitlyTrashed")].toBool();
 
@@ -710,22 +710,22 @@ void File::setLabels(const File::LabelsPtr &labels)
     d->labels = labels;
 }
 
-KDateTime File::createdDate() const
+QDateTime File::createdDate() const
 {
     return d->createdDate;
 }
 
-KDateTime File::modifiedDate() const
+QDateTime File::modifiedDate() const
 {
     return d->modifiedDate;
 }
 
-void File::setModifiedDate(const KDateTime& modifiedDate)
+void File::setModifiedDate(const QDateTime& modifiedDate)
 {
     d->modifiedDate = modifiedDate;
 }
 
-KDateTime File::modifiedByMeDate() const
+QDateTime File::modifiedByMeDate() const
 {
     return d->modifiedByMeDate;
 }
@@ -770,7 +770,7 @@ QUrl File::embedLink() const
     return d->embedLink;
 }
 
-KDateTime File::sharedWithMeDate() const
+QDateTime File::sharedWithMeDate() const
 {
     return d->sharedWithMeDate;
 }
@@ -825,12 +825,12 @@ QUrl File::thumbnailLink() const
     return d->thumbnailLink;
 }
 
-KDateTime File::lastViewedByMeDate() const
+QDateTime File::lastViewedByMeDate() const
 {
     return d->lastViewedByMeDate;
 }
 
-void File::setLastViewedByMeDate(const KDateTime& lastViewedByMeDate)
+void File::setLastViewedByMeDate(const QDateTime& lastViewedByMeDate)
 {
     d->lastViewedByMeDate = lastViewedByMeDate;
 }
@@ -959,19 +959,19 @@ QByteArray File::toJSON(const FilePtr &file)
     }
 
     if (file->lastViewedByMeDate().isValid()) {
-        map[QLatin1String("lastViewedByMeDate")] = file->lastViewedByMeDate().toString(KDateTime::RFC3339Date);
+        map[QLatin1String("lastViewedByMeDate")] = file->lastViewedByMeDate().toString(Qt::ISODate);
     }
 
     map[QLatin1String("mimeType")] = file->mimeType();
 
     if (file->modifiedDate().isValid()) {
-        map[QLatin1String("modifiedDate")] = file->modifiedDate().toString(KDateTime::RFC3339Date);
+        map[QLatin1String("modifiedDate")] = file->modifiedDate().toString(Qt::ISODate);
     }
     if (file->createdDate().isValid()) {
-        map[QLatin1String("createdDate")] = file->createdDate().toString(KDateTime::RFC3339Date);
+        map[QLatin1String("createdDate")] = file->createdDate().toString(Qt::ISODate);
     }
     if (file->modifiedByMeDate().isValid()) {
-        map[QLatin1String("modifiedByMeDate")] = file->modifiedByMeDate().toString(KDateTime::RFC3339Date);
+        map[QLatin1String("modifiedByMeDate")] = file->modifiedByMeDate().toString(Qt::ISODate);
     }
 
     map[QLatin1String("fileSize")] = file->d->fileSize;
@@ -992,7 +992,7 @@ QByteArray File::toJSON(const FilePtr &file)
     map[QLatin1String("md5Checksum")] = file->d->md5Checksum ;
     map[QLatin1String("alternateLink")] = file->d->alternateLink;
     map[QLatin1String("embedLink")] = file->d->embedLink;
-    map[QLatin1String("sharedWithMeDate")] = file->d->sharedWithMeDate.toString(KDateTime::RFC3339Date);
+    map[QLatin1String("sharedWithMeDate")] = file->d->sharedWithMeDate.toString(Qt::ISODate);
 
 
     map[QLatin1String("originalFileName")] = file->d->originalFileName;
@@ -1002,7 +1002,7 @@ QByteArray File::toJSON(const FilePtr &file)
     map[QLatin1String("editable")] = file->d->editable;
     map[QLatin1String("writersCanShare")] = file->d->writersCanShare;
     map[QLatin1String("thumbnailLink")] = file->d->thumbnailLink;
-    map[QLatin1String("lastViewedByMeDate")] = file->d->lastViewedByMeDate.toString(KDateTime::RFC3339Date);
+    map[QLatin1String("lastViewedByMeDate")] = file->d->lastViewedByMeDate.toString(Qt::ISODate);
     map[QLatin1String("webContentLink")] = file->d->webContentLink;
     map[QLatin1String("explicitlyTrashed")] = file->d->explicitlyTrashed;
 

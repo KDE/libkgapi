@@ -36,12 +36,12 @@ class PostPublishJob::Private
     Private(const QString &blogId,
             const QString &postId,
             PostPublishJob::PublishAction action,
-            const KDateTime &publishDate = KDateTime());
+            const QDateTime &publishDate = QDateTime());
 
     QString blogId;
     QString postId;
     PublishAction action;
-    KDateTime publishDate;
+    QDateTime publishDate;
 
     ObjectPtr response;
 };
@@ -49,7 +49,7 @@ class PostPublishJob::Private
 PostPublishJob::Private::Private(const QString &blogId_,
                                  const QString &postId_,
                                  PostPublishJob::PublishAction action_,
-                                 const KDateTime &publishDate_)
+                                 const QDateTime &publishDate_)
     : blogId(blogId_)
     , postId(postId_)
     , action(action_)
@@ -77,7 +77,7 @@ PostPublishJob::PostPublishJob(const QString &blogId,
 }
 
 PostPublishJob::PostPublishJob(const PostPtr &post,
-                               const KDateTime &publishDate,
+                               const QDateTime &publishDate,
                                const AccountPtr &account,
                                QObject *parent)
     : Job(account, parent)
@@ -87,7 +87,7 @@ PostPublishJob::PostPublishJob(const PostPtr &post,
 
 PostPublishJob::PostPublishJob(const QString &blogId,
                                const QString &postId,
-                               const KDateTime &publishDate,
+                               const QDateTime &publishDate,
                                const AccountPtr &account,
                                QObject *parent)
     : Job(account, parent)
@@ -112,7 +112,7 @@ void PostPublishJob::start()
     if (d->action == Blogger::PostPublishJob::Publish) {
         url = BloggerService::publishPostUrl(d->blogId, d->postId);
         if (d->publishDate.isValid()) {
-            url.addQueryItem(QLatin1String("publishDate"), d->publishDate.toString(KDateTime::RFC3339Date));
+            url.addQueryItem(QLatin1String("publishDate"), d->publishDate.toString(Qt::ISODate));
         }
     } else {
         url = BloggerService::revertPostUrl(d->blogId, d->postId);

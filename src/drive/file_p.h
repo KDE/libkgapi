@@ -40,9 +40,9 @@ class File::Private
     QString mimeType;
     QString description;
     LabelsPtr labels;
-    KDateTime createdDate;
-    KDateTime modifiedDate;
-    KDateTime modifiedByMeDate;
+    QDateTime createdDate;
+    QDateTime modifiedDate;
+    QDateTime modifiedByMeDate;
     QUrl downloadUrl;
     IndexableTextPtr indexableText;
     PermissionPtr userPermission;
@@ -51,7 +51,7 @@ class File::Private
     qlonglong fileSize;
     QUrl alternateLink;
     QUrl embedLink;
-    KDateTime sharedWithMeDate;
+    QDateTime sharedWithMeDate;
     ParentReferencesList parents;
     QMap<QString,QUrl> exportLinks;
     QString originalFileName;
@@ -61,7 +61,7 @@ class File::Private
     bool editable;
     bool writersCanShare;
     QUrl thumbnailLink;
-    KDateTime lastViewedByMeDate;
+    QDateTime lastViewedByMeDate;
     QUrl webContentLink;
     bool explicitlyTrashed;
     ImageMediaMetadataPtr imageMediaMetadata;

@@ -51,7 +51,7 @@ void ServicesContactsTests::compareGroups(const KGAPI::Objects::ContactsGroup *g
 
     if (!fromSerializer) {
         QCOMPARE(group->id(), src.value("id").toString());
-        QCOMPARE(group->updated(), KDateTime::fromString(src.value("updated").toString(), KDateTime::RFC3339Date).dateTime());
+        QCOMPARE(group->updated(), QDateTime::fromString(src.value("updated").toString(), Qt::ISODate).dateTime());
         QCOMPARE(group->isSystemGroup(), src.value("isSystem").toBool());
     }
     QCOMPARE(group->title(), src.value("title").toString());
@@ -103,7 +103,7 @@ void ServicesContactsTests::compareContacts(const KGAPI::Objects::Contact *conta
 
     if (!fromSerializer) {
         QCOMPARE(contact->uid(), src.value("id").toString());
-        QCOMPARE(contact->updated(), KDateTime::fromString(src.value("updated").toString(), KDateTime::RFC3339Date));
+        QCOMPARE(contact->updated(), QDateTime::fromString(src.value("updated").toString(), Qt::ISODate));
         QCOMPARE(contact->name(), src.value("name").toString());
         QCOMPARE(contact->photoUrl(), src.value("photoUrl").toUrl());
         QCOMPARE(contact->formattedName(), src.value("formattedName").toString());

@@ -32,7 +32,7 @@ class Revision::Private
     QString id;
     QUrl selfLink;
     QString mimeType;
-    KDateTime modifiedDate;
+    QDateTime modifiedDate;
     bool pinned;
     bool published;
     QUrl publishedLink;
@@ -91,7 +91,7 @@ RevisionPtr Revision::Private::fromJSON(const QVariantMap &map)
     revision->d->id = map[QLatin1String("id")].toString();
     revision->d->selfLink = map[QLatin1String("selfLink")].toUrl();
     revision->d->mimeType = map[QLatin1String("mimeType")].toString();
-    revision->d->modifiedDate = KDateTime::fromString(map[QLatin1String("modifiedDate")].toString(), KDateTime::RFC3339Date);
+    revision->d->modifiedDate = QDateTime::fromString(map[QLatin1String("modifiedDate")].toString(), Qt::ISODate);
     revision->d->pinned = map[QLatin1String("pinned")].toBool();
     revision->d->published = map[QLatin1String("published")].toBool();
     revision->d->publishedLink = map[QLatin1String("publishedLink")].toUrl();
@@ -145,7 +145,7 @@ QString Revision::mimeType() const
     return d->mimeType;
 }
 
-KDateTime Revision::modifiedDate() const
+QDateTime Revision::modifiedDate() const
 {
     return d->modifiedDate;
 }

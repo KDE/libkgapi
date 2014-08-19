@@ -44,8 +44,8 @@ class CommentFetchJob::Private
     QString postId;
     QString commentId;
     uint maxResults;
-    KDateTime startDate;
-    KDateTime endDate;
+    QDateTime startDate;
+    QDateTime endDate;
     bool fetchBodies;
 
   private:
@@ -115,23 +115,23 @@ CommentFetchJob::~CommentFetchJob()
     delete d;
 }
 
-KDateTime CommentFetchJob::endDate() const
+QDateTime CommentFetchJob::endDate() const
 {
     return d->endDate;
 }
 
-void CommentFetchJob::setEndDate(const KDateTime &endDate)
+void CommentFetchJob::setEndDate(const QDateTime &endDate)
 {
     d->endDate = endDate;
 }
 
-KDateTime CommentFetchJob::startDate() const
+QDateTime CommentFetchJob::startDate() const
 {
     return d->startDate;
 }
 
 
-void CommentFetchJob::setStartDate(const KDateTime &startDate)
+void CommentFetchJob::setStartDate(const QDateTime &startDate)
 {
     d->startDate = startDate;
 }
@@ -161,10 +161,10 @@ void CommentFetchJob::start()
     QUrl url = BloggerService::fetchCommentsUrl(d->blogId, d->postId, d->commentId);
 
     if (d->startDate.isValid()) {
-        url.addQueryItem(QLatin1String("startDate"), d->startDate.toString(KDateTime::RFC3339Date));
+        url.addQueryItem(QLatin1String("startDate"), d->startDate.toString(Qt::ISODate));
     }
     if (d->endDate.isValid()) {
-        url.addQueryItem(QLatin1String("endDate"), d->endDate.toString(KDateTime::RFC3339Date));
+        url.addQueryItem(QLatin1String("endDate"), d->endDate.toString(Qt::ISODate));
     }
     if (d->maxResults > 0) {
         url.addQueryItem(QLatin1String("maxResults"), QString::number(d->maxResults));

@@ -19,7 +19,7 @@
 #include <services/calendar.h>
 #include <objects/event.h>
 
-#include <KDateTime>
+#include <QDateTime>
 #include <KCalCore/Event>
 #include <KCalCore/ICalFormat>
 #include <KDebug>
@@ -43,15 +43,15 @@ void ServicesCalendarTests::testJSONParser_data()
     QTest::addColumn< QString >("id");
     QTest::addColumn< bool >("deleted");
     QTest::addColumn< KCalCore::Event::Status >("status");
-    QTest::addColumn< KDateTime >("created");
-    QTest::addColumn< KDateTime >("updated");
+    QTest::addColumn< QDateTime >("created");
+    QTest::addColumn< QDateTime >("updated");
     QTest::addColumn< QString >("summary");
     QTest::addColumn< QString >("description");
     QTest::addColumn< QString >("location");
     QTest::addColumn< KCalCore::Person::Ptr >("creator");
     QTest::addColumn< KCalCore::Person::Ptr >("organizer");
-    QTest::addColumn< KDateTime >("dtStart");
-    QTest::addColumn< KDateTime >("dtEnd");
+    QTest::addColumn< QDateTime >("dtStart");
+    QTest::addColumn< QDateTime >("dtEnd");
     QTest::addColumn< bool >("allDay");
     QTest::addColumn< KCalCore::Recurrence* >("recurrence");
     QTest::addColumn< KCalCore::Event::Transparency >("transparency");
@@ -66,16 +66,16 @@ void ServicesCalendarTests::testJSONParser_data()
             << "h@0203488aeaa000f7e787fef631d12bc0d7325ef2"
             << false
             << KCalCore::Event::StatusConfirmed
-            << KDateTime::fromString("2012-06-12T20:28:34.000Z", KDateTime::RFC3339Date)
-            << KDateTime::fromString("2012-06-12T20:28:34.000Z", KDateTime::RFC3339Date)
+            << QDateTime::fromString("2012-06-12T20:28:34.000Z", Qt::ISODate)
+            << QDateTime::fromString("2012-06-12T20:28:34.000Z", Qt::ISODate)
             << QString("Den vzniku samostatného československého státu")
             << QString()
             << QString()
             << KCalCore::Person::Ptr(new KCalCore::Person())
             << KCalCore::Person::Ptr(new KCalCore::Person())
-            << KDateTime::fromString("2012-10-28", KDateTime::ISODate)
+            << QDateTime::fromString("2012-10-28", QDateTime::ISODate)
             // Note the end-date correction! */
-            << KDateTime::fromString("2012-10-28", KDateTime::ISODate)
+            << QDateTime::fromString("2012-10-28", QDateTime::ISODate)
             << true
             << new KCalCore::Recurrence()
             << KCalCore::Event::Opaque
@@ -122,15 +122,15 @@ void ServicesCalendarTests::testJSONParser_data()
             << "9dnk2k6bspeoo19c95k9510reo"
             << false
             << KCalCore::Event::StatusConfirmed
-            << KDateTime::fromString("2011-01-13T10:59:00.000Z", KDateTime::RFC3339Date)
-            << KDateTime::fromString("2012-04-25T21:58:28.000Z", KDateTime::RFC3339Date)
+            << QDateTime::fromString("2011-01-13T10:59:00.000Z", Qt::ISODate)
+            << QDateTime::fromString("2012-04-25T21:58:28.000Z", Qt::ISODate)
             << QString("Cell phone payment")
             << QString("samoobsluha.vodafone.cz")
             << QString()
             << KCalCore::Person::Ptr(new KCalCore::Person())
             << KCalCore::Person::Ptr(new KCalCore::Person())
-            << KDateTime::fromString("2010-09-22T00:00:00+04:00", KDateTime::RFC3339Date)
-            << KDateTime::fromString("2010-09-22T00:05:00+04:00", KDateTime::RFC3339Date)
+            << QDateTime::fromString("2010-09-22T00:00:00+04:00", Qt::ISODate)
+            << QDateTime::fromString("2010-09-22T00:05:00+04:00", Qt::ISODate)
             << false
             << recurrence
             << KCalCore::Event::Opaque
@@ -185,15 +185,15 @@ void ServicesCalendarTests::testJSONParser()
 
     QFETCH(QString, id);
     QFETCH(KCalCore::Event::Status, status);
-    QFETCH(KDateTime, created);
-    QFETCH(KDateTime, updated);
+    QFETCH(QDateTime, created);
+    QFETCH(QDateTime, updated);
     QFETCH(QString, summary);
     QFETCH(QString, description);
     QFETCH(QString, location);
     QFETCH(KCalCore::Person::Ptr, creator);
     QFETCH(KCalCore::Person::Ptr, organizer);
-    QFETCH(KDateTime, dtStart);
-    QFETCH(KDateTime, dtEnd);
+    QFETCH(QDateTime, dtStart);
+    QFETCH(QDateTime, dtEnd);
     QFETCH(bool, allDay);
     QFETCH(KCalCore::Recurrence*, recurrence);
     QFETCH(KCalCore::Event::Transparency, transparency);
@@ -216,8 +216,8 @@ void ServicesCalendarTests::testJSONParser()
     QCOMPARE(event->allDay(), allDay);
 
     if (allDay) {
-        QCOMPARE(event->dtStart(), KDateTime(dtStart.date()));
-        QCOMPARE(event->dtEnd(), KDateTime(dtEnd.date()));
+        QCOMPARE(event->dtStart(), QDateTime(dtStart.date()));
+        QCOMPARE(event->dtEnd(), QDateTime(dtEnd.date()));
     } else {
         QCOMPARE(event->dtStart(), dtStart);
         QCOMPARE(event->dtEnd(), dtEnd);
@@ -244,10 +244,10 @@ void ServicesCalendarTests::testJSONSerializer_data()
     event->setUid("h@0203488aeaa000f7e787fef631d12bc0d7325ef2");
     event->setDeleted(false);
     event->setStatus(KCalCore::Incidence::StatusConfirmed);
-    event->setCreated(KDateTime::fromString("2012-06-12T20:28:34.000Z", KDateTime::RFC3339Date));
+    event->setCreated(QDateTime::fromString("2012-06-12T20:28:34.000Z", Qt::ISODate));
     event->setSummary("Den vzniku samostatného československého státu");
-    event->setDtStart(KDateTime::fromString("2012-10-28", KDateTime::ISODate));
-    event->setDtEnd(KDateTime::fromString("2012-10-28", KDateTime::ISODate));
+    event->setDtStart(QDateTime::fromString("2012-10-28", QDateTime::ISODate));
+    event->setDtEnd(QDateTime::fromString("2012-10-28", QDateTime::ISODate));
     event->setAllDay(true);
     event->setTransparency(KCalCore::Event::Opaque);
 
@@ -354,17 +354,17 @@ void ServicesCalendarTests::testJSONSerializer()
 
     start = map["start"].toMap();
     if (event->allDay()) {
-        QCOMPARE(start["date"].toString(), event->dtStart().toString(KDateTime::ISODate));
+        QCOMPARE(start["date"].toString(), event->dtStart().toString(QDateTime::ISODate));
     } else {
-        QCOMPARE(start["dateTime"].toString(), event->dtStart().toString(KDateTime::RFC3339Date));
+        QCOMPARE(start["dateTime"].toString(), event->dtStart().toString(Qt::ISODate));
     }
 
     end = map["end"].toMap();
     if (event->allDay()) {
         /* Note the one-day correction in allday event ending! */
-        QCOMPARE(end["date"].toString(), event->dtEnd().addDays(1).toString(KDateTime::ISODate));
+        QCOMPARE(end["date"].toString(), event->dtEnd().addDays(1).toString(QDateTime::ISODate));
     } else {
-        QCOMPARE(end["dateTime"].toString(), event->dtEnd().toString(KDateTime::RFC3339Date));
+        QCOMPARE(end["dateTime"].toString(), event->dtEnd().toString(Qt::ISODate));
     }
 
     QCOMPARE(map["transparency"].toString(),

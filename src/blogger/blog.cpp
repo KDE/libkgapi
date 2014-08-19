@@ -33,8 +33,8 @@ class Blog::Private
     QString id;
     QString name;
     QString description;
-    KDateTime published;
-    KDateTime updated;
+    QDateTime published;
+    QDateTime updated;
     QUrl url;
     uint postsCount;
     uint pagesCount;
@@ -76,12 +76,12 @@ QString Blog::description() const
     return d->description;
 }
 
-KDateTime Blog::published() const
+QDateTime Blog::published() const
 {
     return d->published;
 }
 
-KDateTime Blog::updated() const
+QDateTime Blog::updated() const
 {
     return d->updated;
 }
@@ -129,8 +129,8 @@ BlogPtr Blog::Private::fromJSON(const QVariant &json)
     blog->d->id = map[QLatin1String("id")].toString();
     blog->d->name = map[QLatin1String("name")].toString();
     blog->d->description = map[QLatin1String("description")].toString();
-    blog->d->published = KDateTime::fromString(map[QLatin1String("published")].toString(), KDateTime::RFC3339Date);
-    blog->d->updated = KDateTime::fromString(map[QLatin1String("updated")].toString(), KDateTime::KDateTime::RFC3339Date);
+    blog->d->published = QDateTime::fromString(map[QLatin1String("published")].toString(), Qt::ISODate);
+    blog->d->updated = QDateTime::fromString(map[QLatin1String("updated")].toString(), Qt::ISODate);
     blog->d->url = map[QLatin1String("url")].toUrl();
     blog->d->postsCount = map[QLatin1String("posts")].toMap()[QLatin1String("totalItems")].toUInt();
     blog->d->pagesCount = map[QLatin1String("pages")].toMap()[QLatin1String("totalItems")].toUInt();

@@ -35,8 +35,8 @@ class Comment::Private
     QString id;
     QString postId;
     QString blogId;
-    KDateTime published;
-    KDateTime updated;
+    QDateTime published;
+    QDateTime updated;
     QString content;
     QString authorId;
     QString authorName;
@@ -91,22 +91,22 @@ void Comment::setBlogId(const QString &blogId)
     d->blogId = blogId;
 }
 
-KDateTime Comment::published() const
+QDateTime Comment::published() const
 {
     return d->published;
 }
 
-void Comment::setPublished(const KDateTime &published)
+void Comment::setPublished(const QDateTime &published)
 {
     d->published = published;
 }
 
-KDateTime Comment::updated() const
+QDateTime Comment::updated() const
 {
     return d->updated;
 }
 
-void Comment::setUpdated(const KDateTime &updated)
+void Comment::setUpdated(const QDateTime &updated)
 {
     d->updated = updated;
 }
@@ -189,8 +189,8 @@ CommentPtr Comment::Private::fromJSON(const QVariant &json)
     comment->d->id = map[QLatin1String("id")].toString();
     comment->d->postId = map[QLatin1String("post")].toMap()[QLatin1String("id")].toString();
     comment->d->blogId = map[QLatin1String("blog")].toMap()[QLatin1String("id")].toString();
-    comment->d->published = KDateTime::fromString(map[QLatin1String("published")].toString(), KDateTime::RFC3339Date);
-    comment->d->updated = KDateTime::fromString(map[QLatin1String("updated")].toString(), KDateTime::RFC3339Date);
+    comment->d->published = QDateTime::fromString(map[QLatin1String("published")].toString(), Qt::ISODate);
+    comment->d->updated = QDateTime::fromString(map[QLatin1String("updated")].toString(), Qt::ISODate);
     comment->d->content = map[QLatin1String("content")].toString();
     const QVariantMap author = map[QLatin1String("author")].toMap();
     comment->d->authorId = author[QLatin1String("id")].toString();

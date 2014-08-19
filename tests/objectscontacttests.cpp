@@ -19,7 +19,7 @@
 
 #include "objectscontacttests.h"
 
-#include <KDateTime>
+#include <QDateTime>
 #include <KUrl>
 
 #include <libkgapi/objects/contact.h>
@@ -197,8 +197,8 @@ void ObjectsContactTests::testContact_data()
 {
     QTest::addColumn< bool >("deleted");
     QTest::addColumn< QUrl >("photoUrl");
-    QTest::addColumn< KDateTime >("created");
-    QTest::addColumn< KDateTime >("updated");
+    QTest::addColumn< QDateTime >("created");
+    QTest::addColumn< QDateTime >("updated");
     QTest::addColumn< QString >("spouseName");
     QTest::addColumn< QString >("managerName");
     QTest::addColumn< QString >("assistantName");
@@ -215,8 +215,8 @@ void ObjectsContactTests::testContact_data()
     QTest::newRow("contact1_czech")
             << true
             << QUrl("https://www.google.com/m8/feeds/photos/media/user@gmail.com/1234abcd/dcba4321")
-            << KDateTime::fromString("2011-12-11T16:55:55.183Z", KDateTime::RFC3339Date)
-            << KDateTime::fromString("2011-12-12T09:32:04.351Z", KDateTime::RFC3339Date)
+            << QDateTime::fromString("2011-12-11T16:55:55.183Z", Qt::ISODate)
+            << QDateTime::fromString("2011-12-12T09:32:04.351Z", Qt::ISODate)
             << "Jane Spouse"
             << "Franta Vomáčka"
             << "Honza Novák"
@@ -233,8 +233,8 @@ void ObjectsContactTests::testContact()
 
     QFETCH(bool, deleted);
     QFETCH(QUrl, photoUrl);
-    QFETCH(KDateTime, created);
-    QFETCH(KDateTime, updated);
+    QFETCH(QDateTime, created);
+    QFETCH(QDateTime, updated);
     QFETCH(QString, spouseName);
     QFETCH(QString, managerName);
     QFETCH(QString, assistantName);

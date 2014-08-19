@@ -26,7 +26,7 @@
 #include <QVariant>
 #include <QStringList>
 
-#include <KDateTime>
+#include <QDateTime>
 
 namespace KGAPI2
 {
@@ -45,11 +45,11 @@ class KGAPIBLOGGER_EXPORT Post : public KGAPI2::Object
     QString blogId();
     void setBlogId(const QString &id);
 
-    KDateTime published() const;
-    void setPublished(const KDateTime &published);
+    QDateTime published() const;
+    void setPublished(const QDateTime &published);
 
-    KDateTime updated() const;
-    void setUpdated(const KDateTime &updated);
+    QDateTime updated() const;
+    void setUpdated(const QDateTime &updated);
 
     QUrl url() const;
     void setUrl(const QUrl &url);

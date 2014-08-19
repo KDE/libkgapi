@@ -44,8 +44,8 @@ class Contact::Private
     /* group URI, isDeleted */
     QMap< QString, bool > groups;
 
-    KDateTime updated;
-    KDateTime created;
+    QDateTime updated;
+    QDateTime created;
 };
 
 
@@ -117,22 +117,22 @@ QUrl Contact::photoUrl() const
     return d->photoUrl;
 }
 
-void Contact::setCreated(const KDateTime &created)
+void Contact::setCreated(const QDateTime &created)
 {
     d->created = created;
 }
 
-KDateTime Contact::created() const
+QDateTime Contact::created() const
 {
     return d->created;
 }
 
-void Contact::setUpdated(const KDateTime& updated)
+void Contact::setUpdated(const QDateTime& updated)
 {
     d->updated = updated;
 }
 
-KDateTime Contact::updated() const
+QDateTime Contact::updated() const
 {
     return d->updated;
 }

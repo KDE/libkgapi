@@ -246,7 +246,7 @@ ObjectPtr Private::JSONToContactsGroup(const QVariantMap& data)
     group->setTitle(Private::stringFromXMLMap(data, QLatin1String("title")));
     group->setContent(Private::stringFromXMLMap(data, QLatin1String("content")));
 
-    group->setUpdated(KDateTime::fromString(Private::stringFromXMLMap(data, QLatin1String("updated")), KDateTime::RFC3339Date).dateTime());
+    group->setUpdated(QDateTime::fromString(Private::stringFromXMLMap(data, QLatin1String("updated")), Qt::ISODate));
 
     if (data.contains(QLatin1String("gContact$systemGroup"))) {
         group->setIsSystemGroup(true);
@@ -291,7 +291,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     contact->setEtag(data.value(QLatin1String("gd$etag")).toString());
 
     /* Date and time when contact was updated on the remote server */
-    contact->setUpdated(KDateTime::fromString(Private::stringFromXMLMap(data, QLatin1String("updated")), KDateTime::RFC3339Date));
+    contact->setUpdated(QDateTime::fromString(Private::stringFromXMLMap(data, QLatin1String("updated")), Qt::ISODate));
 
     /* If the contact was deleted, we don't need more info about it.
      * Just store our own flag, which will be then parsed by the resource
@@ -1122,7 +1122,7 @@ ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData)
         }
 
         if (e.tagName() == QLatin1String("updated")) {
-            group->setUpdated(KDateTime::fromString(e.text(), KDateTime::RFC3339Date).dateTime());
+            group->setUpdated(QDateTime::fromString(e.text(), Qt::ISODate));
             continue;
         }
 

@@ -23,7 +23,7 @@
 #include "fetchjob.h"
 #include "kgapiblogger_export.h"
 
-#include <KDateTime>
+#include <QDateTime>
 
 namespace KGAPI2
 {
@@ -34,11 +34,11 @@ class KGAPIBLOGGER_EXPORT CommentFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
-    Q_PROPERTY(KDateTime endDate
+    Q_PROPERTY(QDateTime endDate
                READ endDate
                WRITE setEndDate)
 
-    Q_PROPERTY(KDateTime startDate
+    Q_PROPERTY(QDateTime startDate
                READ startDate
                WRITE setStartDate)
 
@@ -63,11 +63,11 @@ class KGAPIBLOGGER_EXPORT CommentFetchJob : public KGAPI2::FetchJob
                              QObject *parent = 0);
     virtual ~CommentFetchJob();
 
-    KDateTime endDate() const;
-    void setEndDate(const KDateTime &endDate);
+    QDateTime endDate() const;
+    void setEndDate(const QDateTime &endDate);
 
-    KDateTime startDate() const;
-    void setStartDate(const KDateTime &startDate);
+    QDateTime startDate() const;
+    void setStartDate(const QDateTime &startDate);
 
     bool fetchBodies() const;
     void setFetchBodies(bool fetchBodies);

@@ -36,8 +36,8 @@ class Page::Private
 
     QString id;
     QString blogId;
-    KDateTime published;
-    KDateTime updated;
+    QDateTime published;
+    QDateTime updated;
     QUrl url;
     QString title;
     QString content;
@@ -88,22 +88,22 @@ void Page::setBlogId(const QString &blogId)
     d->blogId = blogId;
 }
 
-KDateTime Page::published() const
+QDateTime Page::published() const
 {
     return d->published;
 }
 
-void Page::setPublished(const KDateTime &published)
+void Page::setPublished(const QDateTime &published)
 {
     d->published = published;
 }
 
-KDateTime Page::updated() const
+QDateTime Page::updated() const
 {
     return d->updated;
 }
 
-void Page::setUpdated(KDateTime &updated)
+void Page::setUpdated(QDateTime &updated)
 {
     d->updated = updated;
 }
@@ -175,8 +175,8 @@ PagePtr Page::Private::fromJSON(const QVariant &json)
 
     page->d->id = map[QLatin1String("id")].toString();
     page->d->blogId = map[QLatin1String("blog")].toMap()[QLatin1String("id")].toString();
-    page->d->published = KDateTime::fromString(map[QLatin1String("published")].toString(), KDateTime::RFC3339Date);
-    page->d->updated = KDateTime::fromString(map[QLatin1String("updated")].toString(), KDateTime::RFC3339Date);
+    page->d->published = QDateTime::fromString(map[QLatin1String("published")].toString(), Qt::ISODate);
+    page->d->updated = QDateTime::fromString(map[QLatin1String("updated")].toString(), Qt::ISODate);
     page->d->url = map[QLatin1String("url")].toUrl();
     page->d->title = map[QLatin1String("title")].toString();
     page->d->content = map[QLatin1String("content")].toString();
@@ -210,10 +210,10 @@ QVariant Page::Private::toJSON(const PagePtr &page)
     }
     map[QLatin1String("blogId")] = page->d->blogId;
     if (page->d->published.isValid()) {
-        map[QLatin1String("published")] = page->d->published.toString(KDateTime::RFC3339Date);
+        map[QLatin1String("published")] = page->d->published.toString(Qt::ISODate);
     }
     if (page->d->updated.isValid()) {
-        map[QLatin1String("updated")] = page->d->updated.toString(KDateTime::RFC3339Date);
+        map[QLatin1String("updated")] = page->d->updated.toString(Qt::ISODate);
     }
     map[QLatin1String("url")] = page->d->url.toString();
     map[QLatin1String("title")] = page->d->title;
