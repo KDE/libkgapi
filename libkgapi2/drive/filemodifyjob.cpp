@@ -158,6 +158,8 @@ QUrl FileModifyJob::createUrl(const QString &filePath,
 
     if (metaData.isNull()) {
         url = DriveService::uploadMediaFileUrl(d->files.value(filePath));
+    } else if (filePath.isEmpty()) {
+        url = DriveService::uploadMetadataFileUrl(metaData->id());
     } else {
         url = DriveService::uploadMultipartFileUrl(d->files.value(filePath));
     }

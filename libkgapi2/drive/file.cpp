@@ -945,9 +945,11 @@ QByteArray File::toJSON(const FilePtr &file)
     QVariantMap map;
 
     map[QLatin1String("kind")] = QLatin1String("drive#file");
-    map[QLatin1String("description")] = file->description();
+    if (!file->description().isEmpty()) {
+        map[QLatin1String("description")] = file->description();
+    }
 
-    if (file->indexableText()) {
+    if (file->indexableText() && !file->indexableText()->text().isEmpty()) {
         QVariantMap indexableText;
         indexableText[QLatin1String("text")] = file->indexableText()->text();
         map[QLatin1String("indexableText")] = indexableText;
@@ -967,7 +969,9 @@ QByteArray File::toJSON(const FilePtr &file)
         map[QLatin1String("lastViewedByMeDate")] = file->lastViewedByMeDate().toString(KDateTime::RFC3339Date);
     }
 
-    map[QLatin1String("mimeType")] = file->mimeType();
+    if (!file->mimeType().isEmpty()) {
+        map[QLatin1String("mimeType")] = file->mimeType();
+    }
 
     if (file->modifiedDate().isValid()) {
         map[QLatin1String("modifiedDate")] = file->modifiedDate().toString(KDateTime::RFC3339Date);
@@ -979,41 +983,91 @@ QByteArray File::toJSON(const FilePtr &file)
         map[QLatin1String("modifiedByMeDate")] = file->modifiedByMeDate().toString(KDateTime::RFC3339Date);
     }
 
-    map[QLatin1String("fileSize")] = file->d->fileSize;
+    if (file->fileSize() > 0) {
+        map[QLatin1String("fileSize")] = file->fileSize();
+    }
 
-    map[QLatin1String("title")] = file->title();
+    if (!file->title().isEmpty()) {
+        map[QLatin1String("title")] = file->title();
+    }
 
     QVariantList parents;
     Q_FOREACH (const ParentReferencePtr &parent, file->parents()) {
         parents << ParentReference::Private::toJSON(parent);
     }
-    map[QLatin1String("parents")] = parents;
-    map[QLatin1String("etag")] = file->etag();
-    map[QLatin1String("id")] = file->d->id;
-    map[QLatin1String("selfLink")] = file->d->selfLink;
-    map[QLatin1String("downloadUrl")] = file->d->downloadUrl;
+    if (!parents.isEmpty()) {
+        map[QLatin1String("parents")] = parents;
+    }
+    if (!file->etag().isEmpty()) {
+        map[QLatin1String("etag")] = file->etag();
+    }
+    if (!file->d->id.isEmpty()) {
+        map[QLatin1String("id")] = file->d->id;
+    }
+    if (!file->d->selfLink.isEmpty()) {
+        map[QLatin1String("selfLink")] = file->d->selfLink;
+    }
+    if (!file->d->downloadUrl.isEmpty()) {
+        map[QLatin1String("downloadUrl")] = file->d->downloadUrl;
+    }
 
-    map[QLatin1String("fileExtension")] = file->d->fileExtension;
-    map[QLatin1String("md5Checksum")] = file->d->md5Checksum ;
-    map[QLatin1String("alternateLink")] = file->d->alternateLink;
-    map[QLatin1String("embedLink")] = file->d->embedLink;
-    map[QLatin1String("sharedWithMeDate")] = file->d->sharedWithMeDate.toString(KDateTime::RFC3339Date);
+    if (!file->d->fileExtension.isEmpty()) {
+        map[QLatin1String("fileExtension")] = file->d->fileExtension;
+    }
+    if (!file->d->md5Checksum.isEmpty()) {
+        map[QLatin1String("md5Checksum")] = file->d->md5Checksum;
+    }
+    if (!file->d->alternateLink.isEmpty()) {
+        map[QLatin1String("alternateLink")] = file->d->alternateLink;
+    }
+    if (!file->d->embedLink.isEmpty()) {
+        map[QLatin1String("embedLink")] = file->d->embedLink;
+    }
+    if (!file->d->sharedWithMeDate.isNull()) {
+        map[QLatin1String("sharedWithMeDate")] = file->d->sharedWithMeDate.toString(KDateTime::RFC3339Date);
+    }
 
 
-    map[QLatin1String("originalFileName")] = file->d->originalFileName;
-    map[QLatin1String("quotaBytesUsed")] = file->d->quotaBytesUsed;
-    map[QLatin1String("ownerNames")] = QVariant(file->d->ownerNames);
-    map[QLatin1String("lastModifyingUserName")] = file->d->lastModifyingUserName;
-    map[QLatin1String("editable")] = file->d->editable;
-    map[QLatin1String("writersCanShare")] = file->d->writersCanShare;
-    map[QLatin1String("thumbnailLink")] = file->d->thumbnailLink;
-    map[QLatin1String("lastViewedByMeDate")] = file->d->lastViewedByMeDate.toString(KDateTime::RFC3339Date);
-    map[QLatin1String("webContentLink")] = file->d->webContentLink;
-    map[QLatin1String("explicitlyTrashed")] = file->d->explicitlyTrashed;
+    if (!file->d->originalFileName.isEmpty()) {
+        map[QLatin1String("originalFileName")] = file->d->originalFileName;
+    }
+    if (file->d->quotaBytesUsed > 0) {
+        map[QLatin1String("quotaBytesUsed")] = file->d->quotaBytesUsed;
+    }
+    if (!file->d->ownerNames.isEmpty()) {
+        map[QLatin1String("ownerNames")] = QVariant(file->d->ownerNames);
+    }
+    if (!file->d->lastModifyingUserName.isEmpty()) {
+        map[QLatin1String("lastModifyingUserName")] = file->d->lastModifyingUserName;
+    }
+    if (!file->d->editable) { // default is true
+        map[QLatin1String("editable")] = file->d->editable;
+    }
+    if (file->d->writersCanShare) { // default is false
+        map[QLatin1String("writersCanShare")] = file->d->writersCanShare;
+    }
+    if (!file->d->thumbnailLink.isEmpty()) {
+        map[QLatin1String("thumbnailLink")] = file->d->thumbnailLink;
+    }
+    if (!file->d->lastViewedByMeDate.isNull()) {
+        map[QLatin1String("lastViewedByMeDate")] = file->d->lastViewedByMeDate.toString(KDateTime::RFC3339Date);
+    }
+    if (!file->d->webContentLink.isEmpty()) {
+        map[QLatin1String("webContentLink")] = file->d->webContentLink;
+    }
+    if (file->d->explicitlyTrashed) {
+        map[QLatin1String("explicitlyTrashed")] = file->d->explicitlyTrashed;
+    }
 
-    map[QLatin1String("webViewLink")] = file->d->webViewLink;
-    map[QLatin1String("iconLink")] = file->d->iconLink;
-    map[QLatin1String("shared")] = file->d->shared;
+    if (!file->d->webViewLink.isEmpty()) {
+        map[QLatin1String("webViewLink")] = file->d->webViewLink;
+    }
+    if (!file->d->iconLink.isEmpty()) {
+        map[QLatin1String("iconLink")] = file->d->iconLink;
+    }
+    if (file->d->shared) {
+        map[QLatin1String("shared")] = file->d->shared;
+    }
 
 #if 0
     const QVariantMap userPermissionData = map[QLatin1String("userPermission")].toMap();
