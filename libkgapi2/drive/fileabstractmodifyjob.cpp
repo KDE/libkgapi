@@ -62,6 +62,7 @@ void FileAbstractModifyJob::Private::processNext()
 
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    request.setHeader(QNetworkRequest::ContentLengthHeader, 0);
     request.setUrl(url);
 
     q->enqueueRequest(request);
