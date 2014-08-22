@@ -76,7 +76,7 @@ namespace DriveService
 
     LIBKGAPI2_EXPORT QUrl untrashFileUrl(const QString &fileId);
 
-    LIBKGAPI2_EXPORT QUrl uploadMetadataFileUrl();
+    LIBKGAPI2_EXPORT QUrl uploadMetadataFileUrl(const QString &fileId = QString());
 
     LIBKGAPI2_EXPORT QUrl uploadMediaFileUrl(const QString &fileId = QString());
 

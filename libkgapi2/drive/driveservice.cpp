@@ -165,9 +165,14 @@ QUrl untrashFileUrl(const QString &fileId)
     return url;
 }
 
-QUrl uploadMetadataFileUrl()
+QUrl uploadMetadataFileUrl(const QString &fileId)
 {
-    return KUrl("https://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/drive/v2/files");
+    if (!fileId.isEmpty()) {
+        url.addPath(fileId);
+    }
+
+    return url;
 }
 
 QUrl uploadMediaFileUrl(const QString &fileId)
@@ -176,16 +181,18 @@ QUrl uploadMediaFileUrl(const QString &fileId)
     if (!fileId.isEmpty()) {
         url.addPath(fileId);
     }
+    url.addQueryItem(QLatin1String("uploadType"), QLatin1String("media"));
 
     return url;
 }
 
 QUrl uploadMultipartFileUrl(const QString &fileId)
 {
-    KUrl url("https://www.googleapis.com/drive/v2/files");
+    KUrl url("https://www.googleapis.com/upload/drive/v2/files");
     if (!fileId.isEmpty()) {
         url.addPath(fileId);
     }
+    url.addQueryItem(QLatin1String("uploadType"), QLatin1String("multipart"));
 
     return url;
 }
