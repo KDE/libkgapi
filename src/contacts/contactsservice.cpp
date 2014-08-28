@@ -27,7 +27,6 @@
 /* Qt::escape() */
 #include <QTextDocument>
 
-#include <QDebug>
 
 namespace KGAPI2
 {

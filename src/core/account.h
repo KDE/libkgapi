@@ -19,7 +19,6 @@
 #define LIBKGAPI2_ACCOUNT_H
 
 #include <QString>
-#include <QStringList>
 #include <QUrl>
 #include <QMetaType>
 #include <QSharedPointer>

@@ -25,11 +25,9 @@
 #include <QWebView>
 #include <QWebFrame>
 #include <QWebElement>
-#include <QNetworkProxy>
 #include <QNetworkReply>
 
 #include <QDateTime>
-#include <QStringBuilder>
 
 #include <KIO/AccessManager>
 

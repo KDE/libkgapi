@@ -20,7 +20,6 @@
 #include "latitudeservice.h"
 #include "location.h"
 
-#include <QDateTime>
 
 #include <QJsonDocument>
 

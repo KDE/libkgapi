@@ -23,7 +23,6 @@
 #define LIBKGAPI2_OBJECT_H
 
 #include <QString>
-#include <QList>
 #include <QSharedPointer>
 
 #include "types.h"
