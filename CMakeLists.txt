@@ -36,7 +36,6 @@ find_package(KF5CalendarCore ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
 find_package(KF5Abc ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
 #find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 
-
 ############## Targets ##############
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kgapi5\")

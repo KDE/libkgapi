@@ -55,10 +55,18 @@ ParentReferencePtr ParentReference::Private::fromJSON(const QVariantMap &map)
 QVariantMap ParentReference::Private::toJSON(const ParentReferencePtr &reference)
 {
     QVariantMap map;
-    map[QLatin1String("id")] = reference->id();
-    map[QLatin1String("selfLink")] = reference->d->selfLink;
-    map[QLatin1String("parentLink")] = reference->d->parentLink;
-    map[QLatin1String("isRoot")] = reference->d->isRoot;
+    if (!reference->d->id.isEmpty()) {
+        map[QLatin1String("id")] = reference->id();
+    }
+    if (!reference->d->selfLink.isEmpty()) {
+        map[QLatin1String("selfLink")] = reference->d->selfLink;
+    }
+    if (!reference->d->parentLink.isEmpty()) {
+        map[QLatin1String("parentLink")] = reference->d->parentLink;
+    }
+    if (reference->d->isRoot) { // default is false
+        map[QLatin1String("isRoot")] = reference->d->isRoot;
+    }
 
     return map;
 }

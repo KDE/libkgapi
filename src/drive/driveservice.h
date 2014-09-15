@@ -76,7 +76,7 @@ namespace DriveService
 
     KGAPIDRIVE_EXPORT QUrl untrashFileUrl(const QString &fileId);
 
-    KGAPIDRIVE_EXPORT QUrl uploadMetadataFileUrl();
+    KGAPIDRIVE_EXPORT QUrl uploadMetadataFileUrl(const QString &fileId = QString());
 
     KGAPIDRIVE_EXPORT QUrl uploadMediaFileUrl(const QString &fileId = QString());
 

@@ -156,10 +156,14 @@ QUrl untrashFileUrl(const QString &fileId)
     return url;
 }
 
-QUrl uploadMetadataFileUrl()
+QUrl uploadMetadataFileUrl(const QString &fileId)
 {
     QUrl url(Private::GoogleApisUrl);
-    url.setPath(Private::FilesBasePath);
+    if (!fileId.isEmpty()) {
+        url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId);
+    } else {
+        url.setPath(Private::FilesBasePath);
+    }
     return url;
 }
 

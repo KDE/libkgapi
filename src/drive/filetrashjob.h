@@ -25,6 +25,9 @@
 #include "fileabstractmodifyjob.h"
 #include "kgapidrive_export.h"
 
+class QNetworkAccessManager;
+class QNetworkRequest;
+
 namespace KGAPI2
 {
 
@@ -48,6 +51,10 @@ class KGAPIDRIVE_EXPORT FileTrashJob : public KGAPI2::Drive::FileAbstractModifyJ
 
   protected:
     virtual QUrl url(const QString &fileId);
+    virtual void dispatchRequest(QNetworkAccessManager *accessManager,
+                                 const QNetworkRequest &request,
+                                 const QByteArray &data,
+                                 const QString &contentType);
 
   private:
     class Private;

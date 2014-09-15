@@ -23,6 +23,9 @@
 #include "fileuntrashjob.h"
 #include "driveservice.h"
 
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
@@ -72,4 +75,16 @@ QUrl FileUntrashJob::url(const QString &fileId)
     return DriveService::untrashFileUrl(fileId);
 }
 
+void FileUntrashJob::dispatchRequest(QNetworkAccessManager *accessManager,
+                                     const QNetworkRequest &request,
+                                     const QByteArray &data,
+                                     const QString &contentType)
+{
+    QNetworkRequest r(request);
+    r.setHeader(QNetworkRequest::ContentTypeHeader, contentType);
+    r.setHeader(QNetworkRequest::ContentLengthHeader, data.size());
+    accessManager->post(r, data);
+}
 
+
+#include "fileuntrashjob.moc"
