@@ -117,7 +117,6 @@ QByteArray FileAbstractUploadJob::Private::buildMultipart(const QString &filePat
     body += '\n';
     body += fileContent;
     body += '\n';
-    body += '\n';
     body += "--" + boundary.toLatin1() + "--";
 
     return body;
@@ -220,6 +219,7 @@ FileAbstractUploadJob::FileAbstractUploadJob(const FilesList &metadata,
     int i = 0;
     Q_FOREACH (const FilePtr &file, metadata) {
         d->files.insert(QString::fromLatin1("?=%1").arg(i), file);
+        ++i;
     }
     d->originalFilesCount = d->files.count();
 }
