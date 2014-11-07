@@ -19,7 +19,7 @@
  *
  */
 
-#ifndef LIKBGAPI2_ACCOUNTINFO_H
+#ifndef LIBKGAPI2_ACCOUNTINFO_H
 #define LIBKGAPI2_ACCOUNTINFO_H
 
 #include "object.h"
