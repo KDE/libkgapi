@@ -24,7 +24,7 @@
 #include "types.h"
 #include "kgapilatitude_export.h"
 
-#include <KABC/Geo>
+#include <KContacts/Geo>
 
 #include <QtCore/QSharedPointer>
 
@@ -39,7 +39,7 @@ namespace KGAPI2
  * @since 0.4
  */
 class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
-                                      public KABC::Geo
+                                      public KContacts::Geo
 {
   public:
 

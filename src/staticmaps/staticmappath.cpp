@@ -36,8 +36,8 @@ class StaticMapPath::Private
     quint8 weight;
 
     QStringList locationsString;
-    QList<KABC::Address> locationsAddress;
-    QList<KABC::Geo> locationsGeo;
+    QList<KContacts::Address> locationsAddress;
+    QList<KContacts::Geo> locationsGeo;
 };
 
 
@@ -84,7 +84,7 @@ StaticMapPath::StaticMapPath(const QStringList & locations, const quint8 weight,
     d->fillColor = fillColor;
 }
 
-StaticMapPath::StaticMapPath(const QList< KABC::Address >& locations, const quint8 weight,
+StaticMapPath::StaticMapPath(const QList< KContacts::Address >& locations, const quint8 weight,
                              const QColor & color, const QColor & fillColor):
     d(new Private)
 {
@@ -95,7 +95,7 @@ StaticMapPath::StaticMapPath(const QList< KABC::Address >& locations, const quin
     d->fillColor = fillColor;
 }
 
-StaticMapPath::StaticMapPath(const QList< KABC::Geo >& locations, const quint8 weight,
+StaticMapPath::StaticMapPath(const QList< KContacts::Geo >& locations, const quint8 weight,
                              const QColor & color, const QColor & fillColor):
     d(new Private)
 {
@@ -154,12 +154,12 @@ void StaticMapPath::setLocations(const QStringList & locations)
     d->locationsGeo.clear();
 }
 
-QList< KABC::Address > StaticMapPath::locationsAddress() const
+QList< KContacts::Address > StaticMapPath::locationsAddress() const
 {
     return d->locationsAddress;
 }
 
-void StaticMapPath::setLocations(const QList< KABC::Address >& locations)
+void StaticMapPath::setLocations(const QList< KContacts::Address >& locations)
 {
     d->locationType = KABCAddress;
     d->locationsAddress = locations;
@@ -167,12 +167,12 @@ void StaticMapPath::setLocations(const QList< KABC::Address >& locations)
     d->locationsGeo.clear();
 }
 
-QList< KABC::Geo > StaticMapPath::locationsGeo() const
+QList< KContacts::Geo > StaticMapPath::locationsGeo() const
 {
     return d->locationsGeo;
 }
 
-void StaticMapPath::setLocations(const QList< KABC::Geo >& locations)
+void StaticMapPath::setLocations(const QList< KContacts::Geo >& locations)
 {
     d->locationType = KABCGeo;
     d->locationsGeo = locations;
@@ -199,13 +199,13 @@ QString StaticMapPath::toString() const
 
     } else if (locationType() == KABCAddress) {
 
-        Q_FOREACH(const KABC::Address & addr, d->locationsAddress) {
+        Q_FOREACH(const KContacts::Address & addr, d->locationsAddress) {
             ret += addr.formattedAddress() + QLatin1String("|");
         }
 
     } else if (locationType() == KABCGeo) {
 
-        Q_FOREACH(const KABC::Geo & addr, d->locationsGeo) {
+        Q_FOREACH(const KContacts::Geo & addr, d->locationsGeo) {
             ret += QString::number(addr.latitude()) + QLatin1String(",") +
                   QString::number(addr.longitude()) + QLatin1String("|");
         }

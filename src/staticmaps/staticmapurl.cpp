@@ -33,8 +33,8 @@ public:
     StaticMapUrl::ImageFormat format;
 
     QString locationString;
-    KABC::Address locationAddress;
-    KABC::Geo locationGeo;
+    KContacts::Address locationAddress;
+    KContacts::Geo locationGeo;
 
     StaticMapUrl::MapType maptype;
     QList<StaticMapMarker> markers;
@@ -44,8 +44,8 @@ public:
     QSize size;
 
     QString visibleString;
-    KABC::Address visibleAddress;
-    KABC::Geo visibleGeo;
+    KContacts::Address visibleAddress;
+    KContacts::Geo visibleGeo;
     StaticMapUrl::LocationType visibleLocationType;
 
     qint32 zoom;
@@ -123,7 +123,7 @@ StaticMapUrl::StaticMapUrl(const QString &location, const QSize &size,
     setSensorUsed(sensor);
 }
 
-StaticMapUrl::StaticMapUrl(const KABC::Address &address, const QSize &size,
+StaticMapUrl::StaticMapUrl(const KContacts::Address &address, const QSize &size,
                            quint32 zoom, bool sensor):
     d(new Private)
 {
@@ -133,7 +133,7 @@ StaticMapUrl::StaticMapUrl(const KABC::Address &address, const QSize &size,
     setSensorUsed(sensor);
 }
 
-StaticMapUrl::StaticMapUrl(const KABC::Geo &geo, const QSize &size,
+StaticMapUrl::StaticMapUrl(const KContacts::Geo &geo, const QSize &size,
                            quint32 zoom, bool sensor):
     d(new Private)
 {
@@ -201,12 +201,12 @@ void StaticMapUrl::setLocation(const QString& location)
     d->locationGeo.setLongitude(181);
 }
 
-KABC::Address StaticMapUrl::locationAddress() const
+KContacts::Address StaticMapUrl::locationAddress() const
 {
     return d->locationAddress;
 }
 
-void StaticMapUrl::setLocation(const KABC::Address& address)
+void StaticMapUrl::setLocation(const KContacts::Address& address)
 {
     d->locationAddress = address;
     d->locationType = KABCAddress;
@@ -215,12 +215,12 @@ void StaticMapUrl::setLocation(const KABC::Address& address)
     d->locationGeo.setLongitude(181);
 }
 
-KABC::Geo StaticMapUrl::locationGeo() const
+KContacts::Geo StaticMapUrl::locationGeo() const
 {
     return d->locationGeo;
 }
 
-void StaticMapUrl::setLocation(const KABC::Geo& geo)
+void StaticMapUrl::setLocation(const KContacts::Geo& geo)
 {
     d->locationGeo = geo;
     d->locationType = KABCGeo;
@@ -316,12 +316,12 @@ void StaticMapUrl::setVisibleLocation(const QString & location)
     d->visibleGeo.setLongitude(181);
 }
 
-KABC::Address StaticMapUrl::visibleLocationAddress() const
+KContacts::Address StaticMapUrl::visibleLocationAddress() const
 {
     return d->locationAddress;
 }
 
-void StaticMapUrl::setVisibleLocation(const KABC::Address & address)
+void StaticMapUrl::setVisibleLocation(const KContacts::Address & address)
 {
     d->visibleAddress = address;
     d->visibleLocationType = KABCAddress;
@@ -330,12 +330,12 @@ void StaticMapUrl::setVisibleLocation(const KABC::Address & address)
     d->visibleGeo.setLongitude(181);
 }
 
-KABC::Geo StaticMapUrl::visibleLocationGeo() const
+KContacts::Geo StaticMapUrl::visibleLocationGeo() const
 {
     return d->locationGeo;
 }
 
-void StaticMapUrl::setVisibleLocation(const KABC::Geo & geo)
+void StaticMapUrl::setVisibleLocation(const KContacts::Geo & geo)
 {
     d->visibleGeo = geo;
     d->visibleLocationType = KABCGeo;

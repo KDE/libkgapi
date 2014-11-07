@@ -35,8 +35,8 @@ public:
     QChar label;
 
     QStringList locationsString;
-    QList<KABC::Address> locationsAddress;
-    QList<KABC::Geo> locationsGeo;
+    QList<KContacts::Address> locationsAddress;
+    QList<KContacts::Geo> locationsGeo;
 };
 
 StaticMapMarker::Private::Private():
@@ -78,10 +78,10 @@ StaticMapMarker::StaticMapMarker (const QString& address, const QChar& label, co
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker (const KABC::Address& address, const QChar& label, const MarkerSize size, const QColor& color):
+StaticMapMarker::StaticMapMarker (const KContacts::Address& address, const QChar& label, const MarkerSize size, const QColor& color):
     d(new Private)
 {
-    QList<KABC::Address> list;
+    QList<KContacts::Address> list;
     list << address;
     d->locationType = KABCAddress;
     d->locationsAddress = list;
@@ -90,10 +90,10 @@ StaticMapMarker::StaticMapMarker (const KABC::Address& address, const QChar& lab
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker (const KABC::Geo& address, const QChar& label, const MarkerSize size, const QColor& color):
+StaticMapMarker::StaticMapMarker (const KContacts::Geo& address, const QChar& label, const MarkerSize size, const QColor& color):
     d(new Private)
 {
-    QList<KABC::Geo> list;
+    QList<KContacts::Geo> list;
     list << address;
     d->locationType = KABCGeo;
     d->locationsGeo = list;
@@ -113,7 +113,7 @@ StaticMapMarker::StaticMapMarker(const QStringList & locations, const QChar& lab
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const QList< KABC::Address >& locations, const QChar& label,
+StaticMapMarker::StaticMapMarker(const QList< KContacts::Address >& locations, const QChar& label,
                                  const MarkerSize size, const QColor& color):
     d(new Private)
 {
@@ -124,7 +124,7 @@ StaticMapMarker::StaticMapMarker(const QList< KABC::Address >& locations, const 
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const QList< KABC::Geo >& locations, const QChar& label,
+StaticMapMarker::StaticMapMarker(const QList< KContacts::Geo >& locations, const QChar& label,
                                  const MarkerSize size, const QColor& color):
     d(new Private)
 {
@@ -197,12 +197,12 @@ void StaticMapMarker::setLocations(const QStringList& locations)
     d->locationsGeo.clear();
 }
 
-QList< KABC::Address > StaticMapMarker::locationsAddress() const
+QList< KContacts::Address > StaticMapMarker::locationsAddress() const
 {
     return d->locationsAddress;
 }
 
-void StaticMapMarker::setLocation(const KABC::Address& location)
+void StaticMapMarker::setLocation(const KContacts::Address& location)
 {
     d->locationType = KABCAddress;
     d->locationsAddress.clear();
@@ -211,7 +211,7 @@ void StaticMapMarker::setLocation(const KABC::Address& location)
     d->locationsGeo.clear();
 }
 
-void StaticMapMarker::setLocations(const QList< KABC::Address >& locations)
+void StaticMapMarker::setLocations(const QList< KContacts::Address >& locations)
 {
     d->locationType = KABCAddress;
     d->locationsAddress = locations;
@@ -219,12 +219,12 @@ void StaticMapMarker::setLocations(const QList< KABC::Address >& locations)
     d->locationsGeo.clear();
 }
 
-QList< KABC::Geo > StaticMapMarker::locationsGeo() const
+QList< KContacts::Geo > StaticMapMarker::locationsGeo() const
 {
     return d->locationsGeo;
 }
 
-void StaticMapMarker::setLocation(const KABC::Geo& location)
+void StaticMapMarker::setLocation(const KContacts::Geo& location)
 {
     d->locationType = KABCGeo;
     d->locationsGeo.clear();
@@ -233,7 +233,7 @@ void StaticMapMarker::setLocation(const KABC::Geo& location)
     d->locationsAddress.clear();
 }
 
-void StaticMapMarker::setLocations(const QList< KABC::Geo >& locations)
+void StaticMapMarker::setLocations(const QList< KContacts::Geo >& locations)
 {
     d->locationType = KABCGeo;
     d->locationsGeo = locations;
@@ -283,13 +283,13 @@ QString StaticMapMarker::toString() const
 
     } else if (d->locationType == KABCAddress) {
 
-        Q_FOREACH(const KABC::Address & addr, d->locationsAddress) {
+        Q_FOREACH(const KContacts::Address & addr, d->locationsAddress) {
             ret += addr.formattedAddress() + QLatin1String("|");
         }
 
     } else if (d->locationType == KABCGeo) {
 
-        Q_FOREACH(const KABC::Geo & addr, d->locationsGeo) {
+        Q_FOREACH(const KContacts::Geo & addr, d->locationsGeo) {
             ret += QString::number(addr.latitude()) + QLatin1String(",") +
                   QString::number(addr.longitude()) + QLatin1String("|");
         }

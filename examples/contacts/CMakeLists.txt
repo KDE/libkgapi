@@ -19,7 +19,7 @@ add_executable(contacts-example
 )
 
 target_link_libraries(contacts-example
-        KF5::Abc
+        KF5::Contacts
         kgapi2
 )
 

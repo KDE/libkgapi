@@ -32,7 +32,7 @@ target_include_directories(KF5GAPILatitude INTERFACE "$<INSTALL_INTERFACE:${KF5_
 target_link_libraries(KF5GAPILatitude
 PUBLIC
     KF5::GAPICore
-    KF5::Abc
+    KF5::Contacts
 )
 
 set_target_properties(KF5GAPILatitude PROPERTIES

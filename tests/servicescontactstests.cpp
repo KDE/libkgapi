@@ -21,8 +21,8 @@
 #include "objects/contactsgroup.h"
 #include "objects/contact.h"
 
-#include <KABC/PhoneNumber>
-#include <KABC/Address>
+#include <KContacts/PhoneNumber>
+#include <KContacts/Address>
 
 #include <QFile>
 #include <QStringList>
@@ -39,10 +39,10 @@ class IM {
 
 Q_DECLARE_METATYPE(IM)
 Q_DECLARE_METATYPE(QList< IM >)
-Q_DECLARE_METATYPE(KABC::PhoneNumber::List)
-Q_DECLARE_METATYPE(KABC::Address::List)
-Q_DECLARE_METATYPE(KABC::PhoneNumber)
-Q_DECLARE_METATYPE(KABC::Address)
+Q_DECLARE_METATYPE(KContacts::PhoneNumber::List)
+Q_DECLARE_METATYPE(KContacts::Address::List)
+Q_DECLARE_METATYPE(KContacts::PhoneNumber)
+Q_DECLARE_METATYPE(KContacts::Address)
 
 
 void ServicesContactsTests::compareGroups(const KGAPI::Objects::ContactsGroup *group, const QSettings &src, bool fromSerializer)
@@ -136,7 +136,7 @@ void ServicesContactsTests::compareContacts(const KGAPI::Objects::Contact *conta
     QList< QVariant > postalTypes = src.value("postalTypes").toList();
     QCOMPARE(contact->addresses().count(), streets.count());
     for (int i = 0; i < contact->addresses().count(); i++) {
-        KABC::Address address = contact->addresses().at(i);
+        KContacts::Address address = contact->addresses().at(i);
 
         QCOMPARE(address.country(), postalCountries.at(i));
         QCOMPARE(address.extended(), extendedAddresses.at(i));

@@ -24,8 +24,8 @@
 
 #include <QtGui/QColor>
 
-#include <KABC/Address>
-#include <KABC/Geo>
+#include <KContacts/Address>
+#include <KContacts/Geo>
 
 namespace KGAPI2
 {
@@ -75,25 +75,25 @@ class KGAPIMAPS_EXPORT StaticMapMarker
     /**
      * @brief Constructs a new marker
      *
-     * @param address Location in KABC::Address where marker will be visible
+     * @param address Location in KContacts::Address where marker will be visible
      * @param label Specifies a single uppercase alphanumeric character from
      *              set {A-Z, 0-9} which will be displayed in the marker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const KABC::Address & address, const QChar & label = QChar(),
+    explicit StaticMapMarker(const KContacts::Address & address, const QChar & label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
      * @brief Constructs a new marker
      *
-     * @param address Location in KABC::Geo where marker will be visible
+     * @param address Location in KContacts::Geo where marker will be visible
      * @param label Specifies a single uppercase alphanumeric character from
      *              set {A-Z, 0-9} which will be displayed in the marker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const KABC::Geo & address, const QChar & label = QChar(),
+    explicit StaticMapMarker(const KContacts::Geo & address, const QChar & label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
@@ -110,25 +110,25 @@ class KGAPIMAPS_EXPORT StaticMapMarker
     /**
      * @brief Constructs a new marker
      *
-     * @param locations Locations in KABC::Address where marker will be visible
+     * @param locations Locations in KContacts::Address where marker will be visible
      * @param label Specifies a single uppercase alphanumeric character from
      *              set {A-Z, 0-9} which will be displayed in the marker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const QList<KABC::Address> & locations, const QChar & label = QChar(),
+    explicit StaticMapMarker(const QList<KContacts::Address> & locations, const QChar & label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
      * @brief Constructs a new marker
      *
-     * @param locations Locations in KABC::Geo where marker will be visible
+     * @param locations Locations in KContacts::Geo where marker will be visible
      * @param label Specifies a single uppercase alphanumeric character from
      *              set {A-Z, 0-9} which will be displayed in the marker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const QList<KABC::Geo> & locations, const QChar & label = QChar(),
+    explicit StaticMapMarker(const QList<KContacts::Geo> & locations, const QChar & label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
@@ -196,42 +196,42 @@ class KGAPIMAPS_EXPORT StaticMapMarker
     void setLocations(const QStringList & locations);
 
     /**
-     * @brief Returns locations in KABC::Address
+     * @brief Returns locations in KContacts::Address
      */
-    QList<KABC::Address> locationsAddress() const;
+    QList<KContacts::Address> locationsAddress() const;
 
     /**
      * @brief Sets one location for marker
      *
-     * @param location Location for marker in KABC::Address
+     * @param location Location for marker in KContacts::Address
      */
-    void setLocation(const KABC::Address & location);
+    void setLocation(const KContacts::Address & location);
 
     /**
      * @brief Sets locations for marker
      *
-     * @param locations Locations for marker in KABC::Address
+     * @param locations Locations for marker in KContacts::Address
      */
-    void setLocations(const QList<KABC::Address> & locations);
+    void setLocations(const QList<KContacts::Address> & locations);
 
     /**
-     * @brief Returns locations in KABC::Geo
+     * @brief Returns locations in KContacts::Geo
      */
-    QList<KABC::Geo> locationsGeo() const;
+    QList<KContacts::Geo> locationsGeo() const;
 
     /**
      * @brief Sets one location for marker
      *
-     * @param location Location for marker in KABC::Geo
+     * @param location Location for marker in KContacts::Geo
      */
-    void setLocation(const KABC::Geo & location);
+    void setLocation(const KContacts::Geo & location);
 
     /**
      * @brief Sets locations for marker
      *
-     * @param locations Locations for marker in KABC::Geo
+     * @param locations Locations for marker in KContacts::Geo
      */
-    void setLocations(const QList<KABC::Geo> & locations);
+    void setLocations(const QList<KContacts::Geo> & locations);
 
     /**
      * @brief Returns all locations and markers preferences in format to URL query.

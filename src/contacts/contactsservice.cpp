@@ -445,7 +445,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     const QVariantList phones = data.value(QLatin1String("gd$phoneNumber")).toList();
     Q_FOREACH(const QVariant & p, phones) {
         const QVariantMap phone = p.toMap();
-        contact->insertPhoneNumber(KABC::PhoneNumber(phone.value(QLatin1String("$t")).toString(),
+        contact->insertPhoneNumber(KContacts::PhoneNumber(phone.value(QLatin1String("$t")).toString(),
                                   Contact::phoneSchemeToType(phone.value(QLatin1String("rel")).toString())));
     }
 
@@ -453,7 +453,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     const QVariantList addresses = data.value(QLatin1String("gd$structuredPostalAddress")).toList();
     Q_FOREACH(const QVariant & a, addresses) {
         const QVariantMap address = a.toMap();
-        KABC::Address addr;
+        KContacts::Address addr;
         if (!address.contains(QLatin1String("gd$city")) &&
                 !address.contains(QLatin1String("gd$country")) &&
                 !address.contains(QLatin1String("gd$postcode")) &&
@@ -685,12 +685,12 @@ QByteArray contactToXML(const ContactPtr& contact)
 
     /* Phone numbers */
     const QString phone_str = QLatin1String("<gd:phoneNumber rel=\"%1\">%2</gd:phoneNumber>");
-    Q_FOREACH(const KABC::PhoneNumber &number, contact->phoneNumbers()) {
+    Q_FOREACH(const KContacts::PhoneNumber &number, contact->phoneNumbers()) {
         output.append(phone_str.arg(Contact::phoneTypeToScheme(number.type()), number.number()).toUtf8());
     }
 
     /* Address */
-    Q_FOREACH(const KABC::Address &address, contact->addresses()) {
+    Q_FOREACH(const KContacts::Address &address, contact->addresses()) {
         output.append("<gd:structuredPostalAddress rel='")
         .append(Contact::addressTypeToScheme(address.type()).toUtf8())
         .append("'>");
@@ -989,13 +989,13 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Phone numbers */
         if (e.tagName() == QLatin1String("gd:phoneNumber")) {
-            contact->insertPhoneNumber(KABC::PhoneNumber(e.text(), Contact::phoneSchemeToType(e.attribute(QLatin1String("rel")))));
+            contact->insertPhoneNumber(KContacts::PhoneNumber(e.text(), Contact::phoneSchemeToType(e.attribute(QLatin1String("rel")))));
             continue;
         }
 
         /* Addresses */
         if (e.tagName() == QLatin1String("gd:structuredPostalAddress")) {
-            KABC::Address address;
+            KContacts::Address address;
             const QDomNodeList l = e.childNodes();
             for (int i = 0; i < l.length(); ++i) {
                 const QDomElement el = l.at(i).toElement();

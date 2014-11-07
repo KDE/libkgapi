@@ -26,10 +26,10 @@ Q_DECLARE_METATYPE(StaticMapUrl::ImageFormat);
 Q_DECLARE_METATYPE(StaticMapUrl::MapType);
 Q_DECLARE_METATYPE(StaticMapUrl::Scale)
 Q_DECLARE_METATYPE(StaticMapMarker::MarkerSize);
-Q_DECLARE_METATYPE(KABC::Address);
-Q_DECLARE_METATYPE(KABC::Geo);
-Q_DECLARE_METATYPE(QList<KABC::Address>);
-Q_DECLARE_METATYPE(QList<KABC::Geo>);
+Q_DECLARE_METATYPE(KContacts::Address);
+Q_DECLARE_METATYPE(KContacts::Geo);
+Q_DECLARE_METATYPE(QList<KContacts::Address>);
+Q_DECLARE_METATYPE(QList<KContacts::Geo>);
 
 void ObjectStaticMapUrlTests::testBasicUrl_data()
 {
@@ -89,7 +89,7 @@ void ObjectStaticMapUrlTests::testBasicUrl()
 
 void ObjectStaticMapUrlTests::testBasicUrlAddress_data()
 {
-    QTest::addColumn<KABC::Address>("center");
+    QTest::addColumn<KContacts::Address>("center");
     QTest::addColumn<quint8>("zoom");
     QTest::addColumn<QSize>("size");
     QTest::addColumn<StaticMapUrl::Scale>("scale");
@@ -98,7 +98,7 @@ void ObjectStaticMapUrlTests::testBasicUrlAddress_data()
     QTest::addColumn<bool>("sensor");
     QTest::addColumn<QString>("result");
 
-    KABC::Address addr1;
+    KContacts::Address addr1;
     addr1.setLocality("Litovel");
     addr1.setStreet("Uncovice");
 
@@ -112,7 +112,7 @@ void ObjectStaticMapUrlTests::testBasicUrlAddress_data()
         << false
         << "http://maps.googleapis.com/maps/api/staticmap?center=Uncovice,Litovel&zoom=14&size=640x640&format=png32&maptype=terrain&sensor=false";
 
-    KABC::Address addr2;
+    KContacts::Address addr2;
     addr2.setLocality("Olomouc");
     addr2.setStreet("Gregrova");
 
@@ -132,7 +132,7 @@ void ObjectStaticMapUrlTests::testBasicUrlAddress()
 {
     StaticMapUrl url;
 
-    QFETCH(KABC::Address, center);
+    QFETCH(KContacts::Address, center);
     QFETCH(quint8, zoom);
     QFETCH(QSize, size);
     QFETCH(StaticMapUrl::Scale, scale);
@@ -154,7 +154,7 @@ void ObjectStaticMapUrlTests::testBasicUrlAddress()
 
 void ObjectStaticMapUrlTests::testBasicUrlGeo_data()
 {
-    QTest::addColumn<KABC::Geo>("center");
+    QTest::addColumn<KContacts::Geo>("center");
     QTest::addColumn<quint8>("zoom");
     QTest::addColumn<QSize>("size");
     QTest::addColumn<StaticMapUrl::Scale>("scale");
@@ -164,7 +164,7 @@ void ObjectStaticMapUrlTests::testBasicUrlGeo_data()
     QTest::addColumn<QString>("result");
 
     QTest::newRow("map1")
-        << KABC::Geo(49.7014, 17.0756)
+        << KContacts::Geo(49.7014, 17.0756)
         << (quint8) 14
         << QSize(640, 640)
         << (StaticMapUrl::Scale) 1
@@ -174,7 +174,7 @@ void ObjectStaticMapUrlTests::testBasicUrlGeo_data()
         << "http://maps.googleapis.com/maps/api/staticmap?center=49.7014,17.0756&zoom=14&size=640x640&format=jpg-baseline&sensor=false";
 
     QTest::newRow("map2")
-        << KABC::Geo(49.5953, 17.2518)
+        << KContacts::Geo(49.5953, 17.2518)
         << (quint8) 13
         << QSize(640, 640)
         << (StaticMapUrl::Scale) 2
@@ -188,7 +188,7 @@ void ObjectStaticMapUrlTests::testBasicUrlGeo()
 {
     StaticMapUrl url;
 
-    QFETCH(KABC::Geo, center);
+    QFETCH(KContacts::Geo, center);
     QFETCH(quint8, zoom);
     QFETCH(QSize, size);
     QFETCH(StaticMapUrl::Scale, scale);
@@ -296,18 +296,18 @@ void ObjectStaticMapUrlTests::testMarkersAddress_data()
 {
     QTest::addColumn<QSize>("size");
     QTest::addColumn<StaticMapUrl::Scale>("scale");
-    QTest::addColumn<QList< KABC::Address> >("markerlocations");
+    QTest::addColumn<QList< KContacts::Address> >("markerlocations");
     QTest::addColumn<bool>("sensor");
     QTest::addColumn<QString>("result");
 
-    QList<KABC::Address> list1;
-    KABC::Address addr1;
+    QList<KContacts::Address> list1;
+    KContacts::Address addr1;
     addr1.setLocality("Litovel");
     addr1.setStreet("Uncovice");
-    KABC::Address addr2;
+    KContacts::Address addr2;
     addr2.setLocality("Litovel");
     addr2.setStreet("Brezove");
-    KABC::Address addr3;
+    KContacts::Address addr3;
     addr3.setLocality("Litovel");
     addr3.setStreet("Rozvadovice");
 
@@ -329,7 +329,7 @@ void ObjectStaticMapUrlTests::testMarkersAddress()
 
     QFETCH(QSize, size);
     QFETCH(StaticMapUrl::Scale, scale);
-    QFETCH(QList<KABC::Address>, markerlocations);
+    QFETCH(QList<KContacts::Address>, markerlocations);
     QFETCH(bool, sensor);
     QFETCH(QString, result);
 
@@ -345,13 +345,13 @@ void ObjectStaticMapUrlTests::testMarkersGeo_data()
 {
     QTest::addColumn<QSize>("size");
     QTest::addColumn<StaticMapUrl::Scale>("scale");
-    QTest::addColumn<QList< KABC::Geo> >("markerlocations");
+    QTest::addColumn<QList< KContacts::Geo> >("markerlocations");
     QTest::addColumn<bool>("sensor");
     QTest::addColumn<QString>("result");
 
-    QList<KABC::Geo> list1;
-    list1 << KABC::Geo(49.7014, 17.0756);
-    list1 << KABC::Geo(49.5953, 17.2518);
+    QList<KContacts::Geo> list1;
+    list1 << KContacts::Geo(49.7014, 17.0756);
+    list1 << KContacts::Geo(49.5953, 17.2518);
 
     QTest::newRow("map1")
         << QSize(640, 640)
@@ -367,7 +367,7 @@ StaticMapUrl url;
 
     QFETCH(QSize, size);
     QFETCH(StaticMapUrl::Scale, scale);
-    QFETCH(QList<KABC::Geo>, markerlocations);
+    QFETCH(QList<KContacts::Geo>, markerlocations);
     QFETCH(bool, sensor);
     QFETCH(QString, result);
 
@@ -446,18 +446,18 @@ void ObjectStaticMapUrlTests::testPathAddress_data()
 {
     QTest::addColumn<QSize>("size");
     QTest::addColumn<StaticMapUrl::Scale>("scale");
-    QTest::addColumn<QList< KABC::Address> >("pathlocations");
+    QTest::addColumn<QList< KContacts::Address> >("pathlocations");
     QTest::addColumn<bool>("sensor");
     QTest::addColumn<QString>("result");
 
-    QList<KABC::Address> list1;
-    KABC::Address addr1;
+    QList<KContacts::Address> list1;
+    KContacts::Address addr1;
     addr1.setLocality("Litovel");
     addr1.setStreet("Uncovice");
-    KABC::Address addr2;
+    KContacts::Address addr2;
     addr2.setLocality("Litovel");
     addr2.setStreet("Brezove");
-    KABC::Address addr3;
+    KContacts::Address addr3;
     addr3.setLocality("Litovel");
     addr3.setStreet("Rozvadovice");
 
@@ -479,7 +479,7 @@ void ObjectStaticMapUrlTests::testPathAddress()
 
     QFETCH(QSize, size);
     QFETCH(StaticMapUrl::Scale, scale);
-    QFETCH(QList<KABC::Address>, pathlocations);
+    QFETCH(QList<KContacts::Address>, pathlocations);
     QFETCH(bool, sensor);
     QFETCH(QString, result);
 
@@ -495,13 +495,13 @@ void ObjectStaticMapUrlTests::testPathGeo_data()
 {
     QTest::addColumn<QSize>("size");
     QTest::addColumn<StaticMapUrl::Scale>("scale");
-    QTest::addColumn<QList< KABC::Geo> >("pathlocations");
+    QTest::addColumn<QList< KContacts::Geo> >("pathlocations");
     QTest::addColumn<bool>("sensor");
     QTest::addColumn<QString>("result");
 
-    QList<KABC::Geo> list1;
-    list1 << KABC::Geo(49.7014, 17.0756);
-    list1 << KABC::Geo(49.5953, 17.2518);
+    QList<KContacts::Geo> list1;
+    list1 << KContacts::Geo(49.7014, 17.0756);
+    list1 << KContacts::Geo(49.5953, 17.2518);
 
     QTest::newRow("map1")
         << QSize(640, 640)
@@ -517,7 +517,7 @@ void ObjectStaticMapUrlTests::testPathGeo()
 
     QFETCH(QSize, size);
     QFETCH(StaticMapUrl::Scale, scale);
-    QFETCH(QList<KABC::Geo>, pathlocations);
+    QFETCH(QList<KContacts::Geo>, pathlocations);
     QFETCH(bool, sensor);
     QFETCH(QString, result);
 
@@ -574,15 +574,15 @@ void ObjectStaticMapUrlTests::testVisibleLocationAddress_data()
 {
     QTest::addColumn<QSize>("size");
     QTest::addColumn<StaticMapUrl::Scale>("scale");
-    QTest::addColumn<KABC::Address>("visiblearea");
+    QTest::addColumn<KContacts::Address>("visiblearea");
     QTest::addColumn<bool>("sensor");
     QTest::addColumn<QString>("result");
 
-    KABC::Address addr1;
+    KContacts::Address addr1;
     addr1.setLocality("Litovel");
     addr1.setStreet("Uncovice");
 
-    KABC::Address addr2;
+    KContacts::Address addr2;
     addr2.setLocality("Olomouc");
     addr2.setStreet("Gregrova");
 
@@ -607,7 +607,7 @@ void ObjectStaticMapUrlTests::testVisibleLocationAddress()
 
     QFETCH(QSize, size);
     QFETCH(StaticMapUrl::Scale, scale);
-    QFETCH(KABC::Address, visiblearea);
+    QFETCH(KContacts::Address, visiblearea);
     QFETCH(bool, sensor);
     QFETCH(QString, result);
 
@@ -623,21 +623,21 @@ void ObjectStaticMapUrlTests::testVisibleLocationGeo_data()
 {
     QTest::addColumn<QSize>("size");
     QTest::addColumn<StaticMapUrl::Scale>("scale");
-    QTest::addColumn<KABC::Geo>("visiblearea");
+    QTest::addColumn<KContacts::Geo>("visiblearea");
     QTest::addColumn<bool>("sensor");
     QTest::addColumn<QString>("result");
 
     QTest::newRow("map1")
         << QSize(640, 640)
         << (StaticMapUrl::Scale) 1
-        << KABC::Geo(49.7014, 17.0756)
+        << KContacts::Geo(49.7014, 17.0756)
         << false
         << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&visible=49.7014,17.0756&sensor=false";
 
     QTest::newRow("map2")
         << QSize(640, 640)
         << (StaticMapUrl::Scale) 1
-        << KABC::Geo(49.5953, 17.2518)
+        << KContacts::Geo(49.5953, 17.2518)
         << false
         << "http://maps.googleapis.com/maps/api/staticmap?size=640x640&visible=49.5953,17.2518&sensor=false";
 }
@@ -648,7 +648,7 @@ void ObjectStaticMapUrlTests::testVisibleLocationGeo()
 
     QFETCH(QSize, size);
     QFETCH(StaticMapUrl::Scale, scale);
-    QFETCH(KABC::Geo, visiblearea);
+    QFETCH(KContacts::Geo, visiblearea);
     QFETCH(bool, sensor);
     QFETCH(QString, result);
 
@@ -668,7 +668,7 @@ void ObjectStaticMapUrlTests::testComplicatedUrl_data()
     QTest::addColumn<StaticMapUrl::Scale>("scale");
     QTest::addColumn<StaticMapUrl::ImageFormat>("format");
     QTest::addColumn<StaticMapUrl::MapType>("maptype");
-    QTest::addColumn<QList<KABC::Geo> >("markerlocations");
+    QTest::addColumn<QList<KContacts::Geo> >("markerlocations");
     QTest::addColumn<QChar>("markerlabel");
     QTest::addColumn<QColor>("markercolor");
     QTest::addColumn<StaticMapMarker::MarkerSize>("markersize");
@@ -676,13 +676,13 @@ void ObjectStaticMapUrlTests::testComplicatedUrl_data()
     QTest::addColumn<quint8>("pathweight");
     QTest::addColumn<QColor>("pathcolor");
     QTest::addColumn<QColor>("pathfillcolor");
-    QTest::addColumn<KABC::Address>("visiblearea");
+    QTest::addColumn<KContacts::Address>("visiblearea");
     QTest::addColumn<bool>("sensor");
     QTest::addColumn<QString>("result");
 
-    QList<KABC::Geo> markers;
-    markers << KABC::Geo(49.7014, 17.0756);
-    markers << KABC::Geo(49.5953, 17.2518);
+    QList<KContacts::Geo> markers;
+    markers << KContacts::Geo(49.7014, 17.0756);
+    markers << KContacts::Geo(49.5953, 17.2518);
 
     QStringList path;
     path << "Litovel";
@@ -691,7 +691,7 @@ void ObjectStaticMapUrlTests::testComplicatedUrl_data()
     path << "Unicov";
     path << "Litovel";
 
-    KABC::Address visible;
+    KContacts::Address visible;
     visible.setLocality("Olomouc");
 
     QTest::newRow("map1")
@@ -724,7 +724,7 @@ void ObjectStaticMapUrlTests::testComplicatedUrl()
     QFETCH(StaticMapUrl::Scale, scale);
     QFETCH(StaticMapUrl::ImageFormat, format);
     QFETCH(StaticMapUrl::MapType, maptype);
-    QFETCH(QList<KABC::Geo>, markerlocations);
+    QFETCH(QList<KContacts::Geo>, markerlocations);
     QFETCH(QChar, markerlabel);
     QFETCH(QColor, markercolor);
     QFETCH(StaticMapMarker::MarkerSize, markersize);
@@ -732,7 +732,7 @@ void ObjectStaticMapUrlTests::testComplicatedUrl()
     QFETCH(quint8, pathweight);
     QFETCH(QColor, pathcolor);
     QFETCH(QColor, pathfillcolor);
-    QFETCH(KABC::Address, visiblearea);
+    QFETCH(KContacts::Address, visiblearea);
     QFETCH(bool, sensor);
     QFETCH(QString, result);
 

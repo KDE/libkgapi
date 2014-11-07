@@ -24,8 +24,8 @@
 
 #include <QtGui/QColor>
 
-#include <KABC/Address>
-#include <KABC/Geo>
+#include <KContacts/Address>
+#include <KContacts/Geo>
 
 namespace KGAPI2
 {
@@ -67,23 +67,23 @@ class KGAPIMAPS_EXPORT StaticMapPath
     /**
      * @brief Constructs a new path
      *
-     * @param locations The path locations in KABC::Address
+     * @param locations The path locations in KContacts::Address
      * @param weight The thickness of the path in pixels
      * @param color Color of the path
      * @param fillColor The color of filled area
      */
-    explicit StaticMapPath(const QList<KABC::Address> & locations, const quint8 weight = 5,
+    explicit StaticMapPath(const QList<KContacts::Address> & locations, const quint8 weight = 5,
                            const QColor & color = Qt::blue, const QColor & fillColor = QColor());
 
     /**
      * @brief Constructs a new path
      *
-     * @param locations The path locations in KABC::Geo
+     * @param locations The path locations in KContacts::Geo
      * @param weight The thickness of the path in pixels
      * @param color The color of the path
      * @param fillColor The color of filled area
      */
-    explicit StaticMapPath(const QList<KABC::Geo> & locations, const quint8 weight = 5,
+    explicit StaticMapPath(const QList<KContacts::Geo> & locations, const quint8 weight = 5,
                            const QColor & color = Qt::blue, const QColor & fillColor = QColor());
 
     /**
@@ -147,32 +147,32 @@ class KGAPIMAPS_EXPORT StaticMapPath
     void setLocations(const QStringList & locations);
 
     /**
-     * @brief  Returns locations in KABC::Address
+     * @brief  Returns locations in KContacts::Address
      *
      * Returns empty list if is not defined
      */
-    QList<KABC::Address> locationsAddress() const;
+    QList<KContacts::Address> locationsAddress() const;
 
     /**
      * @brief  Sets locations for path
      *
-     * @param locations Locations for path in KABC::Address
+     * @param locations Locations for path in KContacts::Address
      */
-    void setLocations(const QList<KABC::Address> & locations);
+    void setLocations(const QList<KContacts::Address> & locations);
 
     /**
-     * @brief Returns locations in KABC::Geo
+     * @brief Returns locations in KContacts::Geo
      *
      * Returns empty list if is not defined
      */
-    QList<KABC::Geo> locationsGeo() const;
+    QList<KContacts::Geo> locationsGeo() const;
 
     /**
      * @brief Sets locations for path
      *
-     * @param locations Locations for path in KABC::Geo
+     * @param locations Locations for path in KContacts::Geo
      */
-    void setLocations(const QList<KABC::Geo> & locations);
+    void setLocations(const QList<KContacts::Geo> & locations);
 
     /**
      * @brief Returns all locations and path preferences in format to URL query.

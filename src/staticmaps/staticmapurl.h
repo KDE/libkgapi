@@ -26,8 +26,8 @@
 #include <QtCore/QUrl>
 #include <QtCore/QSize>
 
-#include <KABC/Address>
-#include <KABC/Geo>
+#include <KContacts/Address>
+#include <KContacts/Geo>
 
 namespace KGAPI2
 {
@@ -90,25 +90,25 @@ class KGAPIMAPS_EXPORT StaticMapUrl
     /**
      * @brief Constructs a new StaticMapUrl
      *
-     * @param address Location of map center in KABC::Address
+     * @param address Location of map center in KContacts::Address
      * @param size Requested size of the map image
      * @param zoom Zoom level of map
      * @param sensor Sensor specifies whether the application requesting the
      *               static map is using a sensor to determine the user's location.
      */
-    StaticMapUrl(const KABC::Address &address, const QSize &size, quint32 zoom,
+    StaticMapUrl(const KContacts::Address &address, const QSize &size, quint32 zoom,
                  bool sensor);
 
     /**
      * @brief Constructs a new StaticMapUrl
      *
-     * @param geo Location of map center in KABC::Geo
+     * @param geo Location of map center in KContacts::Geo
      * @param size Requested size of the map image
      * @param zoom Zoom level of map
      * @param sensor Sensor specifies whether the application requesting the static map is
      * using a sensor to determine the user's location.
      */
-    StaticMapUrl(const KABC::Geo &geo, const QSize &size, quint32 zoom,
+    StaticMapUrl(const KContacts::Geo &geo, const QSize &size, quint32 zoom,
                  bool sensor);
 
     /**
@@ -159,34 +159,34 @@ class KGAPIMAPS_EXPORT StaticMapUrl
     void setLocation(const QString &location);
 
     /**
-     * @brief Returns map center in KABC::Address
+     * @brief Returns map center in KContacts::Address
      *
-     * Returns empty KABC::Address if location is not defined in KABC::Address
+     * Returns empty KContacts::Address if location is not defined in KContacts::Address
      */
-    KABC::Address locationAddress() const;
+    KContacts::Address locationAddress() const;
 
     /**
      * @brief Defines center of the map
      *
      * @param address Location (required when no markers are present) of center
-     *                of the map in KABC::Address
+     *                of the map in KContacts::Address
      */
-    void setLocation(const KABC::Address & address);
+    void setLocation(const KContacts::Address & address);
 
     /**
-     * @brief Returns map center in KABC::Geo
+     * @brief Returns map center in KContacts::Geo
      *
-     * Returns invalid KABC::Geo if location is not defined in KABC::Geo
+     * Returns invalid KContacts::Geo if location is not defined in KContacts::Geo
      */
-    KABC::Geo locationGeo() const;
+    KContacts::Geo locationGeo() const;
 
     /**
      * @brief Defines center of the map
      *
      * @param geo Location (required when no markers are present) of center
-     *            of the map in KABC::Geo
+     *            of the map in KContacts::Geo
      */
-    void setLocation(const KABC::Geo & geo);
+    void setLocation(const KContacts::Geo & geo);
 
     /**
      * @brief Returns type of map
@@ -301,11 +301,11 @@ class KGAPIMAPS_EXPORT StaticMapUrl
     void setVisibleLocation(const QString & location);
 
     /**
-     * @brief Returns visible area in KABC::Address
+     * @brief Returns visible area in KContacts::Address
      *
-     * Returns empty KABC::Address if visible area is not defined in KABC::Address
+     * Returns empty KContacts::Address if visible area is not defined in KContacts::Address
      */
-    KABC::Address visibleLocationAddress() const;
+    KContacts::Address visibleLocationAddress() const;
 
     /**
      * @brief Sets visible location.
@@ -318,14 +318,14 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      *
      * @param address
      */
-    void setVisibleLocation(const KABC::Address & address);
+    void setVisibleLocation(const KContacts::Address & address);
 
     /**
-     * @brief Returns visible area in KABC::Geo
+     * @brief Returns visible area in KContacts::Geo
      *
-     * Returns empty KABC::Geo if visible area is not defined in KABC::Geo
+     * Returns empty KContacts::Geo if visible area is not defined in KContacts::Geo
      */
-    KABC::Geo visibleLocationGeo() const;
+    KContacts::Geo visibleLocationGeo() const;
 
     /**
      * @brief Sets visible location.
@@ -338,7 +338,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      *
      * @param geo
      */
-    void setVisibleLocation(const KABC::Geo & geo);
+    void setVisibleLocation(const KContacts::Geo & geo);
 
     /**
      * @brief Returns type of visible location

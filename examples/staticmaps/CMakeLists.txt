@@ -19,7 +19,7 @@ add_executable(staticmaps-example
 )
 
 target_link_libraries(staticmaps-example
-        KF5::Abc
+        KF5::Contacts
         kgapi2
 )
 

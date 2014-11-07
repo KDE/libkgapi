@@ -60,7 +60,7 @@ void MainWindow::addMarker()
 void MainWindow::getImage()
 {
     StaticMapUrl map;
-    KABC::Address addr;
+    KContacts::Address addr;
 
     switch (m_ui->locationType->currentIndex()) {
 	case StaticMapUrl::String:
@@ -72,7 +72,7 @@ void MainWindow::getImage()
 	    map.setLocation(addr);
 	    break;
 	case StaticMapUrl::KABCGeo:
-	    map.setLocation(KABC::Geo(m_ui->locationLatitude->value(),
+	    map.setLocation(KContacts::Geo(m_ui->locationLatitude->value(),
 				      m_ui->locationLongitude->value()));
 	    break;
     }

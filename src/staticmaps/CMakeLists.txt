@@ -27,7 +27,7 @@ target_include_directories(KF5GAPIMaps INTERFACE "$<INSTALL_INTERFACE:${KF5_INCL
 target_link_libraries(KF5GAPIMaps
 PUBLIC
     KF5::GAPICore
-    KF5::Abc
+    KF5::Contacts
 )
 
 set_target_properties(KF5GAPIMaps PROPERTIES

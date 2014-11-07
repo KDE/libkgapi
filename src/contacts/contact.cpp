@@ -22,8 +22,8 @@
 
 #include "contact.h"
 
-#include <KABC/Address>
-#include <KABC/PhoneNumber>
+#include <KContacts/Address>
+#include <KContacts/PhoneNumber>
 #include <QMap>
 
 #define SCHEME_URL QLatin1String("http://schemas.google.com/g/2005#")
@@ -60,14 +60,14 @@ Contact::Private::Private(const Private &other):
 
 Contact::Contact():
     Object(),
-    KABC::Addressee(),
+    KContacts::Addressee(),
     d(new Private)
 {
 }
 
 Contact::Contact(const Contact &other):
     Object(other),
-    KABC::Addressee(other),
+    KContacts::Addressee(other),
     d(new Private(*(other.d)))
 {
     QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
@@ -76,9 +76,9 @@ Contact::Contact(const Contact &other):
     }
 }
 
-Contact::Contact(const KABC::Addressee& other):
+Contact::Contact(const KContacts::Addressee& other):
     Object(),
-    KABC::Addressee(other),
+    KContacts::Addressee(other),
     d(new Private)
 {
     QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
@@ -338,16 +338,16 @@ Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)
     return Other;
 }
 
-QString Contact::addressTypeToScheme(const KABC::Address::Type type, bool *primary)
+QString Contact::addressTypeToScheme(const KContacts::Address::Type type, bool *primary)
 {
     QString typeName;
 
     if (primary)
-        *primary = (type & KABC::Address::Pref);
+        *primary = (type & KContacts::Address::Pref);
 
-    if (type & KABC::Address::Work) {
+    if (type & KContacts::Address::Work) {
         typeName = QLatin1String("work");
-    } else if (type & KABC::Address::Home) {
+    } else if (type & KContacts::Address::Home) {
         typeName = QLatin1String("home");
     } else {
         typeName = QLatin1String("other");
@@ -356,53 +356,53 @@ QString Contact::addressTypeToScheme(const KABC::Address::Type type, bool *prima
     return SCHEME_URL + typeName;
 }
 
-KABC::Address::Type Contact::addressSchemeToType(const QString& scheme, const bool primary)
+KContacts::Address::Type Contact::addressSchemeToType(const QString& scheme, const bool primary)
 {
     QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
-    KABC::Address::Type type;
+    KContacts::Address::Type type;
 
     if (typeName == QLatin1String("work")) {
-        type = KABC::Address::Work;
+        type = KContacts::Address::Work;
     } else {
-        type = KABC::Address::Home;
+        type = KContacts::Address::Home;
     }
 
     if (primary) {
-        type |= KABC::Address::Pref;
+        type |= KContacts::Address::Pref;
     }
 
     return type;
 }
 
-QString Contact::phoneTypeToScheme(const KABC::PhoneNumber::Type type)
+QString Contact::phoneTypeToScheme(const KContacts::PhoneNumber::Type type)
 {
     QString typeName;
 
-    if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell))
+    if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell))
         typeName = QLatin1String("work_mobile");
-    else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax))
+    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax))
         typeName = QLatin1String("work_fax");
-    else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager))
+    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager))
         typeName = QLatin1String("work_pager");
-    else if ((type & (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref)) == (KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref))
+    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref))
         typeName = QLatin1String("company_main");
-    else if (type & KABC::PhoneNumber::Work)
+    else if (type & KContacts::PhoneNumber::Work)
         typeName = QLatin1String("work");
-    else if ((type & (KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax)) == (KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax))
+    else if ((type & (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax))
         typeName = QLatin1String("home_fax");
-    else if (type & KABC::PhoneNumber::Home)
+    else if (type & KContacts::PhoneNumber::Home)
         typeName = QLatin1String("home");
-    else if (type & KABC::PhoneNumber::Pref)
+    else if (type & KContacts::PhoneNumber::Pref)
         typeName = QLatin1String("main");
-    else if (type & KABC::PhoneNumber::Car)
+    else if (type & KContacts::PhoneNumber::Car)
         typeName = QLatin1String("car");
-    else if (type & KABC::PhoneNumber::Isdn)
+    else if (type & KContacts::PhoneNumber::Isdn)
         typeName = QLatin1String("isdn");
-    else if (type & KABC::PhoneNumber::Fax)
+    else if (type & KContacts::PhoneNumber::Fax)
         typeName = QLatin1String("fax");
-    else if (type & KABC::PhoneNumber::Cell)
+    else if (type & KContacts::PhoneNumber::Cell)
         typeName = QLatin1String("mobile");
-    else if (type & KABC::PhoneNumber::Pager)
+    else if (type & KContacts::PhoneNumber::Pager)
         typeName = QLatin1String("pager");
     else
         typeName = QLatin1String("other");
@@ -410,39 +410,39 @@ QString Contact::phoneTypeToScheme(const KABC::PhoneNumber::Type type)
     return SCHEME_URL + typeName;
 }
 
-KABC::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
+KContacts::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
 {
     QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
-    KABC::PhoneNumber::Type type = 0;
+    KContacts::PhoneNumber::Type type = 0;
 
     if (typeName == QLatin1String("car"))
-        type |= KABC::PhoneNumber::Car;
+        type |= KContacts::PhoneNumber::Car;
     else if (typeName == QLatin1String("fax"))
-        type |= KABC::PhoneNumber::Fax;
+        type |= KContacts::PhoneNumber::Fax;
     else if (typeName == QLatin1String("isdn"))
-        type |= KABC::PhoneNumber::Isdn;
+        type |= KContacts::PhoneNumber::Isdn;
     else if (typeName == QLatin1String("mobile"))
-        type |= KABC::PhoneNumber::Cell;
+        type |= KContacts::PhoneNumber::Cell;
     else if (typeName == QLatin1String("pager"))
-        type |= KABC::PhoneNumber::Pager;
+        type |= KContacts::PhoneNumber::Pager;
     else if (typeName == QLatin1String("main"))
-        type |= KABC::PhoneNumber::Pref;
+        type |= KContacts::PhoneNumber::Pref;
     else if (typeName == QLatin1String("home"))
-        type |= KABC::PhoneNumber::Home;
+        type |= KContacts::PhoneNumber::Home;
     else if (typeName == QLatin1String("home_fax"))
-        type |= KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax;
+        type |= KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax;
     else if (typeName == QLatin1String("work"))
-        type |= KABC::PhoneNumber::Work;
+        type |= KContacts::PhoneNumber::Work;
     else if (typeName == QLatin1String("work_fax"))
-        type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax;
+        type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax;
     else if (typeName == QLatin1String("work_mobile"))
-        type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell;
+        type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell;
     else if (typeName == QLatin1String("work_pager"))
-        type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager;
+        type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager;
     else if (typeName == QLatin1String("company_main"))
-        type |= KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref;
+        type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref;
     else
-        type |= KABC::PhoneNumber::Home;
+        type |= KContacts::PhoneNumber::Home;
 
     return type;
 }

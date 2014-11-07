@@ -55,13 +55,13 @@ Location::Private::Private(const Private &other):
 
 Location::Location():
     Object(),
-    KABC::Geo(),
+    KContacts::Geo(),
     d(new Private)
 { }
 
 Location::Location(const Location & other):
     Object(other),
-    KABC::Geo(other),
+    KContacts::Geo(other),
     d(new Private(*(other.d)))
 { }
 

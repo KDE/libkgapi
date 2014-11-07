@@ -73,7 +73,7 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
      * finished.
      *
      * @param job This job
-     * @param contact A contact with KABC::Addressee::photo filled
+     * @param contact A contact with KContacts::Addressee::photo filled
      */
     void photoFetched(KGAPI2::Job *job, const KGAPI2::ContactPtr &contact);
 

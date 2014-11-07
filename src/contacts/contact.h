@@ -26,7 +26,7 @@
 #include "types.h"
 #include "kgapicontacts_export.h"
 
-#include <KABC/Addressee>
+#include <KContacts/Addressee>
 #include <QDateTime>
 
 namespace KGAPI2
@@ -39,7 +39,7 @@ namespace KGAPI2
  * @since 0.1
  */
 class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
-                                 public KABC::Addressee
+                                 public KContacts::Addressee
 {
   public:
 
@@ -66,7 +66,7 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
     /**
      * @brief Copy constructor
      */
-    explicit Contact(const KABC::Addressee &other);
+    explicit Contact(const KContacts::Addressee &other);
 
     /**
      * @brief Copy constructor
@@ -291,14 +291,14 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      *
      * @param type
      */
-    static QString phoneTypeToScheme(const KABC::PhoneNumber::Type type);
+    static QString phoneTypeToScheme(const KContacts::PhoneNumber::Type type);
 
     /**
      * @brief Converts Google Scheme URL to phone number type.
      *
      * @parman scheme
      */
-    static KABC::PhoneNumber::Type phoneSchemeToType(const QString &scheme);
+    static KContacts::PhoneNumber::Type phoneSchemeToType(const QString &scheme);
 
     /**
      * @brief Converts address type to Google Scheme URL.
@@ -306,7 +306,7 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      * @param type
      * @param primary
      */
-    static QString addressTypeToScheme(const KABC::Address::Type type, bool *primary = 0);
+    static QString addressTypeToScheme(const KContacts::Address::Type type, bool *primary = 0);
 
     /**
      * @brief Converts Google Scheme UrL to address type.
@@ -314,7 +314,7 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      * @param scheme
      * @param primary
      */
-    static KABC::Address::Type addressSchemeToType(const QString &scheme, bool primary = false);
+    static KContacts::Address::Type addressSchemeToType(const QString &scheme, bool primary = false);
 
   private:
     class Private;
