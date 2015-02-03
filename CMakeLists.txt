@@ -20,6 +20,8 @@ set(KDEPIMLIBS_LIB_VERSION "4.74.0")
 set(KF5_VERSION "5.1.0")
 set(KGAPI_LIB_VERSION "4.72.0")
 
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x049999)
+
 ecm_setup_version(${KGAPI_LIB_VERSION}
     VARIABLE_PREFIX KGAPI
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
@@ -29,12 +31,19 @@ ecm_setup_version(${KGAPI_LIB_VERSION}
 
 ############## Find Packages ##############
 set(REQUIRED_QT_VERSION "5.2.0")
-find_package(Qt5WebKitWidgets ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
+find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS
+    Core
+    Widgets
+    WebKitWidgets
+)
 
-find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
-find_package(KF5CalendarCore ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
-find_package(KF5Contacts ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
-#find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5 ${KF5_VERSION} REQUIRED COMPONENTS
+    CoreAddons
+    KIO
+    WindowSystem
+    CalendarCore
+    Contacts
+)
 
 ############## Targets ##############
 

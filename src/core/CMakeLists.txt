@@ -58,9 +58,12 @@ add_library(KF5::GAPICore ALIAS KF5GAPICore)
 target_include_directories(KF5GAPICore INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI;${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi>")
 
 target_link_libraries(KF5GAPICore
+PRIVATE
+    KF5::KIOWidgets
+    KF5::WindowSystem
 PUBLIC
     KF5::CoreAddons
-    KF5::KDELibs4Support
+    Qt5::Widgets
     Qt5::WebKitWidgets
 )
 
@@ -94,7 +97,7 @@ install(FILES
 
 ecm_generate_pri_file(BASE_NAME KGAPICore
     LIB_NAME KF5GAPICore
-    DEPS "CoreAddons KDELibs4Support"
+    DEPS "KF5::CoreAddons Qt5::Widgets Qt5::WebKitWidgets"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
 )
 
