@@ -61,7 +61,7 @@ install(FILES
 
 ecm_generate_pri_file(BASE_NAME KGAPILatitude
     LIB_NAME KF5GAPILatitude
-    DEPS "GAPICore Abc"
+    DEPS "GAPICore Contacts"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
 )
 

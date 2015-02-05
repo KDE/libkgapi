@@ -43,6 +43,7 @@ target_link_libraries(KF5GAPIContacts
 PUBLIC
     KF5::GAPICore
     KF5::Contacts
+    Qt5::Xml
 )
 
 set_target_properties(KF5GAPIContacts PROPERTIES
@@ -71,7 +72,7 @@ install(FILES
 
 ecm_generate_pri_file(BASE_NAME KGAPIContacts
     LIB_NAME KF5GAPIContacts
-    DEPS "GAPICore Abc"
+    DEPS "KF5::GAPICore KF5::Contacts Qt5::Xml"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
 )
 

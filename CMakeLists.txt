@@ -35,15 +35,17 @@ find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS
     Core
     Widgets
     WebKitWidgets
+    Xml
 )
 
 find_package(KF5 ${KF5_VERSION} REQUIRED COMPONENTS
     CoreAddons
     KIO
     WindowSystem
-    CalendarCore
-    Contacts
 )
+
+find_package(KF5CalendarCore ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
+find_package(KF5Contacts ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
 
 ############## Targets ##############
 
