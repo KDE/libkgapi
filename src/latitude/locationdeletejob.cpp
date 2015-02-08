@@ -28,8 +28,6 @@
 
 #include <QtNetwork/QNetworkRequest>
 
-#include <klocalizeddate.h>
-
 using namespace KGAPI2;
 
 class LocationDeleteJob::Private
