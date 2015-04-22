@@ -46,5 +46,6 @@ QString Utils::ts2Str(quint64 ts)
 {
     QDateTime dt;
     dt.setTime_t(ts);
+    dt.setTimeSpec(Qt::UTC);
     return dt.toString(Qt::ISODate);
 }
