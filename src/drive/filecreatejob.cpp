@@ -21,7 +21,7 @@
 
 
 #include "filecreatejob.h"
-#include "debug.h"
+#include "../debug.h"
 #include "driveservice.h"
 #include "utils.h"
 

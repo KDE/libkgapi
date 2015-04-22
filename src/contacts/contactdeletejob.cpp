@@ -22,7 +22,7 @@
 #include "contactdeletejob.h"
 #include "contact.h"
 #include "contactsservice.h"
-#include "debug.h"
+#include "../debug.h"
 #include "utils.h"
 #include "account.h"
 #include "private/queuehelper_p.h"
@@ -65,7 +65,7 @@ void ContactDeleteJob::Private::processNextContact()
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     q->enqueueRequest(request);
 }

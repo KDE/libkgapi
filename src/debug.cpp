@@ -1,5 +1,5 @@
 /*
-    Copyright 2013  Daniel Vrátil <dvratil@redhat.com>
+    Copyright 2013  Dan Vratil <dan@progdan.cz>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -15,24 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBKGAPI2_DEBUG_H
-#define LIBKGAPI2_DEBUG_H
+#include "debug.h"
 
-#include <QDebug>
+Q_LOGGING_CATEGORY(KGAPIDebug, "org.kde.kgapi")
+Q_LOGGING_CATEGORY(KGAPIRaw, "org.kde.kgapi.raw")
 
-#include "kgapicore_export.h"
-
-KGAPICORE_EXPORT QDebug KGAPIDebugRawData();
-
-
-KGAPICORE_EXPORT inline QDebug KGAPIDebug()
-{
-    return qDebug();
-}
-
-KGAPICORE_EXPORT inline QDebug KGAPIWarning()
-{
-    return qWarning();
-}
-
-#endif // LIBKGAPI2_DEBUG_H

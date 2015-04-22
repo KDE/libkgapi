@@ -22,7 +22,7 @@
 #include "contactfetchjob.h"
 #include "contact.h"
 #include "contactsservice.h"
-#include "debug.h"
+#include "../debug.h"
 #include "utils.h"
 #include "account.h"
 
@@ -66,7 +66,7 @@ QNetworkRequest ContactFetchJob::Private::createRequest(const QUrl& url)
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     return request;
 }
@@ -97,7 +97,7 @@ bool ContactFetchJob::fetchDeleted() const
 void ContactFetchJob::setFetchDeleted(bool fetchDeleted)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify fetchDeleted property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify fetchDeleted property when job is running";
         return;
     }
 
@@ -112,7 +112,7 @@ quint64 ContactFetchJob::fetchOnlyUpdated()
 void ContactFetchJob::setFetchOnlyUpdated(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify fetchOnlyUpdated property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify fetchOnlyUpdated property when job is running";
         return;
     }
 
@@ -127,7 +127,7 @@ QString ContactFetchJob::filter() const
 void ContactFetchJob::setFilter(const QString &query)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify filter property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify filter property when job is running";
         return;
     }
 

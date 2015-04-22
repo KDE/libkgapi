@@ -21,7 +21,7 @@
 
 #include "staticmaptilefetchjob.h"
 #include "staticmapurl.h"
-#include "debug.h"
+#include "../debug.h"
 
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
@@ -60,7 +60,7 @@ StaticMapTileFetchJob::~StaticMapTileFetchJob()
 QPixmap StaticMapTileFetchJob::tilePixmap() const
 {
     if (isRunning()) {
-        KGAPIWarning() << "Called tilePixmap on a running job!";
+        qCWarning(KGAPIDebug) << "Called tilePixmap on a running job!";
         return QPixmap();
     }
 

@@ -12,6 +12,8 @@ set(kgapicalendar_SRCS
     eventmodifyjob.cpp
     eventmovejob.cpp
     reminder.cpp
+
+    ../debug.cpp
 )
 
 ecm_generate_headers(kgapicalendar_CamelCase_HEADERS

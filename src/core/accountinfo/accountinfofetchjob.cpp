@@ -22,7 +22,7 @@
 #include "accountinfofetchjob.h"
 #include "account.h"
 #include "accountinfo.h"
-#include "debug.h"
+#include "../debug.h"
 #include "utils.h"
 
 #include <QNetworkRequest>
@@ -55,7 +55,7 @@ void AccountInfoFetchJob::start()
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     enqueueRequest(request);
 }

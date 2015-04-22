@@ -21,7 +21,7 @@
 
 #include "authjob.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "job_p.h"
 #include "ui/authwidget.h"
 #include "ui/authwidget_p.h"
@@ -104,7 +104,7 @@ void AuthJob::Private::refreshTokens()
     params.addQueryItem(QLatin1String("refresh_token"), account->refreshToken());
     params.addQueryItem(QLatin1String("grant_type"), QLatin1String("refresh_token"));
 
-    KGAPIDebugRawData() << "Requesting token refresh: " << params.encodedQuery();
+    qCDebug(KGAPIRaw) << "Requesting token refresh: " << params.encodedQuery();
 
     q->enqueueRequest(request, params.encodedQuery());
 }

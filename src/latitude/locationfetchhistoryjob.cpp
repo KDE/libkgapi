@@ -21,7 +21,7 @@
 
 #include "locationfetchhistoryjob.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "location.h"
 #include "utils.h"
 #include "latitudeservice.h"
@@ -86,7 +86,7 @@ int LocationFetchHistoryJob::maxResults() const
 void LocationFetchHistoryJob::setMaxResults(int results)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify maxResults property while job is running";
+        qCWarning(KGAPIDebug) << "Can't modify maxResults property while job is running";
     }
     d->maxResults = results;
 }
@@ -99,7 +99,7 @@ Latitude::Granularity LocationFetchHistoryJob::granularity() const
 void LocationFetchHistoryJob::setGranularity(Latitude::Granularity granularity)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify maxResults property while job is running";
+        qCWarning(KGAPIDebug) << "Can't modify maxResults property while job is running";
     }
     d->granularity = granularity;
 }
@@ -112,7 +112,7 @@ qlonglong LocationFetchHistoryJob::minTimestamp() const
 void LocationFetchHistoryJob::setMinTimestamp(qlonglong minTimestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify maxResults property while job is running";
+        qCWarning(KGAPIDebug) << "Can't modify maxResults property while job is running";
     }
     d->minTimestamp = minTimestamp;
 }
@@ -125,7 +125,7 @@ qlonglong LocationFetchHistoryJob::maxTimestamp() const
 void LocationFetchHistoryJob::setMaxTimestamp(qlonglong maxTimestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify maxResults property while job is running";
+        qCWarning(KGAPIDebug) << "Can't modify maxResults property while job is running";
     }
     d->maxTimestamp = maxTimestamp;
 }

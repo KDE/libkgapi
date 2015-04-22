@@ -22,7 +22,7 @@
 #include "contactsgroupfetchjob.h"
 #include "contactsgroup.h"
 #include "contactsservice.h"
-#include "debug.h"
+#include "../debug.h"
 #include "utils.h"
 #include "account.h"
 
@@ -60,7 +60,7 @@ QNetworkRequest ContactsGroupFetchJob::Private::createRequest(const QUrl& url)
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     return request;
 }

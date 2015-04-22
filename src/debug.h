@@ -1,5 +1,5 @@
 /*
-    Copyright 2013  Dan Vratil <dan@progdan.cz>
+    Copyright 2013  Daniel Vrátil <dvratil@redhat.com>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -15,38 +15,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "debug.h"
+#ifndef LIBKGAPI2_DEBUG_H
+#define LIBKGAPI2_DEBUG_H
 
-class DebugPrivate
-{
-public:
-    DebugPrivate()
-        : debugRawData(!qgetenv("KGAPI_DEBUG_RAWDATA").isEmpty())
-        , nullDebug(0)
-    {
-        if (debugRawData) {
-            nullDebug = new QDebug(&nullString);
-        }
-    }
+#include <QLoggingCategory>
 
-    ~DebugPrivate()
-    {
-        delete nullDebug;
-    }
+Q_DECLARE_LOGGING_CATEGORY(KGAPIDebug)
+Q_DECLARE_LOGGING_CATEGORY(KGAPIRaw)
 
-
-    bool debugRawData;
-    QString nullString;
-    QDebug *nullDebug;
-};
-
-Q_GLOBAL_STATIC(DebugPrivate, sInstance)
-
-QDebug KGAPIDebugRawData()
-{
-    if (sInstance()->debugRawData) {
-        return *sInstance()->nullDebug;
-    } else {
-        return qDebug();
-    }
-}
+#endif // LIBKGAPI2_DEBUG_H

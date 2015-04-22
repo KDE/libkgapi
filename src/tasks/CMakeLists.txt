@@ -11,6 +11,8 @@ set(kgapitasks_SRCS
     taskmodifyjob.cpp
     taskmovejob.cpp
     tasksservice.cpp
+
+    ../debug.cpp
 )
 
 ecm_generate_headers(kgapitasks_CamelCase_HEADERS

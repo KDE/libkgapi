@@ -20,7 +20,7 @@
  */
 
 #include "modifyjob.h"
-#include "debug.h"
+#include "../debug.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>

@@ -19,6 +19,8 @@ set(kgapiblogger_SRCS
     postmodifyjob.cpp
     postpublishjob.cpp
     postsearchjob.cpp
+
+    ../debug.cpp
 )
 
 ecm_generate_headers(kgapiblogger_CamelCase_HEADERS

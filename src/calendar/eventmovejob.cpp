@@ -22,7 +22,7 @@
 #include "eventmovejob.h"
 #include "account.h"
 #include "calendarservice.h"
-#include "debug.h"
+#include "../debug.h"
 #include "event.h"
 #include "utils.h"
 #include "private/queuehelper_p.h"
@@ -70,7 +70,7 @@ void EventMoveJob::Private::processNextEvent()
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     q->enqueueRequest(request);
 }

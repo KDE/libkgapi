@@ -22,7 +22,7 @@
 #include "taskmodifyjob.h"
 #include "tasksservice.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "task.h"
 #include "utils.h"
 #include "private/queuehelper_p.h"
@@ -82,7 +82,7 @@ void TaskModifyJob::start()
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     enqueueRequest(request, rawData, QLatin1String("application/json"));
 }

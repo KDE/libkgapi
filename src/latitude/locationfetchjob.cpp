@@ -22,7 +22,7 @@
 #include "locationfetchjob.h"
 #include "latitudeservice.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "location.h"
 #include "utils.h"
 #include "latitudeservice.h"
@@ -74,7 +74,7 @@ Latitude::Granularity LocationFetchJob::granularity() const
 void LocationFetchJob::setGranularity(Latitude::Granularity granularity)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify granularity property when the job is running";
+        qCWarning(KGAPIDebug) << "Can't modify granularity property when the job is running";
     }
     d->granularity = granularity;
 }

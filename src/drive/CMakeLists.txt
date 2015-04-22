@@ -38,6 +38,8 @@ set(kgapidrive_SRCS
     revisionfetchjob.cpp
     revisionmodifyjob.cpp
     user.cpp
+
+    ../debug.cpp
 )
 
 ecm_generate_headers(kgapidrive_CamelCase_HEADERS

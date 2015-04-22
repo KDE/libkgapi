@@ -7,13 +7,14 @@ set(kgapicore_SRCS
     account.cpp
     authjob.cpp
     createjob.cpp
-    debug.cpp
     deletejob.cpp
     fetchjob.cpp
     job.cpp
     modifyjob.cpp
     object.cpp
     utils.cpp
+
+    ../debug.cpp
 )
 
 ecm_generate_headers(kgapicore_base_CamelCase_HEADERS
@@ -21,7 +22,6 @@ ecm_generate_headers(kgapicore_base_CamelCase_HEADERS
     Account
     AuthJob
     CreateJob
-    Debug
     DeleteJob
     FetchJob
     Job

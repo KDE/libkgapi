@@ -23,7 +23,7 @@
 #include "contact.h"
 #include "contactsservice.h"
 #include "utils.h"
-#include "debug.h"
+#include "../debug.h"
 #include "account.h"
 #include "private/queuehelper_p.h"
 
@@ -77,7 +77,7 @@ void ContactCreateJob::Private::processNextContact()
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     q->enqueueRequest(request, rawData, QLatin1String("application/atom+xml"));
 

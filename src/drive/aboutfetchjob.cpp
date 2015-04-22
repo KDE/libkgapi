@@ -22,7 +22,7 @@
 #include "aboutfetchjob.h"
 #include "about.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "driveservice.h"
 #include "utils.h"
 
@@ -64,7 +64,7 @@ AboutFetchJob::~AboutFetchJob()
 void AboutFetchJob::setIncludeSubscribed(bool includeSubscribed)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify includeSubscribed property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify includeSubscribed property when job is running";
         return;
     }
 
@@ -79,7 +79,7 @@ bool AboutFetchJob::includeSubscribed() const
 void AboutFetchJob::setMaxChangeIdCount(qlonglong maxChangeIdCount)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify maxChangeIdCount property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify maxChangeIdCount property when job is running";
         return;
     }
 
@@ -94,7 +94,7 @@ qlonglong AboutFetchJob::maxChangeIdCount() const
 void AboutFetchJob::setStartChangeId(qlonglong startChangeId)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify startChangeId property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify startChangeId property when job is running";
         return;
     }
 

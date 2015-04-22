@@ -20,7 +20,7 @@
  */
 
 #include "fetchjob.h"
-#include "debug.h"
+#include "../debug.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -53,7 +53,7 @@ FetchJob::~FetchJob()
 ObjectsList FetchJob::items() const
 {
     if (isRunning()) {
-        KGAPIWarning() << "Called items() on a running job, returning empty list.";
+        qCWarning(KGAPIDebug) << "Called items() on a running job, returning empty list.";
         return ObjectsList();
     }
 

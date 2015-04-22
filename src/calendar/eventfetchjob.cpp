@@ -22,7 +22,7 @@
 #include "eventfetchjob.h"
 #include "calendarservice.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "event.h"
 #include "utils.h"
 
@@ -70,7 +70,7 @@ QNetworkRequest EventFetchJob::Private::createRequest(const QUrl& url)
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     return request;
 }
@@ -98,7 +98,7 @@ EventFetchJob::~EventFetchJob()
 void EventFetchJob::setFetchDeleted(bool fetchDeleted)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify fetchDeleted property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify fetchDeleted property when job is running";
         return;
     }
 
@@ -113,7 +113,7 @@ bool EventFetchJob::fetchDeleted()
 void EventFetchJob::setFetchOnlyUpdated(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify setFetchOnlyUpdated property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify setFetchOnlyUpdated property when job is running";
         return;
     }
 
@@ -128,7 +128,7 @@ quint64 EventFetchJob::fetchOnlyUpdated()
 void EventFetchJob::setTimeMax(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify timeMax property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify timeMax property when job is running";
         return;
     }
 
@@ -143,7 +143,7 @@ quint64 EventFetchJob::timeMax() const
 void EventFetchJob::setTimeMin(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify timeMin property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify timeMin property when job is running";
         return;
     }
 
@@ -158,7 +158,7 @@ quint64 EventFetchJob::timeMin() const
 void EventFetchJob::setFilter(const QString &query)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify filter property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify filter property when job is running";
         return;
     }
 

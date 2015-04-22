@@ -22,7 +22,7 @@
 
 #include "fileabstractuploadjob.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "driveservice.h"
 #include "file.h"
 #include "utils.h"
@@ -74,7 +74,7 @@ QByteArray FileAbstractUploadJob::Private::readFile(const QString &filePath,
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
-        KGAPIWarning() << "Failed to access" << filePath;
+        qCWarning(KGAPIDebug) << "Failed to access" << filePath;
         return QByteArray();
     }
 
@@ -132,7 +132,7 @@ void FileAbstractUploadJob::Private::processNext()
 
     const QString filePath = files.keys().first();
     if (!filePath.startsWith(QLatin1String("?=")) && !QFile::exists(filePath)) {
-        KGAPIWarning() << filePath << "is not a valid file path";
+        qCWarning(KGAPIDebug) << filePath << "is not a valid file path";
         processNext();
         return;
     }
@@ -276,7 +276,7 @@ FileAbstractUploadJob::~FileAbstractUploadJob()
 void FileAbstractUploadJob::setUseContentAsIndexableText(bool useContentAsIndexableText)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify useContentAsIndexableText property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify useContentAsIndexableText property when job is running";
         return;
     }
 

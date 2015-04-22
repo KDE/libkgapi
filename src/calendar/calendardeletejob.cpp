@@ -23,7 +23,7 @@
 #include "calendarservice.h"
 #include "account.h"
 #include "calendar.h"
-#include "debug.h"
+#include "../debug.h"
 #include "private/queuehelper_p.h"
 
 #include <QtNetwork/QNetworkRequest>
@@ -89,7 +89,7 @@ void CalendarDeleteJob::start()
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     enqueueRequest(request);
 }

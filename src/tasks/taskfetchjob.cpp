@@ -22,7 +22,7 @@
 #include "taskfetchjob.h"
 #include "tasksservice.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "task.h"
 #include "utils.h"
 
@@ -74,7 +74,7 @@ QNetworkRequest TaskFetchJob::Private::createRequest(const QUrl& url)
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     return request;
 }
@@ -103,7 +103,7 @@ TaskFetchJob::~TaskFetchJob()
 void TaskFetchJob::setFetchOnlyUpdated(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify fetchOnlyUpdated property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify fetchOnlyUpdated property when job is running";
         return;
     }
     d->updatedTimestamp = timestamp;
@@ -117,7 +117,7 @@ quint64 TaskFetchJob::fetchOnlyUpdated()
 void TaskFetchJob::setFetchCompleted(bool fetchCompleted)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify fetchCompleted property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify fetchCompleted property when job is running";
         return;
     }
     d->fetchCompleted = fetchCompleted;
@@ -131,7 +131,7 @@ bool TaskFetchJob::fetchCompleted() const
 void TaskFetchJob::setFetchDeleted(bool fetchDeleted)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify fetchDeleted property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify fetchDeleted property when job is running";
         return;
     }
     d->fetchDeleted = fetchDeleted;
@@ -145,7 +145,7 @@ bool TaskFetchJob::fetchDeleted() const
 void TaskFetchJob::setCompletedMin(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify completedMin property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify completedMin property when job is running";
         return;
     }
     d->completedMin = timestamp;
@@ -159,7 +159,7 @@ quint64 TaskFetchJob::completedMin() const
 void TaskFetchJob::setCompletedMax(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify completedMax property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify completedMax property when job is running";
         return;
     }
     d->completedMax = timestamp;
@@ -173,7 +173,7 @@ quint64 TaskFetchJob::completedMax() const
 void TaskFetchJob::setDueMin(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify dueMin property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify dueMin property when job is running";
         return;
     }
     d->dueMin = timestamp;
@@ -187,7 +187,7 @@ quint64 TaskFetchJob::dueMin() const
 void TaskFetchJob::setDueMax(quint64 timestamp)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify dueMax property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify dueMax property when job is running";
         return;
     }
     d->dueMax = timestamp;

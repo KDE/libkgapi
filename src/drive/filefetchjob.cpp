@@ -22,7 +22,7 @@
 #include "filefetchjob.h"
 #include "filesearchquery.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "driveservice.h"
 #include "file.h"
 #include "utils.h"
@@ -299,7 +299,7 @@ bool FileFetchJob::updateViewedDate() const
 void FileFetchJob::setUpdateViewedDate(bool updateViewedDate)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify updateViewedDate property when job is running.";
+        qCWarning(KGAPIDebug) << "Can't modify updateViewedDate property when job is running.";
         return;
     }
 

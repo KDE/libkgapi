@@ -23,7 +23,7 @@
 #include "calendar.h"
 #include "event.h"
 #include "reminder.h"
-#include "debug.h"
+#include "../debug.h"
 
 #include <KCalCore/Alarm>
 #include <KCalCore/Event>
@@ -330,7 +330,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
             if (tz.isValid()) {
                 dtStart.setTimeSpec(KDateTime::Spec(tz));
             } else {
-                KGAPIWarning() << "Invalid timezone" << startData.value(QLatin1String("timeZone")).toString();
+                qCWarning(KGAPIDebug) << "Invalid timezone" << startData.value(QLatin1String("timeZone")).toString();
             }
 
         // Otherwise try to fallback to calendar-wide timezone
@@ -339,7 +339,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
             if (tz.isValid()) {
                 dtStart.setTimeSpec(KDateTime::Spec(tz));
             } else {
-                KGAPIWarning() << "Invalid timezone" << timezone;
+                qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
             }
         }
     }
@@ -361,14 +361,14 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
             if (tz.isValid()) {
                 dtEnd.setTimeSpec(KDateTime::Spec(tz));
             } else {
-                KGAPIWarning() << "Invalid timezone" << endData.value(QLatin1String("timeZone")).toString();
+                qCWarning(KGAPIDebug) << "Invalid timezone" << endData.value(QLatin1String("timeZone")).toString();
             }
         } else if (!timezone.isEmpty()) {
             const KTimeZone tz = KSystemTimeZones::zone(timezone);
             if (tz.isValid()) {
                 dtEnd.setTimeSpec(KDateTime::Spec(tz));
             } else {
-                KGAPIWarning() << "Invalid timezone" << timezone;
+                qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
             }
         }
     }

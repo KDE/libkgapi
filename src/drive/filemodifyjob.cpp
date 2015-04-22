@@ -21,7 +21,7 @@
 
 #include "filemodifyjob.h"
 #include "file.h"
-#include "debug.h"
+#include "../debug.h"
 #include "driveservice.h"
 #include "utils.h"
 
@@ -114,7 +114,7 @@ bool FileModifyJob::createNewRevision() const
 void FileModifyJob::setCreateNewRevision(bool createNewRevision)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify createNewRevision property when the job is running";
+        qCWarning(KGAPIDebug) << "Can't modify createNewRevision property when the job is running";
         return;
     }
 
@@ -129,7 +129,7 @@ bool FileModifyJob::updateModifiedDate() const
 void FileModifyJob::setUpdateModifiedDate(bool updateModifiedDate)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify updateModifiedDate property when the job is running";
+        qCWarning(KGAPIDebug) << "Can't modify updateModifiedDate property when the job is running";
         return;
     }
 
@@ -144,7 +144,7 @@ bool FileModifyJob::updateViewedDate() const
 void FileModifyJob::setUpdateViewedDate(bool updateViewedDate)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify updateViewedDate property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify updateViewedDate property when job is running";
         return;
     }
 

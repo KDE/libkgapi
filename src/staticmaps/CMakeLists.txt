@@ -3,6 +3,8 @@ set(kgapimaps_SRCS
     staticmappath.cpp
     staticmaptilefetchjob.cpp
     staticmapurl.cpp
+
+    ../debug.cpp
 )
 
 ecm_generate_headers(kgapimaps_CamelCase_HEADERS

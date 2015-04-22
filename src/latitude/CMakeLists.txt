@@ -6,6 +6,8 @@ set(kgapilatitude_SRCS
     locationdeletejob.cpp
     locationfetchhistoryjob.cpp
     locationfetchjob.cpp
+
+    ../debug.cpp
 )
 
 ecm_generate_headers(kgapilatitude_CamelCase_HEADERS

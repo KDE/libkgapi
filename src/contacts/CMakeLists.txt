@@ -11,6 +11,8 @@ set(kgapicontacts_SRCS
     contactsgroupfetchjob.cpp
     contactsgroupmodifyjob.cpp
     contactsservice.cpp
+
+    ../debug.cpp
 )
 
 ecm_generate_headers(kgapicontacts_CamelCase_HEADERS

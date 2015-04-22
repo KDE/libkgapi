@@ -22,7 +22,7 @@
 #include "changefetchjob.h"
 #include "account.h"
 #include "change.h"
-#include "debug.h"
+#include "../debug.h"
 #include "driveservice.h"
 #include "utils.h"
 
@@ -92,7 +92,7 @@ ChangeFetchJob::~ChangeFetchJob()
 void ChangeFetchJob::setIncludeDeleted(bool includeDeleted)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify includeDeleted property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify includeDeleted property when job is running";
         return;
     }
 
@@ -107,7 +107,7 @@ bool ChangeFetchJob::includeDeleted() const
 void ChangeFetchJob::setIncludeSubscribed(bool includeSubscribed)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify includeSubscribed property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify includeSubscribed property when job is running";
         return;
     }
 
@@ -122,7 +122,7 @@ bool ChangeFetchJob::includeSubscribed() const
 void ChangeFetchJob::setMaxResults(int maxResults)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify maxResults property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify maxResults property when job is running";
         return;
     }
 
@@ -137,7 +137,7 @@ int ChangeFetchJob::maxResults() const
 void ChangeFetchJob::setStartChangeId(qlonglong startChangeId)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify startChangeId property when job is running";
+        qCWarning(KGAPIDebug) << "Can't modify startChangeId property when job is running";
     }
 
     d->startChangeId = startChangeId;

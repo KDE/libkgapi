@@ -22,7 +22,7 @@
 #include "taskcreatejob.h"
 #include "tasksservice.h"
 #include "account.h"
-#include "debug.h"
+#include "../debug.h"
 #include "utils.h"
 #include "task.h"
 #include "private/queuehelper_p.h"
@@ -72,7 +72,7 @@ QString TaskCreateJob::parentItem() const
 void TaskCreateJob::setParentItem(const QString &parentId)
 {
     if (isRunning()) {
-        KGAPIWarning() << "Can't modify parentItem property when job is running!";
+        qCWarning(KGAPIDebug) << "Can't modify parentItem property when job is running!";
         return;
     }
 
@@ -102,7 +102,7 @@ void TaskCreateJob::start()
     Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    KGAPIDebugRawData() << headers;
+    qCDebug(KGAPIRaw) << headers;
 
     enqueueRequest(request, rawData, QLatin1String("application/json"));
 }

@@ -17,10 +17,10 @@
 
 #include "authwidget_p.h"
 #include "account.h"
-#include "debug.h"
 #include "accountinfo/accountinfo.h"
 #include "accountinfo/accountinfofetchjob.h"
 #include "private/newtokensfetchjob_p.h"
+#include "../../debug.h"
 
 #include <QWebView>
 #include <QWebFrame>
@@ -97,7 +97,7 @@ void AuthWidget::Private::setupUi()
 void AuthWidget::Private::onSslError(QNetworkReply *reply, const QList<QSslError> &errors)
 {
     Q_FOREACH (const QSslError &error, errors) {
-        KGAPIDebug() << "SSL ERROR: " << error.errorString();
+        qCDebug(KGAPIDebug) << "SSL ERROR: " << error.errorString();
     }
     reply->ignoreSslErrors();
 }
@@ -105,7 +105,7 @@ void AuthWidget::Private::onSslError(QNetworkReply *reply, const QList<QSslError
 
 void AuthWidget::Private::setProgress(AuthWidget::Progress progress)
 {
-    KGAPIDebug() << progress;
+    qCDebug(KGAPIDebug) << progress;
     this->progress = progress;
     Q_EMIT q->progress(progress);
 }
@@ -126,7 +126,7 @@ void AuthWidget::Private::emitError(const enum Error errCode, const QString& msg
 
 void AuthWidget::Private::webviewUrlChanged(const QUrl &url)
 {
-    KGAPIDebug() << url;
+    qCDebug(KGAPIDebug) << url;
 
     /* Access token here - hide browser and tell user to wait until we
      * finish the authentication process ourselves */
@@ -142,11 +142,11 @@ void AuthWidget::Private::webviewUrlChanged(const QUrl &url)
 void AuthWidget::Private::webviewFinished(bool ok)
 {
     if (!ok) {
-        KGAPIWarning() << "Failed to load" << webview->url();
+        qCWarning(KGAPIDebug) << "Failed to load" << webview->url();
     }
 
     QUrl url = webview->url();
-    KGAPIDebug() << url;
+    qCDebug(KGAPIDebug) << url;
 
     if (url.host() == QLatin1String("accounts.google.com") && url.path() == QLatin1String("/ServiceLogin")) {
         if (username.isEmpty() && password.isEmpty()) {
@@ -180,15 +180,15 @@ void AuthWidget::Private::webviewFinished(bool ok)
             /* Skip the 'code=' string as well */
             token = title.mid (pos + 5);
         } else {
-            KGAPIDebug() << "Parsing token page failed. Title:" << title;
-            KGAPIDebugRawData() << webview->page()->mainFrame()->toHtml();
+            qCDebug(KGAPIDebug) << "Parsing token page failed. Title:" << title;
+            qCDebug(KGAPIRaw) << webview->page()->mainFrame()->toHtml();
             emitError(AuthError, tr("Parsing token page failed."));
             return;
         }
 
         if (token.isEmpty()) {
-            KGAPIDebug() << "Failed to obtain token.";
-            KGAPIDebugRawData() << webview->page()->mainFrame()->toHtml();
+            qCDebug(KGAPIDebug) << "Failed to obtain token.";
+            qCDebug(KGAPIRaw) << webview->page()->mainFrame()->toHtml();
             emitError(AuthError, tr("Failed to obtain token."));
             return;
         }
@@ -212,13 +212,13 @@ void AuthWidget::Private::tokensReceived(KGAPI2::Job* job)
 
     connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
             this, SLOT(accountInfoReceived(KGAPI2::Job*)));
-    KGAPIDebug() << "Requesting AccountInfo";
+    qCDebug(KGAPIDebug) << "Requesting AccountInfo";
 }
 
 void AuthWidget::Private::accountInfoReceived(KGAPI2::Job* job)
 {
     if (job->error()) {
-        KGAPIDebug() << "Error when retrieving AccountInfo:" << job->errorString();
+        qCDebug(KGAPIDebug) << "Error when retrieving AccountInfo:" << job->errorString();
         emitError((enum Error) job->error(), job->errorString());
         return;
     }
