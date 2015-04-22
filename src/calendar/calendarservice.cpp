@@ -70,8 +70,8 @@ namespace Private
     QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
 
     static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
-    static const QString CalendarListBasePath(QLatin1String("calendar/v3/users/me/calendarList"));
-    static const QString CalendarBasePath(QLatin1String("calendar/v3/calendars"));
+    static const QString CalendarListBasePath(QLatin1String("/calendar/v3/users/me/calendarList"));
+    static const QString CalendarBasePath(QLatin1String("/calendar/v3/calendars"));
 }
 
 /************* URLS **************/
