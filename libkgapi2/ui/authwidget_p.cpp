@@ -22,7 +22,7 @@
 #include "accountinfo/accountinfofetchjob.h"
 #include "private/newtokensfetchjob_p.h"
 
-#include <QtWebKit/QWebView>
+#include <KDE/KWebKit>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebElement>
 #include <QtNetwork/QNetworkReply>
@@ -43,7 +43,7 @@
 using namespace KGAPI2;
 
 WebView::WebView(QWidget *parent)
-    : QWebView(parent)
+    : KWebView(parent)
 {
 }
 
