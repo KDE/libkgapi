@@ -25,14 +25,14 @@
 
 #include <QtGui/QProgressBar>
 #include <QtGui/QVBoxLayout>
-#include <QtWebKit/QWebView>
+#include <KDE/KWebView>
 #include <QtGui/QLabel>
 
 namespace KGAPI2 {
 
 class Job;
 
-class WebView : public QWebView
+class WebView : public KWebView
 {
     Q_OBJECT
 public:
