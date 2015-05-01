@@ -84,4 +84,3 @@ void FileTrashJob::dispatchRequest(QNetworkAccessManager *accessManager,
 
 
 
-#include "filetrashjob.moc"
