@@ -39,7 +39,7 @@ add_library(KF5GAPIContacts
 generate_export_header(KF5GAPIContacts BASE_NAME kgapicontacts)
 
 add_library(KF5::GAPIContacts ALIAS KF5GAPIContacts)
-target_include_directories(KF5GAPIContacts INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
+target_include_directories(KF5GAPIContacts INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
 
 target_link_libraries(KF5GAPIContacts
 PUBLIC
@@ -61,21 +61,21 @@ install(TARGETS
 
 install(FILES
     ${kgapicontacts_CamelCase_HEADERS}
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Contacts"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Contacts"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapicontacts_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicontacts_export.h"
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/contacts"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/contacts"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIContacts
     LIB_NAME KF5GAPIContacts
     DEPS "KF5::GAPICore KF5::Contacts Qt5::Xml"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
 )
 
 install(FILES

@@ -55,7 +55,7 @@ add_library(KF5GAPIBlogger
 generate_export_header(KF5GAPIBlogger BASE_NAME kgapiblogger)
 
 add_library(KF5::GAPIBlogger ALIAS KF5GAPIBlogger)
-target_include_directories(KF5GAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
+target_include_directories(KF5GAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
 
 target_link_libraries(KF5GAPIBlogger
 PUBLIC
@@ -75,21 +75,21 @@ install(TARGETS
 
 install(FILES
     ${kgapiblogger_CamelCase_HEADERS}
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Blogger"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Blogger"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapiblogger_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapiblogger_export.h"
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/blogger"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/blogger"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIBlogger
     LIB_NAME KF5GAPIBlogger
     DEPS "GAPICore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
 )
 
 install(FILES

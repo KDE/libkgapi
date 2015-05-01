@@ -41,7 +41,7 @@ add_library(KF5GAPICalendar
 generate_export_header(KF5GAPICalendar BASE_NAME kgapicalendar)
 
 add_library(KF5::GAPICalendar ALIAS KF5GAPICalendar)
-target_include_directories(KF5GAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
+target_include_directories(KF5GAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
 
 target_link_libraries(KF5GAPICalendar
 PUBLIC
@@ -62,21 +62,21 @@ install(TARGETS
 
 install(FILES
     ${kgapicalendar_CamelCase_HEADERS}
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Calendar"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Calendar"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapicalendar_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicalendar_export.h"
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/calendar"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/calendar"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPICalendar
     LIB_NAME KF5GAPICalendar
     DEPS "GAPICore CalendarCore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
 )
 
 install(FILES

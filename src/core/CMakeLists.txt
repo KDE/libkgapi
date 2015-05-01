@@ -55,7 +55,7 @@ add_library(KF5GAPICore
 generate_export_header(KF5GAPICore BASE_NAME kgapicore)
 
 add_library(KF5::GAPICore ALIAS KF5GAPICore)
-target_include_directories(KF5GAPICore INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI;${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi>")
+target_include_directories(KF5GAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI;${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi>")
 
 target_link_libraries(KF5GAPICore
 PRIVATE
@@ -82,7 +82,7 @@ install(FILES
     ${kgapicore_base_CamelCase_HEADERS}
     ${kgapicore_accountinfo_CamelCase_HEADERS}
     ${kgapicore_ui_CamelCase_HEADERS}
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI"
     COMPONENT Devel
 )
 
@@ -91,14 +91,14 @@ install(FILES
     ${kgapicore_accountinfo_HEADERS}
     ${kgapicore_ui_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicore_export.h"
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPICore
     LIB_NAME KF5GAPICore
     DEPS "KF5::CoreAddons Qt5::Widgets Qt5::WebKitWidgets"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
 )
 
 install(FILES

@@ -39,7 +39,7 @@ add_library(KF5GAPITasks
 generate_export_header(KF5GAPITasks BASE_NAME kgapitasks)
 
 add_library(KF5::GAPITasks ALIAS KF5GAPITasks)
-target_include_directories(KF5GAPITasks INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KGAPI>")
+target_include_directories(KF5GAPITasks INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
 
 target_link_libraries(KF5GAPITasks
 PUBLIC
@@ -60,21 +60,21 @@ install(TARGETS
 
 install(FILES
     ${kgapitasks_CamelCase_HEADERS}
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/KGAPI/Tasks"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Tasks"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapitasks_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapitasks_export.h"
-    DESTINATION "${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi/tasks"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/tasks"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPITasks
     LIB_NAME KF5GAPITasks
     DEPS "GAPICore CalendarCore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KF5_INCLUDE_INSTALL_DIR}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
 )
 
 install(FILES
