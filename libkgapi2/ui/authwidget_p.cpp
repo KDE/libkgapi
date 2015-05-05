@@ -22,7 +22,7 @@
 #include "accountinfo/accountinfofetchjob.h"
 #include "private/newtokensfetchjob_p.h"
 
-#include <KDE/KWebKit>
+#include <KDE/KWebView>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebElement>
 #include <QtNetwork/QNetworkReply>
