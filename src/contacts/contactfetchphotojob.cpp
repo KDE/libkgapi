@@ -28,7 +28,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
-Q_DECLARE_METATYPE(KGAPI2::ContactPtr);
+Q_DECLARE_METATYPE(KGAPI2::ContactPtr)
 
 using namespace KGAPI2;
 
