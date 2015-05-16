@@ -30,6 +30,8 @@ target_link_libraries(KF5GAPIMaps
 PUBLIC
     KF5::GAPICore
     KF5::Contacts
+PRIVATE
+    Qt5::Network
 )
 
 set_target_properties(KF5GAPIMaps PROPERTIES

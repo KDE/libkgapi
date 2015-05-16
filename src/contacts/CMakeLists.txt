@@ -45,7 +45,9 @@ target_link_libraries(KF5GAPIContacts
 PUBLIC
     KF5::GAPICore
     KF5::Contacts
+PRIVATE
     Qt5::Xml
+    Qt5::Network
 )
 
 set_target_properties(KF5GAPIContacts PROPERTIES

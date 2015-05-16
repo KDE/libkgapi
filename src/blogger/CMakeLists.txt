@@ -60,6 +60,8 @@ target_include_directories(KF5GAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KDE_I
 target_link_libraries(KF5GAPIBlogger
 PUBLIC
     KF5::GAPICore
+PRIVATE
+    Qt5::Network
 )
 
 set_target_properties(KF5GAPIBlogger PROPERTIES

@@ -98,6 +98,8 @@ target_include_directories(KF5GAPIDrive INTERFACE "$<INSTALL_INTERFACE:${KDE_INS
 target_link_libraries(KF5GAPIDrive
 PUBLIC
     KF5::GAPICore
+PRIVATE
+    Qt5::Network
 )
 
 set_target_properties(KF5GAPIDrive PROPERTIES

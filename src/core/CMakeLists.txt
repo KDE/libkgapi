@@ -61,10 +61,9 @@ target_link_libraries(KF5GAPICore
 PRIVATE
     KF5::KIOWidgets
     KF5::WindowSystem
-PUBLIC
-    KF5::CoreAddons
-    Qt5::Widgets
     Qt5::WebKitWidgets
+PUBLIC
+    Qt5::Widgets
 )
 
 set_target_properties(KF5GAPICore PROPERTIES

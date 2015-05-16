@@ -35,6 +35,8 @@ target_link_libraries(KF5GAPILatitude
 PUBLIC
     KF5::GAPICore
     KF5::Contacts
+PRIVATE
+    Qt5::Network
 )
 
 set_target_properties(KF5GAPILatitude PROPERTIES
