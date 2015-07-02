@@ -638,7 +638,7 @@ QByteArray eventToJSON(const EventPtr& event)
 
     /* Reminders */
     QVariantList overrides;
-    Q_FOREACH(KCalCore::Alarm::Ptr alarm, event->alarms()) {
+    Q_FOREACH(const KCalCore::Alarm::Ptr &alarm, event->alarms()) {
         QVariantMap override;
 
         if (alarm->type() == KCalCore::Alarm::Display) {
