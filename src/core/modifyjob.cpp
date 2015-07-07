@@ -21,6 +21,7 @@
 
 #include "modifyjob.h"
 #include "../debug.h"
+#include "object.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>

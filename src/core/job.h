@@ -22,10 +22,10 @@
 #ifndef LIBKGAPI2_JOB_H
 #define LIBKGAPI2_JOB_H
 
-#include <QObject>
-
 #include "types.h"
 #include "kgapicore_export.h"
+
+#include <QObject>
 
 class QNetworkAccessManager;
 class QNetworkReply;

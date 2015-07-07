@@ -20,6 +20,7 @@
  */
 
 #include "createjob.h"
+#include "object.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>

@@ -20,7 +20,7 @@
  */
 
 #include "calendar.h"
-
+#include "reminder.h"
 
 using namespace KGAPI2;
 

@@ -21,6 +21,7 @@
 
 #include "job.h"
 #include "job_p.h"
+#include "account.h"
 
 #include "../debug.h"
 #include "authjob.h"
