@@ -48,7 +48,7 @@ class KGAPICORE_EXPORT AccountInfoFetchJob : public KGAPI2::FetchJob
      * @param account Account for which to retrieve the info
      * @param parent
      */
-    explicit AccountInfoFetchJob(const AccountPtr &account, QObject* parent = 0);
+    explicit AccountInfoFetchJob(const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

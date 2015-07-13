@@ -49,7 +49,7 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
      * @param parent
      */
     explicit CalendarCreateJob(const CalendarPtr &calendar,
-                               const AccountPtr &account, QObject* parent = 0);
+                               const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a job that will create given @p calendars in user's
@@ -60,7 +60,7 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
      * @param parent
      */
     explicit CalendarCreateJob(const CalendarsList &calendars,
-                               const AccountPtr &account, QObject* parent = 0);
+                               const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

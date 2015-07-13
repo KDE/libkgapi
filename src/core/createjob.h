@@ -46,7 +46,7 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
      *
      * @param parent
      */
-    explicit CreateJob(QObject* parent = 0);
+    explicit CreateJob(QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructor for jobs that require authentication
@@ -54,7 +54,7 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
      * @param account Account to use to authenticate the requests send by this job
      * @param parent
      */
-    explicit CreateJob(const KGAPI2::AccountPtr &account, QObject* parent = 0);
+    explicit CreateJob(const KGAPI2::AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

@@ -53,7 +53,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param parent
      */
     explicit TaskDeleteJob(const TaskPtr &task, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = 0);
+                           const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a new job that will delete given @p tasks from a
@@ -65,7 +65,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param parent
      */
     explicit TaskDeleteJob(const TasksList &tasks, const QString &tasklistId,
-                           const AccountPtr &account, QObject* parent = 0);
+                           const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a new job that will delete task with given @p taskId
@@ -77,7 +77,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param parent
      */
     explicit TaskDeleteJob(const QString &taskId, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = 0);
+                           const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a new job that will delete tasks with given @p tasksIds

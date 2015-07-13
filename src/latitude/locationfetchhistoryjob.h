@@ -93,7 +93,7 @@ class KGAPILATITUDE_EXPORT LocationFetchHistoryJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the requests
      * @param parent
      */
-    explicit LocationFetchHistoryJob(const AccountPtr &account, QObject* parent = 0);
+    explicit LocationFetchHistoryJob(const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

@@ -125,7 +125,7 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit EventFetchJob(const QString &calendarId, const AccountPtr &account,
-                           QObject* parent = 0);
+                           QObject* parent = Q_NULLPTR);
 
 
     /**
@@ -141,7 +141,7 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit EventFetchJob(const QString &eventId, const QString &calendarId,
-                           const AccountPtr &account, QObject* parent = 0);
+                           const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

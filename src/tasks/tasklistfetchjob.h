@@ -47,7 +47,7 @@ class KGAPITASKS_EXPORT TaskListFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskListFetchJob(const AccountPtr &account, QObject* parent = 0);
+    explicit TaskListFetchJob(const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

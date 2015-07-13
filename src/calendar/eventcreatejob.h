@@ -49,7 +49,7 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
      * @param parent
      */
     explicit EventCreateJob(const EventPtr &event, const QString &calendarId,
-                            const AccountPtr &account, QObject* parent = 0);
+                            const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a job that will create given @p events in a calendar
@@ -61,7 +61,7 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
      * @param parent
      */
     explicit EventCreateJob(const EventsList &events, const QString &calendarId,
-                            const AccountPtr &account, QObject* parent = 0);
+                            const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

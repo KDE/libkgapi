@@ -49,7 +49,7 @@ class KGAPILATITUDE_EXPORT LocationCreateJob : public KGAPI2::CreateJob
      * @param parent
      */
     explicit LocationCreateJob(const LocationPtr &location, bool isCurrent,
-                               const AccountPtr &account, QObject* parent = 0);
+                               const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

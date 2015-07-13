@@ -50,7 +50,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
      * @param url
      * @param parent
      */
-    explicit StaticMapTileFetchJob(const StaticMapUrl &url, QObject* parent = 0);
+    explicit StaticMapTileFetchJob(const StaticMapUrl &url, QObject* parent = Q_NULLPTR);
 
     /**
      * @overload StaticMapTileFetchJob(StaticMapUrl,QObject*)
@@ -58,7 +58,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
      * @param url
      * @param parent
      */
-    explicit StaticMapTileFetchJob(const QUrl &url, QObject* parent = 0);
+    explicit StaticMapTileFetchJob(const QUrl &url, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

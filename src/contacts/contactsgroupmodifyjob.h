@@ -49,7 +49,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupModifyJob : public KGAPI2::ModifyJob
      */
     explicit ContactsGroupModifyJob(const ContactsGroupsList &groups,
                                     const AccountPtr &account,
-                                    QObject* parent = 0);
+                                    QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a job that will write changes in given @p group to
@@ -61,7 +61,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupModifyJob : public KGAPI2::ModifyJob
      */
     explicit ContactsGroupModifyJob(const ContactsGroupPtr &group,
                                     const AccountPtr &account,
-                                    QObject* parent = 0);
+                                    QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor.

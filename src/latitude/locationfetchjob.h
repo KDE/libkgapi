@@ -60,7 +60,7 @@ class KGAPILATITUDE_EXPORT LocationFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the requests
      * @param parent
      */
-    explicit LocationFetchJob(const AccountPtr &account, QObject* parent = 0);
+    explicit LocationFetchJob(const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a job that will fetch specific past user's location from
@@ -70,7 +70,7 @@ class KGAPILATITUDE_EXPORT LocationFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the requests
      * @param parent
      */
-    explicit LocationFetchJob(qlonglong timestamp, const AccountPtr &account, QObject* parent = 0);
+    explicit LocationFetchJob(qlonglong timestamp, const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

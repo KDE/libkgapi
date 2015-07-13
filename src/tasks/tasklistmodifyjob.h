@@ -49,7 +49,7 @@ class KGAPITASKS_EXPORT TaskListModifyJob : public KGAPI2::ModifyJob
      * @param parent
      */
     explicit TaskListModifyJob(const TaskListPtr &taskList,
-                               const AccountPtr &account, QObject* parent = 0);
+                               const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a job that will write changes in given @p taskLists to
@@ -60,7 +60,7 @@ class KGAPITASKS_EXPORT TaskListModifyJob : public KGAPI2::ModifyJob
      * @param parent
      */
     explicit TaskListModifyJob(const TaskListsList &taskLists,
-                               const AccountPtr &account, QObject* parent = 0);
+                               const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

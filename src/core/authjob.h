@@ -92,7 +92,7 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
      * @param parent
      */
     explicit AuthJob(const AccountPtr &account, const QString &apiKey,
-                     const QString &secretKey, QObject* parent = 0);
+                     const QString &secretKey, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

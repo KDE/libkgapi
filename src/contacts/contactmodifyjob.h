@@ -48,7 +48,7 @@ class KGAPICONTACTS_EXPORT ContactModifyJob : public  KGAPI2::ModifyJob
      * @param parent
      */
     explicit ContactModifyJob(const ContactsList& contacts,
-                              const AccountPtr &account, QObject* parent = 0);
+                              const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a job that will write changes in given @p contact to
@@ -59,7 +59,7 @@ class KGAPICONTACTS_EXPORT ContactModifyJob : public  KGAPI2::ModifyJob
      * @param parent
      */
     explicit ContactModifyJob(const ContactPtr &contact,
-                              const AccountPtr &account, QObject* parent = 0);
+                              const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

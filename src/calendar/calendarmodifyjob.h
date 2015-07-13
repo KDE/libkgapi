@@ -48,7 +48,7 @@ class KGAPICALENDAR_EXPORT CalendarModifyJob : public KGAPI2::ModifyJob
      * @param parent
      */
     explicit CalendarModifyJob(const CalendarPtr &calendar,
-                               const AccountPtr &account, QObject* parent = 0);
+                               const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a job that will write changes in given @p calendars to
@@ -59,7 +59,7 @@ class KGAPICALENDAR_EXPORT CalendarModifyJob : public KGAPI2::ModifyJob
      * @param parent
      */
     explicit CalendarModifyJob(const CalendarsList &calendars,
-                               const AccountPtr &account, QObject* parent = 0);
+                               const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor

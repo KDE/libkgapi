@@ -46,7 +46,7 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactCreateJob(const ContactPtr &contact, const AccountPtr &account, QObject* parent = 0);
+    explicit ContactCreateJob(const ContactPtr &contact, const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Constructs a job that will create given @p contacts in user's
@@ -56,7 +56,7 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactCreateJob(const ContactsList &contacts, const AccountPtr &account, QObject* parent = 0);
+    explicit ContactCreateJob(const ContactsList &contacts, const AccountPtr &account, QObject* parent = Q_NULLPTR);
 
     /**
      * @brief Destructor
