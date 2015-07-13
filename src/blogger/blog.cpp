@@ -126,19 +126,19 @@ BlogPtr Blog::Private::fromJSON(const QVariant &json)
 {
     BlogPtr blog(new Blog);
     const QVariantMap map = json.toMap();
-    blog->d->id = map[QLatin1String("id")].toString();
-    blog->d->name = map[QLatin1String("name")].toString();
-    blog->d->description = map[QLatin1String("description")].toString();
-    blog->d->published = QDateTime::fromString(map[QLatin1String("published")].toString(), Qt::ISODate);
-    blog->d->updated = QDateTime::fromString(map[QLatin1String("updated")].toString(), Qt::ISODate);
-    blog->d->url = map[QLatin1String("url")].toUrl();
-    blog->d->postsCount = map[QLatin1String("posts")].toMap()[QLatin1String("totalItems")].toUInt();
-    blog->d->pagesCount = map[QLatin1String("pages")].toMap()[QLatin1String("totalItems")].toUInt();
-    const QVariantMap locale = map[QLatin1String("locale")].toMap();
-    blog->d->language = locale[QLatin1String("language")].toString();
-    blog->d->country = locale[QLatin1String("country")].toString();
-    blog->d->languageVariant = locale[QLatin1String("variant")].toString();
-    const QString metadata = map[QLatin1String("customMetaData")].toString();
+    blog->d->id = map[QStringLiteral("id")].toString();
+    blog->d->name = map[QStringLiteral("name")].toString();
+    blog->d->description = map[QStringLiteral("description")].toString();
+    blog->d->published = QDateTime::fromString(map[QStringLiteral("published")].toString(), Qt::ISODate);
+    blog->d->updated = QDateTime::fromString(map[QStringLiteral("updated")].toString(), Qt::ISODate);
+    blog->d->url = map[QStringLiteral("url")].toUrl();
+    blog->d->postsCount = map[QStringLiteral("posts")].toMap()[QStringLiteral("totalItems")].toUInt();
+    blog->d->pagesCount = map[QStringLiteral("pages")].toMap()[QStringLiteral("totalItems")].toUInt();
+    const QVariantMap locale = map[QStringLiteral("locale")].toMap();
+    blog->d->language = locale[QStringLiteral("language")].toString();
+    blog->d->country = locale[QStringLiteral("country")].toString();
+    blog->d->languageVariant = locale[QStringLiteral("variant")].toString();
+    const QString metadata = map[QStringLiteral("customMetaData")].toString();
     QJsonDocument document = QJsonDocument::fromJson(metadata.toUtf8());
     blog->d->customMetaData = document.toVariant();
 
@@ -176,7 +176,7 @@ BlogsList Blog::fromJSONFeed(const QByteArray &rawData)
     }
 
     BlogsList items;
-    const QVariantList blogs = map[QLatin1String("items")].toList();
+    const QVariantList blogs = map[QStringLiteral("items")].toList();
     Q_FOREACH (const QVariant &blog, blogs) {
         items << Blog::Private::fromJSON(blog);
     }

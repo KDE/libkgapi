@@ -174,30 +174,30 @@ void PostFetchJob::start()
     QUrl url = BloggerService::fetchPostUrl(d->blogId, d->postId);
     if (d->postId.isEmpty()) {
         if (d->startDate.isValid()) {
-            url.addQueryItem(QLatin1String("startDate"), d->startDate.toString(Qt::ISODate));
+            url.addQueryItem(QStringLiteral("startDate"), d->startDate.toString(Qt::ISODate));
         }
         if (d->endDate.isValid()) {
-            url.addQueryItem(QLatin1String("endDate"), d->endDate.toString(Qt::ISODate));
+            url.addQueryItem(QStringLiteral("endDate"), d->endDate.toString(Qt::ISODate));
         }
         if (d->maxResults > 0) {
-            url.addQueryItem(QLatin1String("maxResults"), QString::number(d->maxResults));
+            url.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
         }
         if (!d->filterLabels.isEmpty())
-            url.addQueryItem(QLatin1String("labels"), d->filterLabels.join(QLatin1String(",")));
-        url.addQueryItem(QLatin1String("fetchBodies"), Utils::bool2Str(d->fetchBodies));
-        url.addQueryItem(QLatin1String("fetchImages"), Utils::bool2Str(d->fetchImages));
+            url.addQueryItem(QStringLiteral("labels"), d->filterLabels.join(QStringLiteral(",")));
+        url.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
+        url.addQueryItem(QStringLiteral("fetchImages"), Utils::bool2Str(d->fetchImages));
     }
     if (account()) {
-        url.addQueryItem(QLatin1String("view"), QLatin1String("ADMIN"));
+        url.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
     }
     if (d->statusFilter & Draft) {
-        url.addQueryItem(QLatin1String("status"), QLatin1String("draft"));
+        url.addQueryItem(QStringLiteral("status"), QStringLiteral("draft"));
     }
     if (d->statusFilter & Live) {
-        url.addQueryItem(QLatin1String("status"), QLatin1String("live"));
+        url.addQueryItem(QStringLiteral("status"), QStringLiteral("live"));
     }
     if (d->statusFilter & Scheduled) {
-        url.addQueryItem(QLatin1String("status"), QLatin1String("scheduled"));
+        url.addQueryItem(QStringLiteral("status"), QStringLiteral("scheduled"));
     }
 
     const QNetworkRequest request = d->createRequest(url);

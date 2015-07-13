@@ -65,7 +65,7 @@ void PermissionModifyJob::Private::processNext()
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
     const QByteArray rawData = Permission::toJSON(permission);
-    q->enqueueRequest(request, rawData, QLatin1String("application/json"));
+    q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
 PermissionModifyJob::PermissionModifyJob(const QString &fileId,

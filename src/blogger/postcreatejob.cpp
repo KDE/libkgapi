@@ -65,7 +65,7 @@ void PostCreateJob::start()
 {
     QUrl url = BloggerService::createPostUrl(d->post->blogId());
     if (d->isDraft) {
-        url.addQueryItem(QLatin1String("isDraft"), Utils::bool2Str(d->isDraft));
+        url.addQueryItem(QStringLiteral("isDraft"), Utils::bool2Str(d->isDraft));
     }
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
@@ -73,7 +73,7 @@ void PostCreateJob::start()
 
     const QByteArray rawData = Post::toJSON(d->post);
 
-    enqueueRequest(request, rawData, QLatin1String("application/json"));
+    enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
 ObjectsList PostCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)

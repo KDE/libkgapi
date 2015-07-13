@@ -162,9 +162,9 @@ ObjectPtr Private::JSONToTaskList(QVariantMap jsonData)
 {
     TaskListPtr taskList(new TaskList());
 
-    taskList->setUid(jsonData.value(QLatin1String("id")).toString());
-    taskList->setEtag(jsonData.value(QLatin1String("etag")).toString());
-    taskList->setTitle(jsonData.value(QLatin1String("title")).toString());
+    taskList->setUid(jsonData.value(QStringLiteral("id")).toString());
+    taskList->setEtag(jsonData.value(QStringLiteral("etag")).toString());
+    taskList->setTitle(jsonData.value(QStringLiteral("title")).toString());
 
     return taskList.dynamicCast<Object>();
 }
@@ -185,30 +185,30 @@ ObjectPtr Private::JSONToTask(QVariantMap jsonData)
 {
     TaskPtr task(new Task());
 
-    task->setUid(jsonData.value(QLatin1String("id")).toString());
-    task->setEtag(jsonData.value(QLatin1String("etag")).toString());
-    task->setSummary(jsonData.value(QLatin1String("title")).toString());;
-    task->setLastModified(KDateTime::fromString(jsonData.value(QLatin1String("updated")).toString(), KDateTime::RFC3339Date));
-    task->setDescription(jsonData.value(QLatin1String("notes")).toString());
+    task->setUid(jsonData.value(QStringLiteral("id")).toString());
+    task->setEtag(jsonData.value(QStringLiteral("etag")).toString());
+    task->setSummary(jsonData.value(QStringLiteral("title")).toString());;
+    task->setLastModified(KDateTime::fromString(jsonData.value(QStringLiteral("updated")).toString(), KDateTime::RFC3339Date));
+    task->setDescription(jsonData.value(QStringLiteral("notes")).toString());
 
-    if (jsonData.value(QLatin1String("status")).toString() == QLatin1String("needsAction")) {
+    if (jsonData.value(QStringLiteral("status")).toString() == QStringLiteral("needsAction")) {
         task->setStatus(KCalCore::Incidence::StatusNeedsAction);
-    } else if (jsonData.value(QLatin1String("status")).toString() == QLatin1String("completed")) {
+    } else if (jsonData.value(QStringLiteral("status")).toString() == QStringLiteral("completed")) {
         task->setStatus(KCalCore::Incidence::StatusCompleted);
     } else {
         task->setStatus(KCalCore::Incidence::StatusNone);
     }
 
-    task->setDtDue(KDateTime::fromString(jsonData.value(QLatin1String("due")).toString(), KDateTime::RFC3339Date));
+    task->setDtDue(KDateTime::fromString(jsonData.value(QStringLiteral("due")).toString(), KDateTime::RFC3339Date));
 
     if (task->status() == KCalCore::Incidence::StatusCompleted) {
-        task->setCompleted(KDateTime::fromString(jsonData.value(QLatin1String("completed")).toString(), KDateTime::RFC3339Date));
+        task->setCompleted(KDateTime::fromString(jsonData.value(QStringLiteral("completed")).toString(), KDateTime::RFC3339Date));
     }
 
-    task->setDeleted(jsonData.value(QLatin1String("deleted")).toBool());
+    task->setDeleted(jsonData.value(QStringLiteral("deleted")).toBool());
 
-    if (jsonData.contains(QLatin1String("parent"))) {
-        task->setRelatedTo(jsonData.value(QLatin1String("parent")).toString(), KCalCore::Incidence::RelTypeParent);
+    if (jsonData.contains(QStringLiteral("parent"))) {
+        task->setRelatedTo(jsonData.value(QStringLiteral("parent")).toString(), KCalCore::Incidence::RelTypeParent);
     }
 
     return task.dynamicCast<Object>();
@@ -230,11 +230,11 @@ QByteArray taskListToJSON(const TaskListPtr &taskList)
 {
     QVariantMap output;
 
-    output.insert(QLatin1String("kind"), QLatin1String("tasks#taskList"));
+    output.insert(QStringLiteral("kind"), QStringLiteral("tasks#taskList"));
     if (!taskList->uid().isEmpty()) {
-        output.insert(QLatin1String("id"), taskList->uid());
+        output.insert(QStringLiteral("id"), taskList->uid());
     }
-    output.insert(QLatin1String("title"), taskList->title());
+    output.insert(QStringLiteral("title"), taskList->title());
 
     QJsonDocument document = QJsonDocument::fromVariant(output);
     return document.toJson(QJsonDocument::Compact);
@@ -244,30 +244,30 @@ QByteArray taskToJSON(const TaskPtr &task)
 {
     QVariantMap output;
 
-    output.insert(QLatin1String("kind"), QLatin1String("tasks#task"));
+    output.insert(QStringLiteral("kind"), QStringLiteral("tasks#task"));
 
     if (!task->uid().isEmpty()) {
-        output.insert(QLatin1String("id"), task->uid());
+        output.insert(QStringLiteral("id"), task->uid());
     }
 
-    output.insert(QLatin1String("title"), task->summary());
-    output.insert(QLatin1String("notes"), task->description());
+    output.insert(QStringLiteral("title"), task->summary());
+    output.insert(QStringLiteral("notes"), task->description());
 
     if (!task->relatedTo(KCalCore::Incidence::RelTypeParent).isEmpty()) {
-        output.insert(QLatin1String("parent"), task->relatedTo(KCalCore::Incidence::RelTypeParent));
+        output.insert(QStringLiteral("parent"), task->relatedTo(KCalCore::Incidence::RelTypeParent));
     }
 
     if (task->dtDue().isValid()) {
         /* Google accepts only UTC time strictly in this format :( */
-        output.insert(QLatin1String("due"), task->dtDue().toUtc().toString(QLatin1String("%Y-%m-%dT%H:%M:%S.%:sZ")));
+        output.insert(QStringLiteral("due"), task->dtDue().toUtc().toString(QStringLiteral("%Y-%m-%dT%H:%M:%S.%:sZ")));
     }
 
     if ((task->status() == KCalCore::Incidence::StatusCompleted) && task->completed().isValid()) {
         /* Google accepts only UTC time strictly in this format :( */
-        output.insert(QLatin1String("completed"), task->completed().toUtc().toString(QLatin1String("%Y-%m-%dT%H:%M:%S.%:sZ")));
-        output.insert(QLatin1String("status"), QLatin1String("completed"));
+        output.insert(QStringLiteral("completed"), task->completed().toUtc().toString(QStringLiteral("%Y-%m-%dT%H:%M:%S.%:sZ")));
+        output.insert(QStringLiteral("status"), QStringLiteral("completed"));
     } else {
-        output.insert(QLatin1String("status"), QLatin1String("needsAction"));
+        output.insert(QStringLiteral("status"), QStringLiteral("needsAction"));
     }
 
     QJsonDocument document = QJsonDocument::fromVariant(output);

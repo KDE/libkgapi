@@ -173,20 +173,20 @@ PagePtr Page::Private::fromJSON(const QVariant &json)
     PagePtr page(new Page);
     const QVariantMap map = json.toMap();
 
-    page->d->id = map[QLatin1String("id")].toString();
-    page->d->blogId = map[QLatin1String("blog")].toMap()[QLatin1String("id")].toString();
-    page->d->published = QDateTime::fromString(map[QLatin1String("published")].toString(), Qt::ISODate);
-    page->d->updated = QDateTime::fromString(map[QLatin1String("updated")].toString(), Qt::ISODate);
-    page->d->url = map[QLatin1String("url")].toUrl();
-    page->d->title = map[QLatin1String("title")].toString();
-    page->d->content = map[QLatin1String("content")].toString();
-    const QVariantMap author = map[QLatin1String("author")].toMap();
-    page->d->authorId = author[QLatin1String("id")].toString();
-    page->d->authorName = author[QLatin1String("displayName")].toString();
-    page->d->authorUrl = author[QLatin1String("url")].toUrl();
-    page->d->authorImageUrl = author[QLatin1String("image")].toMap()[QLatin1String("url")].toUrl();
+    page->d->id = map[QStringLiteral("id")].toString();
+    page->d->blogId = map[QStringLiteral("blog")].toMap()[QStringLiteral("id")].toString();
+    page->d->published = QDateTime::fromString(map[QStringLiteral("published")].toString(), Qt::ISODate);
+    page->d->updated = QDateTime::fromString(map[QStringLiteral("updated")].toString(), Qt::ISODate);
+    page->d->url = map[QStringLiteral("url")].toUrl();
+    page->d->title = map[QStringLiteral("title")].toString();
+    page->d->content = map[QStringLiteral("content")].toString();
+    const QVariantMap author = map[QStringLiteral("author")].toMap();
+    page->d->authorId = author[QStringLiteral("id")].toString();
+    page->d->authorName = author[QStringLiteral("displayName")].toString();
+    page->d->authorUrl = author[QStringLiteral("url")].toUrl();
+    page->d->authorImageUrl = author[QStringLiteral("image")].toMap()[QStringLiteral("url")].toUrl();
 
-    const QString status = map[QLatin1String("status")].toString();
+    const QString status = map[QStringLiteral("status")].toString();
     if (status == QLatin1String("LIVE")) {
         page->d->status = Live;
     } else if (status == QLatin1String("DRAFT")) {

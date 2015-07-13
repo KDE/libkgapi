@@ -96,18 +96,18 @@ void PageFetchJob::setStatusFilter(StatusFilters status)
 void PageFetchJob::start()
 {
     QUrl url = BloggerService::fetchPageUrl(d->blogId, d->pageId);
-    url.addQueryItem(QLatin1String("fetchBodies"), Utils::bool2Str(d->fetchContent));
+    url.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchContent));
     if (d->statusFilter & Draft) {
-        url.addQueryItem(QLatin1String("status"), QLatin1String("draft"));
+        url.addQueryItem(QStringLiteral("status"), QStringLiteral("draft"));
     }
     if (d->statusFilter & Imported) {
-        url.addQueryItem(QLatin1String("status"), QLatin1String("imported"));
+        url.addQueryItem(QStringLiteral("status"), QStringLiteral("imported"));
     }
     if (d->statusFilter & Live) {
-        url.addQueryItem(QLatin1String("status"), QLatin1String("live"));
+        url.addQueryItem(QStringLiteral("status"), QStringLiteral("live"));
     }
     if (account()) {
-        url.addQueryItem(QLatin1String("view"), QLatin1String("ADMIN"));
+        url.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
     }
 
     QNetworkRequest request(url);

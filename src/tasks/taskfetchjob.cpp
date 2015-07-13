@@ -203,22 +203,22 @@ void TaskFetchJob::start()
     QUrl url;
     if (d->taskId.isEmpty()) {
         url = TasksService::fetchAllTasksUrl(d->taskListId);
-        url.addQueryItem(QLatin1String("showDeleted"), Utils::bool2Str(d->fetchDeleted));
-        url.addQueryItem(QLatin1String("showCompleted"), Utils::bool2Str(d->fetchCompleted));
+        url.addQueryItem(QStringLiteral("showDeleted"), Utils::bool2Str(d->fetchDeleted));
+        url.addQueryItem(QStringLiteral("showCompleted"), Utils::bool2Str(d->fetchCompleted));
         if (d->updatedTimestamp > 0) {
-            url.addQueryItem(QLatin1String("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
+            url.addQueryItem(QStringLiteral("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
         }
         if (d->completedMin > 0) {
-            url.addQueryItem(QLatin1String("completedMin"), Utils::ts2Str(d->completedMin));
+            url.addQueryItem(QStringLiteral("completedMin"), Utils::ts2Str(d->completedMin));
         }
         if (d->completedMax > 0) {
-            url.addQueryItem(QLatin1String("completedMax"), Utils::ts2Str(d->completedMax));
+            url.addQueryItem(QStringLiteral("completedMax"), Utils::ts2Str(d->completedMax));
         }
         if (d->dueMin > 0) {
-            url.addQueryItem(QLatin1String("dueMin"), Utils::ts2Str(d->dueMin));
+            url.addQueryItem(QStringLiteral("dueMin"), Utils::ts2Str(d->dueMin));
         }
         if (d->dueMax > 0) {
-            url.addQueryItem(QLatin1String("dueMax"), Utils::ts2Str(d->dueMax));
+            url.addQueryItem(QStringLiteral("dueMax"), Utils::ts2Str(d->dueMax));
         }
     } else {
         url = TasksService::fetchTaskUrl(d->taskListId, d->taskId);

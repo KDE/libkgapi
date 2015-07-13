@@ -66,7 +66,7 @@ void PermissionCreateJob::Private::processNext()
     request.setUrl(url);
 
     const QByteArray rawData = Permission::toJSON(permission);
-    q->enqueueRequest(request, rawData, QLatin1String("application/json"));
+    q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
 PermissionCreateJob::PermissionCreateJob(const QString &fileId,

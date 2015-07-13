@@ -379,33 +379,33 @@ QString Contact::phoneTypeToScheme(const KContacts::PhoneNumber::Type type)
     QString typeName;
 
     if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell))
-        typeName = QLatin1String("work_mobile");
+        typeName = QStringLiteral("work_mobile");
     else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax))
-        typeName = QLatin1String("work_fax");
+        typeName = QStringLiteral("work_fax");
     else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager))
-        typeName = QLatin1String("work_pager");
+        typeName = QStringLiteral("work_pager");
     else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref))
-        typeName = QLatin1String("company_main");
+        typeName = QStringLiteral("company_main");
     else if (type & KContacts::PhoneNumber::Work)
-        typeName = QLatin1String("work");
+        typeName = QStringLiteral("work");
     else if ((type & (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax))
-        typeName = QLatin1String("home_fax");
+        typeName = QStringLiteral("home_fax");
     else if (type & KContacts::PhoneNumber::Home)
-        typeName = QLatin1String("home");
+        typeName = QStringLiteral("home");
     else if (type & KContacts::PhoneNumber::Pref)
-        typeName = QLatin1String("main");
+        typeName = QStringLiteral("main");
     else if (type & KContacts::PhoneNumber::Car)
-        typeName = QLatin1String("car");
+        typeName = QStringLiteral("car");
     else if (type & KContacts::PhoneNumber::Isdn)
-        typeName = QLatin1String("isdn");
+        typeName = QStringLiteral("isdn");
     else if (type & KContacts::PhoneNumber::Fax)
-        typeName = QLatin1String("fax");
+        typeName = QStringLiteral("fax");
     else if (type & KContacts::PhoneNumber::Cell)
-        typeName = QLatin1String("mobile");
+        typeName = QStringLiteral("mobile");
     else if (type & KContacts::PhoneNumber::Pager)
-        typeName = QLatin1String("pager");
+        typeName = QStringLiteral("pager");
     else
-        typeName = QLatin1String("other");
+        typeName = QStringLiteral("other");
 
     return SCHEME_URL + typeName;
 }

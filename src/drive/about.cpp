@@ -441,19 +441,19 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     }
 
     AboutPtr about(new About());
-    about->setEtag(map.value(QLatin1String("etag")).toString());
-    about->d->selfLink = map.value(QLatin1String("selfLink")).toUrl();
-    about->d->name = map.value(QLatin1String("name")).toString();
-    about->d->quotaBytesTotal = map.value(QLatin1String("quotaBytesTotal")).toLongLong();
-    about->d->quotaBytesUsed = map.value(QLatin1String("quotaBytesUsed")).toLongLong();
-    about->d->quotaBytesUsedInTrash = map.value(QLatin1String("quotaBytesUsedInTrash")).toLongLong();
-    about->d->quotaBytesUsedAggregate = map.value(QLatin1String("quotaBytesUsedAggregate")).toLongLong();
-    about->d->largestChangeId = map.value(QLatin1String("largestChangeId")).toLongLong();
-    about->d->remainingChangeIds = map.value(QLatin1String("remainingChangeIds")).toLongLong();
-    about->d->rootFolderId = map.value(QLatin1String("rootFolderId")).toString();
-    about->d->domainSharingPolicy = map.value(QLatin1String("domainSharingPolicy")).toString();
-    about->d->permissionId = map.value(QLatin1String("permissionId")).toString();
-    about->d->isCurrentAppInstalled = map.value(QLatin1String("isCurrentAppInstalled")).toBool();
+    about->setEtag(map.value(QStringLiteral("etag")).toString());
+    about->d->selfLink = map.value(QStringLiteral("selfLink")).toUrl();
+    about->d->name = map.value(QStringLiteral("name")).toString();
+    about->d->quotaBytesTotal = map.value(QStringLiteral("quotaBytesTotal")).toLongLong();
+    about->d->quotaBytesUsed = map.value(QStringLiteral("quotaBytesUsed")).toLongLong();
+    about->d->quotaBytesUsedInTrash = map.value(QStringLiteral("quotaBytesUsedInTrash")).toLongLong();
+    about->d->quotaBytesUsedAggregate = map.value(QStringLiteral("quotaBytesUsedAggregate")).toLongLong();
+    about->d->largestChangeId = map.value(QStringLiteral("largestChangeId")).toLongLong();
+    about->d->remainingChangeIds = map.value(QStringLiteral("remainingChangeIds")).toLongLong();
+    about->d->rootFolderId = map.value(QStringLiteral("rootFolderId")).toString();
+    about->d->domainSharingPolicy = map.value(QStringLiteral("domainSharingPolicy")).toString();
+    about->d->permissionId = map.value(QStringLiteral("permissionId")).toString();
+    about->d->isCurrentAppInstalled = map.value(QStringLiteral("isCurrentAppInstalled")).toBool();
 
     const QVariantList importFormats = map.value(QLatin1String("importFormats")).toList();
     Q_FOREACH (const QVariant &v, importFormats) {

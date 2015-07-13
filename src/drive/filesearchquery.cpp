@@ -68,29 +68,29 @@ QString FileSearchQuery::Private::fieldToString(Field field)
 {
     switch (field) {
     case Title:
-        return QLatin1String("title");
+        return QStringLiteral("title");
     case FullText:
-        return QLatin1String("fullText");
+        return QStringLiteral("fullText");
     case MimeType:
-        return QLatin1String("mimeType");
+        return QStringLiteral("mimeType");
     case ModifiedDate:
-        return QLatin1String("modifiedDate");
+        return QStringLiteral("modifiedDate");
     case LastViewedByMeDate:
-        return QLatin1String("lastViewedByMeDate");
+        return QStringLiteral("lastViewedByMeDate");
     case Trashed:
-        return QLatin1String("trashed");
+        return QStringLiteral("trashed");
     case Starred:
-        return QLatin1String("starred");
+        return QStringLiteral("starred");
     case Parents:
-        return QLatin1String("parents");
+        return QStringLiteral("parents");
     case Owners:
-        return QLatin1String("owners");
+        return QStringLiteral("owners");
     case Writers:
-        return QLatin1String("writers");
+        return QStringLiteral("writers");
     case Readers:
-        return QLatin1String("readers");
+        return QStringLiteral("readers");
     case SharedWithMe:
-        return QLatin1String("sharedWithMe");
+        return QStringLiteral("sharedWithMe");
     }
 
     Q_ASSERT(false);
@@ -101,23 +101,23 @@ QString FileSearchQuery::Private::compareOperatorToString(CompareOperator op)
 {
     switch (op) {
     case Contains:
-        return QLatin1String(" contains ");
+        return QStringLiteral(" contains ");
     case Equals:
-        return QLatin1String(" = ");
+        return QStringLiteral(" = ");
     case NotEquals:
-        return QLatin1String(" != ");
+        return QStringLiteral(" != ");
     case Less:
-        return QLatin1String(" < ");
+        return QStringLiteral(" < ");
     case LessOrEqual:
-        return QLatin1String(" <= ");
+        return QStringLiteral(" <= ");
     case Greater:
-        return QLatin1String(" > ");
+        return QStringLiteral(" > ");
     case GreaterOrEqual:
-        return QLatin1String(" >= ");
+        return QStringLiteral(" >= ");
     case In:
-        return QLatin1String(" in ");
+        return QStringLiteral(" in ");
     case Has:
-        return QLatin1String(" has ");
+        return QStringLiteral(" has ");
     }
 
     Q_ASSERT(false);
@@ -128,9 +128,9 @@ QString FileSearchQuery::Private::logicOperatorToString(FileSearchQuery::LogicOp
 {
     switch (op) {
     case And:
-        return QLatin1String(" and ");
+        return QStringLiteral(" and ");
     case Or:
-        return QLatin1String(" or ");
+        return QStringLiteral(" or ");
     }
 
     Q_ASSERT(false);

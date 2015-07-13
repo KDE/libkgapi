@@ -57,13 +57,13 @@ QString Permission::Private::roleToName(Permission::Role role)
 {
     switch (role) {
     case Permission::OwnerRole:
-        return QLatin1String("owner");
+        return QStringLiteral("owner");
     case Permission::ReaderRole:
-        return QLatin1String("reader");
+        return QStringLiteral("reader");
     case Permission::WriterRole:
-        return QLatin1String("writer");
+        return QStringLiteral("writer");
     case Permission::CommenterRole:
-        return QLatin1String("commented");
+        return QStringLiteral("commented");
     default:
         return QString();
     }
@@ -73,13 +73,13 @@ QString Permission::Private::typeToName(Permission::Type type)
 {
     switch (type) {
     case Permission::TypeUser:
-        return QLatin1String("user");
+        return QStringLiteral("user");
     case Permission::TypeGroup:
-        return QLatin1String("group");
+        return QStringLiteral("group");
     case Permission::TypeDomain:
-        return QLatin1String("domain");
+        return QStringLiteral("domain");
     case Permission::TypeAnyone:
-        return QLatin1String("anyone");
+        return QStringLiteral("anyone");
     default:
         return QString();
     }

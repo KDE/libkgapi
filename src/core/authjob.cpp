@@ -95,14 +95,14 @@ void AuthJob::Private::refreshTokens()
 
     QNetworkRequest request;
 
-    request.setUrl(QUrl(QLatin1String("https://accounts.google.com/o/oauth2/token")));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
+    request.setUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/token")));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
 
     QUrl params;
-    params.addQueryItem(QLatin1String("client_id"), apiKey);
-    params.addQueryItem(QLatin1String("client_secret"), secretKey);
-    params.addQueryItem(QLatin1String("refresh_token"), account->refreshToken());
-    params.addQueryItem(QLatin1String("grant_type"), QLatin1String("refresh_token"));
+    params.addQueryItem(QStringLiteral("client_id"), apiKey);
+    params.addQueryItem(QStringLiteral("client_secret"), secretKey);
+    params.addQueryItem(QStringLiteral("refresh_token"), account->refreshToken());
+    params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
 
     qCDebug(KGAPIRaw) << "Requesting token refresh: " << params.encodedQuery();
 

@@ -31,9 +31,9 @@ namespace Private
 {
     LocationPtr parseLocation(const QVariantMap map);
 
-    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
-    static const QString LocationBasePath(QLatin1String("/latitude/v1/location"));
-    static const QString CurrentLocationBasePath(QLatin1String("/latitude/v1/currentLocation"));
+    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+    static const QString LocationBasePath(QStringLiteral("/latitude/v1/location"));
+    static const QString CurrentLocationBasePath(QStringLiteral("/latitude/v1/currentLocation"));
 }
 
 LocationPtr JSONToLocation(const QByteArray & jsonData)
@@ -43,7 +43,7 @@ LocationPtr JSONToLocation(const QByteArray & jsonData)
         return LocationPtr();
     }
     const QVariantMap data = document.toVariant().toMap();
-    const QVariantMap info = data.value(QLatin1String("data")).toMap();
+    const QVariantMap info = data.value(QStringLiteral("data")).toMap();
 
     return Private::parseLocation(info);
 }
@@ -52,30 +52,30 @@ QByteArray locationToJSON(const LocationPtr &location)
 {
     QVariantMap map, output;
 
-    map.insert(QLatin1String("kind"), QLatin1String("latitude#location"));
-    map.insert(QLatin1String("latitude"), QString::number(location->latitude()));
-    map.insert(QLatin1String("longitude"), QString::number(location->longitude()));
+    map.insert(QStringLiteral("kind"), QStringLiteral("latitude#location"));
+    map.insert(QStringLiteral("latitude"), QString::number(location->latitude()));
+    map.insert(QStringLiteral("longitude"), QString::number(location->longitude()));
 
     if (location->timestamp() != 0) {
-        map.insert(QLatin1String("timestampMs"), location->timestamp());
+        map.insert(QStringLiteral("timestampMs"), location->timestamp());
     }
     if (location->accuracy() != -1) {
-        map.insert(QLatin1String("accuracy"), location->accuracy());
+        map.insert(QStringLiteral("accuracy"), location->accuracy());
     }
     if (location->speed() != -1) {
-        map.insert(QLatin1String("speed"), location->speed());
+        map.insert(QStringLiteral("speed"), location->speed());
     }
     if (location->heading() != -1) {
-        map.insert(QLatin1String("heading"), location->heading());
+        map.insert(QStringLiteral("heading"), location->heading());
     }
 
-    map.insert(QLatin1String("altitude"), location->altitude());
+    map.insert(QStringLiteral("altitude"), location->altitude());
 
     if (location->altitudeAccuracy() != 0) {
-        map.insert(QLatin1String("altitudeAccuracy"), location->altitudeAccuracy());
+        map.insert(QStringLiteral("altitudeAccuracy"), location->altitudeAccuracy());
     }
 
-    output.insert(QLatin1String("data"), map);
+    output.insert(QStringLiteral("data"), map);
 
     QJsonDocument document = QJsonDocument::fromVariant(output);
     return document.toJson(QJsonDocument::Compact);
@@ -89,8 +89,8 @@ ObjectsList parseLocationJSONFeed(const QByteArray & jsonFeed, FeedData & feedDa
 
     QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
     const QVariantMap map = document.toVariant().toMap();
-    const QVariantMap data = map.value(QLatin1String("data")).toMap();
-    const QVariantList items = data.value(QLatin1String("items")).toList();
+    const QVariantMap data = map.value(QStringLiteral("data")).toMap();
+    const QVariantList items = data.value(QStringLiteral("items")).toList();
     Q_FOREACH(const QVariant &c, items) {
         QVariantMap location = c.toMap();
         output << Private::parseLocation(location).dynamicCast<Object>();
@@ -103,29 +103,29 @@ LocationPtr Private::parseLocation(const QVariantMap map)
 {
     LocationPtr location(new Location);
 
-    if (map.contains(QLatin1String("timestampMs"))) {
-        location->setTimestamp(map.value(QLatin1String("timestampMs")).toULongLong());
+    if (map.contains(QStringLiteral("timestampMs"))) {
+        location->setTimestamp(map.value(QStringLiteral("timestampMs")).toULongLong());
     }
-    if (map.contains(QLatin1String("latitude"))) {
-        location->setLatitude(map.value(QLatin1String("latitude")).toFloat());
+    if (map.contains(QStringLiteral("latitude"))) {
+        location->setLatitude(map.value(QStringLiteral("latitude")).toFloat());
     }
-    if (map.contains(QLatin1String("longitude"))) {
-        location->setLongitude(map.value(QLatin1String("longitude")).toFloat());
+    if (map.contains(QStringLiteral("longitude"))) {
+        location->setLongitude(map.value(QStringLiteral("longitude")).toFloat());
     }
-    if (map.contains(QLatin1String("accuracy"))) {
-        location->setAccuracy(map.value(QLatin1String("accuracy")).toInt());
+    if (map.contains(QStringLiteral("accuracy"))) {
+        location->setAccuracy(map.value(QStringLiteral("accuracy")).toInt());
     }
-    if (map.contains(QLatin1String("speed"))) {
-        location->setSpeed(map.value(QLatin1String("speed")).toInt());
+    if (map.contains(QStringLiteral("speed"))) {
+        location->setSpeed(map.value(QStringLiteral("speed")).toInt());
     }
-    if (map.contains(QLatin1String("heading"))) {
-        location->setHeading(map.value(QLatin1String("heading")).toInt());
+    if (map.contains(QStringLiteral("heading"))) {
+        location->setHeading(map.value(QStringLiteral("heading")).toInt());
     }
-    if (map.contains(QLatin1String("altitude"))) {
-        location->setAltitude(map.value(QLatin1String("altitude")).toInt());
+    if (map.contains(QStringLiteral("altitude"))) {
+        location->setAltitude(map.value(QStringLiteral("altitude")).toInt());
     }
-    if (map.contains(QLatin1String("altitudeAccuracy"))) {
-        location->setAltitudeAccuracy(map.value(QLatin1String("altitudeAccuracy")).toInt());
+    if (map.contains(QStringLiteral("altitudeAccuracy"))) {
+        location->setAltitudeAccuracy(map.value(QStringLiteral("altitudeAccuracy")).toInt());
     }
 
     return location;
@@ -134,7 +134,7 @@ LocationPtr Private::parseLocation(const QVariantMap map)
 
 QString APIVersion()
 {
-    return QLatin1String("1");
+    return QStringLiteral("1");
 }
 
 QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity)
@@ -142,9 +142,9 @@ QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity)
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CurrentLocationBasePath);
     if (granularity == Latitude::City) {
-        url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
+        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
     } else if (granularity == Latitude::Best) {
-        url.addQueryItem(QLatin1String("granularity"), QLatin1String("best"));
+        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
     }
 
     return url;
@@ -171,21 +171,21 @@ QUrl locationHistoryUrl(const Latitude::Granularity granularity, const int maxRe
     url.setPath(Private::LocationBasePath);
 
     if (granularity == Latitude::City) {
-        url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
+        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
     } else if (granularity == Latitude::Best) {
-        url.addQueryItem(QLatin1String("granularity"), QLatin1String("best"));
+        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
     }
 
     if (maxResults > 0) {
-        url.addQueryItem(QLatin1String("max-results"), QString::number(maxResults));
+        url.addQueryItem(QStringLiteral("max-results"), QString::number(maxResults));
     }
 
     if ((maxTime > 0) && (maxTime >= minTime)) {
-        url.addQueryItem(QLatin1String("max-time"), QString::number(maxTime));
+        url.addQueryItem(QStringLiteral("max-time"), QString::number(maxTime));
     }
 
     if ((minTime > 0) && (minTime <= maxTime)) {
-        url.addQueryItem(QLatin1String("min-time"), QString::number(minTime));
+        url.addQueryItem(QStringLiteral("min-time"), QString::number(minTime));
     }
 
     return url;
@@ -197,9 +197,9 @@ QUrl retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granula
     url.setPath(Private::LocationBasePath % QLatin1Char('/') % QString::number(id));
 
      if (granularity == Latitude::City) {
-        url.addQueryItem(QLatin1String("granularity"), QLatin1String("city"));
+        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
      } else if (granularity == Latitude::Best) {
-        url.addQueryItem(QLatin1String("granularity"), QLatin1String("best"));
+        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
      }
 
     return url;

@@ -161,17 +161,17 @@ void CommentFetchJob::start()
     QUrl url = BloggerService::fetchCommentsUrl(d->blogId, d->postId, d->commentId);
 
     if (d->startDate.isValid()) {
-        url.addQueryItem(QLatin1String("startDate"), d->startDate.toString(Qt::ISODate));
+        url.addQueryItem(QStringLiteral("startDate"), d->startDate.toString(Qt::ISODate));
     }
     if (d->endDate.isValid()) {
-        url.addQueryItem(QLatin1String("endDate"), d->endDate.toString(Qt::ISODate));
+        url.addQueryItem(QStringLiteral("endDate"), d->endDate.toString(Qt::ISODate));
     }
     if (d->maxResults > 0) {
-        url.addQueryItem(QLatin1String("maxResults"), QString::number(d->maxResults));
+        url.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
     }
-    url.addQueryItem(QLatin1String("fetchBodies"), Utils::bool2Str(d->fetchBodies));
+    url.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
     if (account()) {
-        url.addQueryItem(QLatin1String("view"), QLatin1String("ADMIN"));
+        url.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
     }
 
     const QNetworkRequest request = d->createRequest(url);

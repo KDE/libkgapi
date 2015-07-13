@@ -237,29 +237,29 @@ PostPtr Post::Private::fromJSON(const QVariant &json)
     PostPtr post(new Post);
     const QVariantMap map = json.toMap();
 
-    post->d->id = map[QLatin1String("id")].toString();
-    post->d->blogId = map[QLatin1String("blog")].toMap()[QLatin1String("id")].toString();
-    post->d->published = QDateTime::fromString(map[QLatin1String("published")].toString(), Qt::ISODate);
-    post->d->updated = QDateTime::fromString(map[QLatin1String("updated")].toString(), Qt::ISODate);
-    post->d->url = map[QLatin1String("url")].toUrl();
-    post->d->title = map[QLatin1String("title")].toString();
-    post->d->content = map[QLatin1String("content")].toString();
-    const QVariantMap author = map[QLatin1String("author")].toMap();
-    post->d->authorId = author[QLatin1String("id")].toString();
-    post->d->authorName = author[QLatin1String("displayName")].toString();
-    post->d->authorUrl = author[QLatin1String("url")].toUrl();
-    post->d->authorImageUrl = author[QLatin1String("image")].toMap()[QLatin1String("url")].toUrl();
-    post->d->commentsCount = map[QLatin1String("replies")].toMap()[QLatin1String("totalItems")].toUInt();
-    post->d->labels = map[QLatin1String("labels")].toStringList();
-    post->d->customMetaData = map[QLatin1String("customMetaData")];
-    const QVariantMap location = map[QLatin1String("location")].toMap();
-    post->d->location = location[QLatin1String("name")].toString();
-    post->d->latitude = location[QLatin1String("lat")].toDouble();
-    post->d->longitude = location[QLatin1String("lng")].toDouble();
+    post->d->id = map[QStringLiteral("id")].toString();
+    post->d->blogId = map[QStringLiteral("blog")].toMap()[QStringLiteral("id")].toString();
+    post->d->published = QDateTime::fromString(map[QStringLiteral("published")].toString(), Qt::ISODate);
+    post->d->updated = QDateTime::fromString(map[QStringLiteral("updated")].toString(), Qt::ISODate);
+    post->d->url = map[QStringLiteral("url")].toUrl();
+    post->d->title = map[QStringLiteral("title")].toString();
+    post->d->content = map[QStringLiteral("content")].toString();
+    const QVariantMap author = map[QStringLiteral("author")].toMap();
+    post->d->authorId = author[QStringLiteral("id")].toString();
+    post->d->authorName = author[QStringLiteral("displayName")].toString();
+    post->d->authorUrl = author[QStringLiteral("url")].toUrl();
+    post->d->authorImageUrl = author[QStringLiteral("image")].toMap()[QStringLiteral("url")].toUrl();
+    post->d->commentsCount = map[QStringLiteral("replies")].toMap()[QStringLiteral("totalItems")].toUInt();
+    post->d->labels = map[QStringLiteral("labels")].toStringList();
+    post->d->customMetaData = map[QStringLiteral("customMetaData")];
+    const QVariantMap location = map[QStringLiteral("location")].toMap();
+    post->d->location = location[QStringLiteral("name")].toString();
+    post->d->latitude = location[QStringLiteral("lat")].toDouble();
+    post->d->longitude = location[QStringLiteral("lng")].toDouble();
     Q_FOREACH (const QVariant &url, map[QLatin1String("images")].toList()) {
-        post->d->images << url.toMap()[QLatin1String("url")].toUrl();
+        post->d->images << url.toMap()[QStringLiteral("url")].toUrl();
     }
-    post->d->status = map[QLatin1String("status")].toString();
+    post->d->status = map[QStringLiteral("status")].toString();
 
     return post;
 }
@@ -267,46 +267,46 @@ PostPtr Post::Private::fromJSON(const QVariant &json)
 QVariant Post::Private::toJSON(const PostPtr &post)
 {
     QVariantMap json;
-    json[QLatin1String("kind")] = QLatin1String("blogger#post");
+    json[QStringLiteral("kind")] = QStringLiteral("blogger#post");
     if (!post->d->id.isEmpty()) {
-        json[QLatin1String("id")] = post->d->id;
+        json[QStringLiteral("id")] = post->d->id;
     }
     if (!post->d->blogId.isEmpty()) {
         QVariantMap blog;
-        blog[QLatin1String("id")] = post->d->blogId;
-        json[QLatin1String("blog")] = blog;
+        blog[QStringLiteral("id")] = post->d->blogId;
+        json[QStringLiteral("blog")] = blog;
     }
 
     if (post->d->published.isValid()) {
-        json[QLatin1String("published")] = post->d->published.toString(Qt::ISODate);
+        json[QStringLiteral("published")] = post->d->published.toString(Qt::ISODate);
     }
     if (post->d->updated.isValid()) {
-        json[QLatin1String("updated")] = post->d->updated.toString(Qt::ISODate);
+        json[QStringLiteral("updated")] = post->d->updated.toString(Qt::ISODate);
     }
-    json[QLatin1String("title")] = post->d->title;
-    json[QLatin1String("content")] = post->d->content;
+    json[QStringLiteral("title")] = post->d->title;
+    json[QStringLiteral("content")] = post->d->content;
     if (!post->d->labels.isEmpty()) {
-        json[QLatin1String("labels")] = post->d->labels;
+        json[QStringLiteral("labels")] = post->d->labels;
     }
     if (!post->d->customMetaData.isNull()) {
         QJsonDocument document = QJsonDocument::fromVariant(post->d->customMetaData);
-        json[QLatin1String("customMetaData")] = document.toJson(QJsonDocument::Compact);
+        json[QStringLiteral("customMetaData")] = document.toJson(QJsonDocument::Compact);
     }
     if (!post->d->location.isEmpty() && post->d->latitude > -1 && post->d->longitude > -1) {
         QVariantMap location;
-        location[QLatin1String("name")] = post->d->location;
-        location[QLatin1String("lat")] = post->d->latitude;
-        location[QLatin1String("lng")] = post->d->longitude;
-        json[QLatin1String("location")] = location;
+        location[QStringLiteral("name")] = post->d->location;
+        location[QStringLiteral("lat")] = post->d->latitude;
+        location[QStringLiteral("lng")] = post->d->longitude;
+        json[QStringLiteral("location")] = location;
     }
     if (!post->d->images.isEmpty()) {
         QVariantList images;
         Q_FOREACH (const QUrl &url, post->d->images) {
             QVariantMap image;
-            image[QLatin1String("url")] = url.toString();
+            image[QStringLiteral("url")] = url.toString();
             images << image;
         }
-        json[QLatin1String("images")] = images;
+        json[QStringLiteral("images")] = images;
     }
 
     return json;

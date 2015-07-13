@@ -78,143 +78,143 @@ QStringList FileFetchJob::Private::fieldsToStrings(qulonglong fields)
 
     QStringList fieldsStrings;
     // Always fetch kind
-    fieldsStrings << QLatin1String("kind");
+    fieldsStrings << QStringLiteral("kind");
 
     // FIXME: Use QMetaEnum once it supports enums larger than int
     if (fields & Id) {
-        fieldsStrings << QLatin1String("id");
+        fieldsStrings << QStringLiteral("id");
     }
     if (fields & Title) {
-        fieldsStrings << QLatin1String("title");
+        fieldsStrings << QStringLiteral("title");
     }
     if (fields & MimeType) {
-        fieldsStrings << QLatin1String("mimeType");
+        fieldsStrings << QStringLiteral("mimeType");
     }
     if (fields & Description) {
-        fieldsStrings << QLatin1String("description");
+        fieldsStrings << QStringLiteral("description");
     }
     if (fields & Labels) {
-        fieldsStrings << QLatin1String("labels");
+        fieldsStrings << QStringLiteral("labels");
     }
     if (fields & CreatedDate) {
-        fieldsStrings << QLatin1String("createdDate");
+        fieldsStrings << QStringLiteral("createdDate");
     }
     if (fields & ModifiedDate) {
-        fieldsStrings << QLatin1String("modifiedDate");
+        fieldsStrings << QStringLiteral("modifiedDate");
     }
     if (fields & ModifiedByMeDate) {
-        fieldsStrings << QLatin1String("modifiedByMeDate");
+        fieldsStrings << QStringLiteral("modifiedByMeDate");
     }
     if (fields & DownloadUrl) {
-        fieldsStrings << QLatin1String("downloadUrl");
+        fieldsStrings << QStringLiteral("downloadUrl");
     }
     if (fields & IndexableText) {
-        fieldsStrings << QLatin1String("indexableText");
+        fieldsStrings << QStringLiteral("indexableText");
     }
     if (fields & UserPermission) {
-        fieldsStrings << QLatin1String("userPermission");
+        fieldsStrings << QStringLiteral("userPermission");
     }
     if (fields & FileExtension) {
-        fieldsStrings << QLatin1String("fileExtension");
+        fieldsStrings << QStringLiteral("fileExtension");
     }
     if (fields & MD5Checksum) {
-        fieldsStrings << QLatin1String("md5Checksum");
+        fieldsStrings << QStringLiteral("md5Checksum");
     }
     if (fields & FileSize) {
-        fieldsStrings << QLatin1String("fileSize");
+        fieldsStrings << QStringLiteral("fileSize");
     }
     if (fields & AlternateLink) {
-        fieldsStrings << QLatin1String("alternateLink");
+        fieldsStrings << QStringLiteral("alternateLink");
     }
     if (fields & EmbedLink) {
-        fieldsStrings << QLatin1String("embedLink");
+        fieldsStrings << QStringLiteral("embedLink");
     }
     if (fields & SharedWithMeDate) {
-        fieldsStrings << QLatin1String("sharedWithMeDate");
+        fieldsStrings << QStringLiteral("sharedWithMeDate");
     }
     if (fields & Parents) {
-        fieldsStrings << QLatin1String("parents");
+        fieldsStrings << QStringLiteral("parents");
     }
     if (fields & ExportLinks) {
-        fieldsStrings << QLatin1String("exportLinks");
+        fieldsStrings << QStringLiteral("exportLinks");
     }
     if (fields & OriginalFilename) {
-        fieldsStrings << QLatin1String("originalFilename");
+        fieldsStrings << QStringLiteral("originalFilename");
     }
     if (fields & OwnerNames) {
-        fieldsStrings << QLatin1String("ownerNames");
+        fieldsStrings << QStringLiteral("ownerNames");
     }
     if (fields & LastModifiedByMeDate) {
-        fieldsStrings << QLatin1String("lastModifiedByMeDate");
+        fieldsStrings << QStringLiteral("lastModifiedByMeDate");
     }
     if (fields & Editable) {
-        fieldsStrings << QLatin1String("editable");
+        fieldsStrings << QStringLiteral("editable");
     }
     if (fields & WritersCanShare) {
-        fieldsStrings << QLatin1String("writersCanShare");
+        fieldsStrings << QStringLiteral("writersCanShare");
     }
     if (fields & ThumbnailLink) {
-        fieldsStrings << QLatin1String("thumbnailLink");
+        fieldsStrings << QStringLiteral("thumbnailLink");
     }
     if (fields & LastViewedByMeDate) {
-        fieldsStrings << QLatin1String("lastViewedByMeDate");
+        fieldsStrings << QStringLiteral("lastViewedByMeDate");
     }
     if (fields & WebContentLink) {
-        fieldsStrings << QLatin1String("webContentLink");
+        fieldsStrings << QStringLiteral("webContentLink");
     }
     if (fields & ExplicitlyTrashed) {
-        fieldsStrings << QLatin1String("explicitlyTrashed");
+        fieldsStrings << QStringLiteral("explicitlyTrashed");
     }
     if (fields & ImageMediaMetadata) {
-        fieldsStrings << QLatin1String("imageMediaMetadata");
+        fieldsStrings << QStringLiteral("imageMediaMetadata");
     }
     if (fields & Thumbnail) {
-        fieldsStrings << QLatin1String("thumbnail");
+        fieldsStrings << QStringLiteral("thumbnail");
     }
     if (fields & WebViewLink) {
-        fieldsStrings << QLatin1String("webViewLink");
+        fieldsStrings << QStringLiteral("webViewLink");
     }
     if (fields & IconLink) {
-        fieldsStrings << QLatin1String("iconLink");
+        fieldsStrings << QStringLiteral("iconLink");
     }
     if (fields & Shared) {
-        fieldsStrings << QLatin1String("shared");
+        fieldsStrings << QStringLiteral("shared");
     }
     if (fields & Owners) {
-        fieldsStrings << QLatin1String("owners");
+        fieldsStrings << QStringLiteral("owners");
     }
     if (fields & LastModifyingUser) {
-        fieldsStrings << QLatin1String("lastModifyingUser");
+        fieldsStrings << QStringLiteral("lastModifyingUser");
     }
     if (fields & AppDataContents) {
-        fieldsStrings << QLatin1String("appDataContents");
+        fieldsStrings << QStringLiteral("appDataContents");
     }
     if (fields & OpenWithLinks) {
-        fieldsStrings << QLatin1String("openWithLinks");
+        fieldsStrings << QStringLiteral("openWithLinks");
     }
     if (fields & DefaultOpenWithLink) {
-        fieldsStrings << QLatin1String("defaultOpenWithLink");
+        fieldsStrings << QStringLiteral("defaultOpenWithLink");
     }
     if (fields & HeadRevisionId) {
-        fieldsStrings << QLatin1String("headRevisionId");
+        fieldsStrings << QStringLiteral("headRevisionId");
     }
     if (fields & Copyable) {
-        fieldsStrings << QLatin1String("copyable");
+        fieldsStrings << QStringLiteral("copyable");
     }
     if (fields & Properties) {
-        fieldsStrings << QLatin1String("properties");
+        fieldsStrings << QStringLiteral("properties");
     }
     if (fields & MarkedViewedByMeDate) {
-        fieldsStrings << QLatin1String("markedViewedByMeDate");
+        fieldsStrings << QStringLiteral("markedViewedByMeDate");
     }
     if (fields & Version) {
-        fieldsStrings << QLatin1String("version");
+        fieldsStrings << QStringLiteral("version");
     }
     if (fields & SharingUser) {
-        fieldsStrings << QLatin1String("sharingUser");
+        fieldsStrings << QStringLiteral("sharingUser");
     }
     if (fields & Permissions) {
-        fieldsStrings << QLatin1String("permissions");
+        fieldsStrings << QStringLiteral("permissions");
     }
 
     return fieldsStrings;
@@ -228,12 +228,12 @@ void FileFetchJob::Private::processNext()
     if (isFeed) {
         url = DriveService::fetchFilesUrl();
         if (!searchQuery.isEmpty()) {
-            url.addQueryItem(QLatin1String("q"), searchQuery.serialize());
+            url.addQueryItem(QStringLiteral("q"), searchQuery.serialize());
         }
         if (fields != FileFetchJob::AllFields) {
             const QStringList fieldsStrings = fieldsToStrings(fields);
-            url.addQueryItem(QLatin1String("fields"),
-                             QString::fromLatin1("etag,kind,nextLink,nextPageToken,selfLink,items(%1)").arg(fieldsStrings.join(QLatin1String(","))));
+            url.addQueryItem(QStringLiteral("fields"),
+                             QString::fromLatin1("etag,kind,nextLink,nextPageToken,selfLink,items(%1)").arg(fieldsStrings.join(QStringLiteral(","))));
         }
     } else {
         if (filesIDs.isEmpty()) {
@@ -246,7 +246,7 @@ void FileFetchJob::Private::processNext()
 
         if (fields != FileFetchJob::AllFields) {
             const QStringList fieldsStrings = fieldsToStrings(fields);
-            url.addQueryItem(QLatin1String("fields"), fieldsStrings.join(QLatin1String(",")));
+            url.addQueryItem(QStringLiteral("fields"), fieldsStrings.join(QStringLiteral(",")));
         }
     }
 

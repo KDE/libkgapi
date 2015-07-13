@@ -274,10 +274,10 @@ QByteArray Revision::toJSON(const RevisionPtr &revision)
 {
     QVariantMap map;
 
-    map[QLatin1String("pinned")] = revision->pinned();
-    map[QLatin1String("published")] = revision->published();
-    map[QLatin1String("publishAuto")] = revision->publishAuto();
-    map[QLatin1String("publishedOutsideDomain")] = revision->publishedOutsideDomain();
+    map[QStringLiteral("pinned")] = revision->pinned();
+    map[QStringLiteral("published")] = revision->published();
+    map[QStringLiteral("publishAuto")] = revision->publishAuto();
+    map[QStringLiteral("publishedOutsideDomain")] = revision->publishedOutsideDomain();
 
     QJsonDocument document = QJsonDocument::fromVariant(map);
     return document.toJson(QJsonDocument::Compact);

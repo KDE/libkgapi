@@ -186,19 +186,19 @@ CommentPtr Comment::Private::fromJSON(const QVariant &json)
     CommentPtr comment(new Comment);
     const QVariantMap map = json.toMap();
 
-    comment->d->id = map[QLatin1String("id")].toString();
-    comment->d->postId = map[QLatin1String("post")].toMap()[QLatin1String("id")].toString();
-    comment->d->blogId = map[QLatin1String("blog")].toMap()[QLatin1String("id")].toString();
-    comment->d->published = QDateTime::fromString(map[QLatin1String("published")].toString(), Qt::ISODate);
-    comment->d->updated = QDateTime::fromString(map[QLatin1String("updated")].toString(), Qt::ISODate);
-    comment->d->content = map[QLatin1String("content")].toString();
-    const QVariantMap author = map[QLatin1String("author")].toMap();
-    comment->d->authorId = author[QLatin1String("id")].toString();
-    comment->d->authorName = author[QLatin1String("displayName")].toString();
-    comment->d->authorUrl = author[QLatin1String("url")].toUrl();
-    comment->d->authorImageUrl = author[QLatin1String("image")].toMap()[QLatin1String("url")].toUrl();
-    comment->d->inReplyTo = map[QLatin1String("inReplyTo")].toMap()[QLatin1String("id")].toString();
-    comment->d->status = map[QLatin1String("status")].toString();
+    comment->d->id = map[QStringLiteral("id")].toString();
+    comment->d->postId = map[QStringLiteral("post")].toMap()[QStringLiteral("id")].toString();
+    comment->d->blogId = map[QStringLiteral("blog")].toMap()[QStringLiteral("id")].toString();
+    comment->d->published = QDateTime::fromString(map[QStringLiteral("published")].toString(), Qt::ISODate);
+    comment->d->updated = QDateTime::fromString(map[QStringLiteral("updated")].toString(), Qt::ISODate);
+    comment->d->content = map[QStringLiteral("content")].toString();
+    const QVariantMap author = map[QStringLiteral("author")].toMap();
+    comment->d->authorId = author[QStringLiteral("id")].toString();
+    comment->d->authorName = author[QStringLiteral("displayName")].toString();
+    comment->d->authorUrl = author[QStringLiteral("url")].toUrl();
+    comment->d->authorImageUrl = author[QStringLiteral("image")].toMap()[QStringLiteral("url")].toUrl();
+    comment->d->inReplyTo = map[QStringLiteral("inReplyTo")].toMap()[QStringLiteral("id")].toString();
+    comment->d->status = map[QStringLiteral("status")].toString();
 
     return comment;
 }

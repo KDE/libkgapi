@@ -145,35 +145,35 @@ void Account::setExpireDateTime(const QDateTime &expire)
 
 QUrl Account::accountInfoScopeUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.profile"));
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/userinfo.profile"));
 }
 
 QUrl Account::accountInfoEmailScopeUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/userinfo.email"));
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/userinfo.email"));
 }
 
 QUrl Account::calendarScopeUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/calendar"));
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/calendar"));
 }
 
 QUrl Account::contactsScopeUrl()
 {
-    return QUrl(QLatin1String("https://www.google.com/m8/feeds/"));
+    return QUrl(QStringLiteral("https://www.google.com/m8/feeds/"));
 }
 
 QUrl Account::latitudeScopeUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/latitude.all.best"));
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/latitude.all.best"));
 }
 
 QUrl Account::tasksScopeUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/tasks"));
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/tasks"));
 }
 
 QUrl Account::bloggerScopeUrl()
 {
-    return QUrl(QLatin1String("https://www.googleapis.com/auth/blogger"));
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/blogger"));
 }
