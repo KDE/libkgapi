@@ -40,8 +40,8 @@ class KGAPIBLOGGER_EXPORT PostCreateJob : public KGAPI2::CreateJob
     virtual ~PostCreateJob();
 
   protected:
-    void start();
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData);
+    void start() Q_DECL_OVERRIDE;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

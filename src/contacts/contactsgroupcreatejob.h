@@ -74,7 +74,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    virtual void start();
+    void start() Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
@@ -82,8 +82,8 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
      * @param rawData
      * @param contentType
      */
-    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData);
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
+                                             const QByteArray& rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

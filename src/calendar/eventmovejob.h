@@ -109,7 +109,7 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    virtual void start();
+    void start() Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI2::Job::dispatchRequest implementation
@@ -119,10 +119,10 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      * @param data
      * @param contentType
      */
-    virtual void dispatchRequest(QNetworkAccessManager *accessManager,
+    void dispatchRequest(QNetworkAccessManager *accessManager,
                                  const QNetworkRequest &request,
                                  const QByteArray &data,
-                                 const QString &contentType);
+                                 const QString &contentType) Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI2::Job::handleReplyWithItems implementation
@@ -130,8 +130,8 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      * @param reply
      * @param rawData
      */
-    virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData);
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
+                                                     const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

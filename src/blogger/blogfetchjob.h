@@ -47,7 +47,7 @@ class KGAPIBLOGGER_EXPORT BlogFetchJob : public KGAPI2::FetchJob
 
   protected:
     void start();
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData);
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

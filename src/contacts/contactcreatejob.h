@@ -68,7 +68,7 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    virtual void start();
+    void start() Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI2::Job::dispatchRequest implementation
@@ -78,10 +78,10 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      * @param data
      * @param contentType
      */
-    virtual void dispatchRequest(QNetworkAccessManager *accessManager,
+    void dispatchRequest(QNetworkAccessManager *accessManager,
                                  const QNetworkRequest &request,
                                  const QByteArray &data,
-                                 const QString &contentType);
+                                 const QString &contentType) Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
@@ -89,8 +89,8 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      * @param rawData
      * @param contentType
      */
-    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData);
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
+                                             const QByteArray& rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

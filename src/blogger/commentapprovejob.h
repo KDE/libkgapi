@@ -50,8 +50,8 @@ class KGAPIBLOGGER_EXPORT CommentApproveJob : public KGAPI2::ModifyJob
     virtual ~CommentApproveJob();
 
   protected:
-    void start();
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData);
+    void start() Q_DECL_OVERRIDE;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

@@ -39,8 +39,8 @@ class KGAPIBLOGGER_EXPORT PostModifyJob : public KGAPI2::ModifyJob
     virtual ~PostModifyJob();
 
   protected:
-    void start();
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData);
+    void start() Q_DECL_OVERRIDE;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;
