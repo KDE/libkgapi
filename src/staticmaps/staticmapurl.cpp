@@ -267,7 +267,7 @@ void StaticMapUrl::setPath(const StaticMapPath & path)
     d->paths = paths;
 }
 
-void StaticMapUrl::setPaths(QList< StaticMapPath >& paths)
+void StaticMapUrl::setPaths(const QList< StaticMapPath >& paths)
 {
     d->paths = paths;
 }

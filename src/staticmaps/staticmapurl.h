@@ -240,7 +240,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      *
      * @param paths
      */
-    void setPaths(QList<StaticMapPath> & paths);
+    void setPaths(const QList<StaticMapPath> & paths);
 
     /**
      * @brief Returns size of map tile
