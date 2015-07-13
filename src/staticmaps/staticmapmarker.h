@@ -116,7 +116,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const QList<KContacts::Address> & locations, const QChar & label = QChar(),
+    explicit StaticMapMarker(const KContacts::Address::List &locations, const QChar & label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
@@ -198,7 +198,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
     /**
      * @brief Returns locations in KContacts::Address
      */
-    QList<KContacts::Address> locationsAddress() const;
+    KContacts::Address::List locationsAddress() const;
 
     /**
      * @brief Sets one location for marker
@@ -212,7 +212,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      *
      * @param locations Locations for marker in KContacts::Address
      */
-    void setLocations(const QList<KContacts::Address> & locations);
+    void setLocations(const KContacts::Address::List &locations);
 
     /**
      * @brief Returns locations in KContacts::Geo

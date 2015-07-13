@@ -72,7 +72,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
      * @param color Color of the path
      * @param fillColor The color of filled area
      */
-    explicit StaticMapPath(const QList<KContacts::Address> & locations, const quint8 weight = 5,
+    explicit StaticMapPath(const KContacts::Address::List &locations, const quint8 weight = 5,
                            const QColor & color = Qt::blue, const QColor & fillColor = QColor());
 
     /**
@@ -151,14 +151,14 @@ class KGAPIMAPS_EXPORT StaticMapPath
      *
      * Returns empty list if is not defined
      */
-    QList<KContacts::Address> locationsAddress() const;
+    KContacts::Address::List locationsAddress() const;
 
     /**
      * @brief  Sets locations for path
      *
      * @param locations Locations for path in KContacts::Address
      */
-    void setLocations(const QList<KContacts::Address> & locations);
+    void setLocations(const KContacts::Address::List & locations);
 
     /**
      * @brief Returns locations in KContacts::Geo

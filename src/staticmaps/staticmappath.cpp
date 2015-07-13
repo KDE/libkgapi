@@ -36,7 +36,7 @@ class StaticMapPath::Private
     quint8 weight;
 
     QStringList locationsString;
-    QList<KContacts::Address> locationsAddress;
+    KContacts::Address::List locationsAddress;
     QList<KContacts::Geo> locationsGeo;
 };
 
@@ -84,7 +84,7 @@ StaticMapPath::StaticMapPath(const QStringList & locations, const quint8 weight,
     d->fillColor = fillColor;
 }
 
-StaticMapPath::StaticMapPath(const QList< KContacts::Address >& locations, const quint8 weight,
+StaticMapPath::StaticMapPath(const KContacts::Address::List& locations, const quint8 weight,
                              const QColor & color, const QColor & fillColor):
     d(new Private)
 {
@@ -154,12 +154,12 @@ void StaticMapPath::setLocations(const QStringList & locations)
     d->locationsGeo.clear();
 }
 
-QList< KContacts::Address > StaticMapPath::locationsAddress() const
+KContacts::Address::List StaticMapPath::locationsAddress() const
 {
     return d->locationsAddress;
 }
 
-void StaticMapPath::setLocations(const QList< KContacts::Address >& locations)
+void StaticMapPath::setLocations(const KContacts::Address::List &locations)
 {
     d->locationType = KABCAddress;
     d->locationsAddress = locations;
