@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(kgapi)
 
 # ECM setup
-find_package(ECM 5.9.0 CONFIG REQUIRED)
+find_package(ECM 5.12.0 CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -16,11 +16,11 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
-set(KDEPIMLIBS_LIB_VERSION "4.74.0")
-set(KF5_VERSION "5.9.0")
-set(KGAPI_LIB_VERSION "4.72.0")
-
-#add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x049999)
+set(KDEPIMLIBS_LIB_VERSION "4.88.0")
+set(KF5_VERSION "5.12.0")
+set(KGAPI_LIB_VERSION "4.73.0")
+set(KCALENDARCORE_LIB_VERSION "4.81.0")
+set(KCONTACTS_LIB_VERSION "4.89.0")
 
 ecm_setup_version(${KGAPI_LIB_VERSION}
     VARIABLE_PREFIX KGAPI
@@ -44,8 +44,8 @@ find_package(KF5 ${KF5_VERSION} REQUIRED COMPONENTS
     WindowSystem
 )
 
-find_package(KF5CalendarCore ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
-find_package(KF5Contacts ${KDEPIMLIBS_LIB_VERSION} CONFIG REQUIRED)
+find_package(KF5CalendarCore ${KCALENDARCORE_LIB_VERSION} CONFIG REQUIRED)
+find_package(KF5Contacts ${KCONTACTS_LIB_VERSION} CONFIG REQUIRED)
 
 ############## Targets ##############
 
