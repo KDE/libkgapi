@@ -49,7 +49,7 @@ find_package(KF5Contacts ${KCONTACTS_LIB_VERSION} CONFIG REQUIRED)
 
 ############## Targets ##############
 
-add_definitions(-DTRANSLATION_DOMAIN=\"kgapi5\")
+add_definitions(-DTRANSLATION_DOMAIN=\"libkgapi\")
 
 add_subdirectory(src)
 #add_subdirectory(autotests)
