@@ -53,7 +53,6 @@ add_definitions(-DTRANSLATION_DOMAIN=\"kgapi5\")
 
 add_subdirectory(src)
 #add_subdirectory(autotests)
-#add_subdirectory(tests)
 
 ############## CMake Config Files ##############
 message("${CMAKECONFIG_INSTALL_DIR}")
