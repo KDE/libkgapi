@@ -19,7 +19,7 @@
 
 #include "objectscontacttests.h"
 
-#include <KDateTime>
+#include <QDateTime>
 #include <KUrl>
 
 #include <libkgapi/objects/contact.h>
@@ -112,81 +112,81 @@ void ObjectsContactTests::testAddressTypeConversion()
     bool primary;
 
     primary = true;
-    QCOMPARE(Contact::addressTypeToScheme(KABC::Address::Work, &primary),
+    QCOMPARE(Contact::addressTypeToScheme(KContacts::Address::Work, &primary),
              QString("http://schemas.google.com/g/2005#work"));
     QCOMPARE(primary, false);
 
     primary = true;
-    QCOMPARE(Contact::addressTypeToScheme(KABC::Address::Home, &primary),
+    QCOMPARE(Contact::addressTypeToScheme(KContacts::Address::Home, &primary),
              QString("http://schemas.google.com/g/2005#home"));
     QCOMPARE(primary, false);
 
     primary = false;
-    QCOMPARE(Contact::addressTypeToScheme(KABC::Address::Work |
-                                          KABC::Address::Pref, &primary),
+    QCOMPARE(Contact::addressTypeToScheme(KContacts::Address::Work |
+                                          KContacts::Address::Pref, &primary),
              QString("http://schemas.google.com/g/2005#work"));
     QCOMPARE(primary, true);
 
     QCOMPARE(Contact::addressSchemeToType("http://schemas.google.com/g/2005#work", false),
-             KABC::Address::Work);
+             KContacts::Address::Work);
     QCOMPARE(Contact::addressSchemeToType("http://schemas.google.com/g/2005#home", false),
-             KABC::Address::Home);
+             KContacts::Address::Home);
     QCOMPARE(Contact::addressSchemeToType("http://schemas.google.com/g/2005#home", true),
-             KABC::Address::Home | KABC::Address::Pref);
+             KContacts::Address::Home | KContacts::Address::Pref);
 }
 
 void ObjectsContactTests::testPhoneTypeConversion()
 {
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#car"),
-             KABC::PhoneNumber::Car);
+             KContacts::PhoneNumber::Car);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#fax"),
-             KABC::PhoneNumber::Fax);
+             KContacts::PhoneNumber::Fax);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#isdn"),
-             KABC::PhoneNumber::Isdn);
+             KContacts::PhoneNumber::Isdn);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#mobile"),
-             KABC::PhoneNumber::Cell);
+             KContacts::PhoneNumber::Cell);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#pager"),
-             KABC::PhoneNumber::Pager);
+             KContacts::PhoneNumber::Pager);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#main"),
-             KABC::PhoneNumber::Pref);
+             KContacts::PhoneNumber::Pref);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#home_fax"),
-             KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax);
+             KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#work"),
-             KABC::PhoneNumber::Work);
+             KContacts::PhoneNumber::Work);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#work_fax"),
-             KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax);
+             KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#work_mobile"),
-             KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell);
+             KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#work_pager"),
-             KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager);
+             KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager);
     QCOMPARE(Contact::phoneSchemeToType("http://schemas.google.com/g/2005#company_main"),
-             KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref);
+             KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref);
 
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Work | KABC::PhoneNumber::Cell),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell),
              QString("http://schemas.google.com/g/2005#work_mobile"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Work | KABC::PhoneNumber::Fax),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax),
              QString("http://schemas.google.com/g/2005#work_fax"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Work | KABC::PhoneNumber::Pager),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager),
              QString("http://schemas.google.com/g/2005#work_pager"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Work | KABC::PhoneNumber::Pref),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref),
              QString("http://schemas.google.com/g/2005#company_main"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Work),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Work),
              QString("http://schemas.google.com/g/2005#work"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Home | KABC::PhoneNumber::Fax),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax),
              QString("http://schemas.google.com/g/2005#home_fax"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Home),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Home),
              QString("http://schemas.google.com/g/2005#home"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Pref),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Pref),
              QString("http://schemas.google.com/g/2005#main"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Car),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Car),
              QString("http://schemas.google.com/g/2005#car"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Isdn),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Isdn),
              QString("http://schemas.google.com/g/2005#isdn"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Fax),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Fax),
              QString("http://schemas.google.com/g/2005#fax"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Cell),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Cell),
              QString("http://schemas.google.com/g/2005#mobile"));
-    QCOMPARE(Contact::phoneTypeToScheme(KABC::PhoneNumber::Pager),
+    QCOMPARE(Contact::phoneTypeToScheme(KContacts::PhoneNumber::Pager),
              QString("http://schemas.google.com/g/2005#pager"));
 }
 
@@ -197,8 +197,8 @@ void ObjectsContactTests::testContact_data()
 {
     QTest::addColumn< bool >("deleted");
     QTest::addColumn< QUrl >("photoUrl");
-    QTest::addColumn< KDateTime >("created");
-    QTest::addColumn< KDateTime >("updated");
+    QTest::addColumn< QDateTime >("created");
+    QTest::addColumn< QDateTime >("updated");
     QTest::addColumn< QString >("spouseName");
     QTest::addColumn< QString >("managerName");
     QTest::addColumn< QString >("assistantName");
@@ -215,8 +215,8 @@ void ObjectsContactTests::testContact_data()
     QTest::newRow("contact1_czech")
             << true
             << QUrl("https://www.google.com/m8/feeds/photos/media/user@gmail.com/1234abcd/dcba4321")
-            << KDateTime::fromString("2011-12-11T16:55:55.183Z", KDateTime::RFC3339Date)
-            << KDateTime::fromString("2011-12-12T09:32:04.351Z", KDateTime::RFC3339Date)
+            << QDateTime::fromString("2011-12-11T16:55:55.183Z", Qt::ISODate)
+            << QDateTime::fromString("2011-12-12T09:32:04.351Z", Qt::ISODate)
             << "Jane Spouse"
             << "Franta Vomáčka"
             << "Honza Novák"
@@ -233,8 +233,8 @@ void ObjectsContactTests::testContact()
 
     QFETCH(bool, deleted);
     QFETCH(QUrl, photoUrl);
-    QFETCH(KDateTime, created);
-    QFETCH(KDateTime, updated);
+    QFETCH(QDateTime, created);
+    QFETCH(QDateTime, updated);
     QFETCH(QString, spouseName);
     QFETCH(QString, managerName);
     QFETCH(QString, assistantName);

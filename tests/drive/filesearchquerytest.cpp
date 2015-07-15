@@ -20,12 +20,12 @@
 #include <QObject>
 #include <QtTest/QTest>
 
-#include "drive/filesearchquery.h"
+#include "filesearchquery.h"
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-Q_DECLARE_METATYPE(KGAPI2::Drive::FileSearchQuery);
+Q_DECLARE_METATYPE(KGAPI2::Drive::FileSearchQuery)
 
 class FileSearchQueryTest: public QObject
 {
