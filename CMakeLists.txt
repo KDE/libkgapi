@@ -22,6 +22,8 @@ set(KGAPI_LIB_VERSION "4.73.0")
 set(KCALENDARCORE_LIB_VERSION "4.81.0")
 set(KCONTACTS_LIB_VERSION "4.89.0")
 
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x049999)  #needed for QUrl::addQueryItems usage
+
 ecm_setup_version(${KGAPI_LIB_VERSION}
     VARIABLE_PREFIX KGAPI
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
@@ -52,6 +54,7 @@ find_package(KF5Contacts ${KCONTACTS_LIB_VERSION} CONFIG REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkgapi\")
 
 add_subdirectory(src)
+add_subdirectory(examples)
 #add_subdirectory(autotests)
 
 ############## CMake Config Files ##############

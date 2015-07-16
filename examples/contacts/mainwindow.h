@@ -20,9 +20,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 
-#include <libkgapi2/types.h>
+#include <types.h>
 
 namespace Ui {
     class MainWindow;

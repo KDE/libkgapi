@@ -20,15 +20,16 @@
 #include "mainwindow.h"
 #include "ui_main.h"
 
-#include <libkgapi2/contacts/contact.h>
-#include <libkgapi2/contacts/contactfetchjob.h>
-#include <libkgapi2/authjob.h>
-#include <libkgapi2/account.h>
+#include <contacts/contact.h>
+#include <contacts/contactfetchjob.h>
+#include <authjob.h>
+#include <account.h>
 
-#include <QtGui/QListWidgetItem>
-#include <QtCore/QStringBuilder>
-
-#include <KDE/KLocalizedString>
+#include <QListWidgetItem>
+#include <QStringBuilder>
+#include <QDebug>
+#include <QFile>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget * parent):
     QMainWindow(parent),
@@ -73,14 +74,14 @@ void MainWindow::slotAuthJobFinished(KGAPI2::Job *job)
     authJob->deleteLater();
 
     if (authJob->error() != KGAPI2::NoError) {
-        m_ui->errorLabel->setText(i18n("Error: %1").arg(authJob->errorString()));
+        m_ui->errorLabel->setText(QStringLiteral("Error: %1").arg(authJob->errorString()));
         m_ui->errorLabel->setVisible(true);
         return;
     }
 
     m_account = authJob->account();
 
-    m_ui->authStatusLabel->setText(i18n("Authenticated"));
+    m_ui->authStatusLabel->setText(QStringLiteral("Authenticated"));
     m_ui->contactListButton->setEnabled(true);
     m_ui->authButton->setEnabled(false);
 }
@@ -88,7 +89,7 @@ void MainWindow::slotAuthJobFinished(KGAPI2::Job *job)
 void MainWindow::fetchContactList()
 {
     if (m_account.isNull()) {
-        m_ui->errorLabel->setText(i18n("Error: Please authenticate first"));
+        m_ui->errorLabel->setText(QStringLiteral("Error: Please authenticate first"));
         m_ui->errorLabel->setVisible(true);
         m_ui->authButton->setVisible(true);
         return;
@@ -108,7 +109,7 @@ void MainWindow::slotFetchJobFinished(KGAPI2::Job *job)
     fetchJob->deleteLater();
 
     if (fetchJob->error() != KGAPI2::NoError) {
-        m_ui->errorLabel->setText(i18n("Error: %1").arg(fetchJob->errorString()));
+        m_ui->errorLabel->setText(QStringLiteral("Error: %1").arg(fetchJob->errorString()));
         m_ui->errorLabel->setVisible(true);
         m_ui->contactListButton->setEnabled(true);
         return;
@@ -153,7 +154,7 @@ void MainWindow::slotContactFetchJobFinished(KGAPI2::Job *job)
 
 
     if (fetchJob->error() != KGAPI2::NoError) {
-        m_ui->errorLabel->setText(i18n("Error: %1").arg(fetchJob->errorString()));
+        m_ui->errorLabel->setText(QStringLiteral("Error: %1").arg(fetchJob->errorString()));
         m_ui->errorLabel->setVisible(true);
         m_ui->contactListButton->setEnabled(true);
         return;
@@ -162,21 +163,21 @@ void MainWindow::slotContactFetchJobFinished(KGAPI2::Job *job)
     /* Get all items we have received from Google (should be just one) */
     KGAPI2::ObjectsList objects = fetchJob->items();
     if (objects.count() != 1) {
-        m_ui->errorLabel->setText(i18n("Error: Server sent unexpected amount of contacts"));
+        m_ui->errorLabel->setText(QStringLiteral("Error: Server sent unexpected amount of contacts"));
         m_ui->errorLabel->setVisible(true);
         return;
     }
 
     KGAPI2::ContactPtr contact = objects.first().dynamicCast<KGAPI2::Contact>();
 
-    QString text = i18n("Name: %1").arg(contact->name());
+    QString text = QStringLiteral("Name: %1").arg(contact->name());
 
     if (!contact->phoneNumbers().isEmpty()) {
-        text += QLatin1Char('\n') % i18n("Phone: %1").arg(contact->phoneNumbers().first().number());
+        text += QLatin1Char('\n') % QStringLiteral("Phone: %1").arg(contact->phoneNumbers().first().number());
     }
 
     if (!contact->emails().isEmpty()) {
-        text += QLatin1Char('\n') % i18n("Email: %1").arg(contact->emails().first());
+        text += QLatin1Char('\n') % QStringLiteral("Email: %1").arg(contact->emails().first());
     }
 
     m_ui->contactInfo->setText(text);

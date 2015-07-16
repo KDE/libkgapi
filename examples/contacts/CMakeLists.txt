@@ -4,14 +4,13 @@ kde_enable_exceptions()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_BINARY_DIR}
 )
 
 set(contacts_example_SRCS main.cpp mainwindow.cpp)
 set(contacts_example_HDRS mainwindow.h)
 qt5_wrap_ui(contacts_example_SRCS ui/main.ui)
-
-qt5_wrap_cpp(contacts_example_HDRS_MOC ${contacts_example_HDRS})
 
 add_executable(contacts-example
         ${contacts_example_SRCS}
@@ -20,7 +19,10 @@ add_executable(contacts-example
 
 target_link_libraries(contacts-example
         KF5::Contacts
-        kgapi2
+        Qt5::Widgets
+        Qt5::Core
+        KF5::GAPICore
+        KF5::GAPIContacts
 )
 
 add_dependencies(contacts-example kgapi2)

@@ -102,7 +102,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KTextEdit" name="contactInfo"/>
+         <widget class="QTextEdit" name="contactInfo"/>
         </item>
        </layout>
       </item>
@@ -145,11 +145,6 @@
   </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
-  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
