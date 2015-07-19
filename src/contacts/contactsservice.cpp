@@ -412,7 +412,9 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
             const QVariantMap web = w.toMap();
 
             if (web.value(QLatin1String("rel")).toString() == QLatin1String("home-page")) {
-                contact->setUrl(QUrl(web.value(QLatin1String("href")).toString()));
+                KContacts::ResourceLocatorUrl url;
+                url.setUrl(QUrl(web.value(QLatin1String("href")).toString()));
+                contact->setUrl(url);
                 continue;
             }
 
@@ -640,7 +642,7 @@ QByteArray contactToXML(const ContactPtr& contact)
     }
 
     /* Homepage */
-    if (!contact->url().isEmpty()) {
+    if (!contact->url().url().isEmpty()) {
         output.append("<gContact:website rel=\"home-page\" href=\"").append(Qt::escape(contact->url().toString()).toUtf8()).append("\" />");
     }
 
@@ -960,7 +962,9 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         /* Websites */
         if (e.tagName() == QLatin1String("gContact:website")) {
             if (e.attribute(QLatin1String("rel"), QString()) == QLatin1String("home-page")) {
-                contact->setUrl(QUrl(e.attribute(QLatin1String("href"), QString())));
+                KContacts::ResourceLocatorUrl url;
+                url.setUrl(QUrl(e.attribute(QLatin1String("href"), QString())));
+                contact->setUrl(url);
                 continue;
             }
 
