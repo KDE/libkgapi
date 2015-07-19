@@ -29,7 +29,7 @@ namespace LatitudeService {
 
 namespace Private
 {
-    LocationPtr parseLocation(const QVariantMap map);
+    LocationPtr parseLocation(const QVariantMap &map);
 
     static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
     static const QString LocationBasePath(QStringLiteral("/latitude/v1/location"));
@@ -99,7 +99,7 @@ ObjectsList parseLocationJSONFeed(const QByteArray & jsonFeed, FeedData & feedDa
     return output;
 }
 
-LocationPtr Private::parseLocation(const QVariantMap map)
+LocationPtr Private::parseLocation(const QVariantMap &map)
 {
     LocationPtr location(new Location);
 

@@ -35,8 +35,8 @@ namespace Private
     ObjectsList parseTaskListJSONFeed(const QVariantList &items);
     ObjectsList parseTasksJSONFeed(const QVariantList &items);
 
-    ObjectPtr JSONToTaskList(QVariantMap jsonData);
-    ObjectPtr JSONToTask(QVariantMap jsonData);
+    ObjectPtr JSONToTaskList(const QVariantMap &jsonData);
+    ObjectPtr JSONToTask(const QVariantMap &jsonData);
 
     static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
     static const QString TasksBasePath(QLatin1String("/tasks/v1/lists"));
@@ -158,7 +158,7 @@ QUrl removeTaskListUrl(const QString& tasklistID)
 
 /******************************* PRIVATE ******************************/
 
-ObjectPtr Private::JSONToTaskList(QVariantMap jsonData)
+ObjectPtr Private::JSONToTaskList(const QVariantMap &jsonData)
 {
     TaskListPtr taskList(new TaskList());
 
@@ -181,7 +181,7 @@ TaskListPtr JSONToTaskList(const QByteArray& jsonData)
     return TaskListPtr();
 }
 
-ObjectPtr Private::JSONToTask(QVariantMap jsonData)
+ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
 {
     TaskPtr task(new Task());
 
