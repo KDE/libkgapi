@@ -24,5 +24,3 @@ target_link_libraries(contacts-example
         KF5::GAPICore
         KF5::GAPIContacts
 )
-
-add_dependencies(contacts-example kgapi2)
