@@ -16,9 +16,10 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
+set(KGAPI_LIB_VERSION "4.80.0")
+
 set(KDEPIMLIBS_LIB_VERSION "4.88.0")
 set(KF5_VERSION "5.12.0")
-set(KGAPI_LIB_VERSION "4.74.0")
 set(KCALENDARCORE_LIB_VERSION "4.81.0")
 set(KCONTACTS_LIB_VERSION "4.91.0")
 
