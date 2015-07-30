@@ -58,6 +58,11 @@ add_subdirectory(src)
 add_subdirectory(examples)
 #add_subdirectory(autotests)
 
+if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
+   include (ECMPoQmTools)
+   ecm_install_po_files_as_qm(po)
+endif()
+
 ############## CMake Config Files ##############
 message("${CMAKECONFIG_INSTALL_DIR}")
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5GAPI")

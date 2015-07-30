@@ -1,3 +1,5 @@
+ecm_create_qm_loader(QM_LOADER libkgapi_qt)
+
 set(kgapicore_SRCS
     accountinfo/accountinfo.cpp
     accountinfo/accountinfofetchjob.cpp
@@ -13,6 +15,7 @@ set(kgapicore_SRCS
     modifyjob.cpp
     object.cpp
     utils.cpp
+    ${QM_LOADER}
 
     ../debug.cpp
 )
