@@ -155,6 +155,12 @@ QUrl moveEventUrl(const QString& sourceCalendar, const QString& destCalendar, co
     return url;
 }
 
+QUrl freeBusyQueryUrl()
+{
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(QStringLiteral("/calendar/v3/freeBusy"));
+    return url;
+}
 
 QString APIVersion()
 {

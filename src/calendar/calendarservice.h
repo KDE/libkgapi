@@ -165,6 +165,11 @@ namespace CalendarService
      */
     KGAPICALENDAR_EXPORT QUrl moveEventUrl(const QString &sourceCalendar, const QString &destCalendar, const QString &eventID);
 
+    /**
+     * @brief Returns URL for freebusy quries.
+     */
+    KGAPICALENDAR_EXPORT QUrl freeBusyQueryUrl();
+
 } // namespace CalendarService
 
 } // namespace KGAPI
