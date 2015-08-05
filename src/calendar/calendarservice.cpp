@@ -328,7 +328,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         if (startData.contains(QLatin1String("timeZone"))) {
             const KTimeZone tz = KSystemTimeZones::zone(startData.value(QLatin1String("timeZone")).toString());
             if (tz.isValid()) {
-                dtStart.setTimeSpec(KDateTime::Spec(tz));
+                dtStart = dtStart.toTimeSpec(KDateTime::Spec(tz));
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << startData.value(QLatin1String("timeZone")).toString();
             }
@@ -337,7 +337,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         } else if (!timezone.isEmpty()) {
             const KTimeZone tz = KSystemTimeZones::zone(timezone);
             if (tz.isValid()) {
-                dtStart.setTimeSpec(KDateTime::Spec(tz));
+                dtStart = dtStart.toTimeSpec(KDateTime::Spec(tz));
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
             }
@@ -359,14 +359,14 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         if (endData.contains(QLatin1String("timeZone"))) {
             const KTimeZone tz = KSystemTimeZones::zone(endData.value(QLatin1String("timeZone")).toString());
             if (tz.isValid()) {
-                dtEnd.setTimeSpec(KDateTime::Spec(tz));
+                dtEnd = dtEnd.toTimeSpec(KDateTime::Spec(tz));
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << endData.value(QLatin1String("timeZone")).toString();
             }
         } else if (!timezone.isEmpty()) {
             const KTimeZone tz = KSystemTimeZones::zone(timezone);
             if (tz.isValid()) {
-                dtEnd.setTimeSpec(KDateTime::Spec(tz));
+                dtEnd = dtEnd.toTimeSpec(KDateTime::Spec(tz));
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
             }
