@@ -112,7 +112,7 @@ AboutPtr AboutFetchJob::aboutData() const
         return AboutPtr();
     }
 
-    return items().first().dynamicCast<About>();
+    return items().at(0).dynamicCast<About>();
 }
 
 void AboutFetchJob::start()

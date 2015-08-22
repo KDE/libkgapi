@@ -173,11 +173,11 @@ void MainWindow::slotContactFetchJobFinished(KGAPI2::Job *job)
     QString text = QStringLiteral("Name: %1").arg(contact->name());
 
     if (!contact->phoneNumbers().isEmpty()) {
-        text += QLatin1Char('\n') % QStringLiteral("Phone: %1").arg(contact->phoneNumbers().first().number());
+        text += QLatin1Char('\n') % QStringLiteral("Phone: %1").arg(contact->phoneNumbers().at(0).number());
     }
 
     if (!contact->emails().isEmpty()) {
-        text += QLatin1Char('\n') % QStringLiteral("Email: %1").arg(contact->emails().first());
+        text += QLatin1Char('\n') % QStringLiteral("Email: %1").arg(contact->emails().at(0));
     }
 
     m_ui->contactInfo->setText(text);
