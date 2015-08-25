@@ -237,7 +237,9 @@ ObjectsList Comment::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
         requestUrl.addQueryItem(QStringLiteral("pageToken"), map[QStringLiteral("nextPageToken")].toString());
         feedData.nextPageUrl = requestUrl;
     }
-    Q_FOREACH (const QVariant &v, map[QLatin1String("items")].toList()) {
+    const QVariantList variantList = map[QStringLiteral("items")].toList();
+    items.reserve(variantList.size());
+    Q_FOREACH (const QVariant &v, variantList) {
         items << Comment::Private::fromJSON(v);
     }
 

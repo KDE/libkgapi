@@ -256,7 +256,9 @@ PostPtr Post::Private::fromJSON(const QVariant &json)
     post->d->location = location[QStringLiteral("name")].toString();
     post->d->latitude = location[QStringLiteral("lat")].toDouble();
     post->d->longitude = location[QStringLiteral("lng")].toDouble();
-    Q_FOREACH (const QVariant &url, map[QLatin1String("images")].toList()) {
+
+    const QVariantList variantList = map[QStringLiteral("images")].toList();
+    Q_FOREACH (const QVariant &url, variantList) {
         post->d->images << url.toMap()[QStringLiteral("url")].toUrl();
     }
     post->d->status = map[QStringLiteral("status")].toString();
@@ -348,7 +350,9 @@ ObjectsList Post::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
         feedData.nextPageUrl = requestUrl;
     }
     ObjectsList list;
-    Q_FOREACH (const QVariant &item, map[QLatin1String("items")].toList()) {
+    const QVariantList variantList = map[QStringLiteral("items")].toList();
+    list.reserve(variantList.size());
+    Q_FOREACH (const QVariant &item, variantList) {
         list << Private::fromJSON(item);
     }
     return list;
