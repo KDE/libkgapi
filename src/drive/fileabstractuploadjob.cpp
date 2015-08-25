@@ -170,7 +170,7 @@ void FileAbstractUploadJob::Private::processNext()
         QString boundary;
         rawData = buildMultipart(filePath, metaData, boundary);
 
-        contentType = QString::fromLatin1("multipart/related; boundary=%1").arg(boundary);
+        contentType = QStringLiteral("multipart/related; boundary=%1").arg(boundary);
         if (rawData.isEmpty()) {
             processNext();
             return;
@@ -219,7 +219,7 @@ FileAbstractUploadJob::FileAbstractUploadJob(const FilesList &metadata,
 {
     int i = 0;
     Q_FOREACH (const FilePtr &file, metadata) {
-        d->files.insert(QString::fromLatin1("?=%1").arg(i), file);
+        d->files.insert(QStringLiteral("?=%1").arg(i), file);
         ++i;
     }
     d->originalFilesCount = d->files.count();

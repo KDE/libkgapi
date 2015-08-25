@@ -233,7 +233,7 @@ void FileFetchJob::Private::processNext()
         if (fields != FileFetchJob::AllFields) {
             const QStringList fieldsStrings = fieldsToStrings(fields);
             url.addQueryItem(QStringLiteral("fields"),
-                             QString::fromLatin1("etag,kind,nextLink,nextPageToken,selfLink,items(%1)").arg(fieldsStrings.join(QStringLiteral(","))));
+                             QStringLiteral("etag,kind,nextLink,nextPageToken,selfLink,items(%1)").arg(fieldsStrings.join(QStringLiteral(","))));
         }
     } else {
         if (filesIDs.isEmpty()) {

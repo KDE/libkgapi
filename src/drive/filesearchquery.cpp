@@ -147,10 +147,10 @@ QString FileSearchQuery::Private::valueToString(FileSearchQuery::Field field, co
     case Owners:
     case Writers:
     case Readers:
-        return QString::fromLatin1("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1String("\\\'")));
+        return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1String("\\\'")));
     case ModifiedDate:
     case LastViewedByMeDate:
-        return QString::fromLatin1("'%1'").arg(var.toDateTime().toUTC().toString(QLatin1String("yyyy-MM-ddThh:mm:ss")));
+        return QStringLiteral("'%1'").arg(var.toDateTime().toUTC().toString(QLatin1String("yyyy-MM-ddThh:mm:ss")));
     case Trashed:
     case Starred:
     case SharedWithMe:
@@ -242,7 +242,7 @@ QString FileSearchQuery::serialize() const
     r = QLatin1Char('(');
     if (d->subqueries.isEmpty()) {
         if (d->compareOp == In) {
-            r += QString::fromLatin1("%1 in %2").arg(Private::valueToString(d->field, d->value),
+            r += QStringLiteral("%1 in %2").arg(Private::valueToString(d->field, d->value),
                                                      Private::fieldToString(d->field));
         } else {
             r += Private::fieldToString(d->field) % Private::compareOperatorToString(d->compareOp) % Private::valueToString(d->field, d->value);
