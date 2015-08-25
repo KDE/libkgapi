@@ -63,7 +63,7 @@ void PostModifyJob::start()
     request.setUrl(url);
 
     const QByteArray rawData = Post::toJSON(d->post);
-    enqueueRequest(request, rawData, QLatin1String("application/json"));
+    enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
 ObjectsList PostModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)

@@ -69,9 +69,9 @@ namespace Private
      */
     QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
 
-    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
-    static const QString CalendarListBasePath(QLatin1String("/calendar/v3/users/me/calendarList"));
-    static const QString CalendarBasePath(QLatin1String("/calendar/v3/calendars"));
+    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+    static const QString CalendarListBasePath(QStringLiteral("/calendar/v3/users/me/calendarList"));
+    static const QString CalendarBasePath(QStringLiteral("/calendar/v3/calendars"));
 }
 
 /************* URLS **************/
@@ -115,7 +115,7 @@ QUrl fetchEventsUrl(const QString& calendarID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
-    url.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
+    url.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
     return url;
 }
 
@@ -151,7 +151,7 @@ QUrl moveEventUrl(const QString& sourceCalendar, const QString& destCalendar, co
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % sourceCalendar % QLatin1String("/events/") % eventID);
-    url.addQueryItem(QLatin1String("destination"), destCalendar);
+    url.addQueryItem(QStringLiteral("destination"), destCalendar);
     return url;
 }
 
@@ -164,7 +164,7 @@ QUrl freeBusyQueryUrl()
 
 QString APIVersion()
 {
-    return QLatin1String("3");
+    return QStringLiteral("3");
 }
 
 CalendarPtr JSONToCalendar(const QByteArray& jsonData)
@@ -172,8 +172,8 @@ CalendarPtr JSONToCalendar(const QByteArray& jsonData)
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     QVariantMap calendar = document.toVariant().toMap();
 
-    if ((calendar.value(QLatin1String("kind")) != QLatin1String("calendar#calendarListEntry")) &&
-        (calendar.value(QLatin1String("kind")) != QLatin1String("calendar#calendar"))) {
+    if ((calendar.value(QStringLiteral("kind")) != QLatin1String("calendar#calendarListEntry")) &&
+        (calendar.value(QStringLiteral("kind")) != QLatin1String("calendar#calendar"))) {
         return CalendarPtr();
     }
 
@@ -184,37 +184,37 @@ ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
 {
     CalendarPtr calendar(new Calendar);
 
-    QString id = QUrl::fromPercentEncoding(data.value(QLatin1String("id")).toByteArray());
+    QString id = QUrl::fromPercentEncoding(data.value(QStringLiteral("id")).toByteArray());
     calendar->setUid(id);
-    calendar->setEtag(data.value(QLatin1String("etag")).toString());
-    calendar->setTitle(data.value(QLatin1String("summary")).toString());
-    calendar->setDetails(data.value(QLatin1String("description")).toString());
-    calendar->setLocation(data.value(QLatin1String("location")).toString());
-    calendar->setTimezone(data.value(QLatin1String("timeZone")).toString());
-    calendar->setBackgroundColor(QColor(data.value(QLatin1String("backgroundColor")).toString()));
-    calendar->setForegroundColor(QColor(data.value(QLatin1String("foregroundColor")).toString()));
+    calendar->setEtag(data.value(QStringLiteral("etag")).toString());
+    calendar->setTitle(data.value(QStringLiteral("summary")).toString());
+    calendar->setDetails(data.value(QStringLiteral("description")).toString());
+    calendar->setLocation(data.value(QStringLiteral("location")).toString());
+    calendar->setTimezone(data.value(QStringLiteral("timeZone")).toString());
+    calendar->setBackgroundColor(QColor(data.value(QStringLiteral("backgroundColor")).toString()));
+    calendar->setForegroundColor(QColor(data.value(QStringLiteral("foregroundColor")).toString()));
 
-    if ((data.value(QLatin1String("accessRole")).toString() == QLatin1String("writer")) ||
-        (data.value(QLatin1String("accessRole")).toString() == QLatin1String("owner"))) {
+    if ((data.value(QStringLiteral("accessRole")).toString() == QLatin1String("writer")) ||
+        (data.value(QStringLiteral("accessRole")).toString() == QLatin1String("owner"))) {
         calendar->setEditable(true);
     } else {
         calendar->setEditable(false);
     }
 
-    QVariantList reminders = data.value(QLatin1String("defaultReminders")).toList();
+    QVariantList reminders = data.value(QStringLiteral("defaultReminders")).toList();
     Q_FOREACH(const QVariant & r, reminders) {
         QVariantMap reminder = r.toMap();
 
         ReminderPtr rem(new Reminder());
-        if (reminder.value(QLatin1String("method")).toString() == QLatin1String("email")) {
+        if (reminder.value(QStringLiteral("method")).toString() == QLatin1String("email")) {
             rem->setType(KCalCore::Alarm::Email);
-        } else if (reminder.value(QLatin1String("method")).toString() == QLatin1String("popup")) {
+        } else if (reminder.value(QStringLiteral("method")).toString() == QLatin1String("popup")) {
             rem->setType(KCalCore::Alarm::Display);
         } else {
             rem->setType(KCalCore::Alarm::Invalid);
         }
 
-        rem->setStartOffset(KCalCore::Duration(reminder.value(QLatin1String("minutes")).toInt() * (-60)));
+        rem->setStartOffset(KCalCore::Duration(reminder.value(QStringLiteral("minutes")).toInt() * (-60)));
 
         calendar->addDefaultReminer(rem);
     }
@@ -227,14 +227,14 @@ QByteArray calendarToJSON(const CalendarPtr& calendar)
     QVariantMap output, entry;
 
     if (!calendar->uid().isEmpty()) {
-	entry.insert(QLatin1String("id"), calendar->uid());
+	entry.insert(QStringLiteral("id"), calendar->uid());
     }
 
-    entry.insert(QLatin1String("summary"), calendar->title());
-    entry.insert(QLatin1String("description"), calendar->details());
-    entry.insert(QLatin1String("location"), calendar->location());
+    entry.insert(QStringLiteral("summary"), calendar->title());
+    entry.insert(QStringLiteral("description"), calendar->details());
+    entry.insert(QStringLiteral("location"), calendar->location());
     if (!calendar->timezone().isEmpty()) {
-	entry.insert(QLatin1String("timeZone"), calendar->timezone());
+	entry.insert(QStringLiteral("timeZone"), calendar->timezone());
     }
 
     QJsonDocument document = QJsonDocument::fromVariant(entry);
@@ -248,19 +248,19 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
 
     ObjectsList list;
 
-    if (data.value(QLatin1String("kind")) == QLatin1String("calendar#calendarList")) {
-        if (data.contains(QLatin1String("nextPageToken"))) {
+    if (data.value(QStringLiteral("kind")) == QLatin1String("calendar#calendarList")) {
+        if (data.contains(QStringLiteral("nextPageToken"))) {
             feedData.nextPageUrl = fetchCalendarsUrl();
-            feedData.nextPageUrl.addQueryItem(QLatin1String("pageToken"), data.value(QLatin1String("nextPageToken")).toString());
-            if (feedData.nextPageUrl.queryItemValue(QLatin1String("maxResults")).isEmpty()) {
-                feedData.nextPageUrl.addQueryItem(QLatin1String("maxResults"),QLatin1String("20"));
+            feedData.nextPageUrl.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
+            if (feedData.nextPageUrl.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
+                feedData.nextPageUrl.addQueryItem(QStringLiteral("maxResults"),QStringLiteral("20"));
             }
         }
     } else {
         return ObjectsList();
     }
 
-    const QVariantList items = data.value(QLatin1String("items")).toList();
+    const QVariantList items = data.value(QStringLiteral("items")).toList();
     Q_FOREACH(const QVariant &i, items) {
         list.append(Private::JSONToCalendar(i.toMap()));
     }
@@ -273,7 +273,7 @@ EventPtr JSONToEvent(const QByteArray& jsonData)
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     QVariantMap data = document.toVariant().toMap();
 
-    if (data.value(QLatin1String("kind")) != QLatin1String("calendar#event")) {
+    if (data.value(QStringLiteral("kind")) != QLatin1String("calendar#event")) {
         return EventPtr();
     }
 
@@ -285,58 +285,58 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     EventPtr event(new Event);
 
     /* ID */
-    event->setUid(QUrl::fromPercentEncoding(data.value(QLatin1String("id")).toByteArray()));
+    event->setUid(QUrl::fromPercentEncoding(data.value(QStringLiteral("id")).toByteArray()));
 
     /* ETAG */
-    event->setEtag(data.value(QLatin1String("etag")).toString());
+    event->setEtag(data.value(QStringLiteral("etag")).toString());
 
     /* Status */
-    if (data.value(QLatin1String("status")).toString() == QLatin1String("confirmed")) {
+    if (data.value(QStringLiteral("status")).toString() == QLatin1String("confirmed")) {
         event->setStatus(KCalCore::Incidence::StatusConfirmed);
-    } else if (data.value(QLatin1String("status")).toString() == QLatin1String("cancelled")) {
+    } else if (data.value(QStringLiteral("status")).toString() == QLatin1String("cancelled")) {
         event->setStatus(KCalCore::Incidence::StatusCanceled);
         event->setDeleted(true);
-    } else if (data.value(QLatin1String("status")).toString() == QLatin1String("tentative")) {
+    } else if (data.value(QStringLiteral("status")).toString() == QLatin1String("tentative")) {
         event->setStatus(KCalCore::Incidence::StatusTentative);
     } else {
         event->setStatus(KCalCore::Incidence::StatusNone);
     }
 
     /* Canceled instance of recurring event. Set ID of the instance to match ID of the event */
-    if (data.contains(QLatin1String("recurringEventId"))) {
-        event->setUid(QUrl::fromPercentEncoding(data.value(QLatin1String("recurringEventId")).toByteArray()));
+    if (data.contains(QStringLiteral("recurringEventId"))) {
+        event->setUid(QUrl::fromPercentEncoding(data.value(QStringLiteral("recurringEventId")).toByteArray()));
     }
 
     /* Created */
-    event->setCreated(KDateTime::fromString(data.value(QLatin1String("created")).toString(), KDateTime::RFC3339Date));
+    event->setCreated(KDateTime::fromString(data.value(QStringLiteral("created")).toString(), KDateTime::RFC3339Date));
 
     /* Last updated */
-    event->setLastModified(KDateTime::fromString(data.value(QLatin1String("updated")).toString(), KDateTime::RFC3339Date));
+    event->setLastModified(KDateTime::fromString(data.value(QStringLiteral("updated")).toString(), KDateTime::RFC3339Date));
 
     /* Summary */
-    event->setSummary(data.value(QLatin1String("summary")).toString());
+    event->setSummary(data.value(QStringLiteral("summary")).toString());
 
     /* Description */
-    event->setDescription(data.value(QLatin1String("description")).toString());
+    event->setDescription(data.value(QStringLiteral("description")).toString());
 
     /* Location */
-    event->setLocation(data.value(QLatin1String("location")).toString());
+    event->setLocation(data.value(QStringLiteral("location")).toString());
 
     /* Start date */
-    QVariantMap startData = data.value(QLatin1String("start")).toMap();
+    QVariantMap startData = data.value(QStringLiteral("start")).toMap();
     KDateTime dtStart;
-    if (startData.contains(QLatin1String("date"))) {
-        dtStart = KDateTime::fromString(startData.value(QLatin1String("date")).toString(), KDateTime::ISODate);
+    if (startData.contains(QStringLiteral("date"))) {
+        dtStart = KDateTime::fromString(startData.value(QStringLiteral("date")).toString(), KDateTime::ISODate);
         event->setAllDay(true);
-    } else if (startData.contains(QLatin1String("dateTime"))) {
-        dtStart = KDateTime::fromString(startData.value(QLatin1String("dateTime")).toString(), KDateTime::RFC3339Date);
+    } else if (startData.contains(QStringLiteral("dateTime"))) {
+        dtStart = KDateTime::fromString(startData.value(QStringLiteral("dateTime")).toString(), KDateTime::RFC3339Date);
         // If there's a timezone specified in the "start" entity, then use it
-        if (startData.contains(QLatin1String("timeZone"))) {
-            const KTimeZone tz = KSystemTimeZones::zone(startData.value(QLatin1String("timeZone")).toString());
+        if (startData.contains(QStringLiteral("timeZone"))) {
+            const KTimeZone tz = KSystemTimeZones::zone(startData.value(QStringLiteral("timeZone")).toString());
             if (tz.isValid()) {
                 dtStart = dtStart.toTimeSpec(KDateTime::Spec(tz));
             } else {
-                qCWarning(KGAPIDebug) << "Invalid timezone" << startData.value(QLatin1String("timeZone")).toString();
+                qCWarning(KGAPIDebug) << "Invalid timezone" << startData.value(QStringLiteral("timeZone")).toString();
             }
 
         // Otherwise try to fallback to calendar-wide timezone
@@ -352,22 +352,22 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     event->setDtStart(dtStart);
 
     /* End date */
-    QVariantMap endData = data.value(QLatin1String("end")).toMap();
+    QVariantMap endData = data.value(QStringLiteral("end")).toMap();
     KDateTime dtEnd;
-    if (endData.contains(QLatin1String("date"))) {
-        dtEnd = KDateTime::fromString(endData.value(QLatin1String("date")).toString(), KDateTime::ISODate);
+    if (endData.contains(QStringLiteral("date"))) {
+        dtEnd = KDateTime::fromString(endData.value(QStringLiteral("date")).toString(), KDateTime::ISODate);
         /* For Google, all-day events starts on Monday and ends on Tuesday,
          * while in KDE, it both starts and ends on Monday. */
         dtEnd = dtEnd.addDays(-1);
         event->setAllDay(true);
-    } else if (endData.contains(QLatin1String("dateTime"))) {
-        dtEnd = KDateTime::fromString(endData.value(QLatin1String("dateTime")).toString(), KDateTime::RFC3339Date);
-        if (endData.contains(QLatin1String("timeZone"))) {
-            const KTimeZone tz = KSystemTimeZones::zone(endData.value(QLatin1String("timeZone")).toString());
+    } else if (endData.contains(QStringLiteral("dateTime"))) {
+        dtEnd = KDateTime::fromString(endData.value(QStringLiteral("dateTime")).toString(), KDateTime::RFC3339Date);
+        if (endData.contains(QStringLiteral("timeZone"))) {
+            const KTimeZone tz = KSystemTimeZones::zone(endData.value(QStringLiteral("timeZone")).toString());
             if (tz.isValid()) {
                 dtEnd = dtEnd.toTimeSpec(KDateTime::Spec(tz));
             } else {
-                qCWarning(KGAPIDebug) << "Invalid timezone" << endData.value(QLatin1String("timeZone")).toString();
+                qCWarning(KGAPIDebug) << "Invalid timezone" << endData.value(QStringLiteral("timeZone")).toString();
             }
         } else if (!timezone.isEmpty()) {
             const KTimeZone tz = KSystemTimeZones::zone(timezone);
@@ -381,31 +381,31 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     event->setDtEnd(dtEnd);
 
     /* Transparency */
-    if (data.value(QLatin1String("transparency")).toString() == QLatin1String("transparent")) {
+    if (data.value(QStringLiteral("transparency")).toString() == QLatin1String("transparent")) {
         event->setTransparency(Event::Transparent);
     } else { /* Assume opaque as default transparency */
         event->setTransparency(Event::Opaque);
     }
 
     /* Attendees */
-    QVariantList attendees = data.value(QLatin1String("attendees")).toList();
+    QVariantList attendees = data.value(QStringLiteral("attendees")).toList();
     Q_FOREACH(const QVariant & a, attendees) {
         QVariantMap att = a.toMap();
         KCalCore::Attendee::Ptr attendee(
             new KCalCore::Attendee(
-                    att.value(QLatin1String("displayName")).toString(),
-                    att.value(QLatin1String("email")).toString()));
+                    att.value(QStringLiteral("displayName")).toString(),
+                    att.value(QStringLiteral("email")).toString()));
 
-        if (att.value(QLatin1String("responseStatus")).toString() == QLatin1String("accepted"))
+        if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("accepted"))
             attendee->setStatus(KCalCore::Attendee::Accepted);
-        else if (att.value(QLatin1String("responseStatus")).toString() == QLatin1String("declined"))
+        else if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("declined"))
             attendee->setStatus(KCalCore::Attendee::Declined);
-        else if (att.value(QLatin1String("responseStatus")).toString() == QLatin1String("tentative"))
+        else if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("tentative"))
             attendee->setStatus(KCalCore::Attendee::Tentative);
         else
             attendee->setStatus(KCalCore::Attendee::NeedsAction);
 
-        if (att.value(QLatin1String("optional")).toBool()) {
+        if (att.value(QStringLiteral("optional")).toBool()) {
             attendee->setRole(KCalCore::Attendee::OptParticipant);
         }
 
@@ -416,14 +416,14 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
      * Google seems to ignore it, so we must take care of it here */
     if (event->attendeeCount() > 0) {
         KCalCore::Person::Ptr organizer(new KCalCore::Person);
-        QVariantMap organizerData = data.value(QLatin1String("organizer")).toMap();
-        organizer->setName(organizerData.value(QLatin1String("displayName")).toString());
-        organizer->setEmail(organizerData.value(QLatin1String("email")).toString());
+        QVariantMap organizerData = data.value(QStringLiteral("organizer")).toMap();
+        organizer->setName(organizerData.value(QStringLiteral("displayName")).toString());
+        organizer->setEmail(organizerData.value(QStringLiteral("email")).toString());
         event->setOrganizer(organizer);
     }
 
     /* Recurrence */
-    QStringList recrs = data.value(QLatin1String("recurrence")).toStringList();
+    QStringList recrs = data.value(QStringLiteral("recurrence")).toStringList();
     Q_FOREACH(const QString & rec, recrs) {
         KCalCore::ICalFormat format;
         if (rec.left(5) == QLatin1String("RRULE")) {
@@ -445,37 +445,37 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         }
     }
 
-    QVariantMap reminders = data.value(QLatin1String("reminders")).toMap();
-    if (reminders.contains(QLatin1String("useDefault")) && reminders.value(QLatin1String("useDefault")).toBool()) {
+    QVariantMap reminders = data.value(QStringLiteral("reminders")).toMap();
+    if (reminders.contains(QStringLiteral("useDefault")) && reminders.value(QStringLiteral("useDefault")).toBool()) {
         event->setUseDefaultReminders(true);
     } else {
         event->setUseDefaultReminders(false);
     }
 
-    QVariantList overrides = reminders.value(QLatin1String("overrides")).toList();
+    QVariantList overrides = reminders.value(QStringLiteral("overrides")).toList();
     Q_FOREACH(const QVariant & r, overrides) {
         QVariantMap override = r.toMap();
         KCalCore::Alarm::Ptr alarm(new KCalCore::Alarm(static_cast<KCalCore::Incidence*>(event.data())));
         alarm->setTime(event->dtStart());
 
-        if (override.value(QLatin1String("method")).toString() == QLatin1String("popup")) {
+        if (override.value(QStringLiteral("method")).toString() == QLatin1String("popup")) {
             alarm->setType(KCalCore::Alarm::Display);
-        } else if (override.value(QLatin1String("method")).toString() == QLatin1String("email")) {
+        } else if (override.value(QStringLiteral("method")).toString() == QLatin1String("email")) {
             alarm->setType(KCalCore::Alarm::Email);
         } else {
             alarm->setType(KCalCore::Alarm::Invalid);
             continue;
         }
 
-        alarm->setStartOffset(KCalCore::Duration(override.value(QLatin1String("minutes")).toInt() * (-60)));
+        alarm->setStartOffset(KCalCore::Duration(override.value(QStringLiteral("minutes")).toInt() * (-60)));
         alarm->setEnabled(true);
         event->addAlarm(alarm);
     }
 
     /* Extended properties */
-    QVariantMap extendedProperties = data.value(QLatin1String("extendedProperties")).toMap();
+    QVariantMap extendedProperties = data.value(QStringLiteral("extendedProperties")).toMap();
 
-    QVariantMap privateProperties = extendedProperties.value(QLatin1String("private")).toMap();
+    QVariantMap privateProperties = extendedProperties.value(QStringLiteral("private")).toMap();
     QMap< QString, QVariant >::const_iterator iter = privateProperties.constBegin();
     while (iter != privateProperties.constEnd()) {
         if (iter.key() == QLatin1String("categories")) {
@@ -485,7 +485,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         ++iter;
     }
 
-    QVariantMap sharedProperties = extendedProperties.value(QLatin1String("shared")).toMap();
+    QVariantMap sharedProperties = extendedProperties.value(QStringLiteral("shared")).toMap();
     iter = sharedProperties.constBegin();
     while (iter != sharedProperties.constEnd()) {
         if (iter.key() == QLatin1String("categories")) {
@@ -636,9 +636,9 @@ QByteArray eventToJSON(const EventPtr& event)
         KCalCore::Person::Ptr organizer = event->organizer();
         if (!organizer->isEmpty()) {
             QVariantMap org;
-	    org.insert(QLatin1String("displayName"), organizer->fullName());
-            org.insert(QLatin1String("email"), organizer->email());
-            data.insert(QLatin1String("organizer"), org);
+	    org.insert(QStringLiteral("displayName"), organizer->fullName());
+            org.insert(QStringLiteral("email"), organizer->email());
+            data.insert(QStringLiteral("organizer"), org);
         }
     }
 
@@ -648,30 +648,30 @@ QByteArray eventToJSON(const EventPtr& event)
         QVariantMap override;
 
         if (alarm->type() == KCalCore::Alarm::Display) {
-	    override.insert(QLatin1String("method"), QLatin1String("popup"));
+	    override.insert(QStringLiteral("method"), QLatin1String("popup"));
         } else if (alarm->type() == KCalCore::Alarm::Email) {
-	    override.insert(QLatin1String("method"), QLatin1String("email"));
+	    override.insert(QStringLiteral("method"), QLatin1String("email"));
         } else {
             continue;
         }
 
-        override.insert(QLatin1String("minutes"),  (int)(alarm->startOffset().asSeconds() / -60));
+        override.insert(QStringLiteral("minutes"),  (int)(alarm->startOffset().asSeconds() / -60));
 
         overrides << override;
     }
 
     QVariantMap reminders;
-    reminders.insert(QLatin1String("useDefault"), false);
-    reminders.insert(QLatin1String("overrides"), overrides);
-    data.insert(QLatin1String("reminders"), reminders);
+    reminders.insert(QStringLiteral("useDefault"), false);
+    reminders.insert(QStringLiteral("overrides"), overrides);
+    data.insert(QStringLiteral("reminders"), reminders);
 
     /* Store categories */
     if (!event->categories().isEmpty()) {
         QVariantMap extendedProperties;
         QVariantMap sharedProperties;
-	sharedProperties.insert(QLatin1String("categories"), event->categoriesStr());
-	extendedProperties.insert(QLatin1String("shared"), sharedProperties);
-	data.insert(QLatin1String("extendedProperties"), extendedProperties);
+	sharedProperties.insert(QStringLiteral("categories"), event->categoriesStr());
+	extendedProperties.insert(QStringLiteral("shared"), sharedProperties);
+	data.insert(QStringLiteral("extendedProperties"), extendedProperties);
     }
 
     /* TODO: Implement support for additional features:
@@ -690,27 +690,27 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     ObjectsList list;
 
     QString timezone;
-    if (data.value(QLatin1String("kind")) == QLatin1String("calendar#events")) {
-        if (data.contains(QLatin1String("nextPageToken"))) {
-            QString calendarId = feedData.requestUrl.toString().remove(QLatin1String("https://www.googleapis.com/calendar/v3/calendars/"));
+    if (data.value(QStringLiteral("kind")) == QLatin1String("calendar#events")) {
+        if (data.contains(QStringLiteral("nextPageToken"))) {
+            QString calendarId = feedData.requestUrl.toString().remove(QStringLiteral("https://www.googleapis.com/calendar/v3/calendars/"));
             calendarId = calendarId.left(calendarId.indexOf(QLatin1Char('/')));
             feedData.nextPageUrl = feedData.requestUrl;
             // replace the old pageToken with a new one
-            feedData.nextPageUrl.removeQueryItem(QLatin1String("pageToken"));
-            feedData.nextPageUrl.addQueryItem(QLatin1String("pageToken"), data.value(QLatin1String("nextPageToken")).toString());
-            if (feedData.nextPageUrl.queryItemValue(QLatin1String("maxResults")).isEmpty()) {
-                feedData.nextPageUrl.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
+            feedData.nextPageUrl.removeQueryItem(QStringLiteral("pageToken"));
+            feedData.nextPageUrl.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
+            if (feedData.nextPageUrl.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
+                feedData.nextPageUrl.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
             }
         }
-        if (data.contains(QLatin1String("timeZone"))) {
+        if (data.contains(QStringLiteral("timeZone"))) {
             // This should always be in Olson format
-            timezone = data.value(QLatin1String("timeZone")).toString();
+            timezone = data.value(QStringLiteral("timeZone")).toString();
         }
     } else {
         return ObjectsList();
     }
 
-    const QVariantList items = data.value(QLatin1String("items")).toList();
+    const QVariantList items = data.value(QStringLiteral("items")).toList();
     Q_FOREACH(const QVariant &i, items) {
         list.append(Private::JSONToEvent(i.toMap(), timezone));
     }
@@ -743,7 +743,7 @@ KCalCore::DateList Private::parseRDate(const QString& rule)
         QDate dt;
 
         if (value == QLatin1String("DATE")) {
-            dt = QDate::fromString(date, QLatin1String("yyyyMMdd"));
+            dt = QDate::fromString(date, QStringLiteral("yyyyMMdd"));
         } else if (value == QLatin1String("PERIOD")) {
             QString start = date.left(date.indexOf(QLatin1Char('/')));
             KDateTime kdt = KDateTime::fromString(start, KDateTime::RFC3339Date);

@@ -70,7 +70,7 @@ Contact::Contact(const Contact &other):
     KContacts::Addressee(other),
     d(new Private(*(other.d)))
 {
-    QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
     Q_FOREACH(const QString &group, groups) {
         d->groups.insert(group, false);
     }
@@ -81,7 +81,7 @@ Contact::Contact(const KContacts::Addressee& other):
     KContacts::Addressee(other),
     d(new Private)
 {
-    QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
     Q_FOREACH(const QString &group, groups) {
         d->groups.insert(group, false);
     }
@@ -139,72 +139,72 @@ QDateTime Contact::updated() const
 
 void Contact::setSpousesName(const QString &name)
 {
-    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-SpousesName"), name);
+    insertCustom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-SpousesName"), name);
 }
 
 QString Contact::spousesName() const
 {
-    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-SpousesName"));
+    return custom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-SpousesName"));
 }
 
 void Contact::setManagersName(const QString &name)
 {
-    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-ManagersName"), name);
+    insertCustom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-ManagersName"), name);
 }
 
 QString Contact::managersName() const
 {
-    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-ManagersName"));
+    return custom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-ManagersName"));
 }
 
 void Contact::setAssistantsName(const QString &name)
 {
-    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-AssistantsName"), name);
+    insertCustom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-AssistantsName"), name);
 }
 
 QString Contact::assistantsName() const
 {
-    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-AssistantsName"));
+    return custom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-AssistantsName"));
 }
 
 void Contact::setProfession(const QString &profession)
 {
-    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Profession"), profession);
+    insertCustom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-Profession"), profession);
 }
 
 QString Contact::profession() const
 {
-    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Profession"));
+    return custom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-Profession"));
 }
 
 void Contact::setOffice(const QString &office)
 {
-    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Office"), office);
+    insertCustom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-Office"), office);
 }
 
 QString Contact::office() const
 {
-    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Office"));
+    return custom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-Office"));
 }
 
 void Contact::setAnniversary(const QString &anniversary)
 {
-    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Anniversary"), anniversary);
+    insertCustom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-Anniversary"), anniversary);
 }
 
 QString Contact::anniversary() const
 {
-    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("X-Anniversary"));
+    return custom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-Anniversary"));
 }
 
 void Contact::setBlogFeed(const QString &url)
 {
-    insertCustom(QLatin1String("KADDRESSBOOK"), QLatin1String("BlogFeed"), url);
+    insertCustom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("BlogFeed"), url);
 }
 
 QString Contact::blogFeed() const
 {
-    return custom(QLatin1String("KADDRESSBOOK"), QLatin1String("BlogFeed"));
+    return custom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("BlogFeed"));
 }
 
 void Contact::addGroup(const QString &group)
@@ -214,17 +214,17 @@ void Contact::addGroup(const QString &group)
 
     d->groups.insert(group, false);
 
-    QStringList groups = custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
     if (!groups.contains(group)) {
         groups.append(group);
     }
 
-    insertCustom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo"), groups.join(QLatin1String(",")));
+    insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QStringLiteral(",")));
 }
 
 void Contact::setGroups(const QStringList &groups)
 {
-    insertCustom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo"), groups.join(QLatin1String(",")));
+    insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QStringLiteral(",")));
 
     d->groups.clear();
     Q_FOREACH(const QString &group, groups) {
@@ -234,7 +234,7 @@ void Contact::setGroups(const QStringList &groups)
 
 QStringList Contact::groups() const
 {
-    return custom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    return custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
 }
 
 void Contact::clearGroups()
@@ -266,26 +266,26 @@ QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
 {
     switch (protocol) {
     case Jabber:
-        return QLatin1String("JABBER");
+        return QStringLiteral("JABBER");
     case ICQ:
-        return QLatin1String("ICQ");
+        return QStringLiteral("ICQ");
     case GoogleTalk:
-        return QLatin1String("GOOGLE_TALK");
+        return QStringLiteral("GOOGLE_TALK");
     case QQ:
-        return QLatin1String("QQ");
+        return QStringLiteral("QQ");
     case Skype:
-        return QLatin1String("SKYPE");
+        return QStringLiteral("SKYPE");
     case Yahoo:
-        return QLatin1String("YAHOO");
+        return QStringLiteral("YAHOO");
     case MSN:
-        return QLatin1String("MSN");
+        return QStringLiteral("MSN");
     case AIM:
-        return QLatin1String("AIM");
+        return QStringLiteral("AIM");
     default:
-        return QLatin1String("Other");
+        return QStringLiteral("Other");
     }
 
-    return QLatin1String("Other");
+    return QStringLiteral("Other");
 }
 
 QString Contact::IMSchemeToProtocolName(const QString& scheme)
@@ -346,11 +346,11 @@ QString Contact::addressTypeToScheme(const KContacts::Address::Type type, bool *
         *primary = (type & KContacts::Address::Pref);
 
     if (type & KContacts::Address::Work) {
-        typeName = QLatin1String("work");
+        typeName = QStringLiteral("work");
     } else if (type & KContacts::Address::Home) {
-        typeName = QLatin1String("home");
+        typeName = QStringLiteral("home");
     } else {
-        typeName = QLatin1String("other");
+        typeName = QStringLiteral("other");
     }
 
     return SCHEME_URL + typeName;

@@ -203,27 +203,27 @@ PagePtr Page::Private::fromJSON(const QVariant &json)
 QVariant Page::Private::toJSON(const PagePtr &page)
 {
     QVariantMap map;
-    map[QLatin1String("kind")] = QLatin1String("blogger#page");
+    map[QStringLiteral("kind")] = QLatin1String("blogger#page");
 
     if (!page->d->id.isEmpty()) {
-        map[QLatin1String("id")] = page->d->id;
+        map[QStringLiteral("id")] = page->d->id;
     }
-    map[QLatin1String("blogId")] = page->d->blogId;
+    map[QStringLiteral("blogId")] = page->d->blogId;
     if (page->d->published.isValid()) {
-        map[QLatin1String("published")] = page->d->published.toString(Qt::ISODate);
+        map[QStringLiteral("published")] = page->d->published.toString(Qt::ISODate);
     }
     if (page->d->updated.isValid()) {
-        map[QLatin1String("updated")] = page->d->updated.toString(Qt::ISODate);
+        map[QStringLiteral("updated")] = page->d->updated.toString(Qt::ISODate);
     }
-    map[QLatin1String("url")] = page->d->url.toString();
-    map[QLatin1String("title")] = page->d->title;
-    map[QLatin1String("content")] = page->d->content;
+    map[QStringLiteral("url")] = page->d->url.toString();
+    map[QStringLiteral("title")] = page->d->title;
+    map[QStringLiteral("content")] = page->d->content;
     switch (page->d->status) {
     case Blogger::Page::Draft:
-        map[QLatin1String("status")] = QLatin1String("DRAFT");
+        map[QStringLiteral("status")] = QLatin1String("DRAFT");
         break;
     case Blogger::Page::Live:
-        map[QLatin1String("status")] = QLatin1String("LIVE");
+        map[QStringLiteral("status")] = QLatin1String("LIVE");
         break;
     default:
         break; // not supported for writing
@@ -241,7 +241,7 @@ PagePtr Page::fromJSON(const QByteArray &rawData)
 
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#page")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#page")) {
         return PagePtr();
     }
 
@@ -256,7 +256,7 @@ ObjectsList Page::fromJSONFeed(const QByteArray &rawData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#pageList")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#pageList")) {
         return ObjectsList();
     }
 

@@ -94,8 +94,8 @@ void PostSearchJob::setFetchBodies(bool fetchBodies)
 void PostSearchJob::start()
 {
     QUrl url = BloggerService::searchPostUrl(d->blogId);
-    url.addQueryItem(QLatin1String("q"), d->query);
-    url.addQueryItem(QLatin1String("fetchBodies"), Utils::bool2Str(d->fetchBodies));
+    url.addQueryItem(QStringLiteral("q"), d->query);
+    url.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
 
     const QNetworkRequest request = d->createRequest(url);
     enqueueRequest(request);

@@ -64,7 +64,7 @@ void PageCreateJob::start()
 
     const QByteArray rawData = Page::toJSON(d->page);
 
-    enqueueRequest(request, rawData, QLatin1String("application/json"));
+    enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
 ObjectsList PageCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)

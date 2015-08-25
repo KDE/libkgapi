@@ -211,7 +211,7 @@ CommentPtr Comment::fromJSON(const QByteArray &rawData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#comment")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#comment")) {
         return CommentPtr();
     }
 
@@ -226,15 +226,15 @@ ObjectsList Comment::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QLatin1String("kind")].toString() != QLatin1String("blogger#commentList")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#commentList")) {
         return ObjectsList();
     }
 
     ObjectsList items;
-    if (!map[QLatin1String("nextPageToken")].toString().isEmpty()) {
+    if (!map[QStringLiteral("nextPageToken")].toString().isEmpty()) {
         QUrl requestUrl(feedData.requestUrl);
-        requestUrl.removeQueryItem(QLatin1String("pageToken"));
-        requestUrl.addQueryItem(QLatin1String("pageToken"), map[QLatin1String("nextPageToken")].toString());
+        requestUrl.removeQueryItem(QStringLiteral("pageToken"));
+        requestUrl.addQueryItem(QStringLiteral("pageToken"), map[QStringLiteral("nextPageToken")].toString());
         feedData.nextPageUrl = requestUrl;
     }
     Q_FOREACH (const QVariant &v, map[QLatin1String("items")].toList()) {

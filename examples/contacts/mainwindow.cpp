@@ -59,8 +59,8 @@ void MainWindow::authenticate()
     /* Create AuthJob to retrieve OAuth tokens for the account */
     KGAPI2::AuthJob *authJob = new KGAPI2::AuthJob(
         account,
-        QLatin1String("554041944266.apps.googleusercontent.com"),
-        QLatin1String("mdT1DjzohxN3npUUzkENT0gO"));
+        QStringLiteral("554041944266.apps.googleusercontent.com"),
+        QStringLiteral("mdT1DjzohxN3npUUzkENT0gO"));
     connect(authJob, SIGNAL(finished(KGAPI2::Job*)),
              this, SLOT(slotAuthJobFinished(KGAPI2::Job*)));
 }

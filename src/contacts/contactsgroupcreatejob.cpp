@@ -86,7 +86,7 @@ void ContactsGroupCreateJob::start()
     }
     qCDebug(KGAPIRaw) << headers;
 
-    enqueueRequest(request, rawData, QLatin1String("application/atom+xml"));
+    enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
 }
 
 ObjectsList ContactsGroupCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)

@@ -30,7 +30,7 @@ namespace BloggerService
 {
 namespace Private
 {
-    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
+    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
 
     auto commentBasePath(const QString &blogId,
                          const QString &postId = QString(),
@@ -70,19 +70,19 @@ using namespace KGAPI2::BloggerService::Private;
 
 QUrl BloggerService::fetchBlogByBlogIdUrl(const QString &blogId)
 {
-    return GoogleApisUrl % QLatin1String("/blogger/v3/blogs/") % blogId;
+    return GoogleApisUrl % QStringLiteral("/blogger/v3/blogs/") % blogId;
 }
 
 QUrl BloggerService::fetchBlogByBlogUrlUrl(const QString &blogUrl)
 {
-    QUrl url = GoogleApisUrl % QLatin1String("/blogger/v3/blogs/byurl");
-    url.addQueryItem(QLatin1String("url"), blogUrl);
+    QUrl url = GoogleApisUrl % QStringLiteral("/blogger/v3/blogs/byurl");
+    url.addQueryItem(QStringLiteral("url"), blogUrl);
     return url;
 }
 
 QUrl BloggerService::fetchBlogsByUserIdUrl(const QString &userId)
 {
-    return GoogleApisUrl % QLatin1String("/blogger/v3/users/") % userId % QLatin1String("/blogs");
+    return GoogleApisUrl % QStringLiteral("/blogger/v3/users/") % userId % QStringLiteral("/blogs");
 }
 
 
@@ -97,14 +97,14 @@ QUrl BloggerService::approveCommentUrl(const QString &blogId,
                                        const QString &postId,
                                        const QString &commentId)
 {
-    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QLatin1String("/approve");
+    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QStringLiteral("/approve");
 }
 
 QUrl BloggerService::markCommentAsSpamUrl(const QString &blogId,
                                           const QString &postId,
                                           const QString &commentId)
 {
-    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QLatin1String("/spam");
+    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QStringLiteral("/spam");
 }
 
 QUrl BloggerService::deleteCommentUrl(const QString &blogId,
@@ -118,7 +118,7 @@ QUrl BloggerService::deleteCommentContentUrl(const QString &blogId,
                                              const QString &postId,
                                              const QString &commentId)
 {
-    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QLatin1String("/removecontent");
+    return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QStringLiteral("/removecontent");
 }
 
 QUrl BloggerService::fetchPageUrl(const QString &blogId,
@@ -149,7 +149,7 @@ QUrl BloggerService::fetchPostUrl(const QString &blogId, const QString &postId)
 
 QUrl BloggerService::searchPostUrl(const QString &blogId)
 {
-    return GoogleApisUrl % postBasePath(blogId) % QLatin1String("/search");
+    return GoogleApisUrl % postBasePath(blogId) % QStringLiteral("/search");
 }
 
 QUrl BloggerService::createPostUrl(const QString &blogId)
@@ -169,10 +169,10 @@ QUrl BloggerService::modifyPostUrl(const QString &blogId, const QString &postId)
 
 QUrl BloggerService::publishPostUrl(const QString &blogId, const QString &postId)
 {
-    return GoogleApisUrl % postBasePath(blogId, postId) % QLatin1String("/publish");
+    return GoogleApisUrl % postBasePath(blogId, postId) % QStringLiteral("/publish");
 }
 
 QUrl BloggerService::revertPostUrl(const QString &blogId, const QString &postId)
 {
-    return GoogleApisUrl % postBasePath(blogId, postId) % QLatin1String("/revert");
+    return GoogleApisUrl % postBasePath(blogId, postId) % QStringLiteral("/revert");
 }

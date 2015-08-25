@@ -78,7 +78,7 @@ void ContactModifyJob::Private::processNextContact()
     }
     qCDebug(KGAPIRaw) << headers;
 
-    q->enqueueRequest(request, rawData, QLatin1String("application/atom+xml"));
+    q->enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
 
     QNetworkRequest photoRequest;
     photoRequest.setUrl(ContactsService::photoUrl(q->account()->accountName(), contact->uid()));
@@ -90,9 +90,9 @@ void ContactModifyJob::Private::processNextContact()
         QBuffer buffer(&ba);
         image.save(&buffer, "JPG", 100);
 
-        q->enqueueRequest(photoRequest, ba, QLatin1String("modifyImage"));
+        q->enqueueRequest(photoRequest, ba, QStringLiteral("modifyImage"));
     } else {
-        q->enqueueRequest(photoRequest, QByteArray(), QLatin1String("deleteImage"));
+        q->enqueueRequest(photoRequest, QByteArray(), QStringLiteral("deleteImage"));
   }
 }
 

@@ -140,10 +140,10 @@ void ContactFetchJob::start()
     if (d->contactId.isEmpty()) {
         url = ContactsService::fetchAllContactsUrl(account()->accountName(), d->fetchDeleted);
         if (d->timestamp > 0) {
-            url.addQueryItem(QLatin1String("updated-min"), Utils::ts2Str(d->timestamp));
+            url.addQueryItem(QStringLiteral("updated-min"), Utils::ts2Str(d->timestamp));
         }
         if (!d->filter.isEmpty()) {
-            url.addQueryItem(QLatin1String("q"), d->filter);
+            url.addQueryItem(QStringLiteral("q"), d->filter);
         }
     } else {
         url = ContactsService::fetchContactUrl(account()->accountName(), d->contactId);
