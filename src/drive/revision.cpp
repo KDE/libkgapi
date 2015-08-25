@@ -80,31 +80,31 @@ Revision::Private::Private(const Private& other):
 
 RevisionPtr Revision::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#revision"))
+    if (!map.contains(QStringLiteral("kind")) ||
+        map[QStringLiteral("kind")].toString() != QLatin1String("drive#revision"))
     {
         return RevisionPtr();
     }
 
     RevisionPtr revision(new Revision);
-    revision->setEtag(map[QLatin1String("etag")].toString());
-    revision->d->id = map[QLatin1String("id")].toString();
-    revision->d->selfLink = map[QLatin1String("selfLink")].toUrl();
-    revision->d->mimeType = map[QLatin1String("mimeType")].toString();
-    revision->d->modifiedDate = QDateTime::fromString(map[QLatin1String("modifiedDate")].toString(), Qt::ISODate);
-    revision->d->pinned = map[QLatin1String("pinned")].toBool();
-    revision->d->published = map[QLatin1String("published")].toBool();
-    revision->d->publishedLink = map[QLatin1String("publishedLink")].toUrl();
-    revision->d->publishAuto = map[QLatin1String("publishAuto")].toBool();
-    revision->d->publishedOutsideDomain = map[QLatin1String("publishedOutsideDomain")].toBool();
-    revision->d->downloadUrl = map[QLatin1String("downloadUrl")].toUrl();
-    revision->d->lastModifyingUserName = map[QLatin1String("lastModifyingUserName")].toString();
-    revision->d->lastModifyingUser = User::fromJSON(map[QLatin1String("lastModifyingUser")].toMap());
-    revision->d->originalFilename = map[QLatin1String("originalFilename")].toString();
-    revision->d->md5Checksum = map[QLatin1String("md5Checksum")].toString();
-    revision->d->fileSize = map[QLatin1String("fileSize")].toLongLong();
+    revision->setEtag(map[QStringLiteral("etag")].toString());
+    revision->d->id = map[QStringLiteral("id")].toString();
+    revision->d->selfLink = map[QStringLiteral("selfLink")].toUrl();
+    revision->d->mimeType = map[QStringLiteral("mimeType")].toString();
+    revision->d->modifiedDate = QDateTime::fromString(map[QStringLiteral("modifiedDate")].toString(), Qt::ISODate);
+    revision->d->pinned = map[QStringLiteral("pinned")].toBool();
+    revision->d->published = map[QStringLiteral("published")].toBool();
+    revision->d->publishedLink = map[QStringLiteral("publishedLink")].toUrl();
+    revision->d->publishAuto = map[QStringLiteral("publishAuto")].toBool();
+    revision->d->publishedOutsideDomain = map[QStringLiteral("publishedOutsideDomain")].toBool();
+    revision->d->downloadUrl = map[QStringLiteral("downloadUrl")].toUrl();
+    revision->d->lastModifyingUserName = map[QStringLiteral("lastModifyingUserName")].toString();
+    revision->d->lastModifyingUser = User::fromJSON(map[QStringLiteral("lastModifyingUser")].toMap());
+    revision->d->originalFilename = map[QStringLiteral("originalFilename")].toString();
+    revision->d->md5Checksum = map[QStringLiteral("md5Checksum")].toString();
+    revision->d->fileSize = map[QStringLiteral("fileSize")].toLongLong();
 
-    const QVariantMap exportLinks = map[QLatin1String("exportLinks")].toMap();
+    const QVariantMap exportLinks = map[QStringLiteral("exportLinks")].toMap();
     QVariantMap::ConstIterator iter = exportLinks.constBegin();
     for ( ; iter != exportLinks.constEnd(); ++iter) {
         revision->d->exportLinks.insert(iter.key(), iter.value().toUrl());
@@ -251,14 +251,14 @@ RevisionsList Revision::fromJSONFeed(const QByteArray &jsonData)
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
 
-    if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#revisionList"))
+    if (!map.contains(QStringLiteral("kind")) ||
+        map[QStringLiteral("kind")].toString() != QLatin1String("drive#revisionList"))
     {
         return RevisionsList();
     }
 
     RevisionsList list;
-    const QVariantList items = map[QLatin1String("items")].toList();
+    const QVariantList items = map[QStringLiteral("items")].toList();
     Q_FOREACH (const QVariant &item, items) {
         const RevisionPtr revision = Private::fromJSON(item.toMap());
 

@@ -56,7 +56,7 @@ FileModifyJob::FileModifyJob(const FilePtr &metadata,
     FileAbstractUploadJob(metadata, account, parent),
     d(new Private)
 {
-    d->files.insert(QLatin1String("?=0"), metadata->id());
+    d->files.insert(QStringLiteral("?=0"), metadata->id());
 }
 
 FileModifyJob::FileModifyJob(const QString &filePath,
@@ -164,9 +164,9 @@ QUrl FileModifyJob::createUrl(const QString &filePath,
         url = DriveService::uploadMultipartFileUrl(d->files.value(filePath));
     }
 
-    url.addQueryItem(QLatin1String("newRevision"), Utils::bool2Str(d->createNewRevision));
-    url.addQueryItem(QLatin1String("setModifiedDate"), Utils::bool2Str(d->changeModifiedDate));
-    url.addQueryItem(QLatin1String("updateViewedDate"), Utils::bool2Str(d->updateViewedDate));
+    url.addQueryItem(QStringLiteral("newRevision"), Utils::bool2Str(d->createNewRevision));
+    url.addQueryItem(QStringLiteral("setModifiedDate"), Utils::bool2Str(d->changeModifiedDate));
+    url.addQueryItem(QStringLiteral("updateViewedDate"), Utils::bool2Str(d->updateViewedDate));
 
     return url;
 }

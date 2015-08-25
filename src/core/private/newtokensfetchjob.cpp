@@ -96,15 +96,15 @@ void NewTokensFetchJob::start()
 {
     QNetworkRequest request;
 
-    request.setUrl(QUrl(QLatin1String("https://accounts.google.com/o/oauth2/token")));
+    request.setUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/token")));
     request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
 
     QUrl params;
-    params.addQueryItem(QLatin1String("client_id"), d->apiKey);
-    params.addQueryItem(QLatin1String("client_secret"), d->secretKey);
-    params.addQueryItem(QLatin1String("code"), d->tmpToken);
-    params.addQueryItem(QLatin1String("redirect_uri"), QLatin1String("urn:ietf:wg:oauth:2.0:oob"));
-    params.addQueryItem(QLatin1String("grant_type"), QLatin1String("authorization_code"));
+    params.addQueryItem(QStringLiteral("client_id"), d->apiKey);
+    params.addQueryItem(QStringLiteral("client_secret"), d->secretKey);
+    params.addQueryItem(QStringLiteral("code"), d->tmpToken);
+    params.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("urn:ietf:wg:oauth:2.0:oob"));
+    params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
 
     enqueueRequest(request, params.encodedQuery());
 }
@@ -132,9 +132,9 @@ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray
 
     qCDebug(KGAPIRaw) << "Retrieved new tokens pair:" << parsed_data;
 
-    d->accessToken = parsed_data.value(QLatin1String("access_token")).toString();
-    d->refreshToken = parsed_data.value(QLatin1String("refresh_token")).toString();
-    d->expiresIn = parsed_data.value(QLatin1String("expires_in")).toULongLong();
+    d->accessToken = parsed_data.value(QStringLiteral("access_token")).toString();
+    d->refreshToken = parsed_data.value(QStringLiteral("refresh_token")).toString();
+    d->expiresIn = parsed_data.value(QStringLiteral("expires_in")).toULongLong();
 }
 
 

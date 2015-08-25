@@ -86,18 +86,18 @@ QString User::permissionId() const
 
 UserPtr User::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#user"))
+    if (!map.contains(QStringLiteral("kind")) ||
+        map[QStringLiteral("kind")].toString() != QLatin1String("drive#user"))
     {
         return UserPtr();
     }
 
     UserPtr user(new User());
-    user->d->displayName = map[QLatin1String("displayName")].toString();
-    const QVariantMap picture = map[QLatin1String("picture")].toMap();
-    user->d->pictureUrl = picture[QLatin1String("url")].toUrl();
-    user->d->isAuthenticatedUser = map[QLatin1String("isAuthenticatedUser")].toBool();
-    user->d->permissionId = map[QLatin1String("permissionId")].toString();
+    user->d->displayName = map[QStringLiteral("displayName")].toString();
+    const QVariantMap picture = map[QStringLiteral("picture")].toMap();
+    user->d->pictureUrl = picture[QStringLiteral("url")].toUrl();
+    user->d->isAuthenticatedUser = map[QStringLiteral("isAuthenticatedUser")].toBool();
+    user->d->permissionId = map[QStringLiteral("permissionId")].toString();
 
     return user;
 }

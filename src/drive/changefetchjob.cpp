@@ -153,13 +153,13 @@ void ChangeFetchJob::start()
     QUrl url;
     if (d->changeId.isEmpty()) {
         url = DriveService::fetchChangesUrl();
-        url.addQueryItem(QLatin1String("includeDeleted"), Utils::bool2Str(d->includeDeleted));
-        url.addQueryItem(QLatin1String("includeSubscribed"), Utils::bool2Str(d->includeSubscribed));
+        url.addQueryItem(QStringLiteral("includeDeleted"), Utils::bool2Str(d->includeDeleted));
+        url.addQueryItem(QStringLiteral("includeSubscribed"), Utils::bool2Str(d->includeSubscribed));
         if (d->maxResults > 0) {
-            url.addQueryItem(QLatin1String("maxResults"), QString::number(d->maxResults));
+            url.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
         }
         if (d->startChangeId > 0) {
-            url.addQueryItem(QLatin1String("startChangeId"), QString::number(d->startChangeId));
+            url.addQueryItem(QStringLiteral("startChangeId"), QString::number(d->startChangeId));
         }
     } else {
         url = DriveService::fetchChangeUrl(d->changeId);

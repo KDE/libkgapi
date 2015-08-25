@@ -155,16 +155,16 @@ void AuthWidget::Private::webviewFinished(bool ok)
 
         QWebFrame *frame = webview->page()->mainFrame();
         if (!username.isEmpty()) {
-            QWebElement email = frame->findFirstElement(QLatin1String("input#Email"));
+            QWebElement email = frame->findFirstElement(QStringLiteral("input#Email"));
             if (!email.isNull()) {
-                email.setAttribute(QLatin1String("value"), username);
+                email.setAttribute(QStringLiteral("value"), username);
             }
         }
 
         if (!password.isEmpty()) {
-            QWebElement passd = frame->findFirstElement(QLatin1String("input#Passwd"));
+            QWebElement passd = frame->findFirstElement(QStringLiteral("input#Passwd"));
             if (!passd.isNull()) {
-                passd.setAttribute(QLatin1String("value"), password);
+                passd.setAttribute(QStringLiteral("value"), password);
             }
         }
 

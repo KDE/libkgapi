@@ -149,35 +149,35 @@ App::Private::Private(const App::Private &other):
 
 AppPtr App::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("kind#app")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("kind#app")) {
         return AppPtr();
     }
 
     AppPtr app(new App);
-    app->setEtag(map[QLatin1String("etag")].toString());
-    app->d->id = map[QLatin1String("id")].toString();
-    app->d->name = map[QLatin1String("map")].toString();
-    app->d->objectType = map[QLatin1String("objectType")].toString();
-    app->d->supportsCreate = map[QLatin1String("supportsCreate")].toBool();
-    app->d->supportsImport = map[QLatin1String("supportsImport")].toBool();
-    app->d->installed = map[QLatin1String("installed")].toBool();
-    app->d->authorized = map[QLatin1String("authorized")].toBool();
-    app->d->useByDefault = map[QLatin1String("useByDefault")].toBool();
-    app->d->productUrl = map[QLatin1String("productUrl")].toUrl();
-    app->d->primaryMimeTypes = map[QLatin1String("primaryMimeTypes")].toStringList();
-    app->d->secondaryMimeTypes = map[QLatin1String("secondaryMimeTypes")].toStringList();
-    app->d->primaryFileExtensions = map[QLatin1String("primaryFileExtensions")].toStringList();
-    app->d->secondaryFileExtensions = map[QLatin1String("secondaryFileExtensions")].toStringList();
+    app->setEtag(map[QStringLiteral("etag")].toString());
+    app->d->id = map[QStringLiteral("id")].toString();
+    app->d->name = map[QStringLiteral("map")].toString();
+    app->d->objectType = map[QStringLiteral("objectType")].toString();
+    app->d->supportsCreate = map[QStringLiteral("supportsCreate")].toBool();
+    app->d->supportsImport = map[QStringLiteral("supportsImport")].toBool();
+    app->d->installed = map[QStringLiteral("installed")].toBool();
+    app->d->authorized = map[QStringLiteral("authorized")].toBool();
+    app->d->useByDefault = map[QStringLiteral("useByDefault")].toBool();
+    app->d->productUrl = map[QStringLiteral("productUrl")].toUrl();
+    app->d->primaryMimeTypes = map[QStringLiteral("primaryMimeTypes")].toStringList();
+    app->d->secondaryMimeTypes = map[QStringLiteral("secondaryMimeTypes")].toStringList();
+    app->d->primaryFileExtensions = map[QStringLiteral("primaryFileExtensions")].toStringList();
+    app->d->secondaryFileExtensions = map[QStringLiteral("secondaryFileExtensions")].toStringList();
 
-    const QVariantList icons = map[QLatin1String("icons")].toList();
+    const QVariantList icons = map[QStringLiteral("icons")].toList();
     Q_FOREACH(const QVariant & i, icons) {
         const QVariantMap &iconData = i.toMap();
 
         IconPtr icon(new Icon());
-        icon->d->category = Icon::Private::categoryFromName(iconData[QLatin1String("category")].toString());
-        icon->d->size = iconData[QLatin1String("size")].toInt();
-        icon->d->iconUrl = iconData[QLatin1String("iconUrl")].toUrl();
+        icon->d->category = Icon::Private::categoryFromName(iconData[QStringLiteral("category")].toString());
+        icon->d->size = iconData[QStringLiteral("size")].toInt();
+        icon->d->iconUrl = iconData[QStringLiteral("iconUrl")].toUrl();
 
         app->d->icons << icon;
     }
@@ -291,13 +291,13 @@ AppsList App::fromJSONFeed(const QByteArray &jsonData)
     }
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("drive#appList")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#appList")) {
         return AppsList();
     }
 
     AppsList list;
-    const QVariantList items = map[QLatin1String("items")].toList();
+    const QVariantList items = map[QStringLiteral("items")].toList();
     Q_FOREACH(const QVariant & item, items) {
         const AppPtr app = Private::fromJSON(item.toMap());
 

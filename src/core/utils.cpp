@@ -39,7 +39,7 @@ KGAPI2::ContentType Utils::stringToContentType(const QString& contentType)
 
 QString Utils::bool2Str(bool val)
 {
-    return (val ? QLatin1String("true") : QLatin1String("false"));
+    return (val ? QStringLiteral("true") : QStringLiteral("false"));
 }
 
 QString Utils::ts2Str(quint64 ts)

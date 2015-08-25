@@ -151,27 +151,27 @@ void FileAbstractDataJob::setTimedTextTrackName(const QString &timedTextTrackNam
 
 QUrl FileAbstractDataJob::updateUrl(QUrl &url)
 {
-    url.removeQueryItem(QLatin1String("convert"));
-    url.addQueryItem(QLatin1String("convert"), Utils::bool2Str(d->convert));
+    url.removeQueryItem(QStringLiteral("convert"));
+    url.addQueryItem(QStringLiteral("convert"), Utils::bool2Str(d->convert));
 
-    url.removeQueryItem(QLatin1String("ocr"));
-    url.removeQueryItem(QLatin1String("ocrLanguage"));
-    url.addQueryItem(QLatin1String("ocr"), Utils::bool2Str(d->ocr));
+    url.removeQueryItem(QStringLiteral("ocr"));
+    url.removeQueryItem(QStringLiteral("ocrLanguage"));
+    url.addQueryItem(QStringLiteral("ocr"), Utils::bool2Str(d->ocr));
     if (d->ocr && !d->ocrLanguage.isEmpty()) {
-        url.addQueryItem(QLatin1String("ocrLanguage"), d->ocrLanguage);
+        url.addQueryItem(QStringLiteral("ocrLanguage"), d->ocrLanguage);
     }
 
-    url.removeQueryItem(QLatin1String("pinned"));
-    url.addQueryItem(QLatin1String("pinned"), Utils::bool2Str(d->pinned));
+    url.removeQueryItem(QStringLiteral("pinned"));
+    url.addQueryItem(QStringLiteral("pinned"), Utils::bool2Str(d->pinned));
 
-    url.removeQueryItem(QLatin1String("timedTextLanguage"));
+    url.removeQueryItem(QStringLiteral("timedTextLanguage"));
     if (!d->timedTextLanguage.isEmpty()) {
-        url.addQueryItem(QLatin1String("timedTextLanguage"), d->timedTextLanguage);
+        url.addQueryItem(QStringLiteral("timedTextLanguage"), d->timedTextLanguage);
     }
 
-    url.removeQueryItem(QLatin1String("timedTextTrackName"));
+    url.removeQueryItem(QStringLiteral("timedTextTrackName"));
     if (!d->timedTextTrackName.isEmpty()) {
-        url.addQueryItem(QLatin1String("timedTextTrackName"), d->timedTextTrackName);
+        url.addQueryItem(QStringLiteral("timedTextTrackName"), d->timedTextTrackName);
     }
 
     return url;

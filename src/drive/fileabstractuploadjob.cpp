@@ -147,16 +147,16 @@ void FileAbstractUploadJob::Private::processNext()
     }
 
     q->updateUrl(url);
-    url.addQueryItem(QLatin1String("useContentAsIndexableText"), Utils::bool2Str(useContentAsIndexableText));
+    url.addQueryItem(QStringLiteral("useContentAsIndexableText"), Utils::bool2Str(useContentAsIndexableText));
 
     QNetworkRequest request;
     QByteArray rawData;
     QString contentType;
 
     // just to be sure
-    url.removeQueryItem(QLatin1String("uploadType"));
+    url.removeQueryItem(QStringLiteral("uploadType"));
     if (metaData.isNull()) {
-        url.addQueryItem(QLatin1String("uploadType"), QLatin1String("media"));
+        url.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("media"));
 
         rawData = readFile(filePath, contentType);
         if (rawData.isEmpty()) {
@@ -165,7 +165,7 @@ void FileAbstractUploadJob::Private::processNext()
         }
 
     } else if (!filePath.startsWith(QLatin1String("?="))) {
-        url.addQueryItem(QLatin1String("uploadType"), QLatin1String("multipart"));
+        url.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("multipart"));
 
         QString boundary;
         rawData = buildMultipart(filePath, metaData, boundary);
@@ -177,7 +177,7 @@ void FileAbstractUploadJob::Private::processNext()
         }
     } else {
         rawData = File::toJSON(metaData);
-        contentType = QLatin1String("application/json");
+        contentType = QStringLiteral("application/json");
     }
 
     request.setUrl(url);
@@ -207,7 +207,7 @@ FileAbstractUploadJob::FileAbstractUploadJob(const FilePtr &metadata,
     FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
-    d->files.insert(QLatin1String("?=0"), metadata);
+    d->files.insert(QStringLiteral("?=0"), metadata);
     d->originalFilesCount = 1;
 }
 

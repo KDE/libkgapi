@@ -38,9 +38,9 @@ namespace Private
     ObjectPtr JSONToTaskList(const QVariantMap &jsonData);
     ObjectPtr JSONToTask(const QVariantMap &jsonData);
 
-    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
-    static const QString TasksBasePath(QLatin1String("/tasks/v1/lists"));
-    static const QString TasksListsBasePath(QLatin1String("/tasks/v1/users/@me/lists"));
+    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+    static const QString TasksBasePath(QStringLiteral("/tasks/v1/lists"));
+    static const QString TasksListsBasePath(QStringLiteral("/tasks/v1/users/@me/lists"));
 }
 
 ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
@@ -53,28 +53,28 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     ObjectsList list;
     const QVariantMap feed = document.toVariant().toMap();
 
-    if (feed.value(QLatin1String("kind")).toString() == QLatin1String("tasks#taskLists")) {
-        list = Private::parseTaskListJSONFeed(feed.value(QLatin1String("items")).toList());
+    if (feed.value(QStringLiteral("kind")).toString() == QLatin1String("tasks#taskLists")) {
+        list = Private::parseTaskListJSONFeed(feed.value(QStringLiteral("items")).toList());
 
-        if (feed.contains(QLatin1String("nextPageToken"))) {
+        if (feed.contains(QStringLiteral("nextPageToken"))) {
             feedData.nextPageUrl = fetchTaskListsUrl();
-            feedData.nextPageUrl.addQueryItem(QLatin1String("pageToken"), feed.value(QLatin1String("nextPageToken")).toString());
-            if (feedData.nextPageUrl.queryItemValue(QLatin1String("maxResults")).isEmpty()) {
-                feedData.nextPageUrl.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
+            feedData.nextPageUrl.addQueryItem(QStringLiteral("pageToken"), feed.value(QStringLiteral("nextPageToken")).toString());
+            if (feedData.nextPageUrl.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
+                feedData.nextPageUrl.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
             }
         }
 
-    } else if (feed.value(QLatin1String("kind")).toString() == QLatin1String("tasks#tasks")) {
-        list = Private::parseTasksJSONFeed(feed.value(QLatin1String("items")).toList());
+    } else if (feed.value(QStringLiteral("kind")).toString() == QLatin1String("tasks#tasks")) {
+        list = Private::parseTasksJSONFeed(feed.value(QStringLiteral("items")).toList());
 
-        if (feed.contains(QLatin1String("nextPageToken"))) {
-            QString taskListId = feedData.requestUrl.toString().remove(QLatin1String("https://www.googleapis.com/tasks/v1/lists/"));
+        if (feed.contains(QStringLiteral("nextPageToken"))) {
+            QString taskListId = feedData.requestUrl.toString().remove(QStringLiteral("https://www.googleapis.com/tasks/v1/lists/"));
             taskListId = taskListId.left(taskListId.indexOf(QLatin1Char('/')));
 
             feedData.nextPageUrl = fetchAllTasksUrl(taskListId);
-            feedData.nextPageUrl.addQueryItem(QLatin1String("pageToken"), feed.value(QLatin1String("nextPageToken")).toString());
-            if (feedData.nextPageUrl.queryItemValue(QLatin1String("maxResults")).isEmpty()) {
-                feedData.nextPageUrl.addQueryItem(QLatin1String("maxResults"), QLatin1String("20"));
+            feedData.nextPageUrl.addQueryItem(QStringLiteral("pageToken"), feed.value(QStringLiteral("nextPageToken")).toString());
+            if (feedData.nextPageUrl.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
+                feedData.nextPageUrl.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
             }
         }
     }
@@ -122,7 +122,7 @@ QUrl moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID % QLatin1String("/move"));
     if (!newParent.isEmpty()) {
-        url.addQueryItem(QLatin1String("parent"), newParent);
+        url.addQueryItem(QStringLiteral("parent"), newParent);
     }
 
     return url;
@@ -174,7 +174,7 @@ TaskListPtr JSONToTaskList(const QByteArray& jsonData)
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     const QVariantMap data = document.toVariant().toMap();
 
-    if (data.value(QLatin1String("kind")).toString() == QLatin1String("tasks#taskList")) {
+    if (data.value(QStringLiteral("kind")).toString() == QLatin1String("tasks#taskList")) {
         return Private::JSONToTaskList(data).staticCast<TaskList>();
     }
 
@@ -219,7 +219,7 @@ TaskPtr JSONToTask(const QByteArray& jsonData)
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     const QVariantMap data = document.toVariant().toMap();
 
-    if (data.value(QLatin1String("kind")).toString() == QLatin1String("tasks#task")) {
+    if (data.value(QStringLiteral("kind")).toString() == QLatin1String("tasks#task")) {
         return Private::JSONToTask(data).staticCast<Task>();
     }
 

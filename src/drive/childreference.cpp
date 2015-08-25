@@ -49,14 +49,14 @@ ChildReference::Private::Private(const Private &other):
 
 ChildReferencePtr ChildReference::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("drive#childReference")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#childReference")) {
         return ChildReferencePtr();
     }
 
-    ChildReferencePtr reference(new ChildReference(map[QLatin1String("id")].toString()));
-    reference->d->selfLink = map[QLatin1String("selfLink")].toUrl();
-    reference->d->childLink = map[QLatin1String("childLink")].toUrl();
+    ChildReferencePtr reference(new ChildReference(map[QStringLiteral("id")].toString()));
+    reference->d->selfLink = map[QStringLiteral("selfLink")].toUrl();
+    reference->d->childLink = map[QStringLiteral("childLink")].toUrl();
 
     return reference;
 }
@@ -115,13 +115,13 @@ ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("drive#childList")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#childList")) {
         return ChildReferencesList();
     }
 
     ChildReferencesList list;
-    const QVariantList items = map[QLatin1String("items")].toList();
+    const QVariantList items = map[QStringLiteral("items")].toList();
     Q_FOREACH(const QVariant & item, items) {
         ChildReferencePtr reference = Private::fromJSON(item.toMap());
 
@@ -130,8 +130,8 @@ ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
         }
     }
 
-    if (map.contains(QLatin1String("nextLink"))) {
-        feedData.nextPageUrl = map[QLatin1String("nextLink")].toUrl();
+    if (map.contains(QStringLiteral("nextLink"))) {
+        feedData.nextPageUrl = map[QStringLiteral("nextLink")].toUrl();
     }
 
     return list;
@@ -141,7 +141,7 @@ QByteArray ChildReference::toJSON(const ChildReferencePtr &reference)
 {
     QVariantMap map;
 
-    map[QLatin1String("id")] = reference->id();
+    map[QStringLiteral("id")] = reference->id();
 
     QJsonDocument document = QJsonDocument::fromVariant(map);
     return document.toJson(QJsonDocument::Compact);

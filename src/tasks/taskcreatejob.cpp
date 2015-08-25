@@ -90,7 +90,7 @@ void TaskCreateJob::start()
 
     QUrl url = TasksService::createTaskUrl(d->taskListId);
     if (!d->parentId.isEmpty()) {
-        url.addQueryItem(QLatin1String("parent"), d->parentId);
+        url.addQueryItem(QStringLiteral("parent"), d->parentId);
     }
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
@@ -104,7 +104,7 @@ void TaskCreateJob::start()
     }
     qCDebug(KGAPIRaw) << headers;
 
-    enqueueRequest(request, rawData, QLatin1String("application/json"));
+    enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
 ObjectsList TaskCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)

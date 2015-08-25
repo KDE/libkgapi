@@ -871,8 +871,8 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture
         * itself. */
         if ((e.tagName() == QLatin1String("link")) &&
-            (e.attribute(QLatin1String("rel")) == QLatin1String("http://schemas.google.com/contacts/2008/rel#photo"))) {
-            contact->setPhotoUrl(e.attribute(QLatin1String("href")));    /* URL */
+            (e.attribute(QStringLiteral("rel")) == QLatin1String("http://schemas.google.com/contacts/2008/rel#photo"))) {
+            contact->setPhotoUrl(e.attribute(QStringLiteral("href")));    /* URL */
             continue;
         }
 
@@ -931,17 +931,17 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Relationships */
         if (e.tagName() == QLatin1String("gContact:relation")) {
-            if (e.attribute(QLatin1String("rel"), QString()) == QLatin1String("spouse")) {
+            if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("spouse")) {
                 contact->setSpousesName(e.text());
                 continue;
             }
 
-            if (e.attribute(QLatin1String("rel"), QString()) == QLatin1String("manager")) {
+            if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("manager")) {
                 contact->setManagersName(e.text());
                 continue;
             }
 
-            if (e.attribute(QLatin1String("rel"), QString()) == QLatin1String("assistant")) {
+            if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("assistant")) {
                 contact->setAssistantsName(e.text());
                 continue;
             }
@@ -951,9 +951,9 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Anniversary */
         if (e.tagName() == QLatin1String("gContact:event")) {
-            if (e.attribute(QLatin1String("rel"), QString()) == QLatin1String("anniversary")) {
-                QDomElement w = e.firstChildElement(QLatin1String("gd:when"));
-                contact->setAnniversary(w.attribute(QLatin1String("startTime"), QString()));
+            if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("anniversary")) {
+                QDomElement w = e.firstChildElement(QStringLiteral("gd:when"));
+                contact->setAnniversary(w.attribute(QStringLiteral("startTime"), QString()));
             }
 
             continue;
@@ -961,15 +961,15 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Websites */
         if (e.tagName() == QLatin1String("gContact:website")) {
-            if (e.attribute(QLatin1String("rel"), QString()) == QLatin1String("home-page")) {
+            if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("home-page")) {
                 KContacts::ResourceLocatorUrl url;
-                url.setUrl(QUrl(e.attribute(QLatin1String("href"), QString())));
+                url.setUrl(QUrl(e.attribute(QStringLiteral("href"), QString())));
                 contact->setUrl(url);
                 continue;
             }
 
-            if (e.attribute(QLatin1String("rel"), QString()) == QLatin1String("blog")) {
-                contact->setBlogFeed(e.attribute(QLatin1String("href"), QString()));
+            if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("blog")) {
+                contact->setBlogFeed(e.attribute(QStringLiteral("href"), QString()));
                 continue;
             }
 
@@ -978,22 +978,22 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Emails */
         if (e.tagName() == QLatin1String("gd:email")) {
-            contact->insertEmail(e.attribute(QLatin1String("address")),
-                                 (e.attribute(QLatin1String("primary")).toLower() == QLatin1String("true")));
+            contact->insertEmail(e.attribute(QStringLiteral("address")),
+                                 (e.attribute(QStringLiteral("primary")).toLower() == QLatin1String("true")));
             continue;
         }
 
         /* IMs */
         if (e.tagName() == QLatin1String("gd:im")) {
-            contact->insertCustom(QLatin1String("messaging/") + Contact::IMSchemeToProtocolName(e.attribute(QLatin1String("protocol"))),
-                                  QLatin1String("All"),
-                                  e.attribute(QLatin1String("address")));
+            contact->insertCustom(QLatin1String("messaging/") + Contact::IMSchemeToProtocolName(e.attribute(QStringLiteral("protocol"))),
+                                  QStringLiteral("All"),
+                                  e.attribute(QStringLiteral("address")));
             continue;
         }
 
         /* Phone numbers */
         if (e.tagName() == QLatin1String("gd:phoneNumber")) {
-            contact->insertPhoneNumber(KContacts::PhoneNumber(e.text(), Contact::phoneSchemeToType(e.attribute(QLatin1String("rel")))));
+            contact->insertPhoneNumber(KContacts::PhoneNumber(e.text(), Contact::phoneSchemeToType(e.attribute(QStringLiteral("rel")))));
             continue;
         }
 
@@ -1035,41 +1035,41 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
                 }
             }
 
-            address.setType(Contact::addressSchemeToType(e.attribute(QLatin1String("rel")),
-                                                         (e.attribute(QLatin1String("primary")) == QLatin1String("true"))));
+            address.setType(Contact::addressSchemeToType(e.attribute(QStringLiteral("rel")),
+                                                         (e.attribute(QStringLiteral("primary")) == QLatin1String("true"))));
             contact->insertAddress(address);
             continue;
         }
 
         /* Birthday */
         if (e.tagName() == QLatin1String("gContact:birthday")) {
-            QString birthday = e.attribute(QLatin1String("when"));
+            QString birthday = e.attribute(QStringLiteral("when"));
             /* Birthdays in format "--MM-DD" are valid and mean that no year has
              * been specified. Since KABC does not support birthdays without year,
              * we simulate that by specifying a fake year - 1900 */
             if (birthday.startsWith(QLatin1String("--"))) {
                 birthday = QLatin1String("1900") + birthday.mid(1);
             }
-            contact->setBirthday(QDateTime::fromString(birthday, QLatin1String("yyyy-MM-dd")));
+            contact->setBirthday(QDateTime::fromString(birthday, QStringLiteral("yyyy-MM-dd")));
             continue;
         }
 
         /* User-defined tags */
         if (e.tagName() == QLatin1String("gContact:userDefinedField")) {
-            contact->insertCustom(QLatin1String("KADDRESSBOOK"),
-                                  e.attribute(QLatin1String("key"), QString()),
-                                  e.attribute(QLatin1String("value"), QString()));
+            contact->insertCustom(QStringLiteral("KADDRESSBOOK"),
+                                  e.attribute(QStringLiteral("key"), QString()),
+                                  e.attribute(QStringLiteral("value"), QString()));
             continue;
         }
 
         if (e.tagName() == QLatin1String("gContact:groupMembershipInfo")) {
-            if (e.hasAttribute(QLatin1String("deleted")) || e.attribute(QLatin1String("deleted")).toInt() == false) {
-                groups.append(e.attribute(QLatin1String("href")));
+            if (e.hasAttribute(QStringLiteral("deleted")) || e.attribute(QStringLiteral("deleted")).toInt() == false) {
+                groups.append(e.attribute(QStringLiteral("href")));
             }
         }
     }
 
-    contact->insertCustom(QLatin1String("GCALENDAR"), QLatin1String("groupMembershipInfo"), groups.join(QLatin1String(",")));
+    contact->insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QStringLiteral(",")));
 
     return contact;
 }
@@ -1085,7 +1085,7 @@ ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData)
 
     QDomDocument doc;
     doc.setContent(xmlDoc);
-    const QDomNodeList entry = doc.elementsByTagName(QLatin1String("entry"));
+    const QDomNodeList entry = doc.elementsByTagName(QStringLiteral("entry"));
     QDomNodeList data;
     if (entry.length() > 0) {
         data = entry.at(0).childNodes();
@@ -1099,9 +1099,9 @@ ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData)
         const QDomElement e = n.toElement();
 
         if (((e.tagName() == QLatin1String("category")) &&
-             (e.attribute(QLatin1String("term")) == QLatin1String("http://schemas.google.com/contact/2008#group"))) ||
+             (e.attribute(QStringLiteral("term")) == QLatin1String("http://schemas.google.com/contact/2008#group"))) ||
             ((e.tagName() == QLatin1String("atom:category")) &&
-             (e.attribute(QLatin1String("term")) == QLatin1String("http://schemas.google.com/g/2005#group"))))
+             (e.attribute(QStringLiteral("term")) == QLatin1String("http://schemas.google.com/g/2005#group"))))
         {
             isGroup = true;
             break;

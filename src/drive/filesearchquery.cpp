@@ -150,11 +150,11 @@ QString FileSearchQuery::Private::valueToString(FileSearchQuery::Field field, co
         return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1String("\\\'")));
     case ModifiedDate:
     case LastViewedByMeDate:
-        return QStringLiteral("'%1'").arg(var.toDateTime().toUTC().toString(QLatin1String("yyyy-MM-ddThh:mm:ss")));
+        return QStringLiteral("'%1'").arg(var.toDateTime().toUTC().toString(QStringLiteral("yyyy-MM-ddThh:mm:ss")));
     case Trashed:
     case Starred:
     case SharedWithMe:
-        return (var.toBool() == true ? QLatin1String("true") : QLatin1String("false"));
+        return (var.toBool() == true ? QStringLiteral("true") : QStringLiteral("false"));
     }
 
     Q_ASSERT(false);

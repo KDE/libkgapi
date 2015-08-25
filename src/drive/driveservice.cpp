@@ -27,10 +27,10 @@ namespace KGAPI2
 
 namespace Private
 {
-    static const QUrl GoogleApisUrl(QLatin1String("https://www.googleapis.com"));
-    static const QString AppsBasePath(QLatin1String("/drive/v2/about"));
-    static const QString FilesBasePath(QLatin1String("/drive/v2/files"));
-    static const QString ChangeBasePath(QLatin1String("/drive/v2/changes"));
+    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+    static const QString AppsBasePath(QStringLiteral("/drive/v2/about"));
+    static const QString FilesBasePath(QStringLiteral("/drive/v2/files"));
+    static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
 }
 
 namespace DriveService
@@ -40,12 +40,12 @@ QUrl fetchAboutUrl(bool includeSubscribed, qlonglong maxChangeIdCount, qlonglong
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::AppsBasePath);
-    url.addQueryItem(QLatin1String("includeSubscribed"), Utils::bool2Str(includeSubscribed));
+    url.addQueryItem(QStringLiteral("includeSubscribed"), Utils::bool2Str(includeSubscribed));
     if (maxChangeIdCount > 0) {
-        url.addQueryItem(QLatin1String("maxChangeIdCount"), QString::number(maxChangeIdCount));
+        url.addQueryItem(QStringLiteral("maxChangeIdCount"), QString::number(maxChangeIdCount));
     }
     if (startChangeId > 0) {
-        url.addQueryItem(QLatin1String("startChangeId"), QString::number(startChangeId));
+        url.addQueryItem(QStringLiteral("startChangeId"), QString::number(startChangeId));
     }
 
     return url;

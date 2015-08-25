@@ -68,7 +68,7 @@ void FileCopyJob::Private::processNext()
 
     const QByteArray rawData = File::toJSON(file);
 
-    q->enqueueRequest(request, rawData, QLatin1String("application/json"));
+    q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
 FileCopyJob::FileCopyJob(const QString &sourceFileId,

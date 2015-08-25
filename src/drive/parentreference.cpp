@@ -39,15 +39,15 @@ ParentReference::Private::Private(const Private &other):
 
 ParentReferencePtr ParentReference::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("drive#parentReference")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#parentReference")) {
         return ParentReferencePtr();
     }
 
-    ParentReferencePtr reference(new ParentReference(map[QLatin1String("id")].toString()));
-    reference->d->selfLink = map[QLatin1String("selfLink")].toUrl();
-    reference->d->parentLink = map[QLatin1String("parentLink")].toUrl();
-    reference->d->isRoot = map[QLatin1String("isRoot")].toBool();
+    ParentReferencePtr reference(new ParentReference(map[QStringLiteral("id")].toString()));
+    reference->d->selfLink = map[QStringLiteral("selfLink")].toUrl();
+    reference->d->parentLink = map[QStringLiteral("parentLink")].toUrl();
+    reference->d->isRoot = map[QStringLiteral("isRoot")].toBool();
 
     return reference;
 }
@@ -56,16 +56,16 @@ QVariantMap ParentReference::Private::toJSON(const ParentReferencePtr &reference
 {
     QVariantMap map;
     if (!reference->d->id.isEmpty()) {
-        map[QLatin1String("id")] = reference->id();
+        map[QStringLiteral("id")] = reference->id();
     }
     if (!reference->d->selfLink.isEmpty()) {
-        map[QLatin1String("selfLink")] = reference->d->selfLink;
+        map[QStringLiteral("selfLink")] = reference->d->selfLink;
     }
     if (!reference->d->parentLink.isEmpty()) {
-        map[QLatin1String("parentLink")] = reference->d->parentLink;
+        map[QStringLiteral("parentLink")] = reference->d->parentLink;
     }
     if (reference->d->isRoot) { // default is false
-        map[QLatin1String("isRoot")] = reference->d->isRoot;
+        map[QStringLiteral("isRoot")] = reference->d->isRoot;
     }
 
     return map;
@@ -129,13 +129,13 @@ ParentReferencesList ParentReference::fromJSONFeed(const QByteArray &jsonData)
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("kind#parentList")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("kind#parentList")) {
         return ParentReferencesList();
     }
 
     ParentReferencesList list;
-    const QVariantList items = map[QLatin1String("items")].toList();
+    const QVariantList items = map[QStringLiteral("items")].toList();
     Q_FOREACH(const QVariant & item, items) {
         const ParentReferencePtr reference = Private::fromJSON(item.toMap());
 

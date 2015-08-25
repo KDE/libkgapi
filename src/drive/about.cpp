@@ -434,8 +434,8 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     }
     const QVariantMap map = document.toVariant().toMap();
 
-    if (!map.contains(QLatin1String("kind")) ||
-        map[QLatin1String("kind")].toString() != QLatin1String("drive#about")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+        map[QStringLiteral("kind")].toString() != QLatin1String("drive#about")) {
 
         return AboutPtr();
     }
@@ -455,38 +455,38 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     about->d->permissionId = map.value(QStringLiteral("permissionId")).toString();
     about->d->isCurrentAppInstalled = map.value(QStringLiteral("isCurrentAppInstalled")).toBool();
 
-    const QVariantList importFormats = map.value(QLatin1String("importFormats")).toList();
+    const QVariantList importFormats = map.value(QStringLiteral("importFormats")).toList();
     Q_FOREACH (const QVariant &v, importFormats) {
         const QVariantMap importFormat = v.toMap();
         FormatPtr format(new Format());
-        format->d->source = importFormat.value(QLatin1String("source")).toString();
-        format->d->targets = importFormat.value(QLatin1String("targets")).toStringList();
+        format->d->source = importFormat.value(QStringLiteral("source")).toString();
+        format->d->targets = importFormat.value(QStringLiteral("targets")).toStringList();
 
         about->d->importFormats << format;
     }
 
-    const QVariantList exportFormats = map.value(QLatin1String("exportFormats")).toList();
+    const QVariantList exportFormats = map.value(QStringLiteral("exportFormats")).toList();
     Q_FOREACH (const QVariant &v, exportFormats) {
         const QVariantMap exportFormat = v.toMap();
         FormatPtr format(new Format());
-        format->d->source = exportFormat.value(QLatin1String("source")).toString();
-        format->d->targets = exportFormat.value(QLatin1String("targets")).toStringList();
+        format->d->source = exportFormat.value(QStringLiteral("source")).toString();
+        format->d->targets = exportFormat.value(QStringLiteral("targets")).toStringList();
 
         about->d->exportFormats << format;
     }
 
-    const QVariantList additionalRoleInfos = map.value(QLatin1String("additionalRoleInfo")).toList();
+    const QVariantList additionalRoleInfos = map.value(QStringLiteral("additionalRoleInfo")).toList();
     Q_FOREACH (const QVariant &v, additionalRoleInfos) {
         const QVariantMap additionalRoleInfo = v.toMap();
         AdditionalRoleInfoPtr info(new AdditionalRoleInfo());
-        info->d->type = additionalRoleInfo.value(QLatin1String("type")).toString();
+        info->d->type = additionalRoleInfo.value(QStringLiteral("type")).toString();
 
-        const QVariantList roleSets = additionalRoleInfo.value(QLatin1String("roleSets")).toList();
+        const QVariantList roleSets = additionalRoleInfo.value(QStringLiteral("roleSets")).toList();
         Q_FOREACH (const QVariant &vv, roleSets) {
             const QVariantMap roleSetData = vv.toMap();
             AdditionalRoleInfo::RoleSetPtr roleSet(new AdditionalRoleInfo::RoleSet());
-            roleSet->d->primaryRole = roleSetData.value(QLatin1String("primaryRole")).toString();
-            roleSet->d->additionalRoles = roleSetData.value(QLatin1String("additionalRoles")).toStringList();
+            roleSet->d->primaryRole = roleSetData.value(QStringLiteral("primaryRole")).toString();
+            roleSet->d->additionalRoles = roleSetData.value(QStringLiteral("additionalRoles")).toStringList();
 
             info->d->roleSets << roleSet;
         }
@@ -494,27 +494,27 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
         about->d->additionalRoleInfo << info;
     }
 
-    const QVariantList features = map.value(QLatin1String("features")).toList();
+    const QVariantList features = map.value(QStringLiteral("features")).toList();
     Q_FOREACH (const QVariant &v, features) {
         const QVariantMap featureData = v.toMap();
         FeaturePtr feature(new Feature());
-        feature->d->featureName = featureData.value(QLatin1String("featureName")).toString();
-        feature->d->featureRate = featureData.value(QLatin1String("featureRate")).toReal();
+        feature->d->featureName = featureData.value(QStringLiteral("featureName")).toString();
+        feature->d->featureRate = featureData.value(QStringLiteral("featureRate")).toReal();
 
         about->d->features << feature;
     }
 
-    const QVariantList maxUploadSizes = map.value(QLatin1String("maxUploadSizes")).toList();
+    const QVariantList maxUploadSizes = map.value(QStringLiteral("maxUploadSizes")).toList();
     Q_FOREACH (const QVariant &v, maxUploadSizes) {
         const QVariantMap maxUploadSizeData = v.toMap();
         MaxUploadSizePtr maxUploadSize(new MaxUploadSize());
-        maxUploadSize->d->type = maxUploadSizeData.value(QLatin1String("type")).toString();
-        maxUploadSize->d->size = maxUploadSizeData.value(QLatin1String("size")).toLongLong();
+        maxUploadSize->d->type = maxUploadSizeData.value(QStringLiteral("type")).toString();
+        maxUploadSize->d->size = maxUploadSizeData.value(QStringLiteral("size")).toLongLong();
 
         about->d->maxUploadSizes << maxUploadSize;
     }
 
-    about->d->user = User::fromJSON(map.value(QLatin1String("user")).toMap());
+    about->d->user = User::fromJSON(map.value(QStringLiteral("user")).toMap());
 
     return about;
 }

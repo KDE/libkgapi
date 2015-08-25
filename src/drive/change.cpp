@@ -56,17 +56,17 @@ Change::Private::Private(const Private &other):
 
 ChangePtr Change::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("drive#change")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#change")) {
         return ChangePtr();
     }
 
     ChangePtr change(new Change);
-    change->d->id = map[QLatin1String("id")].toLongLong();
-    change->d->fileId = map[QLatin1String("fileId")].toString();
-    change->d->selfLink = map[QLatin1String("selfLink")].toUrl();
-    change->d->deleted = map[QLatin1String("deleted")].toBool();
-    change->d->file = File::Private::fromJSON(map[QLatin1String("file")].toMap());
+    change->d->id = map[QStringLiteral("id")].toLongLong();
+    change->d->fileId = map[QStringLiteral("fileId")].toString();
+    change->d->selfLink = map[QStringLiteral("selfLink")].toUrl();
+    change->d->deleted = map[QStringLiteral("deleted")].toBool();
+    change->d->file = File::Private::fromJSON(map[QStringLiteral("file")].toMap());
 
     return change;
 }
@@ -133,17 +133,17 @@ ChangesList Change::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("drive#changeList")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#changeList")) {
         return ChangesList();
     }
 
-    if (map.contains(QLatin1String("nextLink"))) {
-        feedData.nextPageUrl = map[QLatin1String("nextLink")].toUrl();
+    if (map.contains(QStringLiteral("nextLink"))) {
+        feedData.nextPageUrl = map[QStringLiteral("nextLink")].toUrl();
     }
 
     ChangesList list;
-    const QVariantList items = map[QLatin1String("items")].toList();
+    const QVariantList items = map[QStringLiteral("items")].toList();
     Q_FOREACH(const QVariant & item, items) {
         const ChangePtr change = Private::fromJSON(item.toMap());
 

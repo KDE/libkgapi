@@ -95,11 +95,11 @@ void AuthWidget::authenticate()
         scopes << scope.toString();
     }
 
-    QUrl url(QLatin1String("https://accounts.google.com/o/oauth2/auth"));
-    url.addQueryItem(QLatin1String("client_id"), d->apiKey);
-    url.addQueryItem(QLatin1String("redirect_uri"), QLatin1String("urn:ietf:wg:oauth:2.0:oob"));
-    url.addQueryItem(QLatin1String("scope"), scopes.join(QLatin1String(" ")));
-    url.addQueryItem(QLatin1String("response_type"), QLatin1String("code"));
+    QUrl url(QStringLiteral("https://accounts.google.com/o/oauth2/auth"));
+    url.addQueryItem(QStringLiteral("client_id"), d->apiKey);
+    url.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("urn:ietf:wg:oauth:2.0:oob"));
+    url.addQueryItem(QStringLiteral("scope"), scopes.join(QStringLiteral(" ")));
+    url.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
 
     qCDebug(KGAPIRaw) << "Requesting new token:" << url;
 

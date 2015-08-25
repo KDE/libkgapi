@@ -48,7 +48,7 @@ AccountInfoFetchJob::~AccountInfoFetchJob()
 
 void AccountInfoFetchJob::start()
 {
-    QNetworkRequest request(QUrl(QLatin1String("https://www.googleapis.com/oauth2/v1/userinfo")));
+    QNetworkRequest request(QUrl(QStringLiteral("https://www.googleapis.com/oauth2/v1/userinfo")));
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
 
     QStringList headers;

@@ -61,12 +61,12 @@ QString Job::Private::parseErrorMessage(const QByteArray &json)
         QVariantMap map = document.toVariant().toMap();
         QString message;
 
-        if (map.contains(QLatin1String("error"))) {
-            map = map.value(QLatin1String("error")).toMap();
+        if (map.contains(QStringLiteral("error"))) {
+            map = map.value(QStringLiteral("error")).toMap();
         }
 
-        if (map.contains(QLatin1String("message"))) {
-            message.append(map.value(QLatin1String("message")).toString());
+        if (map.contains(QStringLiteral("message"))) {
+            message.append(map.value(QStringLiteral("message")).toString());
         } else {
             message = QLatin1String(json);
         }

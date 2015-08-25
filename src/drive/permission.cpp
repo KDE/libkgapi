@@ -87,29 +87,29 @@ QString Permission::Private::typeToName(Permission::Type type)
 
 PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("drive#permission")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#permission")) {
         return PermissionPtr();
     }
 
     PermissionPtr permission(new Permission());
-    permission->setEtag(map[QLatin1String("etag")].toString());
-    permission->d->id = map[QLatin1String("id")].toString();
-    permission->d->selfLink = map[QLatin1String("selfLink")].toUrl();
-    permission->d->name = map[QLatin1String("name")].toString();
+    permission->setEtag(map[QStringLiteral("etag")].toString());
+    permission->d->id = map[QStringLiteral("id")].toString();
+    permission->d->selfLink = map[QStringLiteral("selfLink")].toUrl();
+    permission->d->name = map[QStringLiteral("name")].toString();
 
-    permission->d->role = Private::roleFromName(map[QLatin1String("role")].toString());
+    permission->d->role = Private::roleFromName(map[QStringLiteral("role")].toString());
 
-    const QStringList additionalRoles = map[QLatin1String("additionalRoles")].toStringList();
+    const QStringList additionalRoles = map[QStringLiteral("additionalRoles")].toStringList();
     Q_FOREACH(const QString & additionalRole, additionalRoles) {
         permission->d->additionalRoles << Private::roleFromName(additionalRole);
     }
 
-    permission->d->type = Private::typeFromName(map[QLatin1String("type")].toString());
-    permission->d->authKey = map[QLatin1String("authKey")].toString();
-    permission->d->withLink = map[QLatin1String("withLink")].toBool();
-    permission->d->photoLink = map[QLatin1String("photoLink")].toUrl();
-    permission->d->value = map[QLatin1String("value")].toString();
+    permission->d->type = Private::typeFromName(map[QStringLiteral("type")].toString());
+    permission->d->authKey = map[QStringLiteral("authKey")].toString();
+    permission->d->withLink = map[QStringLiteral("withLink")].toBool();
+    permission->d->photoLink = map[QStringLiteral("photoLink")].toUrl();
+    permission->d->value = map[QStringLiteral("value")].toString();
 
     return permission;
 }
@@ -252,13 +252,13 @@ PermissionsList Permission::fromJSONFeed(const QByteArray &jsonData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QLatin1String("kind")].toString() != QLatin1String("drive#permissionList")) {
+    if (!map.contains(QStringLiteral("kind")) ||
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#permissionList")) {
         return PermissionsList();
     }
 
     PermissionsList permissions;
-    const QVariantList items = map[QLatin1String("items")].toList();
+    const QVariantList items = map[QStringLiteral("items")].toList();
     Q_FOREACH(const QVariant & item, items) {
         const PermissionPtr permission = Private::fromJSON(item.toMap());
         if (!permission.isNull()) {
@@ -273,10 +273,10 @@ QByteArray Permission::toJSON(const PermissionPtr &permission)
     QVariantMap map;
 
     if (permission->role() != Permission::UndefinedRole) {
-        map[QLatin1String("role")] = Private::roleToName(permission->role());
+        map[QStringLiteral("role")] = Private::roleToName(permission->role());
     }
     if (permission->type() != Permission::UndefinedType) {
-        map[QLatin1String("type")] = Private::typeToName(permission->type());
+        map[QStringLiteral("type")] = Private::typeToName(permission->type());
     }
 
     QVariantList additionalRoles;
@@ -284,13 +284,13 @@ QByteArray Permission::toJSON(const PermissionPtr &permission)
         additionalRoles << Private::roleToName(additionalRole);
     }
     if (!additionalRoles.isEmpty()) {
-        map[QLatin1String("additionalRoles")] = additionalRoles;
+        map[QStringLiteral("additionalRoles")] = additionalRoles;
     }
 
-    map[QLatin1String("withLink")] = permission->withLink();
+    map[QStringLiteral("withLink")] = permission->withLink();
 
     if (!permission->value().isEmpty()) {
-        map[QLatin1String("value")] = permission->value();
+        map[QStringLiteral("value")] = permission->value();
     }
 
     QJsonDocument document = QJsonDocument::fromVariant(map);

@@ -81,7 +81,7 @@ void TaskListCreateJob::start()
     }
     qCDebug(KGAPIRaw) << headers;
 
-    enqueueRequest(request, rawData, QLatin1String("application/json"));
+    enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
 ObjectsList TaskListCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)

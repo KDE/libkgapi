@@ -193,9 +193,9 @@ void AuthJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
      *  "expires_in":3600
      * }
      */
-    const qlonglong expiresIn = map.value(QLatin1String("expires_in")).toLongLong();
+    const qlonglong expiresIn = map.value(QStringLiteral("expires_in")).toLongLong();
     d->account->setExpireDateTime(QDateTime::currentDateTime().addSecs(expiresIn));
-    d->account->setAccessToken(map.value(QLatin1String("access_token")).toString());
+    d->account->setAccessToken(map.value(QStringLiteral("access_token")).toString());
     emitFinished();
 }
 

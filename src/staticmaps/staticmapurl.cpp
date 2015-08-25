@@ -360,7 +360,7 @@ void StaticMapUrl::setZoomLevel(const quint32 zoom)
 
 QUrl StaticMapUrl::url() const
 {
-    QUrl url(QLatin1String("http://maps.googleapis.com/maps/api/staticmap"));
+    QUrl url(QStringLiteral("http://maps.googleapis.com/maps/api/staticmap"));
 
     if (d->locationType != Undefined) {
         QString param;
@@ -372,7 +372,7 @@ QUrl StaticMapUrl::url() const
             param = param.replace(QLatin1String(", "), QLatin1String(","));
             param = param.replace(QLatin1String(". "), QLatin1String("."));
             param = param.replace(QLatin1Char(' '), QLatin1Char('+'));
-            url.addQueryItem(QLatin1String("center"), param);
+            url.addQueryItem(QStringLiteral("center"), param);
             break;
         case KABCAddress:
             param = d->locationAddress.formattedAddress();
@@ -380,47 +380,47 @@ QUrl StaticMapUrl::url() const
             param = param.replace(QLatin1String(". "), QLatin1String("."));
             param = param.replace(QLatin1Char(' '), QLatin1Char('+'));
             param = param.replace(QLatin1Char('\n'), QLatin1Char(','));
-            url.addQueryItem(QLatin1String("center"), param);
+            url.addQueryItem(QStringLiteral("center"), param);
             break;
         case KABCGeo:
             param = QString::number(d->locationGeo.latitude()) + QLatin1String(",") +
                     QString::number(d->locationGeo.longitude());
-            url.addQueryItem(QLatin1String("center"), param);
+            url.addQueryItem(QStringLiteral("center"), param);
             break;
         }
     }
 
     if (d->zoom != -1)
-        url.addQueryItem(QLatin1String("zoom"), QString::number(d->zoom));
+        url.addQueryItem(QStringLiteral("zoom"), QString::number(d->zoom));
 
     if (!d->size.isEmpty()) {
         QString size = QString::number(d->size.width()) + QLatin1String("x") +
                        QString::number(d->size.height());
-        url.addQueryItem(QLatin1String("size"), size);
+        url.addQueryItem(QStringLiteral("size"), size);
     }
 
     if (d->scale != Normal)
-        url.addQueryItem(QLatin1String("scale"), QString::number(2));
+        url.addQueryItem(QStringLiteral("scale"), QString::number(2));
     if (d->format != PNG) {
         QString format;
 
         switch (d->format) {
         case PNG:
         case PNG32:
-            format = QLatin1String("png32");
+            format = QStringLiteral("png32");
             break;
         case GIF:
-            format = QLatin1String("gif");
+            format = QStringLiteral("gif");
             break;
         case JPG:
-            format = QLatin1String("jpg");
+            format = QStringLiteral("jpg");
             break;
         case JPGBaseline:
-            format = QLatin1String("jpg-baseline");
+            format = QStringLiteral("jpg-baseline");
             break;
         }
 
-        url.addQueryItem(QLatin1String("format"), format);
+        url.addQueryItem(QStringLiteral("format"), format);
     }
 
     if (d->maptype != Roadmap) {
@@ -429,29 +429,29 @@ QUrl StaticMapUrl::url() const
         switch (d->maptype) {
         case Roadmap:
         case Satellite:
-            maptype = QLatin1String("satellite");
+            maptype = QStringLiteral("satellite");
             break;
         case Terrain:
-            maptype = QLatin1String("terrain");
+            maptype = QStringLiteral("terrain");
             break;
         case Hybrid:
-            maptype = QLatin1String("hybrid");
+            maptype = QStringLiteral("hybrid");
             break;
         }
 
-        url.addQueryItem(QLatin1String("maptype"), maptype);
+        url.addQueryItem(QStringLiteral("maptype"), maptype);
     }
 
     Q_FOREACH(const StaticMapMarker & marker, d->markers) {
 
         if (marker.isValid())
-            url.addQueryItem(QLatin1String("markers"), marker.toString());
+            url.addQueryItem(QStringLiteral("markers"), marker.toString());
     }
 
     Q_FOREACH(const StaticMapPath & path, d->paths) {
 
         if (path.isValid())
-            url.addQueryItem(QLatin1String("path"), path.toString());
+            url.addQueryItem(QStringLiteral("path"), path.toString());
 
     }
 
@@ -466,7 +466,7 @@ QUrl StaticMapUrl::url() const
             param = param.replace(QLatin1String(", "), QLatin1String(","));
             param = param.replace(QLatin1String(". "), QLatin1String("."));
             param = param.replace(QLatin1Char(' '), QLatin1Char('+'));
-            url.addQueryItem(QLatin1String("visible"), param);
+            url.addQueryItem(QStringLiteral("visible"), param);
             break;
         case KABCAddress:
             param = d->visibleAddress.formattedAddress();
@@ -474,20 +474,20 @@ QUrl StaticMapUrl::url() const
             param = param.replace(QLatin1String(". "), QLatin1String("."));
             param = param.replace(QLatin1Char(' '), QLatin1Char('+'));
             param = param.replace(QLatin1Char('\n'), QLatin1Char(','));
-            url.addQueryItem(QLatin1String("visible"), param);
+            url.addQueryItem(QStringLiteral("visible"), param);
             break;
         case KABCGeo:
             param = QString::number(d->visibleGeo.latitude()) + QLatin1String(",") +
                     QString::number(d->visibleGeo.longitude());
-            url.addQueryItem(QLatin1String("visible"), param);
+            url.addQueryItem(QStringLiteral("visible"), param);
             break;
         }
     }
 
     if (d->sensor)
-        url.addQueryItem(QLatin1String("sensor"), QLatin1String("true"));
+        url.addQueryItem(QStringLiteral("sensor"), QStringLiteral("true"));
     else
-        url.addQueryItem(QLatin1String("sensor"), QLatin1String("false"));
+        url.addQueryItem(QStringLiteral("sensor"), QStringLiteral("false"));
 
     return url;
 }
