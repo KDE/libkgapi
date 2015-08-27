@@ -91,6 +91,7 @@ ObjectsList parseLocationJSONFeed(const QByteArray & jsonFeed, FeedData & feedDa
     const QVariantMap map = document.toVariant().toMap();
     const QVariantMap data = map.value(QStringLiteral("data")).toMap();
     const QVariantList items = data.value(QStringLiteral("items")).toList();
+    output.reserve(items.size());
     Q_FOREACH(const QVariant &c, items) {
         QVariantMap location = c.toMap();
         output << Private::parseLocation(location).dynamicCast<Object>();
