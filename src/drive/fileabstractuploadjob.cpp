@@ -130,7 +130,7 @@ void FileAbstractUploadJob::Private::processNext()
         return;
     }
 
-    const QString filePath = files.keys().first();
+    const QString filePath = files.cbegin().key();
     if (!filePath.startsWith(QLatin1String("?=")) && !QFile::exists(filePath)) {
         qCWarning(KGAPIDebug) << filePath << "is not a valid file path";
         processNext();

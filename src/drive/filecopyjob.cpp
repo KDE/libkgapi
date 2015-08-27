@@ -57,7 +57,7 @@ void FileCopyJob::Private::processNext()
         return;
     }
 
-    const QString fileId = files.keys().first();
+    const QString fileId = files.cbegin().key();
     const FilePtr file = files.take(fileId);
 
     QUrl url = DriveService::copyFileUrl(fileId);
