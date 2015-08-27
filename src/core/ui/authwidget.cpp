@@ -91,6 +91,7 @@ void AuthWidget::authenticate()
     }
 
     QStringList scopes;
+    scopes.reserve(d->account->scopes().size());
     Q_FOREACH(const QUrl & scope, d->account->scopes()) {
         scopes << scope.toString();
     }
