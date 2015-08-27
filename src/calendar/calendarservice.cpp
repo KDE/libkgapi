@@ -261,6 +261,7 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
     }
 
     const QVariantList items = data.value(QStringLiteral("items")).toList();
+    list.reserve(items.size());
     Q_FOREACH(const QVariant &i, items) {
         list.append(Private::JSONToCalendar(i.toMap()));
     }
@@ -531,16 +532,21 @@ QByteArray eventToJSON(const EventPtr& event)
     /* Recurrence */
     QVariantList recurrence;
     KCalCore::ICalFormat format;
-    Q_FOREACH(KCalCore::RecurrenceRule * rRule, event->recurrence()->rRules()) {
+    const auto exRules = event->recurrence()->exRules();
+    const auto rRules = event->recurrence()->rRules();
+    recurrence.reserve(rRules.size() + rRules.size() + 2);
+    Q_FOREACH(KCalCore::RecurrenceRule * rRule, rRules) {
         recurrence << format.toString(rRule).remove(QStringLiteral("\r\n"));
     }
 
-    Q_FOREACH(KCalCore::RecurrenceRule * rRule, event->recurrence()->exRules()) {
+    Q_FOREACH(KCalCore::RecurrenceRule * rRule, exRules) {
         recurrence << format.toString(rRule).remove(QStringLiteral("\r\n"));
     }
 
     QStringList dates;
-    Q_FOREACH(const QDate & rDate, event->recurrence()->rDates()) {
+    const auto rDates = event->recurrence()->rDates();
+    dates.reserve(rDates.size());
+    Q_FOREACH(const QDate & rDate, rDates) {
         dates << rDate.toString(QStringLiteral("yyyyMMdd"));
     }
 
@@ -549,7 +555,9 @@ QByteArray eventToJSON(const EventPtr& event)
     }
 
     dates.clear();
-    Q_FOREACH(const QDate & exDate, event->recurrence()->exDates()) {
+    const auto exDates = event->recurrence()->exDates();
+    dates.reserve(exDates.size());
+    Q_FOREACH(const QDate & exDate, exDates) {
         dates << exDate.toString(QStringLiteral("yyyyMMdd"));
     }
 
@@ -687,8 +695,6 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
     QVariantMap data = document.toVariant().toMap();
 
-    ObjectsList list;
-
     QString timezone;
     if (data.value(QStringLiteral("kind")) == QLatin1String("calendar#events")) {
         if (data.contains(QStringLiteral("nextPageToken"))) {
@@ -710,7 +716,9 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
         return ObjectsList();
     }
 
+    ObjectsList list;
     const QVariantList items = data.value(QStringLiteral("items")).toList();
+    list.reserve(items.size());
     Q_FOREACH(const QVariant &i, items) {
         list.append(Private::JSONToEvent(i.toMap(), timezone));
     }
