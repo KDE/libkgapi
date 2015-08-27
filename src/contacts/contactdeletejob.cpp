@@ -62,7 +62,9 @@ void ContactDeleteJob::Private::processNextContact()
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
 
     QStringList headers;
-    Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
+    auto rawHeaderList = request.rawHeaderList();
+    headers.reserve(rawHeaderList.size());
+    Q_FOREACH(const QByteArray &str, rawHeaderList) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
     qCDebug(KGAPIRaw) << headers;
@@ -74,6 +76,7 @@ ContactDeleteJob::ContactDeleteJob(const ContactsList& contacts, const AccountPt
     DeleteJob(account, parent),
     d(new Private(this))
 {
+    d->contactIds.reserve(contacts.size());
     Q_FOREACH(const ContactPtr &contact, contacts) {
         d->contactIds <<  contact->uid();
     }
