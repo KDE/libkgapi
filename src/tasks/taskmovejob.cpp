@@ -64,7 +64,9 @@ void TaskMoveJob::Private::processNextTask()
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
     QStringList headers;
-    Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
+    const auto rawHeaderList = request.rawHeaderList();
+    headers.reserve(rawHeaderList.size());
+    Q_FOREACH(const QByteArray &str, rawHeaderList) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
     qCDebug(KGAPIRaw) << headers;
@@ -89,6 +91,7 @@ TaskMoveJob::TaskMoveJob(const TasksList& tasks, const QString& taskListId,
     ModifyJob(account, parent),
     d(new Private(this))
 {
+    d->tasksIds.reserve(tasks.size());
     Q_FOREACH(const TaskPtr &task, tasks) {
         d->tasksIds << task->uid();
     }

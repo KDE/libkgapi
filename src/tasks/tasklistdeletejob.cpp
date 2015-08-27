@@ -60,7 +60,9 @@ void TaskListDeleteJob::Private::processNextTaskList()
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
     QStringList headers;
-    Q_FOREACH(const QByteArray &str, request.rawHeaderList()) {
+    const auto rawHeaderList = request.rawHeaderList();
+    headers.reserve(rawHeaderList.size());
+    Q_FOREACH(const QByteArray &str, rawHeaderList) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
     qCDebug(KGAPIRaw) << headers;
@@ -81,6 +83,7 @@ TaskListDeleteJob::TaskListDeleteJob(const TaskListsList& taskLists,
     DeleteJob(account, parent),
     d(new Private(this))
 {
+    d->taskListsIds.reserve(taskLists.size());
     Q_FOREACH(const TaskListPtr &taskList, taskLists) {
         d->taskListsIds << taskList->uid();
     }

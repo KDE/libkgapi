@@ -59,6 +59,8 @@ class QueueHelper
         return *this;
     }
 
+    void reserve(int n) { m_items.reserve(n); }
+
     QueueHelper& operator=(const QList<T> &list )
     {
         m_items.clear();
