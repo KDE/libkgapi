@@ -987,7 +987,9 @@ QByteArray File::toJSON(const FilePtr &file)
     }
 
     QVariantList parents;
-    Q_FOREACH (const ParentReferencePtr &parent, file->parents()) {
+    const auto parentReferences = file->parents();
+    parents.reserve(parentReferences.size());
+    Q_FOREACH (const ParentReferencePtr &parent, parentReferences) {
         parents << ParentReference::Private::toJSON(parent);
     }
     if (!parents.isEmpty()) {
