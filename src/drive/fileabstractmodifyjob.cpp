@@ -32,7 +32,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class FileAbstractModifyJob::Private
+class Q_DECL_HIDDEN FileAbstractModifyJob::Private
 {
   public:
     Private(FileAbstractModifyJob *parent);

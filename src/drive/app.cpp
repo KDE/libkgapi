@@ -24,7 +24,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class App::Icon::Private
+class Q_DECL_HIDDEN App::Icon::Private
 {
   public:
     Private();
@@ -96,7 +96,7 @@ QUrl App::Icon::iconUrl() const
 
 ///// DriveApp
 
-class App::Private
+class Q_DECL_HIDDEN App::Private
 {
   public:
     Private();

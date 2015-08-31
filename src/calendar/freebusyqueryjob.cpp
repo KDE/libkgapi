@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class FreeBusyQueryJob::Private
+class Q_DECL_HIDDEN FreeBusyQueryJob::Private
 {
 public:
     Private(const QString &id, const QDateTime &timeMin, const QDateTime &timeMax)

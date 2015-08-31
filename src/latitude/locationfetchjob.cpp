@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class LocationFetchJob::Private
+class Q_DECL_HIDDEN LocationFetchJob::Private
 {
   public:
     Private();

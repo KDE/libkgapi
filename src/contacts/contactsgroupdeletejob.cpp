@@ -31,7 +31,7 @@
 
 using namespace KGAPI2;
 
-class ContactsGroupDeleteJob::Private
+class Q_DECL_HIDDEN ContactsGroupDeleteJob::Private
 {
   public:
     Private(ContactsGroupDeleteJob *parent);

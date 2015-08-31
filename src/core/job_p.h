@@ -39,7 +39,7 @@ struct Request
     QString contentType;
 };
 
-class Job::Private
+class Q_DECL_HIDDEN Job::Private
 {
   public:
     Private(Job *parent);

@@ -32,7 +32,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class ParentReference::Private
+class Q_DECL_HIDDEN ParentReference::Private
 {
   public:
     Private();

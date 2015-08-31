@@ -28,7 +28,7 @@
 
 using namespace KGAPI2;
 
-class FetchJob::Private
+class Q_DECL_HIDDEN FetchJob::Private
 {
   public:
     ObjectsList items;

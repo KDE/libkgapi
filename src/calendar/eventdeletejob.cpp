@@ -30,7 +30,7 @@
 
 using namespace KGAPI2;
 
-class EventDeleteJob::Private
+class Q_DECL_HIDDEN EventDeleteJob::Private
 {
   public:
     QueueHelper<QString> eventsIds;

@@ -24,7 +24,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
-class Post::Private
+class Q_DECL_HIDDEN Post::Private
 {
   public:
     Private();

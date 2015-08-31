@@ -32,7 +32,7 @@ Q_DECLARE_METATYPE(KGAPI2::ContactPtr)
 
 using namespace KGAPI2;
 
-class ContactFetchPhotoJob::Private
+class Q_DECL_HIDDEN ContactFetchPhotoJob::Private
 {
   public:
     Private(ContactFetchPhotoJob *parent);

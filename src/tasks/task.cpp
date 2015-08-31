@@ -24,7 +24,7 @@
 using namespace KGAPI2;
 
 
-class Task::Private
+class Q_DECL_HIDDEN Task::Private
 {
 
   public:

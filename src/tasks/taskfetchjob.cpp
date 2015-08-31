@@ -32,7 +32,7 @@
 
 using namespace KGAPI2;
 
-class TaskFetchJob::Private
+class Q_DECL_HIDDEN TaskFetchJob::Private
 {
   public:
     Private(TaskFetchJob *parent);

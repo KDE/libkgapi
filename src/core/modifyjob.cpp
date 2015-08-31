@@ -29,7 +29,7 @@
 
 using namespace KGAPI2;
 
-class ModifyJob::Private
+class Q_DECL_HIDDEN ModifyJob::Private
 {
   public:
     ObjectsList items;

@@ -32,7 +32,7 @@
 
 using namespace KGAPI2;
 
-class LocationCreateJob::Private
+class Q_DECL_HIDDEN LocationCreateJob::Private
 {
   public:
     Private();

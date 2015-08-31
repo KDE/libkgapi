@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class EventMoveJob::Private
+class Q_DECL_HIDDEN EventMoveJob::Private
 {
   public:
     Private(EventMoveJob *parent);

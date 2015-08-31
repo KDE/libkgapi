@@ -34,7 +34,7 @@
 
 using namespace KGAPI2;
 
-class EventCreateJob::Private
+class Q_DECL_HIDDEN EventCreateJob::Private
 {
   public:
     QueueHelper<EventPtr> events;

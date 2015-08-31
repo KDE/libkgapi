@@ -30,7 +30,7 @@
 
 using namespace KGAPI2;
 
-class CalendarDeleteJob::Private
+class Q_DECL_HIDDEN CalendarDeleteJob::Private
 {
   public:
     QueueHelper<QString> calendarsIds;

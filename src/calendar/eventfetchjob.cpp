@@ -32,7 +32,7 @@
 
 using namespace KGAPI2;
 
-class EventFetchJob::Private
+class Q_DECL_HIDDEN EventFetchJob::Private
 {
   public:
     Private(EventFetchJob *parent);

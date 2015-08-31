@@ -29,7 +29,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
-class PageModifyJob::Private
+class Q_DECL_HIDDEN PageModifyJob::Private
 {
   public:
     Private(const PagePtr &page);

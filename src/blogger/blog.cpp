@@ -23,7 +23,7 @@
 
 using namespace KGAPI2::Blogger;
 
-class Blog::Private
+class Q_DECL_HIDDEN Blog::Private
 {
   public:
     Private();

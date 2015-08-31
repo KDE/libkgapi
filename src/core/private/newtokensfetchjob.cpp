@@ -30,7 +30,7 @@
 
 using namespace KGAPI2;
 
-class NewTokensFetchJob::Private
+class Q_DECL_HIDDEN NewTokensFetchJob::Private
 {
   public:
     Private()

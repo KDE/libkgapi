@@ -33,7 +33,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class AppFetchJob::Private
+class Q_DECL_HIDDEN AppFetchJob::Private
 {
   public:
     QString appId;

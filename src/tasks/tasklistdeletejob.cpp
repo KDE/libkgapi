@@ -30,7 +30,7 @@
 
 using namespace KGAPI2;
 
-class TaskListDeleteJob::Private
+class Q_DECL_HIDDEN TaskListDeleteJob::Private
 {
   public:
     Private(TaskListDeleteJob *parent);

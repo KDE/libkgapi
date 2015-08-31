@@ -33,7 +33,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class FileFetchJob::Private
+class Q_DECL_HIDDEN FileFetchJob::Private
 {
   public:
     Private(FileFetchJob *parent);

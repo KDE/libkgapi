@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class ContactsGroupModifyJob::Private
+class Q_DECL_HIDDEN ContactsGroupModifyJob::Private
 {
   public:
     QueueHelper<ContactsGroupPtr> groups;

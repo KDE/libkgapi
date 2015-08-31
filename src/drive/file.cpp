@@ -29,7 +29,7 @@ using namespace KGAPI2::Drive;
 
 ///// DriveFile::Labels
 
-class File::Labels::Private
+class Q_DECL_HIDDEN File::Labels::Private
 {
   public:
     Private();
@@ -126,7 +126,7 @@ void File::Labels::setViewed(bool viewed)
 
 ///// DriveFile::ImageMediaMetadata
 
-class File::IndexableText::Private
+class Q_DECL_HIDDEN File::IndexableText::Private
 {
   public:
     Private();
@@ -171,7 +171,7 @@ void File::IndexableText::setText(const QString &text)
 
 ///// DriveFile::ImageMediaMetadata::Location
 
-class File::ImageMediaMetadata::Location::Private
+class Q_DECL_HIDDEN File::ImageMediaMetadata::Location::Private
 {
   public:
     Private();
@@ -228,7 +228,7 @@ qreal File::ImageMediaMetadata::Location::altitude() const
 
 ///// DriveFile::ImageMediaMetadata
 
-class File::ImageMediaMetadata::Private
+class Q_DECL_HIDDEN File::ImageMediaMetadata::Private
 {
   public:
     Private();
@@ -446,7 +446,7 @@ QString File::ImageMediaMetadata::lens() const
 
 ////// DriveFile::Thumbnail
 
-class File::Thumbnail::Private
+class Q_DECL_HIDDEN File::Thumbnail::Private
 {
   public:
     Private();

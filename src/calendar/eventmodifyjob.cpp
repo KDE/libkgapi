@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class EventModifyJob::Private
+class Q_DECL_HIDDEN EventModifyJob::Private
 {
   public:
     QueueHelper<EventPtr> events;

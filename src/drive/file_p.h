@@ -28,7 +28,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class File::Private
+class Q_DECL_HIDDEN File::Private
 {
   public:
     Private();

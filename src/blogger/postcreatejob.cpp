@@ -29,7 +29,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
-class PostCreateJob::Private
+class Q_DECL_HIDDEN PostCreateJob::Private
 {
   public:
     Private(const PostPtr &post,

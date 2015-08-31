@@ -34,7 +34,7 @@
 
 using namespace KGAPI2;
 
-class ContactModifyJob::Private
+class Q_DECL_HIDDEN ContactModifyJob::Private
 {
   public:
     Private(ContactModifyJob *parent);

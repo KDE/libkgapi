@@ -30,7 +30,7 @@
 
 using namespace KGAPI2;
 
-class Contact::Private
+class Q_DECL_HIDDEN Contact::Private
 {
 
   public:

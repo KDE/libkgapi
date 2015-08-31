@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class CalendarModifyJob::Private
+class Q_DECL_HIDDEN CalendarModifyJob::Private
 {
   public:
     QueueHelper<CalendarPtr> calendars;

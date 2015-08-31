@@ -23,7 +23,7 @@
 
 using namespace KGAPI2;
 
-class TaskList::Private
+class Q_DECL_HIDDEN TaskList::Private
 {
   public:
     Private();

@@ -25,7 +25,7 @@ using namespace KGAPI2::Drive;
 
 ///// DriveAbout::Format
 
-class About::Format::Private
+class Q_DECL_HIDDEN About::Format::Private
 {
   public:
     Private();
@@ -72,7 +72,7 @@ QStringList About::Format::targets() const
 
 ///// DriveAbout::AdditionalRoleInfo::RoleSet
 
-class About::AdditionalRoleInfo::RoleSet::Private
+class Q_DECL_HIDDEN About::AdditionalRoleInfo::RoleSet::Private
 {
   public:
     Private();
@@ -119,7 +119,7 @@ QStringList About::AdditionalRoleInfo::RoleSet::additionalRoles() const
 
 ///// DriveAbout::AdditionalRoleInfo
 
-class About::AdditionalRoleInfo::Private
+class Q_DECL_HIDDEN About::AdditionalRoleInfo::Private
 {
   public:
     Private();
@@ -166,7 +166,7 @@ About::AdditionalRoleInfo::RoleSetsList About::AdditionalRoleInfo::roleSets() co
 
 ///// DriveAbout::Feature
 
-class About::Feature::Private
+class Q_DECL_HIDDEN About::Feature::Private
 {
   public:
     Private();
@@ -214,7 +214,7 @@ qreal About::Feature::featureRate() const
 
 ///// DriveAbout::MaxUploadSize
 
-class About::MaxUploadSize::Private
+class Q_DECL_HIDDEN About::MaxUploadSize::Private
 {
   public:
     Private();
@@ -261,7 +261,7 @@ qlonglong About::MaxUploadSize::size() const
 
 ///// DriveAbout
 
-class About::Private
+class Q_DECL_HIDDEN About::Private
 {
   public:
     Private();

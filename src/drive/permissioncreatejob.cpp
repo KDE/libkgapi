@@ -32,7 +32,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class PermissionCreateJob::Private
+class Q_DECL_HIDDEN PermissionCreateJob::Private
 {
   public:
     Private(PermissionCreateJob *parent);

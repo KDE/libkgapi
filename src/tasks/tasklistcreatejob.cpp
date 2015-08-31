@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class TaskListCreateJob::Private
+class Q_DECL_HIDDEN TaskListCreateJob::Private
 {
   public:
     QueueHelper<TaskListPtr> taskLists;

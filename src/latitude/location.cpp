@@ -21,7 +21,7 @@
 
 using namespace KGAPI2;
 
-class Location::Private
+class Q_DECL_HIDDEN Location::Private
 {
   public:
     Private();

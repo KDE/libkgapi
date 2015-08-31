@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class TaskModifyJob::Private
+class Q_DECL_HIDDEN TaskModifyJob::Private
 {
   public:
     QueueHelper<TaskPtr> tasks;

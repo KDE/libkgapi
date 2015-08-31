@@ -32,7 +32,7 @@
 
 using namespace KGAPI2;
 
-class ContactsGroupFetchJob::Private
+class Q_DECL_HIDDEN ContactsGroupFetchJob::Private
 {
   public:
     Private(ContactsGroupFetchJob *parent);

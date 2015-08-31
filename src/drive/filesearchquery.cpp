@@ -25,7 +25,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class FileSearchQuery::Private : public QSharedData
+class Q_DECL_HIDDEN FileSearchQuery::Private : public QSharedData
 {
 public:
     Private();

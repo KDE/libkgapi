@@ -23,7 +23,7 @@
 
 using namespace KGAPI2;
 
-class Event::Private
+class Q_DECL_HIDDEN Event::Private
 {
   public:
     explicit Private();

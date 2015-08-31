@@ -23,7 +23,7 @@
 
 using namespace KGAPI2;
 
-class Object::Private
+class Q_DECL_HIDDEN Object::Private
 {
   public:
     Private();

@@ -33,7 +33,7 @@
 
 using namespace KGAPI2;
 
-class CalendarFetchJob::Private
+class Q_DECL_HIDDEN CalendarFetchJob::Private
 {
   public:
     Private(CalendarFetchJob *parent);

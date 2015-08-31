@@ -31,7 +31,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class RevisionFetchJob::Private
+class Q_DECL_HIDDEN RevisionFetchJob::Private
 {
   public:
     QString fileId;

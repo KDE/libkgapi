@@ -29,7 +29,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class ChildReferenceDeleteJob::Private
+class Q_DECL_HIDDEN ChildReferenceDeleteJob::Private
 {
   public:
     QString folderId;

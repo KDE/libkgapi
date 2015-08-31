@@ -20,7 +20,7 @@
 
 using namespace KGAPI2;
 
-class StaticMapMarker::Private
+class Q_DECL_HIDDEN StaticMapMarker::Private
 {
 public:
     Private();

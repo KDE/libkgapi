@@ -30,7 +30,7 @@
 
 using namespace KGAPI2;
 
-class StaticMapTileFetchJob::Private
+class Q_DECL_HIDDEN StaticMapTileFetchJob::Private
 {
   public:
     QUrl url;

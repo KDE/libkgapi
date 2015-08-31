@@ -31,7 +31,7 @@
 
 using namespace KGAPI2;
 
-class AccountInfoFetchJob::Private
+class Q_DECL_HIDDEN AccountInfoFetchJob::Private
 {
 };
 

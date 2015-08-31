@@ -26,7 +26,7 @@
 
 using namespace KGAPI2;
 
-class DeleteJob::Private
+class Q_DECL_HIDDEN DeleteJob::Private
 {
 };
 

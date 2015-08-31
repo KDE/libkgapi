@@ -29,7 +29,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
-class BlogFetchJob::Private
+class Q_DECL_HIDDEN BlogFetchJob::Private
 {
   public:
     Private(const QString &id, FetchBy fetchBy);

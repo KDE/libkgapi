@@ -25,7 +25,7 @@
 using namespace KGAPI2;
 using namespace KCalCore;
 
-class Reminder::Private
+class Q_DECL_HIDDEN Reminder::Private
 {
   public:
     Private();

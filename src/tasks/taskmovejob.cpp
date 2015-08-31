@@ -32,7 +32,7 @@
 
 using namespace KGAPI2;
 
-class TaskMoveJob::Private
+class Q_DECL_HIDDEN TaskMoveJob::Private
 {
   public:
     Private(TaskMoveJob *parent);

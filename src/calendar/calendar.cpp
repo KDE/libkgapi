@@ -24,7 +24,7 @@
 
 using namespace KGAPI2;
 
-class Calendar::Private
+class Q_DECL_HIDDEN Calendar::Private
 {
   public:
     Private();

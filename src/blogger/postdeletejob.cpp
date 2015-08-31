@@ -28,7 +28,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
-class PostDeleteJob::Private
+class Q_DECL_HIDDEN PostDeleteJob::Private
 {
   public:
     Private(const QString &blogId,

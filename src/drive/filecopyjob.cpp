@@ -31,7 +31,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class FileCopyJob::Private
+class Q_DECL_HIDDEN FileCopyJob::Private
 {
   public:
     Private(FileCopyJob *parent);

@@ -29,7 +29,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
-class CommentDeleteContentJob::Private
+class Q_DECL_HIDDEN CommentDeleteContentJob::Private
 {
   public:
     Private(const QString &blogId,

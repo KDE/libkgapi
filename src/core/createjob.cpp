@@ -27,7 +27,7 @@
 
 using namespace KGAPI2;
 
-class CreateJob::Private
+class Q_DECL_HIDDEN CreateJob::Private
 {
   public:
     ObjectsList items;

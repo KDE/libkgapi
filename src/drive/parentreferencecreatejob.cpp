@@ -32,7 +32,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class ParentReferenceCreateJob::Private
+class Q_DECL_HIDDEN ParentReferenceCreateJob::Private
 {
   public:
     Private(ParentReferenceCreateJob *parent);

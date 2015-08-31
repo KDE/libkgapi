@@ -28,7 +28,7 @@
 using namespace KGAPI2;
 
 
-class AccountInfo::Private
+class Q_DECL_HIDDEN AccountInfo::Private
 {
 public:
     Private();

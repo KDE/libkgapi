@@ -30,7 +30,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class PermissionDeleteJob::Private
+class Q_DECL_HIDDEN PermissionDeleteJob::Private
 {
   public:
     QString fileId;

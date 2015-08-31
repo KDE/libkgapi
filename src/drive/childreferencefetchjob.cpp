@@ -32,7 +32,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class ChildReferenceFetchJob::Private
+class Q_DECL_HIDDEN ChildReferenceFetchJob::Private
 {
   public:
     Private(ChildReferenceFetchJob *parent);

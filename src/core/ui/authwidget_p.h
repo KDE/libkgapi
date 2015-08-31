@@ -44,7 +44,7 @@ protected:
 };
 
 
-class AuthWidget::Private: public QObject {
+class Q_DECL_HIDDEN AuthWidget::Private: public QObject {
 
     Q_OBJECT
 

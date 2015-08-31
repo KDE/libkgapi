@@ -39,7 +39,7 @@
 
 using namespace KGAPI2;
 
-class AuthJob::Private
+class Q_DECL_HIDDEN AuthJob::Private
 {
   public:
     Private(AuthJob *parent);

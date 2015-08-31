@@ -21,7 +21,7 @@
 using namespace KGAPI2;
 
 
-class StaticMapPath::Private
+class Q_DECL_HIDDEN StaticMapPath::Private
 {
   public:
     Private();

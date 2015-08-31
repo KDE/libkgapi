@@ -30,7 +30,7 @@
 
 using namespace KGAPI2;
 
-class LocationDeleteJob::Private
+class Q_DECL_HIDDEN LocationDeleteJob::Private
 {
   public:
     Private();

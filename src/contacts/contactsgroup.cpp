@@ -24,7 +24,7 @@
 using namespace KGAPI2;
 
 
-class ContactsGroup::Private
+class Q_DECL_HIDDEN ContactsGroup::Private
 {
   public:
     Private();

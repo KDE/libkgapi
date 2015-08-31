@@ -23,7 +23,7 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-class ChildReference::Private
+class Q_DECL_HIDDEN ChildReference::Private
 {
   public:
     Private();
