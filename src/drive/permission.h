@@ -47,8 +47,6 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
 {
 
   public:
-    class Private;
-
     enum Role {
         UndefinedRole = -1,
         OwnerRole = 0,
@@ -172,6 +170,7 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
     static QByteArray toJSON(const PermissionPtr &permission);
 
   private:
+    class Private;
     Private *const d;
     friend class Private;
 };

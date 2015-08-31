@@ -49,8 +49,6 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 {
 
   public:
-    class Private;
-
     /**
      * @brief DriveFile::Labels holds the structure used for labels property.
      */
@@ -579,6 +577,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     static FilePtr fromJSON(const QVariantMap &jsonData);
 
 private:
+    class Private;
     Private * const d;
     friend class Private;
 };
