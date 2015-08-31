@@ -20,6 +20,7 @@
 
 #include "object.h"
 #include "types.h"
+#include "file.h"
 #include "kgapidrive_export.h"
 
 #include <QtCore/QString>
@@ -173,6 +174,7 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
     class Private;
     Private *const d;
     friend class Private;
+    friend class File::Private;
 };
 
 } /* namespace Drive */

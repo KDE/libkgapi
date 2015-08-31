@@ -48,6 +48,8 @@ class Q_DECL_HIDDEN Permission::Private
     static QString roleToName(Permission::Role role);
     static QString typeToName(Permission::Type type);
     static PermissionPtr fromJSON(const QVariantMap &map);
+
+    friend class File::Private;
 };
 
 } // namespace Drive

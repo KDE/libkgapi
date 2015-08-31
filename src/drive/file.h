@@ -47,6 +47,8 @@ namespace Drive
  */
 class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 {
+  private:
+    class Private;
 
   public:
     /**
@@ -577,9 +579,11 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     static FilePtr fromJSON(const QVariantMap &jsonData);
 
 private:
-    class Private;
     Private * const d;
     friend class Private;
+    friend class Change::Private;
+    friend class ParentReference;
+    friend class Permission;
 };
 
 } /* namespace Drive */
