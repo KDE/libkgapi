@@ -35,6 +35,8 @@ namespace Drive
 
 class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
 {
+    class Private;
+
   public:
 
     class Icon
@@ -88,7 +90,6 @@ class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
     static AppPtr fromJSON(const QByteArray &jsonData);
 
   private:
-    class Private;
     Private *const d;
     friend class Private;
 };
