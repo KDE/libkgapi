@@ -84,14 +84,14 @@ void AuthWidget::Private::setupUi()
     webview = new WebView(q);
     KIO::AccessManager *m = new KIO::AccessManager(webview);
     webview->page()->networkAccessManager()->setProxyFactory(m->proxyFactory());
-    connect(webview->page()->networkAccessManager(), SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
-            this, SLOT(onSslError(QNetworkReply*,QList<QSslError>)));
+    connect(webview->page()->networkAccessManager(), &QNetworkAccessManager::sslErrors,
+            this, &Private::onSslError);
 
 
     vbox->addWidget(webview);
-    connect(webview, SIGNAL(loadProgress(int)), progressbar, SLOT(setValue(int)));
-    connect(webview, SIGNAL(urlChanged(QUrl)), this, SLOT(webviewUrlChanged(QUrl)));
-    connect(webview, SIGNAL(loadFinished(bool)), this, SLOT(webviewFinished(bool)));
+    connect(webview, &QWebView::loadProgress, progressbar, &QProgressBar::setValue);
+    connect(webview, &QWebView::urlChanged, this, &Private::webviewUrlChanged);
+    connect(webview, &QWebView::loadFinished, this, &Private::webviewFinished);
 }
 
 void AuthWidget::Private::onSslError(QNetworkReply *reply, const QList<QSslError> &errors)
@@ -194,8 +194,8 @@ void AuthWidget::Private::webviewFinished(bool ok)
         }
 
         KGAPI2::NewTokensFetchJob *fetchJob = new KGAPI2::NewTokensFetchJob(token, apiKey, secretKey);
-        connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
-                SLOT(tokensReceived(KGAPI2::Job*)));
+        connect(fetchJob, &Job::finished,
+                this, &Private::tokensReceived);
     }
 }
 
@@ -210,8 +210,8 @@ void AuthWidget::Private::tokensReceived(KGAPI2::Job* job)
 
     KGAPI2::AccountInfoFetchJob *fetchJob = new KGAPI2::AccountInfoFetchJob(account, this);
 
-    connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
-            this, SLOT(accountInfoReceived(KGAPI2::Job*)));
+    connect(fetchJob, &Job::finished,
+            this, &Private::accountInfoReceived);
     qCDebug(KGAPIDebug) << "Requesting AccountInfo";
 }
 

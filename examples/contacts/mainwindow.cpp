@@ -38,12 +38,12 @@ MainWindow::MainWindow(QWidget * parent):
     /* Initialice GUI */
     m_ui->setupUi(this);
     m_ui->errorLabel->setVisible(false);
-    connect(m_ui->authButton, SIGNAL(clicked(bool)),
-            this, SLOT(authenticate()));
-    connect(m_ui->contactListButton, SIGNAL(clicked(bool)),
-            this, SLOT(fetchContactList()));
-    connect(m_ui->contactList, SIGNAL(itemSelectionChanged()),
-            this, SLOT(contactSelected()));
+    connect(m_ui->authButton, &QAbstractButton::clicked,
+            this, &MainWindow::authenticate);
+    connect(m_ui->contactListButton, &QAbstractButton::clicked,
+            this, &MainWindow::fetchContactList);
+    connect(m_ui->contactList, &QListWidget::itemSelectionChanged,
+            this, &MainWindow::contactSelected);
 }
 
 MainWindow::~MainWindow()
@@ -61,8 +61,8 @@ void MainWindow::authenticate()
         account,
         QStringLiteral("554041944266.apps.googleusercontent.com"),
         QStringLiteral("mdT1DjzohxN3npUUzkENT0gO"));
-    connect(authJob, SIGNAL(finished(KGAPI2::Job*)),
-             this, SLOT(slotAuthJobFinished(KGAPI2::Job*)));
+    connect(authJob, &KGAPI2::Job::finished,
+             this, &MainWindow::slotAuthJobFinished);
 }
 
 void MainWindow::slotAuthJobFinished(KGAPI2::Job *job)
@@ -96,8 +96,8 @@ void MainWindow::fetchContactList()
     }
 
     KGAPI2::ContactFetchJob *fetchJob = new KGAPI2::ContactFetchJob(m_account, this);
-    connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
-            this, SLOT(slotFetchJobFinished(KGAPI2::Job*)));
+    connect(fetchJob, &KGAPI2::Job::finished,
+            this, &MainWindow::slotFetchJobFinished);
 
     m_ui->contactListButton->setEnabled(false);
 }
@@ -142,8 +142,8 @@ void MainWindow::contactSelected()
     const QString id = m_ui->contactList->selectedItems().at(0)->data(Qt::UserRole).toString();
 
     KGAPI2::ContactFetchJob *fetchJob = new KGAPI2::ContactFetchJob(id, m_account);
-    connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
-            this, SLOT(slotContactFetchJobFinished(KGAPI2::Job*)));
+    connect(fetchJob, &KGAPI2::Job::finished,
+            this, &MainWindow::slotContactFetchJobFinished);
 }
 
 void MainWindow::slotContactFetchJobFinished(KGAPI2::Job *job)
