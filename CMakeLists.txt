@@ -56,7 +56,9 @@ add_definitions(-DTRANSLATION_DOMAIN=\"libkgapi\")
 
 add_subdirectory(src)
 add_subdirectory(examples)
-#add_subdirectory(autotests)
+if (BUILD_TESTING)
+    add_subdirectory(autotests)
+endif()
 
 if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
    ecm_install_po_files_as_qm(po)
@@ -91,7 +93,4 @@ install(FILES
     COMPONENT Devel
 )
 
-if (BUILD_TESTING)
-    add_subdirectory(tests)
-endif()
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
