@@ -33,6 +33,7 @@ namespace Drive
 
 class KGAPIDRIVE_EXPORT AppFetchJob : public KGAPI2::FetchJob
 {
+    Q_OBJECT
   public:
     explicit AppFetchJob(const AccountPtr &account, QObject *parent = 0);
     explicit AppFetchJob(const QString &appId, const AccountPtr &account,
