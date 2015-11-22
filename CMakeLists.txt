@@ -17,7 +17,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
-set(KGAPI_LIB_VERSION "5.1.0")
+set(KGAPI_LIB_VERSION "5.1.40")
 
 set(KDEPIMLIBS_LIB_VERSION "4.88.0")
 set(KF5_VERSION "5.12.0")
