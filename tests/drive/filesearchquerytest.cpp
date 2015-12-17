@@ -90,6 +90,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_MAIN(FileSearchQueryTest)
+QTEST_GUILESS_MAIN(FileSearchQueryTest)
 
 #include "filesearchquerytest.moc"
