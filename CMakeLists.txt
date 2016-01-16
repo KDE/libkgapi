@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(kgapi)
 
 # ECM setup
-find_package(ECM 5.12.0 CONFIG REQUIRED)
+find_package(ECM 5.17.0 CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -19,10 +19,10 @@ include(KDEFrameworkCompilerSettings)
 
 set(KGAPI_LIB_VERSION "5.1.40")
 
-set(KDEPIMLIBS_LIB_VERSION "4.88.0")
-set(KF5_VERSION "5.12.0")
-set(KCALENDARCORE_LIB_VERSION "4.81.0")
-set(KCONTACTS_LIB_VERSION "4.91.0")
+set(KDEPIMLIBS_LIB_VERSION "5.1.40")
+set(KF5_VERSION "5.17.0")
+set(KCALENDARCORE_LIB_VERSION "5.1.40")
+set(KCONTACTS_LIB_VERSION "5.1.40")
 
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x049999)  #needed for QUrl::addQueryItems usage
 
@@ -34,7 +34,7 @@ ecm_setup_version(${KGAPI_LIB_VERSION}
 )
 
 ############## Find Packages ##############
-set(REQUIRED_QT_VERSION "5.2.0")
+set(REQUIRED_QT_VERSION "5.4.0")
 find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS
     Core
     Widgets
