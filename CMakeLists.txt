@@ -23,7 +23,7 @@ set(KF5_VERSION "5.17.0")
 set(KCALENDARCORE_LIB_VERSION "5.2.80")
 set(KCONTACTS_LIB_VERSION "5.2.80")
 
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x049999)  #needed for QUrl::addQueryItems usage
+#add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x049999)  #needed for QUrl::addQueryItems usage
 
 ecm_setup_version(${KGAPI_LIB_VERSION}
     VARIABLE_PREFIX KGAPI
