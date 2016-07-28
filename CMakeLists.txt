@@ -17,7 +17,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
-set(KGAPI_LIB_VERSION "5.3.0")
+set(KGAPI_LIB_VERSION "5.3.40")
 
 set(KF5_VERSION "5.17.0")
 set(KCALENDARCORE_LIB_VERSION "5.2.80")
