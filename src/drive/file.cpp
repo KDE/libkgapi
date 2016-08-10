@@ -935,7 +935,7 @@ FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
     return list;
 }
 
-QByteArray File::toJSON(const FilePtr &file)
+QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
 {
     QVariantMap map;
 
@@ -971,7 +971,7 @@ QByteArray File::toJSON(const FilePtr &file)
     if (file->modifiedDate().isValid()) {
         map[QStringLiteral("modifiedDate")] = file->modifiedDate().toString(Qt::ISODate);
     }
-    if (file->createdDate().isValid()) {
+    if (file->createdDate().isValid() && !(options & ExcludeCreationDate)) {
         map[QStringLiteral("createdDate")] = file->createdDate().toString(Qt::ISODate);
     }
     if (file->modifiedByMeDate().isValid()) {

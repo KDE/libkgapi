@@ -57,6 +57,7 @@ FileModifyJob::FileModifyJob(const FilePtr &metadata,
     d(new Private)
 {
     d->files.insert(QStringLiteral("?=0"), metadata->id());
+    setSerializationOptions(File::ExcludeCreationDate);
 }
 
 FileModifyJob::FileModifyJob(const QString &filePath,

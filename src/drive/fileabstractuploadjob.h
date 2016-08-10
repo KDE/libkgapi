@@ -22,6 +22,7 @@
 #ifndef KGAPI2_DRIVEFILEABSTRACTUPLOADJOB_H
 #define KGAPI2_DRIVEFILEABSTRACTUPLOADJOB_H
 
+#include "file.h"
 #include "fileabstractdatajob.h"
 #include "kgapidrive_export.h"
 
@@ -89,6 +90,8 @@ class KGAPIDRIVE_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstra
     virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
                                     const QNetworkRequest &request,
                                     const QByteArray &data) = 0;
+    void setSerializationOptions(File::SerializationOptions options);
+    File::SerializationOptions serializationOptions() const;
 
   private:
     class Private;
