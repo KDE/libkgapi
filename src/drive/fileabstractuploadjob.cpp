@@ -57,6 +57,7 @@ class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 
 
     bool useContentAsIndexableText;
+    File::SerializationOptions serializationOptions = File::NoOptions;
 
   private:
     FileAbstractUploadJob *const q;
@@ -176,7 +177,7 @@ void FileAbstractUploadJob::Private::processNext()
             return;
         }
     } else {
-        rawData = File::toJSON(metaData);
+        rawData = File::toJSON(metaData, q->serializationOptions());
         contentType = QStringLiteral("application/json");
     }
 
@@ -326,6 +327,16 @@ void FileAbstractUploadJob::handleReply(const QNetworkReply *reply,
     }
 
     d->processNext();
+}
+
+void FileAbstractUploadJob::setSerializationOptions(File::SerializationOptions options)
+{
+    d->serializationOptions = options;
+}
+
+File::SerializationOptions FileAbstractUploadJob::serializationOptions() const
+{
+    return d->serializationOptions;
 }
 
 

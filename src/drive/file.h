@@ -295,6 +295,16 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 
     typedef QSharedPointer<Thumbnail> ThumbnailPtr;
 
+    /**
+     * @brief JSON serialization options.
+     * @since 5.3.1
+     */
+    enum SerializationOption {
+        NoOptions = 0,             ///< No option set.
+        ExcludeCreationDate = 1    ///< Exclude 'createdDate' entry. This is necessary when renaming URLs.
+    };
+    Q_DECLARE_FLAGS(SerializationOptions, SerializationOption)
+
     explicit File();
     explicit File(const File &other);
     virtual ~File();
@@ -574,7 +584,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 
     static FilePtr fromJSON(const QByteArray &jsonData);
     static FilesList fromJSONFeed(const  QByteArray &jsonData, FeedData &feedData);
-    static QByteArray toJSON(const FilePtr &file);
+    static QByteArray toJSON(const FilePtr &file, SerializationOptions options = NoOptions);
 
     static FilePtr fromJSON(const QVariantMap &jsonData);
 
@@ -589,5 +599,7 @@ private:
 } /* namespace Drive */
 
 } /* namespace KGAPI2 */
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(KGAPI2::Drive::File::SerializationOptions)
 
 #endif // LIBKGAPI2_DRIVEFILE_H
