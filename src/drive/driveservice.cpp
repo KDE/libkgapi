@@ -171,9 +171,9 @@ QUrl uploadMediaFileUrl(const QString &fileId)
 {
     QUrl url(Private::GoogleApisUrl);
     if (!fileId.isEmpty()) {
-        url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId);
+        url.setPath(QLatin1String("/upload") % Private::FilesBasePath % QLatin1Char('/') % fileId);
     } else {
-        url.setPath(Private::FilesBasePath);
+        url.setPath(QLatin1String("/upload") % Private::FilesBasePath);
     }
     return url;
 }
