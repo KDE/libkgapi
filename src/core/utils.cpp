@@ -44,8 +44,5 @@ QString Utils::bool2Str(bool val)
 
 QString Utils::ts2Str(quint64 ts)
 {
-    QDateTime dt;
-    dt.setTime_t(ts);
-    dt.setTimeSpec(Qt::UTC);
-    return dt.toString(Qt::ISODate);
+    return QDateTime::fromTime_t(ts, Qt::UTC, 0).toString(Qt::ISODate);
 }
