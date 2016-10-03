@@ -17,7 +17,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
-set(KGAPI_LIB_VERSION "5.3.40")
+set(KGAPI_LIB_VERSION "5.3.41")
 
 set(KF5_VERSION "5.17.0")
 set(KCALENDARCORE_LIB_VERSION "5.2.80")
@@ -37,7 +37,7 @@ set(REQUIRED_QT_VERSION "5.4.0")
 find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS
     Core
     Widgets
-    WebKitWidgets
+    WebEngineWidgets
     Xml
 )
 

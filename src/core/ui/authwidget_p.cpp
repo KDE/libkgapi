@@ -22,20 +22,16 @@
 #include "private/newtokensfetchjob_p.h"
 #include "../../debug.h"
 
-#include <QWebView>
-#include <QWebFrame>
-#include <QWebElement>
+#include <QWebEngineView>
 #include <QNetworkReply>
+#include <QContextMenuEvent>
 
 #include <QDateTime>
-
-#include <KIO/AccessManager>
-
 
 using namespace KGAPI2;
 
 WebView::WebView(QWidget *parent)
-    : QWebView(parent)
+    : QWebEngineView(parent)
 {
 }
 
@@ -45,9 +41,10 @@ WebView::~WebView()
 
 }
 
-void WebView::contextMenuEvent(QContextMenuEvent *)
+void WebView::contextMenuEvent(QContextMenuEvent *e)
 {
-    //Not menu
+    // No menu
+    e->accept();
 }
 
 AuthWidget::Private::Private(AuthWidget *parent):
@@ -82,26 +79,12 @@ void AuthWidget::Private::setupUi()
     vbox->addWidget(progressbar);
 
     webview = new WebView(q);
-    KIO::AccessManager *m = new KIO::AccessManager(webview);
-    webview->page()->networkAccessManager()->setProxyFactory(m->proxyFactory());
-    connect(webview->page()->networkAccessManager(), &QNetworkAccessManager::sslErrors,
-            this, &Private::onSslError);
-
 
     vbox->addWidget(webview);
-    connect(webview, &QWebView::loadProgress, progressbar, &QProgressBar::setValue);
-    connect(webview, &QWebView::urlChanged, this, &Private::webviewUrlChanged);
-    connect(webview, &QWebView::loadFinished, this, &Private::webviewFinished);
+    connect(webview, &QWebEngineView::loadProgress, progressbar, &QProgressBar::setValue);
+    connect(webview, &QWebEngineView::urlChanged, this, &Private::webviewUrlChanged);
+    connect(webview, &QWebEngineView::loadFinished, this, &Private::webviewFinished);
 }
-
-void AuthWidget::Private::onSslError(QNetworkReply *reply, const QList<QSslError> &errors)
-{
-    Q_FOREACH (const QSslError &error, errors) {
-        qCDebug(KGAPIDebug) << "SSL ERROR: " << error.errorString();
-    }
-    reply->ignoreSslErrors();
-}
-
 
 void AuthWidget::Private::setProgress(AuthWidget::Progress progress)
 {
@@ -153,20 +136,16 @@ void AuthWidget::Private::webviewFinished(bool ok)
             return;
         }
 
-        QWebFrame *frame = webview->page()->mainFrame();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
+        const auto js = QStringLiteral("document.getElementById(\"%1\").value = \"%2\";");
         if (!username.isEmpty()) {
-            QWebElement email = frame->findFirstElement(QStringLiteral("input#Email"));
-            if (!email.isNull()) {
-                email.setAttribute(QStringLiteral("value"), username);
-            }
+            webview->page()->runJavaScript(js.arg(QStringLiteral("Email"), username));
         }
 
         if (!password.isEmpty()) {
-            QWebElement passd = frame->findFirstElement(QStringLiteral("input#Passwd"));
-            if (!passd.isNull()) {
-                passd.setAttribute(QStringLiteral("value"), password);
-            }
+            webview->page()->runJavaScript(js.arg(QStringLiteral("Passwd"), password));
         }
+#endif
 
         return;
     }
@@ -180,15 +159,19 @@ void AuthWidget::Private::webviewFinished(bool ok)
             /* Skip the 'code=' string as well */
             token = title.mid (pos + 5);
         } else {
-            qCDebug(KGAPIDebug) << "Parsing token page failed. Title:" << title;
-            qCDebug(KGAPIRaw) << webview->page()->mainFrame()->toHtml();
+            webview->page()->toHtml([title](const QString &html) {
+                qCDebug(KGAPIDebug) << "Parsing token page failed. Title:" << title;
+                qCDebug(KGAPIDebug) << html;
+            });
             emitError(AuthError, tr("Parsing token page failed."));
             return;
         }
 
         if (token.isEmpty()) {
-            qCDebug(KGAPIDebug) << "Failed to obtain token.";
-            qCDebug(KGAPIRaw) << webview->page()->mainFrame()->toHtml();
+            webview->page()->toHtml([](const QString &html) {
+                qCDebug(KGAPIDebug) << "Failed to obtain token.";
+                qCDebug(KGAPIRaw) << html;
+            });
             emitError(AuthError, tr("Failed to obtain token."));
             return;
         }

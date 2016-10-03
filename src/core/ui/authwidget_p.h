@@ -18,21 +18,21 @@
 #ifndef LIBKGAPI_AUTHWIDGET_P_H
 #define LIBKGAPI_AUTHWIDGET_P_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 #include "ui/authwidget.h"
 #include "types.h"
 
 #include <QProgressBar>
 #include <QVBoxLayout>
-#include <QWebView>
+#include <QWebEngineView>
 #include <QLabel>
 
 namespace KGAPI2 {
 
 class Job;
 
-class WebView : public QWebView
+class WebView : public QWebEngineView
 {
     Q_OBJECT
 public:
@@ -40,7 +40,7 @@ public:
     ~WebView();
 
 protected:
-    void contextMenuEvent( QContextMenuEvent *);
+    void contextMenuEvent(QContextMenuEvent *) Q_DECL_OVERRIDE;
 };
 
 
@@ -68,8 +68,6 @@ class Q_DECL_HIDDEN AuthWidget::Private: public QObject {
     QLabel *label;
 
   private Q_SLOTS:
-    void onSslError(QNetworkReply *reply, const QList<QSslError> &errors);
-
     void emitError(const KGAPI2::Error errCode, const QString &msg);
     void webviewUrlChanged(const QUrl &url);
     void webviewFinished(bool ok);
