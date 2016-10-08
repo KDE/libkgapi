@@ -99,7 +99,7 @@ install(FILES
 
 ecm_generate_pri_file(BASE_NAME KGAPICore
     LIB_NAME KF5GAPICore
-    DEPS "KF5::CoreAddons Qt5::Widgets Qt5::WebKitWidgets"
+    DEPS "Qt5::Widgets Qt5::WebKitWidgets"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
 )
 
