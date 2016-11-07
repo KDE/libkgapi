@@ -77,16 +77,21 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
         void setStarred(bool starred);
 
         /**
-         * @brief Returns whether this file is hidden from the user.
+         * @brief Returns whether this file has the 'hidden' label set.
+         * @deprecated The 'hidden' label has been deprecated in the v2 api and removed in the v3 one.
+         *             You can just ignore it.
          */
-        bool hidden() const;
+#ifndef KGAPIDRIVE_NO_DEPRECATED
+        KGAPIDRIVE_DEPRECATED bool hidden() const;
+#endif
 
         /**
-         * @brief Sets whether this file is hidden from the user
-         *
-         * @param hidden
+         * @brief Sets whether this file has the 'hidden' label set.
+         * @deprecated The 'hidden' label has been deprecated in the v2 api and removed in the v3 one.
          */
-        void setHidden(bool hidden);
+#ifndef KGAPIDRIVE_NO_DEPRECATED
+        KGAPIDRIVE_DEPRECATED void setHidden(bool hidden);
+#endif
 
         /**
          * @brief Returns whether this file has been trashed.
