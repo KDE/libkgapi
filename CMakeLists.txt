@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(kgapi)
 
 # ECM setup
-find_package(ECM 5.17.0 CONFIG REQUIRED)
+find_package(ECM 5.28.0 CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -17,11 +17,11 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
-set(KGAPI_LIB_VERSION "5.3.80")
+set(KGAPI_LIB_VERSION "5.4.40")
 
 set(KF5_VERSION "5.28.0")
-set(KCALENDARCORE_LIB_VERSION "5.3.80")
-set(KCONTACTS_LIB_VERSION "5.3.80")
+set(KCALENDARCORE_LIB_VERSION "5.4.40")
+set(KCONTACTS_LIB_VERSION "5.4.40")
 
 #add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x049999)  #needed for QUrl::addQueryItems usage
 
