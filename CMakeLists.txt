@@ -23,8 +23,6 @@ set(KF5_VERSION "5.28.0")
 set(KCALENDARCORE_LIB_VERSION "5.4.40")
 set(KCONTACTS_LIB_VERSION "5.4.40")
 
-#add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x049999)  #needed for QUrl::addQueryItems usage
-
 ecm_setup_version(${KGAPI_LIB_VERSION}
     VARIABLE_PREFIX KGAPI
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
@@ -33,7 +31,7 @@ ecm_setup_version(${KGAPI_LIB_VERSION}
 )
 
 ############## Find Packages ##############
-set(REQUIRED_QT_VERSION "5.5.0")
+set(REQUIRED_QT_VERSION "5.6.0")
 find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS
     Core
     Widgets
