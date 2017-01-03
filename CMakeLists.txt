@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0)
+set(KGAPI_LIB_VERSION "5.4.40")
 
-project(kgapi)
+project(kgapi VERSION ${KGAPI_LIB_VERSION})
 
 # ECM setup
 find_package(ECM 5.28.0 CONFIG REQUIRED)
@@ -9,7 +10,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 include(GenerateExportHeader)
 include(ECMGenerateHeaders)
 include(ECMGeneratePriFile)
-include(ECMPackageConfigHelpers)
+include(CMakePackageConfigHelpers)
 include(ECMPoQmTools)
 include(ECMSetupVersion)
 include(FeatureSummary)
@@ -17,13 +18,12 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
-set(KGAPI_LIB_VERSION "5.4.40")
 
 set(KF5_VERSION "5.28.0")
 set(KCALENDARCORE_LIB_VERSION "5.4.40")
 set(KCONTACTS_LIB_VERSION "5.4.40")
 
-ecm_setup_version(${KGAPI_LIB_VERSION}
+ecm_setup_version(PROJECT
     VARIABLE_PREFIX KGAPI
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
     PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5GAPIConfigVersion.cmake"
@@ -65,7 +65,7 @@ endif()
 message("${CMAKECONFIG_INSTALL_DIR}")
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5GAPI")
 
-ecm_configure_package_config_file(
+configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/KF5GAPIConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/KF5GAPIConfig.cmake"
     INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
