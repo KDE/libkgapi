@@ -97,7 +97,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief KGAPI::Job::start implementation
      */
-    virtual void start();
+    void start() Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI::Job::handleReply implementation
@@ -105,8 +105,8 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      * @param reply
      * @param rawData
      */
-    virtual void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData);
+    void handleReply(const QNetworkReply *reply,
+                             const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

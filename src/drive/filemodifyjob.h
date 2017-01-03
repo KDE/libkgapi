@@ -97,11 +97,11 @@ class KGAPIDRIVE_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUpload
     void setUpdateViewedDate(bool updateViewedDate);
 
   protected:
-    virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
+    QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
                                     const QNetworkRequest &request,
-                                    const QByteArray &data);
-    virtual QUrl createUrl(const QString &filePath,
-                           const FilePtr &metaData);
+                                    const QByteArray &data) Q_DECL_OVERRIDE;
+    QUrl createUrl(const QString &filePath,
+                           const FilePtr &metaData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

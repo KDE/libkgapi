@@ -84,7 +84,7 @@ class KGAPILATITUDE_EXPORT LocationDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    virtual void start();
+    void start() Q_DECL_OVERRIDE;
 
   private:
     class Private;

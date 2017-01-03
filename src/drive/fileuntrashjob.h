@@ -51,11 +51,11 @@ class KGAPIDRIVE_EXPORT FileUntrashJob : public KGAPI2::Drive::FileAbstractModif
     virtual ~FileUntrashJob();
 
   protected:
-    virtual QUrl url(const QString &fileId);
-    virtual void dispatchRequest(QNetworkAccessManager *accessManager,
+    QUrl url(const QString &fileId) Q_DECL_OVERRIDE;
+    void dispatchRequest(QNetworkAccessManager *accessManager,
                                  const QNetworkRequest &request,
                                  const QByteArray &data,
-                                 const QString &contentType);
+                                 const QString &contentType) Q_DECL_OVERRIDE;
 
   private:
     class Private;

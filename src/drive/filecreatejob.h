@@ -53,12 +53,12 @@ class KGAPIDRIVE_EXPORT FileCreateJob : public KGAPI2::Drive::FileAbstractUpload
     virtual ~FileCreateJob();
 
   protected:
-    virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
+    QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
                                     const QNetworkRequest &request,
-                                    const QByteArray &data);
+                                    const QByteArray &data) Q_DECL_OVERRIDE;
 
-    virtual QUrl createUrl(const QString &filePath,
-                           const FilePtr &metaData);
+    QUrl createUrl(const QString &filePath,
+                           const FilePtr &metaData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

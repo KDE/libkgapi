@@ -99,7 +99,7 @@ class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief KGAPI2::Job::start
      */
-    virtual void start();
+    void start() Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI2::Job::handleReply
@@ -107,7 +107,7 @@ class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
      * @param reply
      * @param rawData
      */
-    virtual void handleReply(const QNetworkReply* reply, const QByteArray& rawData);
+    void handleReply(const QNetworkReply* reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

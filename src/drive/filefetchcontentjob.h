@@ -46,15 +46,15 @@ class KGAPIDRIVE_EXPORT FileFetchContentJob : public KGAPI2::FetchJob
     QByteArray data() const;
 
   protected:
-    virtual void start();
-    virtual void handleReply(const QNetworkReply *reply, const QByteArray &rawData);
-    virtual void dispatchRequest(QNetworkAccessManager *accessManager,
+    void start() Q_DECL_OVERRIDE;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
+    void dispatchRequest(QNetworkAccessManager *accessManager,
                                  const QNetworkRequest &request,
                                  const QByteArray &data,
-                                 const QString &contentType);
+                                 const QString &contentType) Q_DECL_OVERRIDE;
 
-    virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData);
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
+                                                     const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

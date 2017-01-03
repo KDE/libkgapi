@@ -63,12 +63,12 @@ class KGAPIBLOGGER_EXPORT PostPublishJob : public KGAPI2::Job
     ObjectPtr item() const;
 
   protected:
-    void start();
-    void handleReply(const QNetworkReply *reply, const QByteArray &rawData);
+    void start() Q_DECL_OVERRIDE;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
     void dispatchRequest(QNetworkAccessManager *accessManager,
                          const QNetworkRequest &request,
                          const QByteArray &data,
-                         const QString &contentType);
+                         const QString &contentType) Q_DECL_OVERRIDE;
 
   private:
     class Private;

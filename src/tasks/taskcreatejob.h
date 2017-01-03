@@ -95,8 +95,8 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
     QString parentItem() const;
 
   protected:
-    virtual void start();
-    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData);
+    void start() Q_DECL_OVERRIDE;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

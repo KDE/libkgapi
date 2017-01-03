@@ -146,7 +146,7 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    virtual void start();
+    void start() Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
@@ -154,8 +154,8 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    virtual KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData);
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
+                                                     const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

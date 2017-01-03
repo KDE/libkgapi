@@ -97,10 +97,10 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
      * @param data
      * @param contentType
      */
-    virtual void dispatchRequest(QNetworkAccessManager* accessManager,
+    void dispatchRequest(QNetworkAccessManager* accessManager,
                                  const QNetworkRequest& request,
                                  const QByteArray& data,
-                                 const QString& contentType);
+                                 const QString& contentType) Q_DECL_OVERRIDE;
 
     /**
      * KGAPI2::Job::handleReply implementation
@@ -108,12 +108,12 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
      * @param reply
      * @param rawData
      */
-    virtual void handleReply(const QNetworkReply *reply, const QByteArray& rawData);
+    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
 
     /**
      * KGAPI2::Job::aboutToStart() implementation
      */
-    virtual void aboutToStart();
+    void aboutToStart() Q_DECL_OVERRIDE;
 
   private:
     class Private;

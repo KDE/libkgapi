@@ -82,8 +82,8 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
      * @param data
      * @param contentType
      */
-    virtual void dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request,
-                                 const QByteArray& data, const QString& contentType);
+    void dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request,
+                                 const QByteArray& data, const QString& contentType) Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI::Job::handleReply implementation
@@ -91,12 +91,12 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
      * @param rawData
      * @param contentType
      */
-    virtual void handleReply(const QNetworkReply *reply, const QByteArray& rawData);
+    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
 
     /**
      * @brief KGAPI::Job::aboutToStart implementation
      */
-    virtual void aboutToStart();
+    void aboutToStart() Q_DECL_OVERRIDE;
 
     /**
      * @brief A reply handler that returns items parsed from \@ rawData

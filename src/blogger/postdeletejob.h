@@ -45,8 +45,8 @@ class KGAPIBLOGGER_EXPORT PostDeleteJob : public KGAPI2::DeleteJob
 
 
   protected:
-    virtual void start();
-    virtual void handleReply(const QNetworkReply *reply, const QByteArray &rawData);
+    void start() Q_DECL_OVERRIDE;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
 
   private:
     class Private;

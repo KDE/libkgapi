@@ -55,7 +55,7 @@ class KGAPIDRIVE_EXPORT PermissionDeleteJob :  KGAPI2::DeleteJob
     virtual ~PermissionDeleteJob();
 
   protected:
-    virtual void start();
+    void start() Q_DECL_OVERRIDE;
 
   private:
     class Private;

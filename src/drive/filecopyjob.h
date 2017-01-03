@@ -56,14 +56,14 @@ class KGAPIDRIVE_EXPORT FileCopyJob : public KGAPI2::Drive::FileAbstractDataJob
     FilesList files() const;
 
   protected:
-    virtual void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData);
+    void handleReply(const QNetworkReply *reply,
+                             const QByteArray &rawData) Q_DECL_OVERRIDE;
 
-    virtual void dispatchRequest(QNetworkAccessManager *accessManager,
+    void dispatchRequest(QNetworkAccessManager *accessManager,
                                  const QNetworkRequest &request,
                                  const QByteArray &data,
-                                 const QString &contentType);
-    virtual void start();
+                                 const QString &contentType) Q_DECL_OVERRIDE;
+    void start() Q_DECL_OVERRIDE;
 
   private:
     class Private;
