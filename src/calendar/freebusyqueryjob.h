@@ -44,7 +44,7 @@ public:
                               const QDateTime &timeMin,
                               const QDateTime &timeMax,
                               const AccountPtr &account,
-                              QObject* parent = Q_NULLPTR);
+                              QObject* parent = nullptr);
     ~FreeBusyQueryJob();
 
     QString id() const;

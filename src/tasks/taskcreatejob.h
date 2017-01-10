@@ -63,7 +63,7 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
      * @param parent
      */
     explicit TaskCreateJob(const TaskPtr& task, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = Q_NULLPTR);
+                           const AccountPtr &account, QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will create given @p tasks in a tasklist
@@ -75,7 +75,7 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
      * @param parent
      */
     explicit TaskCreateJob(const TasksList& tasks, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = Q_NULLPTR);
+                           const AccountPtr &account, QObject* parent = nullptr);
 
     /**
      * @brief Destructor

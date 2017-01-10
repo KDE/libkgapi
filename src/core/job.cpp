@@ -36,7 +36,7 @@ using namespace KGAPI2;
 Job::Private::Private(Job *parent):
     isRunning(false),
     error(KGAPI2::NoError),
-    accessManager(Q_NULLPTR),
+    accessManager(nullptr),
     maxTimeout(0),
     q(parent)
 {

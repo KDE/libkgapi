@@ -94,7 +94,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactFetchJob(const AccountPtr &account, QObject* parent = Q_NULLPTR);
+    explicit ContactFetchJob(const AccountPtr &account, QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch a contact with given @p contactId
@@ -106,7 +106,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    ContactFetchJob(const QString &contactId, const AccountPtr &account, QObject* parent = Q_NULLPTR);
+    ContactFetchJob(const QString &contactId, const AccountPtr &account, QObject* parent = nullptr);
 
     /**
      * @brief Destructor

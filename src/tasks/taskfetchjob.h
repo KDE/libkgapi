@@ -156,7 +156,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit TaskFetchJob(const QString &taskListId, const AccountPtr &account,
-                          QObject* parent = Q_NULLPTR);
+                          QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch a task with given @p taskId
@@ -172,7 +172,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit TaskFetchJob(const QString &taskId, const QString &taskListId,
-                          const AccountPtr &account, QObject* parent = Q_NULLPTR);
+                          const AccountPtr &account, QObject* parent = nullptr);
 
     /**
      * @brief Destructor

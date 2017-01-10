@@ -85,7 +85,7 @@ class KGAPICORE_EXPORT Job : public QObject
      *
      * @param parent
      */
-    explicit Job(QObject* parent = Q_NULLPTR);
+    explicit Job(QObject* parent = nullptr);
 
     /**
      * @brief Constructor for jobs that require authentication
@@ -94,7 +94,7 @@ class KGAPICORE_EXPORT Job : public QObject
      * @param parent
      * @see Job::Account, Job::setAccount
      */
-    explicit Job(const AccountPtr &account, QObject* parent = Q_NULLPTR);
+    explicit Job(const AccountPtr &account, QObject* parent = nullptr);
 
     /**
      * @brief Destructor

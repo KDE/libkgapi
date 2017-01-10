@@ -66,7 +66,7 @@ class Q_DECL_HIDDEN AuthJob::Private
 };
 
 AuthJob::Private::Private(AuthJob *parent):
-    widget(Q_NULLPTR),
+    widget(nullptr),
     q(parent)
 {
 }
@@ -130,7 +130,7 @@ void AuthJob::Private::_k_destructDelayed()
     if (dialog->isVisible())
         dialog->hide();
     dialog->deleteLater();
-    dialog = Q_NULLPTR;
+    dialog = nullptr;
 }
 
 
@@ -209,7 +209,7 @@ void AuthJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNetwo
 
 void AuthJob::start()
 {
-    AuthWidget *widget = Q_NULLPTR;
+    AuthWidget *widget = nullptr;
 
     if (d->account->refreshToken().isEmpty() || (d->account->m_scopesChanged == true)) {
 

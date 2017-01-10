@@ -48,7 +48,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupFetchJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit ContactsGroupFetchJob(const AccountPtr &account,
-                                   QObject* parent = Q_NULLPTR);
+                                   QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch a group with given @p groupId
@@ -60,7 +60,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupFetchJob : public KGAPI2::FetchJob
      */
     explicit ContactsGroupFetchJob(const QString &groupId,
                                    const AccountPtr &account,
-                                   QObject* parent = Q_NULLPTR);
+                                   QObject* parent = nullptr);
 
     /**
      * @brief Destructor

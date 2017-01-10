@@ -58,7 +58,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      */
     explicit TaskMoveJob(const TaskPtr &task, const QString &taskListId, 
                          const QString &newParentId, const AccountPtr &account,
-                         QObject* parent = Q_NULLPTR);
+                         QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will move given \p tasks in a tasklist
@@ -76,7 +76,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      */
     explicit TaskMoveJob(const TasksList &tasks, const QString &taskListId,
                          const QString &newParentId, const AccountPtr &account,
-                         QObject* parent = Q_NULLPTR);
+                         QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will move task with given \p taskId in a
@@ -94,7 +94,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      */
     explicit TaskMoveJob(const QString &taskId, const QString &taskListId,
                          const QString &newParentId, const AccountPtr &account,
-                         QObject* parent = Q_NULLPTR);
+                         QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will move tasks with given \p tasksIds in a
@@ -112,7 +112,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      */
     explicit TaskMoveJob(const QStringList &tasksIds, const QString &taskListId,
                          const QString &newParentId, const AccountPtr &account,
-                         QObject* parent = Q_NULLPTR);
+                         QObject* parent = nullptr);
 
     /**
      * @brief Destructor

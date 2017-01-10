@@ -51,7 +51,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
      */
     explicit ContactsGroupCreateJob(const ContactsGroupsList &groups,
                                     const AccountPtr &account,
-                                    QObject* parent = Q_NULLPTR);
+                                    QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will create given @p group in user's
@@ -63,7 +63,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
      */
     explicit ContactsGroupCreateJob(const ContactsGroupPtr &group,
                                     const AccountPtr &account,
-                                    QObject* parent = Q_NULLPTR);
+                                    QObject* parent = nullptr);
 
     /**
      * @brief Destructor

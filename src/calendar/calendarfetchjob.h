@@ -47,7 +47,7 @@ class KGAPICALENDAR_EXPORT CalendarFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarFetchJob(const AccountPtr &account, QObject* parent = Q_NULLPTR);
+    explicit CalendarFetchJob(const AccountPtr &account, QObject* parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch a single calendar with given
@@ -58,7 +58,7 @@ class KGAPICALENDAR_EXPORT CalendarFetchJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit CalendarFetchJob(const QString &calendarId,
-                              const AccountPtr &account, QObject* parent = Q_NULLPTR);
+                              const AccountPtr &account, QObject* parent = nullptr);
 
     /**
      * @brief Destructor
