@@ -31,7 +31,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QtCore/QBuffer>
-
+#include <QtGui/QImage>
 
 using namespace KGAPI2;
 
