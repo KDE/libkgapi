@@ -362,10 +362,17 @@ qlonglong About::quotaBytesUsedInTrash() const
     return d->quotaBytesUsedInTrash;
 }
 
-qlonglong About::quotaBytesUserAggregate() const
+qlonglong About::quotaBytesUsedAggregate() const
 {
     return d->quotaBytesUsedAggregate;
 }
+
+#ifndef KGAPIDRIVE_NO_DEPRECATED
+qlonglong About::quotaBytesUserAggregate() const
+{
+    return quotaBytesUsedAggregate();
+}
+#endif
 
 qlonglong About::largestChangeId() const
 {
