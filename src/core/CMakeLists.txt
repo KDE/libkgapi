@@ -51,16 +51,18 @@ ecm_generate_headers(kgapicore_ui_CamelCase_HEADERS
     RELATIVE ui
 )
 
-add_library(KF5GAPICore
+add_library(KPimGAPICore
     ${kgapicore_SRCS}
 )
 
-generate_export_header(KF5GAPICore BASE_NAME kgapicore)
+generate_export_header(KPimGAPICore BASE_NAME kgapicore)
 
-add_library(KF5::GAPICore ALIAS KF5GAPICore)
-target_include_directories(KF5GAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI;${KF5_INCLUDE_INSTALL_DIR}/KGAPI/kgapi>")
+add_library(KPim::GAPICore ALIAS KPimGAPICore)
+# TODO: Backwards compatibility, remove in next major release
+add_library(KF5::GAPICore ALIAS KPimGAPICore)
+target_include_directories(KPimGAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi>")
 
-target_link_libraries(KF5GAPICore
+target_link_libraries(KPimGAPICore
 PRIVATE
     KF5::KIOWidgets
     KF5::WindowSystem
@@ -69,22 +71,22 @@ PUBLIC
     Qt5::Widgets
 )
 
-set_target_properties(KF5GAPICore PROPERTIES
+set_target_properties(KPimGAPICore PROPERTIES
     VERSION ${KGAPI_VERSION_STRING}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPICore
 )
 
 install(TARGETS
-    KF5GAPICore
-    EXPORT KF5GAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPimGAPICore
+    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapicore_base_CamelCase_HEADERS}
     ${kgapicore_accountinfo_CamelCase_HEADERS}
     ${kgapicore_ui_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI"
     COMPONENT Devel
 )
 
@@ -93,14 +95,14 @@ install(FILES
     ${kgapicore_accountinfo_HEADERS}
     ${kgapicore_ui_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicore_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPICore
-    LIB_NAME KF5GAPICore
+    LIB_NAME KPimGAPICore
     DEPS "Qt5::Widgets"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 
 install(FILES

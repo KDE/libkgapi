@@ -86,50 +86,52 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     REQUIRED_HEADERS kgapidrive_HEADERS
 )
 
-add_library(KF5GAPIDrive
+add_library(KPimGAPIDrive
     ${kgapidrive_SRCS}
 )
 
-generate_export_header(KF5GAPIDrive BASE_NAME kgapidrive)
+generate_export_header(KPimGAPIDrive BASE_NAME kgapidrive)
 
-add_library(KF5::GAPIDrive ALIAS KF5GAPIDrive)
-target_include_directories(KF5GAPIDrive INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
+add_library(KPim::GAPIDrive ALIAS KPimGAPIDrive)
+# TODO: Backwards compatibility, remove in next major release
+add_library(KF5::GAPIDrive ALIAS KPimGAPIDrive)
+target_include_directories(KPimGAPIDrive INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
-target_link_libraries(KF5GAPIDrive
+target_link_libraries(KPimGAPIDrive
 PUBLIC
-    KF5::GAPICore
+    KPim::GAPICore
 PRIVATE
     Qt5::Network
 )
 
-set_target_properties(KF5GAPIDrive PROPERTIES
+set_target_properties(KPimGAPIDrive PROPERTIES
     VERSION ${KGAPI_VERSION_STRING}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPIDrive
 )
 
 install(TARGETS
-    KF5GAPIDrive
-    EXPORT KF5GAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPimGAPIDrive
+    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapidrive_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Drive"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Drive"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapidrive_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapidrive_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/drive"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/drive"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIDrive
-    LIB_NAME KF5GAPIDrive
+    LIB_NAME KPimGAPIDrive
     DEPS "GAPICore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 
 install(FILES

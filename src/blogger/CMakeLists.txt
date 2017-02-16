@@ -48,50 +48,52 @@ ecm_generate_headers(kgapiblogger_CamelCase_HEADERS
     REQUIRED_HEADERS kgapiblogger_HEADERS
 )
 
-add_library(KF5GAPIBlogger
+add_library(KPimGAPIBlogger
     ${kgapiblogger_SRCS}
 )
 
-generate_export_header(KF5GAPIBlogger BASE_NAME kgapiblogger)
+generate_export_header(KPimGAPIBlogger BASE_NAME kgapiblogger)
 
-add_library(KF5::GAPIBlogger ALIAS KF5GAPIBlogger)
-target_include_directories(KF5GAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
+add_library(KPim::GAPIBlogger ALIAS KPimGAPIBlogger)
+# TODO: Backwards compatibility, remove in next major release
+add_library(KF5::GAPIBlogger ALIAS KPimGAPIBlogger)
+target_include_directories(KPimGAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
-target_link_libraries(KF5GAPIBlogger
+target_link_libraries(KPimGAPIBlogger
 PUBLIC
-    KF5::GAPICore
+    KPim::GAPICore
 PRIVATE
     Qt5::Network
 )
 
-set_target_properties(KF5GAPIBlogger PROPERTIES
+set_target_properties(KPimGAPIBlogger PROPERTIES
     VERSION ${KGAPI_VERSION_STRING}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPIBlogger
 )
 
 install(TARGETS
-    KF5GAPIBlogger
-    EXPORT KF5GAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPimGAPIBlogger
+    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapiblogger_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Blogger"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Blogger"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapiblogger_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapiblogger_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/blogger"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/blogger"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIBlogger
-    LIB_NAME KF5GAPIBlogger
+    LIB_NAME KPimGAPIBlogger
     DEPS "GAPICore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 
 install(FILES

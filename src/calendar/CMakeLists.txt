@@ -35,49 +35,51 @@ ecm_generate_headers(kgapicalendar_CamelCase_HEADERS
     REQUIRED_HEADERS kgapicalendar_HEADERS
 )
 
-add_library(KF5GAPICalendar
+add_library(KPimGAPICalendar
     ${kgapicalendar_SRCS}
 )
 
-generate_export_header(KF5GAPICalendar BASE_NAME kgapicalendar)
+generate_export_header(KPimGAPICalendar BASE_NAME kgapicalendar)
 
-add_library(KF5::GAPICalendar ALIAS KF5GAPICalendar)
-target_include_directories(KF5GAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
+add_library(KPim::GAPICalendar ALIAS KPimGAPICalendar)
+# TODO: Backwards compatibility, remove in next major release
+add_library(KF5::GAPICalendar ALIAS KPimGAPICalendar)
+target_include_directories(KPimGAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
-target_link_libraries(KF5GAPICalendar
+target_link_libraries(KPimGAPICalendar
 PUBLIC
-    KF5::GAPICore
+    KPim::GAPICore
     KF5::CalendarCore
 )
 
-set_target_properties(KF5GAPICalendar PROPERTIES
+set_target_properties(KPimGAPICalendar PROPERTIES
     VERSION ${KGAPI_VERSION_STRING}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPICalendar
 )
 
 install(TARGETS
-    KF5GAPICalendar
-    EXPORT KF5GAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPimGAPICalendar
+    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapicalendar_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Calendar"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Calendar"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapicalendar_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicalendar_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/calendar"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/calendar"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPICalendar
-    LIB_NAME KF5GAPICalendar
+    LIB_NAME KPimGAPICalendar
     DEPS "GAPICore CalendarCore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 
 install(FILES

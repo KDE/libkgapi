@@ -32,52 +32,54 @@ ecm_generate_headers(kgapicontacts_CamelCase_HEADERS
     REQUIRED_HEADERS kgapicontacts_HEADERS
 )
 
-add_library(KF5GAPIContacts
+add_library(KPimGAPIContacts
     ${kgapicontacts_SRCS}
 )
 
-generate_export_header(KF5GAPIContacts BASE_NAME kgapicontacts)
+generate_export_header(KPimGAPIContacts BASE_NAME kgapicontacts)
 
-add_library(KF5::GAPIContacts ALIAS KF5GAPIContacts)
-target_include_directories(KF5GAPIContacts INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
+add_library(KPim::GAPIContacts ALIAS KPimGAPIContacts)
+# TODO: Backwards compatibility, remove in next major release
+add_library(KF5::GAPIContacts ALIAS KPimGAPIContacts)
+target_include_directories(KPimGAPIContacts INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
-target_link_libraries(KF5GAPIContacts
+target_link_libraries(KPimGAPIContacts
 PUBLIC
-    KF5::GAPICore
+    KPim::GAPICore
     KF5::Contacts
 PRIVATE
     Qt5::Xml
     Qt5::Network
 )
 
-set_target_properties(KF5GAPIContacts PROPERTIES
+set_target_properties(KPimGAPIContacts PROPERTIES
     VERSION ${KGAPI_VERSION_STRING}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPIContacts
 )
 
 install(TARGETS
-    KF5GAPIContacts
-    EXPORT KF5GAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPimGAPIContacts
+    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapicontacts_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Contacts"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Contacts"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapicontacts_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicontacts_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/contacts"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/contacts"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIContacts
-    LIB_NAME KF5GAPIContacts
-    DEPS "KF5::GAPICore KF5::Contacts Qt5::Xml"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
+    LIB_NAME KPimGAPIContacts
+    DEPS "KPim::GAPICore KF5::Contacts Qt5::Xml"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 
 install(FILES

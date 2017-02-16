@@ -29,7 +29,7 @@ macro(add_libkgapi2_test _module _testname)
                           Qt5::Test
                           KF5::Contacts
                           KF5::CalendarCore
-                          KF5GAPIDrive)
+                          KPimGAPIDrive)
 endmacro(add_libkgapi2_test)
 
 #LIBKGAPI_TESTS(

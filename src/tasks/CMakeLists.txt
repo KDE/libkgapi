@@ -32,49 +32,51 @@ ecm_generate_headers(kgapitasks_CamelCase_HEADERS
     REQUIRED_HEADERS kgapitasks_HEADERS
 )
 
-add_library(KF5GAPITasks
+add_library(KPimGAPITasks
     ${kgapitasks_SRCS}
 )
 
-generate_export_header(KF5GAPITasks BASE_NAME kgapitasks)
+generate_export_header(KPimGAPITasks BASE_NAME kgapitasks)
 
-add_library(KF5::GAPITasks ALIAS KF5GAPITasks)
-target_include_directories(KF5GAPITasks INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI>")
+add_library(KPim::GAPITasks ALIAS KPimGAPITasks)
+# TODO: Backwards compatibility, remove in next major release
+add_library(KF5::GAPITasks ALIAS KPimGAPITasks)
+target_include_directories(KPimGAPITasks INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
-target_link_libraries(KF5GAPITasks
+target_link_libraries(KPimGAPITasks
 PUBLIC
-    KF5::GAPICore
+    KPim::GAPICore
     KF5::CalendarCore
 )
 
-set_target_properties(KF5GAPITasks PROPERTIES
+set_target_properties(KPimGAPITasks PROPERTIES
     VERSION ${KGAPI_VERSION_STRING}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPITasks
 )
 
 install(TARGETS
-    KF5GAPITasks
-    EXPORT KF5GAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPimGAPITasks
+    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapitasks_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/KGAPI/Tasks"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Tasks"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapitasks_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapitasks_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI/kgapi/tasks"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/tasks"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPITasks
-    LIB_NAME KF5GAPITasks
+    LIB_NAME KPimGAPITasks
     DEPS "GAPICore CalendarCore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR_KF5}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 
 install(FILES

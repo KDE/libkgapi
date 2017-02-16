@@ -1,0 +1,16 @@
+@PACKAGE_INIT@
+
+find_dependency(KF5CalendarCore "@KCALENDARCORE_LIB_VERSION@")
+find_dependency(KF5Contacts "@KCONTACTS_LIB_VERSION@")
+
+if (@KGAPI_KF5_COMPAT@)
+    message(WARNING "\n"
+                    "************* DEPRECATION WARNING *************\n"
+                    "Using find_package(KF5GAPI) and KF5::GAPI* targets is deprecated. "
+                    "Please use find_package(KPimGAPI) and KPim::GAPI* instead. This backwards "
+                    "compatibility will be removed in the next major version.\n"
+                    "***********************************************\n")
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/KPimGAPITargets.cmake")
+
