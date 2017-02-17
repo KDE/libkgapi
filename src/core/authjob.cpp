@@ -251,6 +251,7 @@ void AuthJob::start()
                 this, SLOT(_k_destructDelayed()));
         connect(widget, SIGNAL(error(KGAPI2::Error,QString)),
                 this, SLOT(_k_destructDelayed()));
+        connect(buttons, &QDialogButtonBox::rejected, this, &AuthJob::emitFinished);
 
         d->dialog->show();
         widget->authenticate();
