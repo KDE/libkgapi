@@ -4,7 +4,8 @@ set(KGAPI_LIB_VERSION "5.4.41")
 project(kgapi VERSION ${KGAPI_LIB_VERSION})
 
 # ECM setup
-find_package(ECM 5.28.0 CONFIG REQUIRED)
+set(KF5_VERSION "5.31.0")
+find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -19,7 +20,6 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 
-set(KF5_VERSION "5.28.0")
 set(KCALENDARCORE_LIB_VERSION "5.4.40")
 set(KCONTACTS_LIB_VERSION "5.4.40")
 
