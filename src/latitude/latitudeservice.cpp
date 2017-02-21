@@ -217,6 +217,7 @@ QUrl insertLocationUrl()
 
 QUrl deleteLocationUrl(const qlonglong id)
 {
+    Q_UNUSED(id);
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::LocationBasePath);
     return url;
