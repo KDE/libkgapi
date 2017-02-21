@@ -28,7 +28,7 @@ using namespace KGAPI2;
 
 AuthWidget::AuthWidget(QWidget* parent):
     QWidget(parent),
-    d(new Private(this))
+    d(new AuthWidgetPrivate(this))
 {
 
 }

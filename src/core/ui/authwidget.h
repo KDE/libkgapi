@@ -33,6 +33,8 @@ namespace KGAPI {
 
 namespace KGAPI2 {
 
+class AuthWidgetPrivate;
+
 /**
  * A widget for authentication that can be easilly embedded
  * to any application.
@@ -160,9 +162,8 @@ class KGAPICORE_EXPORT AuthWidget : public QWidget
     void progress(KGAPI2::AuthWidget::Progress progress);
 
   private:
-    class Private;
-    Private * const d;
-    friend class Private;
+    AuthWidgetPrivate * const d;
+    friend class AuthWidgetPrivate;
     friend class AuthJob;
 
 };

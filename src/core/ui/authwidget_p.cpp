@@ -50,7 +50,7 @@ void WebView::contextMenuEvent(QContextMenuEvent *e)
     e->accept();
 }
 
-AuthWidget::Private::Private(AuthWidget *parent):
+AuthWidgetPrivate::AuthWidgetPrivate(AuthWidget *parent):
     QObject(),
     showProgressBar(true),
     progress(AuthWidget::None),
@@ -59,11 +59,11 @@ AuthWidget::Private::Private(AuthWidget *parent):
     setupUi();
 }
 
-AuthWidget::Private::~Private()
+AuthWidgetPrivate::~AuthWidgetPrivate()
 {
 }
 
-void AuthWidget::Private::setupUi()
+void AuthWidgetPrivate::setupUi()
 {
     vbox = new QVBoxLayout(q);
     q->setLayout(vbox);
@@ -85,11 +85,11 @@ void AuthWidget::Private::setupUi()
 
     vbox->addWidget(webview);
     connect(webview, &QWebEngineView::loadProgress, progressbar, &QProgressBar::setValue);
-    connect(webview, &QWebEngineView::urlChanged, this, &Private::webviewUrlChanged);
-    connect(webview, &QWebEngineView::loadFinished, this, &Private::webviewFinished);
+    connect(webview, &QWebEngineView::urlChanged, this, &AuthWidgetPrivate::webviewUrlChanged);
+    connect(webview, &QWebEngineView::loadFinished, this, &AuthWidgetPrivate::webviewFinished);
 }
 
-void AuthWidget::Private::setProgress(AuthWidget::Progress progress)
+void AuthWidgetPrivate::setProgress(AuthWidget::Progress progress)
 {
     qCDebug(KGAPIDebug) << progress;
     this->progress = progress;
@@ -97,7 +97,7 @@ void AuthWidget::Private::setProgress(AuthWidget::Progress progress)
 }
 
 
-void AuthWidget::Private::emitError(const enum Error errCode, const QString& msg)
+void AuthWidgetPrivate::emitError(const enum Error errCode, const QString& msg)
 {
     label->setVisible(true);
     webview->setVisible(false);
@@ -110,7 +110,7 @@ void AuthWidget::Private::emitError(const enum Error errCode, const QString& msg
 }
 
 
-void AuthWidget::Private::webviewUrlChanged(const QUrl &url)
+void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
 {
     qCDebug(KGAPIDebug) << url;
 
@@ -125,7 +125,7 @@ void AuthWidget::Private::webviewUrlChanged(const QUrl &url)
     }
 }
 
-void AuthWidget::Private::webviewFinished(bool ok)
+void AuthWidgetPrivate::webviewFinished(bool ok)
 {
     if (!ok) {
         qCWarning(KGAPIDebug) << "Failed to load" << webview->url();
@@ -181,11 +181,11 @@ void AuthWidget::Private::webviewFinished(bool ok)
 
         KGAPI2::NewTokensFetchJob *fetchJob = new KGAPI2::NewTokensFetchJob(token, apiKey, secretKey);
         connect(fetchJob, &Job::finished,
-                this, &Private::tokensReceived);
+                this, &AuthWidgetPrivate::tokensReceived);
     }
 }
 
-void AuthWidget::Private::tokensReceived(KGAPI2::Job* job)
+void AuthWidgetPrivate::tokensReceived(KGAPI2::Job* job)
 {
     KGAPI2::NewTokensFetchJob *tokensFetchJob = qobject_cast<KGAPI2::NewTokensFetchJob*>(job);
 
@@ -197,11 +197,11 @@ void AuthWidget::Private::tokensReceived(KGAPI2::Job* job)
     KGAPI2::AccountInfoFetchJob *fetchJob = new KGAPI2::AccountInfoFetchJob(account, this);
 
     connect(fetchJob, &Job::finished,
-            this, &Private::accountInfoReceived);
+            this, &AuthWidgetPrivate::accountInfoReceived);
     qCDebug(KGAPIDebug) << "Requesting AccountInfo";
 }
 
-void AuthWidget::Private::accountInfoReceived(KGAPI2::Job* job)
+void AuthWidgetPrivate::accountInfoReceived(KGAPI2::Job* job)
 {
     if (job->error()) {
         qCDebug(KGAPIDebug) << "Error when retrieving AccountInfo:" << job->errorString();
