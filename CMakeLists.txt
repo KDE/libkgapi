@@ -48,17 +48,10 @@ find_package(KF5CalendarCore ${KCALENDARCORE_LIB_VERSION} CONFIG REQUIRED)
 find_package(KF5Contacts ${KCONTACTS_LIB_VERSION} CONFIG REQUIRED)
 
 ############## Targets ##############
-
-add_definitions(-DTRANSLATION_DOMAIN=\"libkgapi\")
-
 add_subdirectory(src)
 add_subdirectory(examples)
 if (BUILD_TESTING)
     add_subdirectory(autotests)
-endif()
-
-if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
-   ecm_install_po_files_as_qm(po)
 endif()
 
 ############## CMake Config Files ##############
