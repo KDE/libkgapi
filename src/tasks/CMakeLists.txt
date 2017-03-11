@@ -57,7 +57,7 @@ set_target_properties(KPimGAPITasks PROPERTIES
 
 install(TARGETS
     KPimGAPITasks
-    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES

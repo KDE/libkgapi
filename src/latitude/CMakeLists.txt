@@ -49,7 +49,7 @@ set_target_properties(KPimGAPILatitude PROPERTIES
 
 install(TARGETS
     KPimGAPILatitude
-    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES

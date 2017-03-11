@@ -74,7 +74,7 @@ set_target_properties(KPimGAPIBlogger PROPERTIES
 
 install(TARGETS
     KPimGAPIBlogger
-    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES

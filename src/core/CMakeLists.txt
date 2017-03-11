@@ -79,7 +79,7 @@ set_target_properties(KPimGAPICore PROPERTIES
 
 install(TARGETS
     KPimGAPICore
-    EXPORT KPimGAPITargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS}
+    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
