@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-set(KGAPI_LIB_VERSION "5.4.80")
+set(KGAPI_LIB_VERSION "5.4.90")
 
 project(kgapi VERSION ${KGAPI_LIB_VERSION})
 
@@ -20,8 +20,8 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 
-set(KCALENDARCORE_LIB_VERSION "5.4.80")
-set(KCONTACTS_LIB_VERSION "5.4.80")
+set(KCALENDARCORE_LIB_VERSION "5.4.90")
+set(KCONTACTS_LIB_VERSION "5.4.90")
 
 ecm_setup_version(PROJECT
     VARIABLE_PREFIX KGAPI
