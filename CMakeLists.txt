@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-set(KGAPI_LIB_VERSION "5.4.90")
+set(KGAPI_LIB_VERSION "5.5.0")
 
 project(kgapi VERSION ${KGAPI_LIB_VERSION})
 
