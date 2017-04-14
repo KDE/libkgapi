@@ -70,7 +70,7 @@ Reminder::~Reminder()
     delete d;
 }
 
-void Reminder::setType (const Alarm::Type& type)
+void Reminder::setType (Alarm::Type type)
 {
     d->type = type;
 }

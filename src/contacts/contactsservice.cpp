@@ -94,7 +94,7 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     return output;
 }
 
-QUrl fetchAllContactsUrl(const QString& user, const bool &showDeleted)
+QUrl fetchAllContactsUrl(const QString& user, bool showDeleted)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
