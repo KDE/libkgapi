@@ -204,8 +204,6 @@ ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, cons
     feedData.requestUrl = reply->request().url();
 
     ObjectsList items;
-    QString itemId;
-
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {

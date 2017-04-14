@@ -78,7 +78,7 @@ class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
     /**
      * @brief Sets timestamp of this location.
      */
-    void setTimestamp(const qulonglong &timestamp);
+    void setTimestamp(qulonglong timestamp);
 
     /**
      * @brief Returns accuracy of the latitude and longitude in meters.
@@ -90,7 +90,7 @@ class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
     /**
      * @brief Sets accuracy of this location.
      */
-    void setAccuracy(const qint32 &accuracy);
+    void setAccuracy(qint32 accuracy);
 
     /**
      * @brief Returns ground speed of the user at the time this location was
@@ -103,7 +103,7 @@ class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
     /**
      * @brief Sets speed of this location.
      */
-    void setSpeed(const qint32 &speed);
+    void setSpeed(qint32 speed);
 
     /**
      * @brief Returns direction of travel of the user when this location was
@@ -116,7 +116,7 @@ class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
     /**
      * @brief Sets heading of this location.
      */
-    void setHeading(const qint32 &heading);
+    void setHeading(qint32 heading);
 
     /**
      * @brief Returns altitude of this location.
@@ -128,7 +128,7 @@ class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
     /**
      * @brief Sets altitude of this location.
      */
-    void setAltitude(const qint32 &altitude);
+    void setAltitude(qint32 altitude);
 
     /**
      * @brief Returns altitude accuracy.
@@ -140,7 +140,7 @@ class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
     /**
      * @brief Sets altitude accuracy of this location.
      */
-    void setAltitudeAccuracy(const qint32 &altitudeAccuracy);
+    void setAltitudeAccuracy(qint32 altitudeAccuracy);
 
   private:
     class Private;

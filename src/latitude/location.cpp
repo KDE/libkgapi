@@ -108,32 +108,32 @@ qint32 Location::altitudeAccuracy() const
     return d->altitudeAccuracy;
 }
 
-void Location::setTimestamp(const qulonglong & timestamp)
+void Location::setTimestamp(qulonglong timestamp)
 {
     d->timestamp = timestamp;
 }
 
-void Location::setAccuracy(const qint32 & accuracy)
+void Location::setAccuracy(qint32 accuracy)
 {
     d->accuracy = accuracy;
 }
 
-void Location::setSpeed(const qint32 & speed)
+void Location::setSpeed(qint32 speed)
 {
     d->speed = speed;
 }
 
-void Location::setHeading(const qint32 & heading)
+void Location::setHeading(qint32 heading)
 {
     d->heading = heading;
 }
 
-void Location::setAltitude(const qint32 & altitude)
+void Location::setAltitude(qint32 altitude)
 {
     d->altitude = altitude;
 }
 
-void Location::setAltitudeAccuracy(const qint32 & altitudeAccuracy)
+void Location::setAltitudeAccuracy(qint32 altitudeAccuracy)
 {
     d->altitudeAccuracy = altitudeAccuracy;
 }

@@ -108,7 +108,7 @@ namespace ContactsService
      * @param user User. "default" or user@gmail.com
      * @param showDeleted Whether to fetch deleted contacts placeholders as well
      */
-    KGAPICONTACTS_EXPORT QUrl fetchAllContactsUrl(const QString &user, const bool &showDeleted);
+    KGAPICONTACTS_EXPORT QUrl fetchAllContactsUrl(const QString &user, bool showDeleted);
 
     /**
      * @brief Returns URL for fetching specific contact

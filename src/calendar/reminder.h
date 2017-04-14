@@ -77,7 +77,7 @@ class KGAPICALENDAR_EXPORT Reminder
      *
      * @param type
      */
-    void setType( const KCalCore::Alarm::Type &type );
+    void setType(KCalCore::Alarm::Type type );
 
     /**
      * @brief Returns how long before the event should reminder be shown
