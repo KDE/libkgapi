@@ -139,7 +139,6 @@ void AuthWidgetPrivate::webviewFinished(bool ok)
             return;
         }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
         const auto js = QStringLiteral("document.getElementById(\"%1\").value = \"%2\";");
         if (!username.isEmpty()) {
             webview->page()->runJavaScript(js.arg(QStringLiteral("Email"), username));
@@ -148,7 +147,6 @@ void AuthWidgetPrivate::webviewFinished(bool ok)
         if (!password.isEmpty()) {
             webview->page()->runJavaScript(js.arg(QStringLiteral("Passwd"), password));
         }
-#endif
 
         return;
     }

@@ -31,7 +31,7 @@ ecm_setup_version(PROJECT
 )
 
 ############## Find Packages ##############
-set(REQUIRED_QT_VERSION "5.6.0")
+set(REQUIRED_QT_VERSION "5.7.0")
 find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS
     Core
     Widgets
