@@ -26,26 +26,17 @@
 #include "ui/authwidget.h"
 #include "types.h"
 
+#include <QLineEdit>
+#include <QToolButton>
 #include <QProgressBar>
-#include <QVBoxLayout>
 #include <QWebEngineView>
-#include <QLabel>
+
+class QVBoxLayout;
+class QLabel;
 
 namespace KGAPI2 {
 
 class Job;
-
-class WebView : public QWebEngineView
-{
-    Q_OBJECT
-public:
-    explicit WebView(QWidget *parent=0);
-    ~WebView();
-
-protected:
-    void contextMenuEvent(QContextMenuEvent *) Q_DECL_OVERRIDE;
-};
-
 
 class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
 
@@ -65,9 +56,11 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
     QString apiKey;
     QString secretKey;
 
+    QToolButton *sslIndicator;
+    QLineEdit *urlEdit;
     QProgressBar *progressbar;
     QVBoxLayout *vbox;
-    WebView *webview;
+    QWebEngineView *webview;
     QLabel *label;
 
   private Q_SLOTS:
@@ -81,6 +74,14 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
   private:
     void setupUi();
     void setProgress(AuthWidget::Progress progress);
+
+    bool isGoogleHost(const QUrl &url) const { return url.host() == QLatin1String("accounts.google.com"); }
+    bool isSigninPage(const QUrl &url) const { return url.path() == QLatin1String("/signin/oauth"); }
+    bool isUsernameFrame(const QUrl &url) { return url.path() == QLatin1String("/signin/oauth/identifier"); }
+    bool isPasswordFrame(const QUrl &url) { return url.path() == QLatin1String("/signin/v2/challenge/pwd"); }
+    bool isTokenPage(const QUrl &url) { return url.path() == QLatin1String("/o/oauth2/approval/v2"); }
+
+    void setSslIcon(const QString &icon);
 
     AuthWidget *q;
 

@@ -107,6 +107,8 @@ void AuthWidget::authenticate()
 
     qCDebug(KGAPIRaw) << "Requesting new token:" << url;
 
+    d->sslIndicator->setVisible(true);
+    d->urlEdit->setVisible(true);
     d->webview->setVisible(true);
     if (d->showProgressBar) {
         d->progressbar->setVisible(true);
