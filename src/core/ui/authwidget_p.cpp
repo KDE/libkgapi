@@ -25,34 +25,78 @@
 #include "private/newtokensfetchjob_p.h"
 #include "../../debug.h"
 
-#include <QWebEngineView>
 #include <QWebEngineProfile>
 #include <QNetworkReply>
 #include <QContextMenuEvent>
+
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QTimer>
+#include <QMessageBox>
 
 #include <QDateTime>
 
 using namespace KGAPI2;
 
-WebView::WebView(QWidget *parent)
-    : QWebEngineView(parent)
+namespace
 {
-    // Don't store cookies, so that subsequent invocations of AuthJob won't remember
-    // the previous accounts.
-    QWebEngineProfile::defaultProfile()->setPersistentCookiesPolicy(QWebEngineProfile::NoPersistentCookies);
+
+class WebView : public QWebEngineView
+{
+    Q_OBJECT
+public:
+    explicit WebView(QWidget *parent = nullptr)
+        : QWebEngineView(parent)
+    {
+        // Don't store cookies, so that subsequent invocations of AuthJob won't remember
+        // the previous accounts.
+        QWebEngineProfile::defaultProfile()->setPersistentCookiesPolicy(QWebEngineProfile::NoPersistentCookies);
+    }
+
+    void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE
+    {
+        // No menu
+        e->accept();
+    }
+};
+
+class WebPage : public QWebEnginePage
+{
+    Q_OBJECT
+public:
+    explicit WebPage(QObject *parent = nullptr)
+        : QWebEnginePage(parent)
+        , mLastError(nullptr)
+    {
+    }
+
+    QWebEngineCertificateError *lastCertificateError() const
+    {
+        return mLastError;
+    }
+
+    bool certificateError(const QWebEngineCertificateError &err) Q_DECL_OVERRIDE
+    {
+        if (mLastError) {
+            delete mLastError;
+        }
+        mLastError = new QWebEngineCertificateError(err.error(), err.url(), err.isOverridable(), err.errorDescription());
+        Q_EMIT sslError();
+
+        return false; // don't let it through
+    }
+
+Q_SIGNALS:
+    void sslError();
+
+private:
+    QWebEngineCertificateError *mLastError;
+};
+
 }
 
 
-WebView::~WebView()
-{
 
-}
-
-void WebView::contextMenuEvent(QContextMenuEvent *e)
-{
-    // No menu
-    e->accept();
-}
 
 AuthWidgetPrivate::AuthWidgetPrivate(AuthWidget *parent):
     QObject(),
@@ -67,6 +111,15 @@ AuthWidgetPrivate::~AuthWidgetPrivate()
 {
 }
 
+void AuthWidgetPrivate::setSslIcon(const QString &iconName)
+{
+    // FIXME: workaround for silly Breeze icons: the small 22x22 icons are
+    // monochromatic, which is absolutely useless since we are trying to security
+    // information here, so instead we force use the bigger 48x48 icons which
+    // have colors and downscale them
+    sslIndicator->setIcon(QIcon::fromTheme(iconName).pixmap(48));
+}
+
 void AuthWidgetPrivate::setupUi()
 {
     vbox = new QVBoxLayout(q);
@@ -79,6 +132,26 @@ void AuthWidgetPrivate::setupUi()
     label->setVisible(false);
     vbox->addWidget(label);
 
+    auto hbox = new QHBoxLayout;
+    hbox->setSpacing(0);
+    sslIndicator = new QToolButton(q);
+    connect(sslIndicator, &QToolButton::clicked,
+            this, [this]() {
+                auto page = qobject_cast<WebPage*>(webview->page());
+                if (auto err = page->lastCertificateError()) {
+                    QMessageBox msg;
+                    msg.setIconPixmap(QIcon::fromTheme(QStringLiteral("security-low")).pixmap(64));
+                    msg.setText(err->errorDescription());
+                    msg.addButton(QMessageBox::Ok);
+                    msg.exec();
+                }
+            });
+    hbox->addWidget(sslIndicator);
+    urlEdit = new QLineEdit(q);
+    urlEdit->setReadOnly(true);
+    hbox->addWidget(urlEdit);
+    vbox->addLayout(hbox);
+
     progressbar = new QProgressBar(q);
     progressbar->setMinimum(0);
     progressbar->setMaximum(100);
@@ -86,6 +159,13 @@ void AuthWidgetPrivate::setupUi()
     vbox->addWidget(progressbar);
 
     webview = new WebView(q);
+
+    auto webpage = new WebPage(webview);
+    connect(webpage, &WebPage::sslError,
+            this, [this]() {
+                setSslIcon(QStringLiteral("security-low"));
+            });
+    webview->setPage(webpage);
 
     vbox->addWidget(webview);
     connect(webview, &QWebEngineView::loadProgress, progressbar, &QProgressBar::setValue);
@@ -104,6 +184,8 @@ void AuthWidgetPrivate::setProgress(AuthWidget::Progress progress)
 void AuthWidgetPrivate::emitError(const enum Error errCode, const QString& msg)
 {
     label->setVisible(true);
+    sslIndicator->setVisible(false);
+    urlEdit->setVisible(false);
     webview->setVisible(false);
     progressbar->setVisible(false);
 
@@ -118,9 +200,32 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
 {
     qCDebug(KGAPIDebug) << "URLChange:" << url;
 
-    if (!isGoogleHost(url)) {
+    // Whoa! That should not happen!
+    if (url.scheme() != QLatin1String("https")) {
+        QTimer::singleShot(0, this, [this, url]() {
+            QUrl sslUrl = url;
+            sslUrl.setScheme(QStringLiteral("https"));
+            webview->setUrl(sslUrl);
+        });
         return;
     }
+
+    if (!isGoogleHost(url)) {
+        // We handled SSL above, so we are secure. We are however outside of
+        // accounts.google.com, which is a little suspicious in context of this class
+        setSslIcon(QStringLiteral("security-medium"));
+        return;
+    }
+
+    if (qobject_cast<WebPage*>(webview->page())->lastCertificateError()) {
+        setSslIcon(QStringLiteral("security-low"));
+    } else {
+        // We have no way of obtaining current SSL certifiace from QWebEngine, but we
+        // handled SSL and accounts.google.com cases above and QWebEngine did not report
+        // any SSL error to us, so we can assume we are safe.
+        setSslIcon(QStringLiteral("security-high"));
+    }
+
 
     // Username and password inputs are loaded dynamically, so we only get
     // urlChanged, but not urlFinished.
@@ -145,6 +250,8 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
     } else if (isTokenPage(url)) {
         /* Access token here - hide browser and tell user to wait until we
          * finish the authentication process ourselves */
+        sslIndicator->setVisible(false);
+        urlEdit->setVisible(false);
         webview->setVisible(false);
         progressbar->setVisible(false);
         label->setVisible(true);
@@ -160,6 +267,8 @@ void AuthWidgetPrivate::webviewFinished(bool ok)
     }
 
     const QUrl url = webview->url();
+    urlEdit->setText(url.toDisplayString(QUrl::PrettyDecoded));
+    urlEdit->setCursorPosition(0);
     qCDebug(KGAPIDebug) << "URLFinished:" << url;
 
     if (!isGoogleHost(url)) {
@@ -238,3 +347,5 @@ void AuthWidgetPrivate::accountInfoReceived(KGAPI2::Job* job)
     setProgress(AuthWidget::Finished);
 }
 
+
+#include "authwidget_p.moc"
