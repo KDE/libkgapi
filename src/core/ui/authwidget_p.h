@@ -82,6 +82,12 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
     void setupUi();
     void setProgress(AuthWidget::Progress progress);
 
+    bool isGoogleHost(const QUrl &url) const { return url.host() == QLatin1String("accounts.google.com"); }
+    bool isSigninPage(const QUrl &url) const { return url.path() == QLatin1String("/signin/oauth"); }
+    bool isUsernameFrame(const QUrl &url) { return url.path() == QLatin1String("/signin/oauth/identifier"); }
+    bool isPasswordFrame(const QUrl &url) { return url.path() == QLatin1String("/signin/v2/challenge/pwd"); }
+    bool isTokenPage(const QUrl &url) { return url.path() == QLatin1String("/o/oauth2/approval/v2"); }
+
     AuthWidget *q;
 
     friend class AuthWidget;
