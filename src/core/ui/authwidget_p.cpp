@@ -26,6 +26,7 @@
 #include "../../debug.h"
 
 #include <QWebEngineView>
+#include <QWebEngineProfile>
 #include <QNetworkReply>
 #include <QContextMenuEvent>
 
@@ -36,6 +37,9 @@ using namespace KGAPI2;
 WebView::WebView(QWidget *parent)
     : QWebEngineView(parent)
 {
+    // Don't store cookies, so that subsequent invocations of AuthJob won't remember
+    // the previous accounts.
+    QWebEngineProfile::defaultProfile()->setPersistentCookiesPolicy(QWebEngineProfile::NoPersistentCookies);
 }
 
 
