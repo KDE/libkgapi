@@ -71,8 +71,8 @@ Contact::Contact(const Contact &other):
     KContacts::Addressee(other),
     d(new Private(*(other.d)))
 {
-    QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
-    Q_FOREACH(const QString &group, groups) {
+    const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    for (const QString &group : groups) {
         d->groups.insert(group, false);
     }
 }
@@ -82,8 +82,8 @@ Contact::Contact(const KContacts::Addressee& other):
     KContacts::Addressee(other),
     d(new Private)
 {
-    QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
-    Q_FOREACH(const QString &group, groups) {
+    const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    for (const QString &group : groups) {
         d->groups.insert(group, false);
     }
 }
