@@ -73,7 +73,7 @@ ContactsGroupDeleteJob::ContactsGroupDeleteJob(const ContactsGroupsList& groups,
     d(new Private(this))
 {
     d->groupsIds.reserve(groups.size());
-    Q_FOREACH(const ContactsGroupPtr &group, groups) {
+    for(const ContactsGroupPtr &group : groups) {
         d->groupsIds << group->id();
     }
 }

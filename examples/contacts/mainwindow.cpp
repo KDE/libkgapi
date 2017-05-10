@@ -121,7 +121,7 @@ void MainWindow::slotFetchJobFinished(KGAPI2::Job *job)
     /* Get all items the job has retrieved */
     const KGAPI2::ObjectsList objects = fetchJob->items();
 
-    Q_FOREACH (const KGAPI2::ObjectPtr &object, objects) {
+    for (const KGAPI2::ObjectPtr &object : objects) {
         const KGAPI2::ContactPtr contact = object.dynamicCast<KGAPI2::Contact>();
 
         /* Convert the contact to QListWidget item */

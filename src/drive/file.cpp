@@ -632,7 +632,7 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->shared = map[QStringLiteral("shared")].toBool();
 
     const QVariantList ownersList = map[QStringLiteral("owners")].toList();
-    Q_FOREACH (const QVariant &owner, ownersList) {
+    for (const QVariant &owner : ownersList) {
         file->d->owners << User::fromJSON(owner.toMap());
     }
 

@@ -304,7 +304,7 @@ QVariant Post::Private::toJSON(const PostPtr &post)
     }
     if (!post->d->images.isEmpty()) {
         QVariantList images;
-        Q_FOREACH (const QUrl &url, post->d->images) {
+        for (const QUrl &url : qAsConst(post->d->images)) {
             QVariantMap image;
             image[QStringLiteral("url")] = url.toString();
             images << image;

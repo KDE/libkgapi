@@ -104,7 +104,7 @@ PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
     permission->d->role = Private::roleFromName(map[QStringLiteral("role")].toString());
 
     const QStringList additionalRoles = map[QStringLiteral("additionalRoles")].toStringList();
-    Q_FOREACH(const QString & additionalRole, additionalRoles) {
+    for (const QString & additionalRole : additionalRoles) {
         permission->d->additionalRoles << Private::roleFromName(additionalRole);
     }
 
@@ -262,7 +262,7 @@ PermissionsList Permission::fromJSONFeed(const QByteArray &jsonData)
 
     PermissionsList permissions;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    Q_FOREACH(const QVariant & item, items) {
+    for (const QVariant & item : items) {
         const PermissionPtr permission = Private::fromJSON(item.toMap());
         if (!permission.isNull()) {
             permissions << permission;

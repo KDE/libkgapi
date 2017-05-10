@@ -164,7 +164,7 @@ typedef QList<PostPtr> PostsList;
 template<class T>
 ObjectsList operator<<(ObjectsList &objectsList, const QList< QSharedPointer<T> > &list)
 {
-    Q_FOREACH (const QSharedPointer<T> &item, list) {
+    for (const QSharedPointer<T> &item : list) {
         objectsList << item;
     }
 

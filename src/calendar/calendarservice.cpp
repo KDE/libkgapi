@@ -263,7 +263,7 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
 
     const QVariantList items = data.value(QStringLiteral("items")).toList();
     list.reserve(items.size());
-    Q_FOREACH(const QVariant &i, items) {
+    for (const QVariant &i : items) {
         list.append(Private::JSONToCalendar(i.toMap()));
     }
 
@@ -454,8 +454,8 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         event->setUseDefaultReminders(false);
     }
 
-    QVariantList overrides = reminders.value(QStringLiteral("overrides")).toList();
-    Q_FOREACH(const QVariant & r, overrides) {
+    const QVariantList overrides = reminders.value(QStringLiteral("overrides")).toList();
+    for (const QVariant & r : overrides) {
         QVariantMap override = r.toMap();
         KCalCore::Alarm::Ptr alarm(new KCalCore::Alarm(static_cast<KCalCore::Incidence*>(event.data())));
         alarm->setTime(event->dtStart());
@@ -547,7 +547,7 @@ QByteArray eventToJSON(const EventPtr& event)
     QStringList dates;
     const auto rDates = event->recurrence()->rDates();
     dates.reserve(rDates.size());
-    Q_FOREACH(const QDate & rDate, rDates) {
+    for (const QDate & rDate : rDates) {
         dates << rDate.toString(QStringLiteral("yyyyMMdd"));
     }
 
@@ -558,7 +558,7 @@ QByteArray eventToJSON(const EventPtr& event)
     dates.clear();
     const auto exDates = event->recurrence()->exDates();
     dates.reserve(exDates.size());
-    Q_FOREACH(const QDate & exDate, exDates) {
+    for (const QDate & exDate : exDates) {
         dates << exDate.toString(QStringLiteral("yyyyMMdd"));
     }
 
@@ -720,7 +720,7 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     ObjectsList list;
     const QVariantList items = data.value(QStringLiteral("items")).toList();
     list.reserve(items.size());
-    Q_FOREACH(const QVariant &i, items) {
+    for (const QVariant &i : items) {
         list.append(Private::JSONToEvent(i.toMap(), timezone));
     }
 
@@ -736,8 +736,8 @@ KCalCore::DateList Private::parseRDate(const QString& rule)
     KTimeZone tz;
 
     QString left = rule.left(rule.indexOf(QLatin1Char(':')));
-    QStringList params = left.split(QLatin1Char(';'));
-    Q_FOREACH(const QString & param, params) {
+    const QStringList params = left.split(QLatin1Char(';'));
+    for (const QString &param : params) {
         if (param.startsWith(QLatin1String("VALUE"))) {
             value = param.mid(param.indexOf(QLatin1Char('=')) + 1);
         } else if (param.startsWith(QLatin1String("TZID"))) {
@@ -1005,7 +1005,7 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
     const QString vcard = format.toICalString(incidence);
     const QStringList properties = vcard.split(QLatin1Char('\n'));
     int CDOId = -1;
-    Q_FOREACH(const QString &property, properties) {
+    for (const QString &property : properties) {
         if (property.startsWith(QStringLiteral("X-MICROSOFT-CDO-TZID"))) {
             QStringList parsed = property.split(QLatin1Char(':'));
             if (parsed.length() != 2) {

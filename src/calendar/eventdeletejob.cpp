@@ -50,7 +50,7 @@ EventDeleteJob::EventDeleteJob(const EventsList& events, const QString& calendar
     DeleteJob(account, parent),
     d(new Private)
 {
-    Q_FOREACH(const EventPtr &event, events) {
+    for (const EventPtr &event : events) {
         d->eventsIds << event->uid();
     }
     d->calendarId = calendarId;

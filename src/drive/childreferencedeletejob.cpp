@@ -78,7 +78,7 @@ ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
     d(new Private)
 {
     d->folderId = folderId;
-    Q_FOREACH(const ChildReferencePtr & reference, references) {
+    for (const ChildReferencePtr & reference : references) {
         d->childrenIds << reference->id();
     }
 }

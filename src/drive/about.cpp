@@ -476,7 +476,7 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     }
 
     const QVariantList exportFormats = map.value(QStringLiteral("exportFormats")).toList();
-    Q_FOREACH (const QVariant &v, exportFormats) {
+    for (const QVariant &v : exportFormats) {
         const QVariantMap exportFormat = v.toMap();
         FormatPtr format(new Format());
         format->d->source = exportFormat.value(QStringLiteral("source")).toString();
@@ -486,13 +486,13 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     }
 
     const QVariantList additionalRoleInfos = map.value(QStringLiteral("additionalRoleInfo")).toList();
-    Q_FOREACH (const QVariant &v, additionalRoleInfos) {
+    for (const QVariant &v : additionalRoleInfos) {
         const QVariantMap additionalRoleInfo = v.toMap();
         AdditionalRoleInfoPtr info(new AdditionalRoleInfo());
         info->d->type = additionalRoleInfo.value(QStringLiteral("type")).toString();
 
         const QVariantList roleSets = additionalRoleInfo.value(QStringLiteral("roleSets")).toList();
-        Q_FOREACH (const QVariant &vv, roleSets) {
+        for (const QVariant &vv : roleSets) {
             const QVariantMap roleSetData = vv.toMap();
             AdditionalRoleInfo::RoleSetPtr roleSet(new AdditionalRoleInfo::RoleSet());
             roleSet->d->primaryRole = roleSetData.value(QStringLiteral("primaryRole")).toString();
@@ -505,7 +505,7 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     }
 
     const QVariantList features = map.value(QStringLiteral("features")).toList();
-    Q_FOREACH (const QVariant &v, features) {
+    for (const QVariant &v : features) {
         const QVariantMap featureData = v.toMap();
         FeaturePtr feature(new Feature());
         feature->d->featureName = featureData.value(QStringLiteral("featureName")).toString();
@@ -515,7 +515,7 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     }
 
     const QVariantList maxUploadSizes = map.value(QStringLiteral("maxUploadSizes")).toList();
-    Q_FOREACH (const QVariant &v, maxUploadSizes) {
+    for (const QVariant &v : maxUploadSizes) {
         const QVariantMap maxUploadSizeData = v.toMap();
         MaxUploadSizePtr maxUploadSize(new MaxUploadSize());
         maxUploadSize->d->type = maxUploadSizeData.value(QStringLiteral("type")).toString();
