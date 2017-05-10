@@ -597,7 +597,7 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->sharedWithMeDate = QDateTime::fromString(map[QStringLiteral("sharedWithMeDate")].toString(), Qt::ISODate);
 
     const QVariantList parents = map[QStringLiteral("parents")].toList();
-    Q_FOREACH (const QVariant &parent, parents)
+    for (const QVariant &parent : parents)
     {
         file->d->parents << ParentReference::Private::fromJSON(parent.toMap());
     }
@@ -923,7 +923,7 @@ FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 
     FilesList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    Q_FOREACH (const QVariant &item, items) {
+    for (const QVariant &item : items) {
         const FilePtr file = Private::fromJSON(item.toMap());
 
         if (!file.isNull()) {
@@ -992,7 +992,7 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
     QVariantList parents;
     const auto parentReferences = file->parents();
     parents.reserve(parentReferences.size());
-    Q_FOREACH (const ParentReferencePtr &parent, parentReferences) {
+    for (const ParentReferencePtr &parent : parentReferences) {
         parents << ParentReference::Private::toJSON(parent);
     }
     if (!parents.isEmpty()) {

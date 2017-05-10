@@ -264,7 +264,7 @@ ObjectsList Page::fromJSONFeed(const QByteArray &rawData)
     ObjectsList list;
     const QVariantList variantList = map[QStringLiteral("items")].toList();
     list.reserve(variantList.size());
-    Q_FOREACH (const QVariant &item, variantList) {
+    for (const QVariant &item : variantList) {
         list << Private::fromJSON(item);
     }
     return list;

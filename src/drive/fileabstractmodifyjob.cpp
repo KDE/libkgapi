@@ -101,7 +101,7 @@ FileAbstractModifyJob::FileAbstractModifyJob(const FilesList &files,
     ModifyJob(account, parent),
     d(new Private(this))
 {
-    Q_FOREACH(const FilePtr & file, files) {
+    for (const FilePtr & file : qAsConst(files)) {
         d->filesIds << file->id();
     }
 }

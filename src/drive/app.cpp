@@ -174,7 +174,7 @@ AppPtr App::Private::fromJSON(const QVariantMap &map)
     app->d->secondaryFileExtensions = map[QStringLiteral("secondaryFileExtensions")].toStringList();
 
     const QVariantList icons = map[QStringLiteral("icons")].toList();
-    Q_FOREACH(const QVariant & i, icons) {
+    for (const QVariant & i : icons) {
         const QVariantMap &iconData = i.toMap();
 
         IconPtr icon(new Icon());
@@ -301,7 +301,7 @@ AppsList App::fromJSONFeed(const QByteArray &jsonData)
 
     AppsList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    Q_FOREACH(const QVariant & item, items) {
+    for (const QVariant & item : items) {
         const AppPtr app = Private::fromJSON(item.toMap());
 
         if (!app.isNull()) {

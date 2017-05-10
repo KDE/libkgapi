@@ -88,7 +88,7 @@ ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
     d(new Private(this))
 {
     d->fileId = fileId;
-    Q_FOREACH(const QString & parentId, parentsIds) {
+    for (const QString & parentId : qAsConst(parentsIds)) {
         d->references << ParentReferencePtr(new ParentReference(parentId));
     }
 }

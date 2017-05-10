@@ -94,7 +94,7 @@ void EventDeleteJob::start()
     QStringList headers;
     auto rawHeaderList = request.rawHeaderList();
     headers.reserve(rawHeaderList.size());
-    Q_FOREACH(const QByteArray &str, rawHeaderList) {
+    for (const QByteArray &str : qAsConst(rawHeaderList)) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
     qCDebug(KGAPIRaw) << headers;

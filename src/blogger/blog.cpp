@@ -179,7 +179,7 @@ BlogsList Blog::fromJSONFeed(const QByteArray &rawData)
     BlogsList items;
     const QVariantList blogs = map[QStringLiteral("items")].toList();
     items.reserve(blogs.size());
-    Q_FOREACH (const QVariant &blog, blogs) {
+    for (const QVariant &blog : blogs) {
         items << Blog::Private::fromJSON(blog);
     }
     return items;

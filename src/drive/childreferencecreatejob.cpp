@@ -88,7 +88,7 @@ ChildReferenceCreateJob::ChildReferenceCreateJob(const QString &folderId,
     d(new Private(this))
 {
     d->folderId = folderId;
-    Q_FOREACH(const QString & childId, childrenIds) {
+    for (const QString & childId : qAsConst(childrenIds)) {
         d->references << ChildReferencePtr(new ChildReference(childId));
     }
 }

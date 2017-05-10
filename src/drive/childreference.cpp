@@ -125,7 +125,7 @@ ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
 
     ChildReferencesList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    Q_FOREACH(const QVariant & item, items) {
+    for (const QVariant & item : items) {
         ChildReferencePtr reference = Private::fromJSON(item.toMap());
 
         if (!reference.isNull()) {

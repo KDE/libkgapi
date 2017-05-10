@@ -48,7 +48,7 @@ CalendarDeleteJob::CalendarDeleteJob(const CalendarsList& calendars, const Accou
     DeleteJob(account, parent),
     d(new Private)
 {
-    Q_FOREACH(const CalendarPtr &calendar, calendars) {
+    for (const CalendarPtr &calendar : calendars) {
         d->calendarsIds << calendar->uid();
     }
 }
@@ -89,7 +89,7 @@ void CalendarDeleteJob::start()
     QStringList headers;
     const auto rawHeaderList = request.rawHeaderList();
     headers.reserve(rawHeaderList.size());
-    Q_FOREACH(const QByteArray &str, rawHeaderList) {
+    for (const QByteArray &str : qAsConst(rawHeaderList)) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
     qCDebug(KGAPIRaw) << headers;

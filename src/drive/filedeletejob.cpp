@@ -69,7 +69,7 @@ FileDeleteJob::FileDeleteJob(const FilesList &files,
     DeleteJob(account, parent),
     d(new Private)
 {
-    Q_FOREACH(const FilePtr & file, files) {
+    for (const FilePtr & file : qAsConst(files)) {
         d->filesIDs << file->id();
     }
 }

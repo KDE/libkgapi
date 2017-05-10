@@ -139,7 +139,7 @@ ParentReferencesList ParentReference::fromJSONFeed(const QByteArray &jsonData)
 
     ParentReferencesList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    Q_FOREACH(const QVariant & item, items) {
+    for (const QVariant & item : items) {
         const ParentReferencePtr reference = Private::fromJSON(item.toMap());
 
         if (!reference.isNull()) {

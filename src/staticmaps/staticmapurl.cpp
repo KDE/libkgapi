@@ -165,13 +165,13 @@ bool StaticMapUrl::isValid() const
     bool maOrPa = true;
 
     if (d->markers.isEmpty()) {
-        Q_FOREACH(const StaticMapPath & path, d->paths) {
+        for (const StaticMapPath & path : qAsConst(d->paths)) {
             if (!path.isValid())
                 maOrPa = false;
         }
     } else {
 
-        Q_FOREACH(const StaticMapMarker & marker, d->markers) {
+        for (const StaticMapMarker & marker : qAsConst(d->markers)) {
             if (!marker.isValid())
                 maOrPa = false;
         }
@@ -444,13 +444,13 @@ QUrl StaticMapUrl::url() const
         url.addQueryItem(QStringLiteral("maptype"), maptype);
     }
 
-    Q_FOREACH(const StaticMapMarker & marker, d->markers) {
+    for (const StaticMapMarker & marker : qAsConst(d->markers)) {
 
         if (marker.isValid())
             url.addQueryItem(QStringLiteral("markers"), marker.toString());
     }
 
-    Q_FOREACH(const StaticMapPath & path, d->paths) {
+    for (const StaticMapPath & path : qAsConst(d->paths)) {
 
         if (path.isValid())
             url.addQueryItem(QStringLiteral("path"), path.toString());

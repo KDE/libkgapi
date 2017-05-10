@@ -68,7 +68,7 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
     d(new Private)
 {
     d->fileId = fileId;
-    Q_FOREACH(const PermissionPtr & permission, permissions) {
+    for (const PermissionPtr & permission : qAsConst(permissions)) {
         d->permissionsIds << permission->id();
     }
 }

@@ -78,7 +78,7 @@ RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
     d(new Private)
 {
     d->fileId = fileId;
-    Q_FOREACH(const RevisionPtr & revision, revisions) {
+    for (const RevisionPtr &revision : qAsConst(revisions)) {
         d->revisionsIds << revision->id();
     }
 }

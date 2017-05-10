@@ -66,7 +66,7 @@ void TaskDeleteJob::Private::processNextTask()
     QStringList headers;
     const auto rawHeaderList = request.rawHeaderList();
     headers.reserve(rawHeaderList.size());
-    Q_FOREACH(const QByteArray &str, rawHeaderList) {
+    for (const QByteArray &str : qAsConst(rawHeaderList)) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
     qCDebug(KGAPIRaw) << headers;
@@ -89,7 +89,7 @@ TaskDeleteJob::TaskDeleteJob(const TasksList& tasks, const QString& tasklistId,
     d(new Private(this))
 {
     d->tasksIds.reserve(tasks.size());
-    Q_FOREACH(const TaskPtr &task, tasks) {
+    for (const TaskPtr &task : qAsConst(tasks)) {
         d->tasksIds << task->uid();
     }
     d->taskListId = tasklistId;

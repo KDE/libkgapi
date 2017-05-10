@@ -147,7 +147,7 @@ ChangesList Change::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 
     ChangesList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    Q_FOREACH(const QVariant & item, items) {
+    for (const QVariant & item : items) {
         const ChangePtr change = Private::fromJSON(item.toMap());
 
         if (!change.isNull()) {

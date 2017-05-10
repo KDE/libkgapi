@@ -240,7 +240,7 @@ ObjectsList Comment::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
     }
     const QVariantList variantList = map[QStringLiteral("items")].toList();
     items.reserve(variantList.size());
-    Q_FOREACH (const QVariant &v, variantList) {
+    for (const QVariant &v : variantList) {
         items << Comment::Private::fromJSON(v);
     }
 

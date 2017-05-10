@@ -259,7 +259,7 @@ PostPtr Post::Private::fromJSON(const QVariant &json)
     post->d->longitude = location[QStringLiteral("lng")].toDouble();
 
     const QVariantList variantList = map[QStringLiteral("images")].toList();
-    Q_FOREACH (const QVariant &url, variantList) {
+    for (const QVariant &url : variantList) {
         post->d->images << url.toMap()[QStringLiteral("url")].toUrl();
     }
     post->d->status = map[QStringLiteral("status")].toString();
@@ -353,7 +353,7 @@ ObjectsList Post::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
     ObjectsList list;
     const QVariantList variantList = map[QStringLiteral("items")].toList();
     list.reserve(variantList.size());
-    Q_FOREACH (const QVariant &item, variantList) {
+    for (const QVariant &item : variantList) {
         list << Private::fromJSON(item);
     }
     return list;
