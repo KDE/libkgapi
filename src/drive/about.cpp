@@ -466,7 +466,7 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     about->d->isCurrentAppInstalled = map.value(QStringLiteral("isCurrentAppInstalled")).toBool();
 
     const QVariantList importFormats = map.value(QStringLiteral("importFormats")).toList();
-    Q_FOREACH (const QVariant &v, importFormats) {
+    for  (const QVariant &v : importFormats) {
         const QVariantMap importFormat = v.toMap();
         FormatPtr format(new Format());
         format->d->source = importFormat.value(QStringLiteral("source")).toString();

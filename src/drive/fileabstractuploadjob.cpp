@@ -220,7 +220,7 @@ FileAbstractUploadJob::FileAbstractUploadJob(const FilesList &metadata,
     d(new Private(this))
 {
     int i = 0;
-    Q_FOREACH (const FilePtr &file, metadata) {
+    for (const FilePtr &file : metadata) {
         d->files.insert(QStringLiteral("?=%1").arg(i), file);
         ++i;
     }
@@ -254,7 +254,7 @@ FileAbstractUploadJob::FileAbstractUploadJob(const QStringList &filePaths,
     FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
-    Q_FOREACH(const QString & filePath, filePaths) {
+    for (const QString & filePath : filePaths) {
         d->files.insert(filePath, FilePtr());
     }
     d->originalFilesCount = d->files.count();

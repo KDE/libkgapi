@@ -78,7 +78,7 @@ ContactDeleteJob::ContactDeleteJob(const ContactsList& contacts, const AccountPt
     d(new Private(this))
 {
     d->contactIds.reserve(contacts.size());
-    Q_FOREACH(const ContactPtr &contact, contacts) {
+    for (const ContactPtr &contact : contacts) {
         d->contactIds <<  contact->uid();
     }
 }

@@ -228,7 +228,7 @@ void Contact::setGroups(const QStringList &groups)
     insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QStringLiteral(",")));
 
     d->groups.clear();
-    Q_FOREACH(const QString &group, groups) {
+    for (const QString &group : groups) {
         d->groups.insert(group, false);
     }
 }
@@ -240,8 +240,8 @@ QStringList Contact::groups() const
 
 void Contact::clearGroups()
 {
-    QStringList groups = d->groups.keys();
-    Q_FOREACH(const QString &group, groups) {
+    const QStringList groups = d->groups.keys();
+    for (const QString &group : groups) {
         d->groups.insert(group, true);
     }
 }

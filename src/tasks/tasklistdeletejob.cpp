@@ -85,7 +85,7 @@ TaskListDeleteJob::TaskListDeleteJob(const TaskListsList& taskLists,
     d(new Private(this))
 {
     d->taskListsIds.reserve(taskLists.size());
-    Q_FOREACH(const TaskListPtr &taskList, taskLists) {
+    for (const TaskListPtr &taskList : taskLists) {
         d->taskListsIds << taskList->uid();
     }
 }

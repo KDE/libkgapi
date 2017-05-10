@@ -80,7 +80,7 @@ ParentReferenceDeleteJob::ParentReferenceDeleteJob(const QString &fileId,
     d(new Private)
 {
     d->fileId = fileId;
-    Q_FOREACH(const ParentReferencePtr & reference, references) {
+    for (const ParentReferencePtr & reference : references) {
         d->referencesIds << reference->id();
     }
 }

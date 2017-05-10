@@ -95,7 +95,7 @@ EventMoveJob::EventMoveJob(const EventsList &events, const QString &sourceCalend
     ModifyJob(account, parent),
     d(new Private(this))
 {
-    Q_FOREACH(const EventPtr &event, events) {
+    for (const EventPtr &event : events) {
         d->eventsIds << event->uid();
     }
     d->source = sourceCalendarId;

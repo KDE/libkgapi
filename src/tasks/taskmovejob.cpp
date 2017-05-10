@@ -93,7 +93,7 @@ TaskMoveJob::TaskMoveJob(const TasksList& tasks, const QString& taskListId,
     d(new Private(this))
 {
     d->tasksIds.reserve(tasks.size());
-    Q_FOREACH(const TaskPtr &task, tasks) {
+    for (const TaskPtr &task : tasks) {
         d->tasksIds << task->uid();
     }
     d->taskListId = taskListId;

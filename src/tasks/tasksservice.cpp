@@ -281,7 +281,7 @@ ObjectsList Private::parseTaskListJSONFeed(const QVariantList &items)
 {
     ObjectsList list;
     list.reserve(items.size());
-    Q_FOREACH(const QVariant &item, items) {
+    for (const QVariant &item : items) {
         list.append(Private::JSONToTaskList(item.toMap()));
     }
 
@@ -292,7 +292,7 @@ ObjectsList Private::parseTasksJSONFeed(const QVariantList &items)
 {
     ObjectsList list;
     list.reserve(items.size());
-    Q_FOREACH(const QVariant &item, items) {
+    for (const QVariant &item : items) {
         list.append(Private::JSONToTask(item.toMap()));
     }
 

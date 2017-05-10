@@ -79,7 +79,7 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     }
 
     const QVariantList links = feed.value(QStringLiteral("link")).toList();
-    Q_FOREACH(const QVariant &l, links) {
+    for (const QVariant &l : links) {
         const QVariantMap link = l.toMap();
         if (link.value(QStringLiteral("rel")).toString() == QLatin1String("next")) {
             feedData.nextPageUrl = QUrl(link.value(QStringLiteral("href")).toString());
@@ -303,7 +303,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture
      * itself. */
     const QVariantList links = data.value(QStringLiteral("link")).toList();
-    Q_FOREACH(const QVariant &link, links) {
+    for (const QVariant &link : links) {
         const QVariantMap linkMap = link.toMap();
         if (linkMap.value(QStringLiteral("rel")).toString() == QLatin1String("http://schemas.google.com/contacts/2008/rel#photo")) {
             contact->setPhotoUrl(linkMap.value(QStringLiteral("href")).toString());
@@ -376,7 +376,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     /* Relationships */
     if (data.contains(QStringLiteral("gContact$relation"))) {
         const QVariantList relations = data.value(QStringLiteral("gContact$relation")).toList();
-        Q_FOREACH(const QVariant &r, relations) {
+        for (const QVariant &r : relations) {
             const QVariantMap relation = r.toMap();
             if (relation.value(QStringLiteral("rel")).toString() == QLatin1String("spouse")) {
                 contact->setSpousesName(relation.value(QStringLiteral("$t")).toString());
@@ -411,7 +411,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     /* Websites */
     if (data.contains(QStringLiteral("gContact$website"))) {
         const QVariantList websites = data.value(QStringLiteral("gContact$website")).toList();
-        Q_FOREACH(const QVariant &w, websites) {
+        for (const QVariant &w : websites) {
             const QVariantMap web = w.toMap();
 
             if (web.value(QStringLiteral("rel")).toString() == QLatin1String("home-page")) {
@@ -430,7 +430,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
 
     /* Emails */
     const QVariantList emails = data.value(QStringLiteral("gd$email")).toList();
-    Q_FOREACH(const QVariant & em, emails) {
+    for (const QVariant & em : emails) {
         const QVariantMap email = em.toMap();
         contact->insertEmail(email.value(QStringLiteral("address")).toString(),
                             email.value(QStringLiteral("primary")).toBool());
@@ -733,8 +733,8 @@ QByteArray contactToXML(const ContactPtr& contact)
 
     const QStringList groups = contact->custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','));
     qCDebug(KGAPIDebug) << groups;
-    if ((groups.length() > 0) && !groups.at(0).isEmpty()) {
-        Q_FOREACH(const QString & group, groups) {
+    if ((!groups.isEmpty()) && !groups.at(0).isEmpty()) {
+        for (const QString & group :groups) {
             bool removed = contact->groupIsDeleted(group);
             if (!removed)
                 output.append(QStringLiteral("<gContact:groupMembershipInfo deleted=\"false\" href=\"%2\" />").arg(group).toUtf8());
@@ -745,7 +745,7 @@ QByteArray contactToXML(const ContactPtr& contact)
     /* User-defined fields */
     const QStringList customs = contact->customs();
     const QString defined_str = QStringLiteral("<gContact:userDefinedField key=\"%1\" value=\"%2\" />");
-    Q_FOREACH(const QString &customStr, customs) {
+    for (const QString &customStr : customs) {
         QString key = customStr.left(customStr.indexOf(QLatin1Char(':')));
         if (!parsedCustoms.contains(key)) {
             if (key.startsWith(QLatin1String("KADDRESSBOOK-"))) {

@@ -126,7 +126,7 @@ void FreeBusyQueryJob::handleReply(const QNetworkReply *reply, const QByteArray 
             setErrorString(tr("FreeBusy information is not available"));
         } else {
             const QVariantList busyList = cal[QStringLiteral("busy")].toList();
-            Q_FOREACH (const QVariant &busyV, busyList) {
+            for (const QVariant &busyV : busyList) {
                 const QVariantMap busy = busyV.toMap();
                 d->busy << BusyRange{ 
                     KDateTime::fromString(busy[QStringLiteral("start")].toString(), KDateTime::RFC3339Date).dateTime(),
