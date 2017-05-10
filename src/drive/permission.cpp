@@ -285,7 +285,7 @@ QByteArray Permission::toJSON(const PermissionPtr &permission)
     QVariantList additionalRoles;
     const auto roles = permission->additionalRoles();
     additionalRoles.reserve(roles.size());
-    Q_FOREACH(Permission::Role additionalRole, roles) {  // krazy:exclude=foreach it's POD
+    for (Permission::Role additionalRole : roles) {
         additionalRoles << Private::roleToName(additionalRole);
     }
     if (!additionalRoles.isEmpty()) {

@@ -202,8 +202,8 @@ ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
         calendar->setEditable(false);
     }
 
-    QVariantList reminders = data.value(QStringLiteral("defaultReminders")).toList();
-    Q_FOREACH(const QVariant & r, reminders) {
+    const QVariantList reminders = data.value(QStringLiteral("defaultReminders")).toList();
+    for (const QVariant &r : reminders) {
         QVariantMap reminder = r.toMap();
 
         ReminderPtr rem(new Reminder());
@@ -390,8 +390,8 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     }
 
     /* Attendees */
-    QVariantList attendees = data.value(QStringLiteral("attendees")).toList();
-    Q_FOREACH(const QVariant & a, attendees) {
+    const QVariantList attendees = data.value(QStringLiteral("attendees")).toList();
+    for (const QVariant & a : attendees) {
         QVariantMap att = a.toMap();
         KCalCore::Attendee::Ptr attendee(
             new KCalCore::Attendee(
@@ -425,8 +425,8 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     }
 
     /* Recurrence */
-    QStringList recrs = data.value(QStringLiteral("recurrence")).toStringList();
-    Q_FOREACH(const QString & rec, recrs) {
+    const QStringList recrs = data.value(QStringLiteral("recurrence")).toStringList();
+    for (const QString & rec : recrs) {
         KCalCore::ICalFormat format;
         if (rec.left(5) == QLatin1String("RRULE")) {
             KCalCore::RecurrenceRule *recurrenceRule = new KCalCore::RecurrenceRule();
@@ -536,11 +536,11 @@ QByteArray eventToJSON(const EventPtr& event)
     const auto exRules = event->recurrence()->exRules();
     const auto rRules = event->recurrence()->rRules();
     recurrence.reserve(rRules.size() + rRules.size() + 2);
-    Q_FOREACH(KCalCore::RecurrenceRule * rRule, rRules) {
+    for (KCalCore::RecurrenceRule *rRule : rRules) {
         recurrence << format.toString(rRule).remove(QStringLiteral("\r\n"));
     }
 
-    Q_FOREACH(KCalCore::RecurrenceRule * rRule, exRules) {
+    for (KCalCore::RecurrenceRule *rRule : exRules) {
         recurrence << format.toString(rRule).remove(QStringLiteral("\r\n"));
     }
 
@@ -747,8 +747,8 @@ KCalCore::DateList Private::parseRDate(const QString& rule)
     }
 
     QString datesStr = rule.mid(rule.lastIndexOf(QLatin1Char(':')) + 1);
-    QStringList dates = datesStr.split(QLatin1Char(','));
-    Q_FOREACH(const QString &date, dates) {
+    const QStringList dates = datesStr.split(QLatin1Char(','));
+    for (const QString &date : dates) {
         QDate dt;
 
         if (value == QLatin1String("DATE")) {

@@ -49,6 +49,9 @@ find_package(KF5 ${KF5_VERSION} REQUIRED COMPONENTS
 find_package(KF5CalendarCore ${KCALENDARCORE_LIB_VERSION} CONFIG REQUIRED)
 find_package(KF5Contacts ${KCONTACTS_LIB_VERSION} CONFIG REQUIRED)
 
+add_definitions( -DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT )
+add_definitions("-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII")
+
 ############## Targets ##############
 add_subdirectory(src)
 add_subdirectory(examples)

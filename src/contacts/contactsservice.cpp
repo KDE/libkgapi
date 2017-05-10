@@ -60,7 +60,7 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     const QVariantMap head = document.toVariant().toMap();
     const QVariantMap feed = head.value(QStringLiteral("feed")).toMap();
     const QVariantList categories = feed.value(QStringLiteral("category")).toList();
-    Q_FOREACH(const QVariant &c, categories) {
+    for (const QVariant &c : categories) {
         const QVariantMap category = c.toMap();
         bool groups = false;
 
@@ -69,7 +69,7 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
         }
 
         const QVariantList entries = feed.value(QStringLiteral("entry")).toList();
-        Q_FOREACH(const QVariant &e, entries) {
+        for (const QVariant &e : entries) {
             if (groups) {
                 output << Private::JSONToContactsGroup(e.toMap());
             } else {
@@ -267,7 +267,7 @@ ContactsGroupPtr JSONToContactsGroup(const QByteArray& jsonData)
     const QVariantList categories = entry.value(QStringLiteral("category")).toList();
 
     bool isGroup = false;
-    Q_FOREACH(const QVariant &c, categories) {
+    for (const QVariant &c : categories) {
         const QVariantMap category = c.toMap();
 
         if (category.value(QStringLiteral("term")).toString() == QLatin1String("http://schemas.google.com/contact/2008#group")) {
@@ -398,7 +398,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     /* Anniversary */
     if (data.contains(QStringLiteral("gContact$event"))) {
         const QVariantList events = data.value(QStringLiteral("gContact$event")).toList();
-        Q_FOREACH(const QVariant &e, events) {
+        for (const QVariant &e : events) {
             const QVariantMap event = e.toMap();
 
             if (event.value(QStringLiteral("rel")).toString() == QLatin1String("anniversary")) {
@@ -438,7 +438,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
 
     /* IMs */
     const QVariantList ims = data.value(QStringLiteral("gd$im")).toList();
-    Q_FOREACH(const QVariant & i, ims) {
+    for (const QVariant & i : ims) {
         const QVariantMap im = i.toMap();
         const QString protocol = Contact::IMSchemeToProtocolName(im.value(QStringLiteral("protocol")).toString());
         contact->insertCustom(QLatin1String("messaging/") + protocol,
@@ -448,7 +448,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
 
     /* Phone numbers */
     const QVariantList phones = data.value(QStringLiteral("gd$phoneNumber")).toList();
-    Q_FOREACH(const QVariant & p, phones) {
+    for (const QVariant & p : phones) {
         const QVariantMap phone = p.toMap();
         contact->insertPhoneNumber(KContacts::PhoneNumber(phone.value(QStringLiteral("$t")).toString(),
                                   Contact::phoneSchemeToType(phone.value(QStringLiteral("rel")).toString())));
@@ -456,7 +456,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
 
     /* Addresses */
     const QVariantList addresses = data.value(QStringLiteral("gd$structuredPostalAddress")).toList();
-    Q_FOREACH(const QVariant & a, addresses) {
+    for (const QVariant &a : addresses) {
         const QVariantMap address = a.toMap();
         KContacts::Address addr;
         if (!address.contains(QStringLiteral("gd$city")) &&
@@ -506,7 +506,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
 
     /* User-defined fields */
     const QVariantList userDefined = data.value(QStringLiteral("gContact$userDefinedField")).toList();
-    Q_FOREACH(const QVariant & u, userDefined) {
+    for (const QVariant & u : userDefined) {
         const QVariantMap field = u.toMap();
         contact->insertCustom(QStringLiteral("KADDRESSBOOK"),
                              field.value(QStringLiteral("key")).toString(),
@@ -516,7 +516,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     /* Groups */
     const QVariantList groups = data.value(QStringLiteral("gContact$groupMembershipInfo")).toList();
     QStringList groupsList;
-    Q_FOREACH(const QVariant & g, groups) {
+    for (const QVariant & g : groups) {
         const QVariantMap group = g.toMap();
         if (group.value(QStringLiteral("deleted")).toBool() == false) {
             groupsList.append(group.value(QStringLiteral("href")).toString());
@@ -536,7 +536,7 @@ ContactPtr JSONToContact(const QByteArray& jsonData)
     const QVariantList categories = entry.value(QStringLiteral("category")).toList();
 
     bool isContact = false;
-    Q_FOREACH(const QVariant &c, categories) {
+    for (const QVariant &c : categories) {
         const QVariantMap category = c.toMap();
 
         if (category.value(QStringLiteral("term")).toString() == QLatin1String("http://schemas.google.com/contact/2008#contact")) {

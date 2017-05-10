@@ -1074,7 +1074,7 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
     file->d->userPermission = Permission::Private::fromJSON(userPermissionData);
 
     const QVariantList parents = map[QLatin1String("parents")].toList();
-    Q_FOREACH (const QVariant &parent, parents)
+    for (const QVariant &parent : parents)
     {
         file->d->parents << ParentReference::Private::fromJSON(parent.toMap());
     }
@@ -1096,7 +1096,7 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
 
 
     const QVariantList ownersList = map[QLatin1String("owners")].toList();
-    Q_FOREACH (const QVariant &owner, ownersList) {
+    for (const QVariant &owner : ownersList) {
         file->d->owners << User::fromJSON(owner.toMap());
     }
 
