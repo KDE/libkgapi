@@ -36,11 +36,11 @@ class KGAPIBLOGGER_EXPORT PageDeleteJob : public KGAPI2::DeleteJob
   public:
     explicit PageDeleteJob(const PagePtr &page,
                            const AccountPtr &account,
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     explicit PageDeleteJob(const QString &blogId,
                            const QString &pageId,
                            const AccountPtr &account,
-                           QObject *parent = 0 );
+                           QObject *parent = nullptr );
     virtual ~PageDeleteJob();
 
   protected:

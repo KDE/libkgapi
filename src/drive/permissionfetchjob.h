@@ -39,13 +39,13 @@ class KGAPIDRIVE_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
 
   public:
     explicit PermissionFetchJob(const QString &fileId, const AccountPtr &account,
-                                QObject *parent = 0);
+                                QObject *parent = nullptr);
     explicit PermissionFetchJob(const FilePtr &file, const AccountPtr &account,
-                                QObject *parent = 0);
+                                QObject *parent = nullptr);
     explicit PermissionFetchJob(const QString &fileId, const QString &permissionId,
-                                const AccountPtr &account, QObject *parent = 0);
+                                const AccountPtr &account, QObject *parent = nullptr);
     explicit PermissionFetchJob(const FilePtr &file, const QString &permissionId,
-                                const AccountPtr &account, QObject *parent = 0);
+                                const AccountPtr &account, QObject *parent = nullptr);
     virtual ~PermissionFetchJob();
 
   protected:

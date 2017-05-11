@@ -40,13 +40,13 @@ class KGAPIDRIVE_EXPORT FileDeleteJob : public KGAPI2::DeleteJob
 
   public:
     explicit FileDeleteJob(const QString &fileId,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileDeleteJob(const QStringList &filesIds,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileDeleteJob(const FilePtr &file,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileDeleteJob(const FilesList &files,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     virtual ~FileDeleteJob();
 
   protected:

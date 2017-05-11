@@ -41,16 +41,16 @@ class KGAPIDRIVE_EXPORT FileCopyJob : public KGAPI2::Drive::FileAbstractDataJob
   public:
     explicit FileCopyJob(const QString &sourceFileId,
                          const FilePtr &destinationFile,
-                         const AccountPtr &account, QObject *parent = 0);
+                         const AccountPtr &account, QObject *parent = nullptr);
     explicit FileCopyJob(const FilePtr &sourceFile,
                          const FilePtr &destinationFile,
-                         const AccountPtr &account, QObject *parent = 0);
+                         const AccountPtr &account, QObject *parent = nullptr);
     explicit FileCopyJob(const QMap < QString /* source file id */,
                          FilePtr /* destination file */ > &files,
-                         const AccountPtr &account, QObject *parent = 0);
+                         const AccountPtr &account, QObject *parent = nullptr);
     explicit FileCopyJob(const QMap < FilePtr /* source file */,
                          FilePtr /* destination file */ > &files,
-                         const AccountPtr &account, QObject *parent = 0);
+                         const AccountPtr &account, QObject *parent = nullptr);
     virtual ~FileCopyJob();
 
     FilesList files() const;

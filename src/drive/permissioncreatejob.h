@@ -39,10 +39,10 @@ class KGAPIDRIVE_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
   public:
     explicit PermissionCreateJob(const QString &fileId,
                                  const PermissionPtr &permission,
-                                 const AccountPtr &account, QObject *parent = 0);
+                                 const AccountPtr &account, QObject *parent = nullptr);
     explicit PermissionCreateJob(const QString &fileId,
                                  const PermissionsList &permissions,
-                                 const AccountPtr &account, QObject *parent = 0);
+                                 const AccountPtr &account, QObject *parent = nullptr);
     virtual ~PermissionCreateJob();
 
   protected:

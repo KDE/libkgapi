@@ -43,7 +43,7 @@ class KGAPIBLOGGER_EXPORT BlogFetchJob : public KGAPI2::FetchJob
     explicit BlogFetchJob(const QString &id,
                           FetchBy fetchBy,
                           const AccountPtr &account = AccountPtr(),
-                          QObject *parent = 0);
+                          QObject *parent = nullptr);
     virtual ~BlogFetchJob();
 
   protected:

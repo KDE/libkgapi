@@ -40,13 +40,13 @@ class KGAPIDRIVE_EXPORT RevisionDeleteJob : public KGAPI2::DeleteJob
 
   public:
     explicit RevisionDeleteJob(const QString &fileId, const QString &revisionId,
-                               const AccountPtr &account, QObject *parent = 0);
+                               const AccountPtr &account, QObject *parent = nullptr);
     explicit RevisionDeleteJob(const QString &fileId, const QStringList &revisionsIds,
-                               const AccountPtr &account, QObject *parent = 0);
+                               const AccountPtr &account, QObject *parent = nullptr);
     explicit RevisionDeleteJob(const QString &fileId, const RevisionPtr &revision,
-                               const AccountPtr &account, QObject *parent = 0);
+                               const AccountPtr &account, QObject *parent = nullptr);
     explicit RevisionDeleteJob(const QString &fileId, const RevisionsList &revisions,
-                               const AccountPtr &account, QObject *parent = 0);
+                               const AccountPtr &account, QObject *parent = nullptr);
     virtual ~RevisionDeleteJob();
 
   protected:

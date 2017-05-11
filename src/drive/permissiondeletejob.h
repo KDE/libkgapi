@@ -42,16 +42,16 @@ class KGAPIDRIVE_EXPORT PermissionDeleteJob :  KGAPI2::DeleteJob
   public:
     explicit PermissionDeleteJob(const QString &fileId,
                                  const PermissionPtr &permission,
-                                 const AccountPtr &account, QObject *parent = 0);
+                                 const AccountPtr &account, QObject *parent = nullptr);
     explicit PermissionDeleteJob(const QString &fileId,
                                  const QString &permissionId,
-                                 const AccountPtr &account, QObject *parent = 0);
+                                 const AccountPtr &account, QObject *parent = nullptr);
     explicit PermissionDeleteJob(const QString &fileId,
                                  const PermissionsList &permissions,
-                                 const AccountPtr &account, QObject *parent = 0);
+                                 const AccountPtr &account, QObject *parent = nullptr);
     explicit PermissionDeleteJob(const QString &fileId,
                                  const QStringList &permissionsIds,
-                                 const AccountPtr &account, QObject *parent = 0);
+                                 const AccountPtr &account, QObject *parent = nullptr);
     virtual ~PermissionDeleteJob();
 
   protected:

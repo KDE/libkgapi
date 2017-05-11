@@ -48,7 +48,7 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit ContactFetchPhotoJob(const ContactsList &contacts,
-                                  const AccountPtr &account, QObject *parent = 0);
+                                  const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch photos for given @p contact
@@ -58,7 +58,7 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit ContactFetchPhotoJob(const ContactPtr &contact,
-                                  const AccountPtr &account, QObject *parent = 0);
+                                  const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor

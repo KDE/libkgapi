@@ -90,7 +90,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param parent
      */
     explicit TaskDeleteJob(const QStringList &tasksIds, const QString &taskListId,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor

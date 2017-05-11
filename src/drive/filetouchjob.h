@@ -38,13 +38,13 @@ class KGAPIDRIVE_EXPORT FileTouchJob : public KGAPI2::Drive::FileAbstractModifyJ
 
   public:
     explicit FileTouchJob(const QString &fileId, const AccountPtr &account,
-                          QObject *parent = 0);
+                          QObject *parent = nullptr);
     explicit FileTouchJob(const QStringList &filesIds,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     explicit FileTouchJob(const FilePtr &file,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     explicit FileTouchJob(const FilesList &files,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     virtual ~FileTouchJob();
 
   protected:

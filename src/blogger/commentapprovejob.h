@@ -43,11 +43,11 @@ class KGAPIBLOGGER_EXPORT CommentApproveJob : public KGAPI2::ModifyJob
                                const QString &commentId,
                                ApprovalAction action,
                                const AccountPtr &account,
-                               QObject *parent = 0);
+                               QObject *parent = nullptr);
     explicit CommentApproveJob(const CommentPtr &comment,
                                ApprovalAction action,
                                const AccountPtr &account,
-                               QObject *parent = 0);
+                               QObject *parent = nullptr);
     virtual ~CommentApproveJob();
 
   protected:

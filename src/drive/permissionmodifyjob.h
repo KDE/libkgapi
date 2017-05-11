@@ -40,10 +40,10 @@ class KGAPIDRIVE_EXPORT PermissionModifyJob : public KGAPI2::ModifyJob
   public:
     explicit PermissionModifyJob(const QString &fileId,
                                  const PermissionPtr &permission,
-                                 const AccountPtr &account, QObject *parent = 0);
+                                 const AccountPtr &account, QObject *parent = nullptr);
     explicit PermissionModifyJob(const QString &fileId,
                                  const PermissionsList &permissions,
-                                 const AccountPtr &account, QObject *parent = 0);
+                                 const AccountPtr &account, QObject *parent = nullptr);
     virtual ~PermissionModifyJob();
 
   protected:

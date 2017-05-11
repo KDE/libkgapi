@@ -100,7 +100,7 @@ class KGAPIDRIVE_EXPORT FileAbstractDataJob : public KGAPI2::Job
 
   public:
     explicit FileAbstractDataJob(const AccountPtr &account,
-                                 QObject *parent = 0);
+                                 QObject *parent = nullptr);
     virtual ~FileAbstractDataJob();
 
     bool convert() const;

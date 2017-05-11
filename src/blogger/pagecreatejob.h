@@ -36,7 +36,7 @@ class KGAPIBLOGGER_EXPORT PageCreateJob : public KGAPI2::CreateJob
   public:
     explicit PageCreateJob(const PagePtr &page,
                            const AccountPtr &account,
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     virtual ~PageCreateJob();
 
   protected:

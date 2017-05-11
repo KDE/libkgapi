@@ -36,9 +36,9 @@ class KGAPIDRIVE_EXPORT AppFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
   public:
-    explicit AppFetchJob(const AccountPtr &account, QObject *parent = 0);
+    explicit AppFetchJob(const AccountPtr &account, QObject *parent = nullptr);
     explicit AppFetchJob(const QString &appId, const AccountPtr &account,
-                         QObject *parent = 0);
+                         QObject *parent = nullptr);
     virtual ~AppFetchJob();
 
   protected:

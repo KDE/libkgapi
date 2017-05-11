@@ -37,7 +37,7 @@ class KGAPIBLOGGER_EXPORT PostCreateJob : public KGAPI2::CreateJob
     explicit PostCreateJob(const PostPtr &post,
                            bool isDraft,
                            const AccountPtr &account,
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     virtual ~PostCreateJob();
 
   protected:

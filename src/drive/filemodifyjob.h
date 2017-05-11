@@ -75,16 +75,16 @@ class KGAPIDRIVE_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUpload
 
   public:
     explicit FileModifyJob(const FilePtr &metadata,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileModifyJob(const QString &filePath, const QString &fileId,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileModifyJob(const QString &filePath,
                            const FilePtr &metaData,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileModifyJob(const QMap < QString /* file path */, QString /* file ID */ > &files,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileModifyJob(const QMap < QString /* file path */, FilePtr /* metadata */ > &files,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     virtual ~FileModifyJob();
 
     bool createNewRevision() const;

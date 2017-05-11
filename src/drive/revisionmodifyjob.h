@@ -39,10 +39,10 @@ class KGAPIDRIVE_EXPORT RevisionModifyJob : public KGAPI2::ModifyJob
   public:
     explicit RevisionModifyJob(const QString &fileId,
                                const RevisionPtr &revision,
-                               const AccountPtr &account, QObject *parent = 0);
+                               const AccountPtr &account, QObject *parent = nullptr);
     explicit RevisionModifyJob(const QString &fileId,
                                const RevisionsList &revisions,
-                               const AccountPtr &account, QObject *parent = 0);
+                               const AccountPtr &account, QObject *parent = nullptr);
     virtual ~RevisionModifyJob();
 
   protected:

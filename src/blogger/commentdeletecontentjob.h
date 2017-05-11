@@ -38,10 +38,10 @@ class KGAPIBLOGGER_EXPORT CommentDeleteContentJob : public KGAPI2::ModifyJob
                                      const QString &postId,
                                      const QString &commentId,
                                      const AccountPtr &account,
-                                     QObject *parent = 0);
+                                     QObject *parent = nullptr);
     explicit CommentDeleteContentJob(const CommentPtr &comment,
                                      const AccountPtr &account,
-                                     QObject *parent = 0);
+                                     QObject *parent = nullptr);
     virtual ~CommentDeleteContentJob();
 
   protected:

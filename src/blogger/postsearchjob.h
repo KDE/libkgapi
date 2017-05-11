@@ -40,7 +40,7 @@ class KGAPIBLOGGER_EXPORT PostSearchJob : public KGAPI2::FetchJob
     explicit PostSearchJob(const QString &blogId,
                            const QString &query,
                            const AccountPtr &account = AccountPtr(),
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     virtual ~PostSearchJob();
 
     bool fetchBodies() const;

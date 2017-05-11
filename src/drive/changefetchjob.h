@@ -87,9 +87,9 @@ class KGAPIDRIVE_EXPORT ChangeFetchJob : public KGAPI2::FetchJob
                WRITE setStartChangeId)
 
   public:
-    explicit ChangeFetchJob(const AccountPtr &account, QObject *parent = 0);
+    explicit ChangeFetchJob(const AccountPtr &account, QObject *parent = nullptr);
     explicit ChangeFetchJob(const QString &changeId, const AccountPtr &account,
-                            QObject *parent = 0);
+                            QObject *parent = nullptr);
     virtual ~ChangeFetchJob();
 
     bool includeSubscribed() const;

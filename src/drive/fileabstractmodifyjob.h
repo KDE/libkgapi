@@ -40,13 +40,13 @@ class KGAPIDRIVE_EXPORT FileAbstractModifyJob : public KGAPI2::ModifyJob
 
   public:
     explicit FileAbstractModifyJob(const QString &fileId,
-                                   const AccountPtr &account, QObject *parent = 0);
+                                   const AccountPtr &account, QObject *parent = nullptr);
     explicit FileAbstractModifyJob(const QStringList &filesIds,
-                                   const AccountPtr &account, QObject *parent = 0);
+                                   const AccountPtr &account, QObject *parent = nullptr);
     explicit FileAbstractModifyJob(const FilePtr &file,
-                                   const AccountPtr &account, QObject *parent = 0);
+                                   const AccountPtr &account, QObject *parent = nullptr);
     explicit FileAbstractModifyJob(const FilesList &files,
-                                   const AccountPtr &account, QObject *parent = 0);
+                                   const AccountPtr &account, QObject *parent = nullptr);
     virtual ~FileAbstractModifyJob();
 
   protected:

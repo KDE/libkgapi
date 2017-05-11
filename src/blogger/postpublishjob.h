@@ -44,20 +44,20 @@ class KGAPIBLOGGER_EXPORT PostPublishJob : public KGAPI2::Job
                             const QString &postId,
                             PublishAction action,
                             const AccountPtr &account,
-                            QObject *parent = 0);
+                            QObject *parent = nullptr);
     explicit PostPublishJob(const PostPtr &post,
                             PublishAction action,
                             const AccountPtr &account,
-                            QObject *parent = 0);
+                            QObject *parent = nullptr);
     explicit PostPublishJob(const QString &blogId,
                             const QString &postId,
                             const QDateTime &publishDate,
                             const AccountPtr &account,
-                            QObject *parent = 0);
+                            QObject *parent = nullptr);
     explicit PostPublishJob(const PostPtr &post,
                             const QDateTime &publishDate,
                             const AccountPtr &account,
-                            QObject *parent = 0);
+                            QObject *parent = nullptr);
     virtual ~PostPublishJob();
 
     ObjectPtr item() const;

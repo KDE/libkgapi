@@ -42,19 +42,19 @@ class KGAPIDRIVE_EXPORT ParentReferenceCreateJob : public KGAPI2::CreateJob
     explicit ParentReferenceCreateJob(const QString &fileId,
                                       const QString &parentId,
                                       const AccountPtr &account,
-                                      QObject *parent = 0);
+                                      QObject *parent = nullptr);
     explicit ParentReferenceCreateJob(const QString &fileId,
                                       const QStringList &parentsIds,
                                       const AccountPtr &account,
-                                      QObject *parent = 0);
+                                      QObject *parent = nullptr);
     explicit ParentReferenceCreateJob(const QString &fileId,
                                       const ParentReferencePtr &reference,
                                       const AccountPtr &account,
-                                      QObject *parent = 0);
+                                      QObject *parent = nullptr);
     explicit ParentReferenceCreateJob(const QString &fileId,
                                       const ParentReferencesList &references,
                                       const AccountPtr &account,
-                                      QObject *parent = 0);
+                                      QObject *parent = nullptr);
     virtual ~ParentReferenceCreateJob();
 
   protected:

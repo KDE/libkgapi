@@ -53,7 +53,7 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      */
     explicit EventMoveJob(const EventPtr &event, const QString &sourceCalendarId,
                           const QString &destinationCalendarId,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will move given \p events from a calendar
@@ -67,7 +67,7 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      */
     explicit EventMoveJob(const EventsList &events, const QString &sourceCalendarId,
                           const QString &destinationCalendarId,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will move event with given \p eventId from a 
@@ -82,7 +82,7 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      */
     explicit EventMoveJob(const QString &eventId, const QString &sourceCalendarId,
                           const QString &destinationCalendarId,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will move events with given \p eventsIds
@@ -98,7 +98,7 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
     explicit EventMoveJob(const QStringList &eventsIds,
                           const QString &sourceCalendarId,
                           const QString &destinationCalendarId,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor

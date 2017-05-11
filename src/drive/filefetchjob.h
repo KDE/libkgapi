@@ -107,12 +107,12 @@ class KGAPIDRIVE_EXPORT FileFetchJob : public KGAPI2::FetchJob
     };
 
     explicit FileFetchJob(const QString &fileId,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     explicit FileFetchJob(const QStringList &filesIds,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     explicit FileFetchJob(const FileSearchQuery &query,
-                          const AccountPtr &account, QObject *parent = 0);
-    explicit FileFetchJob(const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileFetchJob(const AccountPtr &account, QObject *parent = nullptr);
     virtual ~FileFetchJob();
 
     bool updateViewedDate() const;

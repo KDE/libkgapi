@@ -38,9 +38,9 @@ class KGAPIDRIVE_EXPORT FileFetchContentJob : public KGAPI2::FetchJob
 
   public:
     explicit FileFetchContentJob(const FilePtr &file, const AccountPtr &account,
-                                 QObject *parent = 0);
+                                 QObject *parent = nullptr);
     explicit FileFetchContentJob(const QUrl &url, const AccountPtr &account,
-                                 QObject *parent = 0);
+                                 QObject *parent = nullptr);
     virtual ~FileFetchContentJob();
 
     QByteArray data() const;

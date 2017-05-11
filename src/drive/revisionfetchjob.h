@@ -38,9 +38,9 @@ class KGAPIDRIVE_EXPORT RevisionFetchJob : public KGAPI2::FetchJob
 
   public:
     explicit RevisionFetchJob(const QString &fileId, const AccountPtr &account,
-                              QObject *parent = 0);
+                              QObject *parent = nullptr);
     explicit RevisionFetchJob(const QString &fileId, const QString &revisionId,
-                              const AccountPtr &account, QObject *parent = 0);
+                              const AccountPtr &account, QObject *parent = nullptr);
     virtual ~RevisionFetchJob();
 
   protected:

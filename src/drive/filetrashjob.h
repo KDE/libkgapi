@@ -41,13 +41,13 @@ class KGAPIDRIVE_EXPORT FileTrashJob : public KGAPI2::Drive::FileAbstractModifyJ
 
   public:
     explicit FileTrashJob(const QString &fileId,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     explicit FileTrashJob(const QStringList &filesIds,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     explicit FileTrashJob(const FilePtr &file,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     explicit FileTrashJob(const FilesList &files,
-                          const AccountPtr &account, QObject *parent = 0);
+                          const AccountPtr &account, QObject *parent = nullptr);
     virtual ~FileTrashJob();
 
   protected:

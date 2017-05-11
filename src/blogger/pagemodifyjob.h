@@ -36,7 +36,7 @@ class KGAPIBLOGGER_EXPORT PageModifyJob : public KGAPI2::ModifyJob
   public:
     explicit PageModifyJob(const PagePtr &page,
                            const AccountPtr &account,
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     virtual ~PageModifyJob();
 
   protected:

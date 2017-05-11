@@ -39,11 +39,11 @@ class KGAPIDRIVE_EXPORT ParentReferenceFetchJob : public KGAPI2::FetchJob
   public:
     explicit ParentReferenceFetchJob(const QString &fileId,
                                      const AccountPtr &account,
-                                     QObject *parent = 0);
+                                     QObject *parent = nullptr);
     explicit ParentReferenceFetchJob(const QString &fileId,
                                      const QString &referenceId,
                                      const AccountPtr &account,
-                                     QObject *parent = 0);
+                                     QObject *parent = nullptr);
     virtual ~ParentReferenceFetchJob();
 
   protected:

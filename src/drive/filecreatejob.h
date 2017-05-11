@@ -38,18 +38,18 @@ class KGAPIDRIVE_EXPORT FileCreateJob : public KGAPI2::Drive::FileAbstractUpload
 
   public:
     explicit FileCreateJob(const FilePtr &metadata, const AccountPtr &account,
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     explicit FileCreateJob(const FilesList &metadata, const AccountPtr &account,
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     explicit FileCreateJob(const QString &filePath,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileCreateJob(const QString &filePath,
                            const FilePtr &metaData,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileCreateJob(const QStringList &filePaths,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileCreateJob(const QMap < QString /* filepath */, FilePtr /* metadata */ > &files,
-                           const AccountPtr &account, QObject *parent = 0);
+                           const AccountPtr &account, QObject *parent = nullptr);
     virtual ~FileCreateJob();
 
   protected:

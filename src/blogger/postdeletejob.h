@@ -37,10 +37,10 @@ class KGAPIBLOGGER_EXPORT PostDeleteJob : public KGAPI2::DeleteJob
     explicit PostDeleteJob(const QString &blogId,
                            const QString &postId,
                            const AccountPtr &account,
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     explicit PostDeleteJob(const PostPtr &post,
                            const AccountPtr &account,
-                           QObject *parent = 0);
+                           QObject *parent = nullptr);
     virtual ~PostDeleteJob();
 
 

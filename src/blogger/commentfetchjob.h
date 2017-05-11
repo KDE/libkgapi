@@ -54,14 +54,14 @@ class KGAPIBLOGGER_EXPORT CommentFetchJob : public KGAPI2::FetchJob
   public:
     explicit CommentFetchJob(const QString &blogId, const QString &postId,
                              const AccountPtr &account = AccountPtr(),
-                             QObject *parent = 0);
+                             QObject *parent = nullptr);
     explicit CommentFetchJob(const QString &blogId, const QString &postId,
                              const QString &commentId,
                              const AccountPtr &account = AccountPtr(),
-                             QObject *parent = 0);
+                             QObject *parent = nullptr);
     explicit CommentFetchJob(const QString &blogId,
                              const AccountPtr &account = AccountPtr(),
-                             QObject *parent = 0);
+                             QObject *parent = nullptr);
     virtual ~CommentFetchJob();
 
     QDateTime endDate() const;

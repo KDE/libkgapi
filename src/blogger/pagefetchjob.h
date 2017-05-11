@@ -47,11 +47,11 @@ class KGAPIBLOGGER_EXPORT PageFetchJob : public KGAPI2::FetchJob
 
     explicit PageFetchJob(const QString &blogId,
                           const AccountPtr &account = AccountPtr(),
-                          QObject *parent = 0);
+                          QObject *parent = nullptr);
     explicit PageFetchJob(const QString &blogId,
                           const QString &pageId,
                           const AccountPtr &account = AccountPtr(),
-                          QObject *parent = 0);
+                          QObject *parent = nullptr);
     virtual ~PageFetchJob();
 
     bool fetchContent() const;

@@ -94,7 +94,7 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request with
      * @param parent
      */
-    explicit AboutFetchJob(const AccountPtr &account, QObject *parent = 0);
+    explicit AboutFetchJob(const AccountPtr &account, QObject *parent = nullptr);
     virtual ~AboutFetchJob();
 
     /**
