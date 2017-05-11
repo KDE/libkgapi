@@ -49,12 +49,12 @@ namespace CalendarService
 
 namespace Private
 {
-    KCalCore::DateList parseRDate(const QString &rule);
+KCalCore::DateList parseRDate(const QString &rule);
 
-    ObjectPtr JSONToCalendar(const QVariantMap &data);
-    ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString());
+ObjectPtr JSONToCalendar(const QVariantMap &data);
+ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString());
 
-    /**
+/**
      * Checks whether TZID is in Olson format and converts it to it if neccessarry
      *
      * This is mainly to handle crazy Microsoft TZIDs like
@@ -68,11 +68,11 @@ namespace Private
      * When the method fails to process the TZID, it returns the original \p tzid
      * in hope, that Google will cope with it.
      */
-    QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
+QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
 
-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
-    static const QString CalendarListBasePath(QStringLiteral("/calendar/v3/users/me/calendarList"));
-    static const QString CalendarBasePath(QStringLiteral("/calendar/v3/calendars"));
+static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+static const QString CalendarListBasePath(QStringLiteral("/calendar/v3/users/me/calendarList"));
+static const QString CalendarBasePath(QStringLiteral("/calendar/v3/calendars"));
 }
 
 /************* URLS **************/
@@ -174,7 +174,7 @@ CalendarPtr JSONToCalendar(const QByteArray& jsonData)
     QVariantMap calendar = document.toVariant().toMap();
 
     if ((calendar.value(QStringLiteral("kind")) != QLatin1String("calendar#calendarListEntry")) &&
-        (calendar.value(QStringLiteral("kind")) != QLatin1String("calendar#calendar"))) {
+            (calendar.value(QStringLiteral("kind")) != QLatin1String("calendar#calendar"))) {
         return CalendarPtr();
     }
 
@@ -196,7 +196,7 @@ ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
     calendar->setForegroundColor(QColor(data.value(QStringLiteral("foregroundColor")).toString()));
 
     if ((data.value(QStringLiteral("accessRole")).toString() == QLatin1String("writer")) ||
-        (data.value(QStringLiteral("accessRole")).toString() == QLatin1String("owner"))) {
+            (data.value(QStringLiteral("accessRole")).toString() == QLatin1String("owner"))) {
         calendar->setEditable(true);
     } else {
         calendar->setEditable(false);
@@ -228,14 +228,14 @@ QByteArray calendarToJSON(const CalendarPtr& calendar)
     QVariantMap output, entry;
 
     if (!calendar->uid().isEmpty()) {
-	entry.insert(QStringLiteral("id"), calendar->uid());
+        entry.insert(QStringLiteral("id"), calendar->uid());
     }
 
     entry.insert(QStringLiteral("summary"), calendar->title());
     entry.insert(QStringLiteral("description"), calendar->details());
     entry.insert(QStringLiteral("location"), calendar->location());
     if (!calendar->timezone().isEmpty()) {
-	entry.insert(QStringLiteral("timeZone"), calendar->timezone());
+        entry.insert(QStringLiteral("timeZone"), calendar->timezone());
     }
 
     QJsonDocument document = QJsonDocument::fromVariant(entry);
@@ -341,7 +341,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
                 qCWarning(KGAPIDebug) << "Invalid timezone" << startData.value(QStringLiteral("timeZone")).toString();
             }
 
-        // Otherwise try to fallback to calendar-wide timezone
+            // Otherwise try to fallback to calendar-wide timezone
         } else if (!timezone.isEmpty()) {
             const KTimeZone tz = KSystemTimeZones::zone(timezone);
             if (tz.isValid()) {
@@ -394,9 +394,9 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     for (const QVariant & a : attendees) {
         QVariantMap att = a.toMap();
         KCalCore::Attendee::Ptr attendee(
-            new KCalCore::Attendee(
-                    att.value(QStringLiteral("displayName")).toString(),
-                    att.value(QStringLiteral("email")).toString()));
+                    new KCalCore::Attendee(
+                        att.value(QStringLiteral("displayName")).toString(),
+                        att.value(QStringLiteral("email")).toString()));
 
         if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("accepted"))
             attendee->setStatus(KCalCore::Attendee::Accepted);
@@ -509,7 +509,7 @@ QByteArray eventToJSON(const EventPtr& event)
 
     /* ID */
     if (!event->uid().isEmpty()) {
-    data.insert(QStringLiteral("id"), event->uid());
+        data.insert(QStringLiteral("id"), event->uid());
     }
 
     /* Status */
@@ -573,16 +573,16 @@ QByteArray eventToJSON(const EventPtr& event)
     /* Start */
     QVariantMap start;
     if (event->allDay()) {
-    start.insert(QStringLiteral("date"), event->dtStart().toString(QStringLiteral("%Y-%m-%d")));
+        start.insert(QStringLiteral("date"), event->dtStart().toString(QStringLiteral("%Y-%m-%d")));
     } else {
-    start.insert(QStringLiteral("dateTime"), event->dtStart().toString(KDateTime::RFC3339Date));
+        start.insert(QStringLiteral("dateTime"), event->dtStart().toString(KDateTime::RFC3339Date));
     }
     QString tzStart = event->dtStart().timeZone().name();
     if (!recurrence.isEmpty() && tzStart.isEmpty()) {
         tzStart = KTimeZone::utc().name();
     }
     if (!tzStart.isEmpty()) {
-    start.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzStart, event));
+        start.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzStart, event));
     }
     data.insert(QStringLiteral("start"), start);
 
@@ -592,7 +592,7 @@ QByteArray eventToJSON(const EventPtr& event)
         /* For Google, all-day events starts on Monday and ends on Tuesday,
          * while in KDE, it both starts and ends on Monday. */
         KDateTime dtEnd = event->dtEnd().addDays(1);
-    end.insert(QStringLiteral("date"), dtEnd.toString(QStringLiteral("%Y-%m-%d")));
+        end.insert(QStringLiteral("date"), dtEnd.toString(QStringLiteral("%Y-%m-%d")));
     } else {
         end.insert(QStringLiteral("dateTime"), event->dtEnd().toString(KDateTime::RFC3339Date));
     }
@@ -617,35 +617,35 @@ QByteArray eventToJSON(const EventPtr& event)
     Q_FOREACH(const KCalCore::Attendee::Ptr& attee, event->attendees()) {
         QVariantMap att;
 
-    att.insert(QStringLiteral("displayName"), attee->name());
-    att.insert(QStringLiteral("email"), attee->email());
+        att.insert(QStringLiteral("displayName"), attee->name());
+        att.insert(QStringLiteral("email"), attee->email());
 
         if (attee->status() == KCalCore::Attendee::Accepted) {
-        att.insert(QStringLiteral("responseStatus"), QStringLiteral("accepted"));
-	} else if (attee->status() == KCalCore::Attendee::Declined) {
-        att.insert(QStringLiteral("responseStatus"), QStringLiteral("declined"));
-	} else if (attee->status() == KCalCore::Attendee::Tentative) {
-        att.insert(QStringLiteral("responseStatus"), QStringLiteral("tentative"));
-	} else {
-        att.insert(QStringLiteral("responseStatus"), QStringLiteral("needsAction"));
-	}
+            att.insert(QStringLiteral("responseStatus"), QStringLiteral("accepted"));
+        } else if (attee->status() == KCalCore::Attendee::Declined) {
+            att.insert(QStringLiteral("responseStatus"), QStringLiteral("declined"));
+        } else if (attee->status() == KCalCore::Attendee::Tentative) {
+            att.insert(QStringLiteral("responseStatus"), QStringLiteral("tentative"));
+        } else {
+            att.insert(QStringLiteral("responseStatus"), QStringLiteral("needsAction"));
+        }
 
         if (attee->role() == KCalCore::Attendee::OptParticipant) {
-        att.insert(QStringLiteral("optional"), true);
+            att.insert(QStringLiteral("optional"), true);
         }
 
         atts.append(att);
     }
 
     if (!atts.isEmpty()) {
-    data.insert(QStringLiteral("attendees"), atts);
+        data.insert(QStringLiteral("attendees"), atts);
 
         /* According to RFC, event without attendees should not have
          * any organizer. */
         KCalCore::Person::Ptr organizer = event->organizer();
         if (!organizer->isEmpty()) {
             QVariantMap org;
-	    org.insert(QStringLiteral("displayName"), organizer->fullName());
+            org.insert(QStringLiteral("displayName"), organizer->fullName());
             org.insert(QStringLiteral("email"), organizer->email());
             data.insert(QStringLiteral("organizer"), org);
         }
@@ -657,9 +657,9 @@ QByteArray eventToJSON(const EventPtr& event)
         QVariantMap override;
 
         if (alarm->type() == KCalCore::Alarm::Display) {
-	    override.insert(QStringLiteral("method"), QLatin1String("popup"));
+            override.insert(QStringLiteral("method"), QLatin1String("popup"));
         } else if (alarm->type() == KCalCore::Alarm::Email) {
-	    override.insert(QStringLiteral("method"), QLatin1String("email"));
+            override.insert(QStringLiteral("method"), QLatin1String("email"));
         } else {
             continue;
         }
@@ -678,9 +678,9 @@ QByteArray eventToJSON(const EventPtr& event)
     if (!event->categories().isEmpty()) {
         QVariantMap extendedProperties;
         QVariantMap sharedProperties;
-	sharedProperties.insert(QStringLiteral("categories"), event->categoriesStr());
-	extendedProperties.insert(QStringLiteral("shared"), sharedProperties);
-	data.insert(QStringLiteral("extendedProperties"), extendedProperties);
+        sharedProperties.insert(QStringLiteral("categories"), event->categoriesStr());
+        extendedProperties.insert(QStringLiteral("shared"), sharedProperties);
+        data.insert(QStringLiteral("extendedProperties"), extendedProperties);
     }
 
     /* TODO: Implement support for additional features:
@@ -1025,9 +1025,9 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
 
             /* GMT Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London */
             if (tzid.contains(QStringLiteral("Dublin")) ||
-                tzid.contains(QStringLiteral("Edinburgh")) ||
-                tzid.contains(QStringLiteral("Lisbon")) ||
-                tzid.contains(QStringLiteral("London")))
+                    tzid.contains(QStringLiteral("Edinburgh")) ||
+                    tzid.contains(QStringLiteral("Lisbon")) ||
+                    tzid.contains(QStringLiteral("London")))
             {
                 return QStringLiteral("Europe/London");
             }
