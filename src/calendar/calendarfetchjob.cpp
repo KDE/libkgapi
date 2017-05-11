@@ -96,7 +96,7 @@ void CalendarFetchJob::start()
     } else {
         url = CalendarService::fetchCalendarUrl(d->calendarId);
     }
-    qDebug() << "CalendarFetchJob::url()" << CalendarService::fetchCalendarsUrl();
+    qCDebug(KGAPIRaw) << "CalendarFetchJob::url()" << CalendarService::fetchCalendarsUrl();
     const QNetworkRequest request = d->createRequest(url);
     enqueueRequest(request);
 }
