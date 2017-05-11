@@ -42,7 +42,7 @@ class KGAPICORE_EXPORT FeedData {
         startIndex(0),
         itemsPerPage(0),
         totalResults(0)
-    { };
+    { }
 
     int startIndex;     /**< Index of first item on current feed page. */
     int itemsPerPage;   /**< Number of items per feed page. This will be same 

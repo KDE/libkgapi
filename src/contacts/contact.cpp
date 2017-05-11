@@ -35,9 +35,9 @@ class Q_DECL_HIDDEN Contact::Private
 {
 
   public:
-    Private() : deleted(false) { };
+    Private() : deleted(false) { }
     Private(const Private &other);
-    ~Private() { };
+    ~Private() { }
 
     bool deleted;
     QUrl photoUrl;
