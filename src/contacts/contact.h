@@ -307,7 +307,7 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      * @param type
      * @param primary
      */
-    static QString addressTypeToScheme(const KContacts::Address::Type type, bool *primary = 0);
+    static QString addressTypeToScheme(const KContacts::Address::Type type, bool *primary = nullptr);
 
     /**
      * @brief Converts Google Scheme UrL to address type.

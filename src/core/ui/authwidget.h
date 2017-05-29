@@ -59,7 +59,7 @@ class KGAPICORE_EXPORT AuthWidget : public QWidget
         Error               /**< An error occurred and error() signal has been emitted */
     };
 
-    explicit AuthWidget(QWidget* parent = 0);
+    explicit AuthWidget(QWidget* parent = nullptr);
 
     virtual ~AuthWidget();
 
