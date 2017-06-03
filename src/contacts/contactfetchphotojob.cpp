@@ -28,7 +28,7 @@
 
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
-#include <QtGui/QImage>
+#include <QImage>
 
 Q_DECLARE_METATYPE(KGAPI2::ContactPtr)
 

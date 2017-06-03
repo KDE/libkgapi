@@ -24,7 +24,7 @@
 
 #include "kgapimaps_export.h"
 
-#include <QtGui/QColor>
+#include <QColor>
 
 #include <KContacts/Address>
 #include <KContacts/Geo>

@@ -23,8 +23,8 @@
 #include "contactsgroup.h"
 #include "../debug.h"
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
+#include <QDomDocument>
+#include <QDomElement>
 #include <QJsonDocument>
 
 /* Qt::escape() */

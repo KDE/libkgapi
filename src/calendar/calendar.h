@@ -27,7 +27,7 @@
 #include "types.h"
 #include "kgapicalendar_export.h"
 
-#include <QtGui/QColor>
+#include <QColor>
 
 namespace KGAPI2
 {

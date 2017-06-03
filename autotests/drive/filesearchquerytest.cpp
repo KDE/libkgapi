@@ -19,7 +19,7 @@
  */
 
 #include <QObject>
-#include <QtTest/QTest>
+#include <QTest>
 
 #include "filesearchquery.h"
 

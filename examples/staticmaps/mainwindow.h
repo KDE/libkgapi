@@ -22,8 +22,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtGui/QMainWindow>
-#include <QtGui/QPixmap>
+#include <QMainWindow>
+#include <QPixmap>
 
 #include <libkgapi2/staticmaps/staticmaptilefetchjob.h>
 #include <libkgapi2/staticmaps/staticmapmarker.h>

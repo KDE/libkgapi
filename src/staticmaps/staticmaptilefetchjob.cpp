@@ -27,7 +27,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
-#include <QtGui/QPixmap>
+#include <QPixmap>
 
 using namespace KGAPI2;
 

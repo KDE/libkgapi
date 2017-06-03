@@ -26,7 +26,7 @@
 #include "job.h"
 #include "kgapimaps_export.h"
 
-#include <QtGui/QPixmap>
+#include <QPixmap>
 
 /**
  * @brief A job to fetch a single map tile described by a StaticMapUrl
