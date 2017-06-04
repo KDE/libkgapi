@@ -107,8 +107,8 @@ class KGAPIBLOGGER_EXPORT PostFetchJob : public  KGAPI2::FetchJob
     StatusFilters statusFilter() const;
 
   protected:
-    void start() Q_DECL_OVERRIDE;
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
+    void start() override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
 private:
     class Private;

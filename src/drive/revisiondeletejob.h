@@ -50,7 +50,7 @@ class KGAPIDRIVE_EXPORT RevisionDeleteJob : public KGAPI2::DeleteJob
     virtual ~RevisionDeleteJob();
 
   protected:
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
   private:
     class Private;

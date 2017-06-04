@@ -50,9 +50,9 @@ class KGAPIDRIVE_EXPORT FileAbstractModifyJob : public KGAPI2::ModifyJob
     virtual ~FileAbstractModifyJob();
 
   protected:
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
     KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) Q_DECL_OVERRIDE;
+                                                     const QByteArray &rawData) override;
 
     virtual QUrl url(const QString &fileId) = 0;
 

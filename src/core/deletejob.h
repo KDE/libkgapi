@@ -74,7 +74,7 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
     void dispatchRequest(QNetworkAccessManager* accessManager,
                                  const QNetworkRequest& request,
                                  const QByteArray& data,
-                                 const QString& contentType) Q_DECL_OVERRIDE;
+                                 const QString& contentType) override;
 
     /**
      * KGAPI2::Job::handleReply implementation
@@ -89,7 +89,7 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
      * @param rawData
      * @param contentType
      */
-    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
+    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
 
   private:
     class Private;

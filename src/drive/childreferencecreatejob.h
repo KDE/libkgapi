@@ -58,9 +58,9 @@ class KGAPIDRIVE_EXPORT ChildReferenceCreateJob : public KGAPI2::CreateJob
     virtual ~ChildReferenceCreateJob();
 
   protected:
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray &rawData) Q_DECL_OVERRIDE;
+                                             const QByteArray &rawData) override;
 
   private:
     class Private;

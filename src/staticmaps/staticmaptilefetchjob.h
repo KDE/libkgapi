@@ -78,7 +78,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
     /**
      * @brief KGAPI2::Job::dispatchRequest implementation
@@ -91,7 +91,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
     void dispatchRequest(QNetworkAccessManager* accessManager,
                                  const QNetworkRequest& request,
                                  const QByteArray& data,
-                                 const QString& contentType) Q_DECL_OVERRIDE;
+                                 const QString& contentType) override;
 
     /**
      * @brief KGAPI2::Job::handleReply
@@ -100,7 +100,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
      * @param rawData
      */
     void handleReply(const QNetworkReply *reply,
-                             const QByteArray& rawData) Q_DECL_OVERRIDE;
+                             const QByteArray& rawData) override;
 
   private:
     class Private;

@@ -74,7 +74,7 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
     /**
      * @brief KGAPI2::CreateJob::handleReplyWithItems implementation
@@ -82,7 +82,7 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData) override;
 
   private:
     class Private;

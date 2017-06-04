@@ -48,7 +48,7 @@ class KGAPIDRIVE_EXPORT FileTouchJob : public KGAPI2::Drive::FileAbstractModifyJ
     virtual ~FileTouchJob();
 
   protected:
-    QUrl url(const QString &fileId) Q_DECL_OVERRIDE;
+    QUrl url(const QString &fileId) override;
 
   private:
     class Private;

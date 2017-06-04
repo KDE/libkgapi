@@ -73,7 +73,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupModifyJob : public KGAPI2::ModifyJob
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
@@ -82,7 +82,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupModifyJob : public KGAPI2::ModifyJob
      * @param contentType
      */
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) Q_DECL_OVERRIDE;
+                                             const QByteArray& rawData) override;
 
   private:
     class Private;

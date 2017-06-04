@@ -54,9 +54,9 @@ public:
     BusyRangeList busy() const;
 
 protected:
-    void start() Q_DECL_OVERRIDE;
-    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) Q_DECL_OVERRIDE;
-    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
+    void start() override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
 private:
     class Private;

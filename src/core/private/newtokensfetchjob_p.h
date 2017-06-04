@@ -46,9 +46,9 @@ class KGAPICORE_EXPORT NewTokensFetchJob : public KGAPI2::Job
     qulonglong expiresIn() const;
 
   protected:
-    void start() Q_DECL_OVERRIDE;
-    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
-    void dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request, const QByteArray& data, const QString& contentType) Q_DECL_OVERRIDE;
+    void start() override;
+    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
+    void dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request, const QByteArray& data, const QString& contentType) override;
 
   private:
     class Private;

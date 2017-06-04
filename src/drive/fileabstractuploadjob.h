@@ -79,13 +79,13 @@ class KGAPIDRIVE_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstra
     QMap < QString /* file path */, FilePtr /* metadata */ > files() const;
 
   protected:
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
     void dispatchRequest(QNetworkAccessManager *accessManager,
                                  const QNetworkRequest &request,
                                  const QByteArray &data,
-                                 const QString &contentType) Q_DECL_OVERRIDE;
+                                 const QString &contentType) override;
     void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData) Q_DECL_OVERRIDE;
+                             const QByteArray &rawData) override;
 
     virtual QUrl createUrl(const QString &filePath, const FilePtr &metaData) = 0;
     virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager,

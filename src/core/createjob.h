@@ -79,7 +79,7 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
      */
     void dispatchRequest(QNetworkAccessManager* accessManager,
                                  const QNetworkRequest& request,
-                                 const QByteArray& data, const QString& contentType) Q_DECL_OVERRIDE;
+                                 const QByteArray& data, const QString& contentType) override;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
@@ -87,12 +87,12 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
      * \param rawData
      * \param contentType
      */
-    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
+    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
 
     /**
      * @brief KGAPI2::Job::aboutToStart() implementation
      */
-    void aboutToStart() Q_DECL_OVERRIDE;
+    void aboutToStart() override;
 
     /**
      * @brief A reply handler that returns items parsed from \@ rawData

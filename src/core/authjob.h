@@ -145,7 +145,7 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) Q_DECL_OVERRIDE;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
     /**
      * @brief KGAPI2::Job::displayRequest implementation
@@ -158,12 +158,12 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
     void dispatchRequest(QNetworkAccessManager* accessManager,
                                  const QNetworkRequest& request,
                                  const QByteArray& data,
-                                 const QString& contentType) Q_DECL_OVERRIDE;
+                                 const QString& contentType) override;
 
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
   private:
     class Private;

@@ -47,9 +47,9 @@ class KGAPIDRIVE_EXPORT ParentReferenceFetchJob : public KGAPI2::FetchJob
     virtual ~ParentReferenceFetchJob();
 
   protected:
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
     KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) Q_DECL_OVERRIDE;
+                                                     const QByteArray &rawData) override;
 
   private:
     class Private;

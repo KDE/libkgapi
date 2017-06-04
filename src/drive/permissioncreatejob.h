@@ -46,9 +46,9 @@ class KGAPIDRIVE_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
     virtual ~PermissionCreateJob();
 
   protected:
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
     KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) Q_DECL_OVERRIDE;
+                                                     const QByteArray &rawData) override;
 
   private:
     class Private;

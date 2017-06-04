@@ -59,7 +59,7 @@ class KGAPIDRIVE_EXPORT ParentReferenceDeleteJob : public KGAPI2::DeleteJob
     virtual ~ParentReferenceDeleteJob();
 
   protected:
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
   private:
     class Private;

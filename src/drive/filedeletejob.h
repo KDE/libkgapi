@@ -50,7 +50,7 @@ class KGAPIDRIVE_EXPORT FileDeleteJob : public KGAPI2::DeleteJob
     virtual ~FileDeleteJob();
 
   protected:
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
   private:
     class Private;

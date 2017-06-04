@@ -57,13 +57,13 @@ class KGAPIDRIVE_EXPORT FileCopyJob : public KGAPI2::Drive::FileAbstractDataJob
 
   protected:
     void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData) Q_DECL_OVERRIDE;
+                             const QByteArray &rawData) override;
 
     void dispatchRequest(QNetworkAccessManager *accessManager,
                                  const QNetworkRequest &request,
                                  const QByteArray &data,
-                                 const QString &contentType) Q_DECL_OVERRIDE;
-    void start() Q_DECL_OVERRIDE;
+                                 const QString &contentType) override;
+    void start() override;
 
   private:
     class Private;

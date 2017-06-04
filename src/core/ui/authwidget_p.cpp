@@ -53,7 +53,7 @@ public:
         QWebEngineProfile::defaultProfile()->setPersistentCookiesPolicy(QWebEngineProfile::NoPersistentCookies);
     }
 
-    void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE
+    void contextMenuEvent(QContextMenuEvent *e) override
     {
         // No menu
         e->accept();
@@ -75,7 +75,7 @@ public:
         return mLastError;
     }
 
-    bool certificateError(const QWebEngineCertificateError &err) Q_DECL_OVERRIDE
+    bool certificateError(const QWebEngineCertificateError &err) override
     {
         if (mLastError) {
             delete mLastError;

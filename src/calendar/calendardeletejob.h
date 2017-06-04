@@ -97,7 +97,7 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief KGAPI2::Job::start implementation
      */
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
@@ -105,7 +105,7 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply* reply, const QByteArray& rawData) Q_DECL_OVERRIDE;
+    void handleReply(const QNetworkReply* reply, const QByteArray& rawData) override;
   private:
     class Private;
     Private * const d;
