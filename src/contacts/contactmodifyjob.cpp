@@ -28,9 +28,9 @@
 #include "account.h"
 #include "private/queuehelper_p.h"
 
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
-#include <QtCore/QBuffer>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QBuffer>
 #include <QImage>
 
 using namespace KGAPI2;

@@ -25,8 +25,8 @@
 #include "object.h"
 #include "kgapidrive_export.h"
 
-#include <QtCore/QString>
-#include <QtCore/QUrl>
+#include <QString>
+#include <QUrl>
 
 namespace KGAPI2
 {

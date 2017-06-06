@@ -27,7 +27,7 @@
 #include "driveservice.h"
 #include "utils.h"
 
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;

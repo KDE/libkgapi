@@ -26,8 +26,8 @@
 #include "contactsservice.h"
 #include "private/queuehelper_p.h"
 
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QImage>
 
 Q_DECLARE_METATYPE(KGAPI2::ContactPtr)

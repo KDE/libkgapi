@@ -28,7 +28,7 @@
 #include "types.h"
 #include "kgapicontacts_export.h"
 
-#include <QtCore/QDateTime>
+#include <QDateTime>
 
 namespace KGAPI2
 {

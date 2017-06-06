@@ -25,8 +25,8 @@
 #include "staticmappath.h"
 #include "kgapimaps_export.h"
 
-#include <QtCore/QUrl>
-#include <QtCore/QSize>
+#include <QUrl>
+#include <QSize>
 
 #include <KContacts/Address>
 #include <KContacts/Geo>

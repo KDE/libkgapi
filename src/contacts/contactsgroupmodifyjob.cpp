@@ -28,8 +28,8 @@
 #include "account.h"
 #include "private/queuehelper_p.h"
 
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 
 using namespace KGAPI2;

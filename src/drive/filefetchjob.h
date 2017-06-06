@@ -26,8 +26,8 @@
 #include "fetchjob.h"
 #include "kgapidrive_export.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QMap>
+#include <QStringList>
+#include <QMap>
 
 namespace KGAPI2
 {

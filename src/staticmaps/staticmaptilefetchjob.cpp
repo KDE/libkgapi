@@ -24,9 +24,9 @@
 #include "staticmapurl.h"
 #include "../debug.h"
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QPixmap>
 
 using namespace KGAPI2;

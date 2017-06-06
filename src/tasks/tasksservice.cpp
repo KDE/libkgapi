@@ -25,7 +25,7 @@
 
 #include <QJsonDocument>
 
-#include <QtCore/QVariant>
+#include <QVariant>
 
 namespace KGAPI2
 {

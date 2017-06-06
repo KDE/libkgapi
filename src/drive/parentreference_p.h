@@ -25,7 +25,7 @@
 
 #include "parentreference.h"
 
-#include <QtCore/QVariantMap>
+#include <QVariantMap>
 
 namespace KGAPI2
 {

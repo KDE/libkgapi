@@ -26,7 +26,7 @@
 #include "fileabstractdatajob.h"
 #include "kgapidrive_export.h"
 
-#include <QtCore/QMap>
+#include <QMap>
 
 namespace KGAPI2
 {

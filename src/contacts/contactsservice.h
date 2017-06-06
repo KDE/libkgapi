@@ -24,7 +24,7 @@
 #include "types.h"
 #include "kgapicontacts_export.h"
 
-#include <QtCore/QUrl>
+#include <QUrl>
 
 namespace KGAPI2
 {

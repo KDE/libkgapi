@@ -25,8 +25,8 @@
 #include "file.h"
 #include "utils.h"
 
-#include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 
 
 using namespace KGAPI2;

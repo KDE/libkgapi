@@ -28,8 +28,8 @@
 #include "utils.h"
 #include "latitudeservice.h"
 
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 
 using namespace KGAPI2;

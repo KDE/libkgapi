@@ -28,7 +28,7 @@
 #include "account.h"
 #include "private/queuehelper_p.h"
 
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 

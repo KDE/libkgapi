@@ -25,10 +25,10 @@
 #include "object.h"
 #include "kgapidrive_export.h"
 
-#include <QtCore/QSharedPointer>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QUrl>
+#include <QSharedPointer>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
 
 namespace KGAPI2
 {

@@ -39,7 +39,7 @@
 #include <KDateTime>
 #include <KSystemTimeZones>
 
-#include <QtCore/QVariant>
+#include <QVariant>
 
 namespace KGAPI2
 {

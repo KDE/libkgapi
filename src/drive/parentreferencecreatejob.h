@@ -26,7 +26,7 @@
 #include "createjob.h"
 #include "kgapidrive_export.h"
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 namespace KGAPI2
 {

@@ -26,10 +26,10 @@
 #include "file.h"
 #include "kgapidrive_export.h"
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QUrl>
-#include <QtCore/QVariantMap>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QVariantMap>
 
 namespace KGAPI2
 {

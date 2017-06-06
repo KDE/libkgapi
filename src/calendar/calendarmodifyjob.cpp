@@ -29,7 +29,7 @@
 #include "private/queuehelper_p.h"
 
 
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkRequest>
 #include <QNetworkReply>
 
 using namespace KGAPI2;

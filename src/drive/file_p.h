@@ -23,7 +23,7 @@
 
 #include "file.h"
 
-#include <QtCore/QVariantMap>
+#include <QVariantMap>
 
 namespace KGAPI2
 {

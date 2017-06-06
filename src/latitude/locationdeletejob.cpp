@@ -27,7 +27,7 @@
 #include "location.h"
 #include "utils.h"
 
-#include <QtNetwork/QNetworkRequest>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 

@@ -26,7 +26,7 @@
 #include "types.h"
 #include "kgapidrive_export.h"
 
-#include <QtCore/QUrl>
+#include <QUrl>
 
 namespace KGAPI2
 {

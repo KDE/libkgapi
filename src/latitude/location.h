@@ -28,7 +28,7 @@
 
 #include <KContacts/Geo>
 
-#include <QtCore/QSharedPointer>
+#include <QSharedPointer>
 
 namespace KGAPI2
 {
