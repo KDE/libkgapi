@@ -784,7 +784,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
     doc.setContent(xmlDoc);
     const QDomNodeList entry = doc.elementsByTagName(QStringLiteral("entry"));
     QDomNodeList data;
-    if (entry.length() > 0) {
+    if (!entry.isEmpty()) {
         data = entry.at(0).childNodes();
     } else {
         return ContactPtr();
@@ -1090,7 +1090,7 @@ ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData)
     doc.setContent(xmlDoc);
     const QDomNodeList entry = doc.elementsByTagName(QStringLiteral("entry"));
     QDomNodeList data;
-    if (entry.length() > 0) {
+    if (!entry.isEmpty()) {
         data = entry.at(0).childNodes();
     } else {
         return ContactsGroupPtr();
