@@ -183,7 +183,7 @@ public:
     /**
      * @brief DriveAbout::MaxUploadSize holds the structure used for maxUploadSizes[] property.
      */
-    class MaxUploadSize
+    class KGAPIDRIVE_EXPORT MaxUploadSize
     {
       public:
         explicit MaxUploadSize(const MaxUploadSize &other);
