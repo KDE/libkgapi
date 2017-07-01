@@ -741,8 +741,8 @@ KCalCore::DateList Private::parseRDate(const QString& rule)
         if (param.startsWith(QLatin1String("VALUE"))) {
             value = param.mid(param.indexOf(QLatin1Char('=')) + 1);
         } else if (param.startsWith(QLatin1String("TZID"))) {
-            QString tzname = param.mid(param.indexOf(QLatin1Char('=')) + 1);
-            tz = KSystemTimeZones::zone(tzname);
+            QString _name = param.mid(param.indexOf(QLatin1Char('=')) + 1);
+            tz = KSystemTimeZones::zone(_name);
         }
     }
 
