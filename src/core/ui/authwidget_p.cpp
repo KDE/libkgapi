@@ -230,13 +230,10 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
     // Username and password inputs are loaded dynamically, so we only get
     // urlChanged, but not urlFinished.
     if (isUsernameFrame(url)) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
         if (!username.isEmpty()) {
             webview->page()->runJavaScript(QStringLiteral("document.getElementById(\"identifierId\").value = \"%1\";").arg(username));
         }
-#endif
     } else if (isPasswordFrame(url)) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
         if (!password.isEmpty()) {
             webview->page()->runJavaScript(QStringLiteral("var elems = document.getElementsByTagName(\"input\");"
                                                           "for (var i = 0; i < elems.length; i++) {"
@@ -246,7 +243,6 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
                                                           "  }"
                                                           "}").arg(password));
         }
-#endif
     } else if (isTokenPage(url)) {
         /* Access token here - hide browser and tell user to wait until we
          * finish the authentication process ourselves */
@@ -282,7 +278,6 @@ void AuthWidgetPrivate::webviewFinished(bool ok)
             auto fetch = new KGAPI2::NewTokensFetchJob(token, apiKey, secretKey);
             connect(fetch, &Job::finished, this, &AuthWidgetPrivate::tokensReceived);
         } else {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
             qCWarning(KGAPIDebug) << "Failed to parse token from URL, peaking into HTML...";
             webview->page()->runJavaScript(
                 QStringLiteral("document.getElementById(\"code\").value;"),
@@ -301,10 +296,6 @@ void AuthWidgetPrivate::webviewFinished(bool ok)
                     auto fetch = new KGAPI2::NewTokensFetchJob(token, apiKey, secretKey);
                     connect(fetch, &Job::finished, this, &AuthWidgetPrivate::tokensReceived);
                 });
-#else
-            qCWarning(KGAPIDebug) << "Failed to parse token from URL!";
-            emitError(AuthError, tr("Parsing token page failed."));
-#endif
         }
     } else {
         //qCDebug(KGAPIDebug) << "Unhandled page:" << url.host() << ", " << url.path();

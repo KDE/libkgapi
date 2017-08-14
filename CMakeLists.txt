@@ -6,7 +6,7 @@ set(KGAPI_LIB_VERSION ${PIM_VERSION})
 project(kgapi VERSION ${KGAPI_LIB_VERSION})
 
 # ECM setup
-set(KF5_VERSION "5.35.0")
+set(KF5_VERSION "5.37.0")
 find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
@@ -33,7 +33,7 @@ ecm_setup_version(PROJECT
 )
 
 ############## Find Packages ##############
-set(REQUIRED_QT_VERSION "5.7.0")
+set(REQUIRED_QT_VERSION "5.8.0")
 find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS
     Core
     Widgets
