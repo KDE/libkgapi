@@ -7,7 +7,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 MACRO(LIBKGAPI_TESTS)
        FOREACH(_testname ${ARGN})
                add_executable( ${_testname} ${_testname}.cpp )
-               add_test( ${_testname} ${_testname} )
+               add_test(NAME ${_testname} COMMAND ${_testname} )
                ecm_mark_as_test(libkgapi-${_testname})
                target_link_libraries(${_testname}
                                      Qt5::Test
@@ -21,7 +21,7 @@ ENDMACRO(LIBKGAPI_TESTS)
 
 macro(add_libkgapi2_test _module _testname)
     add_executable( ${_module}-${_testname} ${_module}/${_testname}.cpp )
-    add_test( ${_module}-${_testname} ${_module}-${_testname} )
+    add_test(NAME ${_module}-${_testname} COMMAND ${_module}-${_testname} )
     ecm_mark_as_test(libkgapi2-${_module}-${_testname})
     target_link_libraries(${_module}-${_testname}
                           Qt5::Test
