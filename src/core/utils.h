@@ -55,6 +55,16 @@ namespace Utils
      */
     KGAPICORE_EXPORT QString ts2Str(quint64 timestamp);
 
+    /**
+     * @brief Converts given string in RFC3339 format into QDateTime
+     */
+    KGAPICORE_EXPORT QDateTime rfc3339DateFromString(const QString &string);
+
+    /**
+     * @brief Converts given date time to RFC3339 format
+     */
+    KGAPICORE_EXPORT QString rfc3339DateToString(const QDateTime &dt);
+
 } // namespace Utils
 
 #endif // LIBKGAPI2_UTILS_H

@@ -24,6 +24,7 @@
 #include "calendar.h"
 #include "event.h"
 #include "reminder.h"
+#include "utils.h"
 #include "../debug.h"
 
 #include <KCalCore/Alarm>
@@ -310,10 +311,10 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     }
 
     /* Created */
-    event->setCreated(KDateTime::fromString(data.value(QStringLiteral("created")).toString(), KDateTime::RFC3339Date));
+    event->setCreated(Utils::rfc3339DateFromString(data.value(QStringLiteral("created")).toString()));
 
     /* Last updated */
-    event->setLastModified(KDateTime::fromString(data.value(QStringLiteral("updated")).toString(), KDateTime::RFC3339Date));
+    event->setLastModified(Utils::rfc3339DateFromString(data.value(QStringLiteral("updated")).toString()));
 
     /* Summary */
     event->setSummary(data.value(QStringLiteral("summary")).toString());

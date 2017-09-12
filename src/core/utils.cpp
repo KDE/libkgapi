@@ -47,3 +47,13 @@ QString Utils::ts2Str(quint64 ts)
 {
     return QDateTime::fromTime_t(ts).toUTC().toString(Qt::ISODate);
 }
+
+QDateTime Utils::rfc3339DateFromString(const QString &string)
+{
+    return QDateTime::fromString(string, Qt::ISODate);
+}
+
+QString Utils::rfc3339DateToString(const QDateTime& dt)
+{
+    return dt.toUTC().toString(Qt::ISODate);
+}

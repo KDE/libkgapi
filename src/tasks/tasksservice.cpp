@@ -22,6 +22,7 @@
 #include "object.h"
 #include "task.h"
 #include "tasklist.h"
+#include "utils.h"
 
 #include <QJsonDocument>
 
@@ -191,7 +192,7 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
     task->setUid(jsonData.value(QStringLiteral("id")).toString());
     task->setEtag(jsonData.value(QStringLiteral("etag")).toString());
     task->setSummary(jsonData.value(QStringLiteral("title")).toString());;
-    task->setLastModified(KDateTime::fromString(jsonData.value(QStringLiteral("updated")).toString(), KDateTime::RFC3339Date));
+    task->setLastModified(Utils::rfc3339DateFromString(jsonData.value(QStringLiteral("updated")).toString()));
     task->setDescription(jsonData.value(QStringLiteral("notes")).toString());
 
     if (jsonData.value(QStringLiteral("status")).toString() == QStringLiteral("needsAction")) {
