@@ -34,6 +34,7 @@
 #include <KCalCore/Recurrence>
 #include <KCalCore/RecurrenceRule>
 #include <KCalCore/ICalFormat>
+#include <KCalCore/Utils>
 
 #include <QJsonDocument>
 
@@ -459,7 +460,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     for (const QVariant & r : overrides) {
         QVariantMap override = r.toMap();
         KCalCore::Alarm::Ptr alarm(new KCalCore::Alarm(static_cast<KCalCore::Incidence*>(event.data())));
-        alarm->setTime(event->dtStart());
+        alarm->setTime(KCalCore::k2q(event->dtStart()));
 
         if (override.value(QStringLiteral("method")).toString() == QLatin1String("popup")) {
             alarm->setType(KCalCore::Alarm::Display);
