@@ -203,10 +203,10 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
         task->setStatus(KCalCore::Incidence::StatusNone);
     }
 
-    task->setDtDue(KDateTime::fromString(jsonData.value(QStringLiteral("due")).toString(), KDateTime::RFC3339Date));
+    task->setDtDue(Utils::rfc3339DateFromString(jsonData.value(QStringLiteral("due")).toString()));
 
     if (task->status() == KCalCore::Incidence::StatusCompleted) {
-        task->setCompleted(KDateTime::fromString(jsonData.value(QStringLiteral("completed")).toString(), KDateTime::RFC3339Date));
+        task->setCompleted(Utils::rfc3339DateFromString(jsonData.value(QStringLiteral("completed")).toString()));
     }
 
     task->setDeleted(jsonData.value(QStringLiteral("deleted")).toBool());
@@ -263,12 +263,12 @@ QByteArray taskToJSON(const TaskPtr &task)
 
     if (task->dtDue().isValid()) {
         /* Google accepts only UTC time strictly in this format :( */
-        output.insert(QStringLiteral("due"), task->dtDue().toUtc().toString(QStringLiteral("%Y-%m-%dT%H:%M:%S.%:sZ")));
+        output.insert(QStringLiteral("due"), task->dtDue().toUTC().toString(QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ")));
     }
 
     if ((task->status() == KCalCore::Incidence::StatusCompleted) && task->completed().isValid()) {
         /* Google accepts only UTC time strictly in this format :( */
-        output.insert(QStringLiteral("completed"), task->completed().toUtc().toString(QStringLiteral("%Y-%m-%dT%H:%M:%S.%:sZ")));
+        output.insert(QStringLiteral("completed"), task->completed().toUTC().toString(QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ")));
         output.insert(QStringLiteral("status"), QStringLiteral("completed"));
     } else {
         output.insert(QStringLiteral("status"), QStringLiteral("needsAction"));

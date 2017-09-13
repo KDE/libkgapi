@@ -47,6 +47,8 @@ target_link_libraries(KPimGAPITasks
 PUBLIC
     KPim::GAPICore
     KF5::CalendarCore
+PRIVATE
+    Qt5::Network
 )
 
 set_target_properties(KPimGAPITasks PROPERTIES

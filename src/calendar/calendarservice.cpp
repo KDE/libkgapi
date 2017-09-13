@@ -34,13 +34,10 @@
 #include <KCalCore/Recurrence>
 #include <KCalCore/RecurrenceRule>
 #include <KCalCore/ICalFormat>
-#include <KCalCore/Utils>
 
 #include <QJsonDocument>
 
-#include <KDateTime>
-#include <KSystemTimeZones>
-
+#include <QTimeZone>
 #include <QVariant>
 
 namespace KGAPI2
@@ -328,26 +325,26 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
 
     /* Start date */
     QVariantMap startData = data.value(QStringLiteral("start")).toMap();
-    KDateTime dtStart;
+    QDateTime dtStart;
     if (startData.contains(QStringLiteral("date"))) {
-        dtStart = KDateTime::fromString(startData.value(QStringLiteral("date")).toString(), KDateTime::ISODate);
+        dtStart = QDateTime::fromString(startData.value(QStringLiteral("date")).toString(), Qt::ISODate);
         event->setAllDay(true);
     } else if (startData.contains(QStringLiteral("dateTime"))) {
-        dtStart = KDateTime::fromString(startData.value(QStringLiteral("dateTime")).toString(), KDateTime::RFC3339Date);
+        dtStart = Utils::rfc3339DateFromString(startData.value(QStringLiteral("dateTime")).toString());
         // If there's a timezone specified in the "start" entity, then use it
         if (startData.contains(QStringLiteral("timeZone"))) {
-            const KTimeZone tz = KSystemTimeZones::zone(startData.value(QStringLiteral("timeZone")).toString());
+            const QTimeZone tz = QTimeZone(startData.value(QStringLiteral("timeZone")).toString().toUtf8());
             if (tz.isValid()) {
-                dtStart = dtStart.toTimeSpec(KDateTime::Spec(tz));
+                dtStart = dtStart.toTimeZone(tz);
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << startData.value(QStringLiteral("timeZone")).toString();
             }
 
             // Otherwise try to fallback to calendar-wide timezone
         } else if (!timezone.isEmpty()) {
-            const KTimeZone tz = KSystemTimeZones::zone(timezone);
+            const QTimeZone tz(timezone.toUtf8());
             if (tz.isValid()) {
-                dtStart = dtStart.toTimeSpec(KDateTime::Spec(tz));
+                dtStart.setTimeZone(tz);;
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
             }
@@ -357,26 +354,27 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
 
     /* End date */
     QVariantMap endData = data.value(QStringLiteral("end")).toMap();
-    KDateTime dtEnd;
+    QDateTime dtEnd;
     if (endData.contains(QStringLiteral("date"))) {
-        dtEnd = KDateTime::fromString(endData.value(QStringLiteral("date")).toString(), KDateTime::ISODate);
+        dtEnd = QDateTime::fromString(endData.value(QStringLiteral("date")).toString(), Qt::ISODate);
         /* For Google, all-day events starts on Monday and ends on Tuesday,
          * while in KDE, it both starts and ends on Monday. */
         dtEnd = dtEnd.addDays(-1);
         event->setAllDay(true);
     } else if (endData.contains(QStringLiteral("dateTime"))) {
-        dtEnd = KDateTime::fromString(endData.value(QStringLiteral("dateTime")).toString(), KDateTime::RFC3339Date);
+        dtEnd = Utils::rfc3339DateFromString(endData.value(QStringLiteral("dateTime")).toString());
         if (endData.contains(QStringLiteral("timeZone"))) {
-            const KTimeZone tz = KSystemTimeZones::zone(endData.value(QStringLiteral("timeZone")).toString());
+            const QTimeZone tz(endData.value(QStringLiteral("timeZone")).toString().toUtf8());
             if (tz.isValid()) {
-                dtEnd = dtEnd.toTimeSpec(KDateTime::Spec(tz));
+                dtEnd = dtEnd.toTimeZone(tz);
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << endData.value(QStringLiteral("timeZone")).toString();
             }
         } else if (!timezone.isEmpty()) {
-            const KTimeZone tz = KSystemTimeZones::zone(timezone);
+
+            const QTimeZone tz(timezone.toUtf8());
             if (tz.isValid()) {
-                dtEnd = dtEnd.toTimeSpec(KDateTime::Spec(tz));
+                dtEnd = dtEnd.toTimeZone(tz);
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
             }
@@ -460,7 +458,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     for (const QVariant & r : overrides) {
         QVariantMap override = r.toMap();
         KCalCore::Alarm::Ptr alarm(new KCalCore::Alarm(static_cast<KCalCore::Incidence*>(event.data())));
-        alarm->setTime(KCalCore::k2q(event->dtStart()));
+        alarm->setTime(event->dtStart());
 
         if (override.value(QStringLiteral("method")).toString() == QLatin1String("popup")) {
             alarm->setType(KCalCore::Alarm::Display);
@@ -577,11 +575,11 @@ QByteArray eventToJSON(const EventPtr& event)
     if (event->allDay()) {
         start.insert(QStringLiteral("date"), event->dtStart().toString(QStringLiteral("%Y-%m-%d")));
     } else {
-        start.insert(QStringLiteral("dateTime"), event->dtStart().toString(KDateTime::RFC3339Date));
+        start.insert(QStringLiteral("dateTime"), Utils::rfc3339DateToString(event->dtStart()));
     }
-    QString tzStart = event->dtStart().timeZone().name();
+    QString tzStart = QString::fromUtf8(event->dtStart().timeZone().id());
     if (!recurrence.isEmpty() && tzStart.isEmpty()) {
-        tzStart = KTimeZone::utc().name();
+        tzStart = QString::fromUtf8(QTimeZone::utc().id());
     }
     if (!tzStart.isEmpty()) {
         start.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzStart, event));
@@ -593,14 +591,14 @@ QByteArray eventToJSON(const EventPtr& event)
     if (event->allDay()) {
         /* For Google, all-day events starts on Monday and ends on Tuesday,
          * while in KDE, it both starts and ends on Monday. */
-        KDateTime dtEnd = event->dtEnd().addDays(1);
+        QDateTime dtEnd = event->dtEnd().addDays(1);
         end.insert(QStringLiteral("date"), dtEnd.toString(QStringLiteral("%Y-%m-%d")));
     } else {
-        end.insert(QStringLiteral("dateTime"), event->dtEnd().toString(KDateTime::RFC3339Date));
+        end.insert(QStringLiteral("dateTime"), Utils::rfc3339DateToString(event->dtEnd()));
     }
-    QString tzEnd = event->dtEnd().timeZone().name();
+    QString tzEnd = QString::fromUtf8(event->dtEnd().timeZone().id());
     if (!recurrence.isEmpty() && tzEnd.isEmpty()) {
-        tzEnd = KTimeZone::utc().name();
+        tzEnd = QString::fromUtf8(QTimeZone::utc().id());
     }
     if (!tzEnd.isEmpty()) {
         end.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzEnd, event));
@@ -735,7 +733,7 @@ KCalCore::DateList Private::parseRDate(const QString& rule)
 {
     KCalCore::DateList list;
     QString value;
-    KTimeZone tz;
+    QTimeZone tz;
 
     QString left = rule.left(rule.indexOf(QLatin1Char(':')));
     const QStringList params = left.split(QLatin1Char(';'));
@@ -744,7 +742,7 @@ KCalCore::DateList Private::parseRDate(const QString& rule)
             value = param.mid(param.indexOf(QLatin1Char('=')) + 1);
         } else if (param.startsWith(QLatin1String("TZID"))) {
             QString _name = param.mid(param.indexOf(QLatin1Char('=')) + 1);
-            tz = KSystemTimeZones::zone(_name);
+            tz = QTimeZone(_name.toUtf8());
         }
     }
 
@@ -757,16 +755,16 @@ KCalCore::DateList Private::parseRDate(const QString& rule)
             dt = QDate::fromString(date, QStringLiteral("yyyyMMdd"));
         } else if (value == QLatin1String("PERIOD")) {
             QString start = date.left(date.indexOf(QLatin1Char('/')));
-            KDateTime kdt = KDateTime::fromString(start, KDateTime::RFC3339Date);
+            QDateTime kdt = Utils::rfc3339DateFromString(start);
             if (tz.isValid()) {
-                kdt.setTimeSpec(tz);
+                kdt.setTimeZone(tz);
             }
 
             dt = kdt.date();
         } else {
-            KDateTime kdt = KDateTime::fromString(date, KDateTime::RFC3339Date);
+            QDateTime kdt = Utils::rfc3339DateFromString(date);
             if (tz.isValid()) {
-                kdt.setTimeSpec(tz);
+                kdt.setTimeZone(tz);
             }
 
             dt = kdt.date();
@@ -989,14 +987,10 @@ static const QMap<QString, QString> MSSTTZTable = initMSStandardTimeTZTable();
 QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& event)
 {
     /* Try to match the @tzid to any valid timezone we know. */
-    KTimeZones timeZones;
-    const KTimeZones::ZoneMap zones = timeZones.zones();
-    KTimeZones::ZoneMap::const_iterator iter;
-    for (iter = zones.constBegin(); iter != zones.constEnd(); ++iter) {
-        if (iter.key() == tzid) {
-            /* Yay, @tzid is a valid TZID in Olson format */
-            return tzid;
-        }
+    QTimeZone tz(tzid.toUtf8());
+    if (tz.isValid()) {
+        /* Yay, @tzid is a valid TZID in Olson format */
+        return tzid;
     }
 
     /* Damn, no match. Parse the iCal and try to find X-MICROSOFT-CDO-TZID

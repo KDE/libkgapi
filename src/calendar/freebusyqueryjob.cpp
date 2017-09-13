@@ -23,7 +23,6 @@
 #include "utils.h"
 #include "account.h"
 
-#include <KDateTime>
 #include <QVariantMap>
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
@@ -83,8 +82,8 @@ QDateTime FreeBusyQueryJob::timeMax() const
 void FreeBusyQueryJob::start()
 {
     QVariantMap requestData({
-        { QStringLiteral("timeMin"), KDateTime(d->timeMin).toString(KDateTime::RFC3339Date) },
-        { QStringLiteral("timeMax"), KDateTime(d->timeMax).toString(KDateTime::RFC3339Date) },
+        { QStringLiteral("timeMin"), Utils::rfc3339DateToString(d->timeMin) },
+        { QStringLiteral("timeMax"), Utils::rfc3339DateToString(d->timeMax) },
         { QStringLiteral("items"), 
             QVariantList({
                 QVariantMap({ { QStringLiteral("id"), d->id } })
@@ -129,8 +128,8 @@ void FreeBusyQueryJob::handleReply(const QNetworkReply *reply, const QByteArray 
             for (const QVariant &busyV : busyList) {
                 const QVariantMap busy = busyV.toMap();
                 d->busy << BusyRange{ 
-                    KDateTime::fromString(busy[QStringLiteral("start")].toString(), KDateTime::RFC3339Date).dateTime(),
-                    KDateTime::fromString(busy[QStringLiteral("end")].toString(), KDateTime::RFC3339Date).dateTime()
+                    Utils::rfc3339DateFromString(busy[QStringLiteral("start")].toString()),
+                    Utils::rfc3339DateFromString(busy[QStringLiteral("end")].toString())
                 };
             }
         }

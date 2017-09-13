@@ -37,6 +37,7 @@ ecm_setup_version(PROJECT
 set(REQUIRED_QT_VERSION "5.8.0")
 find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS
     Core
+    Network
     Widgets
     WebEngineWidgets
     Xml
@@ -53,6 +54,9 @@ find_package(KF5Contacts ${KCONTACTS_LIB_VERSION} CONFIG REQUIRED)
 add_definitions( -DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT )
 add_definitions("-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII")
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
+# TODO FIX!
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x000000)
+
 ############## Targets ##############
 add_subdirectory(src)
 add_subdirectory(examples)
