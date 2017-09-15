@@ -29,7 +29,6 @@
 #include <QStringList>
 #include <QSharedPointer>
 #include <QUrl>
-#include <QVariantMap>
 
 namespace KGAPI2
 {

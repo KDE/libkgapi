@@ -29,10 +29,6 @@
 #include <account.h>
 
 #include <QListWidgetItem>
-#include <QStringBuilder>
-#include <QDebug>
-#include <QFile>
-#include <QTextStream>
 
 MainWindow::MainWindow(QWidget * parent):
     QMainWindow(parent),

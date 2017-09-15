@@ -25,7 +25,6 @@
 #include "kgapicalendar_export.h"
 
 #include <QVector>
-#include <QPair>
 #include <QDateTime>
 
 namespace KGAPI2 {

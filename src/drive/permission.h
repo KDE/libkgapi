@@ -27,9 +27,7 @@
 #include "kgapidrive_export.h"
 
 #include <QString>
-#include <QStringList>
 #include <QUrl>
-#include <QVariantMap>
 
 namespace KGAPI2
 {

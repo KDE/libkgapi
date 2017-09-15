@@ -27,7 +27,6 @@
 
 #include <QString>
 #include <QUrl>
-#include <QVariantMap>
 
 #include <QDateTime>
 

@@ -26,7 +26,6 @@
 #include "../../debug.h"
 
 #include <QWebEngineProfile>
-#include <QNetworkReply>
 #include <QContextMenuEvent>
 
 #include <QVBoxLayout>

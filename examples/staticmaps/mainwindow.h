@@ -23,7 +23,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPixmap>
 
 #include <libkgapi2/staticmaps/staticmaptilefetchjob.h>
 #include <libkgapi2/staticmaps/staticmapmarker.h>

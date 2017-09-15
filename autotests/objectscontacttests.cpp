@@ -23,7 +23,6 @@
 #include "objectscontacttests.h"
 
 #include <QDateTime>
-#include <KUrl>
 
 #include <libkgapi/objects/contact.h>
 

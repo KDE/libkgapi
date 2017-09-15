@@ -26,7 +26,6 @@
 #include "latitude.h"
 #include "kgapilatitude_export.h"
 
-#include <QVariantMap>
 
 namespace KGAPI2
 {
