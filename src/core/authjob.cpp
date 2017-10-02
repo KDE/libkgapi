@@ -243,7 +243,7 @@ void AuthJob::start()
         QVBoxLayout *layout = new QVBoxLayout(d->dialog);
         layout->addWidget(widget, 2);
 
-        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Cancel, Qt::Horizontal);
+        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Cancel, Qt::Horizontal, d->dialog);
         layout->addWidget(buttons, 0);
 
         connect(buttons, SIGNAL(rejected()),
