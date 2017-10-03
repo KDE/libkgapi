@@ -23,8 +23,13 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 
+<<<<<<< HEAD
 set(KCALENDARCORE_LIB_VERSION "5.6.40")
 set(KCONTACTS_LIB_VERSION "5.6.40")
+=======
+set(KCALENDARCORE_LIB_VERSION "5.6.2")
+set(KCONTACTS_LIB_VERSION "5.6.2")
+>>>>>>> Applications/17.08
 
 ecm_setup_version(PROJECT
     VARIABLE_PREFIX KGAPI
