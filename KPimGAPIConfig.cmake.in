@@ -1,5 +1,7 @@
 @PACKAGE_INIT@
 
+include(CMakeFindDependencyMacro)
+
 find_dependency(KF5CalendarCore "@KCALENDARCORE_LIB_VERSION@")
 find_dependency(KF5Contacts "@KCONTACTS_LIB_VERSION@")
 
