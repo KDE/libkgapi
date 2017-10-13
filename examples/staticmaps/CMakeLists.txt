@@ -1,5 +1,3 @@
-project(staticmaps-example)
-
 kde_enable_exceptions()
 
 include_directories(
