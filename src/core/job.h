@@ -328,11 +328,8 @@ class KGAPICORE_EXPORT Job : public QObject
 
     friend class AuthJob;
 
-    Q_PRIVATE_SLOT(d, void _k_doStart())
     Q_PRIVATE_SLOT(d, void _k_doEmitFinished())
     Q_PRIVATE_SLOT(d, void _k_replyReceived(QNetworkReply *reply))
-    Q_PRIVATE_SLOT(d, void _k_dispatchTimeout())
-
 };
 
 } // namespace KGAPI2

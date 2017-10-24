@@ -44,15 +44,15 @@ Job::Private::Private(Job *parent):
 
 void Job::Private::init()
 {
-    QTimer::singleShot(0, q, SLOT(_k_doStart()));
+    QTimer::singleShot(0, q, [this]() { _k_doStart(); });
 
     accessManager = new KIO::Integration::AccessManager(q);
     connect(accessManager, SIGNAL(finished(QNetworkReply*)),
             q, SLOT(_k_replyReceived(QNetworkReply*)));
 
     dispatchTimer = new QTimer(q);
-    connect(dispatchTimer, SIGNAL(timeout()),
-            q, SLOT(_k_dispatchTimeout()));
+    connect(dispatchTimer, &QTimer::timeout,
+            q, [this]() { _k_dispatchTimeout(); });
 }
 
 QString Job::Private::parseErrorMessage(const QByteArray &json)
@@ -371,7 +371,7 @@ void Job::restart()
         return;
     }
 
-    QTimer::singleShot(0, this, SLOT(_k_doStart()));
+    QTimer::singleShot(0, this, [this]() { d->_k_doStart();});
 }
 
 void Job::emitFinished()
