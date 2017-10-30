@@ -47,8 +47,8 @@ void Job::Private::init()
     QTimer::singleShot(0, q, [this]() { _k_doStart(); });
 
     accessManager = new KIO::Integration::AccessManager(q);
-    connect(accessManager, SIGNAL(finished(QNetworkReply*)),
-            q, SLOT(_k_replyReceived(QNetworkReply*)));
+    connect(accessManager, &KIO::AccessManager::finished,
+            q, [this](QNetworkReply *reply) { _k_replyReceived(reply); });
 
     dispatchTimer = new QTimer(q);
     connect(dispatchTimer, &QTimer::timeout,
@@ -385,7 +385,7 @@ void Job::emitFinished()
 
     // Emit in next event loop iteration so that the method caller can finish
     // before user is notified
-    QTimer::singleShot(0, this, SLOT(_k_doEmitFinished()));
+    QTimer::singleShot(0, this, [this]() { d->_k_doEmitFinished(); });
 }
 
 void Job::emitProgress(int processed, int total)

@@ -304,8 +304,8 @@ void FileAbstractUploadJob::dispatchRequest(QNetworkAccessManager *accessManager
 
     QNetworkReply *reply = dispatch(accessManager, request, data);
 
-    connect(reply, SIGNAL(uploadProgress(qint64,qint64)),
-            this, SLOT(_k_uploadProgress(qint64,qint64)));
+    connect(reply, &QNetworkReply::uploadProgress,
+            this, [this](qint64 bytesSent, qint64 totalBytes) {d->_k_uploadProgress(bytesSent, totalBytes); });
 }
 
 void FileAbstractUploadJob::handleReply(const QNetworkReply *reply,
