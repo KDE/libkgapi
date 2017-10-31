@@ -78,10 +78,10 @@ QWidget* AuthJob::Private::fullAuthentication()
     authWidget->d->apiKey = apiKey;
     authWidget->d->secretKey = secretKey;
 
-    connect(authWidget, SIGNAL(error(KGAPI2::Error,QString)),
-            q, SLOT(_k_fullAuthenticationFailed(KGAPI2::Error,QString)));
-    connect(authWidget, SIGNAL(authenticated(KGAPI2::AccountPtr)),
-            q, SLOT(_k_fullAuthenticationFinished(KGAPI2::AccountPtr)));
+    connect(authWidget, &AuthWidget::error,
+            q, [this](KGAPI2::Error error, const QString &str) { _k_fullAuthenticationFailed(error, str); });
+    connect(authWidget, &AuthWidget::authenticated,
+            q, [this](const KGAPI2::AccountPtr &account) { _k_fullAuthenticationFinished(account); });
 
     authWidget->setUsername(username);
     authWidget->setPassword(password);
@@ -246,12 +246,12 @@ void AuthJob::start()
         QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Cancel, Qt::Horizontal, d->dialog);
         layout->addWidget(buttons, 0);
 
-        connect(buttons, SIGNAL(rejected()),
-                this, SLOT(_k_destructDelayed()));
-        connect(widget, SIGNAL(authenticated(KGAPI2::AccountPtr)),
-                this, SLOT(_k_destructDelayed()));
-        connect(widget, SIGNAL(error(KGAPI2::Error,QString)),
-                this, SLOT(_k_destructDelayed()));
+        connect(buttons, &QDialogButtonBox::rejected,
+                this, [this]() { d->_k_destructDelayed(); });
+        connect(widget, &AuthWidget::authenticated,
+                this, [this]() { d->_k_destructDelayed(); });
+        connect(widget, &AuthWidget::error,
+                this, [this]() { d->_k_destructDelayed(); });
         connect(buttons, &QDialogButtonBox::rejected, this, &AuthJob::emitFinished);
 
         d->dialog->show();

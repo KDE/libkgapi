@@ -169,10 +169,6 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
     class Private;
     Private * const d;
     friend class Private;
-
-    Q_PRIVATE_SLOT(d, void _k_fullAuthenticationFinished(const KGAPI2::AccountPtr& account))
-    Q_PRIVATE_SLOT(d, void _k_fullAuthenticationFailed(KGAPI2::Error errorCode, const QString &errorMessage))
-    Q_PRIVATE_SLOT(d, void _k_destructDelayed())
 };
 
 } // namespace KGAPI2

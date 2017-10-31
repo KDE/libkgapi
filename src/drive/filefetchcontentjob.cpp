@@ -100,8 +100,8 @@ void FileFetchContentJob::dispatchRequest(QNetworkAccessManager *accessManager,
     Q_UNUSED(contentType)
 
     QNetworkReply *reply = accessManager->get(request);
-    connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
-            this, SLOT(_k_downloadProgress(qint64,qint64)));
+    connect(reply, &QNetworkReply::downloadProgress,
+            this, [this](qint64 downloaded, qint64 total) { d->_k_downloadProgress(downloaded, total); });
 }
 
 void FileFetchContentJob::handleReply(const QNetworkReply *reply,

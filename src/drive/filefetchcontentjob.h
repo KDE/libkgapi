@@ -60,8 +60,6 @@ class KGAPIDRIVE_EXPORT FileFetchContentJob : public KGAPI2::FetchJob
     class Private;
     Private * const d;
     friend class Private;
-
-    Q_PRIVATE_SLOT(d, void _k_downloadProgress(qint64 downloaded, qint64 total))
 };
 
 } // namespace Drive
