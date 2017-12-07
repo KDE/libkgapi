@@ -413,17 +413,30 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
         const QVariantList websites = data.value(QStringLiteral("gContact$website")).toList();
         for (const QVariant &w : websites) {
             const QVariantMap web = w.toMap();
-
-            if (web.value(QStringLiteral("rel")).toString() == QLatin1String("home-page")) {
-                KContacts::ResourceLocatorUrl url;
-                url.setUrl(QUrl(web.value(QStringLiteral("href")).toString()));
-                contact->setUrl(url);
-                continue;
-            }
-
-            if (web.value(QStringLiteral("rel")).toString() == QLatin1String("blog")) {
-                contact->setBlogFeed(web.value(QStringLiteral("href")).toString());
-                continue;
+            const auto rel = web.value(QStringLiteral("rel")).toString();
+            const QUrl url(web.value(QStringLiteral("href")).toString());
+            if (rel == QLatin1String("home-page")) {
+                KContacts::ResourceLocatorUrl locator;
+                locator.setUrl(url);
+                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("HOME") } } });
+                contact->insertExtraUrl(locator);
+            } else if (rel == QLatin1String("work")) {
+                KContacts::ResourceLocatorUrl locator;
+                locator.setUrl(url);
+                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("WORK") } } });
+                contact->insertExtraUrl(locator);
+            } else if (rel == QLatin1String("profile")) {
+                KContacts::ResourceLocatorUrl locator;
+                locator.setUrl(url);
+                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("PROFILE") } } });
+                contact->insertExtraUrl(locator);
+            } else if (rel == QLatin1String("blog")) {
+                contact->setBlogFeed(url.toString(QUrl::PrettyDecoded));
+            } else {
+                KContacts::ResourceLocatorUrl locator;
+                locator.setUrl(url);
+                locator.setParameters({ { QStringLiteral("TYPE"), { rel } } });
+                contact->insertExtraUrl(locator);
             }
         }
     }
