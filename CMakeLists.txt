@@ -23,6 +23,7 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 
+
 set(KCALENDARCORE_LIB_VERSION "5.7.40")
 set(KCONTACTS_LIB_VERSION "5.7.40")
 
