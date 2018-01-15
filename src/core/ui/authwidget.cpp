@@ -22,6 +22,8 @@
 #include "authwidget_p.h"
 #include "../../debug.h"
 
+#include <QTcpServer>
+#include <QAbstractSocket>
 
 using namespace KGAPI2;
 
@@ -99,9 +101,26 @@ void AuthWidget::authenticate()
         scopes << scope.toString();
     }
 
+    d->server = new QTcpServer(this);
+    if (!d->server->listen(QHostAddress::LocalHost)) {
+        Q_EMIT error(InvalidAccount, QStringLiteral("Could not start oauth http server"));
+        return;
+    }
+    connect(d->server, &QTcpServer::acceptError, d, &AuthWidgetPrivate::socketError);
+    d->serverPort = d->server->serverPort();
+    connect(d->server, &QTcpServer::newConnection, [&]() {
+        d->connection = d->server->nextPendingConnection();
+        d->connection->setParent(this);
+        connect(d->connection, static_cast<void (QAbstractSocket::*)(QAbstractSocket::SocketError)>
+            (&QAbstractSocket::error), d, &AuthWidgetPrivate::socketError);
+        connect(d->connection, &QTcpSocket::readyRead, d, &AuthWidgetPrivate::socketReady);
+        d->server->close();
+        d->server->deleteLater();
+    });
+
     QUrl url(QStringLiteral("https://accounts.google.com/o/oauth2/auth"));
     url.addQueryItem(QStringLiteral("client_id"), d->apiKey);
-    url.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("urn:ietf:wg:oauth:2.0:oob"));
+    url.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->serverPort));
     url.addQueryItem(QStringLiteral("scope"), scopes.join(QStringLiteral(" ")));
     url.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
 

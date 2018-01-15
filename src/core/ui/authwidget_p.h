@@ -30,6 +30,7 @@
 #include <QToolButton>
 #include <QProgressBar>
 #include <QWebEngineView>
+#include <QTcpServer>
 
 class QVBoxLayout;
 class QLabel;
@@ -63,11 +64,16 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
     QWebEngineView *webview;
     QLabel *label;
 
+    QTcpServer *server = nullptr;
+    int serverPort = -1;
+    QTcpSocket *connection = nullptr;
+
   private Q_SLOTS:
     void emitError(const KGAPI2::Error errCode, const QString &msg);
     void webviewUrlChanged(const QUrl &url);
-    void webviewFinished(bool ok);
 
+    void socketReady();
+    void socketError(QAbstractSocket::SocketError error);
     void tokensReceived(KGAPI2::Job *job);
     void accountInfoReceived(KGAPI2::Job *job);
 
@@ -79,7 +85,6 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
     bool isSigninPage(const QUrl &url) const { return url.path() == QLatin1String("/signin/oauth"); }
     bool isUsernameFrame(const QUrl &url) { return url.path() == QLatin1String("/signin/oauth/identifier"); }
     bool isPasswordFrame(const QUrl &url) { return url.path() == QLatin1String("/signin/v2/challenge/pwd"); }
-    bool isTokenPage(const QUrl &url) { return url.path() == QLatin1String("/o/oauth2/approval/v2/approvalnativeapp"); }
 
     void setSslIcon(const QString &icon);
 
