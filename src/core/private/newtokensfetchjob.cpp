@@ -43,19 +43,21 @@ class Q_DECL_HIDDEN NewTokensFetchJob::Private
     QString tmpToken;
     QString apiKey;
     QString secretKey;
+    int localPort;
 
     QString accessToken;
     QString refreshToken;
     qulonglong expiresIn;
 };
 
-NewTokensFetchJob::NewTokensFetchJob(const QString &tmpToken, const QString &apiKey, const QString &secretKey, QObject *parent):
+NewTokensFetchJob::NewTokensFetchJob(const QString &tmpToken, const QString &apiKey, const QString &secretKey, int localPort, QObject *parent):
     Job(parent),
     d(new Private)
 {
     d->tmpToken = tmpToken;
     d->apiKey = apiKey;
     d->secretKey = secretKey;
+    d->localPort = localPort;
 }
 
 NewTokensFetchJob::~NewTokensFetchJob()
@@ -104,7 +106,7 @@ void NewTokensFetchJob::start()
     params.addQueryItem(QStringLiteral("client_id"), d->apiKey);
     params.addQueryItem(QStringLiteral("client_secret"), d->secretKey);
     params.addQueryItem(QStringLiteral("code"), d->tmpToken);
-    params.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("urn:ietf:wg:oauth:2.0:oob"));
+    params.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->localPort)); // we need to use the same URL as in AuthWidget
     params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
 
     enqueueRequest(request, params.encodedQuery());
