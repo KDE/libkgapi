@@ -153,7 +153,7 @@ App::Private::Private(const App::Private &other):
 AppPtr App::Private::fromJSON(const QVariantMap &map)
 {
     if (!map.contains(QStringLiteral("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("kind#app")) {
+            map[QStringLiteral("kind")].toString() != QLatin1String("drive#app")) {
         return AppPtr();
     }
 
