@@ -28,10 +28,12 @@
 #include <QWebEngineProfile>
 #include <QContextMenuEvent>
 
+#include <QtGlobal>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTimer>
 #include <QMessageBox>
+#include <QAbstractSocket>
 
 #include <QDateTime>
 
@@ -169,7 +171,6 @@ void AuthWidgetPrivate::setupUi()
     vbox->addWidget(webview);
     connect(webview, &QWebEngineView::loadProgress, progressbar, &QProgressBar::setValue);
     connect(webview, &QWebEngineView::urlChanged, this, &AuthWidgetPrivate::webviewUrlChanged);
-    connect(webview, &QWebEngineView::loadFinished, this, &AuthWidgetPrivate::webviewFinished);
 }
 
 void AuthWidgetPrivate::setProgress(AuthWidget::Progress progress)
@@ -242,63 +243,57 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
                                                           "  }"
                                                           "}").arg(password));
         }
-    } else if (isTokenPage(url)) {
-        /* Access token here - hide browser and tell user to wait until we
-         * finish the authentication process ourselves */
-        sslIndicator->setVisible(false);
-        urlEdit->setVisible(false);
-        webview->setVisible(false);
-        progressbar->setVisible(false);
-        label->setVisible(true);
-
-        setProgress(AuthWidget::TokensRetrieval);
     }
 }
 
-void AuthWidgetPrivate::webviewFinished(bool ok)
+void AuthWidgetPrivate::socketError(QAbstractSocket::SocketError socketError)
 {
-    if (!ok) {
-        qCWarning(KGAPIDebug) << "Failed to load" << webview->url();
-    }
+    if (connection)
+        connection->deleteLater();
+    qCDebug(KGAPIDebug) << QStringLiteral("Socket error when recieving response: %1").arg(socketError);
+    emitError(InvalidResponse, QStringLiteral("Error recieving response: %1").arg(socketError));
+}
 
-    const QUrl url = webview->url();
-    urlEdit->setText(url.toDisplayString(QUrl::PrettyDecoded));
-    urlEdit->setCursorPosition(0);
-    qCDebug(KGAPIDebug) << "URLFinished:" << url;
+void AuthWidgetPrivate::socketReady()
+{
+    Q_ASSERT(connection);
+    const QByteArray data = connection->readLine();
+    connection->deleteLater();
+    qCDebug(KGAPIDebug) << QStringLiteral("Got connection on socket");
+    webview->stop();
 
-    if (!isGoogleHost(url)) {
+    sslIndicator->setVisible(false);
+    urlEdit->setVisible(false);
+    webview->setVisible(false);
+    progressbar->setVisible(false);
+    label->setVisible(true);
+
+    const auto line = data.split(' ');
+    if (line.size() != 3 || line.at(0) != QByteArray("GET") || !line.at(2).startsWith(QByteArray("HTTP/1.1"))) {
+        qCDebug(KGAPIDebug) << QStringLiteral("Token response invalid");
+        emitError(InvalidResponse, QStringLiteral("Token response invalid"));
         return;
     }
 
-    if (isTokenPage(url)) {
-        const auto token = url.queryItemValue(QStringLiteral("approvalCode"));
-        if (!token.isEmpty()) {
-            qCDebug(KGAPIDebug) << "Got token: " << token;
-            auto fetch = new KGAPI2::NewTokensFetchJob(token, apiKey, secretKey);
-            connect(fetch, &Job::finished, this, &AuthWidgetPrivate::tokensReceived);
+    //qCDebug(KGAPIRaw) << "Recieving data on socket: " << data;
+    const QUrl url(QString::fromLatin1(line.at(1)));
+    const QUrlQuery query(url.query());
+    const QString code = query.queryItemValue(QStringLiteral("code"));
+    if (code.isEmpty()) {
+        const QString error = query.queryItemValue(QStringLiteral("error"));
+        if (!error.isEmpty()) {
+            emitError(UnknownError, error);
+            qCDebug(KGAPIDebug) << error;
         } else {
-            qCWarning(KGAPIDebug) << "Failed to parse token from URL, peaking into HTML...";
-            webview->page()->runJavaScript(
-                QStringLiteral("document.getElementById(\"code\").value;"),
-                [this](const QVariant &result) {
-                    const auto token = result.toString();
-                    if (token.isEmpty()) {
-                        qCWarning(KGAPIDebug) << "Peaked into HTML, but cound not find token :(";
-                        webview->page()->toHtml([](const QString &html) {
-                            qCDebug(KGAPIDebug) << "Parsing token page failed";
-                            qCDebug(KGAPIDebug) << html;
-                        });
-                        emitError(AuthError, tr("Parsing token page failed."));
-                        return;
-                    }
-                    qCDebug(KGAPIDebug) << "Peaked into HTML and found token: " << token;
-                    auto fetch = new KGAPI2::NewTokensFetchJob(token, apiKey, secretKey);
-                    connect(fetch, &Job::finished, this, &AuthWidgetPrivate::tokensReceived);
-                });
+            qCDebug(KGAPIDebug) << QStringLiteral("Could not extract token from HTTP answer");
+            emitError(InvalidResponse, QStringLiteral("Could not extract token from HTTP answer"));
         }
-    } else {
-        //qCDebug(KGAPIDebug) << "Unhandled page:" << url.host() << ", " << url.path();
+        return;
     }
+
+    Q_ASSERT(serverPort != -1);
+    auto fetch = new KGAPI2::NewTokensFetchJob(code, apiKey, secretKey, serverPort);
+    connect(fetch, &Job::finished, this, &AuthWidgetPrivate::tokensReceived);
 }
 
 void AuthWidgetPrivate::tokensReceived(KGAPI2::Job* job)
