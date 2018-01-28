@@ -103,7 +103,7 @@ void AuthWidget::authenticate()
 
     d->server = new QTcpServer(this);
     if (!d->server->listen(QHostAddress::LocalHost)) {
-        Q_EMIT error(InvalidAccount, QStringLiteral("Could not start oauth http server"));
+        Q_EMIT error(InvalidAccount, tr("Could not start oauth http server"));
         return;
     }
     connect(d->server, &QTcpServer::acceptError, d, &AuthWidgetPrivate::socketError);

@@ -251,7 +251,7 @@ void AuthWidgetPrivate::socketError(QAbstractSocket::SocketError socketError)
     if (connection)
         connection->deleteLater();
     qCDebug(KGAPIDebug) << QStringLiteral("Socket error when recieving response: %1").arg(socketError);
-    emitError(InvalidResponse, QStringLiteral("Error recieving response: %1").arg(socketError));
+    emitError(InvalidResponse, tr("Error recieving response: %1").arg(socketError));
 }
 
 void AuthWidgetPrivate::socketReady()
@@ -271,7 +271,7 @@ void AuthWidgetPrivate::socketReady()
     const auto line = data.split(' ');
     if (line.size() != 3 || line.at(0) != QByteArray("GET") || !line.at(2).startsWith(QByteArray("HTTP/1.1"))) {
         qCDebug(KGAPIDebug) << QStringLiteral("Token response invalid");
-        emitError(InvalidResponse, QStringLiteral("Token response invalid"));
+        emitError(InvalidResponse, tr("Token response invalid"));
         return;
     }
 
@@ -286,7 +286,7 @@ void AuthWidgetPrivate::socketReady()
             qCDebug(KGAPIDebug) << error;
         } else {
             qCDebug(KGAPIDebug) << QStringLiteral("Could not extract token from HTTP answer");
-            emitError(InvalidResponse, QStringLiteral("Could not extract token from HTTP answer"));
+            emitError(InvalidResponse, tr("Could not extract token from HTTP answer"));
         }
         return;
     }
