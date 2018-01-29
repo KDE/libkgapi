@@ -137,7 +137,7 @@ namespace TasksService
     KGAPITASKS_EXPORT QUrl updateTaskListUrl(const QString &tasklistID);
 
     /**
-     * @brief Returns URL for deleteing a tasklist
+     * @brief Returns URL for deleting a tasklist
      *
      * @param tasklistID ID of task list to remove
      */

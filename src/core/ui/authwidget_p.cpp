@@ -250,8 +250,8 @@ void AuthWidgetPrivate::socketError(QAbstractSocket::SocketError socketError)
 {
     if (connection)
         connection->deleteLater();
-    qCDebug(KGAPIDebug) << QStringLiteral("Socket error when recieving response: %1").arg(socketError);
-    emitError(InvalidResponse, tr("Error recieving response: %1").arg(socketError));
+    qCDebug(KGAPIDebug) << QStringLiteral("Socket error when receiving response: %1").arg(socketError);
+    emitError(InvalidResponse, tr("Error receiving response: %1").arg(socketError));
 }
 
 void AuthWidgetPrivate::socketReady()
@@ -275,7 +275,7 @@ void AuthWidgetPrivate::socketReady()
         return;
     }
 
-    //qCDebug(KGAPIRaw) << "Recieving data on socket: " << data;
+    //qCDebug(KGAPIRaw) << "Receiving data on socket: " << data;
     const QUrl url(QString::fromLatin1(line.at(1)));
     const QUrlQuery query(url.query());
     const QString code = query.queryItemValue(QStringLiteral("code"));

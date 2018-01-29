@@ -877,7 +877,7 @@ static QMap<QString, QString> initMSStandardTimeTZTable()
     /* Based on "Microsoft Time Zone Index Values"
      * http://support.microsoft.com/kb/973627
      *
-     * The mapping is not exact, since the the TZID usually refers to a
+     * The mapping is not exact, since the TZID usually refers to a
      * region of multiple countries, so I always picked one of the countries
      * in the specified region and used it's TZID.
      *
