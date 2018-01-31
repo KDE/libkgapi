@@ -134,4 +134,5 @@ void AuthWidget::authenticate()
     }
     d->webview->setUrl(url);
     d->setProgress(AuthWidget::UserLogin);
+    d->webview->setFocus();
 }
