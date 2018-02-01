@@ -79,11 +79,6 @@ QWidget* AuthJob::Private::fullAuthentication()
     authWidget->d->apiKey = apiKey;
     authWidget->d->secretKey = secretKey;
 
-    connect(authWidget, &AuthWidget::error,
-            q, [this](KGAPI2::Error error, const QString &str) { _k_fullAuthenticationFailed(error, str); });
-    connect(authWidget, &AuthWidget::authenticated,
-            q, [this](const KGAPI2::AccountPtr &account) { _k_fullAuthenticationFinished(account); });
-
     authWidget->setUsername(username);
     authWidget->setPassword(password);
     authWidget->setAccount(account);
@@ -248,12 +243,20 @@ void AuthJob::start()
         layout->addWidget(buttons, 0);
 
         connect(buttons, &QDialogButtonBox::rejected,
-                this, [this]() { d->_k_destructDelayed(); });
+                this, [this]() {
+                    d->_k_destructDelayed();
+                    d->_k_fullAuthenticationFailed(AuthCancelled, tr("Authentication canceled"));
+                });
         connect(widget, &AuthWidget::authenticated,
-                this, [this]() { d->_k_destructDelayed(); });
+                this, [this](const KGAPI2::AccountPtr &account) {
+                    d->_k_destructDelayed();
+                    d->_k_fullAuthenticationFinished(account);
+                });
         connect(widget, &AuthWidget::error,
-                this, [this]() { d->_k_destructDelayed(); });
-        connect(buttons, &QDialogButtonBox::rejected, this, &AuthJob::emitFinished);
+                this, [this](KGAPI2::Error error, const QString &str) {
+                    d->_k_destructDelayed();
+                    d->_k_fullAuthenticationFailed(error, str);
+                });
 
         d->dialog->show();
         buttons->button(QDialogButtonBox::Cancel)->setDefault(false); // QTBUG-66109
