@@ -71,6 +71,7 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
   private Q_SLOTS:
     void emitError(const KGAPI2::Error errCode, const QString &msg);
     void webviewUrlChanged(const QUrl &url);
+    void webviewFinished(bool ok);
 
     void socketReady();
     void socketError(QAbstractSocket::SocketError error);

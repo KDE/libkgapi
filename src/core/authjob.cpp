@@ -34,6 +34,7 @@
 #include <QDialogButtonBox>
 #include <QJsonDocument>
 #include <QPointer>
+#include <QPushButton>
 
 #include <KWindowSystem>
 
@@ -255,6 +256,8 @@ void AuthJob::start()
         connect(buttons, &QDialogButtonBox::rejected, this, &AuthJob::emitFinished);
 
         d->dialog->show();
+        buttons->button(QDialogButtonBox::Cancel)->setDefault(false); // QTBUG-66109
+
         widget->authenticate();
     }
 }

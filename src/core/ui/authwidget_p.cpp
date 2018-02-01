@@ -171,6 +171,7 @@ void AuthWidgetPrivate::setupUi()
     vbox->addWidget(webview);
     connect(webview, &QWebEngineView::loadProgress, progressbar, &QProgressBar::setValue);
     connect(webview, &QWebEngineView::urlChanged, this, &AuthWidgetPrivate::webviewUrlChanged);
+    connect(webview, &QWebEngineView::loadFinished, this, &AuthWidgetPrivate::webviewFinished);
 }
 
 void AuthWidgetPrivate::setProgress(AuthWidget::Progress progress)
@@ -244,6 +245,18 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
                                                           "}").arg(password));
         }
     }
+}
+
+void AuthWidgetPrivate::webviewFinished(bool ok)
+{
+    if (!ok) {
+        qCWarning(KGAPIDebug) << "Failed to load" << webview->url();
+    }
+
+    const QUrl url = webview->url();
+    urlEdit->setText(url.toDisplayString(QUrl::PrettyDecoded));
+    urlEdit->setCursorPosition(0);
+    qCDebug(KGAPIDebug) << "URLFinished:" << url;
 }
 
 void AuthWidgetPrivate::socketError(QAbstractSocket::SocketError socketError)
