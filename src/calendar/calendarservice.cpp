@@ -1002,7 +1002,7 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
     const QStringList properties = vcard.split(QLatin1Char('\n'));
     int CDOId = -1;
     for (const QString &property : properties) {
-        if (property.startsWith(QStringLiteral("X-MICROSOFT-CDO-TZID"))) {
+        if (property.startsWith(QLatin1String("X-MICROSOFT-CDO-TZID"))) {
             QStringList parsed = property.split(QLatin1Char(':'));
             if (parsed.length() != 2) {
                 break;
