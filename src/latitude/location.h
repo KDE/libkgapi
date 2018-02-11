@@ -66,7 +66,7 @@ class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
     /**
      * @brief Destructor
      */
-    virtual ~Location();
+    ~Location() override;
 
     /**
      * @brief Timestamp of when this location has been recorded.

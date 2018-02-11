@@ -77,7 +77,7 @@ class KGAPILATITUDE_EXPORT LocationDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief Destructor
      */
-    virtual ~LocationDeleteJob();
+    ~LocationDeleteJob() override;
 
   protected:
 

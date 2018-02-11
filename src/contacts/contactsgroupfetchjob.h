@@ -65,7 +65,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~ContactsGroupFetchJob();
+    ~ContactsGroupFetchJob() override;
 
   protected:
 

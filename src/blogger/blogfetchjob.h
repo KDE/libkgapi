@@ -44,7 +44,7 @@ class KGAPIBLOGGER_EXPORT BlogFetchJob : public KGAPI2::FetchJob
                           FetchBy fetchBy,
                           const AccountPtr &account = AccountPtr(),
                           QObject *parent = nullptr);
-    virtual ~BlogFetchJob();
+    ~BlogFetchJob() override;
 
   protected:
     void start() override;

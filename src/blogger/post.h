@@ -38,7 +38,7 @@ class KGAPIBLOGGER_EXPORT Post : public KGAPI2::Object
 {
   public:
     Post();
-    virtual ~Post();
+    ~Post() override;
 
     QString id();
     void setId(const QString &id);

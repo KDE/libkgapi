@@ -66,7 +66,7 @@ class KGAPITASKS_EXPORT TaskListCreateJob : public KGAPI2::CreateJob
     /**
      * @brief Destructor
      */
-    virtual ~TaskListCreateJob();
+    ~TaskListCreateJob() override;
 
   protected:
 

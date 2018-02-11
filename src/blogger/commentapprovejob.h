@@ -48,7 +48,7 @@ class KGAPIBLOGGER_EXPORT CommentApproveJob : public KGAPI2::ModifyJob
                                ApprovalAction action,
                                const AccountPtr &account,
                                QObject *parent = nullptr);
-    virtual ~CommentApproveJob();
+    ~CommentApproveJob() override;
 
   protected:
     void start() override;

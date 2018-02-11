@@ -71,7 +71,7 @@ class KGAPIDRIVE_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstra
     explicit FileAbstractUploadJob(const QMap < QString /* file path */,
                                    FilePtr /* metadata */ > &files,
                                    const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~FileAbstractUploadJob();
+    ~FileAbstractUploadJob() override;
 
     bool useContentAsIndexableText() const;
     void setUseContentAsIndexableText(bool useContentAsIndexableText);

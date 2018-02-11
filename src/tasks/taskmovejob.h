@@ -117,7 +117,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
     /**
      * @brief Destructor
      */
-    virtual ~TaskMoveJob();
+    ~TaskMoveJob() override;
 
   protected:
 

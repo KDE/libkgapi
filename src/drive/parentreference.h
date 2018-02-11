@@ -51,7 +51,7 @@ class KGAPIDRIVE_EXPORT ParentReference: public KGAPI2::Object
   public:
     explicit ParentReference(const QString &id);
     explicit ParentReference(const ParentReference &other);
-    virtual ~ParentReference();
+    ~ParentReference() override;
 
     /**
      * @brief Returns the id of the parent.

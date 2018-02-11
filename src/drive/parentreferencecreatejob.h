@@ -55,7 +55,7 @@ class KGAPIDRIVE_EXPORT ParentReferenceCreateJob : public KGAPI2::CreateJob
                                       const ParentReferencesList &references,
                                       const AccountPtr &account,
                                       QObject *parent = nullptr);
-    virtual ~ParentReferenceCreateJob();
+    ~ParentReferenceCreateJob() override;
 
   protected:
     void start() override;

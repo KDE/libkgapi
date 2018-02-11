@@ -111,7 +111,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~ContactFetchJob();
+    ~ContactFetchJob() override;
 
     /**
      * @brief Returns whether deleted contacts are fetched.

@@ -80,7 +80,7 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
     /**
      * @brief Destructor
      */
-    virtual ~TaskCreateJob();
+    ~TaskCreateJob() override;
 
     /**
      * @brief Sets ID of parent task to create new tasks in

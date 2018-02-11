@@ -42,7 +42,7 @@ class KGAPIBLOGGER_EXPORT CommentDeleteContentJob : public KGAPI2::ModifyJob
     explicit CommentDeleteContentJob(const CommentPtr &comment,
                                      const AccountPtr &account,
                                      QObject *parent = nullptr);
-    virtual ~CommentDeleteContentJob();
+    ~CommentDeleteContentJob() override;
 
   protected:
     void start() override;

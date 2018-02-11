@@ -95,7 +95,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief Destructor
      */
-    virtual ~TaskDeleteJob();
+    ~TaskDeleteJob() override;
 
   protected:
 

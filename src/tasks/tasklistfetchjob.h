@@ -53,7 +53,7 @@ class KGAPITASKS_EXPORT TaskListFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~TaskListFetchJob();
+    ~TaskListFetchJob() override;
 
   protected:
 

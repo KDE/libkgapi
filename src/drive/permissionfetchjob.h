@@ -46,7 +46,7 @@ class KGAPIDRIVE_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
                                 const AccountPtr &account, QObject *parent = nullptr);
     explicit PermissionFetchJob(const FilePtr &file, const QString &permissionId,
                                 const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~PermissionFetchJob();
+    ~PermissionFetchJob() override;
 
   protected:
     void start() override;

@@ -50,7 +50,7 @@ class KGAPIDRIVE_EXPORT FileCreateJob : public KGAPI2::Drive::FileAbstractUpload
                            const AccountPtr &account, QObject *parent = nullptr);
     explicit FileCreateJob(const QMap < QString /* filepath */, FilePtr /* metadata */ > &files,
                            const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~FileCreateJob();
+    ~FileCreateJob() override;
 
   protected:
     QNetworkReply *dispatch(QNetworkAccessManager *accessManager,

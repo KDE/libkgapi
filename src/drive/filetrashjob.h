@@ -48,7 +48,7 @@ class KGAPIDRIVE_EXPORT FileTrashJob : public KGAPI2::Drive::FileAbstractModifyJ
                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileTrashJob(const FilesList &files,
                           const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~FileTrashJob();
+    ~FileTrashJob() override;
 
   protected:
     QUrl url(const QString &fileId) override;

@@ -66,7 +66,7 @@ class KGAPITASKS_EXPORT TaskListModifyJob : public KGAPI2::ModifyJob
     /**
      * @brief Destructor
      */
-    virtual ~TaskListModifyJob();
+    ~TaskListModifyJob() override;
 
   protected:
 

@@ -41,7 +41,7 @@ class KGAPIBLOGGER_EXPORT PageDeleteJob : public KGAPI2::DeleteJob
                            const QString &pageId,
                            const AccountPtr &account,
                            QObject *parent = nullptr );
-    virtual ~PageDeleteJob();
+    ~PageDeleteJob() override;
 
   protected:
     void start() override;

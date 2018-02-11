@@ -41,7 +41,7 @@ class KGAPIDRIVE_EXPORT FileFetchContentJob : public KGAPI2::FetchJob
                                  QObject *parent = nullptr);
     explicit FileFetchContentJob(const QUrl &url, const AccountPtr &account,
                                  QObject *parent = nullptr);
-    virtual ~FileFetchContentJob();
+    ~FileFetchContentJob() override;
 
     QByteArray data() const;
 

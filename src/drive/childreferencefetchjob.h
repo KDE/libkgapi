@@ -44,7 +44,7 @@ class KGAPIDRIVE_EXPORT ChildReferenceFetchJob : public KGAPI2::FetchJob
                                     const QString &childId,
                                     const AccountPtr &account,
                                     QObject *parent = nullptr);
-    virtual ~ChildReferenceFetchJob();
+    ~ChildReferenceFetchJob() override;
 
   protected:
     void start() override;

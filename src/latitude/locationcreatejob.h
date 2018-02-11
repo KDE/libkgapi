@@ -55,7 +55,7 @@ class KGAPILATITUDE_EXPORT LocationCreateJob : public KGAPI2::CreateJob
     /**
      * @brief Destructor
      */
-    virtual ~LocationCreateJob();
+    ~LocationCreateJob() override;
 
   protected:
 

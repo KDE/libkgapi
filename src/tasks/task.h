@@ -61,7 +61,7 @@ class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
     /**
      * @brief Destructor
      */
-    virtual ~Task();
+    ~Task() override;
 
     /**
      * @brief Sets whether the task has been deleted

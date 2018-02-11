@@ -147,7 +147,7 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~EventFetchJob();
+    ~EventFetchJob() override;
 
     /**
      * @brief Sets fulltext filter.

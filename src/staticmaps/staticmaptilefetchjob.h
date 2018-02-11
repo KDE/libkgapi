@@ -64,7 +64,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
     /**
      * @brief Destructor
      */
-    virtual ~StaticMapTileFetchJob();
+    ~StaticMapTileFetchJob() override;
 
     /**
      * @brief Pixmap with the fetched map tile.

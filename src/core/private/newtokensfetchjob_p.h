@@ -39,7 +39,7 @@ class KGAPICORE_EXPORT NewTokensFetchJob : public KGAPI2::Job
 
   public:
     explicit NewTokensFetchJob(const QString &tmpToken, const QString &apiKey, const QString &secretKey, int localPort, QObject* parent = nullptr);
-    virtual ~NewTokensFetchJob();
+    ~NewTokensFetchJob() override;
 
     QString accessToken() const;
     QString refreshToken() const;

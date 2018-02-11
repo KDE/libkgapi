@@ -66,7 +66,7 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
     /**
      * @brief Destructor
      */
-    virtual ~CalendarCreateJob();
+    ~CalendarCreateJob() override;
 
   protected:
 

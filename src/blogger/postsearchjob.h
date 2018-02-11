@@ -41,7 +41,7 @@ class KGAPIBLOGGER_EXPORT PostSearchJob : public KGAPI2::FetchJob
                            const QString &query,
                            const AccountPtr &account = AccountPtr(),
                            QObject *parent = nullptr);
-    virtual ~PostSearchJob();
+    ~PostSearchJob() override;
 
     bool fetchBodies() const;
     void setFetchBodies(bool fetchBodies);

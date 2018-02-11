@@ -76,7 +76,7 @@ class KGAPILATITUDE_EXPORT LocationFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~LocationFetchJob();
+    ~LocationFetchJob() override;
 
     /**
      * @brief Sets granularity of the requested result. By default it's City.

@@ -95,7 +95,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief Destructor
      */
-    virtual ~ContactsGroupDeleteJob();
+    ~ContactsGroupDeleteJob() override;
 
   protected:
 

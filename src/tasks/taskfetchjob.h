@@ -177,7 +177,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~TaskFetchJob();
+    ~TaskFetchJob() override;
 
     /**
      * @brief Sets whether to fetch should deleted tasks

@@ -55,7 +55,7 @@ class KGAPIDRIVE_EXPORT ChildReferenceDeleteJob : public KGAPI2::DeleteJob
                                      const ChildReferencesList &references,
                                      const AccountPtr &account,
                                      QObject *parent = nullptr);
-    virtual ~ChildReferenceDeleteJob();
+    ~ChildReferenceDeleteJob() override;
 
   protected:
     void start() override;

@@ -58,7 +58,7 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
     /**
      * Destructor
      */
-    virtual ~ModifyJob();
+    ~ModifyJob() override;
 
     /**
      * @return Returns modified items.

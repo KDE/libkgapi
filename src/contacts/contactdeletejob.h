@@ -90,7 +90,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief Destructor
      */
-    virtual ~ContactDeleteJob();
+    ~ContactDeleteJob() override;
 
   protected:
 

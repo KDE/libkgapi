@@ -62,7 +62,7 @@ class KGAPICONTACTS_EXPORT ContactsGroup : public KGAPI2::Object
     /**
      * @brief Destructor
      */
-    virtual ~ContactsGroup();
+    ~ContactsGroup() override;
 
     /**
      * @brief Sets group ID

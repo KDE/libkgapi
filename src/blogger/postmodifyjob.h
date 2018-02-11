@@ -37,7 +37,7 @@ class KGAPIBLOGGER_EXPORT PostModifyJob : public KGAPI2::ModifyJob
     explicit PostModifyJob(const PostPtr &post,
                            const AccountPtr &account,
                            QObject *parent = nullptr);
-    virtual ~PostModifyJob();
+    ~PostModifyJob() override;
 
   protected:
     void start() override;

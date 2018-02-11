@@ -98,7 +98,7 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
     /**
      * @brief Destructor
      */
-    virtual ~AuthJob();
+    ~AuthJob() override;
 
     /**
      * @brief Returns reauthenticated account.

@@ -54,7 +54,7 @@ class KGAPICORE_EXPORT AccountInfoFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~AccountInfoFetchJob();
+    ~AccountInfoFetchJob() override;
 
   protected:
 

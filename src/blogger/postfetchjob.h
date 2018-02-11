@@ -83,7 +83,7 @@ class KGAPIBLOGGER_EXPORT PostFetchJob : public  KGAPI2::FetchJob
                           const QString &postId,
                           const AccountPtr &account = AccountPtr(),
                           QObject *parent = nullptr);
-    virtual ~PostFetchJob();
+    ~PostFetchJob() override;
 
     bool fetchBodies() const;
     void setFetchBodies(bool fetchBodies);

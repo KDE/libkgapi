@@ -46,7 +46,7 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
   public:
     explicit AuthWidgetPrivate(AuthWidget *parent);
 
-    virtual ~AuthWidgetPrivate();
+    ~AuthWidgetPrivate() override;
 
     bool showProgressBar;
     QString username;

@@ -41,7 +41,7 @@ class KGAPIBLOGGER_EXPORT Page : public KGAPI2::Object
         Imported
     };
     explicit Page();
-    virtual ~Page();
+    ~Page() override;
 
     QString id() const;
     void setId(const QString &id);

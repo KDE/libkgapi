@@ -63,7 +63,7 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~ContactFetchPhotoJob();
+    ~ContactFetchPhotoJob() override;
 
   Q_SIGNALS:
 

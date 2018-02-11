@@ -63,7 +63,7 @@ class KGAPICALENDAR_EXPORT CalendarFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~CalendarFetchJob();
+    ~CalendarFetchJob() override;
 
   protected:
 

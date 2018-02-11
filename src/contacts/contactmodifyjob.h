@@ -65,7 +65,7 @@ class KGAPICONTACTS_EXPORT ContactModifyJob : public  KGAPI2::ModifyJob
     /**
      * @brief Destructor
      */
-    virtual ~ContactModifyJob();
+    ~ContactModifyJob() override;
 
   protected:
 

@@ -99,7 +99,7 @@ class KGAPILATITUDE_EXPORT LocationFetchHistoryJob : public KGAPI2::FetchJob
     /**
      * @brief Destructor
      */
-    virtual ~LocationFetchHistoryJob();
+    ~LocationFetchHistoryJob() override;
 
     /**
      * @brief Returns granularity of the requested locations.

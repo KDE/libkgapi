@@ -58,7 +58,7 @@ class KGAPIBLOGGER_EXPORT PostPublishJob : public KGAPI2::Job
                             const QDateTime &publishDate,
                             const AccountPtr &account,
                             QObject *parent = nullptr);
-    virtual ~PostPublishJob();
+    ~PostPublishJob() override;
 
     ObjectPtr item() const;
 

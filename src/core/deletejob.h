@@ -59,7 +59,7 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
     /**
      * @brief Destructor
      */
-    virtual ~DeleteJob();
+    ~DeleteJob() override;
 
   protected:
 

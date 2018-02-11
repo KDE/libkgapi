@@ -44,7 +44,7 @@ class KGAPIDRIVE_EXPORT PermissionModifyJob : public KGAPI2::ModifyJob
     explicit PermissionModifyJob(const QString &fileId,
                                  const PermissionsList &permissions,
                                  const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~PermissionModifyJob();
+    ~PermissionModifyJob() override;
 
   protected:
     void start() override;

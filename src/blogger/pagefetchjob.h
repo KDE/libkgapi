@@ -52,7 +52,7 @@ class KGAPIBLOGGER_EXPORT PageFetchJob : public KGAPI2::FetchJob
                           const QString &pageId,
                           const AccountPtr &account = AccountPtr(),
                           QObject *parent = nullptr);
-    virtual ~PageFetchJob();
+    ~PageFetchJob() override;
 
     bool fetchContent() const;
     void setFetchContent(bool fetchContent);

@@ -38,7 +38,7 @@ class MainWindow : public QMainWindow
 
   public:
     explicit MainWindow(QWidget * parent = nullptr);
-    virtual ~MainWindow();
+    ~MainWindow() override;
 
   public Q_SLOTS:
     void getImage();

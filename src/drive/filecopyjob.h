@@ -51,7 +51,7 @@ class KGAPIDRIVE_EXPORT FileCopyJob : public KGAPI2::Drive::FileAbstractDataJob
     explicit FileCopyJob(const QMap < FilePtr /* source file */,
                          FilePtr /* destination file */ > &files,
                          const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~FileCopyJob();
+    ~FileCopyJob() override;
 
     FilesList files() const;
 

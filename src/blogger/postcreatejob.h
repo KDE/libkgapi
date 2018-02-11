@@ -38,7 +38,7 @@ class KGAPIBLOGGER_EXPORT PostCreateJob : public KGAPI2::CreateJob
                            bool isDraft,
                            const AccountPtr &account,
                            QObject *parent = nullptr);
-    virtual ~PostCreateJob();
+    ~PostCreateJob() override;
 
   protected:
     void start() override;

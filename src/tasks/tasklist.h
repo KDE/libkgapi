@@ -54,7 +54,7 @@ class KGAPITASKS_EXPORT TaskList: public KGAPI2::Object
     /**
      * @brief Destructor
      */
-    virtual ~TaskList();
+    ~TaskList() override;
 
     /**
      * @brief Sets tasklist UID

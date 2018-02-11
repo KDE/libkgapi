@@ -59,7 +59,7 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
     /**
      * @brief Destructor
      */
-    virtual ~FetchJob();
+    ~FetchJob() override;
 
     /**
      * @brief Returns all items fetched by this job.

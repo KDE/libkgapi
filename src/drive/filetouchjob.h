@@ -45,7 +45,7 @@ class KGAPIDRIVE_EXPORT FileTouchJob : public KGAPI2::Drive::FileAbstractModifyJ
                           const AccountPtr &account, QObject *parent = nullptr);
     explicit FileTouchJob(const FilesList &files,
                           const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~FileTouchJob();
+    ~FileTouchJob() override;
 
   protected:
     QUrl url(const QString &fileId) override;

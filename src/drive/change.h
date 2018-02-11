@@ -49,7 +49,7 @@ class KGAPIDRIVE_EXPORT Change: public KGAPI2::Object
   public:
     explicit Change();
     explicit Change(const Change& other);
-    virtual ~Change();
+    ~Change() override;
 
     /**
      * @brief Returns the id of the change.

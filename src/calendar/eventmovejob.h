@@ -103,7 +103,7 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
     /**
      * @brief Destructor
      */
-    virtual ~EventMoveJob();
+    ~EventMoveJob() override;
 
   protected:
 

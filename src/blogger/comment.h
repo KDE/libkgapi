@@ -35,7 +35,7 @@ class KGAPIBLOGGER_EXPORT Comment : public KGAPI2::Object
 {
   public:
     explicit Comment();
-    virtual ~Comment();
+    ~Comment() override;
 
     QString id() const;
     void setId(const QString &id);

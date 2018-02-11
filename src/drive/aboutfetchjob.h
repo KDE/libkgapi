@@ -95,7 +95,7 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      * @param parent
      */
     explicit AboutFetchJob(const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~AboutFetchJob();
+    ~AboutFetchJob() override;
 
     /**
      * @brief Returns whether to include shared and public files to change IDs count.

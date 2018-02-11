@@ -90,7 +90,7 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
     /**
      * @brief Destructor
      */
-    virtual ~CalendarDeleteJob();
+    ~CalendarDeleteJob() override;
 
   protected:
 

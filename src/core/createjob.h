@@ -60,7 +60,7 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
     /**
      * @brief Destructor
      */
-    virtual ~CreateJob();
+    ~CreateJob() override;
 
     /**
      * @return Returns newly created items

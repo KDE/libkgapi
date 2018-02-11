@@ -52,7 +52,7 @@ class KGAPIDRIVE_EXPORT Revision: public KGAPI2::Object
   public:
     explicit Revision();
     explicit Revision(const Revision &other);
-    virtual ~Revision();
+    ~Revision() override;
 
     /**
      * @brief Returns the id of the revision.

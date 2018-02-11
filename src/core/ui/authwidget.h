@@ -61,7 +61,7 @@ class KGAPICORE_EXPORT AuthWidget : public QWidget
 
     explicit AuthWidget(QWidget* parent = nullptr);
 
-    virtual ~AuthWidget();
+    ~AuthWidget() override;
 
     /**
      * Runs the authentication.

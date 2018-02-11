@@ -55,7 +55,7 @@ class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
     /**
      * @brief Destructor
      */
-    virtual ~Calendar();
+    ~Calendar() override;
 
     /**
      * @brief Returns uID of the calendar.

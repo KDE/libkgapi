@@ -52,7 +52,7 @@ class KGAPIDRIVE_EXPORT PermissionDeleteJob :  KGAPI2::DeleteJob
     explicit PermissionDeleteJob(const QString &fileId,
                                  const QStringList &permissionsIds,
                                  const AccountPtr &account, QObject *parent = nullptr);
-    virtual ~PermissionDeleteJob();
+    ~PermissionDeleteJob() override;
 
   protected:
     void start() override;
