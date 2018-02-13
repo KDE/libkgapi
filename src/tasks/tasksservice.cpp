@@ -191,7 +191,7 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
 
     task->setUid(jsonData.value(QStringLiteral("id")).toString());
     task->setEtag(jsonData.value(QStringLiteral("etag")).toString());
-    task->setSummary(jsonData.value(QStringLiteral("title")).toString());;
+    task->setSummary(jsonData.value(QStringLiteral("title")).toString());
     task->setLastModified(Utils::rfc3339DateFromString(jsonData.value(QStringLiteral("updated")).toString()));
     task->setDescription(jsonData.value(QStringLiteral("notes")).toString());
 

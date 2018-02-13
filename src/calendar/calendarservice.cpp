@@ -344,7 +344,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         } else if (!timezone.isEmpty()) {
             const QTimeZone tz(timezone.toUtf8());
             if (tz.isValid()) {
-                dtStart.setTimeZone(tz);;
+                dtStart.setTimeZone(tz);
             } else {
                 qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
             }

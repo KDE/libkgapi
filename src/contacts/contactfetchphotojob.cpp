@@ -90,7 +90,7 @@ ContactFetchPhotoJob::~ContactFetchPhotoJob()
 
 void ContactFetchPhotoJob::start()
 {
-    d->processNextContact();;
+    d->processNextContact();
 }
 
 void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
