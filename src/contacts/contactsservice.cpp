@@ -445,8 +445,9 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     const QVariantList emails = data.value(QStringLiteral("gd$email")).toList();
     for (const QVariant & em : emails) {
         const QVariantMap email = em.toMap();
+        const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { email.value(QStringLiteral("rel")).toString() } } });
         contact->insertEmail(email.value(QStringLiteral("address")).toString(),
-                            email.value(QStringLiteral("primary")).toBool());
+                             email.value(QStringLiteral("primary")).toBool(), params);
     }
 
     /* IMs */
@@ -673,8 +674,15 @@ QByteArray contactToXML(const ContactPtr& contact)
     }
 
     /* Emails */
-    Q_FOREACH(const QString &email, contact->emails()) {
-        output.append("<gd:email rel='http://schemas.google.com/g/2005#home' address='").append(Qt::escape(email).toUtf8()).append("' />");
+    const auto preferredEmail = contact->preferredEmail();
+    Q_FOREACH(const auto &email, contact->emailList()) {
+        const auto rels = email.parameters().value(QStringLiteral("rel"), { QStringLiteral("http://schemas.google.com/g/2005#home") });
+        const auto rel = rels.isEmpty() ? "http://schemas.google.com/g/2005#home" : rels.at(0).toUtf8();
+        output.append("<gd:email rel='" + rel + "' address='").append(Qt::escape(email.mail()).toUtf8()).append("'");
+        if (email.mail() == preferredEmail) {
+            output.append(" primary=\"true\"");
+        }
+        output.append("/>");
     }
 
     /* IMs */
@@ -999,8 +1007,9 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Emails */
         if (e.tagName() == QLatin1String("gd:email")) {
+            const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { e.attribute(QStringLiteral("rel"), {}) } } });
             contact->insertEmail(e.attribute(QStringLiteral("address")),
-                                 (e.attribute(QStringLiteral("primary")).toLower() == QLatin1String("true")));
+                                 (e.attribute(QStringLiteral("primary")).toLower() == QLatin1String("true")), params);
             continue;
         }
 
