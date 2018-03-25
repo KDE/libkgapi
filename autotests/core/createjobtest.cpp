@@ -39,7 +39,7 @@ class TestCreateJob : public CreateJob
 
 public:
     TestCreateJob(const QUrl &url, const QByteArray &data, QObject *parent = nullptr)
-        : CreateJob(AccountPtr::create(), parent)
+        : CreateJob(AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken")), parent)
         , mUrl(url)
         , mData(data)
     {
@@ -47,7 +47,9 @@ public:
 
     void start() override
     {
-        enqueueRequest(QNetworkRequest(mUrl), mData);
+        QNetworkRequest request(mUrl);
+        request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+        enqueueRequest(request, mData);
     }
 
     QByteArray response()
@@ -114,6 +116,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_MAIN(CreateJobTest)
+QTEST_GUILESS_MAIN(CreateJobTest)
 
 #include "createjobtest.moc"

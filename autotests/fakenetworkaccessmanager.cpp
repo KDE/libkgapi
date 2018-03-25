@@ -56,6 +56,9 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
     VERIFY2(namFactory->hasScenario(), "No scenario for request!");
 
     const auto scenario = namFactory->nextScenario();
+    if (scenario.needsAuth) {
+        VERIFY2(originalReq.hasRawHeader("Authorization"), "Missing Auth token header!");
+    }
 
     COMPARE(scenario.requestUrl, originalReq.url());
     COMPARE(scenario.requestMethod, op);

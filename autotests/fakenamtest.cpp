@@ -56,7 +56,7 @@ private Q_SLOTS:
     {
         FakeNetworkAccessManager::Scenario scenario(
             QUrl(QStringLiteral("https://example.test/request")), QNetworkAccessManager::GetOperation,
-            {}, 200, "Hello World!");
+            {}, 200, "Hello World!", false);
         auto namf = FakeNetworkAccessManagerFactory::get();
         namf->setScenarios({ scenario });
         QScopedPointer<QNetworkAccessManager> nam(namf->networkAccessManager());
@@ -71,7 +71,7 @@ private Q_SLOTS:
     {
         FakeNetworkAccessManager::Scenario scenario(
             QUrl(QStringLiteral("https://example.test/upload")), QNetworkAccessManager::PostOperation,
-            "Uploading new data", 200, "Data stored");
+            "Uploading new data", 200, "Data stored", false);
         auto namf = FakeNetworkAccessManagerFactory::get();
         namf->setScenarios({ scenario });
         QScopedPointer<QNetworkAccessManager> nam(namf->networkAccessManager());
@@ -86,7 +86,7 @@ private Q_SLOTS:
     {
         FakeNetworkAccessManager::Scenario scenario(
             QUrl(QStringLiteral("https://example.test/create")), QNetworkAccessManager::PutOperation,
-            "New data to store", 201, "New data stored");
+            "New data to store", 201, "New data stored", false);
         auto namf = FakeNetworkAccessManagerFactory::get();
         namf->setScenarios({ scenario });
         QScopedPointer<QNetworkAccessManager> nam(namf->networkAccessManager());
@@ -102,7 +102,7 @@ private Q_SLOTS:
     {
         FakeNetworkAccessManager::Scenario scenario(
             QUrl(QStringLiteral("https://example.test/delete")), QNetworkAccessManager::DeleteOperation,
-            {}, 204, {});
+            {}, 204, {}, false);
         auto namf = FakeNetworkAccessManagerFactory::get();
         namf->setScenarios({ scenario });
         QScopedPointer<QNetworkAccessManager> nam(namf->networkAccessManager());

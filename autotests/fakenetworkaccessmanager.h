@@ -32,12 +32,14 @@ public:
     class Scenario
     {
     public:
-        Scenario(const QUrl &requestUrl, QNetworkAccessManager::Operation method, const QByteArray &requestData, int responseCode, const QByteArray &responseData)
+        Scenario(const QUrl &requestUrl, QNetworkAccessManager::Operation method, const QByteArray &requestData, int responseCode, const QByteArray &responseData,
+                 bool needsAuth = true)
             : requestUrl(requestUrl)
             , requestMethod(method)
             , requestData(requestData)
             , responseCode(responseCode)
             , responseData(responseData)
+            , needsAuth(needsAuth)
         {}
 
         QUrl requestUrl;
@@ -45,6 +47,7 @@ public:
         QByteArray requestData;
         int responseCode;
         QByteArray responseData;
+        bool needsAuth = true;
     };
 
     explicit FakeNetworkAccessManager(QObject *parent = nullptr);

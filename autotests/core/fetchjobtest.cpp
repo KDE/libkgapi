@@ -52,7 +52,11 @@ public:
 
     void start() override
     {
-        enqueueRequest(QNetworkRequest(mUrl));
+        QNetworkRequest request(mUrl);
+        if (account()) {
+            request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+        }
+        enqueueRequest(request);
     }
 
     QByteArray response()
@@ -87,19 +91,19 @@ private Q_SLOTS:
 
         QTest::newRow("success") << Scenarios{
             { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::GetOperation,
-              {}, 200, "Test Response" }
+              {}, 200, "Test Response", false }
         };
 
         QTest::newRow("not found") << Scenarios{
             { QUrl(QStringLiteral("https://example.test/does/not/exist")), QNetworkAccessManager::GetOperation,
-              {}, KGAPI2::NotFound, {} }
+              {}, KGAPI2::NotFound, {}, false }
         };
 
         QTest::newRow("redirect") << Scenarios{
             { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::GetOperation,
-              {}, KGAPI2::TemporarilyMoved, "https://example.test/moved/data" },
+              {}, KGAPI2::TemporarilyMoved, "https://example.test/moved/data", false },
             { QUrl(QStringLiteral("https://example.test/moved/data")), QNetworkAccessManager::GetOperation,
-              {}, KGAPI2::OK, "Here's your data" }
+              {}, KGAPI2::OK, "Here's your data", false }
         };
     }
 
@@ -138,7 +142,7 @@ private Q_SLOTS:
 
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
-        auto account = AccountPtr::create();
+        auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         auto job = new TestFetchJob(account, scenarios.first().requestUrl);
         QVERIFY(execJob(job));
         QCOMPARE(job->error(), scenarios.last().responseCode == 200 ? KGAPI2::NoError : scenarios.last().responseCode);
@@ -148,6 +152,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_MAIN(FetchJobTest)
+QTEST_GUILESS_MAIN(FetchJobTest)
 
 #include "fetchjobtest.moc"
