@@ -42,11 +42,11 @@ For examples of how to use LibKGAPI in KDE applications, please refer to example
 the /examples folder. To compile examples, pass -DBUILD_EXAMPLES=TRUE to CMake.
 
 @authors
-Dan Vratil \<dan@progdan.cz\>
+Daniel Vrátil \<dvratil@kde.org\>
 Jan Grulich \<grulja@gmail.com\>
 
 @maintainers
-Dan Vratil \<dan@progdan.cz\>
+Daniel Vrátil \<dvratil@kde.org\>
 
 @licenses
 @gplv2

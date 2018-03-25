@@ -1,5 +1,5 @@
 /*
-    Copyright 2013  Dan Vratil <dan@progdan.cz>
+    Copyright (C) 2013 - 2018  Daniel Vrátil <dvratil@kde.org>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
