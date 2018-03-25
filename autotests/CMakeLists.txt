@@ -14,12 +14,17 @@ target_link_libraries(kgapitest Qt5::Core Qt5::Network Qt5::Test KPimGAPICore)
 
 
 macro(add_libkgapi2_test _module _testname)
+    set(testSources ${_module}/${_testname}.cpp)
     string(SUBSTRING ${_module} 0 1 moduleFirst)
     string(SUBSTRING ${_module} 1 -1 moduleLast)
     string(TOUPPER ${moduleFirst} moduleFirst)
     string(CONCAT moduleName ${moduleFirst} ${moduleLast})
     set(extraLibs "KPimGAPI${moduleName}")
-    ecm_add_test(${_module}/${_testname}.cpp
+    set(utilsFile ${CMAKE_CURRENT_SOURCE_DIR}/${_module}/${_module}testutils.cpp)
+    if (EXISTS ${utilsFile})
+        list(APPEND testSources ${utilsFile})
+    endif()
+    ecm_add_test(${testSources}
         LINK_LIBRARIES kgapitest KPimGAPICore ${extraLibs}
         TEST_NAME ${_testname}
         NAME_PREFIX ${_module}-
@@ -30,4 +35,10 @@ ecm_add_test(fakenamtest.cpp LINK_LIBRARIES kgapitest KPimGAPICore TEST_NAME fak
 
 add_libkgapi2_test(core fetchjobtest)
 add_libkgapi2_test(core createjobtest)
+
+add_libkgapi2_test(contacts contactcreatejobtest)
+add_libkgapi2_test(contacts contactdeletejobtest)
+add_libkgapi2_test(contacts contactfetchjobtest)
+add_libkgapi2_test(contacts contactfetchphotojobtest)
+
 add_libkgapi2_test(drive filesearchquerytest)

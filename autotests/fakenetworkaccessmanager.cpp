@@ -21,27 +21,14 @@
 #include "fakenetworkaccessmanager.h"
 #include "fakenetworkreply.h"
 #include "fakenetworkaccessmanagerfactory.h"
+#include "testutils.h"
 
 #include <QNetworkRequest>
 #include <QBuffer>
 #include <QTest>
+#include <QProcess>
 
-#define COMPARE(actual, expected) \
-    do { \
-        if (!QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__)) \
-            return new FakeNetworkReply(op, originalReq); \
-    } while (false)
-
-#define VERIFY2(cond, msg) \
-    do { \
-        if (cond) { \
-            if (!QTest::qVerify(true, #cond, (msg), __FILE__, __LINE__)) \
-                return new FakeNetworkReply(op, originalReq); \
-        } else { \
-            if (!QTest::qVerify(false, #cond, (msg), __FILE__, __LINE__)) \
-                return new FakeNetworkReply(op, originalReq); \
-        } \
-    } while (false);
+#include <iostream>
 
 FakeNetworkAccessManager::FakeNetworkAccessManager(QObject *parent)
     : QNetworkAccessManager(parent)
@@ -52,19 +39,48 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
                                                        QIODevice* outgoingData)
 {
     auto namFactory = dynamic_cast<FakeNetworkAccessManagerFactory*>(KGAPI2::NetworkAccessManagerFactory::instance());
-    VERIFY2(namFactory, "NAMFactory is nto a FakeNetworkAccessManagerFactory!");
-    VERIFY2(namFactory->hasScenario(), "No scenario for request!");
+    VERIFY2_RET(namFactory, "NAMFactory is nto a FakeNetworkAccessManagerFactory!",
+                new FakeNetworkReply(op, originalReq));
+    VERIFY2_RET(namFactory->hasScenario(), "No scenario for request!",
+                new FakeNetworkReply(op, originalReq));
 
     const auto scenario = namFactory->nextScenario();
     if (scenario.needsAuth) {
-        VERIFY2(originalReq.hasRawHeader("Authorization"), "Missing Auth token header!");
+        VERIFY2_RET(originalReq.hasRawHeader("Authorization"), "Missing Auth token header!",
+                    new FakeNetworkReply(op, originalReq));
     }
 
-    COMPARE(scenario.requestUrl, originalReq.url());
-    COMPARE(scenario.requestMethod, op);
+    COMPARE_RET(scenario.requestUrl, originalReq.url(),
+                new FakeNetworkReply(op, originalReq));
+    COMPARE_RET(scenario.requestMethod, op,
+                new FakeNetworkReply(op, originalReq));
+    for (const auto requestHeader : qAsConst(scenario.requestHeaders)) {
+        VERIFY2_RET(originalReq.hasRawHeader(requestHeader.first),
+                    qPrintable(QStringLiteral("Missing header '%1'").arg(QString::fromUtf8(requestHeader.first))),
+                    new FakeNetworkReply(op, originalReq));
+        COMPARE_RET(originalReq.rawHeader(requestHeader.first), requestHeader.second,
+                    new FakeNetworkReply(op, originalReq));
+    }
 
     if (outgoingData) {
-        COMPARE(outgoingData->readAll(), scenario.requestData);
+        const auto actualRequest = outgoingData->readAll();
+        if (actualRequest.startsWith('<')) {
+            const auto formattedInput = reformatXML(actualRequest);
+            const auto formattedExpected = reformatXML(scenario.requestData);
+            if (formattedInput != formattedExpected) {
+                std::cerr << diffData(formattedInput, formattedExpected).constData() << std::endl;
+                FAIL_RET("Request data don't match!", new FakeNetworkReply(op, originalReq));
+            }
+        } else if (actualRequest.startsWith('{')) {
+            const auto formattedInput = reformatJSON(actualRequest);
+            const auto formattedExpected = reformatJSON(scenario.requestData);
+            if (formattedInput != formattedExpected) {
+                std::cerr << diffData(formattedInput, formattedExpected).constData() << std::endl;
+                FAIL_RET("Request data don't match!", new FakeNetworkReply(op, originalReq));
+            }
+        } else {
+            COMPARE_RET(actualRequest, scenario.requestData, new FakeNetworkReply(op, originalReq));
+        }
     }
 
     return new FakeNetworkReply(scenario);

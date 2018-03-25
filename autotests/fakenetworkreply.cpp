@@ -35,6 +35,9 @@ FakeNetworkReply::FakeNetworkReply(const FakeNetworkAccessManager::Scenario &sce
     } else {
         setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("text/plain"));
     }
+    for (const auto header : qAsConst(scenario.responseHeaders)) {
+        setRawHeader(header.first, header.second);
+    }
 
     if (scenario.responseCode == KGAPI2::TemporarilyMoved) {
         setHeader(QNetworkRequest::LocationHeader, QString::fromUtf8(scenario.responseData));

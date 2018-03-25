@@ -165,7 +165,7 @@ ObjectsList ContactFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->contactId.isEmpty()) {
-            items =  ContactsService::parseJSONFeed(rawData, feedData);
+            items = ContactsService::parseJSONFeed(rawData, feedData);
         } else {
             items << ContactsService::JSONToContact(rawData);
         }

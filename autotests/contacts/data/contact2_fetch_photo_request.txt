@@ -1,0 +1,2 @@
+GET https://www.google.com/m8/feeds/photos/media/MockAccount/2d71e4bb897f47a8
+GData-Version: 3.0

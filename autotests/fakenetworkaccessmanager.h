@@ -25,6 +25,7 @@
 #include <QList>
 #include <QUrl>
 #include <QByteArray>
+#include <QVector>
 
 class FakeNetworkAccessManager : public QNetworkAccessManager
 {
@@ -32,6 +33,9 @@ public:
     class Scenario
     {
     public:
+        Scenario()
+        {}
+
         Scenario(const QUrl &requestUrl, QNetworkAccessManager::Operation method, const QByteArray &requestData, int responseCode, const QByteArray &responseData,
                  bool needsAuth = true)
             : requestUrl(requestUrl)
@@ -44,8 +48,10 @@ public:
 
         QUrl requestUrl;
         QNetworkAccessManager::Operation requestMethod;
+        QVector<QPair<QByteArray, QByteArray>> requestHeaders;
         QByteArray requestData;
-        int responseCode;
+        int responseCode = -1;
+        QVector<QPair<QByteArray, QByteArray>> responseHeaders;
         QByteArray responseData;
         bool needsAuth = true;
     };
