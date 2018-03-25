@@ -64,7 +64,6 @@ void ContactFetchPhotoJob::Private::processNextContact()
     request.setUrl(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
-    request.setAttribute(QNetworkRequest::User, QVariant::fromValue(contact));
     q->enqueueRequest(request);
 }
 
@@ -95,7 +94,8 @@ void ContactFetchPhotoJob::start()
 
 void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
-    if (reply->error() == QNetworkReply::ContentNotFoundError) {
+    if (reply->error() == QNetworkReply::ContentNotFoundError
+        || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == NotFound) {
         d->contacts.currentProcessed();
         d->processNextContact();
         // If the last photo failed, make sure we don't fail the whole job!
@@ -104,10 +104,12 @@ void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteAr
         return;
     }
 
-    ContactPtr contact = reply->request().attribute(QNetworkRequest::User).value<ContactPtr>();
-    contact->setPhoto(QImage::fromData(rawData));
-
+    ContactPtr contact = d->contacts.current();
+    KContacts::Picture picture;
+    picture.setRawData(rawData, reply->header(QNetworkRequest::ContentTypeHeader).toString());
+    contact->setPhoto(picture);
     Q_EMIT photoFetched(this, contact);
+
     d->contacts.currentProcessed();
     d->processNextContact();
 }
