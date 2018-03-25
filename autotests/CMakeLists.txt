@@ -1,16 +1,33 @@
-include(ECMMarkAsTest)
+include(ECMAddTests)
 
 find_package(Qt5Test CONFIG REQUIRED)
 
+set(kgapitest_SRCS
+    fakenetworkreply.cpp
+    fakenetworkaccessmanager.cpp
+    fakenetworkaccessmanagerfactory.cpp
+    testutils.cpp
+)
+add_library(kgapitest STATIC ${kgapitest_SRCS})
+target_link_libraries(kgapitest Qt5::Core Qt5::Network Qt5::Test KPimGAPICore)
+
+
+
 macro(add_libkgapi2_test _module _testname)
-    add_executable( ${_module}-${_testname} ${_module}/${_testname}.cpp )
-    add_test(NAME ${_module}-${_testname} COMMAND ${_module}-${_testname} )
-    ecm_mark_as_test(libkgapi2-${_module}-${_testname})
-    target_link_libraries(${_module}-${_testname}
-                          Qt5::Test
-                          KF5::Contacts
-                          KF5::CalendarCore
-                          KPimGAPIDrive)
+    string(SUBSTRING ${_module} 0 1 moduleFirst)
+    string(SUBSTRING ${_module} 1 -1 moduleLast)
+    string(TOUPPER ${moduleFirst} moduleFirst)
+    string(CONCAT moduleName ${moduleFirst} ${moduleLast})
+    set(extraLibs "KPimGAPI${moduleName}")
+    ecm_add_test(${_module}/${_testname}.cpp
+        LINK_LIBRARIES kgapitest KPimGAPICore ${extraLibs}
+        TEST_NAME ${_testname}
+        NAME_PREFIX ${_module}-
+    )
 endmacro(add_libkgapi2_test)
 
+ecm_add_test(fakenamtest.cpp LINK_LIBRARIES kgapitest KPimGAPICore TEST_NAME fakenamtest NAME_PREFIX fake-)
+
+add_libkgapi2_test(core fetchjobtest)
+add_libkgapi2_test(core createjobtest)
 add_libkgapi2_test(drive filesearchquerytest)

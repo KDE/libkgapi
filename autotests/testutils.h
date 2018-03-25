@@ -1,7 +1,5 @@
 /*
- * This file is part of LibKGAPI library
- *
- * Copyright (C) 2018 Daniel Vrátil <dvratil@kde.org>
+ * Copyright (C) 2018  Daniel Vrátil <dvratil@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,32 +18,13 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KGAPI_NETWORKACCESSMANAGERFACTORY_P_H_
-#define KGAPI_NETWORKACCESSMANAGERFACTORY_P_H_
-
-class QNetworkAccessManager;
-class QObject;
-
-#include "kgapicore_export.h"
+#ifndef TESTUTILS_H_
+#define TESTUTILS_H_
 
 namespace KGAPI2 {
-
-// Export for use in unit-tests, header not installed though
-class KGAPICORE_EXPORT NetworkAccessManagerFactory
-{
-public:
-    static NetworkAccessManagerFactory *instance();
-    static void setFactory(NetworkAccessManagerFactory *factory);
-
-    virtual QNetworkAccessManager *networkAccessManager(QObject *parent = nullptr) const = 0;
-
-protected:
-    static NetworkAccessManagerFactory *sInstance;
-
-    explicit NetworkAccessManagerFactory();
-    virtual ~NetworkAccessManagerFactory();
-};
-
+class Job;
 }
+
+bool execJob(KGAPI2::Job *job);
 
 #endif

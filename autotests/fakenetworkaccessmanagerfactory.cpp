@@ -1,7 +1,5 @@
 /*
- * This file is part of LibKGAPI library
- *
- * Copyright (C) 2018 Daniel Vrátil <dvratil@kde.org>
+ * Copyright (C) 2018  Daniel Vrátil <dvratil@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,32 +18,33 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KGAPI_NETWORKACCESSMANAGERFACTORY_P_H_
-#define KGAPI_NETWORKACCESSMANAGERFACTORY_P_H_
+#include "fakenetworkaccessmanagerfactory.h"
 
-class QNetworkAccessManager;
-class QObject;
-
-#include "kgapicore_export.h"
-
-namespace KGAPI2 {
-
-// Export for use in unit-tests, header not installed though
-class KGAPICORE_EXPORT NetworkAccessManagerFactory
+FakeNetworkAccessManagerFactory::FakeNetworkAccessManagerFactory()
 {
-public:
-    static NetworkAccessManagerFactory *instance();
-    static void setFactory(NetworkAccessManagerFactory *factory);
-
-    virtual QNetworkAccessManager *networkAccessManager(QObject *parent = nullptr) const = 0;
-
-protected:
-    static NetworkAccessManagerFactory *sInstance;
-
-    explicit NetworkAccessManagerFactory();
-    virtual ~NetworkAccessManagerFactory();
-};
-
 }
 
-#endif
+void FakeNetworkAccessManagerFactory::setScenarios(const QList<FakeNetworkAccessManager::Scenario> &scenarios)
+{
+    mScenarios = scenarios;
+}
+
+FakeNetworkAccessManagerFactory * FakeNetworkAccessManagerFactory::get()
+{
+    return dynamic_cast<FakeNetworkAccessManagerFactory*>(instance());
+}
+
+bool FakeNetworkAccessManagerFactory::hasScenario() const
+{
+    return !mScenarios.isEmpty();
+}
+
+FakeNetworkAccessManager::Scenario FakeNetworkAccessManagerFactory::nextScenario()
+{
+    return mScenarios.takeFirst();
+}
+
+QNetworkAccessManager *FakeNetworkAccessManagerFactory::networkAccessManager(QObject *parent) const
+{
+    return new FakeNetworkAccessManager(parent);
+}

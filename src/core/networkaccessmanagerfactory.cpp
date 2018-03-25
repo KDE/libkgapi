@@ -27,7 +27,6 @@
 
 using namespace KGAPI2;
 
-
 NetworkAccessManagerFactory *NetworkAccessManagerFactory::sInstance = nullptr;
 
 class KIONetworkAccessManagerFactory : public NetworkAccessManagerFactory
@@ -39,6 +38,20 @@ public:
     }
 };
 
+
+NetworkAccessManagerFactory::NetworkAccessManagerFactory()
+{
+}
+
+NetworkAccessManagerFactory::~NetworkAccessManagerFactory()
+{
+}
+
+void NetworkAccessManagerFactory::setFactory(NetworkAccessManagerFactory *factory)
+{
+    delete sInstance;
+    sInstance = factory;
+}
 
 NetworkAccessManagerFactory *NetworkAccessManagerFactory::instance()
 {
