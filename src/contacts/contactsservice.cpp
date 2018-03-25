@@ -464,8 +464,11 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     const QVariantList phones = data.value(QStringLiteral("gd$phoneNumber")).toList();
     for (const QVariant & p : phones) {
         const QVariantMap phone = p.toMap();
-        contact->insertPhoneNumber(KContacts::PhoneNumber(phone.value(QStringLiteral("$t")).toString(),
-                                  Contact::phoneSchemeToType(phone.value(QStringLiteral("rel")).toString())));
+        KContacts::PhoneNumber phoneNumber(
+            phone.value(QStringLiteral("$t")).toString(),
+            Contact::phoneSchemeToType(phone.value(QStringLiteral("rel")).toString()));
+        phoneNumber.setId(phoneNumber.number());
+        contact->insertPhoneNumber(phoneNumber);
     }
 
     /* Addresses */
@@ -473,6 +476,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     for (const QVariant &a : addresses) {
         const QVariantMap address = a.toMap();
         KContacts::Address addr;
+        addr.setId(QString::number(contact->addresses().count()));
         if (!address.contains(QStringLiteral("gd$city")) &&
                 !address.contains(QStringLiteral("gd$country")) &&
                 !address.contains(QStringLiteral("gd$postcode")) &&
@@ -1023,13 +1027,16 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Phone numbers */
         if (e.tagName() == QLatin1String("gd:phoneNumber")) {
-            contact->insertPhoneNumber(KContacts::PhoneNumber(e.text(), Contact::phoneSchemeToType(e.attribute(QStringLiteral("rel")))));
+            KContacts::PhoneNumber number(e.text(), Contact::phoneSchemeToType(e.attribute(QStringLiteral("rel"))));
+            number.setId(e.text());
+            contact->insertPhoneNumber(number);
             continue;
         }
 
         /* Addresses */
         if (e.tagName() == QLatin1String("gd:structuredPostalAddress")) {
             KContacts::Address address;
+            address.setId(QString::number(contact->addresses().count()));
             const QDomNodeList l = e.childNodes();
             for (int i = 0; i < l.length(); ++i) {
                 const QDomElement el = l.at(i).toElement();
