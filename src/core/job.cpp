@@ -122,7 +122,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             qCDebug(KGAPIDebug) << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
             QNetworkRequest request = reply->request();
             request.setUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
-            q->enqueueRequest(request);
+            q->enqueueRequest(request, currentRequest.rawData, currentRequest.contentType);
             return;
         }
 
