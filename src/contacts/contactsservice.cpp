@@ -860,7 +860,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
             for (int i = 0; i < l.length(); ++i) {
                 const QDomElement el = l.at(i).toElement();
 
-                if (el.tagName() == QLatin1String("gd:fullname")) {
+                if (el.tagName() == QLatin1String("gd:fullName")) {
                     contact->setFormattedName(el.text());
                     continue;
                 }
