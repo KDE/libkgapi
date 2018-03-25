@@ -109,7 +109,7 @@ private Q_SLOTS:
 
         auto job = new TestCreateJob(scenarios.first().requestUrl, scenarios.first().requestData);
         QVERIFY(execJob(job));
-        QCOMPARE(job->error(), scenarios.last().responseCode == 200 ? KGAPI2::NoError : scenarios.last().responseCode);
+        QCOMPARE(static_cast<int>(job->error()), scenarios.last().responseCode == 200 ? KGAPI2::NoError : scenarios.last().responseCode);
         QCOMPARE(job->response(), scenarios.last().responseData);
 
         QVERIFY(!FakeNetworkAccessManagerFactory::get()->hasScenario());
