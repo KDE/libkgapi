@@ -40,5 +40,6 @@ add_libkgapi2_test(contacts contactcreatejobtest)
 add_libkgapi2_test(contacts contactdeletejobtest)
 add_libkgapi2_test(contacts contactfetchjobtest)
 add_libkgapi2_test(contacts contactfetchphotojobtest)
+add_libkgapi2_test(contacts contactmodifyjobtest)
 
 add_libkgapi2_test(drive filesearchquerytest)
