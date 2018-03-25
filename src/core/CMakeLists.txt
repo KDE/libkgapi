@@ -12,6 +12,7 @@ set(kgapicore_SRCS
     deletejob.cpp
     fetchjob.cpp
     job.cpp
+    networkaccessmanagerfactory.cpp
     modifyjob.cpp
     object.cpp
     utils.cpp

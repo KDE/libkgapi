@@ -23,7 +23,7 @@
 #include "job.h"
 #include "job_p.h"
 #include "account.h"
-
+#include "networkaccessmanagerfactory_p.h"
 #include "../debug.h"
 #include "authjob.h"
 
@@ -46,8 +46,8 @@ void Job::Private::init()
 {
     QTimer::singleShot(0, q, [this]() { _k_doStart(); });
 
-    accessManager = new KIO::Integration::AccessManager(q);
-    connect(accessManager, &KIO::AccessManager::finished,
+    accessManager = NetworkAccessManagerFactory::instance()->networkAccessManager(q);
+    connect(accessManager, &QNetworkAccessManager::finished,
             q, [this](QNetworkReply *reply) { _k_replyReceived(reply); });
 
     dispatchTimer = new QTimer(q);

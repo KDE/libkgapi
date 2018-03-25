@@ -1,7 +1,7 @@
 /*
  * This file is part of LibKGAPI library
  *
- * Copyright (C) 2013  Daniel Vrátil <dvratil@redhat.com>
+ * Copyright (C) 2018 Daniel Vrátil <dvratil@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,54 +20,31 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KGAPI_JOB_P_H
-#define KGAPI_JOB_P_H
+#ifndef KGAPI_NETWORKACCESSMANAGERFACTORY_P_H_
+#define KGAPI_NETWORKACCESSMANAGERFACTORY_P_H_
 
-#include "job.h"
+class QNetworkAccessManager;
+class QObject;
 
-#include <QQueue>
-#include <QTimer>
-#include <QNetworkReply>
+#include "kgapicore_export.h"
 
 namespace KGAPI2 {
 
-struct Request
+// Export for use in unit-tests, header not installed though
+class KGAPICORE_EXPORT NetworkAccessManagerFactory
 {
-    QNetworkRequest request;
-    QByteArray rawData;
-    QString contentType;
-};
+public:
+    static NetworkAccessManagerFactory *instance();
 
-class Q_DECL_HIDDEN Job::Private
-{
-  public:
-    Private(Job *parent);
-    void init();
+    virtual QNetworkAccessManager *networkAccessManager(QObject *parent = nullptr) const = 0;
 
-    QString parseErrorMessage(const QByteArray &json);
+protected:
+    static NetworkAccessManagerFactory *sInstance;
 
-    void _k_doStart();
-    void _k_doEmitFinished();
-    void _k_replyReceived(QNetworkReply *reply);
-    void _k_dispatchTimeout();
-
-    bool isRunning;
-
-    Error error;
-    QString errorString;
-
-    AccountPtr account;
-    QNetworkAccessManager *accessManager;
-    QQueue<Request> requestQueue;
-    QTimer *dispatchTimer;
-    int maxTimeout;
-
-    Request currentRequest;
-
-  private:
-    Job * const q;
+    explicit NetworkAccessManagerFactory() {}
+    virtual ~NetworkAccessManagerFactory() {}
 };
 
 }
 
-#endif // KGAPI_JOB_P_H
+#endif

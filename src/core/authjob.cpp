@@ -35,7 +35,7 @@
 #include <QJsonDocument>
 #include <QPointer>
 #include <QPushButton>
-
+#include <QNetworkCookieJar>
 #include <KWindowSystem>
 
 
