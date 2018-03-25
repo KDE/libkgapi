@@ -657,16 +657,19 @@ QByteArray contactToXML(const ContactPtr& contact)
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-Anniversary");
     }
 
-    /* Homepage */
-    if (!contact->url().url().isEmpty()) {
-        output.append("<gContact:website rel=\"home-page\" href=\"").append(Qt::escape(contact->url().toString()).toUtf8()).append("\" />");
-    }
-
     /* Blog */
     const QString blog = contact->blogFeed();
     if (!blog.isEmpty()) {
         output.append("<gContact:website rel=\"blog\" href=\"").append(Qt::escape(blog).toUtf8()).append("\" />");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-BlogFeed");
+    }
+
+    /* URLs */
+    const auto extraUrls = contact->extraUrlList();
+    for (const auto &extraUrl : extraUrls) {
+        const auto rels = extraUrl.parameters().value(QStringLiteral("TYPE"));
+        const auto rel = rels.isEmpty() ? "other" : rels.at(0).toUtf8();
+        output.append("<gContact:website rel=\"" + rel + "\" href=\"" + Qt::escape(extraUrl.url().toString()).toUtf8() + "\" />");
     }
 
     /* Emails */
@@ -977,17 +980,19 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Websites */
         if (e.tagName() == QLatin1String("gContact:website")) {
-            if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("home-page")) {
-                KContacts::ResourceLocatorUrl url;
-                url.setUrl(QUrl(e.attribute(QStringLiteral("href"), QString())));
-                contact->setUrl(url);
-                continue;
-            }
-
             if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("blog")) {
                 contact->setBlogFeed(e.attribute(QStringLiteral("href"), QString()));
                 continue;
             }
+
+            KContacts::ResourceLocatorUrl url;
+            QString rel = e.attribute(QStringLiteral("rel")).toUpper();
+            if (rel == QLatin1String("home-page")) {
+                rel = QStringLiteral("HOME");
+            }
+            url.setParameters({ { QStringLiteral("TYPE"), { rel } } });
+            url.setUrl(QUrl(e.attribute(QStringLiteral("href"), {})));
+            contact->insertExtraUrl(url);
 
             continue;
         }
