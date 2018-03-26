@@ -13,12 +13,6 @@ Currently supported APIs:
   - Drive API v2 (https://developers.google.com/drive/v2/reference)
   - Blogger API v3 (https://developers.google.com/blogger/docs/3.0/reference/)
 
-Dependencies:
--------------
-  - KDE Libraries >= 4.7.0
-  - KDEPIM Libraries >= 4.11
-  - QJSON
-
 Compiling:
 ----------
 
