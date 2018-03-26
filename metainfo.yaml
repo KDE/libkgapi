@@ -1,0 +1,36 @@
+maintainer: dvratil
+description: Implementation of APIs for various Google services
+type: functional
+platforms:
+    - name: All
+portingAid: false
+deprecated: false
+release: false
+libraries:
+ - qmake: PimGAPICore
+   cmake: "KPim::GAPICore"
+   cmakename: KPimGAPICore
+ - qmake: PimGAPIBlogger
+   cmake: "KPim::GAPIBlogger"
+   cmakename: KPimGAPIBlogger
+ - qmake: PimGAPICalendar
+   cmake: "KPim::GAPICalendar"
+   cmakename: KPimGAPICalendar
+ - qmake: PimGapiContacts
+   cmake: "KPim::GAPIContacts"
+   cmakename: KPimGAPIContacts
+ - qmake: PimGAPIDrive
+   cmake: "KPim::GAPIDrive"
+   cmakename: KPimGAPIDrive
+ - qmake: PimGAPILatitude
+   cmake: "KPim::GAPILatitude"
+   cmakename: KPimGAPILatitude
+ - qmake: PimGAPIStaticMaps
+   cmake: "KPim::GAPIStaticMaps"
+   cmakename: KPimGAPIStaticMaps
+ - qmake: PimGAPITasks
+   cmake: "KPim::GAPITasks"
+   cmakename: KPimGAPITasks
+
+public_lib: true
+group: kdepim
