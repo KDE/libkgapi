@@ -80,7 +80,7 @@ void ContactsGroupModifyJob::start()
                      "xmlns:gd=\"http://schemas.google.com/g/2005\" "
                      "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
                     "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
-                     "term=\"http://schemas.google.com/contact/2008#contact\"/>");
+                     "term=\"http://schemas.google.com/g/2008#group\"/>");
     rawData.append("</atom:entry>");
 
     QStringList headers;
