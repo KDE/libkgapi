@@ -42,7 +42,8 @@ class Q_DECL_HIDDEN ContactModifyJob::Private
     void processNextContact();
 
     QueueHelper<ContactPtr> contacts;
-
+    ContactPtr lastContact;
+    QPair<QByteArray, QString> pendingPhoto;
   private:
     ContactModifyJob *q;
 };
@@ -55,7 +56,9 @@ ContactModifyJob::Private::Private(ContactModifyJob *parent):
 void ContactModifyJob::Private::processNextContact()
 {
     if (contacts.atEnd()) {
-        q->emitFinished();
+        if (pendingPhoto.first.isEmpty()) {
+            q->emitFinished();
+        }
         return;
     }
 
@@ -85,15 +88,13 @@ void ContactModifyJob::Private::processNextContact()
 
     QNetworkRequest photoRequest;
     photoRequest.setUrl(ContactsService::photoUrl(q->account()->accountName(), contact->uid()));
-
     if (!contact->photo().isEmpty()) {
+        QNetworkRequest photoRequest;
         photoRequest.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("image/*"));
-        QImage image = contact->photo().data();
-        QByteArray ba;
-        QBuffer buffer(&ba);
-        image.save(&buffer, "JPG", 100);
-
-        q->enqueueRequest(photoRequest, ba, QStringLiteral("modifyImage"));
+        photoRequest.setUrl(ContactsService::photoUrl(q->account()->accountName(), contact->uid()));
+        pendingPhoto.first = contact->photo().rawData();
+        pendingPhoto.second = contact->photo().type();
+        q->enqueueRequest(photoRequest, pendingPhoto.first, QStringLiteral("modifyImage"));
     } else {
         q->enqueueRequest(photoRequest, QByteArray(), QStringLiteral("deleteImage"));
   }
@@ -143,24 +144,36 @@ void ContactModifyJob::dispatchRequest(QNetworkAccessManager *accessManager, con
 
 ObjectsList ContactModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
 {
-    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-    ContentType ct = Utils::stringToContentType(contentType);
     ObjectsList items;
-    if (ct == KGAPI2::JSON) {
-        items << ContactsService::JSONToContact(rawData);
-        d->contacts.currentProcessed();
-    } else if (ct == KGAPI2::XML) {
-        items << ContactsService::XMLToContact(rawData);
-        d->contacts.currentProcessed();
+    if (!reply->url().path().contains(QLatin1String("/photos/media/"))) {
+        const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+        ContentType ct = Utils::stringToContentType(contentType);
+        if (ct == KGAPI2::JSON) {
+            d->lastContact = ContactsService::JSONToContact(rawData);
+            items << d->lastContact;
+            d->contacts.currentProcessed();
+        } else if (ct == KGAPI2::XML) {
+            d->lastContact = ContactsService::XMLToContact(rawData);
+            items << d->lastContact;
+            d->contacts.currentProcessed();
+        } else {
+            setError(KGAPI2::InvalidResponse);
+            setErrorString(tr("Invalid response content type"));
+            emitFinished();
+            return items;
+        }
     } else {
-        setError(KGAPI2::InvalidResponse);
-        setErrorString(tr("Invalid response content type"));
-        emitFinished();
-        return items;
-    }
+        if (d->lastContact && !d->pendingPhoto.first.isEmpty()) {
+            KContacts::Picture picture;
+            picture.setRawData(d->pendingPhoto.first, d->pendingPhoto.second);
+            d->lastContact->setPhoto(picture);
+            d->pendingPhoto.first.clear();
+            d->pendingPhoto.second.clear();
+        }
 
-    // Enqueue next item or finish
-    d->processNextContact();
+        // Enqueue next item and picture or finish
+        d->processNextContact();
+    }
 
     return items;
 }

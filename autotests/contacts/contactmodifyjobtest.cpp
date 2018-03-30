@@ -61,6 +61,7 @@ private Q_SLOTS:
         auto contact2 = contactFromFile(QFINDTESTDATA("data/contact2.xml"));
         KContacts::Picture picture;
         picture.setRawData(QByteArray::fromBase64("iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="), QStringLiteral("png"));
+        contact2->setPhotoUrl(QStringLiteral("https://www.google.com/m8/feeds/photos/media/MockAccount/2d71e4bb897f47a8"));
         contact2->setPhoto(picture);
         QTest::newRow("change contact with photo")
             << QList<FakeNetworkAccessManager::Scenario>{
@@ -98,6 +99,13 @@ private Q_SLOTS:
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         auto job = new ContactModifyJob(contacts, account);
         QVERIFY(execJob(job));
+        const auto items = job->items();
+        QCOMPARE(items.count(), contacts.count());
+        for (int i = 0; i < contacts.count(); ++i) {
+            const auto returnedContact =  items.at(i).dynamicCast<Contact>();
+            QVERIFY(returnedContact);
+            QCOMPARE(*returnedContact, *contacts.at(i));
+        }
     }
 };
 
