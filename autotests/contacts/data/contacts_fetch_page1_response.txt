@@ -156,6 +156,11 @@ Content-type: application/json; charset=UTF-8
         "xmlns$gd": "http://schemas.google.com/g/2005", 
         "link": [
           {
+            "href": "https://www.google.com/m8/feeds/photos/media/MockAccount/68f6ee7a8a57c4cc", 
+            "type": "image/*", 
+            "rel": "http://schemas.google.com/contacts/2008/rel#photo"
+          }, 
+          {
             "href": "https://www.google.com/m8/feeds/contacts/MockAccount/base/68f6ee7a8a57c4cc", 
             "type": "application/atom+xml", 
             "rel": "self"

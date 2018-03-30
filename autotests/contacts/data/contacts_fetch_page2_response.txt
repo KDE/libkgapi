@@ -95,7 +95,7 @@ Content-type: application/json; charset=UTF-8
           }
         ], 
         "updated": {
-          "$t": "2018-03-25T20:25:19.759Z"
+          "$t": "2018-03-25T20:10:37.359Z"
         }, 
         "xmlns": "http://www.w3.org/2005/Atom", 
         "gd$name": {
@@ -114,6 +114,11 @@ Content-type: application/json; charset=UTF-8
         "xmlns$gd": "http://schemas.google.com/g/2005", 
         "link": [
           {
+            "href": "https://www.google.com/m8/feeds/photos/media/MockAccount/2d71e4bb897f47a8", 
+            "type": "image/*", 
+            "rel": "http://schemas.google.com/contacts/2008/rel#photo"
+          }, 
+          {
             "href": "https://www.google.com/m8/feeds/contacts/MockAccount/base/2d71e4bb897f47a8", 
             "type": "application/atom+xml", 
             "rel": "self"
@@ -130,10 +135,10 @@ Content-type: application/json; charset=UTF-8
             "address": "konqui@kde.test"
           }
         ], 
-        "gd$etag": "\"SHk-cTVSLit7I2A9XBRREE0DQgU.\"", 
+        "gd$etag": "\"Rn0-cTVSLit7I2A9XBRREE0CQQc.\"", 
         "app$edited": {
           "xmlns$app": "http://www.w3.org/2007/app", 
-          "$t": "2018-03-25T20:25:19.759Z"
+          "$t": "2018-03-25T20:10:37.359Z"
         }, 
         "id": {
           "$t": "http://www.google.com/m8/feeds/contacts/MockAccount/base/2d71e4bb897f47a8"
