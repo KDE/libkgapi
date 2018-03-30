@@ -1,0 +1,57 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "items": [
+    {
+      "kind": "calendar#calendarListEntry", 
+      "foregroundColor": "#000000", 
+      "defaultReminders": [
+        {
+          "minutes": 10, 
+          "method": "email"
+        }, 
+        {
+          "minutes": 10, 
+          "method": "popup"
+        }
+      ], 
+      "primary": true, 
+      "colorId": "8", 
+      "selected": true, 
+      "notificationSettings": {
+        "notifications": [
+          {
+            "type": "eventCreation", 
+            "method": "email"
+          }, 
+          {
+            "type": "eventChange", 
+            "method": "email"
+          }, 
+          {
+            "type": "eventCancellation", 
+            "method": "email"
+          }, 
+          {
+            "type": "eventResponse", 
+            "method": "email"
+          }
+        ]
+      }, 
+      "summary": "MockAccount", 
+      "conferenceProperties": {
+        "allowedConferenceSolutionTypes": [
+          "eventHangout"
+        ]
+      }, 
+      "etag": "\"1519491231632000\"", 
+      "backgroundColor": "#16a765", 
+      "timeZone": "Europe/Prague", 
+      "accessRole": "owner", 
+      "id": "MockAccount"
+    }
+  ],
+  "kind": "calendar#calendarList", 
+  "etag": "\"p33k9rnuiuiadk0g\""
+}

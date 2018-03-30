@@ -1,0 +1,10 @@
+PUT https://www.googleapis.com/calendar/v3/calendars/averylongtvshowscalendarid@group.calendar.google.com
+Content-Type: application/json
+
+{
+  "description": "Calendar with airdates of TV shows episodes",
+  "id": "averylongtvshowscalendarid@group.calendar.google.com",
+  "location": "",
+  "summary": "TV Shows Calendar",
+  "timeZone": "UTC"
+}

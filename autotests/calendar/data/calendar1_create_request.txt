@@ -1,0 +1,9 @@
+POST https://www.googleapis.com/calendar/v3/calendars
+Content-Type: application/json
+
+{
+  "description": "Calendar with airdates of TV shows episodes",
+  "location": "",
+  "summary": "TV Shows Calendar",
+  "timeZone": "UTC"
+}

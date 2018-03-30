@@ -1,0 +1,19 @@
+{
+  "kind": "calendar#calendarListEntry", 
+  "foregroundColor": "#000000", 
+  "defaultReminders": [], 
+  "colorId": "11", 
+  "selected": true, 
+  "conferenceProperties": {
+    "allowedConferenceSolutionTypes": [
+      "eventHangout"
+    ]
+  }, 
+  "summary": "TV Shows Calendar", 
+  "etag": "\"1519491233237000\"", 
+  "backgroundColor": "#fbe983", 
+  "description": "Calendar with airdates of TV shows episodes", 
+  "timeZone": "UTC", 
+  "accessRole": "reader", 
+  "id": "averylongtvshowscalendarid@group.calendar.google.com"
+}

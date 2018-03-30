@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "kind": "calendar#calendar", 
+  "description": "", 
+  "conferenceProperties": {
+    "allowedConferenceSolutionTypes": [
+      "eventHangout"
+    ]
+  }, 
+  "summary": "MockAccount", 
+  "etag": "1519491231632000", 
+  "timeZone": "Europe/Prague", 
+  "id": "MockAccount"
+}

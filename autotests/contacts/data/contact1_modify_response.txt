@@ -1,9 +1,9 @@
 HTTP/1.1 200 OK
 Content-length: 2781
-Etag: "ZRN9MlBGfCt7I2BTDFYVYxhZFEwpH0QuNjU.."
+Etag: "SHs9fTVSLit7I2A9XBRSGUQPTwA."
 Content-type: application/atom+xml; charset=UTF-8
 
-<entry gd:etag="&quot;ZRN9MlBGfCt7I2BTDFYVYxhZFEwpH0QuNjU.&quot;" xmlns="http://www.w3.org/2005/Atom" xmlns:batch="http://schemas.google.com/gdata/batch" xmlns:gContact="http://schemas.google.com/contact/2008" xmlns:gd="http://schemas.google.com/g/2005">
+<entry gd:etag="&quot;SHs9fTVSLit7I2A9XBRSGUQPTwA.&quot;" xmlns="http://www.w3.org/2005/Atom" xmlns:batch="http://schemas.google.com/gdata/batch" xmlns:gContact="http://schemas.google.com/contact/2008" xmlns:gd="http://schemas.google.com/g/2005">
  <id>http://www.google.com/m8/feeds/contacts/MockAccount/base/68f6ee7a8a57c4cc</id>
  <updated>2018-03-25T16:37:29.565Z</updated>
  <app:edited xmlns:app="http://www.w3.org/2007/app">2018-03-25T16:37:29.565Z</app:edited>

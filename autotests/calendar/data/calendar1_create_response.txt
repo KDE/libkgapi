@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "kind": "calendar#calendar", 
+  "description": "Calendar with airdates of TV shows episodes", 
+  "conferenceProperties": {
+    "allowedConferenceSolutionTypes": [
+      "eventHangout"
+    ]
+  }, 
+  "summary": "TV Shows Calendar", 
+  "etag": "1519491233237000", 
+  "timeZone": "UTC", 
+  "id": "averylongtvshowscalendarid@group.calendar.google.com"
+}

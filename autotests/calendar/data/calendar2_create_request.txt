@@ -1,0 +1,10 @@
+POST https://www.googleapis.com/calendar/v3/calendars
+Content-Type: application/json
+
+{
+  "description": "",
+  "location": "",
+  "summary": "MockAccount",
+  "timeZone": "Europe/Prague"
+}
+

@@ -1,0 +1,10 @@
+PUT https://www.googleapis.com/calendar/v3/calendars/MockAccount
+Content-Type: application/json
+
+{
+  "description": "",
+  "id": "MockAccount",
+  "location": "",
+  "summary": "MockAccount",
+  "timeZone": "Europe/Prague"
+}

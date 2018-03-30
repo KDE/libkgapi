@@ -46,4 +46,9 @@ add_libkgapi2_test(contacts contactsgroupdeletejobtest)
 add_libkgapi2_test(contacts contactsgroupfetchjobtest)
 add_libkgapi2_test(contacts contactsgroupmodifyjobtest)
 
+add_libkgapi2_test(calendar calendarcreatejobtest)
+add_libkgapi2_test(calendar calendardeletejobtest)
+add_libkgapi2_test(calendar calendarfetchjobtest)
+add_libkgapi2_test(calendar calendarmodifyjobtest)
+
 add_libkgapi2_test(drive filesearchquerytest)
