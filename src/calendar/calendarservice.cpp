@@ -93,7 +93,7 @@ QUrl fetchCalendarUrl(const QString& calendarID)
 QUrl updateCalendarUrl(const QString &calendarID)
 {
     QUrl url(Private::GoogleApisUrl);
-    url.setPath(Private::CalendarListBasePath % QLatin1Char('/') % calendarID);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID);
     return url;
 }
 
