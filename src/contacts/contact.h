@@ -74,10 +74,13 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      */
     Contact(const Contact &other);
 
+
     /**
      * @brief Destructor
      */
     ~Contact();
+
+    bool operator==(const Contact &other) const;
 
     /**
     * @brief Marks contact as deleted

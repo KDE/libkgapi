@@ -65,6 +65,11 @@ class KGAPICONTACTS_EXPORT ContactsGroup : public KGAPI2::Object
     ~ContactsGroup() override;
 
     /**
+     * @brief Compares the groups
+     */
+    bool operator==(const ContactsGroup &other) const;
+
+    /**
      * @brief Sets group ID
      *
      * @param id

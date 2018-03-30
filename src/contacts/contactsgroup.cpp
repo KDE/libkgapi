@@ -21,6 +21,7 @@
  */
 
 #include "contactsgroup.h"
+#include "../debug.h"
 
 using namespace KGAPI2;
 
@@ -64,6 +65,32 @@ ContactsGroup::ContactsGroup(const ContactsGroup &other):
 ContactsGroup::~ContactsGroup()
 {
     delete d;
+}
+
+bool ContactsGroup::operator==(const ContactsGroup &other) const
+{
+    if (d->id != other.d->id) {
+        qCDebug(KGAPIDebug) << "IDs don't match";
+        return false;
+    }
+    if (d->title != other.d->title) {
+        qCDebug(KGAPIDebug) << "Titles don't match";
+        return false;
+    }
+    if (d->content != other.d->content) {
+        qCDebug(KGAPIDebug) << "Contents don't match";
+        return false;
+    }
+    if (d->updated != other.d->updated) {
+        qCDebug(KGAPIDebug) << "Updated does not match";
+        return false;
+    }
+    if (d->isSystemGroup != other.d->isSystemGroup) {
+        qCDebug(KGAPIDebug) << "SystemGroup does not match";
+        return false;
+    }
+
+    return true;
 }
 
 void ContactsGroup::setId(const QString &id)

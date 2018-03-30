@@ -21,6 +21,7 @@
  */
 
 #include "object.h"
+#include "../debug.h"
 
 using namespace KGAPI2;
 
@@ -56,6 +57,16 @@ Object::~Object()
 {
     delete d;
 }
+
+bool Object::operator==(const Object &other) const
+{
+    if (d->etag != other.d->etag) {
+        qCDebug(KGAPIDebug) << "ETags don't match";
+        return false;
+    }
+    return true;
+}
+
 
 void Object::setEtag(const QString& etag)
 {

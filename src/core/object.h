@@ -60,6 +60,8 @@ class KGAPICORE_EXPORT Object
      */
     virtual ~Object();
 
+    bool operator==(const Object &other) const;
+
     /**
      * @brief Sets etag of this object.
      *

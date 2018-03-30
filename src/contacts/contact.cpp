@@ -22,6 +22,7 @@
 
 
 #include "contact.h"
+#include "../debug.h"
 
 #include <KContacts/Address>
 #include <KContacts/PhoneNumber>
@@ -92,6 +93,40 @@ Contact::~Contact()
 {
     delete d;
 }
+
+bool Contact::operator==(const Contact &other) const
+{
+    if (!KContacts::Addressee::operator==(other)) {
+        return false;
+    }
+    if (!Object::operator==(other)) {
+        return false;
+    }
+
+    if (d->deleted != other.d->deleted) {
+        qCDebug(KGAPIDebug) << "Deleted does not match";
+        return false;
+    }
+    if (d->photoUrl != other.d->photoUrl) {
+        qCDebug(KGAPIDebug) << "PhotoUrl does not match";
+        return false;
+    }
+    if (d->groups != other.d->groups) {
+        qCDebug(KGAPIDebug) << "Groups don't match";
+        return false;
+    }
+    if (d->updated != other.d->updated) {
+        qCDebug(KGAPIDebug) << "Updated does not match";
+        return false;
+    }
+    if (d->created != other.d->created) {
+        qCDebug(KGAPIDebug) << "Created does not match";
+        return false;
+    }
+
+    return true;
+}
+
 
 void Contact::setDeleted(const bool deleted)
 {
