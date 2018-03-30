@@ -573,16 +573,16 @@ QByteArray eventToJSON(const EventPtr& event)
     /* Start */
     QVariantMap start;
     if (event->allDay()) {
-        start.insert(QStringLiteral("date"), event->dtStart().toString(QStringLiteral("%Y-%m-%d")));
+        start.insert(QStringLiteral("date"), event->dtStart().toString(QStringLiteral("yyyy-MM-dd")));
     } else {
         start.insert(QStringLiteral("dateTime"), Utils::rfc3339DateToString(event->dtStart()));
-    }
-    QString tzStart = QString::fromUtf8(event->dtStart().timeZone().id());
-    if (!recurrence.isEmpty() && tzStart.isEmpty()) {
-        tzStart = QString::fromUtf8(QTimeZone::utc().id());
-    }
-    if (!tzStart.isEmpty()) {
-        start.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzStart, event));
+        QString tzStart = QString::fromUtf8(event->dtStart().timeZone().id());
+        if (!recurrence.isEmpty() && tzStart.isEmpty()) {
+            tzStart = QString::fromUtf8(QTimeZone::utc().id());
+        }
+        if (!tzStart.isEmpty()) {
+            start.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzStart, event));
+        }
     }
     data.insert(QStringLiteral("start"), start);
 
@@ -592,16 +592,16 @@ QByteArray eventToJSON(const EventPtr& event)
         /* For Google, all-day events starts on Monday and ends on Tuesday,
          * while in KDE, it both starts and ends on Monday. */
         QDateTime dtEnd = event->dtEnd().addDays(1);
-        end.insert(QStringLiteral("date"), dtEnd.toString(QStringLiteral("%Y-%m-%d")));
+        end.insert(QStringLiteral("date"), dtEnd.toString(QStringLiteral("yyyy-MM-dd")));
     } else {
         end.insert(QStringLiteral("dateTime"), Utils::rfc3339DateToString(event->dtEnd()));
-    }
-    QString tzEnd = QString::fromUtf8(event->dtEnd().timeZone().id());
-    if (!recurrence.isEmpty() && tzEnd.isEmpty()) {
-        tzEnd = QString::fromUtf8(QTimeZone::utc().id());
-    }
-    if (!tzEnd.isEmpty()) {
-        end.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzEnd, event));
+        QString tzEnd = QString::fromUtf8(event->dtEnd().timeZone().id());
+        if (!recurrence.isEmpty() && tzEnd.isEmpty()) {
+            tzEnd = QString::fromUtf8(QTimeZone::utc().id());
+        }
+        if (!tzEnd.isEmpty()) {
+            end.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzEnd, event));
+        }
     }
     data.insert(QStringLiteral("end"), end);
 
