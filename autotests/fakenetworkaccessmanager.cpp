@@ -57,7 +57,7 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
                     new FakeNetworkReply(op, originalReq));
     } else {
         const auto verb = originalReq.attribute(QNetworkRequest::CustomVerbAttribute).toByteArray();
-        COMPARE_RET(verb, "PUT", new FakeNetworkReply(op, originalReq));
+        COMPARE_RET(verb, QByteArray("PUT"), new FakeNetworkReply(op, originalReq));
     }
     for (const auto requestHeader : qAsConst(scenario.requestHeaders)) {
         VERIFY2_RET(originalReq.hasRawHeader(requestHeader.first),
