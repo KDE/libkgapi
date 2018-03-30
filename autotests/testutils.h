@@ -63,4 +63,16 @@ QByteArray reformatJSON(const QByteArray &json);
 QByteArray reformatXML(const QByteArray &xml);
 QByteArray diffData(const QByteArray &actual, const QByteArray &expected);
 
+
+template<typename T>
+QStringList elementsToIds(const QList<T> &elems)
+{
+    QStringList ids;
+    ids.reserve(elems.size());
+    for (const auto &elem : elems) {
+        ids.push_back(elem->id());
+    }
+    return ids;
+}
+
 #endif

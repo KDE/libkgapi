@@ -1,0 +1,2 @@
+GET https://www.google.com/m8/feeds/groups/MockAccount/full?alt=json&start-index=2
+GData-Version: 3.0

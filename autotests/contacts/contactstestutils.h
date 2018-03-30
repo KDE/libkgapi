@@ -25,5 +25,6 @@
 #include "contact.h"
 
 KGAPI2::ContactPtr contactFromFile(const QString &path);
+KGAPI2::ContactsGroupPtr contactsGroupFromFile(const QString &path);
 
 #endif

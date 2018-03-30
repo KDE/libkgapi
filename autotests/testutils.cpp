@@ -138,12 +138,12 @@ QByteArray reformatJSON(const QByteArray &json)
 QByteArray diffData(const QByteArray &actual, const QByteArray &expected)
 {
 #ifdef Q_OS_UNIX
-    QTemporaryFile tmpActual;
+    QTemporaryFile tmpActual(QStringLiteral("%1-actual.XXXXXX").arg(QCoreApplication::applicationName()));
     tmpActual.open();
     tmpActual.write(actual);
     tmpActual.close();
 
-    QTemporaryFile tmpExpected;
+    QTemporaryFile tmpExpected(QStringLiteral("%1-expected.XXXXXX").arg(QCoreApplication::applicationName()));
     tmpExpected.open();
     tmpExpected.write(expected);
     tmpExpected.close();

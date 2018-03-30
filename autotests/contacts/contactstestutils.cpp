@@ -27,11 +27,19 @@
 KGAPI2::ContactPtr contactFromFile(const QString &path)
 {
     QFile f(path);
-    if (!f.open(QIODevice::ReadOnly)) {
-        return {};
-    }
+    VERIFY_RET(f.open(QIODevice::ReadOnly), {});
 
     auto contact = KGAPI2::ContactsService::XMLToContact(f.readAll());
     VERIFY_RET(contact, {});
     return contact;
+}
+
+KGAPI2::ContactsGroupPtr contactsGroupFromFile(const QString& path)
+{
+    QFile f(path);
+    VERIFY_RET(f.open(QIODevice::ReadOnly), {});
+
+    auto group = KGAPI2::ContactsService::XMLToContactsGroup(f.readAll());
+    VERIFY_RET(group, {});
+    return group;
 }
