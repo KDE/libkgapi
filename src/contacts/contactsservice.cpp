@@ -794,8 +794,6 @@ QByteArray contactsGroupToXML(const ContactsGroupPtr& group)
 {
     QByteArray output;
 
-    output.append("<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
-                  "term=\"http://schemas.google.com/g/2005#group\"/>");
     output.append("<atom:title type=\"text\">").append(Qt::escape(group->title()).toUtf8()).append("</atom:title>");
     output.append("<atom:content type=\"text\">").append(Qt::escape(group->content()).toUtf8()).append("</atom:content>");
 
@@ -842,6 +840,8 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
     QStringList groups;
     ContactPtr contact(new Contact);
+
+    contact->setEtag(entry.at(0).toElement().attribute(QLatin1String("gd:etag")));
 
     for (int i = 0; i < data.count(); ++i) {
         const QDomNode n = data.at(i);
@@ -901,6 +901,10 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         * Just store our own flag, which will be then parsed by the resource
         * itself. */
         contact->setDeleted(e.tagName() == QLatin1String("gd:deleted"));
+
+        if (e.tagName() == QLatin1String("updated")) {
+            contact->setUpdated(QDateTime::fromString(e.text(), Qt::ISODate));
+        }
 
         /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture
         * itself. */
