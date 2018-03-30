@@ -22,6 +22,7 @@
 
 
 #include "reminder.h"
+#include "../debug.h"
 
 using namespace KGAPI2;
 using namespace KCalCore;
@@ -69,6 +70,20 @@ Reminder::~Reminder()
 {
     delete d;
 }
+
+bool Reminder::operator==(const Reminder &other) const
+{
+    if (d->type != other.d->type) {
+        qCDebug(KGAPIDebug) << "Types don't match";
+        return false;
+    }
+    if (d->offset != other.d->offset) {
+        qCDebug(KGAPIDebug) << "Offsets don't match";
+        return false;
+    }
+    return true;
+}
+
 
 void Reminder::setType (Alarm::Type type)
 {

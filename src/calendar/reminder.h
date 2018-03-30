@@ -67,6 +67,8 @@ class KGAPICALENDAR_EXPORT Reminder
      */
     virtual ~Reminder();
 
+    bool operator==(const Reminder &other) const;
+
     /**
      * @brief Returns type of the remider
      */

@@ -62,6 +62,8 @@ class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
      */
     ~Event();
 
+    bool operator==(const Event &other) const;
+
     /**
      * @brief Marks the event as deleted
      *

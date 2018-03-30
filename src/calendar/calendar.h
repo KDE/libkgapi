@@ -57,6 +57,8 @@ class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
      */
     ~Calendar() override;
 
+    bool operator==(const Calendar &other) const;
+
     /**
      * @brief Returns uID of the calendar.
      */

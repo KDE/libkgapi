@@ -21,6 +21,7 @@
  */
 
 #include "event.h"
+#include "../debug.h"
 
 using namespace KGAPI2;
 
@@ -71,6 +72,27 @@ Event::~Event()
 {
     delete d;
 }
+
+bool Event::operator==(const Event &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+    if (!KCalCore::Event::operator==(other)) {
+        return false;
+    }
+    if (d->deleted != other.d->deleted) {
+        qCDebug(KGAPIDebug) << "Deleted does not match";
+        return false;
+    }
+    if (d->useDefaultReminders != other.d->useDefaultReminders) {
+        qCDebug(KGAPIDebug) << "UseDefaultReminders does not match";
+        return false;
+    }
+
+    return true;
+}
+
 
 bool Event::deleted() const
 {

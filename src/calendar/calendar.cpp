@@ -22,6 +22,7 @@
 
 #include "calendar.h"
 #include "reminder.h"
+#include "../debug.h"
 
 using namespace KGAPI2;
 
@@ -37,15 +38,14 @@ class Q_DECL_HIDDEN Calendar::Private
     QString details;
     QString timezone;
     QString location;
-    bool editable;
+    bool editable = false;
     QColor backgroundColor;
     QColor foregroundColor;
 
     RemindersList reminders;
 };
 
-Calendar::Private::Private():
-    editable(true)
+Calendar::Private::Private()
 {
 }
 
@@ -79,6 +79,55 @@ Calendar::~Calendar()
     delete d;
 }
 
+bool Calendar::operator==(const Calendar &other) const
+{
+    if (d->uid != other.d->uid) {
+        qCDebug(KGAPIDebug) << "UIDs don't match";
+        return false;
+    }
+    if (d->title != other.d->title) {
+        qCDebug(KGAPIDebug) << "Titles don't match";
+        return false;
+    }
+    if (d->details != other.d->details) {
+        qCDebug(KGAPIDebug) << "Details don't match";
+        return false;
+    }
+    if (d->timezone != other.d->timezone) {
+        qCDebug(KGAPIDebug) << "Timezones don't match";
+        return false;
+    }
+    if (d->location != other.d->location) {
+        qCDebug(KGAPIDebug) << "Locations don't match";
+        return false;
+    }
+    if (d->editable != other.d->editable) {
+        qCDebug(KGAPIDebug) << "Editable doesn't match";
+        return false;
+    }
+    if (d->backgroundColor != other.d->backgroundColor) {
+        qCDebug(KGAPIDebug) << "BackgroundColors don't match";
+        return false;
+    }
+    if (d->foregroundColor != other.d->foregroundColor) {
+        qCDebug(KGAPIDebug) << "ForegroundColors don't match";
+        return false;
+    }
+
+    for (const auto reminder : qAsConst(d->reminders)) {
+        if (std::find_if(other.d->reminders.cbegin(), other.d->reminders.cend(),
+                        [reminder](const ReminderPtr &otherReminder) {
+                            return *reminder == *otherReminder;
+                        }) == other.d->reminders.cend()) {
+            qCDebug(KGAPIDebug) << "Reminders don't match";
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 void Calendar::setUid(const QString &uid)
 {
     d->uid = uid;
@@ -91,7 +140,7 @@ QString Calendar::uid() const
 
 QString Calendar::title() const
 {
-    return d->title.isEmpty() ? QObject::tr("Google Calendar") : d->title;
+    return d->title;
 }
 
 void Calendar::setTitle(const QString &title)
