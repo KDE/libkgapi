@@ -514,7 +514,7 @@ QByteArray eventToJSON(const EventPtr& event)
     QVariantMap data;
 
     /* Type */
-    data.insert(QStringLiteral("type"), QStringLiteral("calendar#event"));
+    data.insert(QStringLiteral("kind"), QStringLiteral("calendar#event"));
 
     /* ID */
     if (!event->uid().isEmpty()) {
