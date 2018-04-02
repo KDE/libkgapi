@@ -75,4 +75,15 @@ QStringList elementsToIds(const QList<T> &elems)
     return ids;
 }
 
+template<typename T>
+QStringList elementsToUids(const QList<T> &elems)
+{
+    QStringList uids;
+    uids.reserve(elems.size());
+    for (const auto &elem : elems) {
+        uids.push_back(elem->uid());
+    }
+    return uids;
+}
+
 #endif

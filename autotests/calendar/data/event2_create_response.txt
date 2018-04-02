@@ -1,0 +1,59 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "status": "confirmed", 
+  "guestsCanInviteOthers": false, 
+  "kind": "calendar#event", 
+  "end": {
+    "date": "2018-04-23"
+  }, 
+  "description": "Let's hack on KDE!", 
+  "privateCopy": true, 
+  "created": "2018-03-30T22:32:24.000Z", 
+  "iCalUID": "009c2cc9-0781-482d-8ccd-8fc9bfeb3138", 
+  "reminders": {
+    "overrides": [
+      {
+        "minutes": 430, 
+        "method": "email"
+      }, 
+      {
+        "minutes": 10, 
+        "method": "popup"
+      }
+    ], 
+    "useDefault": false
+  }, 
+  "htmlLink": "https://www.google.com/calendar/event?eid=XzYwbzNpb3BpY2RoamliOWc2c3MzMmI5azcwcDY4YjlvY2RobThiOW9jcGhqaW9qNmNsaDM2YzlqNzBfMjAxODA0MjAgZGFuLnZyYXRpbEBt", 
+  "sequence": 0, 
+  "updated": "2018-03-30T22:56:09.832Z", 
+  "summary": "KDE PIM Sprint", 
+  "recurrence": [
+    "RRULE:FREQ=YEARLY;BYMONTH=4;BYMONTHDAY=20"
+  ], 
+  "start": {
+    "date": "2018-04-20"
+  }, 
+  "etag": "\"3044901139664000\"", 
+  "location": "Toulouse, France", 
+  "attendees": [
+    {
+      "self": true, 
+      "displayName": "KDE Hacker 1", 
+      "email": "hacker1@kde.test", 
+      "id": "1029384756",
+      "responseStatus": "needsAction"
+    }
+  ], 
+  "organizer": {
+    "displayName": "KDE Hacker 0", 
+    "email": "hacker@kde.test"
+  }, 
+  "creator": {
+    "self": true, 
+    "displayName": "KDE Hacker 2", 
+    "email": "hacker2@kde.test"
+  }, 
+  "id": "_60o3iopicdhjib9g6ss32b9k70p68b9ocdhm8b9ocphjioj6clh36c9j70"
+}

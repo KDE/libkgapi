@@ -108,8 +108,6 @@ private Q_SLOTS:
         for (int i = 0; i < responses.count(); ++i) {
             const auto returnedCalendar =  items.at(i).dynamicCast<Calendar>();
             QVERIFY(returnedCalendar);
-            qDebug() << returnedCalendar->title();
-            qDebug() << responses.at(i)->title();
             QCOMPARE(*returnedCalendar, *responses.at(i));
         }
     }

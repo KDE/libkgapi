@@ -23,19 +23,19 @@
 
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "contactstestutils.h"
+#include "calendartestutils.h"
 
 #include "types.h"
-#include "contactdeletejob.h"
-#include "contact.h"
+#include "eventdeletejob.h"
+#include "event.h"
 #include "account.h"
 
 using namespace KGAPI2;
 
 Q_DECLARE_METATYPE(QList<FakeNetworkAccessManager::Scenario>)
-Q_DECLARE_METATYPE(KGAPI2::ContactsList)
+Q_DECLARE_METATYPE(KGAPI2::EventsList)
 
-class ContactDeleteJobTest : public QObject
+class EventDeleteJobTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -47,82 +47,82 @@ private Q_SLOTS:
     void testDelete_data()
     {
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
-        QTest::addColumn<ContactsList>("contacts");
+        QTest::addColumn<EventsList>("events");
         QTest::addColumn<bool>("uidOnly");
 
-        QTest::newRow("simple contact")
+        QTest::newRow("simple event")
             << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact1_delete_response.txt"))
+                    scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
+                                     QFINDTESTDATA("data/event1_delete_response.txt"))
                 }
-            << ContactsList{ contactFromFile(QFINDTESTDATA("data/contact1.xml")) }
+            << EventsList{ eventFromFile(QFINDTESTDATA("data/event1.json")) }
             << false;
 
-        QTest::newRow("simple contact (uid)")
+        QTest::newRow("simple event (uid)")
             << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact1_delete_response.txt"))
+                    scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
+                                     QFINDTESTDATA("data/event1_delete_response.txt"))
                 }
-            << ContactsList{ contactFromFile(QFINDTESTDATA("data/contact1.xml")) }
+            << EventsList{ eventFromFile(QFINDTESTDATA("data/event1.json")) }
             << true;
 
         QTest::newRow("batch delete")
             << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contact2_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact2_delete_response.txt"))
+                    scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
+                                     QFINDTESTDATA("data/event1_delete_response.txt")),
+                    scenarioFromFile(QFINDTESTDATA("data/event2_delete_request.txt"),
+                                     QFINDTESTDATA("data/event2_delete_response.txt"))
                 }
-            << ContactsList{
-                    contactFromFile(QFINDTESTDATA("data/contact1.xml")),
-                    contactFromFile(QFINDTESTDATA("data/contact2.xml"))
+            << EventsList{
+                    eventFromFile(QFINDTESTDATA("data/event1.json")),
+                    eventFromFile(QFINDTESTDATA("data/event2.json"))
                 }
             << false;
 
-
         QTest::newRow("batch delete (uid)")
             << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contact2_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact2_delete_response.txt"))
+                    scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
+                                     QFINDTESTDATA("data/event1_delete_response.txt")),
+                    scenarioFromFile(QFINDTESTDATA("data/event2_delete_request.txt"),
+                                     QFINDTESTDATA("data/event2_delete_response.txt"))
                 }
-            << ContactsList{
-                    contactFromFile(QFINDTESTDATA("data/contact1.xml")),
-                    contactFromFile(QFINDTESTDATA("data/contact2.xml"))
+            << EventsList{
+                    eventFromFile(QFINDTESTDATA("data/event1.json")),
+                    eventFromFile(QFINDTESTDATA("data/event2.json"))
                 }
             << true;
-
     }
 
     void testDelete()
     {
         QFETCH(QList<FakeNetworkAccessManager::Scenario>, scenarios);
-        QFETCH(ContactsList, contacts);
+        QFETCH(EventsList, events);
         QFETCH(bool, uidOnly);
 
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        ContactDeleteJob *job = nullptr;
-        if (contacts.count() == 1) {
+        EventDeleteJob *job = nullptr;
+        if (events.count() == 1) {
             if (uidOnly) {
-                job = new ContactDeleteJob(contacts.at(0)->uid(), account, nullptr);
+                job = new EventDeleteJob(events.at(0)->uid(), QStringLiteral("MockAccount"), account, nullptr);
             } else {
-                job = new ContactDeleteJob(contacts.at(0), account, nullptr);
+                job = new EventDeleteJob(events.at(0), QStringLiteral("MockAccount"), account, nullptr);
             }
         } else {
             if (uidOnly) {
-                job = new ContactDeleteJob(elementsToUids(contacts), account, nullptr);
+                job = new EventDeleteJob(elementsToUids(events), QStringLiteral("MockAccount"), account, nullptr);
             } else {
-                job = new ContactDeleteJob(contacts, account, nullptr);
+                job = new EventDeleteJob(events, QStringLiteral("MockAccount"), account, nullptr);
             }
         }
         QVERIFY(execJob(job));
     }
 };
 
-QTEST_GUILESS_MAIN(ContactDeleteJobTest)
+QTEST_GUILESS_MAIN(EventDeleteJobTest)
 
-#include "contactdeletejobtest.moc"
+#include "eventdeletejobtest.moc"
+
+
 

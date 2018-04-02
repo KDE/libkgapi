@@ -1,0 +1,22 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "timeMax": "2018-04-02T14:00:00.000Z", 
+  "kind": "calendar#freeBusy", 
+  "calendars": {
+    "MockAccount": {
+      "busy": [
+        {
+          "start": "2018-04-01T12:30:00+02:00", 
+          "end": "2018-04-01T13:30:00+02:00"
+        },
+        {
+          "start": "2018-04-01T15:00:00+02:00",
+          "end": "2018-04-01T16:30:00+02:00"
+        }
+      ]
+    }
+  }, 
+  "timeMin": "2018-04-01T08:00:00.000Z"
+}

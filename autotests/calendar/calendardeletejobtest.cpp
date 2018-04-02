@@ -48,13 +48,23 @@ private Q_SLOTS:
     {
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<CalendarsList>("calendars");
+        QTest::addColumn<bool>("uidOnly");
 
         QTest::newRow("simple calendar")
             << QList<FakeNetworkAccessManager::Scenario>{
                     scenarioFromFile(QFINDTESTDATA("data/calendar1_delete_request.txt"),
                                      QFINDTESTDATA("data/calendar1_delete_response.txt"))
                 }
-            << CalendarsList{ calendarFromFile(QFINDTESTDATA("data/calendar1.json")) };
+            << CalendarsList{ calendarFromFile(QFINDTESTDATA("data/calendar1.json")) }
+            << false;
+
+        QTest::newRow("simple calendar (uid)")
+            << QList<FakeNetworkAccessManager::Scenario>{
+                    scenarioFromFile(QFINDTESTDATA("data/calendar1_delete_request.txt"),
+                                     QFINDTESTDATA("data/calendar1_delete_response.txt"))
+                }
+            << CalendarsList{ calendarFromFile(QFINDTESTDATA("data/calendar1.json")) }
+            << true;
 
         QTest::newRow("batch delete")
             << QList<FakeNetworkAccessManager::Scenario>{
@@ -66,18 +76,46 @@ private Q_SLOTS:
             << CalendarsList{
                     calendarFromFile(QFINDTESTDATA("data/calendar1.json")),
                     calendarFromFile(QFINDTESTDATA("data/calendar2.json"))
-                };
+                }
+            << false;
+
+        QTest::newRow("batch delete (uid)")
+            << QList<FakeNetworkAccessManager::Scenario>{
+                    scenarioFromFile(QFINDTESTDATA("data/calendar1_delete_request.txt"),
+                                     QFINDTESTDATA("data/calendar1_delete_response.txt")),
+                    scenarioFromFile(QFINDTESTDATA("data/calendar2_delete_request.txt"),
+                                     QFINDTESTDATA("data/calendar2_delete_response.txt"))
+                }
+            << CalendarsList{
+                    calendarFromFile(QFINDTESTDATA("data/calendar1.json")),
+                    calendarFromFile(QFINDTESTDATA("data/calendar2.json"))
+                }
+            << true;
     }
 
     void testDelete()
     {
         QFETCH(QList<FakeNetworkAccessManager::Scenario>, scenarios);
         QFETCH(CalendarsList, calendars);
+        QFETCH(bool, uidOnly);
 
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        auto job = new CalendarDeleteJob(calendars, account, nullptr);
+        CalendarDeleteJob *job = nullptr;
+        if (calendars.count() == 1) {
+            if (uidOnly) {
+                job = new CalendarDeleteJob(calendars.at(0)->uid(), account, nullptr);
+            } else {
+                job = new CalendarDeleteJob(calendars.at(0), account, nullptr);
+            }
+        } else {
+            if (uidOnly) {
+                job = new CalendarDeleteJob(elementsToUids(calendars), account, nullptr);
+            } else {
+                job = new CalendarDeleteJob(calendars, account, nullptr);
+            }
+        }
         QVERIFY(execJob(job));
     }
 };

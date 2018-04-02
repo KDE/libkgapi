@@ -33,3 +33,13 @@ KGAPI2::CalendarPtr calendarFromFile(const QString &path)
     VERIFY_RET(calendar, {});
     return calendar;
 }
+
+KGAPI2::EventPtr eventFromFile(const QString &path)
+{
+    QFile f(path);
+    VERIFY_RET(f.open(QIODevice::ReadOnly), {});
+
+    auto event = KGAPI2::CalendarService::JSONToEvent(f.readAll());
+    VERIFY_RET(event, {});
+    return event;
+}

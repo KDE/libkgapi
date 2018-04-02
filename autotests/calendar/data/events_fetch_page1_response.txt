@@ -1,0 +1,68 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "nextPageToken": "ClEKQ182a3MzaWRoazZvcWpnYzlsNnNyM2NjcGc2OHBqMmUyMGRsbm00cWJjY2xwbmlyajM1cGptdXJyN2RoaWlzb3JmZGsYASCAgIDqg5PLwhIaDQgAEgAY-KP05dmb2gI=", 
+  "kind": "calendar#events", 
+  "defaultReminders": [
+    {
+      "minutes": 10, 
+      "method": "email"
+    }, 
+    {
+      "minutes": 10, 
+      "method": "popup"
+    }
+  ], 
+  "items": [
+    {
+      "status": "confirmed", 
+      "kind": "calendar#event", 
+      "end": {
+        "dateTime": "2018-04-01T11:30:00+02:00"
+      }, 
+      "description": "We shall meet and we shall discuss.", 
+      "created": "2018-03-30T22:28:48.000Z", 
+      "iCalUID": "3if6lf59tove1e037baa75l54t@google.com", 
+      "reminders": {
+        "useDefault": false
+      }, 
+      "htmlLink": "https://www.google.com/calendar/event?eid=M2lmNmxmNTl0b3ZlMWUwMzdiYWE3NWw1NHQgbW1hcTVjYWNkYTc2aThkZjNhZzE2Nmpic2dAZw", 
+      "sequence": 0, 
+      "updated": "2018-03-30T22:28:48.203Z", 
+      "summary": "Cool Meeting about stuff", 
+      "start": {
+        "dateTime": "2018-04-01T10:30:00+02:00"
+      }, 
+      "etag": "\"3044897856406000\"", 
+      "location": "Meeting Room", 
+      "attendees": [
+        {
+          "id": "1234567890",
+          "email": "attendee1@kde.test", 
+          "responseStatus": "needsAction"
+        }, 
+        {
+          "id": "0987654321",
+          "email": "attendee2@kde.test", 
+          "responseStatus": "needsAction"
+        }
+      ], 
+      "organizer": {
+        "self": true, 
+        "displayName": "Konqui", 
+        "email": "konqui@kde.test"
+      }, 
+      "creator": {
+        "displayName": "John Doe", 
+        "email": "johnnyboy@example.test"
+      }, 
+      "id": "3if6lf59tove1e037baa75l54t"
+    }
+  ], 
+  "updated": "2018-04-02T13:31:50.251Z", 
+  "summary": "MockAccount", 
+  "etag": "\"p33sa7t75r6dtk0g\"", 
+  "timeZone": "Europe/Prague", 
+  "accessRole": "owner"
+}

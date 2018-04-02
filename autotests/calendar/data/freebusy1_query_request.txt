@@ -1,0 +1,12 @@
+POST https://www.googleapis.com/calendar/v3/freeBusy
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "id": "MockAccount"
+    }
+  ],
+  "timeMax": "2018-04-02T14:00:00Z",
+  "timeMin": "2018-04-01T08:00:00Z"
+}

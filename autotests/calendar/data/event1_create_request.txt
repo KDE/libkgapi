@@ -1,0 +1,43 @@
+POST https://www.googleapis.com/calendar/v3/calendars/MockAccount/events
+Content-Type: application/json
+
+{
+  "attendees": [
+    {
+      "displayName": "",
+      "email": "attendee1@kde.test", 
+      "id": "1234567890",
+      "responseStatus": "needsAction"
+    }, 
+    {
+      "displayName": "",
+      "email": "attendee2@kde.test", 
+      "id": "0987654321",
+      "responseStatus": "needsAction"
+    }
+  ], 
+  "description": "We shall meet and we shall discuss.", 
+  "end": {
+    "dateTime": "2018-04-01T11:30:00Z",
+    "timeZone": "UTC"
+  }, 
+  "location": "Meeting Room", 
+  "organizer": {
+    "displayName": "Konqui <konqui@kde.test>", 
+    "email": "konqui@kde.test"
+  }, 
+  "reminders": {
+    "overrides": [
+
+    ],
+    "useDefault": false
+  }, 
+  "start": {
+    "dateTime": "2018-04-01T10:30:00Z",
+    "timeZone": "UTC"
+  }, 
+  "status": "confirmed", 
+  "summary": "Cool Meeting about stuff", 
+  "transparency": "opaque",
+  "type": "calendar#event"
+}

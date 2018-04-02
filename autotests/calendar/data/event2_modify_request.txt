@@ -1,0 +1,46 @@
+PUT https://www.googleapis.com/calendar/v3/calendars/MockAccount/events/_60o3iopicdhjib9g6ss32b9k70p68b9ocdhm8b9ocphjioj6clh36c9j70
+Content-Type: application/json
+
+{
+  "attendees": [
+    {
+      "displayName": "KDE Hacker 1", 
+      "email": "hacker1@kde.test", 
+      "id": "1029384756",
+      "responseStatus": "needsAction"
+    }
+  ], 
+  "description": "Let's hack on KDE!", 
+  "end": {
+    "date": "2018-04-23"
+  }, 
+  "id": "_60o3iopicdhjib9g6ss32b9k70p68b9ocdhm8b9ocphjioj6clh36c9j70",
+  "kind": "calendar#event", 
+  "location": "Toulouse, France", 
+  "organizer": {
+    "displayName": "KDE Hacker 0 <hacker@kde.test>", 
+    "email": "hacker@kde.test"
+  }, 
+  "recurrence": [
+    "RRULE:FREQ=YEARLY;BYMONTHDAY=20;BYMONTH=4"
+  ], 
+  "reminders": {
+    "overrides": [
+      {
+        "method": "email",
+        "minutes": 430
+      }, 
+      {
+        "method": "popup",
+        "minutes": 10
+      }
+    ], 
+    "useDefault": false
+  }, 
+  "start": {
+    "date": "2018-04-20"
+  }, 
+  "status": "confirmed", 
+  "summary": "KDE PIM Sprint", 
+  "transparency": "opaque"
+}
