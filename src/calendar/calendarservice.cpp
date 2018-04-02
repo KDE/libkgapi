@@ -413,7 +413,13 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         if (att.value(QStringLiteral("optional")).toBool()) {
             attendee->setRole(KCalCore::Attendee::OptParticipant);
         }
-
+        const auto uid = att.value(QStringLiteral("id")).toString();
+        if (!uid.isEmpty()) {
+            attendee->setUid(uid);
+        } else {
+            // Set some UID, just so that the results are reproducible
+            attendee->setUid(QString::number(qHash(attendee->email())));
+        }
         event->addAttendee(attendee, true);
     }
 
@@ -636,7 +642,9 @@ QByteArray eventToJSON(const EventPtr& event)
         if (attee->role() == KCalCore::Attendee::OptParticipant) {
             att.insert(QStringLiteral("optional"), true);
         }
-
+        if (!attee->uid().isEmpty()) {
+            att.insert(QStringLiteral("id"), attee->uid());
+        }
         atts.append(att);
     }
 
