@@ -32,7 +32,7 @@ namespace KGAPI2
 /**
  * @brief A Helper QObject
  */
-class KGAPILATITUDE_EXPORT Latitude: public QObject
+class KGAPILATITUDE_DEPRECATED_EXPORT Latitude: public QObject
 {
     Q_OBJECT
     Q_ENUMS(Granularity)

@@ -36,7 +36,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class KGAPILATITUDE_EXPORT LocationFetchJob : public KGAPI2::FetchJob
+class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 

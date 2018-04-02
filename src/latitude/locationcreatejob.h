@@ -34,7 +34,7 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class KGAPILATITUDE_EXPORT LocationCreateJob : public KGAPI2::CreateJob
+class KGAPILATITUDE_DEPRECATED_EXPORT LocationCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 

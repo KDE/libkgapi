@@ -13,10 +13,13 @@ LibKGAPI currently supports following Google APIs:
   <li>Calendar API v3 (https://developers.google.com/google-apps/calendar)</li>
   <li>Contacts API v3 (https://developers.google.com/google-apps/contacts/v3/)</li>
   <li>Tasks API v1 (https://developers.google.com/google-apps/tasks)</li>
-  <li>Latitude API v1 (https://developers.google.com/latitude/v1/)</li>
   <li>Static Google Maps API v2 (https://developers.google.com/maps/documentation/staticmaps/)</li>
   <li>Drive API v2 (https://developers.google.com/drive/v2/reference)</li>
   <li>Blogger API v3 (https://developers.google.com/blogger/docs/3.0/reference/)</li>
+</ul>
+Deprecated APIs:
+<ul>
+  <li>Latitude API v1 (https://developers.google.com/latitude/v1/)</li>
 </ul>
 
 <h1>Examples</h1>

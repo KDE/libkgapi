@@ -40,7 +40,7 @@ namespace KGAPI2
  * @author Jan Grulich <grulja@gmail.com>
  * @since 0.4
  */
-class KGAPILATITUDE_EXPORT Location : public KGAPI2::Object,
+class KGAPILATITUDE_DEPRECATED_EXPORT Location : public KGAPI2::Object,
                                       public KContacts::Geo
 {
   public:
