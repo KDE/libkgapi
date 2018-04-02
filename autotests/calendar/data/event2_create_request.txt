@@ -14,6 +14,7 @@ Content-Type: application/json
   "end": {
     "date": "2018-04-23"
   }, 
+  "kind": "calendar#event",
   "location": "Toulouse, France", 
   "organizer": {
     "displayName": "KDE Hacker 0 <hacker@kde.test>", 
@@ -40,6 +41,5 @@ Content-Type: application/json
   }, 
   "status": "confirmed", 
   "summary": "KDE PIM Sprint", 
-  "transparency": "opaque",
-  "type": "calendar#event"
+  "transparency": "opaque"
 }

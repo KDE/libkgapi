@@ -24,8 +24,8 @@ Content-type: application/json; charset=UTF-8
   }, 
   "description": "We shall meet and we shall discuss.", 
   "end": {
-    "timeZone": "UTC", 
-    "dateTime": "2018-04-01T13:30:00+02:00"
+    "timeZone": "Europe/Prague", 
+    "dateTime": "2018-04-01T11:30:00+02:00"
   }, 
   "etag": "\"3044897856406000\"", 
   "htmlLink": "https://www.google.com/calendar/event?eid=dW00anI0YmZqc2kwNm5ycGg0cDlyYjY1bXMgZGFuLnZyYXRpbEBt", 
@@ -43,8 +43,8 @@ Content-type: application/json; charset=UTF-8
   }, 
   "sequence": 0, 
   "start": {
-    "timeZone": "UTC", 
-    "dateTime": "2018-04-01T12:30:00+02:00"
+    "timeZone": "Europe/Prague", 
+    "dateTime": "2018-04-01T10:30:00+02:00"
   }, 
   "status": "confirmed", 
   "summary": "Cool Meeting about stuff", 

@@ -18,9 +18,10 @@ Content-Type: application/json
   ], 
   "description": "We shall meet and we shall discuss.", 
   "end": {
-    "dateTime": "2018-04-01T11:30:00Z",
-    "timeZone": "UTC"
+    "dateTime": "2018-04-01T09:30:00Z",
+    "timeZone": "UTC+02:00"
   }, 
+  "kind": "calendar#event",
   "location": "Meeting Room", 
   "organizer": {
     "displayName": "Konqui <konqui@kde.test>", 
@@ -33,11 +34,10 @@ Content-Type: application/json
     "useDefault": false
   }, 
   "start": {
-    "dateTime": "2018-04-01T10:30:00Z",
-    "timeZone": "UTC"
+    "dateTime": "2018-04-01T08:30:00Z",
+    "timeZone": "UTC+02:00"
   }, 
   "status": "confirmed", 
   "summary": "Cool Meeting about stuff", 
-  "transparency": "opaque",
-  "type": "calendar#event"
+  "transparency": "opaque"
 }
