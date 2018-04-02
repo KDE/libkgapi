@@ -34,6 +34,16 @@ class KGAPICALENDAR_EXPORT FreeBusyQueryJob : public KGAPI2::FetchJob
     Q_OBJECT
 public:
     struct BusyRange {
+        BusyRange() {};
+        BusyRange(const QDateTime &busyStart, const QDateTime &busyEnd)
+            : busyStart(busyStart), busyEnd(busyEnd)
+        {}
+
+        bool operator==(const BusyRange &other) const
+        {
+            return busyStart == other.busyStart && busyEnd == other.busyEnd;
+        }
+
         QDateTime busyStart;
         QDateTime busyEnd;
     };
