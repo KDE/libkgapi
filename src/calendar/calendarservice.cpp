@@ -271,9 +271,12 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
 
 EventPtr JSONToEvent(const QByteArray& jsonData)
 {
-    QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    QJsonParseError error;
+    QJsonDocument document = QJsonDocument::fromJson(jsonData, &error);
+    if (error.error != QJsonParseError::NoError) {
+        qCWarning(KGAPIDebug) << "Error parsing event JSON: " << error.errorString();
+    }
     QVariantMap data = document.toVariant().toMap();
-
     if (data.value(QStringLiteral("kind")) != QLatin1String("calendar#event")) {
         return EventPtr();
     }
