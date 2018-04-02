@@ -25,6 +25,7 @@
 #include <QFile>
 #include <QProcess>
 #include <QTemporaryFile>
+#include <QJsonDocument>
 
 #include <iostream>
 
@@ -114,25 +115,7 @@ QByteArray reformatXML(const QByteArray &xml)
 
 QByteArray reformatJSON(const QByteArray &json)
 {
-#ifdef Q_OS_UNIX
-    QProcess lint;
-    lint.start(QStringLiteral("json_reformat"));
-    lint.waitForStarted();
-    if (lint.state() != QProcess::Running) { // missing json_reformat?
-        return json;
-    }
-    lint.write(json);
-    lint.closeWriteChannel();
-    lint.waitForFinished();
-    const auto err = lint.readAllStandardError();
-    if (!err.isEmpty()) {
-        std::cerr << err.constData() << std::endl;
-        FAIL_RET("Malformed JSON!", json);
-    }
-    return lint.readAllStandardOutput();
-#else
-    return json;
-#endif
+    return QJsonDocument::fromJson(json).toJson(QJsonDocument::Indented);
 }
 
 QByteArray diffData(const QByteArray &actual, const QByteArray &expected)
