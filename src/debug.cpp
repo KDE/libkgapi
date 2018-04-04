@@ -20,6 +20,6 @@
 
 #include "debug.h"
 
-Q_LOGGING_CATEGORY(KGAPIDebug, "org.kde.kgapi")
-Q_LOGGING_CATEGORY(KGAPIRaw, "org.kde.kgapi.raw")
+Q_LOGGING_CATEGORY(KGAPIDebug, "org.kde.kgapi", QtInfoMsg)
+Q_LOGGING_CATEGORY(KGAPIRaw, "org.kde.kgapi.raw", QtInfoMsg)
 
