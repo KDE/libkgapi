@@ -21,6 +21,7 @@
  */
 
 #include "user.h"
+#include "utils_p.h"
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -63,6 +64,15 @@ User::User(const User &other):
 User::~User()
 {
     delete d;
+}
+
+bool User::operator==(const User &other) const
+{
+    GAPI_COMPARE(displayName)
+    GAPI_COMPARE(pictureUrl)
+    GAPI_COMPARE(isAuthenticatedUser)
+    GAPI_COMPARE(permissionId)
+    return true;
 }
 
 QString User::displayName() const

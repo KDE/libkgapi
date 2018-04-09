@@ -20,6 +20,7 @@
 
 #include "revision.h"
 #include "user.h"
+#include "utils_p.h"
 
 #include <QJsonDocument>
 
@@ -131,6 +132,30 @@ Revision::Revision(const Revision& other):
 Revision::~Revision()
 {
     delete d;
+}
+
+bool Revision::operator==(const Revision &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+    GAPI_COMPARE(id)
+    GAPI_COMPARE(selfLink)
+    GAPI_COMPARE(mimeType)
+    GAPI_COMPARE(modifiedDate)
+    GAPI_COMPARE(pinned)
+    GAPI_COMPARE(published)
+    GAPI_COMPARE(publishedLink)
+    GAPI_COMPARE(publishAuto)
+    GAPI_COMPARE(publishedOutsideDomain)
+    GAPI_COMPARE(downloadUrl)
+    GAPI_COMPARE(exportLinks)
+    GAPI_COMPARE(lastModifyingUserName)
+    GAPI_COMPARE_SHAREDPTRS(lastModifyingUser)
+    GAPI_COMPARE(originalFilename)
+    GAPI_COMPARE(md5Checksum)
+    GAPI_COMPARE(fileSize)
+    return true;
 }
 
 QString Revision::id() const

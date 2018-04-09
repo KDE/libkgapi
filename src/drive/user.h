@@ -43,6 +43,8 @@ class KGAPIDRIVE_EXPORT User
   public:
     explicit User(const User &other);
     virtual ~User();
+    bool operator==(const User &other) const;
+    bool operator!=(const User &other) const { return !operator==(other); }
 
     /**
      * @brief Returns a plain text displayable name for this user.

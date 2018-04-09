@@ -20,6 +20,7 @@
 
 #include "parentreference.h"
 #include "parentreference_p.h"
+#include "utils_p.h"
 
 #include <QVariantMap>
 #include <QJsonDocument>
@@ -90,6 +91,18 @@ ParentReference::ParentReference(const ParentReference &other):
 ParentReference::~ParentReference()
 {
     delete d;
+}
+
+bool ParentReference::operator==(const ParentReference &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+    GAPI_COMPARE(id)
+    GAPI_COMPARE(selfLink)
+    GAPI_COMPARE(parentLink)
+    GAPI_COMPARE(isRoot)
+    return true;
 }
 
 QString ParentReference::id() const

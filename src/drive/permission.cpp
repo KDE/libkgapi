@@ -20,6 +20,7 @@
 
 #include "permission.h"
 #include "permission_p.h"
+#include "utils_p.h"
 
 #include <QJsonDocument>
 
@@ -153,6 +154,24 @@ Permission::Permission(const Permission &other):
 Permission::~Permission()
 {
     delete d;
+}
+
+bool Permission::operator==(const Permission &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+    GAPI_COMPARE(id)
+    GAPI_COMPARE(selfLink)
+    GAPI_COMPARE(name)
+    GAPI_COMPARE(role)
+    GAPI_COMPARE(additionalRoles)
+    GAPI_COMPARE(type)
+    GAPI_COMPARE(authKey)
+    GAPI_COMPARE(withLink)
+    GAPI_COMPARE(photoLink)
+    GAPI_COMPARE(value)
+    return true;
 }
 
 QString Permission::id() const

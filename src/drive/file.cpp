@@ -24,6 +24,7 @@
 #include "permission_p.h"
 #include "parentreference_p.h"
 #include "user.h"
+#include "utils_p.h"
 
 #include <QJsonDocument>
 
@@ -75,6 +76,16 @@ File::Labels::Labels(const Labels& other):
 File::Labels::~Labels()
 {
     delete d;
+}
+
+bool File::Labels::operator==(const Labels &other) const
+{
+    GAPI_COMPARE(starred)
+    GAPI_COMPARE(hidden)
+    GAPI_COMPARE(trashed)
+    GAPI_COMPARE(restricted)
+    GAPI_COMPARE(viewed)
+    return true;
 }
 
 bool File::Labels::starred() const
@@ -162,6 +173,12 @@ File::IndexableText::~IndexableText()
     delete d;
 }
 
+bool File::IndexableText::operator==(const IndexableText &other) const
+{
+    GAPI_COMPARE(text)
+    return true;
+}
+
 QString File::IndexableText::text() const
 {
     return d->text;
@@ -212,6 +229,14 @@ File::ImageMediaMetadata::Location::Location(const Location& other):
 File::ImageMediaMetadata::Location::~Location()
 {
     delete d;
+}
+
+bool File::ImageMediaMetadata::Location::operator==(const Location &other) const
+{
+    GAPI_COMPARE(latitude)
+    GAPI_COMPARE(longitude)
+    GAPI_COMPARE(altitude)
+    return true;
 }
 
 qreal File::ImageMediaMetadata::Location::latitude() const
@@ -339,6 +364,32 @@ File::ImageMediaMetadata::ImageMediaMetadata(const ImageMediaMetadata& other):
 File::ImageMediaMetadata::~ImageMediaMetadata()
 {
     delete d;
+}
+
+bool File::ImageMediaMetadata::operator==(const ImageMediaMetadata &other) const
+{
+    GAPI_COMPARE(width)
+    GAPI_COMPARE(height)
+    GAPI_COMPARE(rotation)
+    GAPI_COMPARE_SHAREDPTRS(location)
+    GAPI_COMPARE(date)
+    GAPI_COMPARE(cameraMake)
+    GAPI_COMPARE(cameraModel)
+    GAPI_COMPARE(exposureTime)
+    GAPI_COMPARE(aperture)
+    GAPI_COMPARE(flashUsed)
+    GAPI_COMPARE(focalLength)
+    GAPI_COMPARE(isoSpeed)
+    GAPI_COMPARE(meteringMode)
+    GAPI_COMPARE(sensor)
+    GAPI_COMPARE(exposureMode)
+    GAPI_COMPARE(colorSpace)
+    GAPI_COMPARE(whiteBalance)
+    GAPI_COMPARE(exposureBias)
+    GAPI_COMPARE(maxApertureValue)
+    GAPI_COMPARE(subjectDistance)
+    GAPI_COMPARE(lens)
+    return true;
 }
 
 int File::ImageMediaMetadata::width() const
@@ -487,6 +538,13 @@ File::Thumbnail::~Thumbnail()
     delete d;
 }
 
+bool File::Thumbnail::operator==(const Thumbnail &other) const
+{
+    GAPI_COMPARE(image)
+    GAPI_COMPARE(mimeType)
+    return true;
+}
+
 QImage File::Thumbnail::image() const
 {
     return d->image;
@@ -548,6 +606,51 @@ File::Private::Private(const Private& other):
     owners(other.owners),
     lastModifyingUser(other.lastModifyingUser)
 {
+}
+
+bool File::operator==(const File &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+    GAPI_COMPARE(id)
+    GAPI_COMPARE(selfLink)
+    GAPI_COMPARE(title)
+    GAPI_COMPARE(mimeType)
+    GAPI_COMPARE(description)
+    GAPI_COMPARE_SHAREDPTRS(labels)
+    GAPI_COMPARE(createdDate)
+    GAPI_COMPARE(modifiedDate)
+    GAPI_COMPARE(modifiedByMeDate)
+    GAPI_COMPARE(downloadUrl)
+    GAPI_COMPARE_SHAREDPTRS(indexableText)
+    GAPI_COMPARE_SHAREDPTRS(userPermission)
+    GAPI_COMPARE(fileExtension)
+    GAPI_COMPARE(md5Checksum)
+    GAPI_COMPARE(fileSize)
+    GAPI_COMPARE(alternateLink)
+    GAPI_COMPARE(embedLink)
+    GAPI_COMPARE(sharedWithMeDate)
+    GAPI_COMPARE_CONTAINERS(parents)
+    GAPI_COMPARE(exportLinks)
+    GAPI_COMPARE(originalFileName)
+    GAPI_COMPARE(quotaBytesUsed)
+    GAPI_COMPARE(ownerNames)
+    GAPI_COMPARE(lastModifyingUserName)
+    GAPI_COMPARE(editable)
+    GAPI_COMPARE(writersCanShare)
+    GAPI_COMPARE(thumbnailLink)
+    GAPI_COMPARE(lastViewedByMeDate)
+    GAPI_COMPARE(webContentLink)
+    GAPI_COMPARE(explicitlyTrashed)
+    GAPI_COMPARE_SHAREDPTRS(imageMediaMetadata)
+    GAPI_COMPARE_SHAREDPTRS(thumbnail)
+    GAPI_COMPARE(webViewLink)
+    GAPI_COMPARE(iconLink)
+    GAPI_COMPARE(shared)
+    GAPI_COMPARE_CONTAINERS(owners)
+    GAPI_COMPARE_SHAREDPTRS(lastModifyingUser)
+    return true;
 }
 
 FilePtr File::Private::fromJSON(const QVariantMap &map)

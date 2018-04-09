@@ -53,6 +53,8 @@ class KGAPIDRIVE_EXPORT Revision: public KGAPI2::Object
     explicit Revision();
     explicit Revision(const Revision &other);
     ~Revision() override;
+    bool operator==(const Revision &other) const;
+    bool operator!=(const Revision &other) const { return !operator==(other); }
 
     /**
      * @brief Returns the id of the revision.

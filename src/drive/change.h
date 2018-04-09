@@ -50,6 +50,8 @@ class KGAPIDRIVE_EXPORT Change: public KGAPI2::Object
     explicit Change();
     explicit Change(const Change& other);
     ~Change() override;
+    bool operator==(const Change &other) const;
+    bool operator!=(const Change &other) const { return !operator==(other); }
 
     /**
      * @brief Returns the id of the change.

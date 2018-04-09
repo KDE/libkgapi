@@ -60,6 +60,8 @@ public:
       public:
         explicit Format(const Format &other);
         virtual ~Format();
+        bool operator==(const Format &other) const;
+        bool operator!=(const Format &other) const { return !operator==(other); }
 
         /**
          * @brief Returns the content type to convert from.
@@ -100,6 +102,8 @@ public:
           public:
             explicit RoleSet(const RoleSet &other);
             virtual ~RoleSet();
+            bool operator==(const RoleSet &other) const;
+            bool operator!=(const RoleSet &other) const { return !operator==(other); }
 
             /**
              * @brief Returns the primary permission role.
@@ -125,6 +129,8 @@ public:
 
         explicit AdditionalRoleInfo(const AdditionalRoleInfo &other);
         virtual ~AdditionalRoleInfo();
+        bool operator==(const AdditionalRoleInfo &other) const;
+        bool operator!=(const AdditionalRoleInfo &other) const { return !operator==(other); }
 
         /**
          * @brief Returns the content type that this additional role info applies to.
@@ -156,6 +162,8 @@ public:
       public:
         explicit Feature(const Feature &other);
         virtual ~Feature();
+        bool operator==(const Feature &other) const;
+        bool operator!=(const Feature &other) const { return !operator==(other); }
 
         /**
          * @brief Returns the name of the feature.
@@ -187,6 +195,8 @@ public:
       public:
         explicit MaxUploadSize(const MaxUploadSize &other);
         virtual ~MaxUploadSize();
+        bool operator==(const MaxUploadSize &other) const;
+        bool operator!=(const MaxUploadSize &other) const { return !operator==(other); }
 
         /**
          * @brief Returns the file type.
@@ -213,6 +223,9 @@ public:
 
     explicit About(const About &other);
     virtual ~About();
+
+    bool operator==(const About &other) const;
+    bool operator!=(const About &other) const { return !operator==(other); }
 
     /**
      * @brief Returns the link back to this item.

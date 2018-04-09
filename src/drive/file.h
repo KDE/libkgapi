@@ -63,6 +63,8 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
         explicit Labels();
         explicit Labels(const Labels &other);
         virtual ~Labels();
+        bool operator==(const Labels &other) const;
+        bool operator!=(const Labels &other) const { return !operator==(other); }
 
         /**
          * @brief Returns whether this file is starred by the user.
@@ -147,6 +149,8 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
       public:
         explicit IndexableText(const IndexableText &other);
         virtual ~IndexableText();
+        bool operator==(const IndexableText &other) const;
+        bool operator!=(const IndexableText &other) const { return !operator==(other); }
 
         /**
          * @brief Returns the text to be indexed for this file.
@@ -187,6 +191,8 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
           public:
             explicit Location(const Location &other);
             virtual ~Location();
+            bool operator==(const Location &other) const;
+            bool operator!=(const Location &other) const { return !operator==(other); }
 
             /**
              * @brief Returns the latitude stored in the image.
@@ -216,6 +222,8 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 
         explicit ImageMediaMetadata(const ImageMediaMetadata &other);
         virtual ~ImageMediaMetadata();
+        bool operator==(const ImageMediaMetadata &other) const;
+        bool operator!=(const ImageMediaMetadata &other) const { return !operator==(other); }
 
         /**
          * @brief Returns the width of the image in pixels.
@@ -287,6 +295,8 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
       public:
         explicit Thumbnail(const Thumbnail &other);
         virtual ~Thumbnail();
+        bool operator==(const Thumbnail &other) const;
+        bool operator!=(const Thumbnail &other) const { return !operator==(other); }
 
         QImage image() const;
 
@@ -316,6 +326,8 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     explicit File();
     explicit File(const File &other);
     virtual ~File();
+    bool operator==(const File &other) const;
+    bool operator!=(const File &other) const { return !operator==(other); }
 
     /**
      * @brief Returns mimetype of folders

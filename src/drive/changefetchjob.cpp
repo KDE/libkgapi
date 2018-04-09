@@ -177,7 +177,7 @@ ObjectsList ChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply,
         const QByteArray &rawData)
 {
     FeedData feedData;
-    feedData.requestUrl = reply->request().url();
+    feedData.requestUrl = reply->url();
 
     ObjectsList items;
     QString itemId;

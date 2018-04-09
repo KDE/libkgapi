@@ -20,6 +20,7 @@
 
 #include "change.h"
 #include "file_p.h"
+#include "utils_p.h"
 
 #include <QVariantMap>
 #include <QJsonDocument>
@@ -89,6 +90,20 @@ Change::Change(const Change &other):
 Change::~Change()
 {
     delete d;
+}
+
+bool Change::operator==(const Change &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+
+    GAPI_COMPARE(id)
+    GAPI_COMPARE(fileId)
+    GAPI_COMPARE(selfLink)
+    GAPI_COMPARE(deleted)
+    GAPI_COMPARE_SHAREDPTRS(file)
+    return true;
 }
 
 qlonglong Change::id() const

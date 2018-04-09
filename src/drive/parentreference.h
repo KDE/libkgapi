@@ -52,6 +52,8 @@ class KGAPIDRIVE_EXPORT ParentReference: public KGAPI2::Object
     explicit ParentReference(const QString &id);
     explicit ParentReference(const ParentReference &other);
     ~ParentReference() override;
+    bool operator==(const ParentReference &other) const;
+    bool operator!=(const ParentReference &other) const { return !operator==(other); }
 
     /**
      * @brief Returns the id of the parent.

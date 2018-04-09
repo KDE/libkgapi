@@ -19,6 +19,7 @@
 */
 
 #include "childreference.h"
+#include "utils_p.h"
 
 #include <QVariantMap>
 #include <QJsonDocument>
@@ -80,6 +81,17 @@ ChildReference::ChildReference(const ChildReference &other):
 ChildReference::~ChildReference()
 {
     delete d;
+}
+
+bool ChildReference::operator==(const ChildReference &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+    GAPI_COMPARE(id)
+    GAPI_COMPARE(selfLink)
+    GAPI_COMPARE(childLink)
+    return true;
 }
 
 QString ChildReference::id() const

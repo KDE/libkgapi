@@ -65,6 +65,27 @@ namespace Utils
      */
     KGAPICORE_EXPORT QString rfc3339DateToString(const QDateTime &dt);
 
+    template<typename Value, template<typename> class Container>
+    bool compareSharedPtrContainers(const Container<QSharedPointer<Value>> &left, const Container<QSharedPointer<Value>> &right)
+    {
+        if (left.size() != right.size()) {
+            return false;
+        }
+        auto it1 = left.cbegin(), it2 = right.cbegin();
+        const auto end1 = left.cend();
+        for (; it1 != end1; ++it1, ++it2) {
+            if ((*it1 == nullptr) != (*it2 == nullptr)) {
+                return false;
+            }
+            if (!*it1 && !*it2) {
+                continue;
+            }
+            if (**it1 != **it2) {
+                return false;
+            }
+        }
+        return true;
+    }
 } // namespace Utils
 
 #endif // LIBKGAPI2_UTILS_H

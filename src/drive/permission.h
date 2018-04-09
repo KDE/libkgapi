@@ -68,6 +68,8 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
     explicit Permission();
     explicit Permission(const Permission &other);
     ~Permission() override;
+    bool operator==(const Permission &other) const;
+    bool operator!=(const Permission &other) const { return !operator==(other); }
 
     /**
      * @brief Returns the id of the permission.

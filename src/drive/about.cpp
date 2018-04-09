@@ -20,6 +20,9 @@
 
 #include "about.h"
 #include "user.h"
+#include "utils.h"
+#include "utils_p.h"
+#include "../debug.h"
 
 #include <QJsonDocument>
 
@@ -61,6 +64,13 @@ About::Format::Format(const About::Format &other):
 About::Format::~Format()
 {
     delete d;
+}
+
+bool About::Format::operator==(const About::Format &other) const
+{
+    GAPI_COMPARE(source)
+    GAPI_COMPARE(targets)
+    return true;
 }
 
 QString About::Format::source() const
@@ -110,6 +120,13 @@ About::AdditionalRoleInfo::RoleSet::~RoleSet()
     delete d;
 }
 
+bool About::AdditionalRoleInfo::RoleSet::operator==(const RoleSet &other) const
+{
+    GAPI_COMPARE(primaryRole)
+    GAPI_COMPARE(additionalRoles)
+    return true;
+}
+
 QString About::AdditionalRoleInfo::RoleSet::primaryRole() const
 {
     return d->primaryRole;
@@ -155,6 +172,13 @@ About::AdditionalRoleInfo::AdditionalRoleInfo(const About::AdditionalRoleInfo &o
 About::AdditionalRoleInfo::~AdditionalRoleInfo()
 {
     delete d;
+}
+
+bool About::AdditionalRoleInfo::operator==(const AdditionalRoleInfo &other) const
+{
+    GAPI_COMPARE(type)
+    GAPI_COMPARE_CONTAINERS(roleSets)
+    return true;
 }
 
 QString About::AdditionalRoleInfo::type() const
@@ -205,6 +229,13 @@ About::Feature::~Feature()
     delete d;
 }
 
+bool About::Feature::operator==(const Feature &other) const
+{
+    GAPI_COMPARE(featureName)
+    GAPI_COMPARE(featureRate)
+    return true;
+}
+
 QString About::Feature::featureName() const
 {
     return d->featureName;
@@ -250,6 +281,13 @@ About::MaxUploadSize::MaxUploadSize(const About::MaxUploadSize &other):
 About::MaxUploadSize::~MaxUploadSize()
 {
     delete d;
+}
+
+bool About::MaxUploadSize::operator==(const MaxUploadSize &other) const
+{
+    GAPI_COMPARE(type)
+    GAPI_COMPARE(size)
+    return true;
 }
 
 QString About::MaxUploadSize::type() const
@@ -338,6 +376,33 @@ About::About(const About &other):
 About::~About()
 {
     delete d;
+}
+
+bool About::operator==(const About &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+
+    GAPI_COMPARE(selfLink)
+    GAPI_COMPARE(name)
+    GAPI_COMPARE(quotaBytesTotal)
+    GAPI_COMPARE(quotaBytesUsed)
+    GAPI_COMPARE(quotaBytesUsedInTrash)
+    GAPI_COMPARE(quotaBytesUsedInTrash)
+    GAPI_COMPARE(largestChangeId)
+    GAPI_COMPARE(remainingChangeIds)
+    GAPI_COMPARE(rootFolderId)
+    GAPI_COMPARE(domainSharingPolicy)
+    GAPI_COMPARE_CONTAINERS(importFormats)
+    GAPI_COMPARE_CONTAINERS(exportFormats)
+    GAPI_COMPARE_CONTAINERS(additionalRoleInfo)
+    GAPI_COMPARE_CONTAINERS(features)
+    GAPI_COMPARE_CONTAINERS(maxUploadSizes)
+    GAPI_COMPARE(permissionId)
+    GAPI_COMPARE(isCurrentAppInstalled)
+    GAPI_COMPARE_SHAREDPTRS(user)
+    return true;
 }
 
 QUrl About::selfLink() const

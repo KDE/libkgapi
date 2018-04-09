@@ -19,6 +19,7 @@
 */
 
 #include "app.h"
+#include "utils_p.h"
 
 #include <QVariantMap>
 #include <QJsonDocument>
@@ -79,6 +80,14 @@ App::Icon::Icon(const App::Icon &other):
 App::Icon::~Icon()
 {
     delete d;
+}
+
+bool App::Icon::operator==(const Icon &other) const
+{
+    GAPI_COMPARE(category)
+    GAPI_COMPARE(size)
+    GAPI_COMPARE(iconUrl)
+    return true;
 }
 
 App::Icon::Category App::Icon::category() const
@@ -203,6 +212,29 @@ App::App(const App &other):
 App::~App()
 {
     delete d;
+}
+
+bool App::operator==(const App &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+
+    GAPI_COMPARE(id)
+    GAPI_COMPARE(name)
+    GAPI_COMPARE(objectType)
+    GAPI_COMPARE(supportsCreate)
+    GAPI_COMPARE(supportsImport)
+    GAPI_COMPARE(installed)
+    GAPI_COMPARE(authorized)
+    GAPI_COMPARE(useByDefault)
+    GAPI_COMPARE(productUrl)
+    GAPI_COMPARE(primaryMimeTypes)
+    GAPI_COMPARE(secondaryMimeTypes)
+    GAPI_COMPARE(primaryFileExtensions)
+    GAPI_COMPARE(secondaryFileExtensions)
+    GAPI_COMPARE_CONTAINERS(icons)
+    return true;
 }
 
 QString App::id() const
