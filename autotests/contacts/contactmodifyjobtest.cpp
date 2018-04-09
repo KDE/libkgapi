@@ -97,7 +97,12 @@ private Q_SLOTS:
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        auto job = new ContactModifyJob(contacts, account);
+        ContactModifyJob *job = nullptr;
+        if (contacts.count() == 1) {
+            job = new ContactModifyJob(contacts.at(0), account);
+        } else {
+            job = new ContactModifyJob(contacts, account);
+        }
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), contacts.count());
