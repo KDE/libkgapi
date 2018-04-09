@@ -1,0 +1,11 @@
+PUT https://www.googleapis.com/tasks/v1/lists/MockAccount/tasks/MDk5OTU2NTg1OTM5NjgzODgzMDk6MDoxNTczOTM0NTg3
+Content-Type: application/json
+
+{
+  "status": "needsAction", 
+  "kind": "tasks#task", 
+  "title": "A Task", 
+  "notes": "",
+  "due": "2017-01-23T00:00:00.000Z", 
+  "id": "MDk5OTU2NTg1OTM5NjgzODgzMDk6MDoxNTczOTM0NTg3"
+}

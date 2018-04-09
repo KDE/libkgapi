@@ -1,0 +1,8 @@
+POST https://www.googleapis.com/tasks/v1/users/@me/lists
+Content-type: application/json
+
+{
+    "kind": "tasks#taskList", 
+    "title": "Todo"
+}
+

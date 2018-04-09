@@ -1,0 +1,10 @@
+PUT https://www.googleapis.com/tasks/v1/users/@me/lists/MDk5OTU2NTg1OTM5NjgzODgzMDk6MDow
+Content-type: application/json
+
+{
+    "id": "MDk5OTU2NTg1OTM5NjgzODgzMDk6MDow", 
+    "kind": "tasks#taskList", 
+    "title": "Todo"
+}
+
+

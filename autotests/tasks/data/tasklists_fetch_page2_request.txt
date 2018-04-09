@@ -1,0 +1,1 @@
+GET https://www.googleapis.com/tasks/v1/users/@me/lists?pageToken=MDk5OTU2NTg1OTM5NjgzODgzMDk6NjExNzc0NDYwNjE5ODE5MTow&maxResults=20

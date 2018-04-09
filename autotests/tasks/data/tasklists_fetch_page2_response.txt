@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "items": [
+    {
+      "kind": "tasks#taskList", 
+      "title": "Work", 
+      "updated": "2018-04-09T21:52:09.000Z", 
+      "etag": "\"Ab2xPghAs4lqrMkOhg7IdzpAa48/LIOHwQTXnx3BoFy4MybBpFD7sXM\"", 
+      "id": "MDk5OTU2NTg1OTM5NjgzODgzMDk6MzU1NDQ5NDI4ODIzODI5ODow", 
+      "selfLink": "https://www.googleapis.com/tasks/v1/users/@me/lists/MDk5OTU2NTg1OTM5NjgzODgzMDk6MzU1NDQ5NDI4ODIzODI5ODow"
+    }
+  ], 
+  "kind": "tasks#taskLists", 
+  "etag": "\"Ab2xPghAs4lqrMkOhg7IdzpAa48/e9zhusoYon5feTKBgGRU1jcPNLo\""
+}
+

@@ -1,0 +1,7 @@
+{
+  "kind": "tasks#taskList", 
+  "updated": "2018-04-09T21:41:49.000Z", 
+  "id": "MDk5OTU2NTg1OTM5NjgzODgzMDk6MDow", 
+  "selfLink": "https://www.googleapis.com/tasks/v1/users/MockAccount/lists/MDk5OTU2NTg1OTM5NjgzODgzMDk6MDow", 
+  "title": "Todo"
+}

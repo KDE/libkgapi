@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "nextPageToken": "MDk5OTU2NTg1OTM5NjgzODgzMDk6NjExNzc0NDYwNjE5ODE5MTow", 
+  "items": [
+    {
+      "kind": "tasks#taskList", 
+      "updated": "2018-04-09T22:06:04.000Z", 
+      "id": "MDk5OTU2NTg1OTM5NjgzODgzMDk6MDow", 
+      "selfLink": "https://www.googleapis.com/tasks/v1/users/@me/lists/MDk5OTU2NTg1OTM5NjgzODgzMDk6MDow", 
+      "title": "Todo"
+    }
+  ], 
+  "kind": "tasks#taskLists", 
+  "etag": "\"Ab2xPghAs4lqrMkOhg7IdzpAa48/e9zhusoYon5feTKBgGRU1jcPNLo\""
+}

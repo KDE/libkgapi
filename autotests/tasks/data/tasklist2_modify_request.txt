@@ -1,0 +1,9 @@
+PUT https://www.googleapis.com/tasks/v1/users/@me/lists/MDk5OTU2NTg1OTM5NjgzODgzMDk6MzU1NDQ5NDI4ODIzODI5ODow
+Content-type: application/json
+
+{
+    "id": "MDk5OTU2NTg1OTM5NjgzODgzMDk6MzU1NDQ5NDI4ODIzODI5ODow", 
+    "kind": "tasks#taskList", 
+    "title": "Work"
+}
+
