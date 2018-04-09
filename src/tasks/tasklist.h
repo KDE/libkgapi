@@ -56,6 +56,8 @@ class KGAPITASKS_EXPORT TaskList: public KGAPI2::Object
      */
     ~TaskList() override;
 
+    bool operator==(const TaskList &other) const;
+
     /**
      * @brief Sets tasklist UID
      *

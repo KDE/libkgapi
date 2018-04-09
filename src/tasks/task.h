@@ -63,6 +63,8 @@ class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
      */
     ~Task() override;
 
+    bool operator==(const Task &other) const;
+
     /**
      * @brief Sets whether the task has been deleted
      *

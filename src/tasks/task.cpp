@@ -21,6 +21,7 @@
  */
 
 #include "task.h"
+#include "../debug.h"
 
 using namespace KGAPI2;
 
@@ -70,6 +71,25 @@ Task::~Task()
 {
     delete d;
 }
+
+bool Task::operator==(const Task &other) const
+{
+    if (!Object::operator==(other)) {
+        qCDebug(KGAPIDebug) << "Objects don't match";
+        return false;
+    }
+    if (!Todo::operator==(other)) {
+        qCDebug(KGAPIDebug) << "Todos don't match";
+        return false;
+    }
+    if (d->deleted != other.d->deleted) {
+        qCDebug(KGAPIDebug) << "Deleted does not match";
+        return false;
+    }
+
+    return true;
+}
+
 
 void Task::setDeleted(const bool deleted)
 {

@@ -21,6 +21,7 @@
  */
 
 #include "tasklist.h"
+#include "../debug.h"
 
 using namespace KGAPI2;
 
@@ -60,6 +61,25 @@ TaskList::TaskList (const TaskList& other):
 TaskList::~TaskList()
 {
     delete d;
+}
+
+bool TaskList::operator==(const TaskList &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+
+    if (d->uid != other.d->uid) {
+        qCDebug(KGAPIDebug) << "UIDs don't match";
+        return false;
+    }
+
+    if (d->title != other.d->title) {
+        qCDebug(KGAPIDebug) << "Titles don't match";
+        return false;
+    }
+
+    return true;
 }
 
 void TaskList::setUid(const QString &uid)
