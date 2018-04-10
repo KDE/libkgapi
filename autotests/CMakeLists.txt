@@ -35,6 +35,7 @@ ecm_add_test(fakenamtest.cpp LINK_LIBRARIES kgapitest KPimGAPICore TEST_NAME fak
 
 add_libkgapi2_test(core fetchjobtest)
 add_libkgapi2_test(core createjobtest)
+add_libkgapi2_test(core accountinfofetchjobtest)
 
 add_libkgapi2_test(contacts contactcreatejobtest)
 add_libkgapi2_test(contacts contactdeletejobtest)
@@ -66,4 +67,6 @@ add_libkgapi2_test(tasks tasklistdeletejobtest)
 add_libkgapi2_test(tasks tasklistfetchjobtest)
 add_libkgapi2_test(tasks tasklistmodifyjobtest)
 
+add_libkgapi2_test(drive aboutfetchjobtest)
+add_libkgapi2_test(drive changefetchjobtest)
 add_libkgapi2_test(drive filesearchquerytest)
