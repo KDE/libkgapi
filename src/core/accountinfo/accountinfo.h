@@ -61,6 +61,9 @@ class KGAPICORE_EXPORT AccountInfo : public KGAPI2::Object
      */
     virtual ~AccountInfo();
 
+    bool operator==(const AccountInfo &other) const;
+    bool operator!=(const AccountInfo &other) const { return !operator==(other); }
+
     /**
      * @brief Sets an account ID.
      *

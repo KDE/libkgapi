@@ -21,6 +21,7 @@
  */
 
 #include "accountinfo.h"
+#include "utils_p.h"
 
 #include <QJsonDocument>
 
@@ -94,6 +95,26 @@ AccountInfo::AccountInfo(const AccountInfo &other):
 AccountInfo::~AccountInfo()
 {
     delete d;
+}
+
+bool AccountInfo::operator==(const AccountInfo &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+    GAPI_COMPARE(id)
+    GAPI_COMPARE(email)
+    GAPI_COMPARE(name)
+    GAPI_COMPARE(givenName)
+    GAPI_COMPARE(familyName)
+    GAPI_COMPARE(birthday)
+    GAPI_COMPARE(gender)
+    GAPI_COMPARE(link)
+    GAPI_COMPARE(locale)
+    GAPI_COMPARE(timezone)
+    GAPI_COMPARE(verifiedEmail)
+    GAPI_COMPARE(pictureUrl)
+    return true;
 }
 
 void AccountInfo::setId(const QString &id)
