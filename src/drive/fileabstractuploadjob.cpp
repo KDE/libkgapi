@@ -298,6 +298,11 @@ void FileAbstractUploadJob::start()
     d->processNext();
 }
 
+QMap<QString, FilePtr> FileAbstractUploadJob::files() const
+{
+    return d->uploadedFiles;
+}
+
 void FileAbstractUploadJob::dispatchRequest(QNetworkAccessManager *accessManager,
                                             const QNetworkRequest &request,
                                             const QByteArray &data,
