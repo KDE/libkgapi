@@ -26,6 +26,7 @@
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -66,7 +67,9 @@ void PostCreateJob::start()
 {
     QUrl url = BloggerService::createPostUrl(d->post->blogId());
     if (d->isDraft) {
-        url.addQueryItem(QStringLiteral("isDraft"), Utils::bool2Str(d->isDraft));
+        QUrlQuery query(url);
+        query.addQueryItem(QStringLiteral("isDraft"), Utils::bool2Str(d->isDraft));
+        url.setQuery(query);
     }
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());

@@ -26,6 +26,7 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QJsonDocument>
+#include <QUrlQuery>
 
 /* Qt::escape() */
 #include <QTextDocument>
@@ -98,10 +99,12 @@ QUrl fetchAllContactsUrl(const QString& user, bool showDeleted)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
-    url.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
     if (showDeleted) {
-        url.addQueryItem(QStringLiteral("showdeleted"), QStringLiteral("true"));
+        query.addQueryItem(QStringLiteral("showdeleted"), QStringLiteral("true"));
     }
+    url.setQuery(query);
 
     return url;
 }
@@ -117,7 +120,9 @@ QUrl fetchContactUrl(const QString& user, const QString& contactID)
 
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
-    url.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    url.setQuery(query);
     return url;
 }
 
@@ -160,7 +165,9 @@ QUrl fetchAllGroupsUrl(const QString &user)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
-    url.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    url.setQuery(query);
     return url;
 }
 
@@ -175,8 +182,9 @@ QUrl fetchGroupUrl(const QString &user, const QString &groupId)
 
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/base/") % id);
-    url.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
-
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    url.setQuery(query);
     return url;
 }
 
@@ -579,44 +587,44 @@ QByteArray contactToXML(const ContactPtr& contact)
     /* Name */
     output.append("<gd:name>");
     if (!contact->givenName().isEmpty()) {
-        output.append("<gd:givenName>").append(Qt::escape(contact->givenName()).toUtf8()).append("</gd:givenName>");
+        output.append("<gd:givenName>").append(contact->givenName().toHtmlEscaped().toUtf8()).append("</gd:givenName>");
     }
     if (!contact->familyName().isEmpty()) {
-        output.append("<gd:familyName>").append(Qt::escape(contact->familyName()).toUtf8()).append("</gd:familyName>");
+        output.append("<gd:familyName>").append(contact->familyName().toHtmlEscaped().toUtf8()).append("</gd:familyName>");
     }
     if (!contact->assembledName().isEmpty()) {
-        output.append("<gd:fullName>").append(Qt::escape(contact->assembledName()).toUtf8()).append("</gd:fullName>");
+        output.append("<gd:fullName>").append(contact->assembledName().toHtmlEscaped().toUtf8()).append("</gd:fullName>");
     }
     if (!contact->additionalName().isEmpty()) {
-        output.append("<gd:additionalName>").append(Qt::escape(contact->additionalName()).toUtf8()).append("</gd:additionalName>");
+        output.append("<gd:additionalName>").append(contact->additionalName().toHtmlEscaped().toUtf8()).append("</gd:additionalName>");
     }
     if (!contact->prefix().isEmpty()) {
-        output.append("<gd:namePrefix>").append(Qt::escape(contact->prefix()).toUtf8()).append("</gd:namePrefix>");
+        output.append("<gd:namePrefix>").append(contact->prefix().toHtmlEscaped().toUtf8()).append("</gd:namePrefix>");
     }
     if (!contact->suffix().isEmpty()) {
-        output.append("<gd:nameSuffix>").append(Qt::escape(contact->suffix()).toUtf8()).append("</gd:nameSuffix>");
+        output.append("<gd:nameSuffix>").append(contact->suffix().toHtmlEscaped().toUtf8()).append("</gd:nameSuffix>");
     }
     output.append("</gd:name>");
 
     /* Notes */
     if (!contact->note().isEmpty()) {
-        output.append("<atom:content type='text'>").append(Qt::escape(contact->note()).toUtf8()).append("</atom:content>");
+        output.append("<atom:content type='text'>").append(contact->note().toHtmlEscaped().toUtf8()).append("</atom:content>");
     }
 
     /* Organization (work) */
     QByteArray org;
     const QString office = contact->office();
     if (!contact->organization().isEmpty()) {
-        org.append("<gd:orgName>").append(Qt::escape(contact->organization()).toUtf8()).append("</gd:orgName>");
+        org.append("<gd:orgName>").append(contact->organization().toHtmlEscaped().toUtf8()).append("</gd:orgName>");
     }
     if (!contact->department().isEmpty()) {
-        org.append("<gd:orgDepartment>").append(Qt::escape(contact->department()).toUtf8()).append("</gd:orgDepartment>");
+        org.append("<gd:orgDepartment>").append(contact->department().toHtmlEscaped().toUtf8()).append("</gd:orgDepartment>");
     }
     if (!contact->title().isEmpty()) {
-        org.append("<gd:orgTitle>").append(Qt::escape(contact->title()).toUtf8()).append("</gd:orgTitle>");
+        org.append("<gd:orgTitle>").append(contact->title().toHtmlEscaped().toUtf8()).append("</gd:orgTitle>");
     }
     if (!office.isEmpty()) {
-        org.append("<gd:where>").append(Qt::escape(office).toUtf8()).append("</gd:where>");
+        org.append("<gd:where>").append(office.toHtmlEscaped().toUtf8()).append("</gd:where>");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-Office");
     }
     if (!org.isEmpty()) {
@@ -625,47 +633,47 @@ QByteArray contactToXML(const ContactPtr& contact)
 
     /* Nickname */
     if (!contact->nickName().isEmpty()) {
-        output.append("<gContact:nickname>").append(Qt::escape(contact->nickName()).toUtf8()).append("</gContact:nickname>");
+        output.append("<gContact:nickname>").append(contact->nickName().toHtmlEscaped().toUtf8()).append("</gContact:nickname>");
     }
 
     /* Occupation */
     if (!contact->profession().isEmpty()) {
-        output.append("<gContact:occupation>").append(Qt::escape(contact->profession()).toUtf8()).append("</gContact:occupation>");
+        output.append("<gContact:occupation>").append(contact->profession().toHtmlEscaped().toUtf8()).append("</gContact:occupation>");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-Profession");
     }
 
     /* Spouse */
     const QString spouse = contact->spousesName();
     if (!spouse.isEmpty()) {
-        output.append("<gContact:relation rel=\"spouse\">").append(Qt::escape(spouse).toUtf8()).append("</gContact:relation>");
+        output.append("<gContact:relation rel=\"spouse\">").append(spouse.toHtmlEscaped().toUtf8()).append("</gContact:relation>");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-SpousesName");
     }
 
     /* Manager */
     const QString manager = contact->managersName();
     if (!manager.isEmpty()) {
-        output.append("<gContact:relation rel=\"manager\">").append(Qt::escape(manager).toUtf8()).append("</gContact:relation>");
+        output.append("<gContact:relation rel=\"manager\">").append(manager.toHtmlEscaped().toUtf8()).append("</gContact:relation>");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-ManagersName");
     }
 
     /* Assistant */
     const QString assistant = contact->assistantsName();
     if (!assistant.isEmpty()) {
-        output.append("<gContact:relation rel=\"assistant\">").append(Qt::escape(assistant).toUtf8()).append("</gContact:relation>");
+        output.append("<gContact:relation rel=\"assistant\">").append(assistant.toHtmlEscaped().toUtf8()).append("</gContact:relation>");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-AssistantsName");
     }
 
     /* Anniversary */
     const QString anniversary = contact->anniversary();
     if (!anniversary.isEmpty()) {
-        output.append("<gContact:event rel=\"anniversary\"><gd:when startTime=\"").append(Qt::escape(anniversary).toUtf8()).append("\" /></gContact:event>");
+        output.append("<gContact:event rel=\"anniversary\"><gd:when startTime=\"").append(anniversary.toHtmlEscaped().toUtf8()).append("\" /></gContact:event>");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-Anniversary");
     }
 
     /* Blog */
     const QString blog = contact->blogFeed();
     if (!blog.isEmpty()) {
-        output.append("<gContact:website rel=\"blog\" href=\"").append(Qt::escape(blog).toUtf8()).append("\" />");
+        output.append("<gContact:website rel=\"blog\" href=\"").append(blog.toHtmlEscaped().toUtf8()).append("\" />");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-BlogFeed");
     }
 
@@ -677,7 +685,7 @@ QByteArray contactToXML(const ContactPtr& contact)
         if (rel == "home") {
             rel = "home-page";
         }
-        output.append("<gContact:website rel=\"" + rel + "\" href=\"" + Qt::escape(extraUrl.url().toString()).toUtf8() + "\" />");
+        output.append("<gContact:website rel=\"" + rel + "\" href=\"" + extraUrl.url().toString().toHtmlEscaped().toUtf8() + "\" />");
     }
 
     /* Emails */
@@ -685,7 +693,7 @@ QByteArray contactToXML(const ContactPtr& contact)
     Q_FOREACH(const auto &email, contact->emailList()) {
         const auto rels = email.parameters().value(QStringLiteral("TYPE"), { QStringLiteral("http://schemas.google.com/g/2005#home") });
         auto rel = rels.isEmpty() ? "http://schemas.google.com/g/2005#home" : rels.at(0).toLower().toUtf8();
-        output.append("<gd:email rel='" + rel + "' address='").append(Qt::escape(email.mail()).toUtf8()).append("'");
+        output.append("<gd:email rel='" + rel + "' address='").append(email.mail().toHtmlEscaped().toUtf8()).append("'");
         if (email.mail() == preferredEmail) {
             output.append(" primary=\"true\"");
         }
@@ -732,17 +740,17 @@ QByteArray contactToXML(const ContactPtr& contact)
         .append("'>");
 
         if (!address.locality().isEmpty())
-            output.append("<gd:city>").append(Qt::escape(address.locality()).toUtf8()).append("</gd:city>");
+            output.append("<gd:city>").append(address.locality().toHtmlEscaped().toUtf8()).append("</gd:city>");
         if (!address.street().isEmpty())
-            output.append("<gd:street>").append(Qt::escape(address.street()).toUtf8()).append("</gd:street>");
+            output.append("<gd:street>").append(address.street().toHtmlEscaped().toUtf8()).append("</gd:street>");
         if (!address.region().isEmpty())
-            output.append("<gd:region>").append(Qt::escape(address.region()).toUtf8()).append("</gd:region>");
+            output.append("<gd:region>").append(address.region().toHtmlEscaped().toUtf8()).append("</gd:region>");
         if (!address.postalCode().isEmpty())
-            output.append("<gd:postcode>").append(Qt::escape(address.postalCode()).toUtf8()).append("</gd:postcode>");
+            output.append("<gd:postcode>").append(address.postalCode().toHtmlEscaped().toUtf8()).append("</gd:postcode>");
         if (!address.country().isEmpty())
-            output.append("<gd:country>").append(Qt::escape(address.country()).toUtf8()).append("</gd:country>");
+            output.append("<gd:country>").append(address.country().toHtmlEscaped().toUtf8()).append("</gd:country>");
         if (!address.formattedAddress().isEmpty())
-            output.append("<gd:formattedAddress>").append(Qt::escape(address.formattedAddress()).toUtf8()).append("</gd:formattedAddress>");
+            output.append("<gd:formattedAddress>").append(address.formattedAddress().toHtmlEscaped().toUtf8()).append("</gd:formattedAddress>");
         output.append("</gd:structuredPostalAddress>");
     }
 
@@ -783,7 +791,7 @@ QByteArray contactToXML(const ContactPtr& contact)
                 key = key.remove(QStringLiteral("KADDRESSBOOK-"));
             }
             const QString value = customStr.mid(customStr.indexOf(QLatin1Char(':')) + 1);
-            output.append(defined_str.arg(Qt::escape(key), Qt::escape(value)).toUtf8());
+            output.append(defined_str.arg(key.toHtmlEscaped(), value).toHtmlEscaped().toUtf8());
         }
     }
 
@@ -794,8 +802,8 @@ QByteArray contactsGroupToXML(const ContactsGroupPtr& group)
 {
     QByteArray output;
 
-    output.append("<atom:title type=\"text\">").append(Qt::escape(group->title()).toUtf8()).append("</atom:title>");
-    output.append("<atom:content type=\"text\">").append(Qt::escape(group->content()).toUtf8()).append("</atom:content>");
+    output.append("<atom:title type=\"text\">").append(group->title().toHtmlEscaped().toUtf8()).append("</atom:title>");
+    output.append("<atom:content type=\"text\">").append(group->content().toHtmlEscaped().toUtf8()).append("</atom:content>");
 
     return output;
 }

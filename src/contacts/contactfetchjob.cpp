@@ -29,7 +29,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
@@ -142,12 +142,14 @@ void ContactFetchJob::start()
     QUrl url;
     if (d->contactId.isEmpty()) {
         url = ContactsService::fetchAllContactsUrl(account()->accountName(), d->fetchDeleted);
+        QUrlQuery query(url);
         if (d->timestamp > 0) {
-            url.addQueryItem(QStringLiteral("updated-min"), Utils::ts2Str(d->timestamp));
+            query.addQueryItem(QStringLiteral("updated-min"), Utils::ts2Str(d->timestamp));
         }
         if (!d->filter.isEmpty()) {
-            url.addQueryItem(QStringLiteral("q"), d->filter);
+            query.addQueryItem(QStringLiteral("q"), d->filter);
         }
+        url.setQuery(query);
     } else {
         url = ContactsService::fetchContactUrl(account()->accountName(), d->contactId);
     }

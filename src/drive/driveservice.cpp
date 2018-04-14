@@ -23,6 +23,8 @@
 #include "driveservice.h"
 #include "utils.h"
 
+#include <QUrlQuery>
+
 namespace KGAPI2
 {
 
@@ -41,13 +43,15 @@ QUrl fetchAboutUrl(bool includeSubscribed, qlonglong maxChangeIdCount, qlonglong
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::AppsBasePath);
-    url.addQueryItem(QStringLiteral("includeSubscribed"), Utils::bool2Str(includeSubscribed));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("includeSubscribed"), Utils::bool2Str(includeSubscribed));
     if (maxChangeIdCount > 0) {
-        url.addQueryItem(QStringLiteral("maxChangeIdCount"), QString::number(maxChangeIdCount));
+        query.addQueryItem(QStringLiteral("maxChangeIdCount"), QString::number(maxChangeIdCount));
     }
     if (startChangeId > 0) {
-        url.addQueryItem(QStringLiteral("startChangeId"), QString::number(startChangeId));
+        query.addQueryItem(QStringLiteral("startChangeId"), QString::number(startChangeId));
     }
+    url.setQuery(query);
 
     return url;
 }

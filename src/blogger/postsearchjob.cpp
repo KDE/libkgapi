@@ -26,6 +26,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -95,9 +96,10 @@ void PostSearchJob::setFetchBodies(bool fetchBodies)
 void PostSearchJob::start()
 {
     QUrl url = BloggerService::searchPostUrl(d->blogId);
-    url.addQueryItem(QStringLiteral("q"), d->query);
-    url.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
-
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("q"), d->query);
+    query.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
+    url.setQuery(query);
     const QNetworkRequest request = d->createRequest(url);
     enqueueRequest(request);
 }

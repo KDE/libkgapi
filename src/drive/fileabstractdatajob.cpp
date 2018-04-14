@@ -24,6 +24,8 @@
 #include "../debug.h"
 #include "utils.h"
 
+#include <QUrlQuery>
+
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
@@ -152,28 +154,30 @@ void FileAbstractDataJob::setTimedTextTrackName(const QString &timedTextTrackNam
 
 QUrl FileAbstractDataJob::updateUrl(QUrl &url)
 {
-    url.removeQueryItem(QStringLiteral("convert"));
-    url.addQueryItem(QStringLiteral("convert"), Utils::bool2Str(d->convert));
+    QUrlQuery query(url);
+    query.removeQueryItem(QStringLiteral("convert"));
+    query.addQueryItem(QStringLiteral("convert"), Utils::bool2Str(d->convert));
 
-    url.removeQueryItem(QStringLiteral("ocr"));
-    url.removeQueryItem(QStringLiteral("ocrLanguage"));
-    url.addQueryItem(QStringLiteral("ocr"), Utils::bool2Str(d->ocr));
+    query.removeQueryItem(QStringLiteral("ocr"));
+    query.removeQueryItem(QStringLiteral("ocrLanguage"));
+    query.addQueryItem(QStringLiteral("ocr"), Utils::bool2Str(d->ocr));
     if (d->ocr && !d->ocrLanguage.isEmpty()) {
-        url.addQueryItem(QStringLiteral("ocrLanguage"), d->ocrLanguage);
+        query.addQueryItem(QStringLiteral("ocrLanguage"), d->ocrLanguage);
     }
 
-    url.removeQueryItem(QStringLiteral("pinned"));
-    url.addQueryItem(QStringLiteral("pinned"), Utils::bool2Str(d->pinned));
+    query.removeQueryItem(QStringLiteral("pinned"));
+    query.addQueryItem(QStringLiteral("pinned"), Utils::bool2Str(d->pinned));
 
-    url.removeQueryItem(QStringLiteral("timedTextLanguage"));
+    query.removeQueryItem(QStringLiteral("timedTextLanguage"));
     if (!d->timedTextLanguage.isEmpty()) {
-        url.addQueryItem(QStringLiteral("timedTextLanguage"), d->timedTextLanguage);
+        query.addQueryItem(QStringLiteral("timedTextLanguage"), d->timedTextLanguage);
     }
 
-    url.removeQueryItem(QStringLiteral("timedTextTrackName"));
+    query.removeQueryItem(QStringLiteral("timedTextTrackName"));
     if (!d->timedTextTrackName.isEmpty()) {
-        url.addQueryItem(QStringLiteral("timedTextTrackName"), d->timedTextTrackName);
+        query.addQueryItem(QStringLiteral("timedTextTrackName"), d->timedTextTrackName);
     }
+    url.setQuery(query);
 
     return url;
 }

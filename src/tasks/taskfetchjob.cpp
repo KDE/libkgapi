@@ -29,6 +29,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 
 using namespace KGAPI2;
@@ -206,23 +207,25 @@ void TaskFetchJob::start()
     QUrl url;
     if (d->taskId.isEmpty()) {
         url = TasksService::fetchAllTasksUrl(d->taskListId);
-        url.addQueryItem(QStringLiteral("showDeleted"), Utils::bool2Str(d->fetchDeleted));
-        url.addQueryItem(QStringLiteral("showCompleted"), Utils::bool2Str(d->fetchCompleted));
+        QUrlQuery query(url);
+        query.addQueryItem(QStringLiteral("showDeleted"), Utils::bool2Str(d->fetchDeleted));
+        query.addQueryItem(QStringLiteral("showCompleted"), Utils::bool2Str(d->fetchCompleted));
         if (d->updatedTimestamp > 0) {
-            url.addQueryItem(QStringLiteral("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
+            query.addQueryItem(QStringLiteral("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
         }
         if (d->completedMin > 0) {
-            url.addQueryItem(QStringLiteral("completedMin"), Utils::ts2Str(d->completedMin));
+            query.addQueryItem(QStringLiteral("completedMin"), Utils::ts2Str(d->completedMin));
         }
         if (d->completedMax > 0) {
-            url.addQueryItem(QStringLiteral("completedMax"), Utils::ts2Str(d->completedMax));
+            query.addQueryItem(QStringLiteral("completedMax"), Utils::ts2Str(d->completedMax));
         }
         if (d->dueMin > 0) {
-            url.addQueryItem(QStringLiteral("dueMin"), Utils::ts2Str(d->dueMin));
+            query.addQueryItem(QStringLiteral("dueMin"), Utils::ts2Str(d->dueMin));
         }
         if (d->dueMax > 0) {
-            url.addQueryItem(QStringLiteral("dueMax"), Utils::ts2Str(d->dueMax));
+            query.addQueryItem(QStringLiteral("dueMax"), Utils::ts2Str(d->dueMax));
         }
+        url.setQuery(query);
     } else {
         url = TasksService::fetchTaskUrl(d->taskListId, d->taskId);
     }

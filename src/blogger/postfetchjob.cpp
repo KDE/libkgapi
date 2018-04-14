@@ -26,6 +26,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -173,34 +174,35 @@ PostFetchJob::StatusFilters PostFetchJob::statusFilter() const
 void PostFetchJob::start()
 {
     QUrl url = BloggerService::fetchPostUrl(d->blogId, d->postId);
+    QUrlQuery query(url);
     if (d->postId.isEmpty()) {
         if (d->startDate.isValid()) {
-            url.addQueryItem(QStringLiteral("startDate"), d->startDate.toString(Qt::ISODate));
+            query.addQueryItem(QStringLiteral("startDate"), d->startDate.toString(Qt::ISODate));
         }
         if (d->endDate.isValid()) {
-            url.addQueryItem(QStringLiteral("endDate"), d->endDate.toString(Qt::ISODate));
+            query.addQueryItem(QStringLiteral("endDate"), d->endDate.toString(Qt::ISODate));
         }
         if (d->maxResults > 0) {
-            url.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
+            query.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
         }
         if (!d->filterLabels.isEmpty())
-            url.addQueryItem(QStringLiteral("labels"), d->filterLabels.join(QStringLiteral(",")));
-        url.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
-        url.addQueryItem(QStringLiteral("fetchImages"), Utils::bool2Str(d->fetchImages));
+            query.addQueryItem(QStringLiteral("labels"), d->filterLabels.join(QStringLiteral(",")));
+        query.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
+        query.addQueryItem(QStringLiteral("fetchImages"), Utils::bool2Str(d->fetchImages));
     }
     if (account()) {
-        url.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
+        query.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
     }
     if (d->statusFilter & Draft) {
-        url.addQueryItem(QStringLiteral("status"), QStringLiteral("draft"));
+        query.addQueryItem(QStringLiteral("status"), QStringLiteral("draft"));
     }
     if (d->statusFilter & Live) {
-        url.addQueryItem(QStringLiteral("status"), QStringLiteral("live"));
+        query.addQueryItem(QStringLiteral("status"), QStringLiteral("live"));
     }
     if (d->statusFilter & Scheduled) {
-        url.addQueryItem(QStringLiteral("status"), QStringLiteral("scheduled"));
+        query.addQueryItem(QStringLiteral("status"), QStringLiteral("scheduled"));
     }
-
+    url.setQuery(query);
     const QNetworkRequest request = d->createRequest(url);
     enqueueRequest(request);
 }

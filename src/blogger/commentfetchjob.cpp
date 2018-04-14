@@ -26,6 +26,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -160,20 +161,21 @@ void CommentFetchJob::setFetchBodies(bool fetchBodies)
 void CommentFetchJob::start()
 {
     QUrl url = BloggerService::fetchCommentsUrl(d->blogId, d->postId, d->commentId);
-
+    QUrlQuery query(url);
     if (d->startDate.isValid()) {
-        url.addQueryItem(QStringLiteral("startDate"), d->startDate.toString(Qt::ISODate));
+        query.addQueryItem(QStringLiteral("startDate"), d->startDate.toString(Qt::ISODate));
     }
     if (d->endDate.isValid()) {
-        url.addQueryItem(QStringLiteral("endDate"), d->endDate.toString(Qt::ISODate));
+        query.addQueryItem(QStringLiteral("endDate"), d->endDate.toString(Qt::ISODate));
     }
     if (d->maxResults > 0) {
-        url.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
+        query.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
     }
-    url.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
+    query.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
     if (account()) {
-        url.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
+        query.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
     }
+    url.setQuery(query);
 
     const QNetworkRequest request = d->createRequest(url);
     enqueueRequest(request);

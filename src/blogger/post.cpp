@@ -21,6 +21,7 @@
 #include "post.h"
 
 #include <QJsonDocument>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -345,10 +346,11 @@ ObjectsList Post::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
     }
 
     if (!map[QStringLiteral("nextPageToken")].toString().isEmpty()) {
-        QUrl requestUrl(feedData.requestUrl);
-        requestUrl.removeQueryItem(QStringLiteral("pageToken"));
-        requestUrl.addQueryItem(QStringLiteral("pageToken"), map[QStringLiteral("nextPageToken")].toString());
-        feedData.nextPageUrl = requestUrl;
+        feedData.nextPageUrl = feedData.requestUrl;
+        QUrlQuery query(feedData.nextPageUrl);
+        query.removeQueryItem(QStringLiteral("pageToken"));
+        query.addQueryItem(QStringLiteral("pageToken"), map[QStringLiteral("nextPageToken")].toString());
+        feedData.nextPageUrl.setQuery(query);
     }
     ObjectsList list;
     const QVariantList variantList = map[QStringLiteral("items")].toList();

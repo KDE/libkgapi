@@ -34,7 +34,7 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QAbstractSocket>
-
+#include <QUrlQuery>
 #include <QDateTime>
 
 using namespace KGAPI2;
@@ -290,7 +290,7 @@ void AuthWidgetPrivate::socketReady()
 
     //qCDebug(KGAPIRaw) << "Receiving data on socket: " << data;
     const QUrl url(QString::fromLatin1(line.at(1)));
-    const QUrlQuery query(url.query());
+    const QUrlQuery query(url);
     const QString code = query.queryItemValue(QStringLiteral("code"));
     if (code.isEmpty()) {
         const QString error = query.queryItemValue(QStringLiteral("error"));

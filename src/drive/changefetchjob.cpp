@@ -29,7 +29,7 @@
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
-
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -154,14 +154,16 @@ void ChangeFetchJob::start()
     QUrl url;
     if (d->changeId.isEmpty()) {
         url = DriveService::fetchChangesUrl();
-        url.addQueryItem(QStringLiteral("includeDeleted"), Utils::bool2Str(d->includeDeleted));
-        url.addQueryItem(QStringLiteral("includeSubscribed"), Utils::bool2Str(d->includeSubscribed));
+        QUrlQuery query(url);
+        query.addQueryItem(QStringLiteral("includeDeleted"), Utils::bool2Str(d->includeDeleted));
+        query.addQueryItem(QStringLiteral("includeSubscribed"), Utils::bool2Str(d->includeSubscribed));
         if (d->maxResults > 0) {
-            url.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
+            query.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
         }
         if (d->startChangeId > 0) {
-            url.addQueryItem(QStringLiteral("startChangeId"), QString::number(d->startChangeId));
+            query.addQueryItem(QStringLiteral("startChangeId"), QString::number(d->startChangeId));
         }
+        url.setQuery(query);
     } else {
         url = DriveService::fetchChangeUrl(d->changeId);
     }

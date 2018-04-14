@@ -27,7 +27,7 @@
 #include <QNetworkReply>
 
 #include <QJsonDocument>
-
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
@@ -102,14 +102,14 @@ void NewTokensFetchJob::start()
     request.setUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/token")));
     request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
 
-    QUrl params;
+    QUrlQuery params;
     params.addQueryItem(QStringLiteral("client_id"), d->apiKey);
     params.addQueryItem(QStringLiteral("client_secret"), d->secretKey);
     params.addQueryItem(QStringLiteral("code"), d->tmpToken);
     params.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->localPort)); // we need to use the same URL as in AuthWidget
     params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
 
-    enqueueRequest(request, params.encodedQuery());
+    enqueueRequest(request, params.toString(QUrl::FullyEncoded).toLatin1());
 }
 
 void NewTokensFetchJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request, const QByteArray& data, const QString& contentType)

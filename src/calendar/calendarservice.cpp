@@ -36,7 +36,7 @@
 #include <KCalCore/ICalFormat>
 
 #include <QJsonDocument>
-
+#include <QUrlQuery>
 #include <QTimeZone>
 #include <QVariant>
 
@@ -115,7 +115,9 @@ QUrl fetchEventsUrl(const QString& calendarID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
-    url.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
+    url.setQuery(query);
     return url;
 }
 
@@ -151,7 +153,9 @@ QUrl moveEventUrl(const QString& sourceCalendar, const QString& destCalendar, co
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % sourceCalendar % QLatin1String("/events/") % eventID);
-    url.addQueryItem(QStringLiteral("destination"), destCalendar);
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("destination"), destCalendar);
+    url.setQuery(query);
     return url;
 }
 
@@ -251,10 +255,12 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
     if (data.value(QStringLiteral("kind")) == QLatin1String("calendar#calendarList")) {
         if (data.contains(QStringLiteral("nextPageToken"))) {
             feedData.nextPageUrl = fetchCalendarsUrl();
-            feedData.nextPageUrl.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
-            if (feedData.nextPageUrl.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
-                feedData.nextPageUrl.addQueryItem(QStringLiteral("maxResults"),QStringLiteral("20"));
+            QUrlQuery query(feedData.nextPageUrl);
+            query.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
+            if (query.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
+                query.addQueryItem(QStringLiteral("maxResults"),QStringLiteral("20"));
             }
+            feedData.nextPageUrl.setQuery(query);
         }
     } else {
         return ObjectsList();
@@ -714,11 +720,13 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
             calendarId = calendarId.left(calendarId.indexOf(QLatin1Char('/')));
             feedData.nextPageUrl = feedData.requestUrl;
             // replace the old pageToken with a new one
-            feedData.nextPageUrl.removeQueryItem(QStringLiteral("pageToken"));
-            feedData.nextPageUrl.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
-            if (feedData.nextPageUrl.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
-                feedData.nextPageUrl.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
+            QUrlQuery query(feedData.nextPageUrl);
+            query.removeQueryItem(QStringLiteral("pageToken"));
+            query.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
+            if (query.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
+                query.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
             }
+            feedData.nextPageUrl.setQuery(query);
         }
         if (data.contains(QStringLiteral("timeZone"))) {
             // This should always be in Olson format

@@ -45,7 +45,7 @@ QString Utils::bool2Str(bool val)
 
 QString Utils::ts2Str(quint64 ts)
 {
-    return QDateTime::fromTime_t(ts).toUTC().toString(Qt::ISODate);
+    return QDateTime::fromSecsSinceEpoch(ts).toUTC().toString(Qt::ISODate);
 }
 
 QDateTime Utils::rfc3339DateFromString(const QString &string)

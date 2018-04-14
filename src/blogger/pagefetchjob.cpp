@@ -26,6 +26,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -97,20 +98,21 @@ void PageFetchJob::setStatusFilter(StatusFilters status)
 void PageFetchJob::start()
 {
     QUrl url = BloggerService::fetchPageUrl(d->blogId, d->pageId);
-    url.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchContent));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchContent));
     if (d->statusFilter & Draft) {
-        url.addQueryItem(QStringLiteral("status"), QStringLiteral("draft"));
+        query.addQueryItem(QStringLiteral("status"), QStringLiteral("draft"));
     }
     if (d->statusFilter & Imported) {
-        url.addQueryItem(QStringLiteral("status"), QStringLiteral("imported"));
+        query.addQueryItem(QStringLiteral("status"), QStringLiteral("imported"));
     }
     if (d->statusFilter & Live) {
-        url.addQueryItem(QStringLiteral("status"), QStringLiteral("live"));
+        query.addQueryItem(QStringLiteral("status"), QStringLiteral("live"));
     }
     if (account()) {
-        url.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
+        query.addQueryItem(QStringLiteral("view"), QStringLiteral("ADMIN"));
     }
-
+    url.setQuery(query);
     QNetworkRequest request(url);
     if (account()) {
         request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());

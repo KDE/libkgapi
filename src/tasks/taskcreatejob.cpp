@@ -30,7 +30,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
@@ -90,9 +90,11 @@ void TaskCreateJob::start()
     const TaskPtr task = d->tasks.current();
 
     QUrl url = TasksService::createTaskUrl(d->taskListId);
+    QUrlQuery query(url);
     if (!d->parentId.isEmpty()) {
-        url.addQueryItem(QStringLiteral("parent"), d->parentId);
+        query.addQueryItem(QStringLiteral("parent"), d->parentId);
     }
+    url.setQuery(query);
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
     request.setUrl(url);

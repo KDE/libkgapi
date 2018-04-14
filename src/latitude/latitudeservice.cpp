@@ -24,6 +24,7 @@
 
 
 #include <QJsonDocument>
+#include <QUrlQuery>
 
 namespace KGAPI2 {
 
@@ -144,11 +145,13 @@ QUrl retrieveCurrentLocationUrl(const Latitude::Granularity granularity)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CurrentLocationBasePath);
+    QUrlQuery query(url);
     if (granularity == Latitude::City) {
-        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
+        query.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
     } else if (granularity == Latitude::Best) {
-        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
+        query.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
     }
+    url.setQuery(query);
 
     return url;
 }
@@ -172,24 +175,25 @@ QUrl locationHistoryUrl(const Latitude::Granularity granularity, const int maxRe
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::LocationBasePath);
-
+    QUrlQuery query(url);
     if (granularity == Latitude::City) {
-        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
+        query.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
     } else if (granularity == Latitude::Best) {
-        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
+        query.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
     }
 
     if (maxResults > 0) {
-        url.addQueryItem(QStringLiteral("max-results"), QString::number(maxResults));
+        query.addQueryItem(QStringLiteral("max-results"), QString::number(maxResults));
     }
 
     if ((maxTime > 0) && (maxTime >= minTime)) {
-        url.addQueryItem(QStringLiteral("max-time"), QString::number(maxTime));
+        query.addQueryItem(QStringLiteral("max-time"), QString::number(maxTime));
     }
 
     if ((minTime > 0) && (minTime <= maxTime)) {
-        url.addQueryItem(QStringLiteral("min-time"), QString::number(minTime));
+        query.addQueryItem(QStringLiteral("min-time"), QString::number(minTime));
     }
+    url.setQuery(query);
 
     return url;
 }
@@ -198,12 +202,13 @@ QUrl retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granula
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::LocationBasePath % QLatin1Char('/') % QString::number(id));
-
+    QUrlQuery query(url);
      if (granularity == Latitude::City) {
-        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
+        query.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
      } else if (granularity == Latitude::Best) {
-        url.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
+        query.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
      }
+     url.setQuery(query);
 
     return url;
 }

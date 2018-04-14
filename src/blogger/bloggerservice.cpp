@@ -20,6 +20,8 @@
 
 #include "bloggerservice.h"
 
+#include <QUrlQuery>
+
 inline QUrl operator%(const QUrl &url, const QString &path)
 {
     return QUrl(url.toString() % QLatin1Char('/') % path);
@@ -78,7 +80,9 @@ QUrl BloggerService::fetchBlogByBlogIdUrl(const QString &blogId)
 QUrl BloggerService::fetchBlogByBlogUrlUrl(const QString &blogUrl)
 {
     QUrl url = GoogleApisUrl % QStringLiteral("/blogger/v3/blogs/byurl");
-    url.addQueryItem(QStringLiteral("url"), blogUrl);
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("url"), blogUrl);
+    url.setQuery(query);
     return url;
 }
 

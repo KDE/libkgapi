@@ -25,7 +25,7 @@
 #include "utils.h"
 
 #include <QJsonDocument>
-
+#include <QUrlQuery>
 #include <QVariant>
 
 namespace KGAPI2
@@ -62,10 +62,12 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 
         if (feed.contains(QStringLiteral("nextPageToken"))) {
             feedData.nextPageUrl = fetchTaskListsUrl();
-            feedData.nextPageUrl.addQueryItem(QStringLiteral("pageToken"), feed.value(QStringLiteral("nextPageToken")).toString());
-            if (feedData.nextPageUrl.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
-                feedData.nextPageUrl.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
+            QUrlQuery query(feedData.nextPageUrl);
+            query.addQueryItem(QStringLiteral("pageToken"), feed.value(QStringLiteral("nextPageToken")).toString());
+            if (query.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
+                query.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
             }
+            feedData.nextPageUrl.setQuery(query);
         }
 
     } else if (feed.value(QStringLiteral("kind")).toString() == QLatin1String("tasks#tasks")) {
@@ -76,10 +78,12 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
             taskListId = taskListId.left(taskListId.indexOf(QLatin1Char('/')));
 
             feedData.nextPageUrl = fetchAllTasksUrl(taskListId);
-            feedData.nextPageUrl.addQueryItem(QStringLiteral("pageToken"), feed.value(QStringLiteral("nextPageToken")).toString());
-            if (feedData.nextPageUrl.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
-                feedData.nextPageUrl.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
+            QUrlQuery query(feedData.nextPageUrl);
+            query.addQueryItem(QStringLiteral("pageToken"), feed.value(QStringLiteral("nextPageToken")).toString());
+            if (query.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
+                query.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
             }
+            feedData.nextPageUrl.setQuery(query);
         }
     }
 
@@ -126,7 +130,9 @@ QUrl moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % QLatin1String("/tasks/") % taskID % QLatin1String("/move"));
     if (!newParent.isEmpty()) {
-        url.addQueryItem(QStringLiteral("parent"), newParent);
+        QUrlQuery query(url);
+        query.addQueryItem(QStringLiteral("parent"), newParent);
+        url.setQuery(query);
     }
 
     return url;

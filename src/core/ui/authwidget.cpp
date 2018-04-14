@@ -24,6 +24,7 @@
 
 #include <QTcpServer>
 #include <QAbstractSocket>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
@@ -119,10 +120,12 @@ void AuthWidget::authenticate()
     });
 
     QUrl url(QStringLiteral("https://accounts.google.com/o/oauth2/auth"));
-    url.addQueryItem(QStringLiteral("client_id"), d->apiKey);
-    url.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->serverPort));
-    url.addQueryItem(QStringLiteral("scope"), scopes.join(QStringLiteral(" ")));
-    url.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("client_id"), d->apiKey);
+    query.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->serverPort));
+    query.addQueryItem(QStringLiteral("scope"), scopes.join(QStringLiteral(" ")));
+    query.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
+    url.setQuery(query);
 
     qCDebug(KGAPIRaw) << "Requesting new token:" << url;
 

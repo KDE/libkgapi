@@ -29,7 +29,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
@@ -178,19 +178,21 @@ void EventFetchJob::start()
     QUrl url;
     if (d->eventId.isEmpty()) {
         url = CalendarService::fetchEventsUrl(d->calendarId);
-        url.addQueryItem(QStringLiteral("showDeleted"), Utils::bool2Str(d->fetchDeleted));
+        QUrlQuery query(url);
+        query.addQueryItem(QStringLiteral("showDeleted"), Utils::bool2Str(d->fetchDeleted));
         if (!d->filter.isEmpty()) {
-            url.addQueryItem(QStringLiteral("q"), d->filter);
+            query.addQueryItem(QStringLiteral("q"), d->filter);
         }
         if (d->updatedTimestamp > 0) {
-            url.addQueryItem(QStringLiteral("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
+            query.addQueryItem(QStringLiteral("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
         }
         if (d->timeMin > 0) {
-            url.addQueryItem(QStringLiteral("timeMin"), Utils::ts2Str(d->timeMin));
+            query.addQueryItem(QStringLiteral("timeMin"), Utils::ts2Str(d->timeMin));
         }
         if (d->timeMax > 0) {
-            url.addQueryItem(QStringLiteral("timeMax"), Utils::ts2Str(d->timeMax));
+            query.addQueryItem(QStringLiteral("timeMax"), Utils::ts2Str(d->timeMax));
         }
+        url.setQuery(query);
     } else {
         url = CalendarService::fetchEventUrl(d->calendarId, d->eventId);
     }

@@ -28,6 +28,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -166,9 +167,11 @@ QUrl FileModifyJob::createUrl(const QString &filePath,
         url = DriveService::uploadMultipartFileUrl(d->files.value(filePath));
     }
 
-    url.addQueryItem(QStringLiteral("newRevision"), Utils::bool2Str(d->createNewRevision));
-    url.addQueryItem(QStringLiteral("setModifiedDate"), Utils::bool2Str(d->changeModifiedDate));
-    url.addQueryItem(QStringLiteral("updateViewedDate"), Utils::bool2Str(d->updateViewedDate));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("newRevision"), Utils::bool2Str(d->createNewRevision));
+    query.addQueryItem(QStringLiteral("setModifiedDate"), Utils::bool2Str(d->changeModifiedDate));
+    query.addQueryItem(QStringLiteral("updateViewedDate"), Utils::bool2Str(d->updateViewedDate));
+    url.setQuery(query);
 
     return url;
 }

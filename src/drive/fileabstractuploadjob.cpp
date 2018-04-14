@@ -35,6 +35,7 @@
 #include <QMimeDatabase>
 #include <QFile>
 #include <QCryptographicHash>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -149,16 +150,17 @@ void FileAbstractUploadJob::Private::processNext()
     }
 
     q->updateUrl(url);
-    url.addQueryItem(QStringLiteral("useContentAsIndexableText"), Utils::bool2Str(useContentAsIndexableText));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("useContentAsIndexableText"), Utils::bool2Str(useContentAsIndexableText));
 
     QNetworkRequest request;
     QByteArray rawData;
     QString contentType;
 
     // just to be sure
-    url.removeQueryItem(QStringLiteral("uploadType"));
+    query.removeQueryItem(QStringLiteral("uploadType"));
     if (metaData.isNull()) {
-        url.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("media"));
+        query.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("media"));
 
         rawData = readFile(filePath, contentType);
         if (rawData.isEmpty()) {
@@ -167,7 +169,7 @@ void FileAbstractUploadJob::Private::processNext()
         }
 
     } else if (!filePath.startsWith(QLatin1String("?="))) {
-        url.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("multipart"));
+        query.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("multipart"));
 
         QString boundary;
         rawData = buildMultipart(filePath, metaData, boundary);
@@ -181,6 +183,7 @@ void FileAbstractUploadJob::Private::processNext()
         rawData = File::toJSON(metaData, q->serializationOptions());
         contentType = QStringLiteral("application/json");
     }
+    url.setQuery(query);
 
     request.setUrl(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());

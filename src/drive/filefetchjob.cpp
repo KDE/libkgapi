@@ -30,6 +30,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -228,14 +229,16 @@ void FileFetchJob::Private::processNext()
 
     if (isFeed) {
         url = DriveService::fetchFilesUrl();
+        QUrlQuery query(url);
         if (!searchQuery.isEmpty()) {
-            url.addQueryItem(QStringLiteral("q"), searchQuery.serialize());
+            query.addQueryItem(QStringLiteral("q"), searchQuery.serialize());
         }
         if (fields != FileFetchJob::AllFields) {
             const QStringList fieldsStrings = fieldsToStrings(fields);
-            url.addQueryItem(QStringLiteral("fields"),
+            query.addQueryItem(QStringLiteral("fields"),
                              QStringLiteral("etag,kind,nextLink,nextPageToken,selfLink,items(%1)").arg(fieldsStrings.join(QStringLiteral(","))));
         }
+        url.setQuery(query);
     } else {
         if (filesIDs.isEmpty()) {
             q->emitFinished();
@@ -244,10 +247,11 @@ void FileFetchJob::Private::processNext()
 
         const QString fileId = filesIDs.takeFirst();
         url = DriveService::fetchFileUrl(fileId);
-
         if (fields != FileFetchJob::AllFields) {
             const QStringList fieldsStrings = fieldsToStrings(fields);
-            url.addQueryItem(QStringLiteral("fields"), fieldsStrings.join(QStringLiteral(",")));
+            QUrlQuery query(url);
+            query.addQueryItem(QStringLiteral("fields"), fieldsStrings.join(QStringLiteral(",")));
+            url.setQuery(query);
         }
     }
 

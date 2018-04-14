@@ -22,6 +22,7 @@
 
 #include <QVariant>
 #include <QJsonDocument>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -233,10 +234,11 @@ ObjectsList Comment::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
 
     ObjectsList items;
     if (!map[QStringLiteral("nextPageToken")].toString().isEmpty()) {
-        QUrl requestUrl(feedData.requestUrl);
-        requestUrl.removeQueryItem(QStringLiteral("pageToken"));
-        requestUrl.addQueryItem(QStringLiteral("pageToken"), map[QStringLiteral("nextPageToken")].toString());
-        feedData.nextPageUrl = requestUrl;
+        feedData.nextPageUrl = feedData.requestUrl;
+        QUrlQuery query(feedData.nextPageUrl);
+        query.removeQueryItem(QStringLiteral("pageToken"));
+        query.addQueryItem(QStringLiteral("pageToken"), map[QStringLiteral("nextPageToken")].toString());
+        feedData.nextPageUrl.setQuery(query);
     }
     const QVariantList variantList = map[QStringLiteral("items")].toList();
     items.reserve(variantList.size());

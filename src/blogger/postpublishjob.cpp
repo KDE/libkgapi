@@ -27,6 +27,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
@@ -112,9 +113,11 @@ void PostPublishJob::start()
     QUrl url;
     if (d->action == Blogger::PostPublishJob::Publish) {
         url = BloggerService::publishPostUrl(d->blogId, d->postId);
+        QUrlQuery query(url);
         if (d->publishDate.isValid()) {
-            url.addQueryItem(QStringLiteral("publishDate"), d->publishDate.toString(Qt::ISODate));
+            query.addQueryItem(QStringLiteral("publishDate"), d->publishDate.toString(Qt::ISODate));
         }
+        url.setQuery(query);
     } else {
         url = BloggerService::revertPostUrl(d->blogId, d->postId);
     }

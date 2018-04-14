@@ -36,6 +36,8 @@
 #include <QPointer>
 #include <QPushButton>
 #include <QNetworkCookieJar>
+#include <QUrlQuery>
+
 #include <KWindowSystem>
 
 
@@ -95,15 +97,15 @@ void AuthJob::Private::refreshTokens()
     request.setUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/token")));
     request.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
 
-    QUrl params;
+    QUrlQuery params;
     params.addQueryItem(QStringLiteral("client_id"), apiKey);
     params.addQueryItem(QStringLiteral("client_secret"), secretKey);
     params.addQueryItem(QStringLiteral("refresh_token"), account->refreshToken());
     params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
 
-    qCDebug(KGAPIRaw) << "Requesting token refresh: " << params.encodedQuery();
+    qCDebug(KGAPIRaw) << "Requesting token refresh: " << params.toString();
 
-    q->enqueueRequest(request, params.encodedQuery());
+    q->enqueueRequest(request, params.toString(QUrl::FullyEncoded).toLatin1());
 }
 
 void AuthJob::Private::_k_fullAuthenticationFailed(Error errorCode, const QString &errorMessage)
