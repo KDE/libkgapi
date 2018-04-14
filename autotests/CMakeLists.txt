@@ -69,4 +69,6 @@ add_libkgapi2_test(tasks tasklistmodifyjobtest)
 
 add_libkgapi2_test(drive aboutfetchjobtest)
 add_libkgapi2_test(drive changefetchjobtest)
+add_libkgapi2_test(drive filecopyjobtest)
+add_libkgapi2_test(drive filecreatejobtest)
 add_libkgapi2_test(drive filesearchquerytest)

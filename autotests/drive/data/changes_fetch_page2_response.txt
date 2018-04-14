@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Content-type: application/json; charset=UTF-8
+
+{
+  "kind": "drive#changeList", 
+  "items": [
+    {
+      "kind": "drive#change", 
+      "deleted": true, 
+      "modificationDate": "2011-05-15T08:49:55.721Z", 
+      "type": "file", 
+      "id": "195", 
+      "selfLink": "https://www.googleapis.com/drive/v2/changes/195", 
+      "fileId": "0B79w2vIqdW-OYTYxZDIzM2ItZjFhZi00Mzc0LWI5YTQtNjRkZWRkMzQyNDY0"
+    }
+  ], 
+  "etag": "\"bX7M5zOlGcEthti1qPHKQWp6SJA/HEzMs8SWosxvAZXeRW-19oG8bSQ\"", 
+  "largestChangeId": "82418", 
+  "selfLink": "https://www.googleapis.com/drive/v2/changes?includeDeleted=true&includeSubscribed=true&pageToken=195"
+}

@@ -1,0 +1,43 @@
+POST https://www.googleapis.com/drive/v2/files/abc123def456ghi789/copy?convert=false&ocr=false&pinned=false
+Content-Type: application/json
+
+{
+  "mimeType": "image/jpeg", 
+  "thumbnailLink": "https://docs.google.com/feeds/vt?gd=true&id=someid&v=480&s=otherid&sz=s220", 
+  "labels": {
+    "restricted": false, 
+    "starred": false, 
+    "viewed": false, 
+    "hidden": false, 
+    "trashed": false
+  }, 
+  "etag": "\"bX7M5zOlGcEthti1qPHKQWp6SJA/MTUxODk3NjU5MzAyMA\"", 
+  "lastModifyingUserName": "Konqui Dev", 
+  "md5Checksum": "dc74e95b97efce962ac3f31a0cdecccb",
+  "writersCanShare": true, 
+  "fileExtension": "JPG",
+  "title": "DSC_1287.JPG", 
+  "ownerNames": [
+    "Konqui Dev"
+  ], 
+  "fileSize": 5106501,
+  "id": "abc123def456ghi789", 
+  "parents": [
+    {
+      "id": "someparentfolderid", 
+      "selfLink": "https://www.googleapis.com/drive/v2/files/abc123def456ghi789/parents/someparentfolderid", 
+      "parentLink": "https://www.googleapis.com/drive/v2/files/someparentfolderid"
+    }
+  ], 
+  "shared": true, 
+  "kind": "drive#file", 
+  "modifiedDate": "2018-02-18T17:56:33Z", 
+  "createdDate": "2018-02-18T17:56:33Z", 
+  "thumbnailLink": "https://lh3.googleusercontent.com/abc123def456ghi789=s220",
+  "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/jpeg", 
+  "embedLink": "https://drive.google.com/file/d/abc123def456ghi789/preview?usp=drivesdk", 
+  "alternateLink": "https://drive.google.com/file/d/abc123def456ghi789/view?usp=drivesdk", 
+  "selfLink": "https://www.googleapis.com/drive/v2/files/abc123def456ghi789",
+  "downloadUrl": "https://doc-0o-5g-docs.googleusercontent.com/docs/securesc/abc123def456ghi789?e=download&gd=true",
+  "webContentLink": "https://drive.google.com/uc?id=abc123def456ghi789&export=download"
+}

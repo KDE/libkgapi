@@ -1,0 +1,9 @@
+{
+  "kind": "drive#change", 
+  "deleted": true, 
+  "modificationDate": "2011-05-15T08:49:55.721Z", 
+  "type": "file", 
+  "id": "195", 
+  "selfLink": "https://www.googleapis.com/drive/v2/changes/195", 
+  "fileId": "0B79w2vIqdW-OYTYxZDIzM2ItZjFhZi00Mzc0LWI5YTQtNjRkZWRkMzQyNDY0"
+}

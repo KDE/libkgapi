@@ -1,0 +1,110 @@
+{
+  "mimeType": "image/jpeg", 
+  "appDataContents": false, 
+  "thumbnailLink": "https://lh3.googleusercontent.com/abc123def456ghi789=s220", 
+  "labels": {
+    "restricted": false, 
+    "starred": false, 
+    "viewed": false, 
+    "hidden": false, 
+    "trashed": false
+  }, 
+  "explicitlyTrashed": false, 
+  "etag": "\"bX7M5zOlGcEthti1qPHKQWp6SJA/MTUxODk3NjU5MzAyMA\"", 
+  "lastModifyingUserName": "Konqui Dev", 
+  "writersCanShare": true, 
+  "owners": [
+    {
+      "picture": {
+        "url": "https://lh4.googleusercontent.com/konqui/s64/photo.jpg"
+      }, 
+      "kind": "drive#user", 
+      "displayName": "Konqui Dev", 
+      "permissionId": "0987654321", 
+      "isAuthenticatedUser": false, 
+      "emailAddress": "konqui@kde.test"
+    }
+  ], 
+  "id": "abc123def456ghi789", 
+  "lastModifyingUser": {
+    "picture": {
+      "url": "https://lh4.googleusercontent.com/konqui/s64/photo.jpg"
+    }, 
+    "kind": "drive#user", 
+    "displayName": "Konqui Dev", 
+    "permissionId": "1234567890", 
+    "isAuthenticatedUser": false, 
+    "emailAddress": "konqui@kde.test"
+  }, 
+  "title": "DSC_1287.JPG", 
+  "ownerNames": [
+    "Konqui Dev"
+  ], 
+  "capabilities": {
+    "canCopy": true, 
+    "canEdit": true
+  }, 
+  "version": "5", 
+  "parents": [
+    {
+      "isRoot": false, 
+      "kind": "drive#parentReference", 
+      "id": "someparentfolderid", 
+      "selfLink": "https://www.googleapis.com/drive/v2/files/abc123def456ghi789/parents/someparentfolderid", 
+      "parentLink": "https://www.googleapis.com/drive/v2/files/someparentfolderid"
+    }
+  ], 
+  "shared": true, 
+  "originalFilename": "DSC_1287.JPG", 
+  "webContentLink": "https://drive.google.com/uc?id=abc123def456ghi789&export=download", 
+  "editable": true, 
+  "embedLink": "https://drive.google.com/file/d/abc123def456ghi789/preview?usp=drivesdk", 
+  "markedViewedByMeDate": "1970-01-01T00:00:00.000Z", 
+  "quotaBytesUsed": "0", 
+  "modifiedDate": "2018-02-18T17:56:33.020Z", 
+  "createdDate": "2018-02-18T17:56:33.020Z", 
+  "md5Checksum": "dc74e95b97efce962ac3f31a0cdecccb", 
+  "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/jpeg", 
+  "imageMediaMetadata": {
+    "exposureTime": 0.01, 
+    "flashUsed": false, 
+    "lens": "AF-S DX VR Nikkor 55-300mm 4.5-5.6G ED", 
+    "cameraMake": "NIKON CORPORATION", 
+    "maxApertureValue": 4.2999999999999998, 
+    "isoSpeed": 1600, 
+    "focalLength": 55.0, 
+    "exposureMode": "Auto", 
+    "colorSpace": "sRGB", 
+    "subjectDistance": 0, 
+    "height": 4928, 
+    "aperture": 4.5, 
+    "width": 3264, 
+    "meteringMode": "Pattern", 
+    "exposureBias": 0.0, 
+    "date": "2018:02:18 18:05:08", 
+    "rotation": 0, 
+    "sensor": "One-chip color area", 
+    "whiteBalance": "Auto", 
+    "cameraModel": "NIKON D5100"
+  }, 
+  "kind": "drive#file", 
+  "alternateLink": "https://drive.google.com/file/d/abc123def456ghi789/view?usp=drivesdk", 
+  "copyable": true, 
+  "downloadUrl": "https://doc-0o-5g-docs.googleusercontent.com/docs/securesc/abc123def456ghi789?e=download&gd=true", 
+  "userPermission": {
+    "kind": "drive#permission", 
+    "etag": "\"bX7M5zOlGcEthti1qPHKQWp6SJA/MCNk4LqJxD5LuAEq7zawaLJjbNg\"", 
+    "role": "writer", 
+    "type": "user", 
+    "id": "me", 
+    "selfLink": "https://www.googleapis.com/drive/v2/files/abc123def456ghi789/permissions/me"
+  }, 
+  "spaces": [
+    "drive"
+  ], 
+  "fileExtension": "JPG", 
+  "headRevisionId": "abc123def456ghi789revisionid", 
+  "selfLink": "https://www.googleapis.com/drive/v2/files/abc123def456ghi789", 
+  "fileSize": "5106501"
+}
+
