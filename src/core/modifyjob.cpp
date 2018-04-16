@@ -54,7 +54,7 @@ ModifyJob::~ModifyJob()
     delete d;
 }
 
-ObjectsList ModifyJob::items()
+ObjectsList ModifyJob::items() const
 {
     return d->items;
 }

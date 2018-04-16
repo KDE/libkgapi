@@ -65,7 +65,7 @@ class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
     QString uid() const;
 
     /**
-     * @birf Sets UID of the calendar.
+     * @brief Sets UID of the calendar.
      *
      * @param uid
      */

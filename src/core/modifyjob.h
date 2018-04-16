@@ -63,7 +63,7 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
     /**
      * @return Returns modified items.
      */
-    ObjectsList items();
+    ObjectsList items() const;
 
   protected:
     /**

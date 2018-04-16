@@ -32,7 +32,7 @@ class Q_DECL_HIDDEN Reminder::Private
   public:
     Private();
     Private(const Private &other);
-    ~Private() {};
+    ~Private() {}
 
     Alarm::Type type;
     Duration offset;

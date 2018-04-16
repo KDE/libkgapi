@@ -33,7 +33,7 @@ class Q_DECL_HIDDEN Task::Private
     Private();
     Private (const Private&);
 
-    bool deleted;
+    bool deleted = false;
 };
 
 Task::Private::Private():

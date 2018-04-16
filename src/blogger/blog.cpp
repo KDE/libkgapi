@@ -87,7 +87,7 @@ QDateTime Blog::updated() const
     return d->updated;
 }
 
-QUrl Blog::url()
+QUrl Blog::url() const
 {
     return d->url;
 }

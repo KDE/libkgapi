@@ -37,7 +37,7 @@ using namespace KGAPI2;
 class Q_DECL_HIDDEN EventMoveJob::Private
 {
   public:
-    Private(EventMoveJob *parent);
+    explicit Private(EventMoveJob *parent);
     void processNextEvent();
 
     QueueHelper<QString> eventsIds;
