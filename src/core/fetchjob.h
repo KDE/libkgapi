@@ -1,5 +1,5 @@
 /*
- * This file is part of LiKGAPI library
+ * This file is part of LibKGAPI library
  *
  * Copyright (C) 2013  Daniel Vrátil <dvratil@redhat.com>
  *
@@ -51,7 +51,7 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
     /**
      * @brief Constructor for jobs that require authentication
      *
-     * @param account Account to use to authenticate the requests send by this job
+     * @param account Account to use to authenticate the requests sent by this job
      * @param parent
      */
     explicit FetchJob(const KGAPI2::AccountPtr &account, QObject* parent = nullptr);

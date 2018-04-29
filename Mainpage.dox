@@ -7,8 +7,8 @@ LibKGAPI is a library that implements various Google APIs so that
 
 \section desc Description
 
-<h1>Suppoerted Services</h1>
-LibKGAPI currently supports following Google APIs:
+<h1>Supported Services</h1>
+LibKGAPI currently supports the following Google APIs:
 <ul>
   <li>Calendar API v3 (https://developers.google.com/google-apps/calendar)</li>
   <li>Contacts API v3 (https://developers.google.com/google-apps/contacts/v3/)</li>

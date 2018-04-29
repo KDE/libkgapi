@@ -71,8 +71,8 @@ void ModifyJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNet
         r.setRawHeader("If-Match", "*");
     }
 
-    // Note: there is a problem with PUT when using KIO::AccessManager - it does
-    // not transfer the body correctly.
+    // Note: there is a problem with PUT when using KIO::AccessManager - it
+    // doesn't transfer the body correctly.
     // Using sendCustomRequest() works just fine.
     //accessManager->put(r, data);
     if (data.size() > 0) {

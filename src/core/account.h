@@ -37,7 +37,7 @@ namespace KGAPI2
  * @brief A Google account
  *
  * This class represents a single Google account. The account is uniquely
- * identified by Account::accountName (which is actually user's GMail address).
+ * identified by Account::accountName (which is actually the user's GMail address).
  *
  * The class stores an access token, refresh token (to retrieve a new access token
  * when the old one expires) and list of scopes (APIs that current access token

@@ -51,7 +51,7 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
     /**
      * @brief Constructor for jobs that require authentication
      *
-     * @param account Account to use to authenticate the requests send by this job
+     * @param account Account to use to authenticate the requests sent by this job
      * @param parent
      */
     explicit DeleteJob(const KGAPI2::AccountPtr &account, QObject* parent = nullptr);

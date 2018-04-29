@@ -60,8 +60,8 @@ class KGAPICORE_EXPORT Job : public QObject
      * Some Google APIs have a quota on maximum amount of requests per account
      * per second. When this quota is exceeded, the Job will automatically increase
      * the interval between dispatching requests, wait for a while and then try
-     * again. If however the interval is incresed over @p maxTimeout, the job
-     * will fail and finish immediatelly. By default @p maxTimeout is @p -1, which
+     * again. If however the interval is increased over @p maxTimeout, the job
+     * will fail and finish immediately. By default @p maxTimeout is @p -1, which
      * allows the interval to be increased indefinitely.
      *
      * @see Job::maxTimeout, Job::setMaxTimeout
@@ -132,7 +132,7 @@ class KGAPICORE_EXPORT Job : public QObject
      * a request that has previously failed due to exceeded quota.
      *
      * Default timeout is 1 seconds, then after every failed request the timeout
-     * is increesed exponentially until reaching @p maxTimeout.
+     * is increased exponentially until reaching @p maxTimeout.
      *
      * @param maxTimeout Maximum timeout (in seconds), or @p -1 for no timeout
      */
@@ -199,7 +199,7 @@ class KGAPICORE_EXPORT Job : public QObject
      * The signal is emitted every time, no matter whether the job is successful
      * or an error has ocurred.
      *
-     * Sublcasses should never ever emit this signal directly.
+     * Subclasses should never ever emit this signal directly.
      * Use Job::emitFinished instead.
      *
      * @param job The job that has finished
@@ -248,7 +248,7 @@ class KGAPICORE_EXPORT Job : public QObject
     /**
      * @brief This method is invoked right before finished() is emitted
      *
-     * Sublcasses can reimplement this method to do final clean up before
+     * Subclasses can reimplement this method to do a final cleanup before
      * the Job::finished() signal is emitted.
      *
      * @note Note that after Job::finished() the job is not running anymore and
@@ -270,7 +270,7 @@ class KGAPICORE_EXPORT Job : public QObject
     /**
      * @brief This method is invoked right before Job::start() is called.
      *
-     * Sublcasses should reset their internal state and call parent implementation.
+     * Subclasses should reset their internal state and call parent implementation.
      */
     virtual void aboutToStart();
 
@@ -290,7 +290,7 @@ class KGAPICORE_EXPORT Job : public QObject
      *
      * @param accessManager QNetworkAccessManager used to dispatch the request
      * @param request Request to dispatch
-     * @param data Data to send in body of the request
+     * @param data Data to sent in the body of the request
      * @param contentType Content-Type of @p data
      */
     virtual void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request,

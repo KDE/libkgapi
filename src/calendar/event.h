@@ -94,6 +94,6 @@ class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
 
 };
 
-} // namepsace KGAPI
+} // namespace KGAPI
 
 #endif // LIBKGAPI2_EVENT_H

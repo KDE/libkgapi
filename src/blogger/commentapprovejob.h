@@ -61,6 +61,6 @@ class KGAPIBLOGGER_EXPORT CommentApproveJob : public KGAPI2::ModifyJob
 };
 
 } // namespace Blogger
-} // namespace KGPAI2
+} // namespace KGAPI2
 
 #endif // KGAPI2_BLOGGER_COMMENTAPPROVEJOB_H

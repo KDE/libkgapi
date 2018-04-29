@@ -37,7 +37,7 @@ namespace KGAPI2
  *
  * There are many container classes to represent data fetched from Google servers,
  * like KGAPI2::Contact, KGAPI2::Event, etc. All these container classes must
- * be subclasses of KGAPI2::Object.
+ * be subclasses of the KGAPI2::Object.
  *
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
@@ -63,10 +63,10 @@ class KGAPICORE_EXPORT Object
     bool operator==(const Object &other) const;
 
     /**
-     * @brief Sets etag of this object.
+     * @brief Set the etag of this object.
      *
-     * Etag represents a revision of an object When object is changed on the 
-     * remote side is given a new etag.
+     * Etag represents a revision of an object. When the object is changed on the
+     * remote side it is given a new etag.
      *
      * @param etag
      */

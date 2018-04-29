@@ -184,8 +184,8 @@ enum Error {
     InvalidResponse = 5,     ///< LibKGAPI error - Google returned invalid response.
     BackendNotReady = 6,     ///< @deprecated LibKGAPI error - backend is not ready (for example KWallet is not opened).
     InvalidAccount = 7,      ///< LibKGAPI error - the KGAPI2::Account object is invalid.
-    NetworkError = 8,        ///< LibKGAPI error - standard network request returned other code then 200.
-    AuthCancelled = 9,       ///< LibKGAPI error - when authentication dialog is canceled
+    NetworkError = 8,        ///< LibKGAPI error - standard network request returned a different code than 200.
+    AuthCancelled = 9,       ///< LibKGAPI error - when the authentication dialog is canceled.
 
     /* Following error codes identify Google errors */
     OK = 200,                ///< Request successfully executed.
@@ -195,12 +195,12 @@ enum Error {
     NotModified = 304,       ///< Request was successful, but no data were updated.
     BadRequest = 400,        ///< Invalid (malformed) request.
     Unauthorized = 401,      ///< Invalid or expired token. See KGAPI2::Account::refreshTokens().
-    Forbidden = 403,         ///< The requested data are not accessible to this account
-    NotFound = 404,          ///< Requested object was not found on the remote side
+    Forbidden = 403,         ///< The requested data is not accessible to this account.
+    NotFound = 404,          ///< Requested object was not found on the remote side.
     Conflict = 409,          ///< Object on the remote site differs from the submitted one. @see KGAPI2::Object::setEtag.
-    Gone = 410,              ///< The requested does not exist anymore on the remote site
-    InternalError = 500,     ///< An unexpected error on the Google service occurred
-    QuotaExceeded = 503      ///< User quota has been exceeded, the request should be send again later.
+    Gone = 410,              ///< The requested data does not exist anymore on the remote site.
+    InternalError = 500,     ///< An unexpected error occurred on the Google service.
+    QuotaExceeded = 503      ///< User quota has been exceeded, the request should be sent again later.
 };
 
 /**

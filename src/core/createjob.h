@@ -30,7 +30,7 @@ namespace KGAPI2 {
 
 /**
  * @headerfile CreateJob
- * @brief Abstract superclass for all jobs that create a new objects on the
+ * @brief Abstract superclass for all jobs that create new objects on the
  *        server.
  *
  * @author Daniel Vrátil <dvratil@redhat.com>
@@ -52,7 +52,7 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
     /**
      * @brief Constructor for jobs that require authentication
      *
-     * @param account Account to use to authenticate the requests send by this job
+     * @param account Account to use to authenticate the requests sent by this job
      * @param parent
      */
     explicit CreateJob(const KGAPI2::AccountPtr &account, QObject* parent = nullptr);
@@ -97,7 +97,7 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
     /**
      * @brief A reply handler that returns items parsed from \@ rawData
      *
-     * This method can be reimplemented in a FetchJob subclasses. It is called
+     * This method can be reimplemented in FetchJob subclasses. It is called
      * automatically when a reply is received and the returned items are stored
      * in FetchJob and accessible via FetchJob::items when the job has finished.
      *
@@ -106,7 +106,7 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
      * usually requires reimplementing FetchJob::items as well and storing the
      * parsed items in your implementation.
      *
-     * @param reply A QNetworkReply received from Google server
+     * @param reply A QNetworkReply received from Google's server
      * @param rawData Content of body of the @p reply. Don't use
      *        QNetworkReply::readAll(), because the content has already been read
      *        by Job implementation and thus it would return empty data.
