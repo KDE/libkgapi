@@ -74,6 +74,16 @@ public:
             socket.close();
         });
     }
+
+    void setupUi() override
+    {
+        // do nothing
+    }
+
+    void setVisible(bool) override
+    {
+        // do nothing
+    }
 };
 
 

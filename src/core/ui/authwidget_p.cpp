@@ -293,13 +293,13 @@ void AuthWidgetPrivate::socketReady()
     const QByteArray data = connection->readLine();
     connection->deleteLater();
     qCDebug(KGAPIDebug) << QStringLiteral("Got connection on socket");
-    webview->stop();
-
-    sslIndicator->setVisible(false);
-    urlEdit->setVisible(false);
-    webview->setVisible(false);
-    progressbar->setVisible(false);
-    label->setVisible(true);
+    if (webview) { // when running in tests we don't have webview or any other widgets
+        webview->stop();
+    }
+    setVisible(false);
+    if (label) {
+        label->setVisible(true);
+    }
 
     const auto line = data.split(' ');
     if (line.size() != 3 || line.at(0) != QByteArray("GET") || !line.at(2).startsWith(QByteArray("HTTP/1.1"))) {

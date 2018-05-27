@@ -194,7 +194,6 @@ AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString 
     // Start the process asynchronously so that caller has a chance to connect
     // to AccountPromise signals.
     QTimer::singleShot(0, this, [=]() {
-        qDebug() << "==== " << promise << d->mStore << (d->mStore ? d->mStore->opened() : false);
         d->ensureStore([=](bool storeOpened) {
             if (!storeOpened) {
                 promise->d->setError(tr("Failed to open account store"));

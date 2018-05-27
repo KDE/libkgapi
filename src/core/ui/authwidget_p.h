@@ -49,9 +49,9 @@ class KGAPICORE_EXPORT AuthWidgetPrivate: public QObject {
 
   public:
     explicit AuthWidgetPrivate(AuthWidget *parent);
-    void setupUi();
+    virtual void setupUi();
     virtual void setUrl(const QUrl &url);
-    void setVisible(bool visible);
+    virtual void setVisible(bool visible);
 
     ~AuthWidgetPrivate() override;
 
@@ -64,12 +64,12 @@ class KGAPICORE_EXPORT AuthWidgetPrivate: public QObject {
     QString apiKey;
     QString secretKey;
 
-    QToolButton *sslIndicator;
-    QLineEdit *urlEdit;
-    QProgressBar *progressbar;
-    QVBoxLayout *vbox;
-    QWebEngineView *webview;
-    QLabel *label;
+    QToolButton *sslIndicator = nullptr;
+    QLineEdit *urlEdit = nullptr;
+    QProgressBar *progressbar = nullptr;
+    QVBoxLayout *vbox = nullptr;
+    QWebEngineView *webview = nullptr;
+    QLabel *label = nullptr;
 
     QTcpServer *server = nullptr;
     int serverPort = 0;
