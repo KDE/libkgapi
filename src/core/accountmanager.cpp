@@ -23,28 +23,9 @@
 #include "accountstorage_p.h"
 #include "../debug.h"
 
-#include <KWallet/KWallet>
-
-#include <QSet>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QDateTime>
 #include <QTimer>
 
 #include <functional>
-#include <utility>
-
-namespace {
-
-static const QString FolderName = QStringLiteral("LibKGAPI");
-static const QString AccountNameKey = QStringLiteral("name");
-static const QString ScopesKey = QStringLiteral("scopes");
-static const QString AccessTokenKey = QStringLiteral("accessToken");
-static const QString RefreshTokenKey = QStringLiteral("refreshToken");
-static const QString ExpiresKey = QStringLiteral("expires");
-
-}
 
 namespace KGAPI2 {
 
