@@ -34,6 +34,7 @@
 #include <QMimeType>
 #include <QMimeDatabase>
 #include <QFile>
+#include <QFileInfo>
 #include <QCryptographicHash>
 #include <QUrlQuery>
 
@@ -107,7 +108,8 @@ QByteArray FileAbstractUploadJob::Private::buildMultipart(const QString &filePat
 
     // Wannabe implementation of RFC2387, i.e. multipart/related
     QByteArray body;
-    const QByteArray md5 = QCryptographicHash::hash(filePath.toLatin1(), QCryptographicHash::Md5);
+    QFileInfo finfo(filePath);
+    const QByteArray md5 = QCryptographicHash::hash(finfo.fileName().toLatin1(), QCryptographicHash::Md5);
     boundary = QString::fromLatin1(md5.toHex());
 
     body += "--" + boundary.toLatin1() + '\n';
