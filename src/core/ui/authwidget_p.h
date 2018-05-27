@@ -25,26 +25,33 @@
 
 #include "ui/authwidget.h"
 #include "types.h"
+#include "kgapicore_export.h"
 
 #include <QLineEdit>
 #include <QToolButton>
 #include <QProgressBar>
-#include <QWebEngineView>
-#include <QTcpServer>
+#include <QAbstractSocket>
 
 class QVBoxLayout;
 class QLabel;
+class QWebEngineView;
+class QTcpServer;
+class QTcpSocket;
 
 namespace KGAPI2 {
 
 class Job;
 
-class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
+// Exported for tests, otherwise internal
+class KGAPICORE_EXPORT AuthWidgetPrivate: public QObject {
 
     Q_OBJECT
 
   public:
     explicit AuthWidgetPrivate(AuthWidget *parent);
+    void setupUi();
+    virtual void setUrl(const QUrl &url);
+    void setVisible(bool visible);
 
     ~AuthWidgetPrivate() override;
 
@@ -65,7 +72,7 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
     QLabel *label;
 
     QTcpServer *server = nullptr;
-    int serverPort = -1;
+    int serverPort = 0;
     QTcpSocket *connection = nullptr;
 
   private Q_SLOTS:
@@ -79,7 +86,6 @@ class Q_DECL_HIDDEN AuthWidgetPrivate: public QObject {
     void accountInfoReceived(KGAPI2::Job *job);
 
   private:
-    void setupUi();
     void setProgress(AuthWidget::Progress progress);
 
     bool isGoogleHost(const QUrl &url) const { return url.host() == QLatin1String("accounts.google.com"); }

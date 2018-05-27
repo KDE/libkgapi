@@ -82,6 +82,9 @@ class KGAPICORE_EXPORT Account
      */
     virtual ~Account();
 
+
+    bool operator==(const Account &other) const;
+
     /**
      * @returns Returns unique account identifier
      */

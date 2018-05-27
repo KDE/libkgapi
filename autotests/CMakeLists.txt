@@ -3,6 +3,8 @@ include(ECMAddTests)
 find_package(Qt5Test CONFIG REQUIRED)
 
 set(kgapitest_SRCS
+    fakeaccountstorage.cpp
+    fakeauthwidget.cpp
     fakenetworkreply.cpp
     fakenetworkaccessmanager.cpp
     fakenetworkaccessmanagerfactory.cpp
@@ -33,9 +35,10 @@ endmacro(add_libkgapi2_test)
 
 ecm_add_test(fakenamtest.cpp LINK_LIBRARIES kgapitest KPimGAPICore TEST_NAME fakenamtest NAME_PREFIX fake-)
 
-add_libkgapi2_test(core fetchjobtest)
-add_libkgapi2_test(core createjobtest)
 add_libkgapi2_test(core accountinfofetchjobtest)
+add_libkgapi2_test(core accountmanagertest)
+add_libkgapi2_test(core createjobtest)
+add_libkgapi2_test(core fetchjobtest)
 
 add_libkgapi2_test(contacts contactcreatejobtest)
 add_libkgapi2_test(contacts contactdeletejobtest)

@@ -19,6 +19,7 @@
 */
 
 #include "account.h"
+#include "utils_p.h"
 
 #include <QDateTime>
 
@@ -77,6 +78,21 @@ Account::Account(const Account& other):
 Account::~Account()
 {
     delete d;
+}
+
+bool Account::operator==(const Account &other) const
+{
+    if (d == other.d) {
+        return true;
+    }
+
+    GAPI_COMPARE(accName)
+    GAPI_COMPARE(accessToken)
+    GAPI_COMPARE(refreshToken)
+    GAPI_COMPARE(expireDateTime)
+    GAPI_COMPARE(scopes)
+
+    return true;
 }
 
 QString Account::accountName() const

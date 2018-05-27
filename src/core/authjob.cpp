@@ -26,6 +26,7 @@
 #include "job_p.h"
 #include "ui/authwidget.h"
 #include "ui/authwidget_p.h"
+#include "ui/authwidgetfactory_p.h"
 #include "private/newtokensfetchjob_p.h"
 
 #include <QWidget>
@@ -76,7 +77,7 @@ AuthJob::Private::Private(AuthJob *parent):
 
 QWidget* AuthJob::Private::fullAuthentication()
 {
-    AuthWidget* authWidget =  new AuthWidget(widget);
+    AuthWidget* authWidget = AuthWidgetFactory::instance()->create(widget);
     // FIXME: Find a better way to pass the keys
     authWidget->d->apiKey = apiKey;
     authWidget->d->secretKey = secretKey;

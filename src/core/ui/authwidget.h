@@ -161,7 +161,9 @@ class KGAPICORE_EXPORT AuthWidget : public QWidget
      */
     void progress(KGAPI2::AuthWidget::Progress progress);
 
-  private:
+  protected:
+    AuthWidget(AuthWidgetPrivate *dptr, QWidget *parent = nullptr);
+
     AuthWidgetPrivate * const d;
     friend class AuthWidgetPrivate;
     friend class AuthJob;

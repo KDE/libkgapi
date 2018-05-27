@@ -47,6 +47,7 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} REQUIRED COMPONENTS
 find_package(KF5 ${KF5_VERSION} REQUIRED COMPONENTS
     KIO
     WindowSystem
+    Wallet
 )
 
 find_package(KF5CalendarCore ${KCALENDARCORE_LIB_VERSION} CONFIG REQUIRED)

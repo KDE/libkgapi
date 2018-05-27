@@ -6,7 +6,11 @@ set(kgapicore_SRCS
     private/newtokensfetchjob.cpp
     ui/authwidget.cpp
     ui/authwidget_p.cpp
+    ui/authwidgetfactory.cpp
     account.cpp
+    accountmanager.cpp
+    accountstorage.cpp
+    accountstorage_kwallet.cpp
     authjob.cpp
     createjob.cpp
     deletejob.cpp
@@ -24,6 +28,7 @@ set(kgapicore_SRCS
 ecm_generate_headers(kgapicore_base_CamelCase_HEADERS
     HEADER_NAMES
     Account
+    AccountManager
     AuthJob
     CreateJob
     DeleteJob
@@ -67,6 +72,7 @@ target_link_libraries(KPimGAPICore
 PRIVATE
     KF5::KIOWidgets
     KF5::WindowSystem
+    KF5::Wallet
     Qt5::WebEngineWidgets
 PUBLIC
     Qt5::Widgets

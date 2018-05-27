@@ -57,7 +57,8 @@ class Job;
 bool execJob(KGAPI2::Job *job);
 
 FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &request,
-                                                    const QString &response);
+                                                    const QString &response,
+                                                    bool needsAuth = true);
 
 QByteArray reformatJSON(const QByteArray &json);
 QByteArray reformatXML(const QByteArray &xml);

@@ -37,7 +37,8 @@ bool execJob(KGAPI2::Job* job)
 }
 
 FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &requestFile,
-                                                    const QString &responseFile)
+                                                    const QString &responseFile,
+                                                    bool needsAuth)
 {
     QFile request(requestFile);
     VERIFY_RET(request.open(QIODevice::ReadOnly), {});
@@ -83,6 +84,7 @@ FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &requestFile,
         line = response.readLine().trimmed();
     }
     scenario.responseData = response.readAll();
+    scenario.needsAuth = needsAuth;
 
     return scenario;
 }

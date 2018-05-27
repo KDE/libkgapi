@@ -23,6 +23,7 @@
 #include "../../debug.h"
 
 #include <QTcpServer>
+#include <QTcpSocket>
 #include <QAbstractSocket>
 #include <QUrlQuery>
 
@@ -33,7 +34,14 @@ AuthWidget::AuthWidget(QWidget* parent):
     QWidget(parent),
     d(new AuthWidgetPrivate(this))
 {
+    d->setupUi();
+}
 
+AuthWidget::AuthWidget(AuthWidgetPrivate *dptr, QWidget *parent)
+    : QWidget(parent)
+    , d(dptr)
+{
+    d->setupUi();
 }
 
 AuthWidget::~AuthWidget()
@@ -103,7 +111,7 @@ void AuthWidget::authenticate()
     }
 
     d->server = new QTcpServer(this);
-    if (!d->server->listen(QHostAddress::LocalHost)) {
+    if (!d->server->listen(QHostAddress::LocalHost, d->serverPort)) {
         Q_EMIT error(InvalidAccount, tr("Could not start oauth http server"));
         return;
     }
@@ -129,13 +137,7 @@ void AuthWidget::authenticate()
 
     qCDebug(KGAPIRaw) << "Requesting new token:" << url;
 
-    d->sslIndicator->setVisible(true);
-    d->urlEdit->setVisible(true);
-    d->webview->setVisible(true);
-    if (d->showProgressBar) {
-        d->progressbar->setVisible(true);
-    }
-    d->webview->setUrl(url);
+    d->setVisible(true);
+    d->setUrl(url);
     d->setProgress(AuthWidget::UserLogin);
-    d->webview->setFocus();
 }

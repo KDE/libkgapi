@@ -36,6 +36,7 @@
 #include <QAbstractSocket>
 #include <QUrlQuery>
 #include <QDateTime>
+#include <QWebEngineView>
 
 using namespace KGAPI2;
 
@@ -105,7 +106,6 @@ AuthWidgetPrivate::AuthWidgetPrivate(AuthWidget *parent):
     progress(AuthWidget::None),
     q(parent)
 {
-    setupUi();
 }
 
 AuthWidgetPrivate::~AuthWidgetPrivate()
@@ -173,6 +173,26 @@ void AuthWidgetPrivate::setupUi()
     connect(webview, &QWebEngineView::urlChanged, this, &AuthWidgetPrivate::webviewUrlChanged);
     connect(webview, &QWebEngineView::loadFinished, this, &AuthWidgetPrivate::webviewFinished);
 }
+
+void AuthWidgetPrivate::setUrl(const QUrl &url)
+{
+    webview->setUrl(url);
+    webview->setFocus();
+}
+
+void AuthWidgetPrivate::setVisible(bool visible)
+{
+    sslIndicator->setVisible(visible);
+    urlEdit->setVisible(visible);
+    webview->setVisible(visible);
+    if (showProgressBar && visible) {
+        progressbar->setVisible(visible);
+    } else {
+        progressbar->setVisible(visible);
+    }
+}
+
+
 
 void AuthWidgetPrivate::setProgress(AuthWidget::Progress progress)
 {
