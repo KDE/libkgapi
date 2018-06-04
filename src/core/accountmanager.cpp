@@ -231,7 +231,12 @@ AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString 
                     d->createAccount(promise, apiKey, apiSecret, accountName, scopes);
                 } else {
                     if (d->compareScopes(account->scopes(), scopes)) {
-                        promise->d->setAccount(account);
+                        // Don't hand out obviously expired tokens
+                        if (account->expireDateTime() <= QDateTime::currentDateTime()) {
+                            d->updateAccount(promise, apiKey, apiSecret, account, {});
+                        } else {
+                            promise->d->setAccount(account);
+                        }
                     } else {
                         // Since installed apps can't keep the API secret truly a secret
                         // incremental authorization is not allowed by Google so we need
