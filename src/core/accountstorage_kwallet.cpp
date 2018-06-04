@@ -188,7 +188,7 @@ AccountPtr KWalletStrorage::parseAccount(const QString &str) const
         return {};
     }
     const auto obj = doc.object();
-    QJsonArray scopesArray;
+    QJsonArray scopesArray = obj.value(ScopesKey).toArray();
     QList<QUrl> scopes;
     scopes.reserve(scopesArray.size());
     std::transform(scopesArray.constBegin(), scopesArray.constEnd(), std::back_inserter(scopes),
