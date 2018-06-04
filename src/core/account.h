@@ -201,6 +201,10 @@ class KGAPICORE_EXPORT Account
      */
     static QUrl bloggerScopeUrl();
 
+    /**
+     * Returns scope URL for Gmail service.
+     */
+    static QUrl mailScopeUrl();
 private:
     class Private;
     Private * const d;

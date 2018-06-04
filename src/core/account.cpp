@@ -196,3 +196,8 @@ QUrl Account::bloggerScopeUrl()
 {
     return QUrl(QStringLiteral("https://www.googleapis.com/auth/blogger"));
 }
+
+QUrl Account::mailScopeUrl()
+{
+    return QUrl(QStringLiteral("https://mail.google.com/"));
+}
