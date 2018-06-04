@@ -24,6 +24,7 @@
 #include "../debug.h"
 
 #include <QTimer>
+#include <QDateTime>
 
 #include <functional>
 
@@ -51,6 +52,16 @@ public:
         emitFinished();
     }
 
+    void setRunning()
+    {
+        mRunning = true;
+    }
+
+    bool isRunning() const
+    {
+        return mRunning;
+    }
+
 
     QString error;
     AccountPtr account;
@@ -58,17 +69,22 @@ private:
     void emitFinished()
     {
         QTimer::singleShot(0, q, [this]() {
-            Q_EMIT q->finished();
+            Q_EMIT q->finished(q);
             q->deleteLater();
         });
     }
 
+    bool mRunning = false;
     AccountPromise * const q;
 };
 
 class AccountManager::Private
 {
 public:
+    Private(AccountManager *q)
+        : q(q)
+    {}
+
     void updateAccount(AccountPromise *promise, const QString &apiKey, const QString &apiSecret,
                        const AccountPtr &account, const QList<QUrl> &requestedScopes)
     {
@@ -123,8 +139,27 @@ public:
         }
     }
 
+    AccountPromise *createPromise(const QString &apiKey, const QString &accountName)
+    {
+        const auto key = apiKey + accountName;
+        auto promise = mPendingPromises.value(key, nullptr);
+        if (!promise) {
+            promise = new AccountPromise(q);
+            QObject::connect(promise, &QObject::destroyed,
+                             [key, this]() {
+                                 mPendingPromises.remove(key);
+                             });
+            mPendingPromises.insert(key, promise);
+        }
+        return promise;
+    }
 public:
     AccountStorage *mStore = nullptr;
+
+private:
+    QHash<QString, AccountPromise*> mPendingPromises;
+
+    AccountManager * const q;
 };
 
 }
@@ -151,7 +186,7 @@ AccountPtr AccountPromise::account() const
 
 AccountManager::AccountManager(QObject *parent)
     : QObject(parent)
-    , d(new Private)
+    , d(new Private(this))
 {
 }
 
@@ -171,61 +206,67 @@ AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString 
                                            const QString &accountName,
                                            const QList<QUrl> &scopes)
 {
-    auto promise = new AccountPromise(this);
-    // Start the process asynchronously so that caller has a chance to connect
-    // to AccountPromise signals.
-    QTimer::singleShot(0, this, [=]() {
-        d->ensureStore([=](bool storeOpened) {
-            if (!storeOpened) {
-                promise->d->setError(tr("Failed to open account store"));
-                return;
-            }
-
-            const auto account = d->mStore->getAccount(apiKey, accountName);
-            if (!account) {
-                d->createAccount(promise, apiKey, apiSecret, accountName, scopes);
-            } else {
-                if (d->compareScopes(account->scopes(), scopes)) {
-                    promise->d->setAccount(account);
-                } else {
-                    // Since installed apps can't keep the API secret truly a secret
-                    // incremental authorization is not allowed by Google so we need
-                    // to request a completely new token from scratch.
-                    account->setAccessToken({});
-                    account->setRefreshToken({});
-                    account->setExpireDateTime({});
-                    d->updateAccount(promise, apiKey, apiSecret, account, scopes);
+    auto promise = d->createPromise(apiKey, accountName);
+    if (!promise->d->isRunning()) {
+        // Start the process asynchronously so that caller has a chance to connect
+        // to AccountPromise signals.
+        QTimer::singleShot(0, this, [=]() {
+            d->ensureStore([=](bool storeOpened) {
+                if (!storeOpened) {
+                    promise->d->setError(tr("Failed to open account store"));
+                    return;
                 }
-            }
+
+                const auto account = d->mStore->getAccount(apiKey, accountName);
+                if (!account) {
+                    d->createAccount(promise, apiKey, apiSecret, accountName, scopes);
+                } else {
+                    if (d->compareScopes(account->scopes(), scopes)) {
+                        promise->d->setAccount(account);
+                    } else {
+                        // Since installed apps can't keep the API secret truly a secret
+                        // incremental authorization is not allowed by Google so we need
+                        // to request a completely new token from scratch.
+                        account->setAccessToken({});
+                        account->setRefreshToken({});
+                        account->setExpireDateTime({});
+                        d->updateAccount(promise, apiKey, apiSecret, account, scopes);
+                    }
+                }
+            });
         });
-    });
+        promise->d->setRunning();
+    }
     return promise;
 }
 
 AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString &accountName,
                                             const QList<QUrl> &scopes)
 {
-    auto promise = new AccountPromise(this);
-    QTimer::singleShot(0, this, [=]() {
-        d->ensureStore([=](bool storeOpened) {
-            if (!storeOpened) {
-                promise->d->setError(tr("Failed to open account store"));
-                return;
-            }
-
-            const auto account = d->mStore->getAccount(apiKey, accountName);
-            if (!account) {
-                promise->d->setAccount({});
-            } else {
-                const auto currentScopes = account->scopes();
-                if (scopes.isEmpty() || d->compareScopes(currentScopes, scopes)) {
-                    promise->d->setAccount(account);
-                } else {
-                    promise->d->setAccount({});
+    auto promise = d->createPromise(apiKey, accountName);
+    if (!promise->d->isRunning()) {
+        QTimer::singleShot(0, this, [=]() {
+            d->ensureStore([=](bool storeOpened) {
+                if (!storeOpened) {
+                    promise->d->setError(tr("Failed to open account store"));
+                    return;
                 }
-            }
+
+                const auto account = d->mStore->getAccount(apiKey, accountName);
+                if (!account) {
+                    promise->d->setAccount({});
+                } else {
+                    const auto currentScopes = account->scopes();
+                    if (scopes.isEmpty() || d->compareScopes(currentScopes, scopes)) {
+                        promise->d->setAccount(account);
+                    } else {
+                        promise->d->setAccount({});
+                    }
+                }
+            });
         });
-    });
+        promise->d->setRunning();
+    }
     return promise;
 }
 

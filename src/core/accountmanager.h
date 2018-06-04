@@ -56,7 +56,7 @@ Q_SIGNALS:
      * The object is automatically scheduled for deletion after this signal
      * is emitted.
      */
-    void finished();
+    void finished(AccountPromise *self);
 
 private:
     AccountPromise(QObject *parent = nullptr);
