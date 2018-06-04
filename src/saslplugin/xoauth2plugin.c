@@ -201,7 +201,6 @@ static void xoauth2_client_mech_dispose(void *conn_context,
     }
 
     if (context->out_buf) {
-        printf("%s", context->out_buf);
         utils->free(context->out_buf);
     }
     utils->free(context);
