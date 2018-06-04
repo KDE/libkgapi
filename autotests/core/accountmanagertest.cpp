@@ -222,6 +222,30 @@ private Q_SLOTS:
         QVERIFY(promise->account());
         QCOMPARE(*promise->account(), *insertedAccount);
     }
+
+    void testRefreshTokens()
+    {
+        FakeAuthWidgetFactory authFactory;
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            { scenarioFromFile(QFINDTESTDATA("data/accountmanager_refresh_request.txt"),
+                               QFINDTESTDATA("data/accountmanager_refresh_response.txt"),
+                               false)
+            });
+
+        TestableAccountManager accountManager;
+
+        auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, { Account::calendarScopeUrl() });
+        insertedAccount->setRefreshToken(QStringLiteral("FakeRefreshToken"));
+
+        const auto promise = accountManager.refreshTokens(ApiKey1, SecretKey1, Account1);
+        QCOMPARE(promise->account(), {});
+        QSignalSpy spy(promise, &AccountPromise::finished);
+        QVERIFY(spy.wait());
+        QCOMPARE(spy.count(), 1);
+        QVERIFY(promise->account());
+        QCOMPARE(promise->account()->accountName(), insertedAccount->accountName());
+        QCOMPARE(promise->account()->accessToken(), QStringLiteral("NewAccessToken"));
+    }
 };
 
 QTEST_MAIN(AccountManagerTest)

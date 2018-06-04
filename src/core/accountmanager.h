@@ -103,6 +103,21 @@ public:
                                const QString &accountName,
                                const QList<QUrl> &scopes);
 
+
+    /**
+     * @brief Asynchronously refreshes tokens in given Account
+     *
+     * The returned account is guaranteed to be authenticated against at least
+     * the requested @p scopes, but it may be authenticated against more scopes.
+     * If an account does not exist, it will be created (see AccountManager::getAccount()).
+     *
+     * @p apiSecret is onyl used to authenticate a new account.
+     *
+     * @see getAccount
+     */
+    AccountPromise *refreshTokens(const QString &apiKey, const QString &apiSecret,
+                                  const QString &accountName);
+
     /**
      * @brief Asynchronously checks whether the specified account exists.
      *

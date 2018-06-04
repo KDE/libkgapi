@@ -141,12 +141,12 @@ public:
 
     AccountPromise *createPromise(const QString &apiKey, const QString &accountName)
     {
-        const auto key = apiKey + accountName;
+        const QString key = apiKey + accountName;
         auto promise = mPendingPromises.value(key, nullptr);
         if (!promise) {
             promise = new AccountPromise(q);
             QObject::connect(promise, &QObject::destroyed,
-                             [key, this]() {
+                             q, [key, this]() {
                                  mPendingPromises.remove(key);
                              });
             mPendingPromises.insert(key, promise);
@@ -248,6 +248,32 @@ AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString 
     }
     return promise;
 }
+
+AccountPromise *AccountManager::refreshTokens(const QString &apiKey, const QString &apiSecret,
+                                              const QString &accountName)
+{
+    auto promise = d->createPromise(apiKey, accountName);
+    if (!promise->d->isRunning()) {
+        QTimer::singleShot(0, this, [=]() {
+            d->ensureStore([=](bool storeOpened) {
+                if (!storeOpened) {
+                    promise->d->setError(tr("Failed to open account store"));
+                    return;
+                }
+
+                const auto account = d->mStore->getAccount(apiKey, accountName);
+                if (!account) {
+                    promise->d->setAccount({});
+                } else {
+                    d->updateAccount(promise, apiKey, apiSecret, account, {});
+                }
+            });
+        });
+        promise->d->setRunning();
+    }
+    return promise;
+}
+
 
 AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString &accountName,
                                             const QList<QUrl> &scopes)
