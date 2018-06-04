@@ -182,6 +182,15 @@ AccountPtr AccountPromise::account() const
     return d->account;
 }
 
+bool AccountPromise::hasError() const
+{
+    return !d->error.isNull();
+}
+
+QString AccountPromise::errorText() const
+{
+    return d->error;
+}
 
 
 AccountManager::AccountManager(QObject *parent)

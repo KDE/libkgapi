@@ -49,6 +49,9 @@ public:
 
     AccountPtr account() const;
 
+    bool hasError() const;
+    QString errorText() const;
+
 Q_SIGNALS:
     /**
      * @brief The retrieval has finished and the Account can be retrieved.
