@@ -35,8 +35,6 @@ namespace KGAPI2 {
   class Job;
 }
 
-class KJob;
-class QListWidgetItem;
 
 class MainWindow : public QMainWindow
 {
