@@ -265,7 +265,7 @@ public:
      * @deprecated since 5.3.2, use quotaBytesUsedAggregate() instead.
      */
 #ifndef KGAPIDRIVE_NO_DEPRECATED
-    KGAPIDRIVE_DEPRECATED_EXPORT qlonglong quotaBytesUserAggregate() const;
+    KGAPIDRIVE_DEPRECATED qlonglong quotaBytesUserAggregate() const;
 #endif
 
     /**
