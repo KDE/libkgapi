@@ -42,7 +42,7 @@ FileLogger::FileLogger()
         return;
     }
 
-    QString filename = qEnvironmentVariable("KGAPI_SESSION_LOGFILE")
+    QString filename = QString::fromLocal8Bit(qgetenv("KGAPI_SESSION_LOGFILE"))
         + QLatin1Char('.')
         + QString::number(QCoreApplication::applicationPid());
     mFile.reset(new QFile(filename));
