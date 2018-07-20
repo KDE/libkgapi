@@ -308,7 +308,7 @@ void AuthWidgetPrivate::socketReady()
         return;
     }
 
-    //qCDebug(KGAPIRaw) << "Receiving data on socket: " << data;
+    //qCDebug(KGAPIDebug) << "Receiving data on socket: " << data;
     const QUrl url(QString::fromLatin1(line.at(1)));
     const QUrlQuery query(url);
     const QString code = query.queryItemValue(QStringLiteral("code"));

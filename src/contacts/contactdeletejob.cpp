@@ -68,7 +68,6 @@ void ContactDeleteJob::Private::processNextContact()
     for (const QByteArray &str : qAsConst(rawHeaderList)) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    qCDebug(KGAPIRaw) << headers;
 
     q->enqueueRequest(request);
 }

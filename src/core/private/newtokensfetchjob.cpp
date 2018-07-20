@@ -125,15 +125,15 @@ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray
 
     QJsonDocument document = QJsonDocument::fromJson(rawData);
     if (document.isNull()) {
-        qCDebug(KGAPIDebug) << "Failed to parse server response.";
-        qCDebug(KGAPIRaw) << rawData;
+        qCWarning(KGAPIDebug) << "Failed to parse server response.";
+        qCDebug(KGAPIDebug) << rawData;
         setError(KGAPI2::AuthCancelled);
         setErrorString(tr("Failed to parse server response."));
         return;
     }
     QVariantMap parsed_data = document.toVariant().toMap();
 
-    qCDebug(KGAPIRaw) << "Retrieved new tokens pair:" << parsed_data;
+    qCDebug(KGAPIDebug) << "Retrieved new tokens pair.";
 
     d->accessToken = parsed_data.value(QStringLiteral("access_token")).toString();
     d->refreshToken = parsed_data.value(QStringLiteral("refresh_token")).toString();
