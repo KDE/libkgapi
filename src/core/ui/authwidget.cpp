@@ -135,7 +135,7 @@ void AuthWidget::authenticate()
     query.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
     url.setQuery(query);
 
-    qCDebug(KGAPIRaw) << "Requesting new token:" << url;
+    qCDebug(KGAPIDebug) << "Requesting new token.";
 
     d->setVisible(true);
     d->setUrl(url);

@@ -107,7 +107,6 @@ void TaskCreateJob::start()
     for (const QByteArray &str : qAsConst(rawHeaderList)) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    qCDebug(KGAPIRaw) << headers;
 
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }

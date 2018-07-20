@@ -27,10 +27,74 @@
 #include "../debug.h"
 #include "authjob.h"
 
-
+#include <QCoreApplication>
 #include <QJsonDocument>
+#include <QTextStream>
+#include <QFile>
 
 using namespace KGAPI2;
+
+FileLogger *FileLogger::sInstance = nullptr;
+
+FileLogger::FileLogger()
+{
+    if (!qEnvironmentVariableIsSet("KGAPI_SESSION_LOGFILE")) {
+        return;
+    }
+
+    QString filename = qEnvironmentVariable("KGAPI_SESSION_LOGFILE")
+        + QLatin1Char('.')
+        + QString::number(QCoreApplication::applicationPid());
+    mFile.reset(new QFile(filename));
+    if (!mFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        qCWarning(KGAPIDebug) << "Failed to open logging file" << filename << ":" << mFile->errorString();
+        mFile.reset();
+    }
+}
+
+FileLogger::~FileLogger() {}
+
+FileLogger *FileLogger::self()
+{
+    if (!sInstance) {
+        sInstance = new FileLogger();
+    }
+    return sInstance;
+}
+
+void FileLogger::logRequest(const KGAPI2::Request &request)
+{
+    if (!mFile) {
+        return;
+    }
+
+    QTextStream stream(mFile.data());
+    stream << "C: " << request.request.url().toDisplayString() << "\n";
+    stream << "   Content-type: " << request.contentType << "\n";
+    const auto headers = request.request.rawHeaderList();
+    for (const auto &header : headers) {
+        stream << "   " << header << ": " << request.request.rawHeader(header) << "\n\n";
+    }
+    stream << "   " << request.rawData << "\n\n";
+    mFile->flush();
+}
+
+void FileLogger::logReply(const QNetworkReply *reply, const QByteArray &rawData)
+{
+    if (!mFile) {
+        return;
+    }
+
+    QTextStream stream(mFile.data());
+    stream << "S: " << reply->url().toDisplayString() << "\n";
+    const auto headers = reply->rawHeaderList();
+    for (const auto &header : headers) {
+        stream << "   " << header << ": " << reply->rawHeader(header) << "\n\n";
+    }
+    stream << "   " << rawData;
+    mFile->flush();
+}
+
 
 
 Job::Private::Private(Job *parent):
@@ -109,7 +173,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
     qCDebug(KGAPIDebug) << "Received reply from" << reply->url();
     qCDebug(KGAPIDebug) << "Status code: " << replyCode;
-    qCDebug(KGAPIRaw) << rawData;
+    FileLogger::self()->logReply(reply, rawData);
 
     switch (replyCode) {
         case KGAPI2::NoError:
@@ -142,7 +206,6 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
         case KGAPI2::Forbidden: {
             qCWarning(KGAPIDebug) << "Requested resource is forbidden.";
-            qCDebug(KGAPIRaw) << rawData;
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::Forbidden);
             q->setErrorString(tr("Requested resource is forbidden.\n\nGoogle replied '%1'").arg(msg));
@@ -152,7 +215,6 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
         case KGAPI2::NotFound: {
             qCWarning(KGAPIDebug) << "Requested resource does not exist";
-            qCDebug(KGAPIRaw) << rawData;
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::NotFound);
             q->setErrorString(tr("Requested resource does not exist.\n\nGoogle replied '%1'").arg(msg));
@@ -168,7 +230,6 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
         case KGAPI2::Conflict: {
             qCWarning(KGAPIDebug) << "Conflict. Remote resource is newer then local.";
-            qCDebug(KGAPIRaw) << rawData;
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::Conflict);
             q->setErrorString(tr("Conflict. Remote resource is newer than local.\n\nGoogle replied '%1'").arg(msg));
@@ -178,7 +239,6 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
         case KGAPI2::Gone: {
             qCWarning(KGAPIDebug) << "Requested resource does not exist anymore.";
-            qCDebug(KGAPIRaw) << rawData;
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::Gone);
             q->setErrorString(tr("Requested resource does not exist anymore.\n\nGoogle replied '%1'").arg(msg));
@@ -188,7 +248,6 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
         case KGAPI2::InternalError: {
             qCWarning(KGAPIDebug) << "Internal server error.";
-            qCDebug(KGAPIRaw) << rawData;
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::InternalError);
             q->setErrorString(tr("Internal server error. Try again later.\n\nGoogle replied '%1'").arg(msg));
@@ -198,7 +257,6 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
         case KGAPI2::QuotaExceeded: {
             qCWarning(KGAPIDebug) << "User quota exceeded.";
-            qCDebug(KGAPIRaw) << rawData;
 
             // Extend the interval (if possible) and enqueue the request again
             int interval = dispatchTimer->interval() / 1000;
@@ -228,7 +286,6 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
         default:{  /** Something went wrong, there's nothing we can do about it */
             qCWarning(KGAPIDebug) << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-            qCDebug(KGAPIRaw) << rawData;
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::UnknownError);
             q->setErrorString(tr("Unknown error.\n\nGoogle replied '%1'").arg(msg));
@@ -266,7 +323,7 @@ void Job::Private::_k_dispatchTimeout()
     currentRequest = r;
 
     qCDebug(KGAPIDebug) << q << "Dispatching request to" << r.request.url();
-    qCDebug(KGAPIRaw) << r.rawData;
+    FileLogger::self()->logRequest(r);
 
     q->dispatchRequest(accessManager, r.request, r.rawData, r.contentType);
 

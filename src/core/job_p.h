@@ -28,6 +28,9 @@
 #include <QQueue>
 #include <QTimer>
 #include <QNetworkReply>
+#include <QScopedPointer>
+
+class QFile;
 
 namespace KGAPI2 {
 
@@ -36,6 +39,23 @@ struct Request
     QNetworkRequest request;
     QByteArray rawData;
     QString contentType;
+};
+
+class Q_DECL_HIDDEN FileLogger
+{
+public:
+    ~FileLogger();
+
+    static FileLogger *self();
+
+    void logRequest(const Request &request);
+    void logReply(const QNetworkReply *reply, const QByteArray &rawData);
+
+private:
+    FileLogger();
+    QScopedPointer<QFile> mFile;
+
+    static FileLogger *sInstance;
 };
 
 class Q_DECL_HIDDEN Job::Private

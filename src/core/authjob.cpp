@@ -104,7 +104,7 @@ void AuthJob::Private::refreshTokens()
     params.addQueryItem(QStringLiteral("refresh_token"), account->refreshToken());
     params.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
 
-    qCDebug(KGAPIRaw) << "Requesting token refresh: " << params.toString();
+    qCDebug(KGAPIDebug) << "Requesting token refresh.";
 
     q->enqueueRequest(request, params.toString(QUrl::FullyEncoded).toLatin1());
 }

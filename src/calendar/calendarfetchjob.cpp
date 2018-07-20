@@ -65,7 +65,6 @@ QNetworkRequest CalendarFetchJob::Private::createRequest(const QUrl& url)
     for (const QByteArray &str : qAsConst(rawHeaderList)) {
         headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
-    qCDebug(KGAPIRaw) << headers;
 
     return request;
 }
@@ -96,7 +95,6 @@ void CalendarFetchJob::start()
     } else {
         url = CalendarService::fetchCalendarUrl(d->calendarId);
     }
-    qCDebug(KGAPIRaw) << "CalendarFetchJob::url()" << CalendarService::fetchCalendarsUrl();
     const QNetworkRequest request = d->createRequest(url);
     enqueueRequest(request);
 }
