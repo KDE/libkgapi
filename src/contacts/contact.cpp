@@ -449,7 +449,7 @@ QString Contact::phoneTypeToScheme(const KContacts::PhoneNumber::Type type)
 KContacts::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
 {
     QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
-    KContacts::PhoneNumber::Type type = 0;
+    KContacts::PhoneNumber::Type type = {};
 
     if (typeName == QLatin1String("car"))
         type |= KContacts::PhoneNumber::Car;
