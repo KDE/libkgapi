@@ -291,6 +291,8 @@ void AuthWidgetPrivate::socketReady()
 {
     Q_ASSERT(connection);
     const QByteArray data = connection->readLine();
+    connection->write("HTTP/1.1 200 OK\n");
+    connection->flush();
     connection->deleteLater();
     qCDebug(KGAPIDebug) << QStringLiteral("Got connection on socket");
     if (webview) { // when running in tests we don't have webview or any other widgets
