@@ -241,7 +241,7 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
     if (qobject_cast<WebPage*>(webview->page())->lastCertificateError()) {
         setSslIcon(QStringLiteral("security-low"));
     } else {
-        // We have no way of obtaining current SSL certifiace from QWebEngine, but we
+        // We have no way of obtaining current SSL certificate from QWebEngine, but we
         // handled SSL and accounts.google.com cases above and QWebEngine did not report
         // any SSL error to us, so we can assume we are safe.
         setSslIcon(QStringLiteral("security-high"));
