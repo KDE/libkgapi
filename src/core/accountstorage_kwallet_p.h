@@ -36,11 +36,11 @@ public:
 };
 
 
-class KWalletStrorage : public AccountStorage
+class KWalletStorage : public AccountStorage
 {
 public:
-    explicit KWalletStrorage();
-    ~KWalletStrorage() override;
+    explicit KWalletStorage();
+    ~KWalletStorage() override;
 
     void open(const std::function<void (bool)> &callback) override;
     bool opened() const override;

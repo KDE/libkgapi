@@ -45,21 +45,21 @@ static const QString ExpiresKey = QStringLiteral("expires");
 
 AccountStorage *KWalletStorageFactory::create() const
 {
-    return new KWalletStrorage();
+    return new KWalletStorage();
 }
 
 
 
-KWalletStrorage::KWalletStrorage()
+KWalletStorage::KWalletStorage()
 {
 }
 
-KWalletStrorage::~KWalletStrorage()
+KWalletStorage::~KWalletStorage()
 {
     delete mWallet;
 }
 
-void KWalletStrorage::open(const std::function<void (bool)> &callback)
+void KWalletStorage::open(const std::function<void (bool)> &callback)
 {
     const auto openedCallback = [=](bool opened) {
         mWalletOpening = false;
@@ -117,12 +117,12 @@ void KWalletStrorage::open(const std::function<void (bool)> &callback)
     }
 }
 
-bool KWalletStrorage::opened() const
+bool KWalletStorage::opened() const
 {
     return mWallet && mWallet->isOpen(KWallet::Wallet::NetworkWallet());
 }
 
-AccountPtr KWalletStrorage::getAccount(const QString &apiKey, const QString &accountName)
+AccountPtr KWalletStorage::getAccount(const QString &apiKey, const QString &accountName)
 {
     if (!opened()) {
         qCWarning(KGAPIDebug, "Trying to get an account from a closed wallet!");
@@ -139,7 +139,7 @@ AccountPtr KWalletStrorage::getAccount(const QString &apiKey, const QString &acc
     return parseAccount(*accountIt);
 }
 
-bool KWalletStrorage::storeAccount(const QString &apiKey, const AccountPtr &account)
+bool KWalletStorage::storeAccount(const QString &apiKey, const AccountPtr &account)
 {
     if (!opened()) {
         qCWarning(KGAPIDebug, "Trying to store an account in a closed wallet!");
@@ -161,7 +161,7 @@ bool KWalletStrorage::storeAccount(const QString &apiKey, const AccountPtr &acco
     return true;
 }
 
-void KWalletStrorage::removeAccount(const QString &apiKey, const QString &accountName)
+void KWalletStorage::removeAccount(const QString &apiKey, const QString &accountName)
 {
     if (!opened()) {
         qCWarning(KGAPIDebug, "Trying to remove an account from a closed wallet!");
@@ -180,7 +180,7 @@ void KWalletStrorage::removeAccount(const QString &apiKey, const QString &accoun
     }
 }
 
-AccountPtr KWalletStrorage::parseAccount(const QString &str) const
+AccountPtr KWalletStorage::parseAccount(const QString &str) const
 {
     const auto doc = QJsonDocument::fromJson(str.toUtf8());
     if (doc.isNull()) {
@@ -201,7 +201,7 @@ AccountPtr KWalletStrorage::parseAccount(const QString &str) const
     return acc;
 }
 
-QString KWalletStrorage::serializeAccount(const AccountPtr &account) const
+QString KWalletStorage::serializeAccount(const AccountPtr &account) const
 {
     QJsonArray scopesArray;
     const auto scopes = account->scopes();

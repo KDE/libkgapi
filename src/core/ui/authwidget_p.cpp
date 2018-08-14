@@ -241,7 +241,7 @@ void AuthWidgetPrivate::webviewUrlChanged(const QUrl &url)
     if (qobject_cast<WebPage*>(webview->page())->lastCertificateError()) {
         setSslIcon(QStringLiteral("security-low"));
     } else {
-        // We have no way of obtaining current SSL certifiace from QWebEngine, but we
+        // We have no way of obtaining current SSL certificate from QWebEngine, but we
         // handled SSL and accounts.google.com cases above and QWebEngine did not report
         // any SSL error to us, so we can assume we are safe.
         setSslIcon(QStringLiteral("security-high"));
@@ -291,6 +291,8 @@ void AuthWidgetPrivate::socketReady()
 {
     Q_ASSERT(connection);
     const QByteArray data = connection->readLine();
+    connection->write("HTTP/1.1 200 OK\n");
+    connection->flush();
     connection->deleteLater();
     qCDebug(KGAPIDebug) << QStringLiteral("Got connection on socket");
     if (webview) { // when running in tests we don't have webview or any other widgets
