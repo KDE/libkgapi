@@ -26,6 +26,7 @@
 #include "../../debug.h"
 
 #include <QWebEngineProfile>
+#include <QWebEngineCertificateError>
 #include <QContextMenuEvent>
 
 #include <QtGlobal>
