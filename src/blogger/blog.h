@@ -47,7 +47,7 @@ class KGAPIBLOGGER_EXPORT Blog : public KGAPI2::Object
     QUrl url() const;
     uint postsCount() const;
     uint pagesCount() const;
-    QString langauge() const;
+    QString language() const;
     QString country() const;
     QString languageVariant() const;
     QVariant customMetaData() const;

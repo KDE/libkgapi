@@ -19,8 +19,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KGAPI2_BLOGGER_FETCHPAGEJOB_H
-#define KGAPI2_BLOGGER_FETCHPAGEJOB_H
+#ifndef KGAPI2_BLOGGER_PAGEFETCHJOB_H
+#define KGAPI2_BLOGGER_PAGEFETCHJOB_H
 
 #include "fetchjob.h"
 #include "page.h"
@@ -73,4 +73,4 @@ class KGAPIBLOGGER_EXPORT PageFetchJob : public KGAPI2::FetchJob
 }
 }
 
-#endif // KGAPI2_BLOGGER_FETCHPAGEJOB_H
+#endif // KGAPI2_BLOGGER_PAGEFETCHJOB_H

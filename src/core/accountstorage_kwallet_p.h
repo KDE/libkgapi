@@ -18,8 +18,8 @@
     License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBKGAPI2_ACCOUNSTSTORAGE_KWALLET_P_H_
-#define LIBKGAPI2_ACCOUNSTSTORAGE_KWALLET_P_H_
+#ifndef LIBKGAPI2_ACCOUNTSTORAGE_KWALLET_P_H_
+#define LIBKGAPI2_ACCOUNTSTORAGE_KWALLET_P_H_
 
 #include "accountstorage_p.h"
 

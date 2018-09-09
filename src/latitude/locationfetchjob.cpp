@@ -26,7 +26,6 @@
 #include "../debug.h"
 #include "location.h"
 #include "utils.h"
-#include "latitudeservice.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>

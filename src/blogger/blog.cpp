@@ -102,7 +102,7 @@ uint Blog::pagesCount() const
     return d->pagesCount;
 }
 
-QString Blog::langauge() const
+QString Blog::language() const
 {
     return d->language;
 }
