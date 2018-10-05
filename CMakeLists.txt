@@ -14,7 +14,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 include(GenerateExportHeader)
 include(ECMGenerateHeaders)
 include(ECMGeneratePriFile)
-include(CMakePackageConfigHelpers)
+
 include(ECMPoQmTools)
 include(ECMSetupVersion)
 include(FeatureSummary)
