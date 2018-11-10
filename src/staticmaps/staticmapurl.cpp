@@ -388,7 +388,7 @@ QUrl StaticMapUrl::url() const
             query.addQueryItem(QStringLiteral("center"), param);
             break;
         case KABCGeo:
-            param = QString::number(d->locationGeo.latitude()) + QLatin1String(",") +
+            param = QString::number(d->locationGeo.latitude()) + QLatin1Char(',') +
                     QString::number(d->locationGeo.longitude());
             query.addQueryItem(QStringLiteral("center"), param);
             break;
@@ -399,7 +399,7 @@ QUrl StaticMapUrl::url() const
         query.addQueryItem(QStringLiteral("zoom"), QString::number(d->zoom));
 
     if (!d->size.isEmpty()) {
-        QString size = QString::number(d->size.width()) + QLatin1String("x") +
+        QString size = QString::number(d->size.width()) + QLatin1Char('x') +
                        QString::number(d->size.height());
         query.addQueryItem(QStringLiteral("size"), size);
     }
@@ -482,7 +482,7 @@ QUrl StaticMapUrl::url() const
             query.addQueryItem(QStringLiteral("visible"), param);
             break;
         case KABCGeo:
-            param = QString::number(d->visibleGeo.latitude()) + QLatin1String(",") +
+            param = QString::number(d->visibleGeo.latitude()) + QLatin1Char(',') +
                     QString::number(d->visibleGeo.longitude());
             query.addQueryItem(QStringLiteral("visible"), param);
             break;

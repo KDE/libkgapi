@@ -187,29 +187,29 @@ QString StaticMapPath::toString() const
     QString ret;
 
     if (d->color != Qt::blue)
-        ret += QLatin1String("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1String("|");
+        ret += QLatin1String("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
     if (d->weight != 5)
-        ret += QLatin1String("weight:") + QString::number(d->weight) + QLatin1String("|");
+        ret += QLatin1String("weight:") + QString::number(d->weight) + QLatin1Char('|');
     if (d->fillColor.isValid())
-        ret += QLatin1String("fillcolor:") + d->fillColor.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1String("|");
+        ret += QLatin1String("fillcolor:") + d->fillColor.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
 
     if (locationType() == String) {
 
         for (const QString & addr : qAsConst(d->locationsString)) {
-            ret += addr + QLatin1String("|");
+            ret += addr + QLatin1Char('|');
         }
 
     } else if (locationType() == KABCAddress) {
 
         for (const KContacts::Address & addr : qAsConst(d->locationsAddress)) {
-            ret += addr.formattedAddress() + QLatin1String("|");
+            ret += addr.formattedAddress() + QLatin1Char('|');
         }
 
     } else if (locationType() == KABCGeo) {
 
         for (const KContacts::Geo & addr : qAsConst(d->locationsGeo)) {
             ret += QString::number(addr.latitude()) + QLatin1String(",") +
-                  QString::number(addr.longitude()) + QLatin1String("|");
+                  QString::number(addr.longitude()) + QLatin1Char('|');
         }
 
     }
