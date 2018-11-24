@@ -297,7 +297,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     /* Google contact ID */
     contact->setUid(Private::stringFromXMLMap(data, QStringLiteral("id")));
 
-    /* Google ETAG. This can be used to identify if the item was changed remotly */
+    /* Google ETAG. This can be used to identify if the item was changed remotely */
     contact->setEtag(data.value(QStringLiteral("gd$etag")).toString());
 
     /* Date and time when contact was updated on the remote server */

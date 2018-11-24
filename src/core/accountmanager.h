@@ -90,11 +90,11 @@ public:
      * If no such account exists, user will be prompted with full authentication
      * process.
      *
-     * The returned account is guaranteed to be authenticated, howerver the tokens
+     * The returned account is guaranteed to be authenticated, however the tokens
      * may be expired. It's up to the caller to ensure the tokens are refreshed
      * using @p refreshTokens method.
      *
-     * @p apiSecret is only used to authetnicate new account or missing scopes
+     * @p apiSecret is only used to authenticate new account or missing scopes
      * and is not stored anywhere.
      *
      * @see refreshTokens, hasAccount
@@ -111,7 +111,7 @@ public:
      * the requested @p scopes, but it may be authenticated against more scopes.
      * If an account does not exist, it will be created (see AccountManager::getAccount()).
      *
-     * @p apiSecret is onyl used to authenticate a new account.
+     * @p apiSecret is only used to authenticate a new account.
      *
      * @see getAccount
      */

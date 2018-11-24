@@ -71,7 +71,7 @@ class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
      * @brief Constructs a new job that will delete tasklist with given
      *       @p taskListId from user's Google Tasks account
      *
-     * @param taskList ID of tasklist to delete
+     * @param taskListId ID of tasklist to delete
      * @param account Account to authenticate the request
      * @param parent
      */

@@ -128,7 +128,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
     void setFillColor(const QColor & color);
 
     /**
-     * @brief Returns whther the path is valid.
+     * @brief Returns whether the path is valid.
      *
      * This means that path has at least two locations
      */

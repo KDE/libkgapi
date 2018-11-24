@@ -29,7 +29,7 @@
 namespace KGAPI2 {
 
 /**
- * @headerfile CreateJob
+ * @headerfile createjob.h
  * @brief Abstract superclass for all jobs that create new objects on the
  *        server.
  *
@@ -84,8 +84,8 @@ class KGAPICORE_EXPORT CreateJob: public KGAPI2::Job
     /**
      * @brief KGAPI2::Job::handleReply implementation
      *
+     * \param reply
      * \param rawData
-     * \param contentType
      */
     void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
 

@@ -80,7 +80,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      * @brief Constructs a new job that will delete contacts with given
      *        @p contactsIds from user's addressbook
      *
-     * @param contactsIds IDs of contacts to delete
+     * @param contactIds IDs of contacts to delete
      * @param account Account to authenticate the request
      * @param parent
      */

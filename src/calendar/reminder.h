@@ -44,7 +44,7 @@ class KGAPICALENDAR_EXPORT Reminder
   public:
 
     /**
-     * @brief Constrcutor
+     * @brief Constructor
      */
     explicit Reminder();
 
@@ -70,7 +70,7 @@ class KGAPICALENDAR_EXPORT Reminder
     bool operator==(const Reminder &other) const;
 
     /**
-     * @brief Returns type of the remider
+     * @brief Returns type of the reminder
      */
     KCalCore::Alarm::Type type() const;
 

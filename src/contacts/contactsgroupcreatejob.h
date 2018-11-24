@@ -80,8 +80,8 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
     /**
      * @brief KGAPI2::Job::handleReply implementation
      *
+     * @param reply
      * @param rawData
-     * @param contentType
      */
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
                                              const QByteArray& rawData) override;

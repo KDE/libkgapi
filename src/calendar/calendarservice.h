@@ -40,7 +40,7 @@ namespace CalendarService
     /**
      * @brief Parses calendar JSON data into Calendar object
      *
-     * @param JsonData
+     * @param jsonData
      */
     KGAPICALENDAR_EXPORT CalendarPtr JSONToCalendar(const QByteArray& jsonData);
 
@@ -84,7 +84,7 @@ namespace CalendarService
     KGAPICALENDAR_EXPORT ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
-     * @brief Supported API verstion
+     * @brief Supported API version
      */
     KGAPICALENDAR_EXPORT QString APIVersion();
 
@@ -167,7 +167,7 @@ namespace CalendarService
     KGAPICALENDAR_EXPORT QUrl moveEventUrl(const QString &sourceCalendar, const QString &destCalendar, const QString &eventID);
 
     /**
-     * @brief Returns URL for freebusy quries.
+     * @brief Returns URL for freebusy queries.
      */
     KGAPICALENDAR_EXPORT QUrl freeBusyQueryUrl();
 

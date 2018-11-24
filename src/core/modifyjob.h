@@ -29,7 +29,7 @@
 namespace KGAPI2 {
 
 /**
- * @headerfile FetchJob
+ * @headerfile modifyjob.h
  * @brief Abstract superclass for all jobs that somehow modify resources on Google
  *
  * @author Daniel Vrátil <dvratil@redhat.com>

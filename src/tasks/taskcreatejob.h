@@ -55,7 +55,7 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
 
     /**
      * @brief Constructs a job that will create given @p task in a tasklist
-     *        with id @taskListId
+     *        with id @p taskListId
      *
      * @param task Task to store
      * @param taskListId ID of tasklist to create the task in
@@ -67,7 +67,7 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
 
     /**
      * @brief Constructs a job that will create given @p tasks in a tasklist
-     *        with id @taskListId
+     *        with id @p taskListId
      *
      * @param tasks Tasks to store
      * @param taskListId ID of tasklist to create the task in

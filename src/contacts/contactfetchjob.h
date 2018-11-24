@@ -71,7 +71,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
 
 
     /**
-     * @brief A filter to fetch only contats matching thefulltext search
+     * @brief A filter to fetch only contacts matching thefulltext search
      *
      * By default the property is empty and no filter is applied.
      *

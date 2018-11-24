@@ -54,7 +54,7 @@ ObjectPtr JSONToCalendar(const QVariantMap &data);
 ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString());
 
 /**
-     * Checks whether TZID is in Olson format and converts it to it if neccessarry
+     * Checks whether TZID is in Olson format and converts it to it if neccessary
      *
      * This is mainly to handle crazy Microsoft TZIDs like
      * "(GMT) Greenwich Mean Time/Dublin/Edinburgh/London", because Google only
@@ -1035,7 +1035,7 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
     /* Wheeee, we have X-MICROSOFT-CDO-TZID, try to map it to Olson format */
     if (CDOId > -1) {
 
-        /* *sigh* Some expert in MS assigned the same ID to two two different timezones... */
+        /* *sigh* Some expert in MS assigned the same ID to two different timezones... */
         if (CDOId == 2) {
 
             /* GMT Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London */
@@ -1065,7 +1065,7 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
     }
 
     /* We failed to map to X-MICROSOFT-CDO-TZID. Let's try mapping the TZID
-     * onto the Microsoft Standard Time Time Zones */
+     * onto the Microsoft Standard Time Zones */
     if (MSSTTZTable.contains(tzid)) {
         return MSSTTZTable.value(tzid);
     }

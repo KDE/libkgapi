@@ -31,7 +31,7 @@ class QWidget;
 namespace KGAPI2 {
 
 /**
- * @headerfile AuthJob
+ * @headerfile authjob.h
  * @brief A job to authenticate against Google and fetch tokens
  *
  * This job can be either used to refresh expired tokens (this is usually done
@@ -69,7 +69,7 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
      *                started.
      *                @par
      *                Any other Account will be considered invalid and the job
-     *                will finish immediatelly.
+     *                will finish immediately.
      *
      * @param apiKey Application API key
      * @param secretKey Application secret API key

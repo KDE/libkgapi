@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget * parent):
     QMainWindow(parent),
     m_ui(new Ui::MainWindow)
 {
-    /* Initialice GUI */
+    /* Initialize GUI */
     m_ui->setupUi(this);
     m_ui->errorLabel->setVisible(false);
     connect(m_ui->authButton, &QAbstractButton::clicked,

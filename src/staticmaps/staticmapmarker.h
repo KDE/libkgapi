@@ -101,6 +101,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
     /**
      * @brief Constructs a new marker
      *
+     * @param locations Locations as a QStringList where marker will be visible
      * @param label Specifies a single uppercase alphanumeric character from
      *              set {A-Z, 0-9} which will be displayed in the marker
      * @param size Specifies the size of marker

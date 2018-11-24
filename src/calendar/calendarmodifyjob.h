@@ -75,7 +75,7 @@ class KGAPICALENDAR_EXPORT CalendarModifyJob : public KGAPI2::ModifyJob
     void start() override;
 
     /**
-     * @brief KGAPI2:::ModifyJob::handleReplyWithItems implementation
+     * @brief KGAPI2::ModifyJob::handleReplyWithItems implementation
      *
      * @param reply
      * @param rawData

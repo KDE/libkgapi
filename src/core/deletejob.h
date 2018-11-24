@@ -29,7 +29,7 @@
 namespace KGAPI2 {
 
 /**
- * @headerfile DeleteJob
+ * @headerfile deletejob.h
  * @brief Abstract superclass for all jobs that delete resources from Google
  *
  * @author Daniel Vrátil <dvratil@redhat.com>
@@ -64,7 +64,7 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
   protected:
 
     /**
-     * @brief KGAPI::Job::dispatchRequest immplementation
+     * @brief KGAPI::Job::dispatchRequest implementation
      *
      * @param accessManager
      * @param request
@@ -86,8 +86,8 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
      * If you need more control over deleting or handling the reply, you can
      * reimplement this method in your subclass.
      *
+     * @param reply
      * @param rawData
-     * @param contentType
      */
     void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
 

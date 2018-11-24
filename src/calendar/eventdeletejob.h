@@ -83,7 +83,7 @@ class KGAPICALENDAR_EXPORT EventDeleteJob : public KGAPI2::DeleteJob
      * @brief Constructs a new job that will delete all events with given
      *        @p eventsIds from a calendar with given @p calendarId
      *
-     * @param eventsIds IDs of events to delete
+     * @param eventIds IDs of events to delete
      * @param calendarId ID of calendar in which the events is stored
      * @param account Account to authenticate the request
      * @param parent

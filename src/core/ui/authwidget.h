@@ -36,7 +36,7 @@ namespace KGAPI2 {
 class AuthWidgetPrivate;
 
 /**
- * A widget for authentication that can be easilly embedded
+ * A widget for authentication that can be easily embedded
  * to any application.
  *
  * @since 0.3.2

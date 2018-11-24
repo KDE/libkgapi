@@ -131,7 +131,7 @@ class KGAPIDRIVE_EXPORT Revision: public KGAPI2::Object
      *
      * This is only populated and can only be modified for Google Docs.
      *
-     * @param publishedAuto
+     * @param publishAuto
      */
     void setPublishAuto(bool publishAuto);
 

@@ -61,7 +61,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      *        tasklist with given @p taskListId
      *
      * @param tasks Tasks to delete
-     * @param taskListId ID of tasklist in which the task is stored
+     * @param tasklistId ID of tasklist in which the task is stored
      * @param account Account to authenticate the request
      * @param parent
      */

@@ -51,7 +51,7 @@ class KGAPIDRIVE_EXPORT ChangeFetchJob : public KGAPI2::FetchJob
     /**
      * Whether to include shared files and public files the user has opened.
      * When set to false, the list will include owned files plus any shared or
-     * public files the user has explictly added to a folder in Drive.
+     * public files the user has explicitly added to a folder in Drive.
      *
      * Default is to include subscribed files.
      *

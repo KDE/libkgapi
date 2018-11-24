@@ -300,7 +300,7 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
     /**
      * @brief Converts Google Scheme URL to phone number type.
      *
-     * @parman scheme
+     * @param scheme
      */
     static KContacts::PhoneNumber::Type phoneSchemeToType(const QString &scheme);
 

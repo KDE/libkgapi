@@ -29,7 +29,7 @@
 namespace KGAPI2 {
 
 /**
- * @headerfile FetchJob
+ * @headerfile fetchjob.h
  * @brief Abstract superclass for all jobs that fetch resources from Google
  *
  * @author Daniel Vrátil <dvratil@redhat.com>
@@ -88,8 +88,8 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
     /**
      * @brief KGAPI::Job::handleReply implementation
      *
+     * @param reply
      * @param rawData
-     * @param contentType
      */
     void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
 

@@ -35,7 +35,7 @@ class QNetworkRequest;
 namespace KGAPI2 {
 
 /**
- * @headerfile Job
+ * @headerfile job.h
  * @brief Abstract base class for all jobs in LibKGAPI
  *
  * Usual workflow of Job subclasses is to reimplement Job::start,
@@ -108,8 +108,8 @@ class KGAPICORE_EXPORT Job : public QObject
      * signal. Calling this method on a running job will always return
      * KGAPI2::NoError.
      *
-     * @return Returns code of ocurred error or KGAPI2::NoError when no error
-     *         has ocurred.
+     * @return Returns code of occurred error or KGAPI2::NoError when no error
+     *         has occurred.
      */
     KGAPI2::Error error() const;
 
@@ -117,11 +117,11 @@ class KGAPICORE_EXPORT Job : public QObject
      * @brief Error string
      *
      * This method can only be called after the job has emitted Job::finished
-     * signal. Calling this method on a running job will alaways return an empty
+     * signal. Calling this method on a running job will always return an empty
      * string.
      *
      * @return Returns localized description of error or an empty string if no
-     * error has ocurred.
+     * error has occurred.
      */
     QString errorString() const;
 
@@ -197,7 +197,7 @@ class KGAPICORE_EXPORT Job : public QObject
      * @brief Emitted when @p job has finished
      *
      * The signal is emitted every time, no matter whether the job is successful
-     * or an error has ocurred.
+     * or an error has occurred.
      *
      * Subclasses should never ever emit this signal directly.
      * Use Job::emitFinished instead.
@@ -263,7 +263,7 @@ class KGAPICORE_EXPORT Job : public QObject
      * Job::progress().
      *
      * @param processed Amount of already processed items
-     * @param total Total amount of itms to process
+     * @param total Total amount of items to process
      */
     virtual void emitProgress(int processed, int total);
 

@@ -194,7 +194,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Sets whether the job should fetch completed tasks
      *
-     * @param fethCompleted
+     * @param fetchCompleted
      */
     void setFetchCompleted(bool fetchCompleted = true);
 

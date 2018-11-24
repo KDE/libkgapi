@@ -170,7 +170,7 @@ class KGAPICORE_EXPORT AccountInfo : public KGAPI2::Object
     void setLocale(const QString &locale);
 
     /**
-     * @brief Returns user's preffered locales.
+     * @brief Returns user's preferred locales.
      */
     QString locale() const;
 

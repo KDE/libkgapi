@@ -45,7 +45,7 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      * When calculating the number of remaining change IDs, whether to include
      * shared files and public files the user has opened. When set to false, this
      * counts only change IDs for owned files and any shared or public files that
-     * the user has explictly added to a folder in Drive.
+     * the user has explicitly added to a folder in Drive.
      *
      * Default value is true.
      *

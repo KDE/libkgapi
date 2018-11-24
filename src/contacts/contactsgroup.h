@@ -37,7 +37,7 @@ namespace KGAPI2
  * @brief Represents a contacts group.
  *
  * Note that this is not the same as vCard contact groups. ContactsGroup is
- * similar to an addressbook - it contains set of full-fetured Contacts.
+ * similar to an addressbook - it contains set of full-featured Contacts.
  *
  * Unlike regular addressbooks however, a single instance of contact can be
  * present in multiple ContactsGroup.

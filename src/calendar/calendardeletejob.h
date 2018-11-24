@@ -58,7 +58,7 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
      * @brief Constructs a new job that will delete given @p calendars from user's
      *        Google Calendar account
      *
-     * @param calendar Calendar to delete
+     * @param calendars Calendars to delete
      * @param account Account to authenticate the request
      * @param parent
      */

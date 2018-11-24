@@ -31,7 +31,7 @@ namespace KGAPI2 {
 /**
  * @internal
  *
- * Exported, but not publicly avilable!
+ * Exported, but not publicly available!
  */
 class KGAPICORE_EXPORT NewTokensFetchJob : public KGAPI2::Job
 {

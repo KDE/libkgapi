@@ -89,7 +89,7 @@ class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
     QString details() const;
 
     /**
-     * @brief Sets detailed description of a calenar.
+     * @brief Sets detailed description of a calendar.
      *
      * @param details
      */
@@ -146,7 +146,7 @@ class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
     void addDefaultReminer(const ReminderPtr &reminder);
 
     /**
-     * @brief Returns defalut reminders for all events in the calendar.
+     * @brief Returns default reminders for all events in the calendar.
      */
     RemindersList defaultReminders() const;
 
@@ -158,7 +158,7 @@ class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
     QColor backgroundColor() const;
 
     /**
-     * @brief Sets calendar backgrond color.
+     * @brief Sets calendar background color.
      *
      * @param color
      *

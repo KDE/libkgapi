@@ -33,7 +33,7 @@ namespace KGAPI2
 {
 
 /**
- * @headerfile Account
+ * @headerfile account.h
  * @brief A Google account
  *
  * This class represents a single Google account. The account is uniquely

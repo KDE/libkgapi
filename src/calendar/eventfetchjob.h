@@ -88,7 +88,7 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Timestamp of the oldest event that will be fetched
      *
-     * Only events ocurring after or precisely at the time indicated by this
+     * Only events occurring after or precisely at the time indicated by this
      * property will be fetched.
      *
      * By default the timestamp is 0 and no limit is applied.
