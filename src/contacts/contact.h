@@ -90,19 +90,19 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
     void setDeleted(bool deleted);
 
     /**
-     * @param Returns whether contact is deleted
+     * @brief Returns whether contact is deleted
      */
     bool deleted() const;
 
     /**
-     * @param Sets URL of contact photo.
+     * Sets URL of contact photo.
      *
      * @param photoUrl
      */
     void setPhotoUrl(const QString &photoUrl);
 
     /**
-     * @param Sets URL of contact photo.
+     * Sets URL of contact photo.
      * @overload setPhotoUrl(QString)
      */
     void setPhotoUrl(const QUrl &photoUrl);
