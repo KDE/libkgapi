@@ -75,7 +75,7 @@ void ModifyJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNet
     // doesn't transfer the body correctly.
     // Using sendCustomRequest() works just fine.
     //accessManager->put(r, data);
-    if (data.size() > 0) {
+    if (!data.isEmpty()) {
         r.setHeader(QNetworkRequest::ContentLengthHeader, data.size());
 
         d->buffer.close();
