@@ -23,6 +23,7 @@ ecm_generate_headers(kgapicalendar_CamelCase_HEADERS
     CalendarDeleteJob
     CalendarFetchJob
     CalendarModifyJob
+    Enums
     Event
     EventCreateJob
     EventDeleteJob

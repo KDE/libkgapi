@@ -1,4 +1,4 @@
-PUT https://www.googleapis.com/calendar/v3/calendars/MockAccount/events/3if6lf59tove1e037baa75l54t
+PUT https://www.googleapis.com/calendar/v3/calendars/MockAccount/events/3if6lf59tove1e037baa75l54t?sendUpdates=all
 Content-Type: application/json
 
 {

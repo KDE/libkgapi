@@ -24,6 +24,7 @@
 #define LIBKGAPI2_EVENTMODIFYJOB_H
 
 #include "modifyjob.h"
+#include "enums.h"
 #include "kgapicalendar_export.h"
 
 namespace KGAPI2 {
@@ -38,6 +39,10 @@ class KGAPICALENDAR_EXPORT EventModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
+    Q_PROPERTY(KGAPI2::SendUpdatesPolicy sendUpdates
+               READ sendUpdates
+               WRITE setSendUpdates
+               NOTIFY sendUpdatesChanged)
   public:
 
     /**
@@ -68,6 +73,12 @@ class KGAPICALENDAR_EXPORT EventModifyJob : public KGAPI2::ModifyJob
      * @brief Destructor
      */
     ~EventModifyJob() override;
+
+    KGAPI2::SendUpdatesPolicy sendUpdates() const;
+    void setSendUpdates(KGAPI2::SendUpdatesPolicy updatesPolicy);
+
+  Q_SIGNALS:
+    void sendUpdatesChanged(KGAPI2::SendUpdatesPolicy policy);
 
   protected:
 

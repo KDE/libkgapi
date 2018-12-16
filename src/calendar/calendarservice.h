@@ -24,6 +24,7 @@
 #define LIBKGAPI2_CALENDARSERVICE_H
 
 #include "types.h"
+#include "enums.h"
 #include "kgapicalendar_export.h"
 
 namespace KGAPI2
@@ -139,15 +140,18 @@ namespace CalendarService
      *
      * @param calendarID ID of calendar in which the event is
      * @param eventID ID of event to update
+     * @param updatesPolicy Whether to send notification to participants
      */
-    KGAPICALENDAR_EXPORT QUrl updateEventUrl(const QString &calendarID, const QString &eventID);
+    KGAPICALENDAR_EXPORT QUrl updateEventUrl(const QString &calendarID, const QString &eventID,
+                                             SendUpdatesPolicy updatesPolicy);
 
     /**
      * @brief Returns URL creating new events.
      *
      * @param calendarID ID of calendar in which to create the event
+     * @param updatesPolicy Whether to send notification to participants
      */
-    KGAPICALENDAR_EXPORT QUrl createEventUrl(const QString &calendarID);
+    KGAPICALENDAR_EXPORT QUrl createEventUrl(const QString &calendarID, SendUpdatesPolicy updatesPolicy);
 
     /**
      * @brief Returns URL for removing events

@@ -40,6 +40,7 @@ class Q_DECL_HIDDEN EventCreateJob::Private
   public:
     QueueHelper<EventPtr> events;
     QString calendarId;
+    SendUpdatesPolicy updatesPolicy = SendUpdatesPolicy::All;
 };
 
 EventCreateJob::EventCreateJob(const EventPtr& event, const QString &calendarId, const AccountPtr& account, QObject* parent):
@@ -63,6 +64,19 @@ EventCreateJob::~EventCreateJob()
     delete d;
 }
 
+void EventCreateJob::setSendUpdates(SendUpdatesPolicy policy)
+{
+    if (d->updatesPolicy != policy) {
+        d->updatesPolicy = policy;
+        Q_EMIT sendUpdatesChanged(d->updatesPolicy);
+    }
+}
+
+SendUpdatesPolicy EventCreateJob::sendUpdates() const
+{
+    return d->updatesPolicy;
+}
+
 void EventCreateJob::start()
 {
     if (d->events.atEnd()) {
@@ -71,7 +85,7 @@ void EventCreateJob::start()
     }
 
     const EventPtr event = d->events.current();
-    const QUrl url = CalendarService::createEventUrl(d->calendarId);
+    const QUrl url = CalendarService::createEventUrl(d->calendarId, d->updatesPolicy);
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());

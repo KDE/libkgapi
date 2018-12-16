@@ -24,6 +24,7 @@
 #define LIBKGAPI2_EVENTCREATEJOB_H
 
 #include "createjob.h"
+#include "enums.h"
 #include "kgapicalendar_export.h"
 
 namespace KGAPI2 {
@@ -38,8 +39,11 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
+    Q_PROPERTY(KGAPI2::SendUpdatesPolicy sendUpdates
+               READ sendUpdates
+               WRITE setSendUpdates
+               NOTIFY sendUpdatesChanged)
   public:
-
     /**
      * @brief Constructs a job that will create given @p event in a calendar
      *        with given @p calendarID
@@ -68,6 +72,12 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
      * @brief Destructor
      */
     ~EventCreateJob() override;
+
+    KGAPI2::SendUpdatesPolicy sendUpdates() const;
+    void setSendUpdates(KGAPI2::SendUpdatesPolicy updatePolicy);
+
+  Q_SIGNALS:
+    void sendUpdatesChanged(KGAPI2::SendUpdatesPolicy policy);
 
   protected:
 

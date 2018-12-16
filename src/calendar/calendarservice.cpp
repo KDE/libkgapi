@@ -128,17 +128,40 @@ QUrl fetchEventUrl(const QString& calendarID, const QString& eventID)
     return url;
 }
 
-QUrl updateEventUrl(const QString& calendarID, const QString& eventID)
+namespace {
+
+QString sendUpdatesPolicyToString(SendUpdatesPolicy policy)
+{
+    switch (policy) {
+    case SendUpdatesPolicy::All:
+        return QStringLiteral("all");
+    case SendUpdatesPolicy::ExternalOnly:
+        return QStringLiteral("externalOnly");
+    case SendUpdatesPolicy::None:
+        return QStringLiteral("none");
+    }
+    Q_UNREACHABLE();
+}
+
+}
+
+QUrl updateEventUrl(const QString& calendarID, const QString& eventID, SendUpdatesPolicy updatePolicy)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("sendUpdates"), sendUpdatesPolicyToString(updatePolicy));
+    url.setQuery(query);
     return url;
 }
 
-QUrl createEventUrl(const QString& calendarID)
+QUrl createEventUrl(const QString& calendarID, SendUpdatesPolicy updatePolicy)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("sendUpdates"), sendUpdatesPolicyToString(updatePolicy));
+    url.setQuery(query);
     return url;
 }
 

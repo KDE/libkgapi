@@ -1,4 +1,4 @@
-POST https://www.googleapis.com/calendar/v3/calendars/MockAccount/events
+POST https://www.googleapis.com/calendar/v3/calendars/MockAccount/events?sendUpdates=all
 Content-Type: application/json
 
 {
