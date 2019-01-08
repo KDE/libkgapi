@@ -41,7 +41,7 @@ namespace Private
     {
         const auto post = !postId.isEmpty() ? (QLatin1String("/posts/") % postId) : QString();
         const auto comment = !commentId.isEmpty() ? (QLatin1Char('/') % commentId) : QString();
-        const auto path = QLatin1String("blogger/v3/blogs/") % blogId
+        const QString path = QLatin1String("blogger/v3/blogs/") % blogId
                             % post % QLatin1String("/comments") % comment;
         return path;
     }
@@ -50,7 +50,7 @@ namespace Private
                       const QString &pageId = QString()) -> QString
     {
         const auto page = !pageId.isEmpty() ? (QLatin1Char('/') % pageId) : QString();
-        const auto path = QLatin1String("blogger/v3/blogs/") % blogId
+        const QString path = QLatin1String("blogger/v3/blogs/") % blogId
                             % QLatin1String("/pages") % page;
         return path;
     }
@@ -59,7 +59,7 @@ namespace Private
                       const QString &postId = QString()) -> QString
     {
         const auto post = !postId.isEmpty() ? (QLatin1Char('/') % postId) : QString();
-        const auto path = QLatin1String("blogger/v3/blogs/") % blogId
+        const QString path = QLatin1String("blogger/v3/blogs/") % blogId
                             % QLatin1String("/posts") % post;
         return path;
     }

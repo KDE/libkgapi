@@ -849,7 +849,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
     QStringList groups;
     ContactPtr contact(new Contact);
 
-    contact->setEtag(entry.at(0).toElement().attribute(QLatin1String("gd:etag")));
+    contact->setEtag(entry.at(0).toElement().attribute(QStringLiteral("gd:etag")));
 
     for (int i = 0; i < data.count(); ++i) {
         const QDomNode n = data.at(i);
