@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/calendar/v3/calendars/MockAccount/events?maxResults=20&showDeleted=true
+GET https://www.googleapis.com/calendar/v3/calendars/MockAccount/events?showDeleted=true
