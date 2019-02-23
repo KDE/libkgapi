@@ -80,7 +80,7 @@ private Q_SLOTS:
         const auto event = eventFromFile(QFINDTESTDATA("data/event1.json"));
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        auto job = new EventFetchJob(event->uid(), QStringLiteral("MockAccount"), account);
+        auto job = new EventFetchJob(event->id(), QStringLiteral("MockAccount"), account);
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), 1);

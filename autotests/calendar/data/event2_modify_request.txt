@@ -14,6 +14,7 @@ Content-Type: application/json
   "end": {
     "date": "2018-04-23"
   }, 
+  "iCalUID": "009c2cc9-0781-482d-8ccd-8fc9bfeb3138",
   "id": "_60o3iopicdhjib9g6ss32b9k70p68b9ocdhm8b9ocphjioj6clh36c9j70",
   "kind": "calendar#event", 
   "location": "Toulouse, France", 

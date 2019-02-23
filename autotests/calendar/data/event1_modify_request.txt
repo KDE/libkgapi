@@ -21,6 +21,7 @@ Content-Type: application/json
     "dateTime": "2018-04-01T09:30:00Z",
     "timeZone": "UTC+02:00"
   }, 
+  "iCalUID": "3if6lf59tove1e037baa75l54t@google.com",
   "id": "3if6lf59tove1e037baa75l54t",
   "kind": "calendar#event", 
   "location": "Meeting Room", 

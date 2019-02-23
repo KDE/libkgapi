@@ -48,7 +48,7 @@ private Q_SLOTS:
     {
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<EventsList>("events");
-        QTest::addColumn<bool>("uidOnly");
+        QTest::addColumn<bool>("idOnly");
 
         QTest::newRow("simple event")
             << QList<FakeNetworkAccessManager::Scenario>{
@@ -97,21 +97,21 @@ private Q_SLOTS:
     {
         QFETCH(QList<FakeNetworkAccessManager::Scenario>, scenarios);
         QFETCH(EventsList, events);
-        QFETCH(bool, uidOnly);
+        QFETCH(bool, idOnly);
 
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         EventDeleteJob *job = nullptr;
         if (events.count() == 1) {
-            if (uidOnly) {
-                job = new EventDeleteJob(events.at(0)->uid(), QStringLiteral("MockAccount"), account, nullptr);
+            if (idOnly) {
+                job = new EventDeleteJob(events.at(0)->id(), QStringLiteral("MockAccount"), account, nullptr);
             } else {
                 job = new EventDeleteJob(events.at(0), QStringLiteral("MockAccount"), account, nullptr);
             }
         } else {
-            if (uidOnly) {
-                job = new EventDeleteJob(elementsToUids(events), QStringLiteral("MockAccount"), account, nullptr);
+            if (idOnly) {
+                job = new EventDeleteJob(elementsToIds(events), QStringLiteral("MockAccount"), account, nullptr);
             } else {
                 job = new EventDeleteJob(events, QStringLiteral("MockAccount"), account, nullptr);
             }

@@ -52,7 +52,6 @@ private Q_SLOTS:
 
         auto event1 = eventFromFile(QFINDTESTDATA("data/event1.json"));
         auto response1 = EventPtr::create(*event1);
-        event1->setUid({});
         QTest::newRow("simple event")
             << QList<FakeNetworkAccessManager::Scenario>{
                     scenarioFromFile(QFINDTESTDATA("data/event1_create_request.txt"),
@@ -63,7 +62,6 @@ private Q_SLOTS:
 
         auto event2 = eventFromFile(QFINDTESTDATA("data/event2.json"));
         auto response2 = EventPtr::create(*event2);
-        event2->setUid({});
         QTest::newRow("batch create")
             << QList<FakeNetworkAccessManager::Scenario>{
                     scenarioFromFile(QFINDTESTDATA("data/event1_create_request.txt"),
