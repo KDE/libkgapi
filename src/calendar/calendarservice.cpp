@@ -116,9 +116,6 @@ QUrl fetchEventsUrl(const QString& calendarID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
-    QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
-    url.setQuery(query);
     return url;
 }
 
@@ -281,9 +278,6 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
             feedData.nextPageUrl = fetchCalendarsUrl();
             QUrlQuery query(feedData.nextPageUrl);
             query.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
-            if (query.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
-                query.addQueryItem(QStringLiteral("maxResults"),QStringLiteral("20"));
-            }
             feedData.nextPageUrl.setQuery(query);
         }
     } else {
@@ -770,9 +764,6 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
             QUrlQuery query(feedData.nextPageUrl);
             query.removeQueryItem(QStringLiteral("pageToken"));
             query.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
-            if (query.queryItemValue(QStringLiteral("maxResults")).isEmpty()) {
-                query.addQueryItem(QStringLiteral("maxResults"), QStringLiteral("20"));
-            }
             feedData.nextPageUrl.setQuery(query);
         }
         if (data.contains(QStringLiteral("timeZone"))) {
