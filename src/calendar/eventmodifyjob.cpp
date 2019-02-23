@@ -84,7 +84,7 @@ void EventModifyJob::start()
     }
 
     const EventPtr event = d->events.current();
-    const QUrl url = CalendarService::updateEventUrl(d->calendarId, event->uid(), d->updatesPolicy);
+    const QUrl url = CalendarService::updateEventUrl(d->calendarId, event->id(), d->updatesPolicy);
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());

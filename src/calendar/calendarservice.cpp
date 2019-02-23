@@ -39,6 +39,7 @@
 #include <QUrlQuery>
 #include <QTimeZone>
 #include <QVariant>
+#include <QFlags>
 
 namespace KGAPI2
 {
@@ -313,12 +314,62 @@ EventPtr JSONToEvent(const QByteArray& jsonData)
     return Private::JSONToEvent(data).staticCast<Event>();
 }
 
+namespace {
+
+struct ParsedDt {
+    QDateTime dt;
+    bool isAllDay;
+};
+
+ParsedDt parseDt(const QVariantMap &data, const QString &timezone, bool isDtEnd)
+{
+    if (data.contains(QStringLiteral("date"))) {
+        auto dt = QDateTime::fromString(data.value(QStringLiteral("date")).toString(), Qt::ISODate);
+        if (isDtEnd) {
+            // Google reports all-day events to end on the next day, e.g. a
+            // Monday all-day event will be reporting as starting on Monday and
+            // ending on Tuesday, while KCalCore/iCal uses the same day for
+            // dtEnd, so adjust the end date here.
+            dt = dt.addDays(-1);
+        }
+        return {dt, true};
+    } else if (data.contains(QStringLiteral("dateTime"))) {
+        auto dt = Utils::rfc3339DateFromString(data.value(QStringLiteral("dateTime")).toString());
+        // If there's a timezone specified in the "start" entity, then use it
+        if (data.contains(QStringLiteral("timeZone"))) {
+            const QTimeZone tz = QTimeZone(data.value(QStringLiteral("timeZone")).toString().toUtf8());
+            if (tz.isValid()) {
+                dt = dt.toTimeZone(tz);
+            } else {
+                qCWarning(KGAPIDebug) << "Invalid timezone" << data.value(QStringLiteral("timeZone")).toString();
+            }
+
+            // Otherwise try to fallback to calendar-wide timezone
+        } else if (!timezone.isEmpty()) {
+            const QTimeZone tz(timezone.toUtf8());
+            if (tz.isValid()) {
+                dt.setTimeZone(tz);
+            } else {
+                qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
+            }
+        }
+        return {dt, false};
+    } else {
+        return {{}, false};
+    }
+}
+
+}
+
 ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
 {
     EventPtr event(new Event);
 
     /* ID */
-    event->setUid(QUrl::fromPercentEncoding(data.value(QStringLiteral("id")).toByteArray()));
+    event->setId(data.value(QStringLiteral("id")).toString());
+
+    /* UID */
+    event->setUid(data.value(QStringLiteral("iCalUID")).toString());
 
     /* ETAG */
     event->setEtag(data.value(QStringLiteral("etag")).toString());
@@ -333,11 +384,6 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         event->setStatus(KCalCore::Incidence::StatusTentative);
     } else {
         event->setStatus(KCalCore::Incidence::StatusNone);
-    }
-
-    /* Canceled instance of recurring event. Set ID of the instance to match ID of the event */
-    if (data.contains(QStringLiteral("recurringEventId"))) {
-        event->setUid(QUrl::fromPercentEncoding(data.value(QStringLiteral("recurringEventId")).toByteArray()));
     }
 
     /* Created */
@@ -356,63 +402,19 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     event->setLocation(data.value(QStringLiteral("location")).toString());
 
     /* Start date */
-    QVariantMap startData = data.value(QStringLiteral("start")).toMap();
-    QDateTime dtStart;
-    if (startData.contains(QStringLiteral("date"))) {
-        dtStart = QDateTime::fromString(startData.value(QStringLiteral("date")).toString(), Qt::ISODate);
-        event->setAllDay(true);
-    } else if (startData.contains(QStringLiteral("dateTime"))) {
-        dtStart = Utils::rfc3339DateFromString(startData.value(QStringLiteral("dateTime")).toString());
-        // If there's a timezone specified in the "start" entity, then use it
-        if (startData.contains(QStringLiteral("timeZone"))) {
-            const QTimeZone tz = QTimeZone(startData.value(QStringLiteral("timeZone")).toString().toUtf8());
-            if (tz.isValid()) {
-                dtStart = dtStart.toTimeZone(tz);
-            } else {
-                qCWarning(KGAPIDebug) << "Invalid timezone" << startData.value(QStringLiteral("timeZone")).toString();
-            }
-
-            // Otherwise try to fallback to calendar-wide timezone
-        } else if (!timezone.isEmpty()) {
-            const QTimeZone tz(timezone.toUtf8());
-            if (tz.isValid()) {
-                dtStart.setTimeZone(tz);
-            } else {
-                qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
-            }
-        }
-    }
-    event->setDtStart(dtStart);
+    const auto dtStart = parseDt(data.value(QStringLiteral("start")).toMap(), timezone, false);
+    event->setDtStart(dtStart.dt);
+    event->setAllDay(dtStart.isAllDay);
 
     /* End date */
-    QVariantMap endData = data.value(QStringLiteral("end")).toMap();
-    QDateTime dtEnd;
-    if (endData.contains(QStringLiteral("date"))) {
-        dtEnd = QDateTime::fromString(endData.value(QStringLiteral("date")).toString(), Qt::ISODate);
-        /* For Google, all-day events starts on Monday and ends on Tuesday,
-         * while in KDE, it both starts and ends on Monday. */
-        dtEnd = dtEnd.addDays(-1);
-        event->setAllDay(true);
-    } else if (endData.contains(QStringLiteral("dateTime"))) {
-        dtEnd = Utils::rfc3339DateFromString(endData.value(QStringLiteral("dateTime")).toString());
-        if (endData.contains(QStringLiteral("timeZone"))) {
-            const QTimeZone tz(endData.value(QStringLiteral("timeZone")).toString().toUtf8());
-            if (tz.isValid()) {
-                dtEnd = dtEnd.toTimeZone(tz);
-            } else {
-                qCWarning(KGAPIDebug) << "Invalid timezone" << endData.value(QStringLiteral("timeZone")).toString();
-            }
-        } else if (!timezone.isEmpty()) {
+    const auto dtEnd = parseDt(data.value(QStringLiteral("end")).toMap(), timezone, true);
+    event->setDtEnd(dtEnd.dt);
 
-            const QTimeZone tz(timezone.toUtf8());
-            if (tz.isValid()) {
-                dtEnd = dtEnd.toTimeZone(tz);
-            } else {
-                qCWarning(KGAPIDebug) << "Invalid timezone" << timezone;
-            }
-        }
+    /* Recurrence ID */
+    if (data.contains(QStringLiteral("originalStartTime"))) {
+        const auto recurrenceId = parseDt(data.value(QStringLiteral("originalStartTime")).toMap(), timezone, false);
+        event->setRecurrenceId(recurrenceId.dt);
     }
-    event->setDtEnd(dtEnd);
 
     /* Transparency */
     if (data.value(QStringLiteral("transparency")).toString() == QLatin1String("transparent")) {
@@ -538,7 +540,42 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     return event.dynamicCast<Object>();
 }
 
-QByteArray eventToJSON(const EventPtr& event)
+namespace {
+
+enum class SerializeDtFlag {
+    AllDay =        1 << 0,
+    IsDtEnd =       1 << 1,
+    HasRecurrence = 1 << 2
+};
+using SerializeDtFlags = QFlags<SerializeDtFlag>;
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(SerializeDtFlags)
+
+QVariantMap serializeDt(const EventPtr &event, const QDateTime &dt, SerializeDtFlags flags)
+{
+    QVariantMap rv;
+    if (flags & SerializeDtFlag::AllDay) {
+        /* For Google, all-day events starts on Monday and ends on Tuesday,
+         * while in KDE, it both starts and ends on Monday. */
+        auto adjusted = dt.addDays(flags & SerializeDtFlag::IsDtEnd ? 1 : 0);
+        rv.insert(QStringLiteral("date"), adjusted.toString(QStringLiteral("yyyy-MM-dd")));
+    } else {
+        rv.insert(QStringLiteral("dateTime"), Utils::rfc3339DateToString(dt));
+        QString tzEnd = QString::fromUtf8(dt.timeZone().id());
+        if (flags & SerializeDtFlag::HasRecurrence && tzEnd.isEmpty()) {
+            tzEnd = QString::fromUtf8(QTimeZone::utc().id());
+        }
+        if (!tzEnd.isEmpty()) {
+            rv.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzEnd, event));
+        }
+    }
+
+    return rv;
+}
+
+} // namespace
+
+QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
 {
     QVariantMap data;
 
@@ -546,9 +583,12 @@ QByteArray eventToJSON(const EventPtr& event)
     data.insert(QStringLiteral("kind"), QStringLiteral("calendar#event"));
 
     /* ID */
-    if (!event->uid().isEmpty()) {
-        data.insert(QStringLiteral("id"), event->uid());
+    if (!(flags & EventSerializeFlag::NoID)) {
+        data.insert(QStringLiteral("id"), event->id());
     }
+
+    /* UID */
+    data.insert(QStringLiteral("iCalUID"), event->uid());
 
     /* Status */
     if (event->status() == KCalCore::Incidence::StatusConfirmed) {
@@ -608,40 +648,24 @@ QByteArray eventToJSON(const EventPtr& event)
         data.insert(QStringLiteral("recurrence"), recurrence);
     }
 
-    /* Start */
-    QVariantMap start;
+    SerializeDtFlags dtFlags;
     if (event->allDay()) {
-        start.insert(QStringLiteral("date"), event->dtStart().toString(QStringLiteral("yyyy-MM-dd")));
-    } else {
-        start.insert(QStringLiteral("dateTime"), Utils::rfc3339DateToString(event->dtStart()));
-        QString tzStart = QString::fromUtf8(event->dtStart().timeZone().id());
-        if (!recurrence.isEmpty() && tzStart.isEmpty()) {
-            tzStart = QString::fromUtf8(QTimeZone::utc().id());
-        }
-        if (!tzStart.isEmpty()) {
-            start.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzStart, event));
-        }
+        dtFlags |= SerializeDtFlag::AllDay;
     }
-    data.insert(QStringLiteral("start"), start);
+    if (!recurrence.isEmpty()) {
+        dtFlags |= SerializeDtFlag::HasRecurrence;
+    }
+
+    /* Start */
+    data.insert(QStringLiteral("start"), serializeDt(event, event->dtStart(), dtFlags));
 
     /* End */
-    QVariantMap end;
-    if (event->allDay()) {
-        /* For Google, all-day events starts on Monday and ends on Tuesday,
-         * while in KDE, it both starts and ends on Monday. */
-        QDateTime dtEnd = event->dtEnd().addDays(1);
-        end.insert(QStringLiteral("date"), dtEnd.toString(QStringLiteral("yyyy-MM-dd")));
-    } else {
-        end.insert(QStringLiteral("dateTime"), Utils::rfc3339DateToString(event->dtEnd()));
-        QString tzEnd = QString::fromUtf8(event->dtEnd().timeZone().id());
-        if (!recurrence.isEmpty() && tzEnd.isEmpty()) {
-            tzEnd = QString::fromUtf8(QTimeZone::utc().id());
-        }
-        if (!tzEnd.isEmpty()) {
-            end.insert(QStringLiteral("timeZone"), Private::checkAndConverCDOTZID(tzEnd, event));
-        }
+    data.insert(QStringLiteral("end"), serializeDt(event, event->dtEnd(), dtFlags | SerializeDtFlag::IsDtEnd));
+
+    if (event->hasRecurrenceId()) {
+        data.insert(QStringLiteral("originalStartTime"), serializeDt(event, event->recurrenceId(), dtFlags));
+        data.insert(QStringLiteral("recurringEventId"), event->id());
     }
-    data.insert(QStringLiteral("end"), end);
 
     /* Transparency */
     if (event->transparency() == Event::Transparent) {

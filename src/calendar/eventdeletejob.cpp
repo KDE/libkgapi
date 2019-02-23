@@ -42,7 +42,7 @@ EventDeleteJob::EventDeleteJob(const EventPtr& event, const QString &calendarId,
     DeleteJob(account, parent),
     d(new Private)
 {
-    d->eventsIds << event->uid();
+    d->eventsIds << event->id();
     d->calendarId = calendarId;
 }
 
@@ -51,7 +51,7 @@ EventDeleteJob::EventDeleteJob(const EventsList& events, const QString& calendar
     d(new Private)
 {
     for (const EventPtr &event : events) {
-        d->eventsIds << event->uid();
+        d->eventsIds << event->id();
     }
     d->calendarId = calendarId;
 }

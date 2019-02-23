@@ -91,7 +91,7 @@ void EventCreateJob::start()
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
     request.setUrl(url);
 
-    const QByteArray rawData = CalendarService::eventToJSON(event);
+    const QByteArray rawData = CalendarService::eventToJSON(event, CalendarService::EventSerializeFlag::NoID);
 
     QStringList headers;
     auto rawHeaderList = request.rawHeaderList();

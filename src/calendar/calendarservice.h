@@ -27,6 +27,8 @@
 #include "enums.h"
 #include "kgapicalendar_export.h"
 
+#include <QFlags>
+
 namespace KGAPI2
 {
 
@@ -37,6 +39,11 @@ namespace KGAPI2
  */
 namespace CalendarService
 {
+    enum class EventSerializeFlag {
+        Default     =   0,
+        NoID        =   1 << 0
+    };
+    using EventSerializeFlags = QFlags<EventSerializeFlag>;
 
     /**
      * @brief Parses calendar JSON data into Calendar object
@@ -73,7 +80,7 @@ namespace CalendarService
      *
      * @param event
      */
-    KGAPICALENDAR_EXPORT QByteArray eventToJSON(const EventPtr& event);
+    KGAPICALENDAR_EXPORT QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags = EventSerializeFlag::Default);
 
     /**
      * @brief Parses JSON feed into list of Events
@@ -178,5 +185,7 @@ namespace CalendarService
 } // namespace CalendarService
 
 } // namespace KGAPI
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(KGAPI2::CalendarService::EventSerializeFlags)
 
 #endif // LIBKGAPI2_CALENDARSERVICE_H

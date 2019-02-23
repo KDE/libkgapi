@@ -88,6 +88,18 @@ class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
      */
     bool useDefaultReminders() const;
 
+    /**
+     * @brief Returns ID used by Google to identify the event in calendar.
+     *
+     * This is not the same as UID.
+     */
+    QString id() const;
+
+    /**
+     * @brief Sets event ID used by Google to identify the event in calendar.
+     */
+    void setId(const QString &id);
+
   private:
     class Private;
     Private * const d;

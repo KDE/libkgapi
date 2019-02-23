@@ -31,6 +31,7 @@ class Q_DECL_HIDDEN Event::Private
     explicit Private();
     Private(const Private &other);
 
+    QString id;
     bool deleted;
     bool useDefaultReminders;
 };
@@ -42,6 +43,7 @@ Event::Private::Private():
 }
 
 Event::Private::Private(const Private &other):
+    id(other.id),
     deleted(other.deleted),
     useDefaultReminders(other.useDefaultReminders)
 {
@@ -112,4 +114,20 @@ void Event::setDeleted(bool deleted)
 void Event::setUseDefaultReminders(bool useDefault)
 {
     d->useDefaultReminders = useDefault;
+}
+
+QString Event::id() const
+{
+    QString val = customProperty("LIBKGAPI", "EventId");
+    if (val.isEmpty()) {
+        // Backwards compatibility: prior to introducing "id", UID was used for
+        // remote identification: use it
+        return KCalCore::Incidence::uid();
+    }
+    return val;
+}
+
+void Event::setId(const QString &id)
+{
+    setCustomProperty("LIBKGAPI", "EventId", id);
 }

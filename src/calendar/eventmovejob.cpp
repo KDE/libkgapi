@@ -83,7 +83,7 @@ EventMoveJob::EventMoveJob(const EventPtr &event, const QString &sourceCalendarI
     ModifyJob(account, parent),
     d(new Private(this))
 {
-    d->eventsIds << event->uid();
+    d->eventsIds << event->id();
     d->source = sourceCalendarId;
     d->destination = destinationCalendarId;
 }
@@ -95,7 +95,7 @@ EventMoveJob::EventMoveJob(const EventsList &events, const QString &sourceCalend
     d(new Private(this))
 {
     for (const EventPtr &event : events) {
-        d->eventsIds << event->uid();
+        d->eventsIds << event->id();
     }
     d->source = sourceCalendarId;
     d->destination = destinationCalendarId;
