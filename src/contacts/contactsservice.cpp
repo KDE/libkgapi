@@ -453,7 +453,8 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     const QVariantList emails = data.value(QStringLiteral("gd$email")).toList();
     for (const QVariant & em : emails) {
         const QVariantMap email = em.toMap();
-        const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { email.value(QStringLiteral("rel")).toString() } } });
+        const auto emailType = Contact::emailSchemeToProtocolName(email.value(QStringLiteral("rel")).toString());
+        const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { emailType } } });
         contact->insertEmail(email.value(QStringLiteral("address")).toString(),
                              email.value(QStringLiteral("primary")).toBool(), params);
     }
@@ -1026,7 +1027,8 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
 
         /* Emails */
         if (e.tagName() == QLatin1String("gd:email")) {
-            const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { e.attribute(QStringLiteral("rel"), {}) } } });
+            const auto emailType = Contact::emailSchemeToProtocolName(e.attribute(QStringLiteral("rel"), {}));
+            const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { emailType } } });
             contact->insertEmail(e.attribute(QStringLiteral("address")),
                                  (e.attribute(QStringLiteral("primary")).toLower() == QLatin1String("true")), params);
             continue;
