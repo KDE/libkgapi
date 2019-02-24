@@ -320,6 +320,11 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      */
     static KContacts::Address::Type addressSchemeToType(const QString &scheme, bool primary = false);
 
+    /**
+     * @brief Contacts Google scheme URL to email type.
+     */
+    static QString emailSchemeToProtocolName(const QString &scheme);
+
   private:
     class Private;
     Private * const d;

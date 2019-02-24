@@ -482,3 +482,17 @@ KContacts::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
 
     return type;
 }
+
+QString Contact::emailSchemeToProtocolName(const QString &scheme)
+{
+    QString type = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
+    if (type == QLatin1String("work")) {
+        return QStringLiteral("WORK");
+    } else if (type == QLatin1String("home")) {
+        return QStringLiteral("HOME");
+    } else if (type == QLatin1String("other")) {
+        return QStringLiteral("OTHER");
+    }
+    return type;
+}
+
