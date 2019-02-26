@@ -326,7 +326,11 @@ QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
 
 QString Contact::IMSchemeToProtocolName(const QString& scheme)
 {
-    return scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toLower();
+    QString newScheme = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toLower();
+    if (newScheme == QLatin1String("google_talk")) {
+        newScheme = QStringLiteral("googletalk");
+    }
+    return newScheme;
 }
 
 QString Contact::IMProtocolNameToScheme(const QString& protocolName)
@@ -343,6 +347,8 @@ QString Contact::IMProtocolNameToScheme(const QString& protocolName)
                (protocolName.toUpper() == QLatin1String("AIM")))
     {
         return SCHEME_URL + protocolName.toUpper();
+    } else if (protocolName.toUpper() == QLatin1String("GOOGLETALK")) {
+        return SCHEME_URL + QStringLiteral("GOOGLE_TALK");
     }
 
     /* If the protocolName is not officially supported by Google, then instead
@@ -358,7 +364,7 @@ Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)
         return Jabber;
     if (protoName == QLatin1String("ICQ"))
         return ICQ;
-    if (protoName == QLatin1String("GOOGLE_TALK"))
+    if (protoName == QLatin1String("GOOGLE_TALK") || protoName == QLatin1String("GOOGLETALK"))
         return GoogleTalk;
     if (protoName == QLatin1String("QQ"))
         return QQ;
