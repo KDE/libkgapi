@@ -487,4 +487,3 @@ void Job::aboutToStart()
 }
 
 #include "moc_job.cpp"
-#include "moc_job_p.cpp"
