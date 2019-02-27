@@ -120,6 +120,9 @@ class KGAPIDRIVE_EXPORT FileFetchJob : public KGAPI2::FetchJob
     void setFields(qulonglong fields);
     qulonglong fields() const;
 
+    bool includeTeamDriveItems() const;
+    void setIncludeTeamDriveItems(bool includeTeamDriveItems);
+
   protected:
     void start() override;
     KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,

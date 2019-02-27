@@ -46,6 +46,7 @@ class Q_DECL_HIDDEN FileFetchJob::Private
     FileSearchQuery searchQuery;
     QStringList filesIDs;
     bool isFeed;
+    bool includeTeamDriveItems;
 
     bool updateViewedDate;
 
@@ -238,6 +239,12 @@ void FileFetchJob::Private::processNext()
             query.addQueryItem(QStringLiteral("fields"),
                              QStringLiteral("etag,kind,nextLink,nextPageToken,selfLink,items(%1)").arg(fieldsStrings.join(QStringLiteral(","))));
         }
+
+        if (includeTeamDriveItems) {
+            query.addQueryItem(QStringLiteral("includeTeamDriveItems"), QStringLiteral("true"));
+            query.addQueryItem(QStringLiteral("supportsTeamDrives"), QStringLiteral("true"));
+        }
+
         url.setQuery(query);
     } else {
         if (filesIDs.isEmpty()) {
@@ -324,6 +331,16 @@ void FileFetchJob::setFields(qulonglong fields)
 qulonglong FileFetchJob::fields() const
 {
     return d->fields;
+}
+
+bool FileFetchJob::includeTeamDriveItems() const
+{
+    return d->includeTeamDriveItems;
+}
+
+void FileFetchJob::setIncludeTeamDriveItems(bool includeTeamDriveItems)
+{
+    d->includeTeamDriveItems = includeTeamDriveItems;
 }
 
 

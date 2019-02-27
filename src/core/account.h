@@ -205,6 +205,11 @@ class KGAPICORE_EXPORT Account
      * Returns scope URL for Gmail service.
      */
     static QUrl mailScopeUrl();
+
+    /**
+     * Returns scope URL for Drive service.
+     */
+    static QUrl driveScopeUrl();
 private:
     class Private;
     Private * const d;

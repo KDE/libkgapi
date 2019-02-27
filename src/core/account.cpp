@@ -201,3 +201,8 @@ QUrl Account::mailScopeUrl()
 {
     return QUrl(QStringLiteral("https://mail.google.com/"));
 }
+
+QUrl Account::driveScopeUrl()
+{
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/drive"));
+}
