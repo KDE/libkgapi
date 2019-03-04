@@ -10,6 +10,7 @@ set(kgapidrive_SRCS
     childreferencedeletejob.cpp
     childreferencefetchjob.cpp
     driveservice.cpp
+    searchquery.cpp
     file.cpp
     fileabstractdatajob.cpp
     fileabstractmodifyjob.cpp
@@ -54,6 +55,7 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     ChildReferenceCreateJob
     ChildReferenceDeleteJob
     ChildReferenceFetchJob
+    SearchQuery
     File
     FileAbstractDataJob
     FileAbstractModifyJob

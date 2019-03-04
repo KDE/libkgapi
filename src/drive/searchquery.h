@@ -19,12 +19,10 @@
  * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef KGAPI2_DRIVE_FILESEARCHQUERY_H
-#define KGAPI2_DRIVE_FILESEARCHQUERY_H
+#ifndef KGAPI2_DRIVE_SEARCHQUERY_H
+#define KGAPI2_DRIVE_SEARCHQUERY_H
 
 #include "kgapidrive_export.h"
-
-#include "searchquery.h"
 
 #include <QVariant>
 #include <QSharedDataPointer>
@@ -35,43 +33,46 @@ namespace Drive
 {
 
 /**
- * FileSearchQuery class allows simply building even complex file search queries
- * for FileFetchJob.
- *
- * See https://developers.google.com/drive/web/search-parameters for allowed
- * combinations of fields, compare operators, and value types.
- *
- * @since 2.3
+ * SearchQuery class should be used as a base class for building file/team search queries.
  */
-class KGAPIDRIVE_EXPORT FileSearchQuery : public SearchQuery
+class KGAPIDRIVE_EXPORT SearchQuery
 {
 public:
-    enum Field {
-        Title,
-        FullText,
-        MimeType,
-        ModifiedDate,
-        LastViewedByMeDate,
-        Trashed,
-        Starred,
-        Parents,
-        Owners,
-        Writers,
-        Readers,
-        SharedWithMe,
-        /*Properties            FIXME: Not supported atm */
+    enum CompareOperator {
+        Contains,
+        Equals,
+        NotEquals,
+        Less,
+        LessOrEqual,
+        Greater,
+        GreaterOrEqual,
+        In,
+        Has
     };
 
-    using SearchQuery::SearchQuery;
+    enum LogicOperator {
+        And,
+        Or
+    };
 
-    using SearchQuery::addQuery;
-    void addQuery(Field field, CompareOperator op, const QVariant &value);
+    SearchQuery(LogicOperator op = And);
+    SearchQuery(const SearchQuery &other);
+    ~SearchQuery();
 
-private:
-    QString fieldToString(Field field);
-    QString valueToString(FileSearchQuery::Field field, const QVariant &var);
+    SearchQuery &operator=(const SearchQuery &other);
+
+    void addQuery(const QString &field, CompareOperator op, const QString &value);
+    void addQuery(const SearchQuery &query);
+
+    bool isEmpty() const;
+
+    QString serialize() const;
+
+  private:
+    class Private;
+    QSharedDataPointer<Private> d;
 };
 }
 }
 
-#endif // KGAPI2_DRIVE_FILESEARCHQUERY_H
+#endif // KGAPI2_DRIVE_SEARCHQUERY_H
