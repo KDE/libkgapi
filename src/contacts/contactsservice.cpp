@@ -693,7 +693,8 @@ QByteArray contactToXML(const ContactPtr& contact)
     const auto preferredEmail = contact->preferredEmail();
     Q_FOREACH(const auto &email, contact->emailList()) {
         const auto rels = email.parameters().value(QStringLiteral("TYPE"), { QStringLiteral("http://schemas.google.com/g/2005#home") });
-        auto rel = rels.isEmpty() ? "http://schemas.google.com/g/2005#home" : rels.at(0).toLower().toUtf8();
+        auto rel = rels.isEmpty() ? QByteArray("http://schemas.google.com/g/2005#home") :
+                                    "http://schemas.google.com/g/2005#" + rels.at(0).toLower().toUtf8();
         output.append("<gd:email rel='" + rel + "' address='").append(email.mail().toHtmlEscaped().toUtf8()).append("'");
         if (email.mail() == preferredEmail) {
             output.append(" primary=\"true\"");
