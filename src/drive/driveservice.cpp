@@ -34,6 +34,7 @@ namespace Private
     static const QString AppsBasePath(QStringLiteral("/drive/v2/about"));
     static const QString FilesBasePath(QStringLiteral("/drive/v2/files"));
     static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
+    static const QString TeamdriveBasePath(QStringLiteral("/drive/v2/teamdrives"));
 }
 
 namespace DriveService
@@ -283,6 +284,20 @@ QUrl modifyRevisionUrl(const QString &fileId, const QString &revisionId)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/revisions/") % revisionId);
+    return url;
+}
+
+QUrl fetchTeamdriveUrl(const QString &teamdriveId)
+{
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TeamdriveBasePath % QLatin1Char('/') % teamdriveId);
+    return url;
+}
+
+QUrl fetchTeamdrivesUrl()
+{
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::TeamdriveBasePath);
     return url;
 }
 

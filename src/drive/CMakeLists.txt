@@ -38,6 +38,8 @@ set(kgapidrive_SRCS
     revisiondeletejob.cpp
     revisionfetchjob.cpp
     revisionmodifyjob.cpp
+    teamdrive.cpp
+    teamdrivefetchjob.cpp
     user.cpp
 
     ../debug.cpp
@@ -83,6 +85,8 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     RevisionDeleteJob
     RevisionFetchJob
     RevisionModifyJob
+    Teamdrive
+    TeamdriveFetchJob
     User
     PREFIX KGAPI/Drive
     REQUIRED_HEADERS kgapidrive_HEADERS

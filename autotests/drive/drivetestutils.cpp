@@ -22,6 +22,7 @@
 #include "about.h"
 #include "change.h"
 #include "file.h"
+#include "teamdrive.h"
 #include "testutils.h"
 
 #include <QFile>
@@ -54,4 +55,14 @@ KGAPI2::Drive::FilePtr fileFromFile(const QString &path)
     auto file = KGAPI2::Drive::File::fromJSON(f.readAll());
     VERIFY_RET(file, {});
     return file;
+}
+
+KGAPI2::Drive::TeamdrivePtr teamdriveFromFile(const QString &path)
+{
+    QFile f(path);
+    VERIFY_RET(f.open(QIODevice::ReadOnly), {});
+
+    auto teamdrive = KGAPI2::Drive::Teamdrive::fromJSON(f.readAll());
+    VERIFY_RET(teamdrive, {});
+    return teamdrive;
 }

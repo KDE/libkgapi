@@ -115,6 +115,10 @@ class Revision;
 typedef QSharedPointer<Revision> RevisionPtr;
 typedef QList<RevisionPtr> RevisionsList;
 
+class Teamdrive;
+typedef QSharedPointer<Teamdrive> TeamdrivePtr;
+typedef QList<TeamdrivePtr> TeamdrivesList;
+
 class User;
 typedef QSharedPointer<User> UserPtr;
 typedef QList<UserPtr> UsersList;
