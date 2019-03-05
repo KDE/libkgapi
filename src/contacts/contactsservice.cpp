@@ -52,6 +52,15 @@ namespace Private
     static const QString ContactsBasePath(QStringLiteral("/m8/feeds/contacts"));
     static const QString ContactsGroupBasePath(QStringLiteral("/m8/feeds/groups"));
     static const QString PhotoBasePath(QStringLiteral("/m8/feeds/photos/media"));
+
+    QByteArray addRelSchema(const QByteArray &rel)
+    {
+        if (!rel.startsWith("http://schemas.google.com/g/2005#")) {
+            return "http://schemas.google.com/g/2005#" + rel;
+        } else {
+            return rel;
+        }
+    }
 }
 
 ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
@@ -692,9 +701,8 @@ QByteArray contactToXML(const ContactPtr& contact)
     /* Emails */
     const auto preferredEmail = contact->preferredEmail();
     Q_FOREACH(const auto &email, contact->emailList()) {
-        const auto rels = email.parameters().value(QStringLiteral("TYPE"), { QStringLiteral("http://schemas.google.com/g/2005#home") });
-        auto rel = rels.isEmpty() ? QByteArray("http://schemas.google.com/g/2005#home") :
-                                    "http://schemas.google.com/g/2005#" + rels.at(0).toLower().toUtf8();
+        const auto rels = email.parameters().value(QStringLiteral("TYPE"), { QStringLiteral("home") });
+        const auto rel = Private::addRelSchema(rels.isEmpty() ? "home" : rels.at(0).toLower().toUtf8());
         output.append("<gd:email rel='" + rel + "' address='").append(email.mail().toHtmlEscaped().toUtf8()).append("'");
         if (email.mail() == preferredEmail) {
             output.append(" primary=\"true\"");
