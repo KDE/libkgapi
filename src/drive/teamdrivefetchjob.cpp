@@ -46,6 +46,7 @@ class Q_DECL_HIDDEN TeamdriveFetchJob::Private
     Private(TeamdriveFetchJob *parent);
     QNetworkRequest createRequest(const QUrl &url);
 
+    TeamdriveSearchQuery searchQuery;
     QString teamdriveId;
 
     int maxResults = 0;
@@ -77,6 +78,15 @@ TeamdriveFetchJob::TeamdriveFetchJob(const QString &teamdriveId,
     d(new Private(this))
 {
     d->teamdriveId = teamdriveId;
+}
+
+TeamdriveFetchJob::TeamdriveFetchJob(const TeamdriveSearchQuery &query,
+                           const AccountPtr &account, QObject *parent):
+    FetchJob(account, parent),
+    d(new Private(this))
+{
+    d->useDomainAdminAccess = true;
+    d->searchQuery = query;
 }
 
 TeamdriveFetchJob::TeamdriveFetchJob(const AccountPtr &account, QObject *parent):
@@ -174,6 +184,9 @@ void TeamdriveFetchJob::applyRequestParameters(QUrl &url) {
     }
     if (d->useDomainAdminAccess != false) {
         query.addQueryItem(UseDomainAdminAccessAttr, d->useDomainAdminAccess ? True : False);
+    }
+    if (!d->searchQuery.isEmpty()) {
+        query.addQueryItem(QStringLiteral("q"), d->searchQuery.serialize());
     }
     url.setQuery(query);
 }

@@ -26,6 +26,8 @@
 #include "fetchjob.h"
 #include "kgapidrive_export.h"
 
+#include "teamdrivesearchquery.h"
+
 namespace KGAPI2
 {
 
@@ -63,6 +65,7 @@ class KGAPIDRIVE_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
                WRITE setUseDomainAdminAccess)
 
   public:
+    TeamdriveFetchJob(const TeamdriveSearchQuery &query, const AccountPtr &account, QObject *parent = nullptr);
     TeamdriveFetchJob(const AccountPtr &account, QObject *parent = nullptr);
     TeamdriveFetchJob(const QString &teamdriveId, const AccountPtr &account,
                             QObject *parent = nullptr);

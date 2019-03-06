@@ -24,6 +24,7 @@
 
 #include <drive/teamdrive.h>
 #include <drive/teamdrivefetchjob.h>
+#include <drive/teamdrivesearchquery.h>
 #include <drive/file.h>
 #include <drive/filesearchquery.h>
 #include <drive/filefetchjob.h>
@@ -96,7 +97,10 @@ void MainWindow::fetchTeamdriveList()
         return;
     }
 
-    KGAPI2::Drive::TeamdriveFetchJob *fetchJob = new KGAPI2::Drive::TeamdriveFetchJob(m_account, this);
+    KGAPI2::Drive::TeamdriveSearchQuery query;
+    query.addQuery(KGAPI2::Drive::TeamdriveSearchQuery::MemberCount, KGAPI2::Drive::TeamdriveSearchQuery::Less, 10);
+
+    KGAPI2::Drive::TeamdriveFetchJob *fetchJob = new KGAPI2::Drive::TeamdriveFetchJob(query, m_account, this);
     connect(fetchJob, &KGAPI2::Job::finished,
             this, &MainWindow::slotFetchJobFinished);
 
