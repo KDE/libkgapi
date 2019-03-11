@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>640</width>
-    <height>413</height>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,6 +39,20 @@
        <enum>Qt::Horizontal</enum>
       </property>
      </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="newTeamdriveLayout">
+      <item>
+       <widget class="QLineEdit" name="newTeamdriveEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="newTeamdriveButton">
+        <property name="text">
+         <string>Create</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QPushButton" name="teamdriveListButton">
@@ -126,7 +140,7 @@
      <x>0</x>
      <y>0</y>
      <width>640</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -144,8 +158,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

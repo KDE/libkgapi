@@ -39,6 +39,7 @@ set(kgapidrive_SRCS
     revisionfetchjob.cpp
     revisionmodifyjob.cpp
     teamdrive.cpp
+    teamdrivecreatejob.cpp
     teamdrivefetchjob.cpp
     teamdrivesearchquery.cpp
     user.cpp
@@ -87,6 +88,7 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     RevisionFetchJob
     RevisionModifyJob
     Teamdrive
+    TeamdriveCreateJob
     TeamdriveFetchJob
     TeamdriveSearchQuery
     User

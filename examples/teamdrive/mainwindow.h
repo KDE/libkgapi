@@ -56,6 +56,16 @@ class MainWindow : public QMainWindow
     void slotAuthJobFinished(KGAPI2::Job *job);
 
     /**
+     * Creates the Team Drive with name in newTeamdriveEdit
+     */
+    void createTeamdrive();
+
+    /**
+     * Team Drive was created.
+     */
+    void slotTeamdriveCreateJobFinished(KGAPI2::Job *job);
+
+    /**
      * All Team Drives were fetched.
      */
     void slotFetchJobFinished(KGAPI2::Job *job);

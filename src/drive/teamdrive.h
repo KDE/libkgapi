@@ -290,6 +290,13 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
     QString name() const;
 
     /**
+     * @brief Sets the name of the teamdrive.
+     *
+     * @param name
+     */
+    void setName(const QString &name) const;
+
+    /**
      * @brief Returns the themeId of the teamdrive.
      */
     QString themeId() const;

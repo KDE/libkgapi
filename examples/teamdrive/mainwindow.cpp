@@ -23,6 +23,7 @@
 #include "ui_main.h"
 
 #include <drive/teamdrive.h>
+#include <drive/teamdrivecreatejob.h>
 #include <drive/teamdrivefetchjob.h>
 #include <drive/teamdrivesearchquery.h>
 #include <drive/file.h>
@@ -32,6 +33,7 @@
 #include <account.h>
 
 #include <QListWidgetItem>
+#include <QUuid>
 
 MainWindow::MainWindow(QWidget * parent):
     QMainWindow(parent),
@@ -42,6 +44,8 @@ MainWindow::MainWindow(QWidget * parent):
     m_ui->errorLabel->setVisible(false);
     connect(m_ui->authButton, &QAbstractButton::clicked,
             this, &MainWindow::authenticate);
+    connect(m_ui->newTeamdriveButton, &QAbstractButton::clicked,
+            this, &MainWindow::createTeamdrive);
     connect(m_ui->teamdriveListButton, &QAbstractButton::clicked,
             this, &MainWindow::fetchTeamdriveList);
     connect(m_ui->teamdriveList, &QListWidget::itemSelectionChanged,
@@ -88,6 +92,38 @@ void MainWindow::slotAuthJobFinished(KGAPI2::Job *job)
     m_ui->authButton->setEnabled(false);
 }
 
+void MainWindow::createTeamdrive()
+{
+    QString teamdriveName = m_ui->newTeamdriveEdit->text();
+    if (teamdriveName.isEmpty()) {
+        return;
+    }
+    QString requestId = QUuid::createUuid().toString();
+
+    KGAPI2::Drive::TeamdrivePtr teamdrive = KGAPI2::Drive::TeamdrivePtr::create();
+    teamdrive->setName(teamdriveName);
+    KGAPI2::Drive::TeamdriveCreateJob *createJob = new KGAPI2::Drive::TeamdriveCreateJob(requestId, teamdrive, m_account, this);
+    connect(createJob, &KGAPI2::Job::finished,
+            this, &MainWindow::slotTeamdriveCreateJobFinished);
+}
+
+void MainWindow::slotTeamdriveCreateJobFinished(KGAPI2::Job *job)
+{
+    KGAPI2::Drive::TeamdriveCreateJob *createJob = qobject_cast<KGAPI2::Drive::TeamdriveCreateJob*>(job);
+    Q_ASSERT(createJob);
+    createJob->deleteLater();
+
+    if (createJob->error() != KGAPI2::NoError) {
+        m_ui->errorLabel->setText(QStringLiteral("Error: %1").arg(createJob->errorString()));
+        m_ui->errorLabel->setVisible(true);
+        m_ui->teamdriveListButton->setEnabled(true);
+        return;
+    }
+
+    m_ui->newTeamdriveEdit->clear();
+    fetchTeamdriveList();
+}
+
 void MainWindow::fetchTeamdriveList()
 {
     if (m_account.isNull()) {
@@ -97,10 +133,7 @@ void MainWindow::fetchTeamdriveList()
         return;
     }
 
-    KGAPI2::Drive::TeamdriveSearchQuery query;
-    query.addQuery(KGAPI2::Drive::TeamdriveSearchQuery::MemberCount, KGAPI2::Drive::TeamdriveSearchQuery::Less, 10);
-
-    KGAPI2::Drive::TeamdriveFetchJob *fetchJob = new KGAPI2::Drive::TeamdriveFetchJob(query, m_account, this);
+    KGAPI2::Drive::TeamdriveFetchJob *fetchJob = new KGAPI2::Drive::TeamdriveFetchJob(m_account, this);
     connect(fetchJob, &KGAPI2::Job::finished,
             this, &MainWindow::slotFetchJobFinished);
 
@@ -122,7 +155,7 @@ void MainWindow::slotFetchJobFinished(KGAPI2::Job *job)
 
     /* Get all items the job has retrieved */
     const KGAPI2::ObjectsList objects = fetchJob->items();
-
+    m_ui->teamdriveList->clear();
     for (const KGAPI2::ObjectPtr &object : objects) {
         const KGAPI2::Drive::TeamdrivePtr teamdrive = object.dynamicCast<KGAPI2::Drive::Teamdrive>();
 

@@ -1,0 +1,8 @@
+HTTP/1.1 200 OK
+content-type: application/json; charset=UTF-8
+
+{
+    "kind": "drive#teamDrive",
+    "id": "0APqEW6eViiMXUk9PVA",
+    "name": "First Team Drive"
+}
