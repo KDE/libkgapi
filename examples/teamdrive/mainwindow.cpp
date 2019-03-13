@@ -24,6 +24,7 @@
 
 #include <drive/teamdrive.h>
 #include <drive/teamdrivecreatejob.h>
+#include <drive/teamdrivedeletejob.h>
 #include <drive/teamdrivefetchjob.h>
 #include <drive/teamdrivesearchquery.h>
 #include <drive/file.h>
@@ -48,6 +49,8 @@ MainWindow::MainWindow(QWidget * parent):
             this, &MainWindow::createTeamdrive);
     connect(m_ui->teamdriveListButton, &QAbstractButton::clicked,
             this, &MainWindow::fetchTeamdriveList);
+    connect(m_ui->teamdriveSelectedDeleteButton, &QAbstractButton::clicked,
+            this, &MainWindow::deleteSelectedTeamdrive);
     connect(m_ui->teamdriveList, &QListWidget::itemSelectionChanged,
             this, &MainWindow::teamdriveSelected);
 }
@@ -170,9 +173,37 @@ void MainWindow::slotFetchJobFinished(KGAPI2::Job *job)
     m_ui->teamdriveListButton->setEnabled(true);
 }
 
+void MainWindow::deleteSelectedTeamdrive() {
+    const QString teamdrive_id = m_ui->teamdriveList->selectedItems().at(0)->data(Qt::UserRole).toString();
+
+    KGAPI2::Drive::TeamdriveDeleteJob *deleteJob = new KGAPI2::Drive::TeamdriveDeleteJob(teamdrive_id, m_account, this);
+    connect(deleteJob, &KGAPI2::Job::finished,
+            this, &MainWindow::slotTeamdriveDeleteJobFinished);
+}
+
+void MainWindow::slotTeamdriveDeleteJobFinished(KGAPI2::Job *job)
+{
+    KGAPI2::Drive::TeamdriveDeleteJob *deleteJob = qobject_cast<KGAPI2::Drive::TeamdriveDeleteJob*>(job);
+    Q_ASSERT(deleteJob);
+    deleteJob->deleteLater();
+
+    if (deleteJob->error() != KGAPI2::NoError) {
+        m_ui->errorLabel->setText(QStringLiteral("Error: %1").arg(deleteJob->errorString()));
+        m_ui->errorLabel->setVisible(true);
+        m_ui->teamdriveListButton->setEnabled(true);
+        return;
+    }
+
+    fetchTeamdriveList();
+}
+
 void MainWindow::teamdriveSelected()
 {
-    if (m_ui->teamdriveList->selectedItems().count() == 0) {
+    bool hasSelection = (m_ui->teamdriveList->selectedItems().count() != 0);
+
+    m_ui->teamdriveSelectedDeleteButton->setEnabled(hasSelection);
+
+    if (!hasSelection) {
         m_ui->teamdrivePreview->clear();
         return;
     }

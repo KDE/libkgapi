@@ -1,0 +1,1 @@
+DELETE https://www.googleapis.com/drive/v2/teamdrives/somelongid

@@ -82,6 +82,16 @@ class MainWindow : public QMainWindow
     void fetchTeamdriveList();
 
     /**
+     * Deletes the selected Team Drive
+     */
+    void deleteSelectedTeamdrive();
+
+    /**
+     * Team Drive was deleted.
+     */
+    void slotTeamdriveDeleteJobFinished(KGAPI2::Job *job);
+
+    /**
      * A specific contact in contact list has been selected. Sends a request
      * to Google to retrieve full details about the specific contact
      */
