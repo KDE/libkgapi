@@ -26,6 +26,7 @@
 #include <drive/teamdrivecreatejob.h>
 #include <drive/teamdrivedeletejob.h>
 #include <drive/teamdrivefetchjob.h>
+#include <drive/teamdrivemodifyjob.h>
 #include <drive/teamdrivesearchquery.h>
 #include <drive/file.h>
 #include <drive/filesearchquery.h>
@@ -51,6 +52,8 @@ MainWindow::MainWindow(QWidget * parent):
             this, &MainWindow::fetchTeamdriveList);
     connect(m_ui->teamdriveSelectedDeleteButton, &QAbstractButton::clicked,
             this, &MainWindow::deleteSelectedTeamdrive);
+    connect(m_ui->renameTeamdriveButton, &QAbstractButton::clicked,
+            this, &MainWindow::renameSelectedTeamdrive);
     connect(m_ui->teamdriveList, &QListWidget::itemSelectionChanged,
             this, &MainWindow::teamdriveSelected);
 }
@@ -92,6 +95,8 @@ void MainWindow::slotAuthJobFinished(KGAPI2::Job *job)
 
     m_ui->authStatusLabel->setText(QStringLiteral("Authenticated"));
     m_ui->teamdriveListButton->setEnabled(true);
+    m_ui->newTeamdriveEdit->setEnabled(true);
+    m_ui->newTeamdriveButton->setEnabled(true);
     m_ui->authButton->setEnabled(false);
 }
 
@@ -105,6 +110,7 @@ void MainWindow::createTeamdrive()
 
     KGAPI2::Drive::TeamdrivePtr teamdrive = KGAPI2::Drive::TeamdrivePtr::create();
     teamdrive->setName(teamdriveName);
+
     KGAPI2::Drive::TeamdriveCreateJob *createJob = new KGAPI2::Drive::TeamdriveCreateJob(requestId, teamdrive, m_account, this);
     connect(createJob, &KGAPI2::Job::finished,
             this, &MainWindow::slotTeamdriveCreateJobFinished);
@@ -124,6 +130,39 @@ void MainWindow::slotTeamdriveCreateJobFinished(KGAPI2::Job *job)
     }
 
     m_ui->newTeamdriveEdit->clear();
+    fetchTeamdriveList();
+}
+
+void MainWindow::renameSelectedTeamdrive()
+{
+    QString teamdriveName = m_ui->renameTeamdriveEdit->text();
+    if (teamdriveName.isEmpty()) {
+        return;
+    }
+    QString teamdriveId = m_ui->teamdriveList->selectedItems().at(0)->data(Qt::UserRole).toString();
+
+    KGAPI2::Drive::TeamdrivePtr teamdrive = KGAPI2::Drive::TeamdrivePtr::create();
+    teamdrive->setId(teamdriveId);
+    teamdrive->setName(teamdriveName);
+
+    KGAPI2::Drive::TeamdriveModifyJob *modifyJob = new KGAPI2::Drive::TeamdriveModifyJob(teamdrive, m_account, this);
+    connect(modifyJob, &KGAPI2::Job::finished,
+            this, &MainWindow::slotTeamdriveModifyJobFinished);
+}
+
+void MainWindow::slotTeamdriveModifyJobFinished(KGAPI2::Job *job)
+{
+    KGAPI2::Drive::TeamdriveModifyJob *modifyJob = qobject_cast<KGAPI2::Drive::TeamdriveModifyJob*>(job);
+    Q_ASSERT(modifyJob);
+    modifyJob->deleteLater();
+
+    if (modifyJob->error() != KGAPI2::NoError) {
+        m_ui->errorLabel->setText(QStringLiteral("Error: %1").arg(modifyJob->errorString()));
+        m_ui->errorLabel->setVisible(true);
+        m_ui->teamdriveListButton->setEnabled(true);
+        return;
+    }
+
     fetchTeamdriveList();
 }
 
@@ -202,13 +241,18 @@ void MainWindow::teamdriveSelected()
     bool hasSelection = (m_ui->teamdriveList->selectedItems().count() != 0);
 
     m_ui->teamdriveSelectedDeleteButton->setEnabled(hasSelection);
+    m_ui->renameTeamdriveButton->setEnabled(hasSelection);
+    m_ui->renameTeamdriveEdit->setEnabled(hasSelection);
 
     if (!hasSelection) {
         m_ui->teamdrivePreview->clear();
+        m_ui->renameTeamdriveEdit->clear();
         return;
     }
 
     const QString id = m_ui->teamdriveList->selectedItems().at(0)->data(Qt::UserRole).toString();
+    const QString name = m_ui->teamdriveList->selectedItems().at(0)->data(Qt::DisplayRole).toString();
+    m_ui->renameTeamdriveEdit->setText(name);
 
     KGAPI2::Drive::FileSearchQuery query;
     query.addQuery(KGAPI2::Drive::FileSearchQuery::Trashed, KGAPI2::Drive::FileSearchQuery::Equals, false);

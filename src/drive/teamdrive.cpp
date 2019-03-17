@@ -113,9 +113,19 @@ bool Teamdrive::Restrictions::adminManagedRestrictions() const
     return d->adminManagedRestrictions;
 }
 
+void Teamdrive::Restrictions::setAdminManagedRestrictions(bool adminManagedRestrictions) const
+{
+    d->adminManagedRestrictions = adminManagedRestrictions;
+}
+
 bool Teamdrive::Restrictions::copyRequiresWriterPermission() const
 {
     return d->copyRequiresWriterPermission;
+}
+
+void Teamdrive::Restrictions::setCopyRequiresWriterPermission(bool copyRequiresWriterPermission) const
+{
+    d->copyRequiresWriterPermission = copyRequiresWriterPermission;
 }
 
 bool Teamdrive::Restrictions::domainUsersOnly() const
@@ -123,9 +133,19 @@ bool Teamdrive::Restrictions::domainUsersOnly() const
     return d->domainUsersOnly;
 }
 
+void Teamdrive::Restrictions::setDomainUsersOnly(bool domainUsersOnly) const
+{
+    d->domainUsersOnly = domainUsersOnly;
+}
+
 bool Teamdrive::Restrictions::teamMembersOnly() const
 {
     return d->teamMembersOnly;
+}
+
+void Teamdrive::Restrictions::setTeamMembersOnly(bool teamMembersOnly) const
+{
+    d->teamMembersOnly = teamMembersOnly;
 }
 
 ///// DriveTeamdrive::Capabilities
@@ -321,9 +341,19 @@ QString Teamdrive::BackgroundImageFile::id() const
     return d->id;
 }
 
+void Teamdrive::BackgroundImageFile::setId(const QString &id) const
+{
+    d->id = id;
+}
+
 float Teamdrive::BackgroundImageFile::xCoordinate() const
 {
     return d->xCoordinate;
+}
+
+void Teamdrive::BackgroundImageFile::setXCoordinate(const float xCoordinate) const
+{
+    d->xCoordinate = xCoordinate;
 }
 
 float Teamdrive::BackgroundImageFile::yCoordinate() const
@@ -331,9 +361,19 @@ float Teamdrive::BackgroundImageFile::yCoordinate() const
     return d->yCoordinate;
 }
 
+void Teamdrive::BackgroundImageFile::setYCoordinate(const float yCoordinate) const
+{
+    d->yCoordinate = yCoordinate;
+}
+
 float Teamdrive::BackgroundImageFile::width() const
 {
     return d->width;
+}
+
+void Teamdrive::BackgroundImageFile::setWidth(const float width) const
+{
+    d->width = width;
 }
 
 ///// DriveTeamdrive
@@ -468,6 +508,11 @@ QString Teamdrive::id() const
     return d->id;
 }
 
+void Teamdrive::setId(const QString &id) const
+{
+    d->id = id;
+}
+
 QString Teamdrive::name() const
 {
     return d->name;
@@ -483,14 +528,29 @@ QString Teamdrive::themeId() const
     return d->themeId;
 }
 
+void Teamdrive::setThemeId(const QString &themeId) const
+{
+    d->themeId = themeId;
+}
+
 QString Teamdrive::colorRgb() const
 {
     return d->colorRgb;
 }
 
+void Teamdrive::setColorRgb(const QString &colorRgb) const
+{
+    d->colorRgb = colorRgb;
+}
+
 Teamdrive::BackgroundImageFilePtr Teamdrive::backgroundImageFile() const
 {
     return d->backgroundImageFile;
+}
+
+void Teamdrive::setBackgroundImageFile(const Teamdrive::BackgroundImageFilePtr &backgroundImageFile) const
+{
+    d->backgroundImageFile = backgroundImageFile;
 }
 
 QString Teamdrive::backgroundImageLink() const
@@ -506,6 +566,11 @@ Teamdrive::CapabilitiesPtr Teamdrive::capabilities() const
 QDateTime Teamdrive::createdDate() const
 {
     return d->createdDate;
+}
+
+void Teamdrive::setRestrictions(const Teamdrive::RestrictionsPtr &restrictions) const
+{
+    d->restrictions = restrictions;
 }
 
 Teamdrive::RestrictionsPtr Teamdrive::restrictions() const

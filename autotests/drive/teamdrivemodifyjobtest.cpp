@@ -23,9 +23,10 @@
 
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
+#include "drivetestutils.h"
 
 #include "types.h"
-#include "teamdrivedeletejob.h"
+#include "teamdrivemodifyjob.h"
 #include "teamdrive.h"
 #include "account.h"
 
@@ -34,7 +35,7 @@ using namespace KGAPI2;
 Q_DECLARE_METATYPE(QList<FakeNetworkAccessManager::Scenario>)
 Q_DECLARE_METATYPE(KGAPI2::Drive::TeamdrivePtr)
 
-class TeamdriveDeleteJobTest : public QObject
+class TeamdriveModifyJobTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -43,36 +44,48 @@ private Q_SLOTS:
         NetworkAccessManagerFactory::setFactory(new FakeNetworkAccessManagerFactory);
     }
 
-    void testDelete_data()
+    void testModify_data()
     {
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
-        QTest::addColumn<QString>("teamdriveId");
+        QTest::addColumn<Drive::TeamdrivePtr>("sourceTeamdrive");
+        QTest::addColumn<QString>("requestId");
 
         QTest::newRow("metadata only")
             << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/teamdrive_delete_request.txt"),
-                                     QFINDTESTDATA("data/generic_no_content_response.txt"))
+                    scenarioFromFile(QFINDTESTDATA("data/teamdrive_modify_request.txt"),
+                                     QFINDTESTDATA("data/teamdrive_modify_response.txt"))
                 }
-            << QStringLiteral("somelongid");
+            << teamdriveFromFile(QFINDTESTDATA("data/teamdrive.json"))
+            << QStringLiteral("MockRequestId");
     }
 
-    void testDelete()
+    void testModify()
     {
         QFETCH(QList<FakeNetworkAccessManager::Scenario>, scenarios);
-        QFETCH(QString, teamdriveId);
+        QFETCH(Drive::TeamdrivePtr, sourceTeamdrive);
+        QFETCH(QString, requestId);
 
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
+        sourceTeamdrive->setName(QStringLiteral("Renamed Team Drive"));
+
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        Drive::TeamdriveDeleteJob *job = new Drive::TeamdriveDeleteJob(teamdriveId, account);
+        Drive::TeamdriveModifyJob *job = new Drive::TeamdriveModifyJob(sourceTeamdrive, account);
 
         QVERIFY(execJob(job));
+
+        const auto items = job->items();
+        QCOMPARE(items.count(), 1);
+
+        Drive::TeamdrivePtr firstResult = (*items.cbegin()).dynamicCast<Drive::Teamdrive>();
+        QVERIFY(firstResult);
+        QCOMPARE(*firstResult, *sourceTeamdrive);
     }
 };
 
-QTEST_GUILESS_MAIN(TeamdriveDeleteJobTest)
+QTEST_GUILESS_MAIN(TeamdriveModifyJobTest)
 
-#include "teamdrivedeletejobtest.moc"
+#include "teamdrivemodifyjobtest.moc"
 
 
 

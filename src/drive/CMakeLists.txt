@@ -42,6 +42,7 @@ set(kgapidrive_SRCS
     teamdrivecreatejob.cpp
     teamdrivedeletejob.cpp
     teamdrivefetchjob.cpp
+    teamdrivemodifyjob.cpp
     teamdrivesearchquery.cpp
     user.cpp
 
@@ -92,6 +93,7 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     TeamdriveCreateJob
     TeamdriveDeleteJob
     TeamdriveFetchJob
+    TeamdriveModifyJob
     TeamdriveSearchQuery
     User
     PREFIX KGAPI/Drive

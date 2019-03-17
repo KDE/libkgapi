@@ -20,10 +20,11 @@
  * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef KGAPI2_DRIVETEAMDRIVECREATEJOB_H
-#define KGAPI2_DRIVETEAMDRIVECREATEJOB_H
 
-#include "createjob.h"
+#ifndef KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H
+#define KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H
+
+#include "modifyjob.h"
 #include "kgapidrive_export.h"
 
 namespace KGAPI2
@@ -32,28 +33,21 @@ namespace KGAPI2
 namespace Drive
 {
 
-class KGAPIDRIVE_EXPORT TeamdriveCreateJob : public KGAPI2::CreateJob
+class KGAPIDRIVE_EXPORT TeamdriveModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
   public:
-    TeamdriveCreateJob(const QString &requestId,
-                            const TeamdrivePtr &teamdrive,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveCreateJob(const QString &requestId,
-                            const TeamdrivesList &teamdrives,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    ~TeamdriveCreateJob() override;
-
-    /**
-     * @brief Returns the requestId used in this create request.
-     */
-    QString requestId() const;
+    explicit TeamdriveModifyJob(const TeamdrivePtr &teamdrive,
+                                 const AccountPtr &account, QObject *parent = nullptr);
+    explicit TeamdriveModifyJob(const TeamdrivesList &teamdrives,
+                                 const AccountPtr &account, QObject *parent = nullptr);
+    ~TeamdriveModifyJob() override;
 
   protected:
     void start() override;
     KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                const QByteArray &rawData) override;
+            const QByteArray &rawData) override;
 
   private:
     class Private;
@@ -65,4 +59,4 @@ class KGAPIDRIVE_EXPORT TeamdriveCreateJob : public KGAPI2::CreateJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVETEAMDRIVECREATEJOB_H
+#endif // KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H

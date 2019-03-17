@@ -43,12 +43,40 @@
     <item>
      <layout class="QHBoxLayout" name="newTeamdriveLayout">
       <item>
-       <widget class="QLineEdit" name="newTeamdriveEdit"/>
+       <widget class="QLineEdit" name="newTeamdriveEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="newTeamdriveButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Create</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="renameTeamdriveLayout">
+      <item>
+       <widget class="QLineEdit" name="renameTeamdriveEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="renameTeamdriveButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Rename</string>
         </property>
        </widget>
       </item>
