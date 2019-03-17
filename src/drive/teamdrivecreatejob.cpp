@@ -125,6 +125,7 @@ ObjectsList TeamdriveCreateJob::handleReplyWithItems(const QNetworkReply *reply,
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
         emitFinished();
+        return items;
     }
 
     // Enqueue next item or finish
