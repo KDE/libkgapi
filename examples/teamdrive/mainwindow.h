@@ -66,6 +66,16 @@ class MainWindow : public QMainWindow
     void slotTeamdriveCreateJobFinished(KGAPI2::Job *job);
 
     /**
+     * Rename the selected Team Drive with name in renameTeamdriveEdit
+     */
+    void renameSelectedTeamdrive();
+
+    /**
+     * Team Drive was modified.
+     */
+    void slotTeamdriveModifyJobFinished(KGAPI2::Job *job);
+
+    /**
      * All Team Drives were fetched.
      */
     void slotFetchJobFinished(KGAPI2::Job *job);

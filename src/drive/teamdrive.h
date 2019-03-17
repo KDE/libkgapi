@@ -70,12 +70,30 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
         bool adminManagedRestrictions() const;
 
         /**
+         * @brief Sets whether administrative privileges on this Team Drive
+         * are required to modify restrictions.
+         *
+         * @param adminManagedRestrictions
+         */
+        void setAdminManagedRestrictions(bool adminManagedRestrictions) const;
+
+        /**
          * @brief Returns whether the options to copy, print, or download files
          * inside this Team Drive, should be disabled for readers and commenters.
          * When this restriction is set to true, it will override the similarly
          * named field to true for any file inside this Team Drive.
          */
         bool copyRequiresWriterPermission() const;
+
+        /**
+         * @brief Sets whether the options to copy, print, or download files
+         * inside this Team Drive, should be disabled for readers and commenters.
+         * When this restriction is set to true, it will override the similarly
+         * named field to true for any file inside this Team Drive.
+         *
+         * @param copyRequiresWriterPermission
+         */
+        void setCopyRequiresWriterPermission(bool copyRequiresWriterPermission) const;
 
         /**
          * @brief Returns whether access to this Team Drive and items inside this
@@ -86,10 +104,28 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
         bool domainUsersOnly() const;
 
         /**
+         * @brief Sets whether access to this Team Drive and items inside this
+         * Team Drive is restricted to users of the domain to which this Team
+         * Drive belongs. This restriction may be overridden by other sharing
+         * policies controlled outside of this Team Drive.
+         *
+         * @param domainUsersOnly
+         */
+        void setDomainUsersOnly(bool domainUsersOnly) const;
+
+        /**
          * @brief Returns whether access to items inside this Team Drive is
          * restricted to members of this Team Drive.
          */
         bool teamMembersOnly() const;
+
+        /**
+         * @brief Sets whether access to items inside this Team Drive is
+         * restricted to members of this Team Drive.
+         *
+         * @param teamMembersOnly
+         */
+        void setTeamMembersOnly(bool teamMembersOnly) const;
 
       private:
         class Private;
@@ -250,9 +286,23 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
         QString id() const;
 
         /**
+         * @brief Sets the id of the background image file.
+         *
+         * @param id
+         */
+        void setId(const QString &id) const;
+
+        /**
          * @brief Returns the x coordinate for this background image file.
          */
         float xCoordinate() const;
+
+        /**
+         * @brief Sets the x coordinate for this background image file.
+         *
+         * @param xCoordinate
+         */
+        void setXCoordinate(float xCoordinate) const;
 
         /**
          * @brief Returns the y coordinate for this background image file.
@@ -260,9 +310,23 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
         float yCoordinate() const;
 
         /**
+         * @brief Sets the y coordinate for this background image file.
+         *
+         * @param yCoordinate
+         */
+        void setYCoordinate(float yCoordinate) const;
+
+        /**
          * @brief Returns the width for this background image file.
          */
         float width() const;
+
+        /**
+         * @brief Sets the width for this background image file.
+         *
+         * @param width
+         */
+        void setWidth(float width) const;
 
       private:
         class Private;
@@ -285,6 +349,13 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
     QString id() const;
 
     /**
+     * @brief Sets the id of the teamdrive.
+     *
+     * @param id
+     */
+    void setId(const QString &id) const;
+
+    /**
      * @brief Returns the name of the teamdrive.
      */
     QString name() const;
@@ -302,14 +373,35 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
     QString themeId() const;
 
     /**
+     * @brief Sets the themeId of the teamdrive.
+     *
+     * @param themeId
+     */
+    void setThemeId(const QString &themeId) const;
+
+    /**
      * @brief Returns the colorRgb of the teamdrive.
      */
     QString colorRgb() const;
 
     /**
+     * @brief Sets the colorRgb of the teamdrive.
+     *
+     * @param colorRgb
+     */
+    void setColorRgb(const QString &colorRgb) const;
+
+    /**
      * @brief Returns the image file and cropping parameters from which a background image for this Team Drive is set.
      */
     BackgroundImageFilePtr backgroundImageFile() const;
+
+    /**
+     * @brief Sets the backgroundImageFile of the teamdrive.
+     *
+     * @param backgroundImageFile
+     */
+    void setBackgroundImageFile(const BackgroundImageFilePtr &backgroundImageFile) const;
 
     /**
      * @brief Returns the backgroundImageLink of the teamdrive.
@@ -331,6 +423,13 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
      * items inside this Team Drive.
      */
     RestrictionsPtr restrictions() const;
+
+    /**
+     * @brief Sets the restrictions of the teamdrive.
+     *
+     * @param restrictions
+     */
+    void setRestrictions(const RestrictionsPtr &restrictions) const;
 
     static TeamdrivePtr fromJSON(const QByteArray &jsonData);
     static TeamdrivesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
