@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-set(PIM_VERSION "5.10.80")
+set(PIM_VERSION "5.10.90")
 
 set(KGAPI_LIB_VERSION ${PIM_VERSION})
 
@@ -58,7 +58,12 @@ set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
 
 
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
+# workaround for https://bugreports.qt.io/browse/QTBUG-74665 (bug in qt5.13 reevaluate it)
+if (${Qt5Widgets_VERSION} STRGREATER "5.13")
+   MESSAGE(STATUS "Qt version: ${Qt5Widgets_VERSION} DISABLE compile without deprecated methods. bug QTBUG-74665")
+else()
+   add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
+endif()
 
 ############## Targets ##############
 add_subdirectory(src)
