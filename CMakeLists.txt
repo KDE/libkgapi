@@ -57,7 +57,6 @@ find_package(Sasl2)
 set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
 
 
-add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 # workaround for https://bugreports.qt.io/browse/QTBUG-74665 (bug in qt5.13 reevaluate it)
 if (${Qt5Widgets_VERSION} STRGREATER "5.13")
    MESSAGE(STATUS "Qt version: ${Qt5Widgets_VERSION} DISABLE compile without deprecated methods. bug QTBUG-74665")
