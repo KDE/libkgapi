@@ -89,7 +89,7 @@ ContactDeleteJob::ContactDeleteJob(const ContactPtr& contact, const AccountPtr& 
     d->contactIds << contact->uid();
 }
 
-ContactDeleteJob::ContactDeleteJob(const QStringList contactIds, const AccountPtr &account, QObject *parent):
+ContactDeleteJob::ContactDeleteJob(const QStringList &contactIds, const AccountPtr &account, QObject *parent):
     DeleteJob(account, parent),
     d(new Private(this))
 {

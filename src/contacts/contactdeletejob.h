@@ -84,7 +84,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactDeleteJob(const QStringList contactIds,
+    explicit ContactDeleteJob(const QStringList &contactIds,
                               const AccountPtr &account, QObject* parent);
 
     /**

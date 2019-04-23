@@ -59,7 +59,7 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
         const auto verb = originalReq.attribute(QNetworkRequest::CustomVerbAttribute).toByteArray();
         COMPARE_RET(verb, QByteArray("PUT"), new FakeNetworkReply(op, originalReq));
     }
-    for (const auto requestHeader : qAsConst(scenario.requestHeaders)) {
+    for (const auto &requestHeader : qAsConst(scenario.requestHeaders)) {
         VERIFY2_RET(originalReq.hasRawHeader(requestHeader.first),
                     qPrintable(QStringLiteral("Missing header '%1'").arg(QString::fromUtf8(requestHeader.first))),
                     new FakeNetworkReply(op, originalReq));
