@@ -9,28 +9,28 @@ release: false
 libraries:
  - qmake: PimGAPICore
    cmake: "KPim::GAPICore"
-   cmakename: KPimGAPICore
+cmakename: KPimGAPICore
  - qmake: PimGAPIBlogger
    cmake: "KPim::GAPIBlogger"
-   cmakename: KPimGAPIBlogger
+cmakename: KPimGAPIBlogger
  - qmake: PimGAPICalendar
    cmake: "KPim::GAPICalendar"
-   cmakename: KPimGAPICalendar
+cmakename: KPimGAPICalendar
  - qmake: PimGapiContacts
    cmake: "KPim::GAPIContacts"
-   cmakename: KPimGAPIContacts
+cmakename: KPimGAPIContacts
  - qmake: PimGAPIDrive
    cmake: "KPim::GAPIDrive"
-   cmakename: KPimGAPIDrive
+cmakename: KPimGAPIDrive
  - qmake: PimGAPILatitude
    cmake: "KPim::GAPILatitude"
-   cmakename: KPimGAPILatitude
+cmakename: KPimGAPILatitude
  - qmake: PimGAPIStaticMaps
    cmake: "KPim::GAPIStaticMaps"
-   cmakename: KPimGAPIStaticMaps
+cmakename: KPimGAPIStaticMaps
  - qmake: PimGAPITasks
    cmake: "KPim::GAPITasks"
-   cmakename: KPimGAPITasks
+cmakename: KPimGAPITasks
 
 public_lib: true
 group: kdepim
