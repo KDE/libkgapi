@@ -420,7 +420,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
 
             if (event.value(QStringLiteral("rel")).toString() == QLatin1String("anniversary")) {
                 QVariantMap when = event.value(QStringLiteral("gd$when")).toMap();
-                contact->setAnniversary(when.value(QStringLiteral("startTime")).toString());
+                contact->setAnniversary(QDate::fromString(when.value(QStringLiteral("startTime")).toString(), Qt::ISODate));
             }
         }
     }
@@ -448,7 +448,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
                 locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("PROFILE") } } });
                 contact->insertExtraUrl(locator);
             } else if (rel == QLatin1String("blog")) {
-                contact->setBlogFeed(url.toString(QUrl::PrettyDecoded));
+                contact->setBlogFeed(url);
             } else {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
@@ -674,14 +674,14 @@ QByteArray contactToXML(const ContactPtr& contact)
     }
 
     /* Anniversary */
-    const QString anniversary = contact->anniversary();
+    const QString anniversary = contact->anniversary().toString(Qt::ISODate);
     if (!anniversary.isEmpty()) {
         output.append("<gContact:event rel=\"anniversary\"><gd:when startTime=\"").append(anniversary.toHtmlEscaped().toUtf8()).append("\" /></gContact:event>");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-Anniversary");
     }
 
     /* Blog */
-    const QString blog = contact->blogFeed();
+    const QString blog = contact->blogFeed().url();
     if (!blog.isEmpty()) {
         output.append("<gContact:website rel=\"blog\" href=\"").append(blog.toHtmlEscaped().toUtf8()).append("\" />");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-BlogFeed");
@@ -1009,7 +1009,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         if (e.tagName() == QLatin1String("gContact:event")) {
             if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("anniversary")) {
                 QDomElement w = e.firstChildElement(QStringLiteral("gd:when"));
-                contact->setAnniversary(w.attribute(QStringLiteral("startTime"), QString()));
+                contact->setAnniversary(QDate::fromString(w.attribute(QStringLiteral("startTime"), QString()), Qt::ISODate));
             }
 
             continue;
@@ -1018,7 +1018,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         /* Websites */
         if (e.tagName() == QLatin1String("gContact:website")) {
             if (e.attribute(QStringLiteral("rel"), QString()) == QLatin1String("blog")) {
-                contact->setBlogFeed(e.attribute(QStringLiteral("href"), QString()));
+                contact->setBlogFeed(QUrl(e.attribute(QStringLiteral("href"), QString())));
                 continue;
             }
 
