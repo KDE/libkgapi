@@ -1,4 +1,4 @@
-POST https://www.googleapis.com/drive/v2/teamdrives?requestId=MockRequestId
+POST https://www.googleapis.com/drive/v2/teamdrives?requestId=MockRequestId&prettyPrint=false
 
 {
     "kind": "drive#teamDrive",

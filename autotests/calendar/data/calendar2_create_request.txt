@@ -1,4 +1,4 @@
-POST https://www.googleapis.com/calendar/v3/calendars
+POST https://www.googleapis.com/calendar/v3/calendars?prettyPrint=false
 Content-Type: application/json
 
 {

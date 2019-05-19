@@ -1,4 +1,4 @@
-POST https://accounts.google.com/o/oauth2/token
+POST https://accounts.google.com/o/oauth2/token?prettyPrint=false
 Content-Type: application/x-www-form-urlencoded
 
 client_id=Key1&client_secret=Secret1&code=TheCakeIsALie&redirect_uri=http://127.0.0.1:42413&grant_type=authorization_code

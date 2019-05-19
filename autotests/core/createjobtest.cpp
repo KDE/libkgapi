@@ -83,19 +83,19 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
 
         QTest::newRow("success") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::PostOperation,
+            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::PostOperation,
               "New data", 200, "Data created" }
         };
 
         QTest::newRow("creation failed") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::PostOperation,
+            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::PostOperation,
               "New data", KGAPI2::Forbidden, {} }
         };
 
         QTest::newRow("redirect") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::PostOperation,
+            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::PostOperation,
               "New data", KGAPI2::TemporarilyMoved, "https://example.test/moved/data" },
-            { QUrl(QStringLiteral("https://example.test/moved/data")), QNetworkAccessManager::PostOperation,
+            { QUrl(QStringLiteral("https://example.test/moved/data?prettyPrint=false")), QNetworkAccessManager::PostOperation,
               "New data", KGAPI2::OK, "Data created" }
         };
     }

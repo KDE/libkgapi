@@ -1,4 +1,4 @@
-PUT https://www.googleapis.com/calendar/v3/calendars/averylongtvshowscalendarid@group.calendar.google.com
+PUT https://www.googleapis.com/calendar/v3/calendars/averylongtvshowscalendarid@group.calendar.google.com?prettyPrint=false
 Content-Type: application/json
 
 {

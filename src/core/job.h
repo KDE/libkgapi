@@ -27,6 +27,7 @@
 #include "kgapicore_export.h"
 
 #include <QObject>
+#include <QUrl>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -96,6 +97,10 @@ class KGAPICORE_EXPORT Job : public QObject
      * @see Job::Account, Job::setAccount
      */
     explicit Job(const AccountPtr &account, QObject* parent = nullptr);
+
+    struct StandardParams {
+        static const QString PrettyPrint;
+    };
 
     /**
      * @brief Destructor
@@ -180,6 +185,24 @@ class KGAPICORE_EXPORT Job : public QObject
     AccountPtr account() const;
 
     /**
+     * @brief Sets whether response will have indentations and line breaks.
+     *
+     * When this is false, it can reduce the response payload size,
+     * which might lead to better performance in some environments.
+     * Default is false.
+     *
+     * @param prettyPrint
+     */
+    void setPrettyPrint(bool prettyPrint);
+
+    /**
+     * @brief Returns prettyPrint query parameter.
+     *
+     * @return prettyPrint query parameter
+     */
+    bool prettyPrint() const;
+
+    /**
      * @brief Restarts this job
      *
      * When a job finishes, it's possible to run it again, without having
@@ -187,7 +210,7 @@ class KGAPICORE_EXPORT Job : public QObject
      *
      * The job will throw away all results retrieved in previous run and retrieve
      * everything again.
-     * 
+     *
      * @see Job::aboutToStart
      */
     void restart();

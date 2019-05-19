@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/drive/v2/about?includeSubscribed=true
+GET https://www.googleapis.com/drive/v2/about?includeSubscribed=true&prettyPrint=false

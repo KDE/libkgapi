@@ -1,4 +1,4 @@
-POST https://www.google.com/m8/feeds/groups/MockAccount/full/12881c7f0a03cd16
+POST https://www.google.com/m8/feeds/groups/MockAccount/full/12881c7f0a03cd16?prettyPrint=false
 Content-Type: application/atom+xml
 GData-Version: 3.0
 If-Match: *

@@ -1,4 +1,4 @@
-PUT https://www.google.com/m8/feeds/contacts/MockAccount/full/2d71e4bb897f47a8
+PUT https://www.google.com/m8/feeds/contacts/MockAccount/full/2d71e4bb897f47a8?prettyPrint=false
 GData-Version: 3.0
 Content-Type: application/atom+xml
 If-Match: *

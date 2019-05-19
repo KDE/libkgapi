@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/tasks/v1/lists/MockAccount/tasks?showDeleted=true&showCompleted=true
+GET https://www.googleapis.com/tasks/v1/lists/MockAccount/tasks?showDeleted=true&showCompleted=true&prettyPrint=false

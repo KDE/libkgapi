@@ -22,6 +22,7 @@
 
 #include "deletejob.h"
 
+#include <QUrlQuery>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 
@@ -57,6 +58,13 @@ void DeleteJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNet
     if (!r.hasRawHeader("If-Match")) {
         r.setRawHeader("If-Match", "*");
     }
+
+    // Delete requests have no response body so there isn't anything to pretty print
+    QUrl cleanedUrl = r.url();
+    QUrlQuery cleanedQuery(cleanedUrl);
+    cleanedQuery.removeAllQueryItems(Job::StandardParams::PrettyPrint);
+    cleanedUrl.setQuery(cleanedQuery);
+    r.setUrl(cleanedUrl);
 
     accessManager->deleteResource(r);
 }

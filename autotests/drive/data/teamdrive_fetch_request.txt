@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/drive/v2/teamdrives
+GET https://www.googleapis.com/drive/v2/teamdrives?prettyPrint=false

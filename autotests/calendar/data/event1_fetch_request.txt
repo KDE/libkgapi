@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/calendar/v3/calendars/MockAccount/events/3if6lf59tove1e037baa75l54t
+GET https://www.googleapis.com/calendar/v3/calendars/MockAccount/events/3if6lf59tove1e037baa75l54t?prettyPrint=false

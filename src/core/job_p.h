@@ -81,6 +81,7 @@ class Q_DECL_HIDDEN Job::Private
     QQueue<Request> requestQueue;
     QTimer *dispatchTimer;
     int maxTimeout;
+    bool prettyPrint;
 
     Request currentRequest;
 

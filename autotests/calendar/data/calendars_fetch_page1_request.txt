@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/calendar/v3/users/me/calendarList
+GET https://www.googleapis.com/calendar/v3/users/me/calendarList?prettyPrint=false

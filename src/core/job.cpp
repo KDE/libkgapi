@@ -31,6 +31,7 @@
 #include <QJsonDocument>
 #include <QTextStream>
 #include <QFile>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
@@ -101,6 +102,7 @@ Job::Private::Private(Job *parent):
     error(KGAPI2::NoError),
     accessManager(nullptr),
     maxTimeout(0),
+    prettyPrint(false),
     q(parent)
 {
 }
@@ -325,6 +327,17 @@ void Job::Private::_k_dispatchTimeout()
     if (account) {
         authorizedRequest.setRawHeader("Authorization", "Bearer " + account->accessToken().toLatin1());
     }
+
+    QUrl url = authorizedRequest.url();
+    QUrlQuery standardParamQuery(url);
+
+    if (!standardParamQuery.hasQueryItem(Job::StandardParams::PrettyPrint)) {
+        standardParamQuery.addQueryItem(Job::StandardParams::PrettyPrint, prettyPrint ? QStringLiteral("true") : QStringLiteral("false"));
+    }
+
+    url.setQuery(standardParamQuery);
+    authorizedRequest.setUrl(url);
+
     qCDebug(KGAPIDebug) << q << "Dispatching request to" << r.request.url();
     FileLogger::self()->logRequest(authorizedRequest, r.rawData);
 
@@ -336,6 +349,8 @@ void Job::Private::_k_dispatchTimeout()
 }
 
 /************************* PUBLIC **********************/
+
+const QString Job::StandardParams::PrettyPrint = QStringLiteral("prettyPrint");
 
 Job::Job(QObject* parent):
     QObject(parent),
@@ -424,6 +439,20 @@ void Job::setAccount(const AccountPtr& account)
     d->account = account;
 }
 
+bool Job::prettyPrint() const
+{
+    return d->prettyPrint;
+}
+
+void Job::setPrettyPrint(bool prettyPrint)
+{
+    if (d->isRunning) {
+        qCWarning(KGAPIDebug) << "Called setPrettyPrint() on running job. Ignoring.";
+        return;
+    }
+
+    d->prettyPrint = prettyPrint;
+}
 void Job::restart()
 {
     if (d->isRunning) {

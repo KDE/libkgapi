@@ -1,4 +1,4 @@
-POST https://www.google.com/m8/feeds/contacts/MockAccount/full
+POST https://www.google.com/m8/feeds/contacts/MockAccount/full?prettyPrint=false
 GData-Version: 3.0
 Content-Type: application/atom+xml
 

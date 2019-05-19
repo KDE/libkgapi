@@ -1,4 +1,4 @@
-POST https://accounts.google.com/o/oauth2/token
+POST https://accounts.google.com/o/oauth2/token?prettyPrint=false
 Content-Type: application/x-www-form-urlencoded
 
 client_id=Key1&client_secret=Secret1&refresh_token=FakeRefreshToken&grant_type=refresh_token

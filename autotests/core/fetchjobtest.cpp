@@ -87,19 +87,19 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
 
         QTest::newRow("success") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::GetOperation,
+            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
               {}, 200, "Test Response", false }
         };
 
         QTest::newRow("not found") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/does/not/exist")), QNetworkAccessManager::GetOperation,
+            { QUrl(QStringLiteral("https://example.test/does/not/exist?prettyPrint=false")), QNetworkAccessManager::GetOperation,
               {}, KGAPI2::NotFound, {}, false }
         };
 
         QTest::newRow("redirect") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::GetOperation,
+            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
               {}, KGAPI2::TemporarilyMoved, "https://example.test/moved/data", false },
-            { QUrl(QStringLiteral("https://example.test/moved/data")), QNetworkAccessManager::GetOperation,
+            { QUrl(QStringLiteral("https://example.test/moved/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
               {}, KGAPI2::OK, "Here's your data", false }
         };
     }
@@ -123,12 +123,12 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
 
         QTest::newRow("success") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::GetOperation,
+            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
               {}, 200, "Response" }
         };
 
         QTest::newRow("token expired") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data")), QNetworkAccessManager::GetOperation,
+            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
               {}, KGAPI2::Unauthorized, {} }
         };
     }

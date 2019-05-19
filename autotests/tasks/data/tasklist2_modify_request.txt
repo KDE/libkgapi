@@ -1,4 +1,4 @@
-PUT https://www.googleapis.com/tasks/v1/users/@me/lists/MDk5OTU2NTg1OTM5NjgzODgzMDk6MzU1NDQ5NDI4ODIzODI5ODow
+PUT https://www.googleapis.com/tasks/v1/users/@me/lists/MDk5OTU2NTg1OTM5NjgzODgzMDk6MzU1NDQ5NDI4ODIzODI5ODow?prettyPrint=false
 Content-type: application/json
 
 {

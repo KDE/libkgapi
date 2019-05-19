@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/tasks/v1/users/@me/lists
+GET https://www.googleapis.com/tasks/v1/users/@me/lists?prettyPrint=false

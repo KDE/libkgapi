@@ -1,4 +1,4 @@
-POST https://www.googleapis.com/drive/v2/files/abc123def456ghi789/copy?convert=false&ocr=false&pinned=false
+POST https://www.googleapis.com/drive/v2/files/abc123def456ghi789/copy?convert=false&ocr=false&pinned=false&prettyPrint=false
 Content-Type: application/json
 
 {

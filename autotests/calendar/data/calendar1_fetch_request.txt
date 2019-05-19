@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/calendar/v3/users/me/calendarList/averylongtvshowscalendarid@group.calendar.google.com
+GET https://www.googleapis.com/calendar/v3/users/me/calendarList/averylongtvshowscalendarid@group.calendar.google.com?prettyPrint=false

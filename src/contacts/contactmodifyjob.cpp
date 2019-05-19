@@ -28,6 +28,7 @@
 #include "account.h"
 #include "private/queuehelper_p.h"
 
+#include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QBuffer>
@@ -130,6 +131,13 @@ void ContactModifyJob::dispatchRequest(QNetworkAccessManager *accessManager, con
     if (contentType == QLatin1String("modifyImage")) {
         accessManager->put(r, data);
     } else if (contentType == QLatin1String("deleteImage")) {
+        // Delete requests have no response body so there isn't anything to pretty print
+        QUrl cleanedUrl = r.url();
+        QUrlQuery cleanedQuery(cleanedUrl);
+        cleanedQuery.removeAllQueryItems(Job::StandardParams::PrettyPrint);
+        cleanedUrl.setQuery(cleanedQuery);
+        r.setUrl(cleanedUrl);
+
         accessManager->deleteResource(r);
     } else {
         r.setHeader(QNetworkRequest::ContentTypeHeader, contentType);

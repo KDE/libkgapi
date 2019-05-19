@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/drive/v2/changes?includeDeleted=true&includeSubscribed=true&includeItemsFromAllDrives=true&supportsAllDrives=true
+GET https://www.googleapis.com/drive/v2/changes?includeDeleted=true&includeSubscribed=true&includeItemsFromAllDrives=true&supportsAllDrives=true&prettyPrint=false
