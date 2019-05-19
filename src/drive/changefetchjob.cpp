@@ -46,6 +46,8 @@ class Q_DECL_HIDDEN ChangeFetchJob::Private
     bool includeSubscribed;
     int maxResults;
     qlonglong startChangeId;
+    bool includeItemsFromAllDrives;
+    bool supportsAllDrives;
 
   private:
     ChangeFetchJob *q;
@@ -56,6 +58,8 @@ ChangeFetchJob::Private::Private(ChangeFetchJob *parent):
     includeSubscribed(true),
     maxResults(0),
     startChangeId(0),
+    includeItemsFromAllDrives(true),
+    supportsAllDrives(true),
     q(parent)
 {
 }
@@ -149,6 +153,26 @@ qlonglong ChangeFetchJob::startChangeId() const
     return d->startChangeId;
 }
 
+bool ChangeFetchJob::includeItemsFromAllDrives() const
+{
+    return d->includeItemsFromAllDrives;
+}
+
+void ChangeFetchJob::setIncludeItemsFromAllDrives(bool includeItemsFromAllDrives)
+{
+    d->includeItemsFromAllDrives = includeItemsFromAllDrives;
+}
+
+bool ChangeFetchJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void ChangeFetchJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
+}
+
 void ChangeFetchJob::start()
 {
     QUrl url;
@@ -163,10 +187,15 @@ void ChangeFetchJob::start()
         if (d->startChangeId > 0) {
             query.addQueryItem(QStringLiteral("startChangeId"), QString::number(d->startChangeId));
         }
+        query.addQueryItem(QStringLiteral("includeItemsFromAllDrives"), d->includeItemsFromAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
         url.setQuery(query);
     } else {
         url = DriveService::fetchChangeUrl(d->changeId);
     }
+
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), d->supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    url.setQuery(query);
 
     const QNetworkRequest request = d->createRequest(url);
     enqueueRequest(request);

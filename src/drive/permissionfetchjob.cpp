@@ -27,9 +27,9 @@
 #include "permission.h"
 #include "utils.h"
 
-
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -39,6 +39,7 @@ class Q_DECL_HIDDEN PermissionFetchJob::Private
   public:
     QString fileId;
     QString permissionId;
+    bool supportsAllDrives;
 
 };
 
@@ -48,6 +49,7 @@ PermissionFetchJob::PermissionFetchJob(const QString &fileId,
     FetchJob(account, parent),
     d(new Private)
 {
+    d->supportsAllDrives = true;
     d->fileId = fileId;
 }
 
@@ -57,6 +59,7 @@ PermissionFetchJob::PermissionFetchJob(const FilePtr &file,
     FetchJob(account, parent),
     d(new Private)
 {
+    d->supportsAllDrives = true;
     d->fileId = file->id();
 }
 
@@ -67,6 +70,7 @@ PermissionFetchJob::PermissionFetchJob(const QString &fileId,
     FetchJob(account, parent),
     d(new Private)
 {
+    d->supportsAllDrives = true;
     d->fileId = fileId;
     d->permissionId = permissionId;
 }
@@ -78,6 +82,7 @@ PermissionFetchJob::PermissionFetchJob(const FilePtr &file,
     FetchJob(account, parent),
     d(new Private)
 {
+    d->supportsAllDrives = true;
     d->fileId = file->id();
     d->permissionId = permissionId;
 }
@@ -87,14 +92,31 @@ PermissionFetchJob::~PermissionFetchJob()
     delete d;
 }
 
+bool PermissionFetchJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void PermissionFetchJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
+}
+
 void PermissionFetchJob::start()
 {
-    QNetworkRequest request;
+    QUrl url;
     if (d->permissionId.isEmpty()) {
-        request.setUrl(DriveService::fetchPermissionsUrl(d->fileId));
+        url = DriveService::fetchPermissionsUrl(d->fileId);
     } else {
-        request.setUrl(DriveService::fetchPermissionUrl(d->fileId, d->permissionId));
+        url = DriveService::fetchPermissionUrl(d->fileId, d->permissionId);
     }
+
+    QUrlQuery withDriveSupportQuery(url);
+    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), d->supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    url.setQuery(withDriveSupportQuery);
+
+    QNetworkRequest request;
+    request.setUrl(url);
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
 
     enqueueRequest(request);

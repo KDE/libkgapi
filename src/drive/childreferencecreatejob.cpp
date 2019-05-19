@@ -28,6 +28,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 
 using namespace KGAPI2;
@@ -41,12 +42,14 @@ class Q_DECL_HIDDEN ChildReferenceCreateJob::Private
 
     QString folderId;
     ChildReferencesList references;
+    bool supportsAllDrives;
 
   private:
     ChildReferenceCreateJob *q;
 };
 
 ChildReferenceCreateJob::Private::Private(ChildReferenceCreateJob *parent):
+    supportsAllDrives(true),
     q(parent)
 {
 }
@@ -59,7 +62,11 @@ void ChildReferenceCreateJob::Private::processNext()
     }
 
     const ChildReferencePtr reference = references.takeFirst();
-    const QUrl url = DriveService::createChildReference(folderId);
+    QUrl url = DriveService::createChildReference(folderId);
+
+    QUrlQuery withDriveSupportQuery(url);
+    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    url.setQuery(withDriveSupportQuery);
 
     QNetworkRequest request;
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -118,6 +125,16 @@ ChildReferenceCreateJob::ChildReferenceCreateJob(const QString &folderId,
 ChildReferenceCreateJob::~ChildReferenceCreateJob()
 {
     delete d;
+}
+
+bool ChildReferenceCreateJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void ChildReferenceCreateJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
 }
 
 void ChildReferenceCreateJob::start()

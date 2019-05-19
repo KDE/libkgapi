@@ -58,6 +58,7 @@ class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 
     QMap<QString, FilePtr> uploadedFiles;
 
+    bool supportsAllDrives;
 
     bool useContentAsIndexableText;
     File::SerializationOptions serializationOptions = File::NoOptions;
@@ -68,6 +69,7 @@ class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 
 FileAbstractUploadJob::Private::Private(FileAbstractUploadJob *parent):
     originalFilesCount(0),
+    supportsAllDrives(true),
     useContentAsIndexableText(false),
     q(parent)
 {
@@ -185,6 +187,8 @@ void FileAbstractUploadJob::Private::processNext()
         rawData = File::toJSON(metaData, q->serializationOptions());
         contentType = QStringLiteral("application/json");
     }
+
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
     url.setQuery(query);
 
     request.setUrl(url);
@@ -303,6 +307,16 @@ void FileAbstractUploadJob::start()
 QMap<QString, FilePtr> FileAbstractUploadJob::files() const
 {
     return d->uploadedFiles;
+}
+
+bool FileAbstractUploadJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void FileAbstractUploadJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
 }
 
 void FileAbstractUploadJob::dispatchRequest(QNetworkAccessManager *accessManager,

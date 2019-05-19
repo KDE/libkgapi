@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/drive/v2/changes/194
+GET https://www.googleapis.com/drive/v2/changes/194?supportsAllDrives=true

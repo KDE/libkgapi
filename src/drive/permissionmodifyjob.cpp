@@ -29,6 +29,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 
 
 using namespace KGAPI2;
@@ -42,12 +43,14 @@ class Q_DECL_HIDDEN PermissionModifyJob::Private
 
     QString fileId;
     PermissionsList permissions;
+    bool supportsAllDrives;
 
   private:
     PermissionModifyJob *q;
 };
 
 PermissionModifyJob::Private::Private(PermissionModifyJob *parent):
+    supportsAllDrives(true),
     q(parent)
 {
 }
@@ -60,7 +63,11 @@ void PermissionModifyJob::Private::processNext()
     }
 
     const PermissionPtr permission = permissions.takeFirst();
-    const QUrl url = DriveService::modifyPermissionUrl(fileId, permission->id());
+    QUrl url = DriveService::modifyPermissionUrl(fileId, permission->id());
+
+    QUrlQuery withDriveSupportQuery(url);
+    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    url.setQuery(withDriveSupportQuery);
 
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
@@ -94,6 +101,16 @@ PermissionModifyJob::PermissionModifyJob(const QString &fileId,
 PermissionModifyJob::~PermissionModifyJob()
 {
     delete d;
+}
+
+bool PermissionModifyJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void PermissionModifyJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
 }
 
 void PermissionModifyJob::start()

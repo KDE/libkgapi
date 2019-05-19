@@ -102,10 +102,21 @@ class MainWindow : public QMainWindow
     void slotTeamdriveDeleteJobFinished(KGAPI2::Job *job);
 
     /**
-     * A specific contact in contact list has been selected. Sends a request
-     * to Google to retrieve full details about the specific contact
+     * A specific team drive in teamdrive list has been selected. Sends a request
+     * to Google to retrieve teh team drive file list.
      */
     void teamdriveSelected();
+
+    /**
+     * A specific item in the teamdrive list has been selected. Sends a request
+     * to Google to retrieve full details about the specific file
+     */
+    void teamdriveItemSelected();
+
+    /**
+     * Team Drive item detail was fetched.
+     */
+    void slotTeamdriveItemFetchJobFinished(KGAPI2::Job *job);
 
   private:
     Ui::MainWindow *m_ui;

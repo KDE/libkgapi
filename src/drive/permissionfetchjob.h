@@ -48,6 +48,26 @@ class KGAPIDRIVE_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
                                 const AccountPtr &account, QObject *parent = nullptr);
     ~PermissionFetchJob() override;
 
+    /**
+     * @brief Whether the request supports both My Drives and shared drives.
+     *
+     * Set to true by default as LibKGAPI supports Team Drives.
+     *
+     * @deprecated This parameter will only be effective until June 1, 2020. Afterwards all applications
+     * are assumed to support shared drives.
+     */
+    KGAPIDRIVE_DEPRECATED bool supportsAllDrives() const;
+
+    /**
+     * @brief Sets whether the request supports both My Drives and shared drives.
+     *
+     * Set to true by default as LibKGAPI supports Team Drives.
+     *
+     * @deprecated This parameter will only be effective until June 1, 2020. Afterwards all applications
+     * are assumed to support shared drives.
+     */
+    KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
+
   protected:
     void start() override;
     KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,

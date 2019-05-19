@@ -27,6 +27,7 @@
 #include "driveservice.h"
 
 #include <QNetworkRequest>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -36,6 +37,7 @@ class Q_DECL_HIDDEN PermissionDeleteJob::Private
   public:
     QString fileId;
     QStringList permissionsIds;
+    bool supportsAllDrives;
 };
 
 PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
@@ -45,6 +47,7 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
     DeleteJob(account, parent),
     d(new Private)
 {
+    d->supportsAllDrives = true;
     d->fileId = fileId;
     d->permissionsIds << permission->id();
 }
@@ -56,6 +59,7 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
     DeleteJob(account, parent),
     d(new Private)
 {
+    d->supportsAllDrives = true;
     d->fileId = fileId;
     d->permissionsIds << permissionId;
 }
@@ -67,6 +71,7 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
     DeleteJob(account, parent),
     d(new Private)
 {
+    d->supportsAllDrives = true;
     d->fileId = fileId;
     for (const PermissionPtr & permission : qAsConst(permissions)) {
         d->permissionsIds << permission->id();
@@ -80,6 +85,7 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
     DeleteJob(account, parent),
     d(new Private)
 {
+    d->supportsAllDrives = true;
     d->fileId = fileId;
     d->permissionsIds << permissionsIds;
 }
@@ -87,6 +93,16 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
 PermissionDeleteJob::~PermissionDeleteJob()
 {
     delete d;
+}
+
+bool PermissionDeleteJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void PermissionDeleteJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
 }
 
 void PermissionDeleteJob::start()
@@ -97,7 +113,10 @@ void PermissionDeleteJob::start()
     }
 
     const QString permissionId = d->permissionsIds.takeFirst();
-    const QUrl url = DriveService::deletePermissionUrl(d->fileId, permissionId);
+    QUrl url = DriveService::deletePermissionUrl(d->fileId, permissionId);
+    QUrlQuery withDriveSupportQuery(url);
+    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), d->supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    url.setQuery(withDriveSupportQuery);
     QNetworkRequest request(url);
     request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
 

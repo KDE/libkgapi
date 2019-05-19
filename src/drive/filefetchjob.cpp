@@ -46,7 +46,8 @@ class Q_DECL_HIDDEN FileFetchJob::Private
     FileSearchQuery searchQuery;
     QStringList filesIDs;
     bool isFeed;
-    bool includeTeamDriveItems;
+    bool includeItemsFromAllDrives;
+    bool supportsAllDrives;
 
     bool updateViewedDate;
 
@@ -58,6 +59,8 @@ class Q_DECL_HIDDEN FileFetchJob::Private
 
 FileFetchJob::Private::Private(FileFetchJob *parent):
     isFeed(false),
+    includeItemsFromAllDrives(true),
+    supportsAllDrives(true),
     updateViewedDate(false),
     fields(FileFetchJob::AllFields),
     q(parent)
@@ -240,10 +243,7 @@ void FileFetchJob::Private::processNext()
                              QStringLiteral("etag,kind,nextLink,nextPageToken,selfLink,items(%1)").arg(fieldsStrings.join(QStringLiteral(","))));
         }
 
-        if (includeTeamDriveItems) {
-            query.addQueryItem(QStringLiteral("includeTeamDriveItems"), QStringLiteral("true"));
-            query.addQueryItem(QStringLiteral("supportsTeamDrives"), QStringLiteral("true"));
-        }
+        query.addQueryItem(QStringLiteral("includeItemsFromAllDrives"), includeItemsFromAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
 
         url.setQuery(query);
     } else {
@@ -261,6 +261,10 @@ void FileFetchJob::Private::processNext()
             url.setQuery(query);
         }
     }
+
+    QUrlQuery withDriveSupportQuery(url);
+    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    url.setQuery(withDriveSupportQuery);
 
     q->enqueueRequest(createRequest(url));
 }
@@ -333,14 +337,24 @@ qulonglong FileFetchJob::fields() const
     return d->fields;
 }
 
-bool FileFetchJob::includeTeamDriveItems() const
+bool FileFetchJob::includeItemsFromAllDrives() const
 {
-    return d->includeTeamDriveItems;
+    return d->includeItemsFromAllDrives;
 }
 
-void FileFetchJob::setIncludeTeamDriveItems(bool includeTeamDriveItems)
+void FileFetchJob::setIncludeItemsFromAllDrives(bool includeItemsFromAllDrives)
 {
-    d->includeTeamDriveItems = includeTeamDriveItems;
+    d->includeItemsFromAllDrives = includeItemsFromAllDrives;
+}
+
+bool FileFetchJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void FileFetchJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
 }
 
 

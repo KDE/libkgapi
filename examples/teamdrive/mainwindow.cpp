@@ -56,6 +56,8 @@ MainWindow::MainWindow(QWidget * parent):
             this, &MainWindow::renameSelectedTeamdrive);
     connect(m_ui->teamdriveList, &QListWidget::itemSelectionChanged,
             this, &MainWindow::teamdriveSelected);
+    connect(m_ui->teamdrivePreviewList, &QListWidget::itemSelectionChanged,
+            this, &MainWindow::teamdriveItemSelected);
 }
 
 MainWindow::~MainWindow()
@@ -244,14 +246,16 @@ void MainWindow::teamdriveSelected()
     m_ui->renameTeamdriveButton->setEnabled(hasSelection);
     m_ui->renameTeamdriveEdit->setEnabled(hasSelection);
 
+    m_ui->teamdrivePreviewList->clear();
+
     if (!hasSelection) {
-        m_ui->teamdrivePreview->clear();
         m_ui->renameTeamdriveEdit->clear();
         return;
     }
 
     const QString id = m_ui->teamdriveList->selectedItems().at(0)->data(Qt::UserRole).toString();
     const QString name = m_ui->teamdriveList->selectedItems().at(0)->data(Qt::DisplayRole).toString();
+
     m_ui->renameTeamdriveEdit->setText(name);
 
     KGAPI2::Drive::FileSearchQuery query;
@@ -259,7 +263,6 @@ void MainWindow::teamdriveSelected()
     query.addQuery(KGAPI2::Drive::FileSearchQuery::Parents, KGAPI2::Drive::FileSearchQuery::In, id);
 
     KGAPI2::Drive::FileFetchJob *fileFetchJob = new KGAPI2::Drive::FileFetchJob(query, m_account, nullptr);
-    fileFetchJob->setIncludeTeamDriveItems(true);
     fileFetchJob->setFields((KGAPI2::Drive::FileFetchJob::BasicFields & ~KGAPI2::Drive::FileFetchJob::Permissions)
                             | KGAPI2::Drive::FileFetchJob::Labels
                             | KGAPI2::Drive::FileFetchJob::ExportLinks
@@ -281,15 +284,61 @@ void MainWindow::slotTeamdriveFetchJobFinished(KGAPI2::Job *job)
         return;
     }
 
-    /* Get all items we have received from Google (should be just one) */
+    /* Get all items we have received from Google */
     KGAPI2::ObjectsList objects = fetchJob->items();
 
-    QString text;
     Q_FOREACH (const KGAPI2::ObjectPtr &object, objects) {
         const KGAPI2::Drive::FilePtr file = object.dynamicCast<KGAPI2::Drive::File>();
-        text += QStringLiteral("%1").arg(file->title());
-        text += QLatin1Char('\n');
+
+        /* Convert the teamdrive to QListWidget item */
+        QListWidgetItem *item = new QListWidgetItem(m_ui->teamdrivePreviewList);
+        item->setText(file->title());
+        item->setData(Qt::UserRole, file->id());
+
+        m_ui->teamdrivePreviewList->addItem(item);
+    }
+}
+
+void MainWindow::teamdriveItemSelected()
+{
+    bool hasSelection = (m_ui->teamdrivePreviewList->selectedItems().count() != 0);
+    if (!hasSelection) {
+        return;
     }
 
-    m_ui->teamdrivePreview->setText(text);
+    const QString id = m_ui->teamdrivePreviewList->selectedItems().at(0)->data(Qt::UserRole).toString();
+
+    KGAPI2::Drive::FileFetchJob *fileFetchJob = new KGAPI2::Drive::FileFetchJob(id, m_account, nullptr);
+    fileFetchJob->setFields((KGAPI2::Drive::FileFetchJob::BasicFields & ~KGAPI2::Drive::FileFetchJob::Permissions)
+                            | KGAPI2::Drive::FileFetchJob::Labels
+                            | KGAPI2::Drive::FileFetchJob::ExportLinks
+                            | KGAPI2::Drive::FileFetchJob::LastViewedByMeDate);
+    connect(fileFetchJob, &KGAPI2::Job::finished,
+            this, &MainWindow::slotTeamdriveItemFetchJobFinished);
+}
+
+void MainWindow::slotTeamdriveItemFetchJobFinished(KGAPI2::Job *job)
+{
+    KGAPI2::Drive::FileFetchJob *fetchJob = qobject_cast<KGAPI2::Drive::FileFetchJob*>(job);
+    Q_ASSERT(fetchJob);
+    fetchJob->deleteLater();
+
+    if (fetchJob->error() != KGAPI2::NoError) {
+        m_ui->errorLabel->setText(QStringLiteral("Error: %1").arg(fetchJob->errorString()));
+        m_ui->errorLabel->setVisible(true);
+        return;
+    }
+
+    KGAPI2::ObjectsList objects = fetchJob->items();
+    if (objects.size() != 1) {
+        return;
+    }
+
+    KGAPI2::ObjectPtr object = objects.at(0);
+    const KGAPI2::Drive::FilePtr file = object.dynamicCast<KGAPI2::Drive::File>();
+    QStringList msgBuilder;
+    msgBuilder << file->title();
+    msgBuilder << QString::number(file->fileSize()) + QStringLiteral(" bytes");
+    QString msg = msgBuilder.join(QStringLiteral(", "));
+    m_ui->statusbar->showMessage(msg);
 }

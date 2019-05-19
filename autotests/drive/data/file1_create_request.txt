@@ -1,40 +1,40 @@
-POST https://www.googleapis.com/drive/v2/files?convert=false&ocr=false&pinned=false&useContentAsIndexableText=false
+POST https://www.googleapis.com/drive/v2/files?convert=false&ocr=false&pinned=false&useContentAsIndexableText=false&supportsAllDrives=true
 Content-Type: application/json
 
 {
-  "mimeType": "application/vnd.google-apps.spreadsheet", 
-  "thumbnailLink": "https://docs.google.com/feeds/vt?gd=true&id=someid&v=480&s=otherid&sz=s220", 
+  "mimeType": "application/vnd.google-apps.spreadsheet",
+  "thumbnailLink": "https://docs.google.com/feeds/vt?gd=true&id=someid&v=480&s=otherid&sz=s220",
   "labels": {
-    "restricted": false, 
-    "starred": false, 
-    "viewed": false, 
-    "hidden": false, 
+    "restricted": false,
+    "starred": false,
+    "viewed": false,
+    "hidden": false,
     "trashed": false
-  }, 
-  "etag": "\"bX7M5zOlGcEthti1qPHKQWp6SJA/MTUyMzM1MTc5MDUyNA\"", 
-  "lastModifyingUserName": "John Doe", 
-  "writersCanShare": true, 
-  "sharedWithMeDate": "2018-03-14T13:35:25Z", 
-  "title": "Super mega secret KDE PIM plans for world domination", 
+  },
+  "etag": "\"bX7M5zOlGcEthti1qPHKQWp6SJA/MTUyMzM1MTc5MDUyNA\"",
+  "lastModifyingUserName": "John Doe",
+  "writersCanShare": true,
+  "sharedWithMeDate": "2018-03-14T13:35:25Z",
+  "title": "Super mega secret KDE PIM plans for world domination",
   "ownerNames": [
     "Konqui Dev"
-  ], 
-  "id": "abcdefghijklmnopqrstuvwxyz", 
+  ],
+  "id": "abcdefghijklmnopqrstuvwxyz",
   "parents": [
     {
-      "id": "zyxwvutsrqponmlkjihgfedcba", 
-      "selfLink": "https://www.googleapis.com/drive/v2/files/abcdefghijklmnopqrstuvwxyz/parents/zyxwvutsrqponmlkjihgfedcba", 
+      "id": "zyxwvutsrqponmlkjihgfedcba",
+      "selfLink": "https://www.googleapis.com/drive/v2/files/abcdefghijklmnopqrstuvwxyz/parents/zyxwvutsrqponmlkjihgfedcba",
       "parentLink": "https://www.googleapis.com/drive/v2/files/zyxwvutsrqponmlkjihgfedcba"
     }
-  ], 
-  "shared": true, 
-  "editable": false, 
-  "kind": "drive#file", 
-  "modifiedDate": "2018-04-10T09:16:30Z", 
-  "createdDate": "2018-01-05T11:35:58Z", 
-  "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet", 
-  "embedLink": "https://docs.google.com/spreadsheets/d/abcdefghijklmnopqrstuvwxyz/htmlembed?ouid=116901758143213967333", 
-  "alternateLink": "https://docs.google.com/spreadsheets/d/abcdefghijklmnopqrstuvwxyz/edit?usp=drivesdk", 
+  ],
+  "shared": true,
+  "editable": false,
+  "kind": "drive#file",
+  "modifiedDate": "2018-04-10T09:16:30Z",
+  "createdDate": "2018-01-05T11:35:58Z",
+  "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet",
+  "embedLink": "https://docs.google.com/spreadsheets/d/abcdefghijklmnopqrstuvwxyz/htmlembed?ouid=116901758143213967333",
+  "alternateLink": "https://docs.google.com/spreadsheets/d/abcdefghijklmnopqrstuvwxyz/edit?usp=drivesdk",
   "selfLink": "https://www.googleapis.com/drive/v2/files/abcdefghijklmnopqrstuvwxyz"
 }
 
