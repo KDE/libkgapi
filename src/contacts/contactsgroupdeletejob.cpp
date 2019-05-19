@@ -51,10 +51,8 @@ ContactsGroupDeleteJob::Private::Private(ContactsGroupDeleteJob* parent):
 
 QNetworkRequest ContactsGroupDeleteJob::Private::createRequest(const QUrl& url) const
 {
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     QStringList headers;
     auto rawHeaderList = request.rawHeaderList();

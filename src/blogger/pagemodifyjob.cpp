@@ -60,9 +60,7 @@ PageModifyJob::~PageModifyJob()
 void PageModifyJob::start()
 {
     const QUrl url = BloggerService::modifyPageUrl(d->page->blogId(), d->page->id());
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     const QByteArray rawData = Page::toJSON(d->page);
     enqueueRequest(request, rawData, QStringLiteral("application/json"));

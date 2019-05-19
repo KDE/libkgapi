@@ -62,20 +62,19 @@ FileLogger *FileLogger::self()
     return sInstance;
 }
 
-void FileLogger::logRequest(const KGAPI2::Request &request)
+void FileLogger::logRequest(const QNetworkRequest &request, const QByteArray &rawData)
 {
     if (!mFile) {
         return;
     }
 
     QTextStream stream(mFile.data());
-    stream << "C: " << request.request.url().toDisplayString() << "\n";
-    stream << "   Content-type: " << request.contentType << "\n";
-    const auto headers = request.request.rawHeaderList();
+    stream << "C: " << request.url().toDisplayString() << "\n";
+    const auto headers = request.rawHeaderList();
     for (const auto &header : headers) {
-        stream << "   " << header << ": " << request.request.rawHeader(header) << "\n\n";
+        stream << "   " << header << ": " << request.rawHeader(header) << "\n";
     }
-    stream << "   " << request.rawData << "\n\n";
+    stream << "   " << rawData << "\n\n";
     mFile->flush();
 }
 
@@ -89,9 +88,9 @@ void FileLogger::logReply(const QNetworkReply *reply, const QByteArray &rawData)
     stream << "S: " << reply->url().toDisplayString() << "\n";
     const auto headers = reply->rawHeaderList();
     for (const auto &header : headers) {
-        stream << "   " << header << ": " << reply->rawHeader(header) << "\n\n";
+        stream << "   " << header << ": " << reply->rawHeader(header) << "\n";
     }
-    stream << "   " << rawData;
+    stream << "   " << rawData << "\n\n";
     mFile->flush();
 }
 
@@ -322,10 +321,14 @@ void Job::Private::_k_dispatchTimeout()
     const Request r = requestQueue.dequeue();
     currentRequest = r;
 
+    QNetworkRequest authorizedRequest = r.request;
+    if (account) {
+        authorizedRequest.setRawHeader("Authorization", "Bearer " + account->accessToken().toLatin1());
+    }
     qCDebug(KGAPIDebug) << q << "Dispatching request to" << r.request.url();
-    FileLogger::self()->logRequest(r);
+    FileLogger::self()->logRequest(authorizedRequest, r.rawData);
 
-    q->dispatchRequest(accessManager, r.request, r.rawData, r.contentType);
+    q->dispatchRequest(accessManager, authorizedRequest, r.rawData, r.contentType);
 
     if (requestQueue.isEmpty()) {
         dispatchTimer->stop();

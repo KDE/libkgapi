@@ -67,13 +67,13 @@ ParentReferenceFetchJob::~ParentReferenceFetchJob()
 
 void ParentReferenceFetchJob::start()
 {
-    QNetworkRequest request;
+    QUrl url;
     if (d->referenceId.isEmpty()) {
-        request.setUrl(DriveService::fetchParentReferencesUrl(d->fileId));
+        url = DriveService::fetchParentReferencesUrl(d->fileId);
     } else {
-        request.setUrl(DriveService::fetchParentReferenceUrl(d->fileId, d->referenceId));
+        url = DriveService::fetchParentReferenceUrl(d->fileId, d->referenceId);
     }
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
 
     enqueueRequest(request);
 }

@@ -80,7 +80,6 @@ CommentDeleteJob::~CommentDeleteJob()
 void CommentDeleteJob::start()
 {
     QNetworkRequest request(BloggerService::deleteCommentUrl(d->blogId, d->postId, d->commentId));
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
 
     enqueueRequest(request);
 }

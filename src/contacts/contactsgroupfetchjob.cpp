@@ -52,10 +52,8 @@ ContactsGroupFetchJob::Private::Private(ContactsGroupFetchJob* parent):
 
 QNetworkRequest ContactsGroupFetchJob::Private::createRequest(const QUrl& url)
 {
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     QStringList headers;
     auto rawHeaderList = request.rawHeaderList();

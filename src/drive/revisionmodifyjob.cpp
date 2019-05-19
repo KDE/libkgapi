@@ -62,7 +62,6 @@ void RevisionModifyJob::Private::processNext()
     const QUrl url = DriveService::modifyRevisionUrl(fileId, revision->id());
 
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
     const QByteArray rawData = Revision::toJSON(revision);
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));

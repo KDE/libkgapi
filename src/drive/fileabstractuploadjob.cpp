@@ -157,7 +157,6 @@ void FileAbstractUploadJob::Private::processNext()
     QUrlQuery query(url);
     query.addQueryItem(QStringLiteral("useContentAsIndexableText"), Utils::bool2Str(useContentAsIndexableText));
 
-    QNetworkRequest request;
     QByteArray rawData;
     QString contentType;
 
@@ -191,8 +190,7 @@ void FileAbstractUploadJob::Private::processNext()
     query.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
     url.setQuery(query);
 
-    request.setUrl(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentLengthHeader, rawData.length());
     request.setHeader(QNetworkRequest::ContentTypeHeader, contentType);
     request.setAttribute(QNetworkRequest::User, filePath);

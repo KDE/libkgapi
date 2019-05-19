@@ -71,9 +71,7 @@ void PostCreateJob::start()
         query.addQueryItem(QStringLiteral("isDraft"), Utils::bool2Str(d->isDraft));
         url.setQuery(query);
     }
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     const QByteArray rawData = Post::toJSON(d->post);
 

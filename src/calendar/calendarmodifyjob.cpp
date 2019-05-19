@@ -69,10 +69,8 @@ void CalendarModifyJob::start()
     const CalendarPtr calendar = d->calendars.current();
 
     const QUrl url = CalendarService::updateCalendarUrl(calendar->uid());
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     const QByteArray rawData = CalendarService::calendarToJSON(calendar);
 

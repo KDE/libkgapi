@@ -69,9 +69,7 @@ void PermissionCreateJob::Private::processNext()
     withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
     url.setQuery(withDriveSupportQuery);
 
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     const QByteArray rawData = Permission::toJSON(permission);
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));

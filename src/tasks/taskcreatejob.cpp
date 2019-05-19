@@ -95,9 +95,7 @@ void TaskCreateJob::start()
         query.addQueryItem(QStringLiteral("parent"), d->parentId);
     }
     url.setQuery(query);
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     const QByteArray rawData = TasksService::taskToJSON(task);
 

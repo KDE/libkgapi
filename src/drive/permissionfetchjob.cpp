@@ -115,10 +115,7 @@ void PermissionFetchJob::start()
     withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), d->supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
     url.setQuery(withDriveSupportQuery);
 
-    QNetworkRequest request;
-    request.setUrl(url);
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-
+    QNetworkRequest request(url);
     enqueueRequest(request);
 }
 

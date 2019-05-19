@@ -64,10 +64,8 @@ void ContactCreateJob::Private::processNextContact()
 
     const ContactPtr contact = contacts.current();
     const QUrl url = ContactsService::createContactUrl(q->account()->accountName());
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     QByteArray rawData = ContactsService::contactToXML(contact);
     rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
@@ -87,10 +85,9 @@ void ContactCreateJob::Private::processNextContact()
     q->enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
 
     if (!contact->photo().isEmpty()) {
-        QNetworkRequest photoRequest;
-        photoRequest.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+        const QUrl url = ContactsService::photoUrl(q->account()->accountName(), contact->uid());
+        QNetworkRequest photoRequest(url);
         photoRequest.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("image/*"));
-        photoRequest.setUrl(ContactsService::photoUrl(q->account()->accountName(), contact->uid()));
         pendingPhoto.first = contact->photo().rawData();
         pendingPhoto.second = contact->photo().type();
         q->enqueueRequest(photoRequest, pendingPhoto.first, QStringLiteral("modifyImage"));

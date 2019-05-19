@@ -69,10 +69,8 @@ void LocationCreateJob::start()
         url = LatitudeService::insertLocationUrl();
     }
 
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     const QByteArray rawData = LatitudeService::locationToJSON(d->location);
 

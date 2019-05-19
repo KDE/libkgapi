@@ -40,12 +40,13 @@ namespace KGAPI2 {
  *
  * Usual workflow of Job subclasses is to reimplement Job::start,
  * Job::dispatchRequest and Job::handleReply, then enqueue a QNetworkRequest using
- * Job::enqueueRequest. The request will automatically be scheduled in a queue
- * and dispatched by calling Job::dispatchRequest implementation. When a reply
- * is received, the Job will automatically perform error handling and if there
- * is no error, the reply is passed to implementation of Job::handleReply.
+ * Job::enqueueRequest. Authorization headers and standard query parameters will be
+ * set by Job class. The request will automatically be scheduled in a queue and
+ * dispatched by calling Job::dispatchRequest implementation. When a reply is received,
+ * the Job will automatically perform error handling and if there is no error, the
+ * reply is passed to implementation of Job::handleReply.
  *
- * Job is automatically when program enters an event loop.
+ * Job is automatically started when program enters an event loop.
  *
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
@@ -72,7 +73,7 @@ class KGAPICORE_EXPORT Job : public QObject
      * @brief Whether the job is running
      *
      * This property indicates whether the job is running or not. The value is
-     * set to @p true when the job is started (see Job::start) and back to 
+     * set to @p true when the job is started (see Job::start) and back to
      * @p false right before Job::finished is emitted.
      *
      * @see Job::isRunning, Job::finished
@@ -313,6 +314,7 @@ class KGAPICORE_EXPORT Job : public QObject
      *
      * Subclasses should call this method to enqueue the @p request in main job
      * queue. The request is automatically dispatched, and reply is handled.
+     * Authorization headers and standars query parameters will be applied.
      *
      * @param request Request to enqueue
      * @param data Data to be send in body of the request

@@ -62,7 +62,6 @@ void TaskMoveJob::Private::processNextTask()
     const QString taskId = tasksIds.current();
     const QUrl url = TasksService::moveTaskUrl(taskListId, taskId, newParentId);
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
     QStringList headers;
     const auto rawHeaderList = request.rawHeaderList();

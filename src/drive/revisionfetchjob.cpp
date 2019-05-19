@@ -66,13 +66,13 @@ RevisionFetchJob::~RevisionFetchJob()
 
 void RevisionFetchJob::start()
 {
-    QNetworkRequest request;
+    QUrl url;
     if (d->revisionId.isEmpty()) {
-        request.setUrl(DriveService::fetchRevisionsUrl(d->fileId));
+        url = DriveService::fetchRevisionsUrl(d->fileId);
     } else {
-        request.setUrl(DriveService::fetchRevisionUrl(d->fileId, d->revisionId));
+        url = DriveService::fetchRevisionUrl(d->fileId, d->revisionId);
     }
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
 
     enqueueRequest(request);
 }

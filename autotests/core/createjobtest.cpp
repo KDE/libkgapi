@@ -48,7 +48,6 @@ public:
     void start() override
     {
         QNetworkRequest request(mUrl);
-        request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
         enqueueRequest(request, mData);
     }
 

@@ -66,14 +66,13 @@ void TeamdriveCreateJob::Private::processNext()
 
     QUrl url = DriveService::fetchTeamdrivesUrl();
 
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
     QUrlQuery query(url);
     if (!requestId.isEmpty()) {
         query.addQueryItem(RequestIdParam, requestId);
     }
     url.setQuery(query);
-    request.setUrl(url);
+
+    QNetworkRequest request(url);
 
     const QByteArray rawData = Teamdrive::toJSON(teamdrive);
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));

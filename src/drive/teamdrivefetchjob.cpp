@@ -44,7 +44,6 @@ class Q_DECL_HIDDEN TeamdriveFetchJob::Private
 {
   public:
     Private(TeamdriveFetchJob *parent);
-    QNetworkRequest createRequest(const QUrl &url);
 
     TeamdriveSearchQuery searchQuery;
     QString teamdriveId;
@@ -60,16 +59,6 @@ TeamdriveFetchJob::Private::Private(TeamdriveFetchJob *parent):
     q(parent)
 {
 }
-
-QNetworkRequest TeamdriveFetchJob::Private::createRequest(const QUrl &url)
-{
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-    request.setUrl(url);
-
-    return request;
-}
-
 
 TeamdriveFetchJob::TeamdriveFetchJob(const QString &teamdriveId,
                                const AccountPtr &account,
@@ -137,7 +126,7 @@ void TeamdriveFetchJob::start()
         url = DriveService::fetchTeamdriveUrl(d->teamdriveId);
     }
 
-    const QNetworkRequest request = d->createRequest(url);
+    QNetworkRequest request(url);
     enqueueRequest(request);
 }
 
@@ -169,7 +158,7 @@ ObjectsList TeamdriveFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     if (feedData.nextPageUrl.isValid()) {
         // Reapply query options
         applyRequestParameters(feedData.nextPageUrl);
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     }
 

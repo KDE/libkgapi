@@ -60,10 +60,8 @@ void FileAbstractModifyJob::Private::processNext()
     const QString fileId = filesIds.takeFirst();
     const QUrl url = q->url(fileId);
 
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentLengthHeader, 0);
-    request.setUrl(url);
 
     q->enqueueRequest(request);
 }

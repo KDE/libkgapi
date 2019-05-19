@@ -65,7 +65,6 @@ void FileCopyJob::Private::processNext()
     q->updateUrl(url);
 
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
     const QByteArray rawData = File::toJSON(file);
 

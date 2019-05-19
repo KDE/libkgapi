@@ -71,7 +71,6 @@ PageDeleteJob::~PageDeleteJob()
 void PageDeleteJob::start()
 {
     QNetworkRequest request(BloggerService::deletePageUrl(d->blogId, d->pageId));
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
 
     enqueueRequest(request);
 }

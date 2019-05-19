@@ -82,9 +82,8 @@ void TeamdriveDeleteJob::start()
 
     const QString teamdriveId = d->teamdrivesIds.takeFirst();
     const QUrl url = DriveService::fetchTeamdriveUrl(teamdriveId);
-    QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
 
+    QNetworkRequest request(url);
     enqueueRequest(request);
 }
 

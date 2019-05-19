@@ -37,7 +37,6 @@ class Q_DECL_HIDDEN ChildReferenceFetchJob::Private
 {
   public:
     Private(ChildReferenceFetchJob *parent);
-    QNetworkRequest createRequest(const QUrl &url);
 
     QString folderId;
     QString childId;
@@ -49,15 +48,6 @@ class Q_DECL_HIDDEN ChildReferenceFetchJob::Private
 ChildReferenceFetchJob::Private::Private(ChildReferenceFetchJob *parent):
     q(parent)
 {
-}
-
-QNetworkRequest ChildReferenceFetchJob::Private::createRequest(const QUrl &url)
-{
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-    request.setUrl(url);
-
-    return request;
 }
 
 ChildReferenceFetchJob::ChildReferenceFetchJob(const QString &folderId,
@@ -94,7 +84,7 @@ void ChildReferenceFetchJob::start()
         url = DriveService::fetchParentReferenceUrl(d->folderId, d->childId);
     }
 
-    const QNetworkRequest request = d->createRequest(url);
+    QNetworkRequest request(url);
     enqueueRequest(request);
 }
 
@@ -121,7 +111,7 @@ ObjectsList ChildReferenceFetchJob::handleReplyWithItems(const QNetworkReply *re
 
 
     if (feedData.nextPageUrl.isValid()) {
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     }
 

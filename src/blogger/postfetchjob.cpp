@@ -38,8 +38,6 @@ class Q_DECL_HIDDEN PostFetchJob::Private
             const QString &postId,
             PostFetchJob *parent);
 
-    QNetworkRequest createRequest(const QUrl &url);
-
     QString blogId;
     QString postId;
 
@@ -66,17 +64,6 @@ PostFetchJob::Private::Private(const QString &blogId_,
     , statusFilter(All)
     , q(parent)
 {
-}
-
-QNetworkRequest PostFetchJob::Private::createRequest(const QUrl &url)
-{
-    QNetworkRequest request;
-    if (q->account()) {
-        request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-    }
-    request.setUrl(url);
-
-    return request;
 }
 
 PostFetchJob::PostFetchJob(const QString &blogId,
@@ -203,7 +190,7 @@ void PostFetchJob::start()
         query.addQueryItem(QStringLiteral("status"), QStringLiteral("scheduled"));
     }
     url.setQuery(query);
-    const QNetworkRequest request = d->createRequest(url);
+    const QNetworkRequest request(url);
     enqueueRequest(request);
 }
 
@@ -229,7 +216,7 @@ ObjectsList PostFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     }
 
     if (feedData.nextPageUrl.isValid()) {
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        const QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     } else {
         emitFinished();

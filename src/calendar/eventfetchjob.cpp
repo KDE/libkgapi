@@ -62,10 +62,8 @@ EventFetchJob::Private::Private(EventFetchJob* parent):
 
 QNetworkRequest EventFetchJob::Private::createRequest(const QUrl& url)
 {
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     QStringList headers;
     auto rawHeaderList = request.rawHeaderList();

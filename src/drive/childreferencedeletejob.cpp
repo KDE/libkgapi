@@ -99,7 +99,6 @@ void ChildReferenceDeleteJob::start()
     const QUrl url = DriveService::deleteChildReference(d->folderId, childId);
 
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
 
     enqueueRequest(request);
 }

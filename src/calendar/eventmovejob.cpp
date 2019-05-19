@@ -62,10 +62,8 @@ void EventMoveJob::Private::processNextEvent()
 
     const QString eventId = eventsIds.current();
     const QUrl url = CalendarService::moveEventUrl(source, destination, eventId);
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     QStringList headers;
     auto rawHeaderList = request.rawHeaderList();

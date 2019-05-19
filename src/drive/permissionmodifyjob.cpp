@@ -70,7 +70,6 @@ void PermissionModifyJob::Private::processNext()
     url.setQuery(withDriveSupportQuery);
 
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
     const QByteArray rawData = Permission::toJSON(permission);
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));

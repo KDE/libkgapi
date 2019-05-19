@@ -87,10 +87,8 @@ void LocationFetchJob::start()
     } else {
         url = LatitudeService::retrieveLocationUrl(d->timestamp, d->granularity);
     }
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     enqueueRequest(request);
 }

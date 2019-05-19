@@ -99,8 +99,6 @@ void RevisionDeleteJob::start()
     const QUrl url = DriveService::deleteRevisionUrl(d->fileId, revisionId);
 
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-
     enqueueRequest(request);
 }
 

@@ -93,7 +93,6 @@ void FreeBusyQueryJob::start()
     const QByteArray json = document.toJson(QJsonDocument::Compact);
 
     QNetworkRequest request(CalendarService::freeBusyQueryUrl());
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
     enqueueRequest(request, json, QStringLiteral("application/json"));
 }

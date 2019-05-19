@@ -40,7 +40,6 @@ class Q_DECL_HIDDEN FileFetchJob::Private
   public:
     Private(FileFetchJob *parent);
     void processNext();
-    QNetworkRequest createRequest(const QUrl &url);
     QStringList fieldsToStrings(qulonglong fields);
 
     FileSearchQuery searchQuery;
@@ -67,14 +66,6 @@ FileFetchJob::Private::Private(FileFetchJob *parent):
 {
 }
 
-QNetworkRequest FileFetchJob::Private::createRequest(const QUrl &url)
-{
-    QNetworkRequest request;
-    request.setUrl(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-
-    return request;
-}
 
 QStringList FileFetchJob::Private::fieldsToStrings(qulonglong fields)
 {
@@ -266,7 +257,8 @@ void FileFetchJob::Private::processNext()
     withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
     url.setQuery(withDriveSupportQuery);
 
-    q->enqueueRequest(createRequest(url));
+    QNetworkRequest request(url);
+    q->enqueueRequest(request);
 }
 
 FileFetchJob::FileFetchJob(const QString &fileId,
@@ -372,7 +364,7 @@ ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
             items << File::fromJSONFeed(rawData, feedData);
 
             if (feedData.nextPageUrl.isValid()) {
-                const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+                QNetworkRequest request(feedData.nextPageUrl);
                 enqueueRequest(request);
             }
 

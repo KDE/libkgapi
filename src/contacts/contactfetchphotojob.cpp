@@ -60,9 +60,7 @@ void ContactFetchPhotoJob::Private::processNextContact()
 
     const ContactPtr contact = contacts.current();
     const QUrl url = ContactsService::photoUrl(q->account()->accountName(), contact->uid());
-    QNetworkRequest request;
-    request.setUrl(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
     q->enqueueRequest(request);
 }

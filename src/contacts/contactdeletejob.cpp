@@ -59,7 +59,6 @@ void ContactDeleteJob::Private::processNextContact()
     const QString contactId = contactIds.current();
     const QUrl url = ContactsService::removeContactUrl(q->account()->accountName(), contactId);
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
 
     QStringList headers;

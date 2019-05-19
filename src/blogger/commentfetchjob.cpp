@@ -40,8 +40,6 @@ class Q_DECL_HIDDEN CommentFetchJob::Private
             CommentFetchJob *parent);
     ~Private();
 
-    QNetworkRequest createRequest(const QUrl &url);
-
     QString blogId;
     QString postId;
     QString commentId;
@@ -69,17 +67,6 @@ CommentFetchJob::Private::Private(const QString &blogId_,
 
 CommentFetchJob::Private::~Private()
 {
-}
-
-QNetworkRequest CommentFetchJob::Private::createRequest(const QUrl &url)
-{
-    QNetworkRequest request;
-    if (q->account()) {
-        request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-    }
-    request.setUrl(url);
-
-    return request;
 }
 
 
@@ -177,7 +164,7 @@ void CommentFetchJob::start()
     }
     url.setQuery(query);
 
-    const QNetworkRequest request = d->createRequest(url);
+    const QNetworkRequest request(url);
     enqueueRequest(request);
 }
 
@@ -205,7 +192,7 @@ ObjectsList CommentFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
     }
 
     if (feedData.nextPageUrl.isValid()) {
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        const QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     } else {
         emitFinished();

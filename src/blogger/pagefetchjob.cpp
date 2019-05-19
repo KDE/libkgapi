@@ -114,9 +114,6 @@ void PageFetchJob::start()
     }
     url.setQuery(query);
     QNetworkRequest request(url);
-    if (account()) {
-        request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    }
     enqueueRequest(request);
 }
 

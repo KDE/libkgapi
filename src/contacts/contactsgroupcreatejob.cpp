@@ -68,10 +68,8 @@ void ContactsGroupCreateJob::start()
 
     const ContactsGroupPtr contact = d->groups.current();
     const QUrl url = ContactsService::createGroupUrl(account()->accountName());
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     QByteArray rawData = ContactsService::contactsGroupToXML(contact);
     rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "

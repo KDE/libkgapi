@@ -59,10 +59,8 @@ LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent):
 
 QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl& url)
 {
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     return request;
 }

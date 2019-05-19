@@ -58,7 +58,6 @@ void TaskListDeleteJob::Private::processNextTaskList()
     const QString taskListId = taskListsIds.current();
     const QUrl url = TasksService::removeTaskListUrl(taskListId);
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
 
     QStringList headers;
     const auto rawHeaderList = request.rawHeaderList();

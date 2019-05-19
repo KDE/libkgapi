@@ -83,7 +83,6 @@ void CalendarDeleteJob::start()
     const QString calendarId = d->calendarsIds.current();
     const QUrl url = CalendarService::removeCalendarUrl(calendarId);
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
 
     QStringList headers;

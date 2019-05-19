@@ -79,9 +79,6 @@ void BlogFetchJob::start()
             request.setUrl(BloggerService::fetchBlogsByUserIdUrl(d->id));
             break;
     }
-    if (account()) {
-        request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    }
 
     enqueueRequest(request);
 }

@@ -48,7 +48,7 @@ public:
 
     static FileLogger *self();
 
-    void logRequest(const Request &request);
+    void logRequest(const QNetworkRequest &request, const QByteArray &rawData);
     void logReply(const QNetworkReply *reply, const QByteArray &rawData);
 
 private:

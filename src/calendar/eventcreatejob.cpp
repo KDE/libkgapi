@@ -86,10 +86,8 @@ void EventCreateJob::start()
 
     const EventPtr event = d->events.current();
     const QUrl url = CalendarService::createEventUrl(d->calendarId, d->updatesPolicy);
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
     request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-    request.setUrl(url);
 
     const QByteArray rawData = CalendarService::eventToJSON(event, CalendarService::EventSerializeFlag::NoID);
 

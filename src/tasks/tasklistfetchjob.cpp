@@ -49,9 +49,7 @@ TaskListFetchJob::Private::Private(TaskListFetchJob* parent):
 
 QNetworkRequest TaskListFetchJob::Private::createRequest(const QUrl& url)
 {
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     QStringList headers;
     const auto rawHeaderList = request.rawHeaderList();

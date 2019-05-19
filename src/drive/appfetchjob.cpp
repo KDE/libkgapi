@@ -61,13 +61,13 @@ AppFetchJob::~AppFetchJob()
 
 void AppFetchJob::start()
 {
-    QNetworkRequest request;
+    QUrl url;
     if (d->appId.isEmpty()) {
-        request.setUrl(DriveService::fetchAppsUrl());
+        url = DriveService::fetchAppsUrl();
     } else {
-        request.setUrl(DriveService::fetchAppUrl(d->appId));
+        url = DriveService::fetchAppUrl(d->appId);
     }
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    QNetworkRequest request(url);
 
     enqueueRequest(request);
 }

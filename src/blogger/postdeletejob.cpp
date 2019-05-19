@@ -71,8 +71,8 @@ PostDeleteJob::~PostDeleteJob()
 
 void PostDeleteJob::start()
 {
-    QNetworkRequest request(BloggerService::deletePostUrl(d->blogId, d->postId));
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
+    const QUrl url = BloggerService::deletePostUrl(d->blogId, d->postId);
+    QNetworkRequest request(url);
     enqueueRequest(request);
 }
 

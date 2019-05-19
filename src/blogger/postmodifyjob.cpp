@@ -59,9 +59,7 @@ PostModifyJob::~PostModifyJob()
 void PostModifyJob::start()
 {
     const QUrl url = BloggerService::modifyPostUrl(d->post->blogId(), d->post->id());
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     const QByteArray rawData = Post::toJSON(d->post);
     enqueueRequest(request, rawData, QStringLiteral("application/json"));

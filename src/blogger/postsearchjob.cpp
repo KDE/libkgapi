@@ -38,8 +38,6 @@ class Q_DECL_HIDDEN PostSearchJob::Private
             const QString &query,
             PostSearchJob *parent);
 
-    QNetworkRequest createRequest(const QUrl &url);
-
     QString blogId;
     QString query;
     bool fetchBodies;
@@ -56,17 +54,6 @@ PostSearchJob::Private::Private(const QString &blogId_,
     , fetchBodies(true)
     , q(parent)
 {
-}
-
-QNetworkRequest PostSearchJob::Private::createRequest(const QUrl &url)
-{
-    QNetworkRequest request;
-    if (q->account()) {
-        request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-    }
-    request.setUrl(url);
-
-    return request;
 }
 
 PostSearchJob::PostSearchJob(const QString &blogId,
@@ -100,7 +87,7 @@ void PostSearchJob::start()
     query.addQueryItem(QStringLiteral("q"), d->query);
     query.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
     url.setQuery(query);
-    const QNetworkRequest request = d->createRequest(url);
+    const QNetworkRequest request(url);
     enqueueRequest(request);
 }
 
@@ -124,7 +111,7 @@ ObjectsList PostSearchJob::handleReplyWithItems(const QNetworkReply *reply, cons
     }
 
     if (feedData.nextPageUrl.isValid()) {
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        const QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     } else {
         emitFinished();

@@ -90,8 +90,6 @@ void FileDeleteJob::start()
     const QUrl url = DriveService::deleteFileUrl(fileId);
 
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-
     enqueueRequest(request);
 }
 

@@ -38,7 +38,6 @@ class Q_DECL_HIDDEN ChangeFetchJob::Private
 {
   public:
     Private(ChangeFetchJob *parent);
-    QNetworkRequest createRequest(const QUrl &url);
 
     QString changeId;
 
@@ -63,16 +62,6 @@ ChangeFetchJob::Private::Private(ChangeFetchJob *parent):
     q(parent)
 {
 }
-
-QNetworkRequest ChangeFetchJob::Private::createRequest(const QUrl &url)
-{
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + q->account()->accessToken().toLatin1());
-    request.setUrl(url);
-
-    return request;
-}
-
 
 ChangeFetchJob::ChangeFetchJob(const QString &changeId,
                                const AccountPtr &account,
@@ -197,7 +186,7 @@ void ChangeFetchJob::start()
     query.addQueryItem(QStringLiteral("supportsAllDrives"), d->supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
     url.setQuery(query);
 
-    const QNetworkRequest request = d->createRequest(url);
+    QNetworkRequest request(url);
     enqueueRequest(request);
 }
 
@@ -227,7 +216,7 @@ ObjectsList ChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     }
 
     if (feedData.nextPageUrl.isValid()) {
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     }
 

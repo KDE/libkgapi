@@ -89,7 +89,6 @@ void LocationDeleteJob::start()
     }
 
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
     request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
 
     QStringList headers;

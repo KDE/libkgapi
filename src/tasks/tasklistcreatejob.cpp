@@ -70,9 +70,7 @@ void TaskListCreateJob::start()
     const TaskListPtr taskList = d->taskLists.current();
 
     const QUrl url = TasksService::createTaskListUrl();
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     const QByteArray rawData = TasksService::taskListToJSON(taskList);
 

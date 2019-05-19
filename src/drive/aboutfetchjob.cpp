@@ -118,9 +118,8 @@ AboutPtr AboutFetchJob::aboutData() const
 
 void AboutFetchJob::start()
 {
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setUrl(DriveService::fetchAboutUrl(d->includeSubscribed, d->maxChangeIdCount, d->startChangeId));
+    QUrl url = DriveService::fetchAboutUrl(d->includeSubscribed, d->maxChangeIdCount, d->startChangeId);
+    QNetworkRequest request(url);
 
     enqueueRequest(request);
 }

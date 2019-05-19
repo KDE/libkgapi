@@ -73,9 +73,7 @@ void TaskModifyJob::start()
 
     const TaskPtr task = d->tasks.current();
     const QUrl url = TasksService::updateTaskUrl(d->taskListId, task->uid());
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     const QByteArray rawData = TasksService::taskToJSON(task);
 

@@ -59,9 +59,7 @@ PageCreateJob::~PageCreateJob()
 void PageCreateJob::start()
 {
     const QUrl url = BloggerService::createPageUrl(d->page->blogId());
-    QNetworkRequest request;
-    request.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     const QByteArray rawData = Page::toJSON(d->page);
 

@@ -65,8 +65,7 @@ void ContactModifyJob::Private::processNextContact()
     const ContactPtr contact = contacts.current();
 
     const QUrl url = ContactsService::updateContactUrl(q->account()->accountName(), contact->uid());
-    QNetworkRequest request;
-    request.setUrl(url);
+    QNetworkRequest request(url);
 
     QByteArray rawData = ContactsService::contactToXML(contact);
     rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
@@ -85,12 +84,10 @@ void ContactModifyJob::Private::processNextContact()
 
     q->enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
 
-    QNetworkRequest photoRequest;
-    photoRequest.setUrl(ContactsService::photoUrl(q->account()->accountName(), contact->uid()));
+    const QUrl photoUrl = ContactsService::photoUrl(q->account()->accountName(), contact->uid());
+    QNetworkRequest photoRequest(photoUrl);
     if (!contact->photo().isEmpty()) {
-        QNetworkRequest photoRequest;
         photoRequest.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("image/*"));
-        photoRequest.setUrl(ContactsService::photoUrl(q->account()->accountName(), contact->uid()));
         pendingPhoto.first = contact->photo().rawData();
         pendingPhoto.second = contact->photo().type();
         q->enqueueRequest(photoRequest, pendingPhoto.first, QStringLiteral("modifyImage"));
@@ -128,7 +125,6 @@ void ContactModifyJob::dispatchRequest(QNetworkAccessManager *accessManager, con
 {
     QNetworkRequest r = request;
     r.setRawHeader("If-Match", "*");
-    r.setRawHeader("Authorization", "Bearer " + account()->accessToken().toLatin1());
     r.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
 
     if (contentType == QLatin1String("modifyImage")) {
