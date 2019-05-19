@@ -51,6 +51,8 @@ class Q_DECL_HIDDEN TeamdriveFetchJob::Private
     int maxResults = 0;
     bool useDomainAdminAccess = false;
 
+    QStringList fields;
+
   private:
     TeamdriveFetchJob *const q;
 };
@@ -116,6 +118,21 @@ bool TeamdriveFetchJob::useDomainAdminAccess() const
     return d->useDomainAdminAccess;
 }
 
+void TeamdriveFetchJob::setFields(const QStringList &fields)
+{
+    if (isRunning()) {
+        qCWarning(KGAPIDebug) << "Called setFields() on running job. Ignoring.";
+        return;
+    }
+
+    d->fields = fields;
+}
+
+QStringList TeamdriveFetchJob::fields() const
+{
+    return d->fields;
+}
+
 void TeamdriveFetchJob::start()
 {
     QUrl url;
@@ -124,6 +141,13 @@ void TeamdriveFetchJob::start()
         applyRequestParameters(url);
     } else {
         url = DriveService::fetchTeamdriveUrl(d->teamdriveId);
+        if (!d->fields.isEmpty()) {
+            // Deserializing requires kind attribute, always force add it
+            if (!d->fields.contains(Teamdrive::Fields::Kind)) {
+                d->fields << Teamdrive::Fields::Kind;
+            }
+            Job::setFields(d->fields);
+        }
     }
 
     QNetworkRequest request(url);
@@ -176,6 +200,18 @@ void TeamdriveFetchJob::applyRequestParameters(QUrl &url) {
     }
     if (!d->searchQuery.isEmpty()) {
         query.addQueryItem(QStringLiteral("q"), d->searchQuery.serialize());
+    }
+    if (!d->fields.isEmpty()) {
+        // Deserializing requires kind attribute, always force add it
+        if (!d->fields.contains(Teamdrive::Fields::Kind)) {
+            d->fields << Teamdrive::Fields::Kind;
+        }
+        QString itemFields = Job::buildSubfields(Teamdrive::Fields::Items, d->fields);
+        Job::setFields({
+            Teamdrive::Fields::Kind,
+            Teamdrive::Fields::NextPageToken,
+            itemFields
+        });
     }
     url.setQuery(query);
 }

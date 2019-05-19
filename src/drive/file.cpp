@@ -525,7 +525,7 @@ File::Thumbnail::Thumbnail(const QVariantMap &map):
 {
     const QByteArray ba = QByteArray::fromBase64(map[QStringLiteral("image")].toByteArray());
     d->image = QImage::fromData(ba);
-    d->mimeType = map[QStringLiteral("mimeType")].toString();
+    d->mimeType = map[Fields::MimeType].toString();
 }
 
 File::Thumbnail::Thumbnail(const File::Thumbnail &other):
@@ -655,21 +655,21 @@ bool File::operator==(const File &other) const
 
 FilePtr File::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QStringLiteral("kind")) ||
-        map[QStringLiteral("kind")].toString() != QLatin1String("drive#file"))
+    if (!map.contains(File::Fields::Kind) ||
+        map[File::Fields::Kind].toString() != QLatin1String("drive#file"))
     {
         return FilePtr();
     }
 
     FilePtr file(new File());
-    file->setEtag(map[QStringLiteral("etag")].toString());
-    file->d->id = map[QStringLiteral("id")].toString();
-    file->d->selfLink = map[QStringLiteral("selfLink")].toUrl();
-    file->d->title = map[QStringLiteral("title")].toString();
-    file->d->mimeType = map[QStringLiteral("mimeType")].toString();
-    file->d->description = map[QStringLiteral("description")].toString();
+    file->setEtag(map[Fields::Etag].toString());
+    file->d->id = map[Fields::Id].toString();
+    file->d->selfLink = map[Fields::SelfLink].toUrl();
+    file->d->title = map[Fields::Title].toString();
+    file->d->mimeType = map[Fields::MimeType].toString();
+    file->d->description = map[Fields::Description].toString();
 
-    const QVariantMap labelsData =  map[QStringLiteral("labels")].toMap();
+    const QVariantMap labelsData =  map[Fields::Labels].toMap();
     File::LabelsPtr labels(new File::Labels());
     labels->d->starred = labelsData[QStringLiteral("starred")].toBool();
     labels->d->hidden = labelsData[QStringLiteral("hidden")].toBool();
@@ -679,33 +679,33 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->labels = labels;
 
     // FIXME FIXME FIXME Verify the date format
-    file->d->createdDate = QDateTime::fromString(map[QStringLiteral("createdDate")].toString(), Qt::ISODate);
-    file->d->modifiedDate = QDateTime::fromString(map[QStringLiteral("modifiedDate")].toString(), Qt::ISODate);
-    file->d->modifiedByMeDate = QDateTime::fromString(map[QStringLiteral("modifiedByMeDate")].toString(), Qt::ISODate);
-    file->d->downloadUrl = map[QStringLiteral("downloadUrl")].toUrl();
+    file->d->createdDate = QDateTime::fromString(map[Fields::CreatedDate].toString(), Qt::ISODate);
+    file->d->modifiedDate = QDateTime::fromString(map[Fields::ModifiedDate].toString(), Qt::ISODate);
+    file->d->modifiedByMeDate = QDateTime::fromString(map[Fields::ModifiedByMeDate].toString(), Qt::ISODate);
+    file->d->downloadUrl = map[Fields::DownloadUrl].toUrl();
 
-    const QVariantMap indexableTextData = map[QStringLiteral("indexableText")].toMap();
+    const QVariantMap indexableTextData = map[Fields::IndexableText].toMap();
     File::IndexableTextPtr indexableText(new File::IndexableText());
     indexableText->d->text = indexableTextData[QStringLiteral("text")].toString();
     file->d->indexableText = indexableText;
 
-    const QVariantMap userPermissionData = map[QStringLiteral("userPermission")].toMap();
+    const QVariantMap userPermissionData = map[Fields::UserPermission].toMap();
     file->d->userPermission = Permission::Private::fromJSON(userPermissionData);
 
-    file->d->fileExtension = map[QStringLiteral("fileExtension")].toString();
-    file->d->md5Checksum = map[QStringLiteral("md5Checksum")].toString();
-    file->d->fileSize = map[QStringLiteral("fileSize")].toLongLong();
-    file->d->alternateLink = map[QStringLiteral("alternateLink")].toUrl();
-    file->d->embedLink = map[QStringLiteral("embedLink")].toUrl();
-    file->d->sharedWithMeDate = QDateTime::fromString(map[QStringLiteral("sharedWithMeDate")].toString(), Qt::ISODate);
+    file->d->fileExtension = map[Fields::FileExtension].toString();
+    file->d->md5Checksum = map[Fields::Md5Checksum].toString();
+    file->d->fileSize = map[Fields::FileSize].toLongLong();
+    file->d->alternateLink = map[Fields::AlternateLink].toUrl();
+    file->d->embedLink = map[Fields::EmbedLink].toUrl();
+    file->d->sharedWithMeDate = QDateTime::fromString(map[Fields::SharedWithMeDate].toString(), Qt::ISODate);
 
-    const QVariantList parents = map[QStringLiteral("parents")].toList();
+    const QVariantList parents = map[Fields::Parents].toList();
     for (const QVariant &parent : parents)
     {
         file->d->parents << ParentReference::Private::fromJSON(parent.toMap());
     }
 
-    const QVariantMap exportLinksData = map[QStringLiteral("exportLinks")].toMap();
+    const QVariantMap exportLinksData = map[Fields::ExportLinks].toMap();
     QVariantMap::ConstIterator iter = exportLinksData.constBegin();
     for ( ; iter != exportLinksData.constEnd(); ++iter) {
         file->d->exportLinks.insert(iter.key(), iter.value().toUrl());
@@ -713,33 +713,33 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
 
     file->d->originalFileName = map[QStringLiteral("originalFileName")].toString();
     file->d->quotaBytesUsed = map[QStringLiteral("quotaBytesUsed")].toLongLong();
-    file->d->ownerNames = map[QStringLiteral("ownerNames")].toStringList();
+    file->d->ownerNames = map[Fields::OwnerNames].toStringList();
     file->d->lastModifyingUserName = map[QStringLiteral("lastModifyingUserName")].toString();
-    file->d->editable = map[QStringLiteral("editable")].toBool();
-    file->d->writersCanShare = map[QStringLiteral("writersCanShare")].toBool();
-    file->d->thumbnailLink = map[QStringLiteral("thumbnailLink")].toUrl();
-    file->d->lastViewedByMeDate = QDateTime::fromString(map[QStringLiteral("lastViewedByMeDate")].toString(), Qt::ISODate);
-    file->d->webContentLink = map[QStringLiteral("webContentLink")].toUrl();
-    file->d->explicitlyTrashed = map[QStringLiteral("explicitlyTrashed")].toBool();
+    file->d->editable = map[Fields::Editable].toBool();
+    file->d->writersCanShare = map[Fields::WritersCanShare].toBool();
+    file->d->thumbnailLink = map[Fields::ThumbnailLink].toUrl();
+    file->d->lastViewedByMeDate = QDateTime::fromString(map[Fields::LastViewedByMeDate].toString(), Qt::ISODate);
+    file->d->webContentLink = map[Fields::WebContentLink].toUrl();
+    file->d->explicitlyTrashed = map[Fields::ExplicitlyTrashed].toBool();
 
-    const QVariantMap imageMetaData = map[QStringLiteral("imageMediaMetadata")].toMap();
+    const QVariantMap imageMetaData = map[Fields::ImageMediaMetadata].toMap();
     file->d->imageMediaMetadata =
         File::ImageMediaMetadataPtr(new File::ImageMediaMetadata(imageMetaData));
 
-    const QVariantMap thumbnailData = map[QStringLiteral("thumbnail")].toMap();
+    const QVariantMap thumbnailData = map[Fields::Thumbnail].toMap();
     File::ThumbnailPtr thumbnail(new File::Thumbnail(thumbnailData));
     file->d->thumbnail = thumbnail;
 
-    file->d->webViewLink = map[QStringLiteral("webViewLink")].toUrl();
-    file->d->iconLink = map[QStringLiteral("iconLink")].toUrl();
-    file->d->shared = map[QStringLiteral("shared")].toBool();
+    file->d->webViewLink = map[Fields::WebViewLink].toUrl();
+    file->d->iconLink = map[Fields::IconLink].toUrl();
+    file->d->shared = map[Fields::Shared].toBool();
 
-    const QVariantList ownersList = map[QStringLiteral("owners")].toList();
+    const QVariantList ownersList = map[Fields::Owners].toList();
     for (const QVariant &owner : ownersList) {
         file->d->owners << User::fromJSON(owner.toMap());
     }
 
-    const QVariantMap lastModifyingUser = map[QStringLiteral("lastModifyingUser")].toMap();
+    const QVariantMap lastModifyingUser = map[Fields::LastModifyingUser].toMap();
     file->d->lastModifyingUser = User::fromJSON(lastModifyingUser);
 
     return file;
@@ -991,6 +991,58 @@ bool File::isFolder() const
     return (d->mimeType == File::folderMimeType());
 }
 
+const QString File::Fields::Kind = QStringLiteral("kind");
+const QString File::Fields::Items = QStringLiteral("items");
+const QString File::Fields::NextLink = QStringLiteral("nextLink");
+const QString File::Fields::NextPageToken = QStringLiteral("nextPageToken");
+const QString File::Fields::SelfLink = QStringLiteral("selfLink");
+const QString File::Fields::Etag = QStringLiteral("etag");
+const QString File::Fields::Id = QStringLiteral("id");
+const QString File::Fields::Title = QStringLiteral("title");
+const QString File::Fields::MimeType = QStringLiteral("mimeType");
+const QString File::Fields::Description = QStringLiteral("description");
+const QString File::Fields::Labels = QStringLiteral("labels");
+const QString File::Fields::CreatedDate = QStringLiteral("createdDate");
+const QString File::Fields::ModifiedDate = QStringLiteral("modifiedDate");
+const QString File::Fields::ModifiedByMeDate = QStringLiteral("modifiedByMeDate");
+const QString File::Fields::DownloadUrl = QStringLiteral("downloadUrl");
+const QString File::Fields::IndexableText = QStringLiteral("indexableText");
+const QString File::Fields::UserPermission = QStringLiteral("userPermission");
+const QString File::Fields::FileExtension = QStringLiteral("fileExtension");
+const QString File::Fields::Md5Checksum = QStringLiteral("md5Checksum");
+const QString File::Fields::FileSize = QStringLiteral("fileSize");
+const QString File::Fields::AlternateLink = QStringLiteral("alternateLink");
+const QString File::Fields::EmbedLink = QStringLiteral("embedLink");
+const QString File::Fields::SharedWithMeDate = QStringLiteral("sharedWithMeDate");
+const QString File::Fields::Parents = QStringLiteral("parents");
+const QString File::Fields::ExportLinks = QStringLiteral("exportLinks");
+const QString File::Fields::OriginalFilename = QStringLiteral("originalFilename");
+const QString File::Fields::OwnerNames = QStringLiteral("ownerNames");
+const QString File::Fields::LastModifiedByMeDate = QStringLiteral("lastModifiedByMeDate");
+const QString File::Fields::Editable = QStringLiteral("editable");
+const QString File::Fields::WritersCanShare = QStringLiteral("writersCanShare");
+const QString File::Fields::ThumbnailLink = QStringLiteral("thumbnailLink");
+const QString File::Fields::LastViewedByMeDate = QStringLiteral("lastViewedByMeDate");
+const QString File::Fields::WebContentLink = QStringLiteral("webContentLink");
+const QString File::Fields::ExplicitlyTrashed = QStringLiteral("explicitlyTrashed");
+const QString File::Fields::ImageMediaMetadata = QStringLiteral("imageMediaMetadata");
+const QString File::Fields::Thumbnail = QStringLiteral("thumbnail");
+const QString File::Fields::WebViewLink = QStringLiteral("webViewLink");
+const QString File::Fields::IconLink = QStringLiteral("iconLink");
+const QString File::Fields::Shared = QStringLiteral("shared");
+const QString File::Fields::Owners = QStringLiteral("owners");
+const QString File::Fields::LastModifyingUser = QStringLiteral("lastModifyingUser");
+const QString File::Fields::AppDataContents = QStringLiteral("appDataContents");
+const QString File::Fields::OpenWithLinks = QStringLiteral("openWithLinks");
+const QString File::Fields::DefaultOpenWithLink = QStringLiteral("defaultOpenWithLink");
+const QString File::Fields::HeadRevisionId = QStringLiteral("headRevisionId");
+const QString File::Fields::Copyable = QStringLiteral("copyable");
+const QString File::Fields::Properties = QStringLiteral("properties");
+const QString File::Fields::MarkedViewedByMeDate = QStringLiteral("markedViewedByMeDate");
+const QString File::Fields::Version = QStringLiteral("version");
+const QString File::Fields::SharingUser = QStringLiteral("sharingUser");
+const QString File::Fields::Permissions = QStringLiteral("permissions");
+
 FilePtr File::fromJSON(const QByteArray &jsonData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
@@ -1018,14 +1070,14 @@ FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
     }
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QStringLiteral("kind")) ||
-        map[QStringLiteral("kind")].toString() != QLatin1String("drive#fileList"))
+    if (!map.contains(File::Fields::Kind) ||
+        map[Fields::Kind].toString() != QLatin1String("drive#fileList"))
     {
         return FilesList();
     }
 
     FilesList list;
-    const QVariantList items = map[QStringLiteral("items")].toList();
+    const QVariantList items = map[File::Fields::Items].toList();
     for (const QVariant &item : items) {
         const FilePtr file = Private::fromJSON(item.toMap());
 
@@ -1034,8 +1086,8 @@ FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
         }
     }
 
-    if (map.contains(QStringLiteral("nextLink"))) {
-        feedData.nextPageUrl = map[QStringLiteral("nextLink")].toUrl();
+    if (map.contains(File::Fields::NextLink)) {
+        feedData.nextPageUrl = map[File::Fields::NextLink].toUrl();
     }
 
     return list;
@@ -1045,15 +1097,15 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
 {
     QVariantMap map;
 
-    map[QStringLiteral("kind")] = QLatin1String("drive#file");
+    map[File::Fields::Kind] = QLatin1String("drive#file");
     if (!file->description().isEmpty()) {
-        map[QStringLiteral("description")] = file->description();
+        map[Fields::Description] = file->description();
     }
 
     if (file->indexableText() && !file->indexableText()->text().isEmpty()) {
         QVariantMap indexableText;
         indexableText[QStringLiteral("text")] = file->indexableText()->text();
-        map[QStringLiteral("indexableText")] = indexableText;
+        map[Fields::IndexableText] = indexableText;
     }
 
     if (file->labels()) {
@@ -1063,33 +1115,33 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
         labels[QStringLiteral("starred")] = file->labels()->starred();
         labels[QStringLiteral("trashed")] = file->labels()->trashed();
         labels[QStringLiteral("viewed")] = file->labels()->viewed();
-        map[QStringLiteral("labels")] = labels;
+        map[Fields::Labels] = labels;
     }
 
     if (file->lastViewedByMeDate().isValid()) {
-        map[QStringLiteral("lastViewedByMeDate")] = file->lastViewedByMeDate().toString(Qt::ISODate);
+        map[Fields::LastViewedByMeDate] = file->lastViewedByMeDate().toString(Qt::ISODate);
     }
 
     if (!file->mimeType().isEmpty()) {
-        map[QStringLiteral("mimeType")] = file->mimeType();
+        map[Fields::MimeType] = file->mimeType();
     }
 
     if (file->modifiedDate().isValid()) {
-        map[QStringLiteral("modifiedDate")] = file->modifiedDate().toString(Qt::ISODate);
+        map[Fields::ModifiedDate] = file->modifiedDate().toString(Qt::ISODate);
     }
     if (file->createdDate().isValid() && !(options & ExcludeCreationDate)) {
-        map[QStringLiteral("createdDate")] = file->createdDate().toString(Qt::ISODate);
+        map[Fields::CreatedDate] = file->createdDate().toString(Qt::ISODate);
     }
     if (file->modifiedByMeDate().isValid()) {
-        map[QStringLiteral("modifiedByMeDate")] = file->modifiedByMeDate().toString(Qt::ISODate);
+        map[Fields::ModifiedByMeDate] = file->modifiedByMeDate().toString(Qt::ISODate);
     }
 
     if (file->fileSize() > 0) {
-        map[QStringLiteral("fileSize")] = file->fileSize();
+        map[Fields::FileSize] = file->fileSize();
     }
 
     if (!file->title().isEmpty()) {
-        map[QStringLiteral("title")] = file->title();
+        map[Fields::Title] = file->title();
     }
 
     QVariantList parents;
@@ -1099,35 +1151,35 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
         parents << ParentReference::Private::toJSON(parent);
     }
     if (!parents.isEmpty()) {
-        map[QStringLiteral("parents")] = parents;
+        map[Fields::Parents] = parents;
     }
     if (!file->etag().isEmpty()) {
-        map[QStringLiteral("etag")] = file->etag();
+        map[Fields::Etag] = file->etag();
     }
     if (!file->d->id.isEmpty()) {
-        map[QStringLiteral("id")] = file->d->id;
+        map[Fields::Id] = file->d->id;
     }
     if (!file->d->selfLink.isEmpty()) {
-        map[QStringLiteral("selfLink")] = file->d->selfLink;
+        map[Fields::SelfLink] = file->d->selfLink;
     }
     if (!file->d->downloadUrl.isEmpty()) {
-        map[QStringLiteral("downloadUrl")] = file->d->downloadUrl;
+        map[Fields::DownloadUrl] = file->d->downloadUrl;
     }
 
     if (!file->d->fileExtension.isEmpty()) {
-        map[QStringLiteral("fileExtension")] = file->d->fileExtension;
+        map[Fields::FileExtension] = file->d->fileExtension;
     }
     if (!file->d->md5Checksum.isEmpty()) {
-        map[QStringLiteral("md5Checksum")] = file->d->md5Checksum;
+        map[Fields::Md5Checksum] = file->d->md5Checksum;
     }
     if (!file->d->alternateLink.isEmpty()) {
-        map[QStringLiteral("alternateLink")] = file->d->alternateLink;
+        map[Fields::AlternateLink] = file->d->alternateLink;
     }
     if (!file->d->embedLink.isEmpty()) {
-        map[QStringLiteral("embedLink")] = file->d->embedLink;
+        map[Fields::EmbedLink] = file->d->embedLink;
     }
     if (!file->d->sharedWithMeDate.isNull()) {
-        map[QStringLiteral("sharedWithMeDate")] = file->d->sharedWithMeDate.toString(Qt::ISODate);
+        map[Fields::SharedWithMeDate] = file->d->sharedWithMeDate.toString(Qt::ISODate);
     }
 
 
@@ -1138,38 +1190,38 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
         map[QStringLiteral("quotaBytesUsed")] = file->d->quotaBytesUsed;
     }
     if (!file->d->ownerNames.isEmpty()) {
-        map[QStringLiteral("ownerNames")] = QVariant(file->d->ownerNames);
+        map[Fields::OwnerNames] = QVariant(file->d->ownerNames);
     }
     if (!file->d->lastModifyingUserName.isEmpty()) {
         map[QStringLiteral("lastModifyingUserName")] = file->d->lastModifyingUserName;
     }
     if (!file->d->editable) { // default is true
-        map[QStringLiteral("editable")] = file->d->editable;
+        map[Fields::Editable] = file->d->editable;
     }
     if (file->d->writersCanShare) { // default is false
-        map[QStringLiteral("writersCanShare")] = file->d->writersCanShare;
+        map[Fields::WritersCanShare] = file->d->writersCanShare;
     }
     if (!file->d->thumbnailLink.isEmpty()) {
-        map[QStringLiteral("thumbnailLink")] = file->d->thumbnailLink;
+        map[Fields::ThumbnailLink] = file->d->thumbnailLink;
     }
     if (!file->d->lastViewedByMeDate.isNull()) {
-        map[QStringLiteral("lastViewedByMeDate")] = file->d->lastViewedByMeDate.toString(Qt::ISODate);
+        map[Fields::LastViewedByMeDate] = file->d->lastViewedByMeDate.toString(Qt::ISODate);
     }
     if (!file->d->webContentLink.isEmpty()) {
-        map[QStringLiteral("webContentLink")] = file->d->webContentLink;
+        map[Fields::WebContentLink] = file->d->webContentLink;
     }
     if (file->d->explicitlyTrashed) {
-        map[QStringLiteral("explicitlyTrashed")] = file->d->explicitlyTrashed;
+        map[Fields::ExplicitlyTrashed] = file->d->explicitlyTrashed;
     }
 
     if (!file->d->webViewLink.isEmpty()) {
-        map[QStringLiteral("webViewLink")] = file->d->webViewLink;
+        map[Fields::WebViewLink] = file->d->webViewLink;
     }
     if (!file->d->iconLink.isEmpty()) {
-        map[QStringLiteral("iconLink")] = file->d->iconLink;
+        map[Fields::IconLink] = file->d->iconLink;
     }
     if (file->d->shared) {
-        map[QStringLiteral("shared")] = file->d->shared;
+        map[Fields::Shared] = file->d->shared;
     }
 
 #if 0
@@ -1211,9 +1263,3 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
     QJsonDocument document = QJsonDocument::fromVariant(map);
     return document.toJson(QJsonDocument::Compact);
 }
-
-
-
-
-
-

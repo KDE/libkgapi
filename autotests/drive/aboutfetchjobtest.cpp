@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
-
+#include <cstring>
 #include <QObject>
 #include <QTest>
 
@@ -32,7 +32,12 @@
 
 using namespace KGAPI2;
 
+namespace {
+    static const char *LimitedFieldTag = "limited fields";
+}
+
 Q_DECLARE_METATYPE(QList<FakeNetworkAccessManager::Scenario>)
+Q_DECLARE_METATYPE(KGAPI2::Drive::AboutPtr)
 
 class AboutFetchJobTest : public QObject
 {
@@ -43,17 +48,40 @@ private Q_SLOTS:
         NetworkAccessManagerFactory::setFactory(new FakeNetworkAccessManagerFactory);
     }
 
+    void testFetch_data()
+    {
+        QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
+        QTest::addColumn<KGAPI2::Drive::AboutPtr>("about");
+
+        QTest::newRow("")
+            << QList<FakeNetworkAccessManager::Scenario>{
+                    scenarioFromFile(QFINDTESTDATA("data/about_fetch_request.txt"),
+                                     QFINDTESTDATA("data/about_fetch_response.txt"))
+                }
+            << aboutFromFile(QFINDTESTDATA("data/about.json"));
+
+        QTest::newRow(LimitedFieldTag)
+            << QList<FakeNetworkAccessManager::Scenario>{
+                    scenarioFromFile(QFINDTESTDATA("data/about_fetch_limited_fields_request.txt"),
+                                     QFINDTESTDATA("data/about_fetch_limited_fields_response.txt"))
+                }
+            << aboutFromFile(QFINDTESTDATA("data/about_limited_fields.json"));
+    }
+
     void testFetch()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/about_fetch_request.txt"),
-                             QFINDTESTDATA("data/about_fetch_response.txt"))
+        QFETCH(QList<FakeNetworkAccessManager::Scenario>, scenarios);
+        QFETCH(KGAPI2::Drive::AboutPtr, about);
 
-        });
-        const auto about = aboutFromFile(QFINDTESTDATA("data/about.json"));
+        FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         auto job = new Drive::AboutFetchJob(account, nullptr);
+
+        if (strcmp(LimitedFieldTag, QTest::currentDataTag()) == 0) {
+            job->setFields({ Drive::About::Fields::Kind, Drive::About::Fields::PermissionId});
+        }
+
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), 1);

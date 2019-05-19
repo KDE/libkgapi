@@ -221,8 +221,56 @@ public:
     typedef QSharedPointer<MaxUploadSize> MaxUploadSizePtr;
     typedef QList<MaxUploadSizePtr> MaxUploadSizesList;
 
-    explicit About(const About &other);
-    virtual ~About();
+    struct Fields {
+        static const QString AdditionalRoleInfo;
+        static const QString AdditionalRoles;
+        static const QString BackgroundImageLink;
+        static const QString BytesUsed;
+        static const QString CanCreateTeamDrives;
+        static const QString ColorRgb;
+        static const QString DisplayName;
+        static const QString DomainSharingPolicy;
+        static const QString EmailAddress;
+        static const QString Etag;
+        static const QString ExportFormats;
+        static const QString FeatureName;
+        static const QString FeatureRate;
+        static const QString Features;
+        static const QString FolderColorPalette;
+        static const QString Id;
+        static const QString ImportFormats;
+        static const QString IsAuthenticatedUser;
+        static const QString IsCurrentAppInstalled;
+        static const QString Kind;
+        static const QString LanguageCode;
+        static const QString LargestChangeId;
+        static const QString MaxUploadSizes;
+        static const QString Name;
+        static const QString PermissionId;
+        static const QString Picture;
+        static const QString PrimaryRole;
+        static const QString QuotaBytesByService;
+        static const QString QuotaBytesTotal;
+        static const QString QuotaBytesUsed;
+        static const QString QuotaBytesUsedAggregate;
+        static const QString QuotaBytesUsedInTrash;
+        static const QString QuotaType;
+        static const QString RemainingChangeIds;
+        static const QString RoleSets;
+        static const QString RootFolderId;
+        static const QString SelfLink;
+        static const QString ServiceName;
+        static const QString Size;
+        static const QString Source;
+        static const QString Targets;
+        static const QString TeamDriveThemes;
+        static const QString Type;
+        static const QString Url;
+        static const QString User;
+    };
+
+    About(const About &other);
+    ~About() override;
 
     bool operator==(const About &other) const;
     bool operator!=(const About &other) const { return !operator==(other); }
@@ -340,10 +388,10 @@ public:
     static AboutPtr fromJSON(const QByteArray &jsonData);
 
   private:
-    explicit About();
+    About();
 
     class Private;
-    Private *const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 };
 

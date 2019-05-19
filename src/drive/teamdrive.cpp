@@ -29,45 +29,6 @@
 namespace {
     static const QString ApiKind = QStringLiteral("drive#teamDrive");
     static const QString ApiKindList = QStringLiteral("drive#teamDriveList");
-    static const QString AdminManagedRestrictionsAttr = QStringLiteral("adminManagedRestrictions");
-    static const QString BackgroundImageFileAttr = QStringLiteral("backgroundImageFile");
-    static const QString BackgroundImageLinkAttr = QStringLiteral("backgroundImageLink");
-    static const QString CanAddChildrenAttr = QStringLiteral("canAddChildren");
-    static const QString CanChangeCopyRequiresWriterPermissionRestrictionAttr = QStringLiteral("canChangeCopyRequiresWriterPermissionRestriction");
-    static const QString CanChangeDomainUsersOnlyRestrictionAttr = QStringLiteral("canChangeDomainUsersOnlyRestriction");
-    static const QString CanChangeTeamDriveBackgroundAttr = QStringLiteral("canChangeTeamDriveBackground");
-    static const QString CanChangeTeamMembersOnlyRestrictionAttr = QStringLiteral("canChangeTeamMembersOnlyRestriction");
-    static const QString CanCommentAttr = QStringLiteral("canComment");
-    static const QString CanCopyAttr = QStringLiteral("canCopy");
-    static const QString CanDeleteChildrenAttr = QStringLiteral("canDeleteChildren");
-    static const QString CanDeleteTeamDriveAttr = QStringLiteral("canDeleteTeamDrive");
-    static const QString CanDownloadAttr = QStringLiteral("canDownload");
-    static const QString CanEditAttr = QStringLiteral("canEdit");
-    static const QString CanListChildrenAttr = QStringLiteral("canListChildren");
-    static const QString CanManageMembersAttr = QStringLiteral("canManageMembers");
-    static const QString CanReadRevisionsAttr = QStringLiteral("canReadRevisions");
-    static const QString CanRenameAttr = QStringLiteral("canRename");
-    static const QString CanRenameTeamDriveAttr = QStringLiteral("canRenameTeamDrive");
-    static const QString CanShareAttr = QStringLiteral("canShare");
-    static const QString CanTrashChildrenAttr = QStringLiteral("canTrashChildren");
-    static const QString CapabilitiesAttr = QStringLiteral("capabilities");
-    static const QString ColorRgbAttr = QStringLiteral("colorRgb");
-    static const QString CopyRequiresWriterPermissionAttr = QStringLiteral("copyRequiresWriterPermission");
-    static const QString CreatedDateAttr = QStringLiteral("createdDate");
-    static const QString DomainUsersOnlyAttr = QStringLiteral("domainUsersOnly");
-    static const QString IdAttr = QStringLiteral("id");
-    static const QString ItemsAttr = QStringLiteral("items");
-    static const QString KindAttr = QStringLiteral("kind");
-    static const QString KindDriveAttr = QStringLiteral("kind");
-    static const QString NameAttr = QStringLiteral("name");
-    static const QString PageTokenAttr = QStringLiteral("pageToken");
-    static const QString NextPageTokenAttr = QStringLiteral("nextPageToken");
-    static const QString RestrictionsAttr = QStringLiteral("restrictions");
-    static const QString TeamMembersOnlyAttr = QStringLiteral("teamMembersOnly");
-    static const QString ThemeIdAttr = QStringLiteral("themeId");
-    static const QString WidthAttr = QStringLiteral("width");
-    static const QString XCoordinateAttr = QStringLiteral("xCoordinate");
-    static const QString YCoordinateAttr = QStringLiteral("yCoordinate");
 }
 
 using namespace KGAPI2;
@@ -399,78 +360,122 @@ class Q_DECL_HIDDEN Teamdrive::Private
 
 TeamdrivePtr Teamdrive::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(KindAttr) ||
-        map[KindAttr].toString() != ApiKind)
+    if (!map.contains(Teamdrive::Fields::Kind) ||
+        map[Teamdrive::Fields::Kind].toString() != ApiKind)
     {
         return TeamdrivePtr();
     }
 
     auto teamdrive = TeamdrivePtr::create();
-    if (map.contains(IdAttr)) {
-        teamdrive->d->id = map[IdAttr].toString();
+    if (map.contains(Teamdrive::Fields::Id)) {
+        teamdrive->d->id = map[Teamdrive::Fields::Id].toString();
     }
-    if (map.contains(NameAttr)) {
-        teamdrive->d->name = map[NameAttr].toString();
+    if (map.contains(Teamdrive::Fields::Name)) {
+        teamdrive->d->name = map[Teamdrive::Fields::Name].toString();
     }
-    if (map.contains(ThemeIdAttr)) {
-        teamdrive->d->themeId = map[ThemeIdAttr].toString();
+    if (map.contains(Teamdrive::Fields::ThemeId)) {
+        teamdrive->d->themeId = map[Teamdrive::Fields::ThemeId].toString();
     }
-    if (map.contains(ColorRgbAttr)) {
-        teamdrive->d->colorRgb = map[ColorRgbAttr].toString();
+    if (map.contains(Teamdrive::Fields::ColorRgb)) {
+        teamdrive->d->colorRgb = map[Teamdrive::Fields::ColorRgb].toString();
     }
-    if (map.contains(BackgroundImageLinkAttr)) {
-        teamdrive->d->backgroundImageLink = map[BackgroundImageLinkAttr].toString();
+    if (map.contains(Teamdrive::Fields::BackgroundImageLink)) {
+        teamdrive->d->backgroundImageLink = map[Teamdrive::Fields::BackgroundImageLink].toString();
     }
-    if (map.contains(CreatedDateAttr)) {
-        teamdrive->d->createdDate = QDateTime::fromString(map[CreatedDateAttr].toString(), Qt::ISODate);
+    if (map.contains(Teamdrive::Fields::CreatedDate)) {
+        teamdrive->d->createdDate = QDateTime::fromString(map[Teamdrive::Fields::CreatedDate].toString(), Qt::ISODate);
     }
 
-    if (map.contains(BackgroundImageFileAttr)) {
-        const QVariantMap backgroundImageFileMap = map[BackgroundImageFileAttr].toMap();
+    if (map.contains(Teamdrive::Fields::BackgroundImageFile)) {
+        const QVariantMap backgroundImageFileMap = map[Teamdrive::Fields::BackgroundImageFile].toMap();
         auto backgroundImageFile = BackgroundImageFilePtr::create();
-        backgroundImageFile->d->id = backgroundImageFileMap[IdAttr].toString();
-        backgroundImageFile->d->xCoordinate = backgroundImageFileMap[XCoordinateAttr].toReal();
-        backgroundImageFile->d->yCoordinate = backgroundImageFileMap[YCoordinateAttr].toReal();
-        backgroundImageFile->d->width = backgroundImageFileMap[WidthAttr].toReal();
+        backgroundImageFile->d->id = backgroundImageFileMap[Teamdrive::BackgroundImageFile::Fields::Id].toString();
+        backgroundImageFile->d->xCoordinate = backgroundImageFileMap[Teamdrive::BackgroundImageFile::Fields::XCoordinate].toReal();
+        backgroundImageFile->d->yCoordinate = backgroundImageFileMap[Teamdrive::BackgroundImageFile::Fields::YCoordinate].toReal();
+        backgroundImageFile->d->width = backgroundImageFileMap[Teamdrive::BackgroundImageFile::Fields::Width].toReal();
         teamdrive->d->backgroundImageFile = backgroundImageFile;
     }
 
-    if (map.contains(CapabilitiesAttr)) {
-        const QVariantMap capabilitiesMap = map[CapabilitiesAttr].toMap();
+    if (map.contains(Teamdrive::Fields::Capabilities)) {
+        const QVariantMap capabilitiesMap = map[Teamdrive::Fields::Capabilities].toMap();
         auto capabilities = CapabilitiesPtr::create();
-        capabilities->d->canAddChildren = capabilitiesMap[CanAddChildrenAttr].toBool();
-        capabilities->d->canChangeCopyRequiresWriterPermissionRestriction = capabilitiesMap[CanChangeCopyRequiresWriterPermissionRestrictionAttr].toBool();
-        capabilities->d->canChangeDomainUsersOnlyRestriction = capabilitiesMap[CanChangeDomainUsersOnlyRestrictionAttr].toBool();
-        capabilities->d->canChangeTeamDriveBackground = capabilitiesMap[CanChangeTeamDriveBackgroundAttr].toBool();
-        capabilities->d->canChangeTeamMembersOnlyRestriction = capabilitiesMap[CanChangeTeamMembersOnlyRestrictionAttr].toBool();
-        capabilities->d->canComment = capabilitiesMap[CanCommentAttr].toBool();
-        capabilities->d->canCopy = capabilitiesMap[CanCopyAttr].toBool();
-        capabilities->d->canDeleteChildren = capabilitiesMap[CanDeleteChildrenAttr].toBool();
-        capabilities->d->canDeleteTeamDrive = capabilitiesMap[CanDeleteTeamDriveAttr].toBool();
-        capabilities->d->canDownload = capabilitiesMap[CanDownloadAttr].toBool();
-        capabilities->d->canEdit = capabilitiesMap[CanEditAttr].toBool();
-        capabilities->d->canListChildren = capabilitiesMap[CanListChildrenAttr].toBool();
-        capabilities->d->canManageMembers = capabilitiesMap[CanManageMembersAttr].toBool();
-        capabilities->d->canReadRevisions = capabilitiesMap[CanReadRevisionsAttr].toBool();
-        capabilities->d->canRename = capabilitiesMap[CanRenameAttr].toBool();
-        capabilities->d->canRenameTeamDrive = capabilitiesMap[CanRenameTeamDriveAttr].toBool();
-        capabilities->d->canShare = capabilitiesMap[CanShareAttr].toBool();
-        capabilities->d->canTrashChildren = capabilitiesMap[CanTrashChildrenAttr].toBool();
+        capabilities->d->canAddChildren = capabilitiesMap[Teamdrive::Capabilities::Fields::CanAddChildren].toBool();
+        capabilities->d->canChangeCopyRequiresWriterPermissionRestriction = capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction].toBool();
+        capabilities->d->canChangeDomainUsersOnlyRestriction = capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction].toBool();
+        capabilities->d->canChangeTeamDriveBackground = capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamDriveBackground].toBool();
+        capabilities->d->canChangeTeamMembersOnlyRestriction = capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamMembersOnlyRestriction].toBool();
+        capabilities->d->canComment = capabilitiesMap[Teamdrive::Capabilities::Fields::CanComment].toBool();
+        capabilities->d->canCopy = capabilitiesMap[Teamdrive::Capabilities::Fields::CanCopy].toBool();
+        capabilities->d->canDeleteChildren = capabilitiesMap[Teamdrive::Capabilities::Fields::CanDeleteChildren].toBool();
+        capabilities->d->canDeleteTeamDrive = capabilitiesMap[Teamdrive::Capabilities::Fields::CanDeleteTeamDrive].toBool();
+        capabilities->d->canDownload = capabilitiesMap[Teamdrive::Capabilities::Fields::CanDownload].toBool();
+        capabilities->d->canEdit = capabilitiesMap[Teamdrive::Capabilities::Fields::CanEdit].toBool();
+        capabilities->d->canListChildren = capabilitiesMap[Teamdrive::Capabilities::Fields::CanListChildren].toBool();
+        capabilities->d->canManageMembers = capabilitiesMap[Teamdrive::Capabilities::Fields::CanManageMembers].toBool();
+        capabilities->d->canReadRevisions = capabilitiesMap[Teamdrive::Capabilities::Fields::CanReadRevisions].toBool();
+        capabilities->d->canRename = capabilitiesMap[Teamdrive::Capabilities::Fields::CanRename].toBool();
+        capabilities->d->canRenameTeamDrive = capabilitiesMap[Teamdrive::Capabilities::Fields::CanRenameTeamDrive].toBool();
+        capabilities->d->canShare = capabilitiesMap[Teamdrive::Capabilities::Fields::CanShare].toBool();
+        capabilities->d->canTrashChildren = capabilitiesMap[Teamdrive::Capabilities::Fields::CanTrashChildren].toBool();
         teamdrive->d->capabilities = capabilities;
     }
 
-    if (map.contains(RestrictionsAttr)) {
-        const QVariantMap restrictionsMap = map[RestrictionsAttr].toMap();
+    if (map.contains(Teamdrive::Fields::Restrictions)) {
+        const QVariantMap restrictionsMap = map[Teamdrive::Fields::Restrictions].toMap();
         auto restrictions = RestrictionsPtr::create();
-        restrictions->d->adminManagedRestrictions = restrictionsMap[AdminManagedRestrictionsAttr].toBool();
-        restrictions->d->copyRequiresWriterPermission = restrictionsMap[CopyRequiresWriterPermissionAttr].toBool();
-        restrictions->d->domainUsersOnly = restrictionsMap[DomainUsersOnlyAttr].toBool();
-        restrictions->d->teamMembersOnly = restrictionsMap[TeamMembersOnlyAttr].toBool();
+        restrictions->d->adminManagedRestrictions = restrictionsMap[Teamdrive::Restrictions::Fields::AdminManagedRestrictions].toBool();
+        restrictions->d->copyRequiresWriterPermission = restrictionsMap[Teamdrive::Restrictions::Fields::CopyRequiresWriterPermission].toBool();
+        restrictions->d->domainUsersOnly = restrictionsMap[Teamdrive::Restrictions::Fields::DomainUsersOnly].toBool();
+        restrictions->d->teamMembersOnly = restrictionsMap[Teamdrive::Restrictions::Fields::TeamMembersOnly].toBool();
         teamdrive->d->restrictions = restrictions;
     }
 
     return teamdrive;
 }
+
+const QString Teamdrive::Restrictions::Fields::AdminManagedRestrictions = QStringLiteral("adminManagedRestrictions");
+const QString Teamdrive::Restrictions::Fields::CopyRequiresWriterPermission = QStringLiteral("copyRequiresWriterPermission");
+const QString Teamdrive::Restrictions::Fields::DomainUsersOnly = QStringLiteral("domainUsersOnly");
+const QString Teamdrive::Restrictions::Fields::TeamMembersOnly = QStringLiteral("teamMembersOnly");
+
+const QString Teamdrive::Capabilities::Fields::CanAddChildren = QStringLiteral("canAddChildren");
+const QString Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction = QStringLiteral("canChangeCopyRequiresWriterPermissionRestriction");
+const QString Teamdrive::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction = QStringLiteral("canChangeDomainUsersOnlyRestriction");
+const QString Teamdrive::Capabilities::Fields::CanChangeTeamDriveBackground = QStringLiteral("canChangeTeamDriveBackground");
+const QString Teamdrive::Capabilities::Fields::CanChangeTeamMembersOnlyRestriction = QStringLiteral("canChangeTeamMembersOnlyRestriction");
+const QString Teamdrive::Capabilities::Fields::CanComment = QStringLiteral("canComment");
+const QString Teamdrive::Capabilities::Fields::CanCopy = QStringLiteral("canCopy");
+const QString Teamdrive::Capabilities::Fields::CanDeleteChildren = QStringLiteral("canDeleteChildren");
+const QString Teamdrive::Capabilities::Fields::CanDeleteTeamDrive = QStringLiteral("canDeleteTeamDrive");
+const QString Teamdrive::Capabilities::Fields::CanDownload = QStringLiteral("canDownload");
+const QString Teamdrive::Capabilities::Fields::CanEdit = QStringLiteral("canEdit");
+const QString Teamdrive::Capabilities::Fields::CanListChildren = QStringLiteral("canListChildren");
+const QString Teamdrive::Capabilities::Fields::CanManageMembers = QStringLiteral("canManageMembers");
+const QString Teamdrive::Capabilities::Fields::CanReadRevisions = QStringLiteral("canReadRevisions");
+const QString Teamdrive::Capabilities::Fields::CanRename = QStringLiteral("canRename");
+const QString Teamdrive::Capabilities::Fields::CanRenameTeamDrive = QStringLiteral("canRenameTeamDrive");
+const QString Teamdrive::Capabilities::Fields::CanShare = QStringLiteral("canShare");
+const QString Teamdrive::Capabilities::Fields::CanTrashChildren = QStringLiteral("canTrashChildren");
+
+const QString Teamdrive::BackgroundImageFile::Fields::Id = QStringLiteral("id");
+const QString Teamdrive::BackgroundImageFile::Fields::XCoordinate = QStringLiteral("xCoordinate");
+const QString Teamdrive::BackgroundImageFile::Fields::YCoordinate = QStringLiteral("yCoordinate");
+const QString Teamdrive::BackgroundImageFile::Fields::Width = QStringLiteral("width");
+
+const QString Teamdrive::Fields::Items = QStringLiteral("items");
+const QString Teamdrive::Fields::KindDrive = QStringLiteral("kind");
+const QString Teamdrive::Fields::PageToken = QStringLiteral("pageToken");
+const QString Teamdrive::Fields::NextPageToken = QStringLiteral("nextPageToken");
+const QString Teamdrive::Fields::Id = QStringLiteral("id");
+const QString Teamdrive::Fields::Kind = QStringLiteral("kind");
+const QString Teamdrive::Fields::Name = QStringLiteral("name");
+const QString Teamdrive::Fields::ThemeId = QStringLiteral("themeId");
+const QString Teamdrive::Fields::ColorRgb = QStringLiteral("colorRgb");
+const QString Teamdrive::Fields::BackgroundImageFile = QStringLiteral("backgroundImageFile");
+const QString Teamdrive::Fields::BackgroundImageLink = QStringLiteral("backgroundImageLink");
+const QString Teamdrive::Fields::Capabilities = QStringLiteral("capabilities");
+const QString Teamdrive::Fields::CreatedDate = QStringLiteral("createdDate");
+const QString Teamdrive::Fields::Restrictions = QStringLiteral("restrictions");
 
 Teamdrive::Teamdrive():
     KGAPI2::Object(),
@@ -598,20 +603,20 @@ TeamdrivesList Teamdrive::fromJSONFeed(const QByteArray &jsonData, FeedData &fee
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(KindAttr) ||
-            map[KindAttr].toString() != ApiKindList) {
+    if (!map.contains(Teamdrive::Fields::Kind) ||
+            map[Teamdrive::Fields::Kind].toString() != ApiKindList) {
         return TeamdrivesList();
     }
 
-    if (map.contains(NextPageTokenAttr)) {
+    if (map.contains(Teamdrive::Fields::NextPageToken)) {
         feedData.nextPageUrl = DriveService::fetchTeamdrivesUrl();
         QUrlQuery query(feedData.nextPageUrl);
-        query.addQueryItem(PageTokenAttr, map.value(NextPageTokenAttr).toString());
+        query.addQueryItem(Teamdrive::Fields::PageToken, map.value(Teamdrive::Fields::NextPageToken).toString());
         feedData.nextPageUrl.setQuery(query);
     }
 
     TeamdrivesList list;
-    const QVariantList items = map[ItemsAttr].toList();
+    const QVariantList items = map[Teamdrive::Fields::Items].toList();
     for (const QVariant & item : items) {
         const TeamdrivePtr teamdrive = Private::fromJSON(item.toMap());
 
@@ -626,65 +631,65 @@ TeamdrivesList Teamdrive::fromJSONFeed(const QByteArray &jsonData, FeedData &fee
 QByteArray Teamdrive::toJSON(const TeamdrivePtr &teamdrive)
 {
     QVariantMap teamDriveMap;
-    teamDriveMap[KindAttr] = ApiKind;
+    teamDriveMap[Teamdrive::Fields::Kind] = ApiKind;
     if (!teamdrive->id().isEmpty()) {
-        teamDriveMap[IdAttr] = teamdrive->id();
+        teamDriveMap[Teamdrive::Fields::Id] = teamdrive->id();
     }
     if (!teamdrive->name().isEmpty()) {
-        teamDriveMap[NameAttr] = teamdrive->name();
+        teamDriveMap[Teamdrive::Fields::Name] = teamdrive->name();
     }
     if (!teamdrive->themeId().isEmpty()) {
-        teamDriveMap[ThemeIdAttr] = teamdrive->themeId();
+        teamDriveMap[Teamdrive::Fields::ThemeId] = teamdrive->themeId();
     }
     if (!teamdrive->colorRgb().isEmpty()) {
-        teamDriveMap[ColorRgbAttr] = teamdrive->colorRgb();
+        teamDriveMap[Teamdrive::Fields::ColorRgb] = teamdrive->colorRgb();
     }
     if (!teamdrive->backgroundImageLink().isEmpty()) {
-        teamDriveMap[BackgroundImageLinkAttr] = teamdrive->backgroundImageLink();
+        teamDriveMap[Teamdrive::Fields::BackgroundImageLink] = teamdrive->backgroundImageLink();
     }
     if (teamdrive->createdDate().isValid()) {
-        teamDriveMap[CreatedDateAttr] = teamdrive->createdDate();
+        teamDriveMap[Teamdrive::Fields::CreatedDate] = teamdrive->createdDate();
     }
 
     if (teamdrive->restrictions()) {
         QVariantMap restrictionsMap;
-        restrictionsMap[AdminManagedRestrictionsAttr] = teamdrive->restrictions()->adminManagedRestrictions();
-        restrictionsMap[CopyRequiresWriterPermissionAttr] = teamdrive->restrictions()->copyRequiresWriterPermission();
-        restrictionsMap[DomainUsersOnlyAttr] = teamdrive->restrictions()->domainUsersOnly();
-        restrictionsMap[TeamMembersOnlyAttr] = teamdrive->restrictions()->teamMembersOnly();
-        teamDriveMap[RestrictionsAttr] = restrictionsMap;
+        restrictionsMap[Teamdrive::Restrictions::Fields::AdminManagedRestrictions] = teamdrive->restrictions()->adminManagedRestrictions();
+        restrictionsMap[Teamdrive::Restrictions::Fields::CopyRequiresWriterPermission] = teamdrive->restrictions()->copyRequiresWriterPermission();
+        restrictionsMap[Teamdrive::Restrictions::Fields::DomainUsersOnly] = teamdrive->restrictions()->domainUsersOnly();
+        restrictionsMap[Teamdrive::Restrictions::Fields::TeamMembersOnly] = teamdrive->restrictions()->teamMembersOnly();
+        teamDriveMap[Teamdrive::Fields::Restrictions] = restrictionsMap;
     }
 
     if (teamdrive->backgroundImageFile()) {
         QVariantMap backgroundImageFileMap;
-        backgroundImageFileMap[IdAttr] = teamdrive->backgroundImageFile()->id();
-        backgroundImageFileMap[XCoordinateAttr] = teamdrive->backgroundImageFile()->xCoordinate();
-        backgroundImageFileMap[YCoordinateAttr] = teamdrive->backgroundImageFile()->yCoordinate();
-        backgroundImageFileMap[WidthAttr] = teamdrive->backgroundImageFile()->width();
-        teamDriveMap[BackgroundImageFileAttr] = backgroundImageFileMap;
+        backgroundImageFileMap[Teamdrive::BackgroundImageFile::Fields::Id] = teamdrive->backgroundImageFile()->id();
+        backgroundImageFileMap[Teamdrive::BackgroundImageFile::Fields::XCoordinate] = teamdrive->backgroundImageFile()->xCoordinate();
+        backgroundImageFileMap[Teamdrive::BackgroundImageFile::Fields::YCoordinate] = teamdrive->backgroundImageFile()->yCoordinate();
+        backgroundImageFileMap[Teamdrive::BackgroundImageFile::Fields::Width] = teamdrive->backgroundImageFile()->width();
+        teamDriveMap[Teamdrive::Fields::BackgroundImageFile] = backgroundImageFileMap;
     }
 
     if (teamdrive->capabilities()) {
         QVariantMap capabilitiesMap;
-        capabilitiesMap[CanAddChildrenAttr] = teamdrive->capabilities()->canAddChildren();
-        capabilitiesMap[CanChangeCopyRequiresWriterPermissionRestrictionAttr] = teamdrive->capabilities()->canChangeCopyRequiresWriterPermissionRestriction();
-        capabilitiesMap[CanChangeDomainUsersOnlyRestrictionAttr] = teamdrive->capabilities()->canChangeDomainUsersOnlyRestriction();
-        capabilitiesMap[CanChangeTeamDriveBackgroundAttr] = teamdrive->capabilities()->canChangeTeamDriveBackground();
-        capabilitiesMap[CanChangeTeamMembersOnlyRestrictionAttr] = teamdrive->capabilities()->canChangeTeamMembersOnlyRestriction();
-        capabilitiesMap[CanCommentAttr] = teamdrive->capabilities()->canComment();
-        capabilitiesMap[CanCopyAttr] = teamdrive->capabilities()->canCopy();
-        capabilitiesMap[CanDeleteChildrenAttr] = teamdrive->capabilities()->canDeleteChildren();
-        capabilitiesMap[CanDeleteTeamDriveAttr] = teamdrive->capabilities()->canDeleteTeamDrive();
-        capabilitiesMap[CanDownloadAttr] = teamdrive->capabilities()->canDownload();
-        capabilitiesMap[CanEditAttr] = teamdrive->capabilities()->canEdit();
-        capabilitiesMap[CanListChildrenAttr] = teamdrive->capabilities()->canListChildren();
-        capabilitiesMap[CanManageMembersAttr] = teamdrive->capabilities()->canManageMembers();
-        capabilitiesMap[CanReadRevisionsAttr] = teamdrive->capabilities()->canReadRevisions();
-        capabilitiesMap[CanRenameAttr] = teamdrive->capabilities()->canRename();
-        capabilitiesMap[CanRenameTeamDriveAttr] = teamdrive->capabilities()->canRenameTeamDrive();
-        capabilitiesMap[CanShareAttr] = teamdrive->capabilities()->canShare();
-        capabilitiesMap[CanTrashChildrenAttr] = teamdrive->capabilities()->canTrashChildren();
-        teamDriveMap[CapabilitiesAttr] = capabilitiesMap;
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanAddChildren] = teamdrive->capabilities()->canAddChildren();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction] = teamdrive->capabilities()->canChangeCopyRequiresWriterPermissionRestriction();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction] = teamdrive->capabilities()->canChangeDomainUsersOnlyRestriction();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamDriveBackground] = teamdrive->capabilities()->canChangeTeamDriveBackground();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamMembersOnlyRestriction] = teamdrive->capabilities()->canChangeTeamMembersOnlyRestriction();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanComment] = teamdrive->capabilities()->canComment();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanCopy] = teamdrive->capabilities()->canCopy();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanDeleteChildren] = teamdrive->capabilities()->canDeleteChildren();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanDeleteTeamDrive] = teamdrive->capabilities()->canDeleteTeamDrive();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanDownload] = teamdrive->capabilities()->canDownload();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanEdit] = teamdrive->capabilities()->canEdit();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanListChildren] = teamdrive->capabilities()->canListChildren();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanManageMembers] = teamdrive->capabilities()->canManageMembers();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanReadRevisions] = teamdrive->capabilities()->canReadRevisions();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanRename] = teamdrive->capabilities()->canRename();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanRenameTeamDrive] = teamdrive->capabilities()->canRenameTeamDrive();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanShare] = teamdrive->capabilities()->canShare();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanTrashChildren] = teamdrive->capabilities()->canTrashChildren();
+        teamDriveMap[Teamdrive::Fields::Capabilities] = capabilitiesMap;
     }
 
     QJsonDocument document = QJsonDocument::fromVariant(teamDriveMap);

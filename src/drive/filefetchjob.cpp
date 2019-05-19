@@ -40,7 +40,6 @@ class Q_DECL_HIDDEN FileFetchJob::Private
   public:
     Private(FileFetchJob *parent);
     void processNext();
-    QStringList fieldsToStrings(qulonglong fields);
 
     FileSearchQuery searchQuery;
     QStringList filesIDs;
@@ -50,7 +49,7 @@ class Q_DECL_HIDDEN FileFetchJob::Private
 
     bool updateViewedDate;
 
-    qulonglong fields;
+    QStringList fields;
 
   private:
     FileFetchJob *const q;
@@ -61,162 +60,9 @@ FileFetchJob::Private::Private(FileFetchJob *parent):
     includeItemsFromAllDrives(true),
     supportsAllDrives(true),
     updateViewedDate(false),
-    fields(FileFetchJob::AllFields),
     q(parent)
 {
 }
-
-
-QStringList FileFetchJob::Private::fieldsToStrings(qulonglong fields)
-{
-    if (fields & AllFields) {
-        return QStringList();
-    }
-
-    QStringList fieldsStrings;
-    // Always fetch kind
-    fieldsStrings << QStringLiteral("kind");
-
-    // FIXME: Use QMetaEnum once it supports enums larger than int
-    if (fields & Id) {
-        fieldsStrings << QStringLiteral("id");
-    }
-    if (fields & Title) {
-        fieldsStrings << QStringLiteral("title");
-    }
-    if (fields & MimeType) {
-        fieldsStrings << QStringLiteral("mimeType");
-    }
-    if (fields & Description) {
-        fieldsStrings << QStringLiteral("description");
-    }
-    if (fields & Labels) {
-        fieldsStrings << QStringLiteral("labels");
-    }
-    if (fields & CreatedDate) {
-        fieldsStrings << QStringLiteral("createdDate");
-    }
-    if (fields & ModifiedDate) {
-        fieldsStrings << QStringLiteral("modifiedDate");
-    }
-    if (fields & ModifiedByMeDate) {
-        fieldsStrings << QStringLiteral("modifiedByMeDate");
-    }
-    if (fields & DownloadUrl) {
-        fieldsStrings << QStringLiteral("downloadUrl");
-    }
-    if (fields & IndexableText) {
-        fieldsStrings << QStringLiteral("indexableText");
-    }
-    if (fields & UserPermission) {
-        fieldsStrings << QStringLiteral("userPermission");
-    }
-    if (fields & FileExtension) {
-        fieldsStrings << QStringLiteral("fileExtension");
-    }
-    if (fields & MD5Checksum) {
-        fieldsStrings << QStringLiteral("md5Checksum");
-    }
-    if (fields & FileSize) {
-        fieldsStrings << QStringLiteral("fileSize");
-    }
-    if (fields & AlternateLink) {
-        fieldsStrings << QStringLiteral("alternateLink");
-    }
-    if (fields & EmbedLink) {
-        fieldsStrings << QStringLiteral("embedLink");
-    }
-    if (fields & SharedWithMeDate) {
-        fieldsStrings << QStringLiteral("sharedWithMeDate");
-    }
-    if (fields & Parents) {
-        fieldsStrings << QStringLiteral("parents");
-    }
-    if (fields & ExportLinks) {
-        fieldsStrings << QStringLiteral("exportLinks");
-    }
-    if (fields & OriginalFilename) {
-        fieldsStrings << QStringLiteral("originalFilename");
-    }
-    if (fields & OwnerNames) {
-        fieldsStrings << QStringLiteral("ownerNames");
-    }
-    if (fields & LastModifiedByMeDate) {
-        fieldsStrings << QStringLiteral("lastModifiedByMeDate");
-    }
-    if (fields & Editable) {
-        fieldsStrings << QStringLiteral("editable");
-    }
-    if (fields & WritersCanShare) {
-        fieldsStrings << QStringLiteral("writersCanShare");
-    }
-    if (fields & ThumbnailLink) {
-        fieldsStrings << QStringLiteral("thumbnailLink");
-    }
-    if (fields & LastViewedByMeDate) {
-        fieldsStrings << QStringLiteral("lastViewedByMeDate");
-    }
-    if (fields & WebContentLink) {
-        fieldsStrings << QStringLiteral("webContentLink");
-    }
-    if (fields & ExplicitlyTrashed) {
-        fieldsStrings << QStringLiteral("explicitlyTrashed");
-    }
-    if (fields & ImageMediaMetadata) {
-        fieldsStrings << QStringLiteral("imageMediaMetadata");
-    }
-    if (fields & Thumbnail) {
-        fieldsStrings << QStringLiteral("thumbnail");
-    }
-    if (fields & WebViewLink) {
-        fieldsStrings << QStringLiteral("webViewLink");
-    }
-    if (fields & IconLink) {
-        fieldsStrings << QStringLiteral("iconLink");
-    }
-    if (fields & Shared) {
-        fieldsStrings << QStringLiteral("shared");
-    }
-    if (fields & Owners) {
-        fieldsStrings << QStringLiteral("owners");
-    }
-    if (fields & LastModifyingUser) {
-        fieldsStrings << QStringLiteral("lastModifyingUser");
-    }
-    if (fields & AppDataContents) {
-        fieldsStrings << QStringLiteral("appDataContents");
-    }
-    if (fields & OpenWithLinks) {
-        fieldsStrings << QStringLiteral("openWithLinks");
-    }
-    if (fields & DefaultOpenWithLink) {
-        fieldsStrings << QStringLiteral("defaultOpenWithLink");
-    }
-    if (fields & HeadRevisionId) {
-        fieldsStrings << QStringLiteral("headRevisionId");
-    }
-    if (fields & Copyable) {
-        fieldsStrings << QStringLiteral("copyable");
-    }
-    if (fields & Properties) {
-        fieldsStrings << QStringLiteral("properties");
-    }
-    if (fields & MarkedViewedByMeDate) {
-        fieldsStrings << QStringLiteral("markedViewedByMeDate");
-    }
-    if (fields & Version) {
-        fieldsStrings << QStringLiteral("version");
-    }
-    if (fields & SharingUser) {
-        fieldsStrings << QStringLiteral("sharingUser");
-    }
-    if (fields & Permissions) {
-        fieldsStrings << QStringLiteral("permissions");
-    }
-
-    return fieldsStrings;
-}
-
 
 void FileFetchJob::Private::processNext()
 {
@@ -224,19 +70,31 @@ void FileFetchJob::Private::processNext()
 
     if (isFeed) {
         url = DriveService::fetchFilesUrl();
+
         QUrlQuery query(url);
         if (!searchQuery.isEmpty()) {
             query.addQueryItem(QStringLiteral("q"), searchQuery.serialize());
-        }
-        if (fields != FileFetchJob::AllFields) {
-            const QStringList fieldsStrings = fieldsToStrings(fields);
-            query.addQueryItem(QStringLiteral("fields"),
-                             QStringLiteral("etag,kind,nextLink,nextPageToken,selfLink,items(%1)").arg(fieldsStrings.join(QStringLiteral(","))));
         }
 
         query.addQueryItem(QStringLiteral("includeItemsFromAllDrives"), includeItemsFromAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
 
         url.setQuery(query);
+
+        if (!fields.isEmpty()) {
+            // Deserializing requires kind attribute, always force add it
+            if (!fields.contains(File::Fields::Kind)) {
+                fields << File::Fields::Kind;
+            }
+            Job *baseJob = dynamic_cast<Job *>(q);
+            baseJob->setFields({
+                File::Fields::Etag,
+                File::Fields::Kind,
+                File::Fields::NextLink,
+                File::Fields::NextPageToken,
+                File::Fields::SelfLink,
+                Job::buildSubfields(File::Fields::Items, fields)
+            });
+        }
     } else {
         if (filesIDs.isEmpty()) {
             q->emitFinished();
@@ -245,11 +103,14 @@ void FileFetchJob::Private::processNext()
 
         const QString fileId = filesIDs.takeFirst();
         url = DriveService::fetchFileUrl(fileId);
-        if (fields != FileFetchJob::AllFields) {
-            const QStringList fieldsStrings = fieldsToStrings(fields);
-            QUrlQuery query(url);
-            query.addQueryItem(QStringLiteral("fields"), fieldsStrings.join(QStringLiteral(",")));
-            url.setQuery(query);
+
+        if (!fields.isEmpty()) {
+            // Deserializing requires kind attribute, always force add it
+            if (!fields.contains(File::Fields::Kind)) {
+                fields << File::Fields::Kind;
+            }
+            Job *baseJob = dynamic_cast<Job *>(q);
+            baseJob->setFields(fields);
         }
     }
 
@@ -319,12 +180,17 @@ void FileFetchJob::start()
     d->processNext();
 }
 
-void FileFetchJob::setFields(qulonglong fields)
+void FileFetchJob::setFields(const QStringList &fields)
 {
+    if (isRunning()) {
+        qCWarning(KGAPIDebug) << "Called setFields() on running job. Ignoring.";
+        return;
+    }
+
     d->fields = fields;
 }
 
-qulonglong FileFetchJob::fields() const
+QStringList FileFetchJob::fields() const
 {
     return d->fields;
 }
@@ -349,6 +215,34 @@ void FileFetchJob::setSupportsAllDrives(bool supportsAllDrives)
     d->supportsAllDrives = supportsAllDrives;
 }
 
+const QStringList FileFetchJob::FieldShorthands::BasicFields = {
+    File::Fields::Id,
+    File::Fields::Title,
+    File::Fields::MimeType,
+    File::Fields::CreatedDate,
+    File::Fields::ModifiedDate,
+    File::Fields::FileSize,
+    File::Fields::DownloadUrl,
+    File::Fields::Permissions
+};
+
+const QStringList FileFetchJob::FieldShorthands::AccessFields = {
+    File::Fields::CreatedDate,
+    File::Fields::ModifiedDate,
+    File::Fields::ModifiedByMeDate,
+    File::Fields::LastModifiedByMeDate,
+    File::Fields::LastViewedByMeDate,
+    File::Fields::MarkedViewedByMeDate
+};
+
+const QStringList FileFetchJob::FieldShorthands::SharingFields = {
+    File::Fields::SharedWithMeDate,
+    File::Fields::WritersCanShare,
+    File::Fields::Shared,
+    File::Fields::Owners,
+    File::Fields::SharingUser,
+    File::Fields::OwnerNames
+};
 
 ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
                                                const QByteArray &rawData)

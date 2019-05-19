@@ -100,6 +100,7 @@ class KGAPICORE_EXPORT Job : public QObject
 
     struct StandardParams {
         static const QString PrettyPrint;
+        static const QString Fields;
     };
 
     /**
@@ -201,6 +202,24 @@ class KGAPICORE_EXPORT Job : public QObject
      * @return prettyPrint query parameter
      */
     bool prettyPrint() const;
+
+    /**
+     * @brief Set subset of fields to include in the response.
+     *
+     * Use for better performance.
+     *
+     * @param fields List of fields
+     */
+    void setFields(const QStringList &fields);
+
+    static QString buildSubfields(const QString &field, const QStringList &fields);
+
+    /**
+     * @brief Returns fields selector.
+     *
+     * @return List of fields
+     */
+    QStringList fields() const;
 
     /**
      * @brief Restarts this job

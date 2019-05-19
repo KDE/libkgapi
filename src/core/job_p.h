@@ -82,6 +82,7 @@ class Q_DECL_HIDDEN Job::Private
     QTimer *dispatchTimer;
     int maxTimeout;
     bool prettyPrint;
+    QStringList fields;
 
     Request currentRequest;
 

@@ -330,6 +330,9 @@ void Job::Private::_k_dispatchTimeout()
 
     QUrl url = authorizedRequest.url();
     QUrlQuery standardParamQuery(url);
+    if (!fields.isEmpty()) {
+        standardParamQuery.addQueryItem(Job::StandardParams::Fields, fields.join(QStringLiteral(",")));
+    }
 
     if (!standardParamQuery.hasQueryItem(Job::StandardParams::PrettyPrint)) {
         standardParamQuery.addQueryItem(Job::StandardParams::PrettyPrint, prettyPrint ? QStringLiteral("true") : QStringLiteral("false"));
@@ -351,6 +354,7 @@ void Job::Private::_k_dispatchTimeout()
 /************************* PUBLIC **********************/
 
 const QString Job::StandardParams::PrettyPrint = QStringLiteral("prettyPrint");
+const QString Job::StandardParams::Fields = QStringLiteral("fields");
 
 Job::Job(QObject* parent):
     QObject(parent),
@@ -453,6 +457,21 @@ void Job::setPrettyPrint(bool prettyPrint)
 
     d->prettyPrint = prettyPrint;
 }
+
+QStringList Job::fields() const
+{
+    return d->fields;
+}
+
+void Job::setFields(const QStringList &fields)
+{
+    d->fields = fields;
+}
+
+QString Job::buildSubfields(const QString &field, const QStringList &fields) {
+    return QStringLiteral("%1(%2)").arg(field).arg(fields.join(QStringLiteral(",")));
+}
+
 void Job::restart()
 {
     if (d->isRunning) {

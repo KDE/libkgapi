@@ -77,6 +77,9 @@ class KGAPIDRIVE_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
     void setUseDomainAdminAccess(bool useDomainAdminAccess);
     bool useDomainAdminAccess() const;
 
+    void setFields(const QStringList &fields);
+    QStringList fields() const;
+
   protected:
     void start() override;
     KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,

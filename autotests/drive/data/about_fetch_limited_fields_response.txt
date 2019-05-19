@@ -1,0 +1,7 @@
+HTTP/1.1 200 OK
+content-type: application/json; charset=UTF-8
+
+{
+  "kind": "drive#about",
+  "permissionId": "07857126568572968161"
+}

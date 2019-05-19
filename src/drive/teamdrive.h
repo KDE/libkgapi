@@ -57,6 +57,13 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
     {
 
       public:
+        struct Fields {
+            static const QString AdminManagedRestrictions;
+            static const QString CopyRequiresWriterPermission;
+            static const QString DomainUsersOnly;
+            static const QString TeamMembersOnly;
+        };
+
         Restrictions();
         Restrictions(const Restrictions &other);
         ~Restrictions();
@@ -143,6 +150,27 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
     {
 
       public:
+        struct Fields {
+            static const QString CanAddChildren;
+            static const QString CanChangeCopyRequiresWriterPermissionRestriction;
+            static const QString CanChangeDomainUsersOnlyRestriction;
+            static const QString CanChangeTeamDriveBackground;
+            static const QString CanChangeTeamMembersOnlyRestriction;
+            static const QString CanComment;
+            static const QString CanCopy;
+            static const QString CanDeleteChildren;
+            static const QString CanDeleteTeamDrive;
+            static const QString CanDownload;
+            static const QString CanEdit;
+            static const QString CanListChildren;
+            static const QString CanManageMembers;
+            static const QString CanReadRevisions;
+            static const QString CanRename;
+            static const QString CanRenameTeamDrive;
+            static const QString CanShare;
+            static const QString CanTrashChildren;
+        };
+
         Capabilities();
         Capabilities(const Capabilities &other);
         ~Capabilities();
@@ -274,6 +302,13 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
     {
 
       public:
+        struct Fields {
+            static const QString Id;
+            static const QString XCoordinate;
+            static const QString YCoordinate;
+            static const QString Width;
+        };
+
         BackgroundImageFile();
         BackgroundImageFile(const BackgroundImageFile &other);
         ~BackgroundImageFile();
@@ -336,6 +371,23 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
     };
 
     typedef QSharedPointer<BackgroundImageFile> BackgroundImageFilePtr;
+
+    struct Fields {
+        static const QString Kind;
+        static const QString Items;
+        static const QString KindDrive;
+        static const QString PageToken;
+        static const QString NextPageToken;
+        static const QString Id;
+        static const QString Name;
+        static const QString ThemeId;
+        static const QString ColorRgb;
+        static const QString BackgroundImageFile;
+        static const QString BackgroundImageLink;
+        static const QString Capabilities;
+        static const QString CreatedDate;
+        static const QString Restrictions;
+    };
 
     Teamdrive();
     Teamdrive(const Teamdrive &other);

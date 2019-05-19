@@ -361,6 +361,52 @@ About::Private::Private(const About::Private &other):
 {
 }
 
+const QString About::Fields::AdditionalRoleInfo = QStringLiteral("additionalRoleInfo");
+const QString About::Fields::AdditionalRoles = QStringLiteral("additionalRoles");
+const QString About::Fields::BackgroundImageLink = QStringLiteral("backgroundImageLink");
+const QString About::Fields::BytesUsed = QStringLiteral("bytesUsed");
+const QString About::Fields::CanCreateTeamDrives = QStringLiteral("canCreateTeamDrives");
+const QString About::Fields::ColorRgb = QStringLiteral("colorRgb");
+const QString About::Fields::DisplayName = QStringLiteral("displayName");
+const QString About::Fields::DomainSharingPolicy = QStringLiteral("domainSharingPolicy");
+const QString About::Fields::EmailAddress = QStringLiteral("emailAddress");
+const QString About::Fields::Etag = QStringLiteral("etag");
+const QString About::Fields::ExportFormats = QStringLiteral("exportFormats");
+const QString About::Fields::FeatureName = QStringLiteral("featureName");
+const QString About::Fields::FeatureRate = QStringLiteral("featureRate");
+const QString About::Fields::Features = QStringLiteral("features");
+const QString About::Fields::FolderColorPalette = QStringLiteral("folderColorPalette");
+const QString About::Fields::Id = QStringLiteral("id");
+const QString About::Fields::ImportFormats = QStringLiteral("importFormats");
+const QString About::Fields::IsAuthenticatedUser = QStringLiteral("isAuthenticatedUser");
+const QString About::Fields::IsCurrentAppInstalled = QStringLiteral("isCurrentAppInstalled");
+const QString About::Fields::Kind = QStringLiteral("kind");
+const QString About::Fields::LanguageCode = QStringLiteral("languageCode");
+const QString About::Fields::LargestChangeId = QStringLiteral("largestChangeId");
+const QString About::Fields::MaxUploadSizes = QStringLiteral("maxUploadSizes");
+const QString About::Fields::Name = QStringLiteral("name");
+const QString About::Fields::PermissionId = QStringLiteral("permissionId");
+const QString About::Fields::Picture = QStringLiteral("picture");
+const QString About::Fields::PrimaryRole = QStringLiteral("primaryRole");
+const QString About::Fields::QuotaBytesByService = QStringLiteral("quotaBytesByService");
+const QString About::Fields::QuotaBytesTotal = QStringLiteral("quotaBytesTotal");
+const QString About::Fields::QuotaBytesUsedAggregate = QStringLiteral("quotaBytesUsedAggregate");
+const QString About::Fields::QuotaBytesUsedInTrash = QStringLiteral("quotaBytesUsedInTrash");
+const QString About::Fields::QuotaBytesUsed = QStringLiteral("quotaBytesUsed");
+const QString About::Fields::QuotaType = QStringLiteral("quotaType");
+const QString About::Fields::RemainingChangeIds = QStringLiteral("remainingChangeIds");
+const QString About::Fields::RoleSets = QStringLiteral("roleSets");
+const QString About::Fields::RootFolderId = QStringLiteral("rootFolderId");
+const QString About::Fields::SelfLink = QStringLiteral("selfLink");
+const QString About::Fields::ServiceName = QStringLiteral("serviceName");
+const QString About::Fields::Size = QStringLiteral("size");
+const QString About::Fields::Source = QStringLiteral("source");
+const QString About::Fields::Targets = QStringLiteral("targets");
+const QString About::Fields::TeamDriveThemes = QStringLiteral("teamDriveThemes");
+const QString About::Fields::Type = QStringLiteral("type");
+const QString About::Fields::Url = QStringLiteral("url");
+const QString About::Fields::User = QStringLiteral("user");
+
 About::About():
     KGAPI2::Object(),
     d(new Private)
@@ -373,10 +419,7 @@ About::About(const About &other):
 {
 }
 
-About::~About()
-{
-    delete d;
-}
+About::~About() = default;
 
 bool About::operator==(const About &other) const
 {

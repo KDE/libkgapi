@@ -263,10 +263,10 @@ void MainWindow::teamdriveSelected()
     query.addQuery(KGAPI2::Drive::FileSearchQuery::Parents, KGAPI2::Drive::FileSearchQuery::In, id);
 
     KGAPI2::Drive::FileFetchJob *fileFetchJob = new KGAPI2::Drive::FileFetchJob(query, m_account, nullptr);
-    fileFetchJob->setFields((KGAPI2::Drive::FileFetchJob::BasicFields & ~KGAPI2::Drive::FileFetchJob::Permissions)
-                            | KGAPI2::Drive::FileFetchJob::Labels
-                            | KGAPI2::Drive::FileFetchJob::ExportLinks
-                            | KGAPI2::Drive::FileFetchJob::LastViewedByMeDate);
+    fileFetchJob->setFields({
+        KGAPI2::Drive::File::Fields::Id,
+        KGAPI2::Drive::File::Fields::Title,
+    });
     connect(fileFetchJob, &KGAPI2::Job::finished,
             this, &MainWindow::slotTeamdriveFetchJobFinished);
 }
@@ -309,10 +309,10 @@ void MainWindow::teamdriveItemSelected()
     const QString id = m_ui->teamdrivePreviewList->selectedItems().at(0)->data(Qt::UserRole).toString();
 
     KGAPI2::Drive::FileFetchJob *fileFetchJob = new KGAPI2::Drive::FileFetchJob(id, m_account, nullptr);
-    fileFetchJob->setFields((KGAPI2::Drive::FileFetchJob::BasicFields & ~KGAPI2::Drive::FileFetchJob::Permissions)
-                            | KGAPI2::Drive::FileFetchJob::Labels
-                            | KGAPI2::Drive::FileFetchJob::ExportLinks
-                            | KGAPI2::Drive::FileFetchJob::LastViewedByMeDate);
+    fileFetchJob->setFields({
+        KGAPI2::Drive::File::Fields::Title,
+        KGAPI2::Drive::File::Fields::FileSize,
+    });
     connect(fileFetchJob, &KGAPI2::Job::finished,
             this, &MainWindow::slotTeamdriveItemFetchJobFinished);
 }
