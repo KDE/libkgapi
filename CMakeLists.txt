@@ -61,7 +61,9 @@ add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
 
 ############## Targets ##############
 add_subdirectory(src)
-add_subdirectory(examples)
+if (KGAPI_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 if (BUILD_TESTING)
     add_subdirectory(autotests)
 endif()

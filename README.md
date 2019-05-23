@@ -26,7 +26,7 @@ make install
 ```
 
 To compile example applications, run cmake with `-DKGAPI_BUILD_EXAMPLES=TRUE` argument.
-To run automated tests, run `make test`.
+To run automated tests, run `make test`. To disable building tests, run cmake with `-DBUILD_TESTING=OFF` argument.
 
 ## BUGS:
 
