@@ -451,10 +451,10 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     /* According to RFC, only events with attendees can have an organizer.
      * Google seems to ignore it, so we must take care of it here */
     if (event->attendeeCount() > 0) {
-        KCalCore::Person::Ptr organizer(new KCalCore::Person);
+        KCalCore::Person organizer;
         QVariantMap organizerData = data.value(QStringLiteral("organizer")).toMap();
-        organizer->setName(organizerData.value(QStringLiteral("displayName")).toString());
-        organizer->setEmail(organizerData.value(QStringLiteral("email")).toString());
+        organizer.setName(organizerData.value(QStringLiteral("displayName")).toString());
+        organizer.setEmail(organizerData.value(QStringLiteral("email")).toString());
         event->setOrganizer(organizer);
     }
 
@@ -700,11 +700,11 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
 
         /* According to RFC, event without attendees should not have
          * any organizer. */
-        KCalCore::Person::Ptr organizer = event->organizer();
-        if (!organizer->isEmpty()) {
+        KCalCore::Person organizer = event->organizer();
+        if (!organizer.isEmpty()) {
             QVariantMap org;
-            org.insert(QStringLiteral("displayName"), organizer->fullName());
-            org.insert(QStringLiteral("email"), organizer->email());
+            org.insert(QStringLiteral("displayName"), organizer.fullName());
+            org.insert(QStringLiteral("email"), organizer.email());
             data.insert(QStringLiteral("organizer"), org);
         }
     }
