@@ -9,5 +9,9 @@ add_subdirectory(tasks)
 
 add_subdirectory(saslplugin)
 
-install( FILES libkgapi.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
+if (${ECM_VERSION} STRGREATER "5.58.0")
+    install(FILES libkgapi.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
+else()
+    install(FILES libkgapi.categories  DESTINATION ${KDE_INSTALL_CONFDIR})
+endif()
 
