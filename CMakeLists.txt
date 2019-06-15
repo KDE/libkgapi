@@ -24,7 +24,7 @@ include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 
 
-set(KCALENDARCORE_LIB_VERSION "5.11.42")
+set(KCALENDARCORE_LIB_VERSION "5.11.44")
 set(KCONTACTS_LIB_VERSION "5.11.44")
 
 ecm_setup_version(PROJECT

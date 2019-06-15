@@ -421,29 +421,28 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     const QVariantList attendees = data.value(QStringLiteral("attendees")).toList();
     for (const QVariant & a : attendees) {
         QVariantMap att = a.toMap();
-        KCalCore::Attendee::Ptr attendee(
-                    new KCalCore::Attendee(
+        KCalCore::Attendee attendee(
                         att.value(QStringLiteral("displayName")).toString(),
-                        att.value(QStringLiteral("email")).toString()));
+                        att.value(QStringLiteral("email")).toString());
 
         if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("accepted"))
-            attendee->setStatus(KCalCore::Attendee::Accepted);
+            attendee.setStatus(KCalCore::Attendee::Accepted);
         else if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("declined"))
-            attendee->setStatus(KCalCore::Attendee::Declined);
+            attendee.setStatus(KCalCore::Attendee::Declined);
         else if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("tentative"))
-            attendee->setStatus(KCalCore::Attendee::Tentative);
+            attendee.setStatus(KCalCore::Attendee::Tentative);
         else
-            attendee->setStatus(KCalCore::Attendee::NeedsAction);
+            attendee.setStatus(KCalCore::Attendee::NeedsAction);
 
         if (att.value(QStringLiteral("optional")).toBool()) {
-            attendee->setRole(KCalCore::Attendee::OptParticipant);
+            attendee.setRole(KCalCore::Attendee::OptParticipant);
         }
         const auto uid = att.value(QStringLiteral("id")).toString();
         if (!uid.isEmpty()) {
-            attendee->setUid(uid);
+            attendee.setUid(uid);
         } else {
             // Set some UID, just so that the results are reproducible
-            attendee->setUid(QString::number(qHash(attendee->email())));
+            attendee.setUid(QString::number(qHash(attendee.email())));
         }
         event->addAttendee(attendee, true);
     }
@@ -670,27 +669,27 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
 
     /* Attendees */
     QVariantList atts;
-    Q_FOREACH(const KCalCore::Attendee::Ptr& attee, event->attendees()) {
+    Q_FOREACH(const KCalCore::Attendee& attee, event->attendees()) {
         QVariantMap att;
 
-        att.insert(QStringLiteral("displayName"), attee->name());
-        att.insert(QStringLiteral("email"), attee->email());
+        att.insert(QStringLiteral("displayName"), attee.name());
+        att.insert(QStringLiteral("email"), attee.email());
 
-        if (attee->status() == KCalCore::Attendee::Accepted) {
+        if (attee.status() == KCalCore::Attendee::Accepted) {
             att.insert(QStringLiteral("responseStatus"), QStringLiteral("accepted"));
-        } else if (attee->status() == KCalCore::Attendee::Declined) {
+        } else if (attee.status() == KCalCore::Attendee::Declined) {
             att.insert(QStringLiteral("responseStatus"), QStringLiteral("declined"));
-        } else if (attee->status() == KCalCore::Attendee::Tentative) {
+        } else if (attee.status() == KCalCore::Attendee::Tentative) {
             att.insert(QStringLiteral("responseStatus"), QStringLiteral("tentative"));
         } else {
             att.insert(QStringLiteral("responseStatus"), QStringLiteral("needsAction"));
         }
 
-        if (attee->role() == KCalCore::Attendee::OptParticipant) {
+        if (attee.role() == KCalCore::Attendee::OptParticipant) {
             att.insert(QStringLiteral("optional"), true);
         }
-        if (!attee->uid().isEmpty()) {
-            att.insert(QStringLiteral("id"), attee->uid());
+        if (!attee.uid().isEmpty()) {
+            att.insert(QStringLiteral("id"), attee.uid());
         }
         atts.append(att);
     }
