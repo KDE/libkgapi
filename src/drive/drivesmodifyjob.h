@@ -20,10 +20,11 @@
  * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef KGAPI2_DRIVETEAMDRIVECREATEJOB_H
-#define KGAPI2_DRIVETEAMDRIVECREATEJOB_H
 
-#include "createjob.h"
+#ifndef KGAPI2_DRIVEDRIVESMODIFYJOB_H
+#define KGAPI2_DRIVEDRIVESMODIFYJOB_H
+
+#include "modifyjob.h"
 #include "kgapidrive_export.h"
 
 namespace KGAPI2
@@ -32,28 +33,38 @@ namespace KGAPI2
 namespace Drive
 {
 
-class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveCreateJob : public KGAPI2::CreateJob
+class KGAPIDRIVE_EXPORT DrivesModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
-  public:
-    TeamdriveCreateJob(const QString &requestId,
-                            const TeamdrivePtr &teamdrive,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveCreateJob(const QString &requestId,
-                            const TeamdrivesList &teamdrives,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    ~TeamdriveCreateJob() override;
-
     /**
-     * @brief Returns the requestId used in this create request.
+     * Issue the request as a domain administrator; if set to true, then all
+     * shared Drives of the domain in which the requester is an administrator
+     * are returned.
+     *
+     * Default value if missing is false.
+     *
+     * This property does not have any effect when fetching a specific event and
+     * can be modified only when the job is not running.
      */
-    QString requestId() const;
+    Q_PROPERTY(bool useDomainAdminAccess
+               READ useDomainAdminAccess
+               WRITE setUseDomainAdminAccess)
+
+  public:
+    explicit DrivesModifyJob(const DrivesPtr &drives,
+                                 const AccountPtr &account, QObject *parent = nullptr);
+    explicit DrivesModifyJob(const DrivesList &drives,
+                                 const AccountPtr &account, QObject *parent = nullptr);
+    ~DrivesModifyJob() override;
+
+    void setUseDomainAdminAccess(bool useDomainAdminAccess);
+    bool useDomainAdminAccess() const;
 
   protected:
     void start() override;
     KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                const QByteArray &rawData) override;
+            const QByteArray &rawData) override;
 
   private:
     class Private;
@@ -65,4 +76,4 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveCreateJob : public KGAPI2::CreateJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVETEAMDRIVECREATEJOB_H
+#endif // KGAPI2_DRIVEDRIVESMODIFYJOB_H

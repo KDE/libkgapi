@@ -325,6 +325,7 @@ class Q_DECL_HIDDEN About::Private
     MaxUploadSizesList maxUploadSizes;
     QString permissionId;
     bool isCurrentAppInstalled;
+    bool canCreateDrives;
     UserPtr user;
 };
 
@@ -335,7 +336,8 @@ About::Private::Private():
     quotaBytesUsedAggregate(-1),
     largestChangeId(-1),
     remainingChangeIds(-1),
-    isCurrentAppInstalled(false)
+    isCurrentAppInstalled(false),
+    canCreateDrives(false)
 {
 }
 
@@ -357,6 +359,7 @@ About::Private::Private(const About::Private &other):
     maxUploadSizes(other.maxUploadSizes),
     permissionId(other.permissionId),
     isCurrentAppInstalled(other.isCurrentAppInstalled),
+    canCreateDrives(other.canCreateDrives),
     user(other.user)
 {
 }
@@ -365,7 +368,7 @@ const QString About::Fields::AdditionalRoleInfo = QStringLiteral("additionalRole
 const QString About::Fields::AdditionalRoles = QStringLiteral("additionalRoles");
 const QString About::Fields::BackgroundImageLink = QStringLiteral("backgroundImageLink");
 const QString About::Fields::BytesUsed = QStringLiteral("bytesUsed");
-const QString About::Fields::CanCreateTeamDrives = QStringLiteral("canCreateTeamDrives");
+const QString About::Fields::CanCreateDrives = QStringLiteral("canCreateDrives");
 const QString About::Fields::ColorRgb = QStringLiteral("colorRgb");
 const QString About::Fields::DisplayName = QStringLiteral("displayName");
 const QString About::Fields::DomainSharingPolicy = QStringLiteral("domainSharingPolicy");
@@ -444,6 +447,7 @@ bool About::operator==(const About &other) const
     GAPI_COMPARE_CONTAINERS(maxUploadSizes)
     GAPI_COMPARE(permissionId)
     GAPI_COMPARE(isCurrentAppInstalled)
+    GAPI_COMPARE(canCreateDrives)
     GAPI_COMPARE_SHAREDPTRS(user)
     return true;
 }
@@ -544,6 +548,11 @@ UserPtr About::user() const
     return d->user;
 }
 
+bool About::canCreateDrives() const
+{
+    return d->canCreateDrives;
+}
+
 AboutPtr About::fromJSON(const QByteArray &jsonData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
@@ -572,6 +581,7 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     about->d->domainSharingPolicy = map.value(QStringLiteral("domainSharingPolicy")).toString();
     about->d->permissionId = map.value(QStringLiteral("permissionId")).toString();
     about->d->isCurrentAppInstalled = map.value(QStringLiteral("isCurrentAppInstalled")).toBool();
+    about->d->canCreateDrives = map.value(QStringLiteral("canCreateDrives")).toBool();
 
     const QVariantList importFormats = map.value(QStringLiteral("importFormats")).toList();
     for  (const QVariant &v : importFormats) {

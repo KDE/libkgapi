@@ -1,6 +1,4 @@
 /*
- * This file is part of LibKGAPI library
- *
  * Copyright (C) 2019  David Barchiesi <david@barchie.si>
  *
  * This library is free software; you can redistribute it and/or
@@ -20,43 +18,49 @@
  * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifndef KGAPI2_DRIVE_DRIVESSEARCHQUERY_H
+#define KGAPI2_DRIVE_DRIVESSEARCHQUERY_H
 
-#ifndef KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H
-#define KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H
-
-#include "modifyjob.h"
 #include "kgapidrive_export.h"
+
+#include "searchquery.h"
+
+#include <QVariant>
+#include <QSharedDataPointer>
 
 namespace KGAPI2
 {
-
 namespace Drive
 {
 
-class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveModifyJob : public KGAPI2::ModifyJob
+/**
+ * DrivesSearchQuery class allows simply building even complex shared drive search queries
+ * for DrivesFetchJob.
+ *
+ * See https://developers.google.com/drive/api/v2/search-shareddrives for allowed
+ * combinations of fields, compare operators, and value types.
+ */
+class KGAPIDRIVE_EXPORT DrivesSearchQuery : public SearchQuery
 {
-    Q_OBJECT
+public:
+    enum Field {
+        Name,
+        Hidden,
+        CreatedDate,
+        MemberCount,
+        OrganizerCount
+    };
 
-  public:
-    explicit TeamdriveModifyJob(const TeamdrivePtr &teamdrive,
-                                 const AccountPtr &account, QObject *parent = nullptr);
-    explicit TeamdriveModifyJob(const TeamdrivesList &teamdrives,
-                                 const AccountPtr &account, QObject *parent = nullptr);
-    ~TeamdriveModifyJob() override;
+    using SearchQuery::SearchQuery;
 
-  protected:
-    void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    using SearchQuery::addQuery;
+    void addQuery(Field field, CompareOperator op, const QVariant &value);
 
-  private:
-    class Private;
-    QScopedPointer<Private> d;
-    friend class Private;
+private:
+    QString fieldToString(Field field);
+    QString valueToString(DrivesSearchQuery::Field field, const QVariant &var);
 };
+}
+}
 
-} // namespace Drive
-
-} // namespace KGAPI2
-
-#endif // KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H
+#endif // KGAPI2_DRIVE_DRIVESSEARCHQUERY_H

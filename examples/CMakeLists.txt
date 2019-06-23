@@ -1,3 +1,4 @@
 add_subdirectory(contacts)
+add_subdirectory(drives)
 add_subdirectory(teamdrive)
 #add_subdirectory(staticmaps)

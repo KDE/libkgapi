@@ -1,0 +1,8 @@
+POST https://www.googleapis.com/drive/v2/drives?requestId=MockRequestId&prettyPrint=false
+
+{
+    "kind": "drive#drive",
+    "id": "somelongid",
+    "name": "A Drive",
+    "hidden": false
+}

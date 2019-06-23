@@ -15,6 +15,9 @@ add_executable(teamdrive-example
         ${teamdrive_example_HDRS_MOC}
 )
 
+# The Team Drives example is, inevitably, dependant on deprecated APIs.
+target_compile_options(teamdrive-example PRIVATE -Wno-deprecated-declarations)
+
 target_link_libraries(teamdrive-example
         Qt5::Widgets
         Qt5::Core

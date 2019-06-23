@@ -34,6 +34,7 @@ namespace Private
     static const QString AppsBasePath(QStringLiteral("/drive/v2/about"));
     static const QString FilesBasePath(QStringLiteral("/drive/v2/files"));
     static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
+    static const QString DrivesBasePath(QStringLiteral("/drive/v2/drives"));
     static const QString TeamdriveBasePath(QStringLiteral("/drive/v2/teamdrives"));
 }
 
@@ -284,6 +285,27 @@ QUrl modifyRevisionUrl(const QString &fileId, const QString &revisionId)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/revisions/") % revisionId);
+    return url;
+}
+
+QUrl fetchDrivesUrl(const QString &drivesId)
+{
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::DrivesBasePath % QLatin1Char('/') % drivesId);
+    return url;
+}
+
+QUrl hideDrivesUrl(const QString &drivesId, bool hide)
+{
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::DrivesBasePath % QLatin1Char('/') % drivesId % (hide ? QLatin1String("/hide") : QLatin1String("/unhide")));
+    return url;
+}
+
+QUrl fetchDrivesUrl()
+{
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::DrivesBasePath);
     return url;
 }
 

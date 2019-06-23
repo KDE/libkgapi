@@ -21,8 +21,8 @@
  */
 
 
-#ifndef KGAPI2_DRIVETEAMDRIVEDELETEJOB_H
-#define KGAPI2_DRIVETEAMDRIVEDELETEJOB_H
+#ifndef KGAPI2_DRIVEDRIVESDELETEJOB_H
+#define KGAPI2_DRIVEDRIVESDELETEJOB_H
 
 #include "deletejob.h"
 #include "kgapidrive_export.h"
@@ -33,20 +33,20 @@ namespace KGAPI2
 namespace Drive
 {
 
-class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveDeleteJob : public KGAPI2::DeleteJob
+class KGAPIDRIVE_EXPORT DrivesDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
   public:
-    TeamdriveDeleteJob(const QString &teamdriveId,
+    DrivesDeleteJob(const QString &drivesId,
                         const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveDeleteJob(const QStringList &teamdrivesIds,
+    DrivesDeleteJob(const QStringList &drivesIds,
                         const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveDeleteJob(const TeamdrivePtr &teamdrive,
+    DrivesDeleteJob(const DrivesPtr &drives,
                         const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveDeleteJob(const TeamdrivesList &teamdrives,
+    DrivesDeleteJob(const DrivesList &drives,
                         const AccountPtr &account, QObject *parent = nullptr);
-    ~TeamdriveDeleteJob() override;
+    ~DrivesDeleteJob() override;
 
   protected:
     void start() override;
@@ -61,4 +61,4 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveDeleteJob : public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVETEAMDRIVEDELETEJOB_H
+#endif // KGAPI2_DRIVEDRIVESDELETEJOB_H

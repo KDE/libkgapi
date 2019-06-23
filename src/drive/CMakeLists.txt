@@ -38,6 +38,13 @@ set(kgapidrive_SRCS
     revisiondeletejob.cpp
     revisionfetchjob.cpp
     revisionmodifyjob.cpp
+    drives.cpp
+    drivescreatejob.cpp
+    drivesdeletejob.cpp
+    drivesfetchjob.cpp
+    drivesmodifyjob.cpp
+    driveshidejob.cpp
+    drivessearchquery.cpp
     teamdrive.cpp
     teamdrivecreatejob.cpp
     teamdrivedeletejob.cpp
@@ -89,6 +96,13 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     RevisionDeleteJob
     RevisionFetchJob
     RevisionModifyJob
+    Drives
+    DrivesCreateJob
+    DrivesDeleteJob
+    DrivesFetchJob
+    DrivesModifyJob
+    DrivesHideJob
+    DrivesSearchQuery
     Teamdrive
     TeamdriveCreateJob
     TeamdriveDeleteJob

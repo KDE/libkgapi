@@ -1,7 +1,7 @@
 /*
  * This file is part of LibKGAPI library
  *
- * Copyright (C) 2019 David Barchiesi <david@barchie.si>
+ * Copyright (C) 2019  David Barchiesi <david@barchie.si>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,11 +20,10 @@
  * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifndef KGAPI2_DRIVEDRIVESCREATEJOB_H
+#define KGAPI2_DRIVEDRIVESCREATEJOB_H
 
-#ifndef KGAPI2_DRIVETEAMDRIVEDELETEJOB_H
-#define KGAPI2_DRIVETEAMDRIVEDELETEJOB_H
-
-#include "deletejob.h"
+#include "createjob.h"
 #include "kgapidrive_export.h"
 
 namespace KGAPI2
@@ -33,23 +32,28 @@ namespace KGAPI2
 namespace Drive
 {
 
-class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveDeleteJob : public KGAPI2::DeleteJob
+class KGAPIDRIVE_EXPORT DrivesCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
   public:
-    TeamdriveDeleteJob(const QString &teamdriveId,
-                        const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveDeleteJob(const QStringList &teamdrivesIds,
-                        const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveDeleteJob(const TeamdrivePtr &teamdrive,
-                        const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveDeleteJob(const TeamdrivesList &teamdrives,
-                        const AccountPtr &account, QObject *parent = nullptr);
-    ~TeamdriveDeleteJob() override;
+    DrivesCreateJob(const QString &requestId,
+                            const DrivesPtr &drives,
+                            const AccountPtr &account, QObject *parent = nullptr);
+    DrivesCreateJob(const QString &requestId,
+                            const DrivesList &drives,
+                            const AccountPtr &account, QObject *parent = nullptr);
+    ~DrivesCreateJob() override;
+
+    /**
+     * @brief Returns the requestId used in this create request.
+     */
+    QString requestId() const;
 
   protected:
     void start() override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
+                                                const QByteArray &rawData) override;
 
   private:
     class Private;
@@ -61,4 +65,4 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveDeleteJob : public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVETEAMDRIVEDELETEJOB_H
+#endif // KGAPI2_DRIVEDRIVESCREATEJOB_H

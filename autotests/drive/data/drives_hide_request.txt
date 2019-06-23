@@ -1,0 +1,1 @@
+POST https://www.googleapis.com/drive/v2/drives/somelongid/hide?prettyPrint=false

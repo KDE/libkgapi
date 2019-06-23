@@ -226,7 +226,7 @@ public:
         static const QString AdditionalRoles;
         static const QString BackgroundImageLink;
         static const QString BytesUsed;
-        static const QString CanCreateTeamDrives;
+        static const QString CanCreateDrives;
         static const QString ColorRgb;
         static const QString DisplayName;
         static const QString DomainSharingPolicy;
@@ -379,6 +379,11 @@ public:
      * @brief Returns the authenticated user.
      */
     UserPtr user() const;
+
+    /**
+     * @brief Returns whether the user can create shared drives.
+     */
+    bool canCreateDrives() const;
 
     /**
      * @brief Constructs a new DriveAbout object from given JSON data

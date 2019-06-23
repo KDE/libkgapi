@@ -20,13 +20,13 @@
  * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef KGAPI2_DRIVETEAMDRIVEFETCHJOB_H
-#define KGAPI2_DRIVETEAMDRIVEFETCHJOB_H
+#ifndef KGAPI2_DRIVEDRIVESFETCHJOB_H
+#define KGAPI2_DRIVEDRIVESFETCHJOB_H
 
 #include "fetchjob.h"
 #include "kgapidrive_export.h"
 
-#include "teamdrivesearchquery.h"
+#include "drivessearchquery.h"
 
 namespace KGAPI2
 {
@@ -34,12 +34,13 @@ namespace KGAPI2
 namespace Drive
 {
 
-class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
+class KGAPIDRIVE_EXPORT DrivesFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
     /**
-     * Maximum number of teamdrives to return.
+     * Maximum number of shared drives to return. Acceptable
+     * values are 1 to 100, inclusive
      *
      * Default value if missing is 10.
      *
@@ -52,7 +53,7 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
 
     /**
      * Issue the request as a domain administrator; if set to true, then all
-     * Team Drives of the domain in which the requester is an administrator
+     * shared Drives of the domain in which the requester is an administrator
      * are returned.
      *
      * Default value if missing is false.
@@ -65,11 +66,11 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
                WRITE setUseDomainAdminAccess)
 
   public:
-    TeamdriveFetchJob(const TeamdriveSearchQuery &query, const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveFetchJob(const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveFetchJob(const QString &teamdriveId, const AccountPtr &account,
+    DrivesFetchJob(const DrivesSearchQuery &query, const AccountPtr &account, QObject *parent = nullptr);
+    DrivesFetchJob(const AccountPtr &account, QObject *parent = nullptr);
+    DrivesFetchJob(const QString &drivesId, const AccountPtr &account,
                             QObject *parent = nullptr);
-    ~TeamdriveFetchJob() override;
+    ~DrivesFetchJob() override;
 
     int maxResults() const;
     void setMaxResults(int maxResults);
@@ -97,4 +98,4 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVETEAMDRIVEFETCHJOB_H
+#endif // KGAPI2_DRIVEDRIVESFETCHJOB_H

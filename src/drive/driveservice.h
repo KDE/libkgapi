@@ -116,6 +116,12 @@ namespace DriveService
     KGAPIDRIVE_EXPORT QUrl modifyRevisionUrl(const QString &fileId,
                                             const QString &revisionId);
 
+    KGAPIDRIVE_EXPORT QUrl fetchDrivesUrl(const QString &drivesId);
+
+    KGAPIDRIVE_EXPORT QUrl hideDrivesUrl(const QString &drivesId, bool hide);
+
+    KGAPIDRIVE_EXPORT QUrl fetchDrivesUrl();
+
     KGAPIDRIVE_EXPORT QUrl fetchTeamdriveUrl(const QString &teamdriveId);
 
     KGAPIDRIVE_EXPORT QUrl fetchTeamdrivesUrl();

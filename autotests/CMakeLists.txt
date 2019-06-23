@@ -10,6 +10,16 @@ set(kgapitest_SRCS
     fakenetworkaccessmanagerfactory.cpp
     testutils.cpp
 )
+
+# Silence deprecation warnings for deprecated APIs tests.
+set_source_files_properties(
+    drive/teamdrivecreatejobtest.cpp
+    drive/teamdrivedeletejobtest.cpp
+    drive/teamdrivefetchjobtest.cpp
+    drive/teamdrivemodifyjobtest.cpp
+    PROPERTIES COMPILE_FLAGS -Wno-deprecated-declarations
+)
+
 add_library(kgapitest STATIC ${kgapitest_SRCS})
 target_link_libraries(kgapitest Qt5::Core Qt5::Network Qt5::Test KPimGAPICore)
 
@@ -75,6 +85,12 @@ add_libkgapi2_test(drive changefetchjobtest)
 add_libkgapi2_test(drive filecopyjobtest)
 add_libkgapi2_test(drive filecreatejobtest)
 add_libkgapi2_test(drive filesearchquerytest)
+add_libkgapi2_test(drive drivescreatejobtest)
+add_libkgapi2_test(drive drivesdeletejobtest)
+add_libkgapi2_test(drive drivesmodifyjobtest)
+add_libkgapi2_test(drive driveshidejobtest)
+add_libkgapi2_test(drive drivesfetchjobtest)
+add_libkgapi2_test(drive drivessearchquerytest)
 add_libkgapi2_test(drive teamdrivecreatejobtest)
 add_libkgapi2_test(drive teamdrivedeletejobtest)
 add_libkgapi2_test(drive teamdrivemodifyjobtest)
