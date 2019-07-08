@@ -28,6 +28,7 @@
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 
 
 using namespace KGAPI2;
@@ -41,11 +42,14 @@ class Q_DECL_HIDDEN FileAbstractModifyJob::Private
 
     QStringList filesIds;
 
+    bool supportsAllDrives;
+
   private:
     FileAbstractModifyJob *q;
 };
 
 FileAbstractModifyJob::Private::Private(FileAbstractModifyJob *parent):
+    supportsAllDrives(true),
     q(parent)
 {
 }
@@ -58,7 +62,11 @@ void FileAbstractModifyJob::Private::processNext()
     }
 
     const QString fileId = filesIds.takeFirst();
-    const QUrl url = q->url(fileId);
+    QUrl url = q->url(fileId);
+
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    url.setQuery(query);
 
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentLengthHeader, 0);
@@ -112,6 +120,16 @@ FileAbstractModifyJob::~FileAbstractModifyJob()
 void FileAbstractModifyJob::start()
 {
     d->processNext();
+}
+
+bool FileAbstractModifyJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void FileAbstractModifyJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
 }
 
 ObjectsList FileAbstractModifyJob::handleReplyWithItems(const QNetworkReply *reply,

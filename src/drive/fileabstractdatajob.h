@@ -98,6 +98,17 @@ class KGAPIDRIVE_EXPORT FileAbstractDataJob : public KGAPI2::Job
                READ timedTextTrackName
                WRITE setTimedTextTrackName)
 
+    /**
+     *  Sets whether the request supports both My Drives and shared drives.
+     *
+     * Set to true by default as LibKGAPI supports Team Drives.
+     *
+     * This property can be modified only when the job is not running.
+     */
+    Q_PROPERTY(bool supportsAllDrives
+               READ supportsAllDrives
+               WRITE setSupportsAllDrives)
+
   public:
     explicit FileAbstractDataJob(const AccountPtr &account,
                                  QObject *parent = nullptr);
@@ -120,6 +131,26 @@ class KGAPIDRIVE_EXPORT FileAbstractDataJob : public KGAPI2::Job
 
     QString timedTextTrackName() const;
     void setTimedTextTrackName(const QString &timedTextTrackName);
+
+    /**
+     * @brief Whether the request supports both My Drives and shared drives.
+     *
+     * Set to true by default as LibKGAPI supports Team Drives.
+     *
+     * @deprecated This parameter will only be effective until June 1, 2020. Afterwards all applications
+     * are assumed to support shared drives.
+     */
+    KGAPIDRIVE_DEPRECATED bool supportsAllDrives() const;
+
+    /**
+     * @brief Sets whether the request supports both My Drives and shared drives.
+     *
+     * Set to true by default as LibKGAPI supports Team Drives.
+     *
+     * @deprecated This parameter will only be effective until June 1, 2020. Afterwards all applications
+     * are assumed to support shared drives.
+     */
+    KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
 
   protected:
     QUrl updateUrl(QUrl &url);

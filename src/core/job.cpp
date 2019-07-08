@@ -484,7 +484,6 @@ void Job::restart()
 
 void Job::emitFinished()
 {
-    qCDebug(KGAPIDebug);
     aboutToFinish();
 
     d->isRunning = false;

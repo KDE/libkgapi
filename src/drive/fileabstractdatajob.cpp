@@ -40,12 +40,14 @@ class Q_DECL_HIDDEN FileAbstractDataJob::Private
     bool pinned;
     QString timedTextLanguage;
     QString timedTextTrackName;
+    bool supportsAllDrives;
 };
 
 FileAbstractDataJob::Private::Private():
     convert(false),
     ocr(false),
-    pinned(false)
+    pinned(false),
+    supportsAllDrives(true)
 {
 }
 
@@ -152,6 +154,16 @@ void FileAbstractDataJob::setTimedTextTrackName(const QString &timedTextTrackNam
     d->timedTextTrackName = timedTextTrackName;
 }
 
+bool FileAbstractDataJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void FileAbstractDataJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
+}
+
 QUrl FileAbstractDataJob::updateUrl(QUrl &url)
 {
     QUrlQuery query(url);
@@ -177,8 +189,11 @@ QUrl FileAbstractDataJob::updateUrl(QUrl &url)
     if (!d->timedTextTrackName.isEmpty()) {
         query.addQueryItem(QStringLiteral("timedTextTrackName"), d->timedTextTrackName);
     }
-    url.setQuery(query);
 
+    query.removeQueryItem(QStringLiteral("supportsAllDrives"));
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(d->supportsAllDrives));
+
+    url.setQuery(query);
     return url;
 }
 
