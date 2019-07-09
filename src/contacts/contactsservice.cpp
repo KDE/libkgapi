@@ -21,6 +21,7 @@
 #include "contactsservice.h"
 #include "contact.h"
 #include "contactsgroup.h"
+#include "utils.h"
 #include "../debug.h"
 
 #include <QDomDocument>
@@ -719,8 +720,7 @@ QByteArray contactToXML(const ContactPtr& contact)
             QString proto = key.mid(10);
             proto.chop(4);
             bool primary = (contact->custom(QStringLiteral("KADDRESSBOOK"), QStringLiteral("X-IMAddress")) == value);
-            output.append(im_str.arg(value, Contact::IMProtocolNameToScheme(proto),
-                                     (primary ? QStringLiteral("true") : QStringLiteral("false"))).toUtf8());
+            output.append(im_str.arg(value, Contact::IMProtocolNameToScheme(proto), Utils::bool2Str(primary)).toUtf8());
             parsedCustoms << key;
         /* X-messaging is probably a new key (?) used by KAddressbook when importing
          * contacts from vCard. */

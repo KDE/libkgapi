@@ -34,8 +34,6 @@
 namespace {
     static const QString MaxResultsAttr = QStringLiteral("maxResults");
     static const QString UseDomainAdminAccessAttr = QStringLiteral("useDomainAdminAccess");
-    static const QString True = QStringLiteral("true");
-    static const QString False = QStringLiteral("false");
 }
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -196,7 +194,7 @@ void TeamdriveFetchJob::applyRequestParameters(QUrl &url) {
         query.addQueryItem(MaxResultsAttr, QString::number(d->maxResults));
     }
     if (d->useDomainAdminAccess != false) {
-        query.addQueryItem(UseDomainAdminAccessAttr, d->useDomainAdminAccess ? True : False);
+        query.addQueryItem(UseDomainAdminAccessAttr, Utils::bool2Str(d->useDomainAdminAccess));
     }
     if (!d->searchQuery.isEmpty()) {
         query.addQueryItem(QStringLiteral("q"), d->searchQuery.serialize());

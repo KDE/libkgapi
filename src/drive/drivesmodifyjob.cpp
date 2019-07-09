@@ -35,8 +35,6 @@
 
 namespace {
     static const QString UseDomainAdminAccessAttr = QStringLiteral("useDomainAdminAccess");
-    static const QString True = QStringLiteral("true");
-    static const QString False = QStringLiteral("false");
 }
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
@@ -87,7 +85,7 @@ void DrivesModifyJob::Private::processNext()
 
     QUrlQuery query(url);
     if (useDomainAdminAccess != false) {
-        query.addQueryItem(UseDomainAdminAccessAttr, useDomainAdminAccess ? True : False);
+        query.addQueryItem(UseDomainAdminAccessAttr, Utils::bool2Str(useDomainAdminAccess));
     }
     url.setQuery(query);
 

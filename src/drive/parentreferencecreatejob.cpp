@@ -65,7 +65,7 @@ void ParentReferenceCreateJob::Private::processNext()
     QUrl url = DriveService::createParentReferenceUrl(fileId);
 
     QUrlQuery withDriveSupportQuery(url);
-    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(supportsAllDrives));
     url.setQuery(withDriveSupportQuery);
 
     QNetworkRequest request(url);

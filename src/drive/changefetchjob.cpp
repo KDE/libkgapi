@@ -176,14 +176,14 @@ void ChangeFetchJob::start()
         if (d->startChangeId > 0) {
             query.addQueryItem(QStringLiteral("startChangeId"), QString::number(d->startChangeId));
         }
-        query.addQueryItem(QStringLiteral("includeItemsFromAllDrives"), d->includeItemsFromAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+        query.addQueryItem(QStringLiteral("includeItemsFromAllDrives"), Utils::bool2Str(d->includeItemsFromAllDrives));
         url.setQuery(query);
     } else {
         url = DriveService::fetchChangeUrl(d->changeId);
     }
 
     QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("supportsAllDrives"), d->supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(d->supportsAllDrives));
     url.setQuery(query);
 
     QNetworkRequest request(url);

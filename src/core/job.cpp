@@ -26,6 +26,7 @@
 #include "networkaccessmanagerfactory_p.h"
 #include "../debug.h"
 #include "authjob.h"
+#include "utils.h"
 
 #include <QCoreApplication>
 #include <QJsonDocument>
@@ -335,7 +336,7 @@ void Job::Private::_k_dispatchTimeout()
     }
 
     if (!standardParamQuery.hasQueryItem(Job::StandardParams::PrettyPrint)) {
-        standardParamQuery.addQueryItem(Job::StandardParams::PrettyPrint, prettyPrint ? QStringLiteral("true") : QStringLiteral("false"));
+        standardParamQuery.addQueryItem(Job::StandardParams::PrettyPrint, Utils::bool2Str(prettyPrint));
     }
 
     url.setQuery(standardParamQuery);

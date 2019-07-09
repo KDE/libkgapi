@@ -76,7 +76,7 @@ void FileFetchJob::Private::processNext()
             query.addQueryItem(QStringLiteral("q"), searchQuery.serialize());
         }
 
-        query.addQueryItem(QStringLiteral("includeItemsFromAllDrives"), includeItemsFromAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+        query.addQueryItem(QStringLiteral("includeItemsFromAllDrives"), Utils::bool2Str(includeItemsFromAllDrives));
 
         url.setQuery(query);
 
@@ -115,7 +115,7 @@ void FileFetchJob::Private::processNext()
     }
 
     QUrlQuery withDriveSupportQuery(url);
-    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(supportsAllDrives));
     url.setQuery(withDriveSupportQuery);
 
     QNetworkRequest request(url);

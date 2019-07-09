@@ -24,6 +24,7 @@
 #include "permissiondeletejob.h"
 #include "permission.h"
 #include "account.h"
+#include "utils.h"
 #include "driveservice.h"
 
 #include <QNetworkRequest>
@@ -115,7 +116,7 @@ void PermissionDeleteJob::start()
     const QString permissionId = d->permissionsIds.takeFirst();
     QUrl url = DriveService::deletePermissionUrl(d->fileId, permissionId);
     QUrlQuery withDriveSupportQuery(url);
-    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), d->supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(d->supportsAllDrives));
     url.setQuery(withDriveSupportQuery);
     QNetworkRequest request(url);
 

@@ -19,6 +19,7 @@
  */
 
 #include "drivessearchquery.h"
+#include "utils.h"
 
 #include <QString>
 #include <QDateTime>
@@ -52,7 +53,7 @@ QString DrivesSearchQuery::valueToString(DrivesSearchQuery::Field field, const Q
     case Name:
         return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1String("\\\'")));
     case Hidden:
-        return (var.toBool() == true ? QStringLiteral("true") : QStringLiteral("false"));
+        return Utils::bool2Str(var.toBool());
     case MemberCount:
     case OrganizerCount:
         return var.toString();

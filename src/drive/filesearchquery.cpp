@@ -20,6 +20,7 @@
  */
 
 #include "filesearchquery.h"
+#include "utils.h"
 
 #include <QString>
 #include <QDateTime>
@@ -78,7 +79,7 @@ QString FileSearchQuery::valueToString(FileSearchQuery::Field field, const QVari
     case Trashed:
     case Starred:
     case SharedWithMe:
-        return (var.toBool() == true ? QStringLiteral("true") : QStringLiteral("false"));
+        return Utils::bool2Str(var.toBool());
     }
 
     Q_ASSERT(false);

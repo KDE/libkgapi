@@ -65,7 +65,7 @@ void FileAbstractModifyJob::Private::processNext()
     QUrl url = q->url(fileId);
 
     QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("supportsAllDrives"), supportsAllDrives ? QStringLiteral("true") : QStringLiteral("false"));
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(supportsAllDrives));
     url.setQuery(query);
 
     QNetworkRequest request(url);
