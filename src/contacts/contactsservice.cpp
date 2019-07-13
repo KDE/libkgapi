@@ -713,6 +713,9 @@ QByteArray contactToXML(const ContactPtr& contact)
 
     /* IMs */
     const QString im_str = QStringLiteral("<gd:im address=\"%1\" protocol=\"%2\" rel=\"http://schemas.google.com/g/2005#other\" primary=\"%3\"/>");
+    Q_FOREACH(const auto &impp, contact->imppList()) {
+        output.append(im_str.arg(impp.address().path(), Contact::IMProtocolNameToScheme(impp.serviceType()), Utils::bool2Str(impp.isPreferred())).toUtf8());
+    }
     Q_FOREACH(const QString &im, contact->customs()) {
         if (im.startsWith(QLatin1String("messaging/"))) {
             QString key = im.left(im.indexOf(QLatin1Char(':')));
