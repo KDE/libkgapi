@@ -81,9 +81,12 @@ QByteArray FileAbstractUploadJob::Private::readFile(const QString &filePath,
         return QByteArray();
     }
 
-    const QMimeDatabase db;
-    const QMimeType mime = db.mimeTypeForFileNameAndData(filePath, &file);
-    contentType = mime.name();
+    if (contentType.isEmpty()) {
+        const QMimeDatabase db;
+        const QMimeType mime = db.mimeTypeForFileNameAndData(filePath, &file);
+        contentType = mime.name();
+        qCDebug(KGAPIDebug) << "Determined content type" << contentType << "for" << filePath;
+    }
 
     file.reset();
     QByteArray output = file.readAll();
@@ -97,13 +100,15 @@ QByteArray FileAbstractUploadJob::Private::buildMultipart(const QString &filePat
                                                           const FilePtr &metaData,
                                                           QString &boundary)
 {
-    QString fileContentType;
+    QString fileContentType = metaData->mimeType();
     QByteArray fileContent;
 
     fileContent = readFile(filePath, fileContentType);
     if (fileContent.isEmpty()) {
         return QByteArray();
     }
+
+    qCDebug(KGAPIDebug) << "Setting content type" << fileContentType << "for" << filePath;
 
     // Wannabe implementation of RFC2387, i.e. multipart/related
     QByteArray body;
@@ -162,6 +167,7 @@ void FileAbstractUploadJob::Private::processNext()
     if (metaData.isNull()) {
         query.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("media"));
 
+        contentType = metaData->mimeType();
         rawData = readFile(filePath, contentType);
         if (rawData.isEmpty()) {
             processNext();
