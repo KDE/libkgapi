@@ -27,8 +27,8 @@
 #include "types.h"
 #include "kgapicalendar_export.h"
 
-#include <KCalCore/Alarm>
-#include <KCalCore/Incidence>
+#include <KCalendarCore/Alarm>
+#include <KCalendarCore/Incidence>
 
 namespace KGAPI2
 {
@@ -54,8 +54,8 @@ class KGAPICALENDAR_EXPORT Reminder
      * @param type Type of the reminder (email, notification, etc.)
      * @param startOffset How long before the event should the reminder be shown
      */
-    explicit Reminder( const KCalCore::Alarm::Type &type,
-                       const KCalCore::Duration &startOffset = KCalCore::Duration( 0 ) );
+    explicit Reminder( const KCalendarCore::Alarm::Type &type,
+                       const KCalendarCore::Duration &startOffset = KCalendarCore::Duration( 0 ) );
 
     /**
      * @brief Copy constructor
@@ -72,32 +72,32 @@ class KGAPICALENDAR_EXPORT Reminder
     /**
      * @brief Returns type of the reminder
      */
-    KCalCore::Alarm::Type type() const;
+    KCalendarCore::Alarm::Type type() const;
 
     /**
      * @brief Sets type of the reminder
      *
      * @param type
      */
-    void setType(KCalCore::Alarm::Type type );
+    void setType(KCalendarCore::Alarm::Type type );
 
     /**
      * @brief Returns how long before the event should reminder be shown
      */
-    KCalCore::Duration startOffset() const;
+    KCalendarCore::Duration startOffset() const;
 
     /**
      * @brief Sets how long before the event should reminder be shown
      */
-    void setStartOffset( const KCalCore::Duration &startOffset );
+    void setStartOffset( const KCalendarCore::Duration &startOffset );
 
     /**
-     * @brief Converts the reminder to a KCalCore::Alarm
+     * @brief Converts the reminder to a KCalendarCore::Alarm
      *
      * @param incidence An incidence on which the reminder should be applied
-     * @return Returns a new KCalCore::Alarm
+     * @return Returns a new KCalendarCore::Alarm
      */
-    KCalCore::Alarm *toAlarm( KCalCore::Incidence *incidence ) const;
+    KCalendarCore::Alarm *toAlarm( KCalendarCore::Incidence *incidence ) const;
 
   private:
     class Private;

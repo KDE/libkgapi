@@ -202,23 +202,23 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
     task->setDescription(jsonData.value(QStringLiteral("notes")).toString());
 
     if (jsonData.value(QStringLiteral("status")).toString() == QStringLiteral("needsAction")) {
-        task->setStatus(KCalCore::Incidence::StatusNeedsAction);
+        task->setStatus(KCalendarCore::Incidence::StatusNeedsAction);
     } else if (jsonData.value(QStringLiteral("status")).toString() == QStringLiteral("completed")) {
-        task->setStatus(KCalCore::Incidence::StatusCompleted);
+        task->setStatus(KCalendarCore::Incidence::StatusCompleted);
     } else {
-        task->setStatus(KCalCore::Incidence::StatusNone);
+        task->setStatus(KCalendarCore::Incidence::StatusNone);
     }
 
     task->setDtDue(Utils::rfc3339DateFromString(jsonData.value(QStringLiteral("due")).toString()));
 
-    if (task->status() == KCalCore::Incidence::StatusCompleted) {
+    if (task->status() == KCalendarCore::Incidence::StatusCompleted) {
         task->setCompleted(Utils::rfc3339DateFromString(jsonData.value(QStringLiteral("completed")).toString()));
     }
 
     task->setDeleted(jsonData.value(QStringLiteral("deleted")).toBool());
 
     if (jsonData.contains(QStringLiteral("parent"))) {
-        task->setRelatedTo(jsonData.value(QStringLiteral("parent")).toString(), KCalCore::Incidence::RelTypeParent);
+        task->setRelatedTo(jsonData.value(QStringLiteral("parent")).toString(), KCalendarCore::Incidence::RelTypeParent);
     }
 
     return task.dynamicCast<Object>();
@@ -263,8 +263,8 @@ QByteArray taskToJSON(const TaskPtr &task)
     output.insert(QStringLiteral("title"), task->summary());
     output.insert(QStringLiteral("notes"), task->description());
 
-    if (!task->relatedTo(KCalCore::Incidence::RelTypeParent).isEmpty()) {
-        output.insert(QStringLiteral("parent"), task->relatedTo(KCalCore::Incidence::RelTypeParent));
+    if (!task->relatedTo(KCalendarCore::Incidence::RelTypeParent).isEmpty()) {
+        output.insert(QStringLiteral("parent"), task->relatedTo(KCalendarCore::Incidence::RelTypeParent));
     }
 
     if (task->dtDue().isValid()) {
@@ -272,7 +272,7 @@ QByteArray taskToJSON(const TaskPtr &task)
         output.insert(QStringLiteral("due"), task->dtDue().toUTC().toString(QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ")));
     }
 
-    if ((task->status() == KCalCore::Incidence::StatusCompleted) && task->completed().isValid()) {
+    if ((task->status() == KCalendarCore::Incidence::StatusCompleted) && task->completed().isValid()) {
         /* Google accepts only UTC time strictly in this format :( */
         output.insert(QStringLiteral("completed"), task->completed().toUTC().toString(QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ")));
         output.insert(QStringLiteral("status"), QStringLiteral("completed"));

@@ -27,7 +27,7 @@
 #include "types.h"
 #include "kgapitasks_export.h"
 
-#include <KCalCore/Todo>
+#include <KCalendarCore/Todo>
 
 namespace KGAPI2
 {
@@ -39,7 +39,7 @@ namespace KGAPI2
  * @since 0.3
  */
 class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
-                              public KCalCore::Todo
+                              public KCalendarCore::Todo
 {
   public:
 
@@ -56,7 +56,7 @@ class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
     /**
      * @brief Copy constructor
      */
-    Task(const KCalCore::Todo &other);
+    Task(const KCalendarCore::Todo &other);
 
     /**
      * @brief Destructor

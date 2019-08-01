@@ -27,7 +27,7 @@
 #include "types.h"
 #include "kgapicalendar_export.h"
 
-#include <KCalCore/Event>
+#include <KCalendarCore/Event>
 
 namespace KGAPI2
 {
@@ -39,7 +39,7 @@ namespace KGAPI2
  * @since 0.1
  */
 class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
-                              public KCalCore::Event
+                              public KCalendarCore::Event
 {
   public:
     /**
@@ -55,7 +55,7 @@ class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
     /**
      * @brief Copy constructor
      */
-    explicit Event(const KCalCore::Event &event);
+    explicit Event(const KCalendarCore::Event &event);
 
     /**
      * @brief Destructor

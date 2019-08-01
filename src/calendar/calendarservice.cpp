@@ -27,13 +27,13 @@
 #include "utils.h"
 #include "../debug.h"
 
-#include <KCalCore/Alarm>
-#include <KCalCore/Event>
-#include <KCalCore/Attendee>
-#include <KCalCore/Person>
-#include <KCalCore/Recurrence>
-#include <KCalCore/RecurrenceRule>
-#include <KCalCore/ICalFormat>
+#include <KCalendarCore/Alarm>
+#include <KCalendarCore/Event>
+#include <KCalendarCore/Attendee>
+#include <KCalendarCore/Person>
+#include <KCalendarCore/Recurrence>
+#include <KCalendarCore/RecurrenceRule>
+#include <KCalendarCore/ICalFormat>
 
 #include <QJsonDocument>
 #include <QUrlQuery>
@@ -49,7 +49,7 @@ namespace CalendarService
 
 namespace Private
 {
-KCalCore::DateList parseRDate(const QString &rule);
+KCalendarCore::DateList parseRDate(const QString &rule);
 
 ObjectPtr JSONToCalendar(const QVariantMap &data);
 ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString());
@@ -232,14 +232,14 @@ ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
 
         ReminderPtr rem(new Reminder());
         if (reminder.value(QStringLiteral("method")).toString() == QLatin1String("email")) {
-            rem->setType(KCalCore::Alarm::Email);
+            rem->setType(KCalendarCore::Alarm::Email);
         } else if (reminder.value(QStringLiteral("method")).toString() == QLatin1String("popup")) {
-            rem->setType(KCalCore::Alarm::Display);
+            rem->setType(KCalendarCore::Alarm::Display);
         } else {
-            rem->setType(KCalCore::Alarm::Invalid);
+            rem->setType(KCalendarCore::Alarm::Invalid);
         }
 
-        rem->setStartOffset(KCalCore::Duration(reminder.value(QStringLiteral("minutes")).toInt() * (-60)));
+        rem->setStartOffset(KCalendarCore::Duration(reminder.value(QStringLiteral("minutes")).toInt() * (-60)));
 
         calendar->addDefaultReminer(rem);
     }
@@ -322,7 +322,7 @@ ParsedDt parseDt(const QVariantMap &data, const QString &timezone, bool isDtEnd)
         if (isDtEnd) {
             // Google reports all-day events to end on the next day, e.g. a
             // Monday all-day event will be reporting as starting on Monday and
-            // ending on Tuesday, while KCalCore/iCal uses the same day for
+            // ending on Tuesday, while KCalendarCore/iCal uses the same day for
             // dtEnd, so adjust the end date here.
             dt = dt.addDays(-1);
         }
@@ -370,14 +370,14 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
 
     /* Status */
     if (data.value(QStringLiteral("status")).toString() == QLatin1String("confirmed")) {
-        event->setStatus(KCalCore::Incidence::StatusConfirmed);
+        event->setStatus(KCalendarCore::Incidence::StatusConfirmed);
     } else if (data.value(QStringLiteral("status")).toString() == QLatin1String("cancelled")) {
-        event->setStatus(KCalCore::Incidence::StatusCanceled);
+        event->setStatus(KCalendarCore::Incidence::StatusCanceled);
         event->setDeleted(true);
     } else if (data.value(QStringLiteral("status")).toString() == QLatin1String("tentative")) {
-        event->setStatus(KCalCore::Incidence::StatusTentative);
+        event->setStatus(KCalendarCore::Incidence::StatusTentative);
     } else {
-        event->setStatus(KCalCore::Incidence::StatusNone);
+        event->setStatus(KCalendarCore::Incidence::StatusNone);
     }
 
     /* Created */
@@ -421,21 +421,21 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     const QVariantList attendees = data.value(QStringLiteral("attendees")).toList();
     for (const QVariant & a : attendees) {
         QVariantMap att = a.toMap();
-        KCalCore::Attendee attendee(
+        KCalendarCore::Attendee attendee(
                         att.value(QStringLiteral("displayName")).toString(),
                         att.value(QStringLiteral("email")).toString());
 
         if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("accepted"))
-            attendee.setStatus(KCalCore::Attendee::Accepted);
+            attendee.setStatus(KCalendarCore::Attendee::Accepted);
         else if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("declined"))
-            attendee.setStatus(KCalCore::Attendee::Declined);
+            attendee.setStatus(KCalendarCore::Attendee::Declined);
         else if (att.value(QStringLiteral("responseStatus")).toString() == QLatin1String("tentative"))
-            attendee.setStatus(KCalCore::Attendee::Tentative);
+            attendee.setStatus(KCalendarCore::Attendee::Tentative);
         else
-            attendee.setStatus(KCalCore::Attendee::NeedsAction);
+            attendee.setStatus(KCalendarCore::Attendee::NeedsAction);
 
         if (att.value(QStringLiteral("optional")).toBool()) {
-            attendee.setRole(KCalCore::Attendee::OptParticipant);
+            attendee.setRole(KCalendarCore::Attendee::OptParticipant);
         }
         const auto uid = att.value(QStringLiteral("id")).toString();
         if (!uid.isEmpty()) {
@@ -450,7 +450,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     /* According to RFC, only events with attendees can have an organizer.
      * Google seems to ignore it, so we must take care of it here */
     if (event->attendeeCount() > 0) {
-        KCalCore::Person organizer;
+        KCalendarCore::Person organizer;
         QVariantMap organizerData = data.value(QStringLiteral("organizer")).toMap();
         organizer.setName(organizerData.value(QStringLiteral("displayName")).toString());
         organizer.setEmail(organizerData.value(QStringLiteral("email")).toString());
@@ -460,22 +460,22 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     /* Recurrence */
     const QStringList recrs = data.value(QStringLiteral("recurrence")).toStringList();
     for (const QString & rec : recrs) {
-        KCalCore::ICalFormat format;
+        KCalendarCore::ICalFormat format;
         if (rec.left(5) == QLatin1String("RRULE")) {
-            KCalCore::RecurrenceRule *recurrenceRule = new KCalCore::RecurrenceRule();
+            KCalendarCore::RecurrenceRule *recurrenceRule = new KCalendarCore::RecurrenceRule();
             format.fromString(recurrenceRule, rec.mid(6));
             recurrenceRule->setRRule(rec);
             event->recurrence()->addRRule(recurrenceRule);
         } else if (rec.left(6) == QLatin1String("EXRULE")) {
-            KCalCore::RecurrenceRule *recurrenceRule = new KCalCore::RecurrenceRule();
+            KCalendarCore::RecurrenceRule *recurrenceRule = new KCalendarCore::RecurrenceRule();
             format.fromString(recurrenceRule, rec.mid(7));
             recurrenceRule->setRRule(rec);
             event->recurrence()->addExRule(recurrenceRule);
         } else if (rec.left(6) == QLatin1String("EXDATE")) {
-            KCalCore::DateList exdates = Private::parseRDate(rec);
+            KCalendarCore::DateList exdates = Private::parseRDate(rec);
             event->recurrence()->setExDates(exdates);
         } else if (rec.left(5) == QLatin1String("RDATE")) {
-            KCalCore::DateList rdates = Private::parseRDate(rec);
+            KCalendarCore::DateList rdates = Private::parseRDate(rec);
             event->recurrence()->setRDates(rdates);
         }
     }
@@ -490,19 +490,19 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     const QVariantList overrides = reminders.value(QStringLiteral("overrides")).toList();
     for (const QVariant & r : overrides) {
         QVariantMap override = r.toMap();
-        KCalCore::Alarm::Ptr alarm(new KCalCore::Alarm(static_cast<KCalCore::Incidence*>(event.data())));
+        KCalendarCore::Alarm::Ptr alarm(new KCalendarCore::Alarm(static_cast<KCalendarCore::Incidence*>(event.data())));
         alarm->setTime(event->dtStart());
 
         if (override.value(QStringLiteral("method")).toString() == QLatin1String("popup")) {
-            alarm->setType(KCalCore::Alarm::Display);
+            alarm->setType(KCalendarCore::Alarm::Display);
         } else if (override.value(QStringLiteral("method")).toString() == QLatin1String("email")) {
-            alarm->setType(KCalCore::Alarm::Email);
+            alarm->setType(KCalendarCore::Alarm::Email);
         } else {
-            alarm->setType(KCalCore::Alarm::Invalid);
+            alarm->setType(KCalendarCore::Alarm::Invalid);
             continue;
         }
 
-        alarm->setStartOffset(KCalCore::Duration(override.value(QStringLiteral("minutes")).toInt() * (-60)));
+        alarm->setStartOffset(KCalendarCore::Duration(override.value(QStringLiteral("minutes")).toInt() * (-60)));
         alarm->setEnabled(true);
         event->addAlarm(alarm);
     }
@@ -584,11 +584,11 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
     data.insert(QStringLiteral("iCalUID"), event->uid());
 
     /* Status */
-    if (event->status() == KCalCore::Incidence::StatusConfirmed) {
+    if (event->status() == KCalendarCore::Incidence::StatusConfirmed) {
         data.insert(QStringLiteral("status"), QStringLiteral("confirmed"));
-    } else if (event->status() == KCalCore::Incidence::StatusCanceled) {
+    } else if (event->status() == KCalendarCore::Incidence::StatusCanceled) {
         data.insert(QStringLiteral("status"), QStringLiteral("canceled"));
-    } else if (event->status() == KCalCore::Incidence::StatusTentative) {
+    } else if (event->status() == KCalendarCore::Incidence::StatusTentative) {
         data.insert(QStringLiteral("status"), QStringLiteral("tentative"));
     }
 
@@ -603,15 +603,15 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
 
     /* Recurrence */
     QVariantList recurrence;
-    KCalCore::ICalFormat format;
+    KCalendarCore::ICalFormat format;
     const auto exRules = event->recurrence()->exRules();
     const auto rRules = event->recurrence()->rRules();
     recurrence.reserve(rRules.size() + rRules.size() + 2);
-    for (KCalCore::RecurrenceRule *rRule : rRules) {
+    for (KCalendarCore::RecurrenceRule *rRule : rRules) {
         recurrence << format.toString(rRule).remove(QStringLiteral("\r\n"));
     }
 
-    for (KCalCore::RecurrenceRule *rRule : exRules) {
+    for (KCalendarCore::RecurrenceRule *rRule : exRules) {
         recurrence << format.toString(rRule).remove(QStringLiteral("\r\n"));
     }
 
@@ -669,23 +669,23 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
 
     /* Attendees */
     QVariantList atts;
-    Q_FOREACH(const KCalCore::Attendee& attee, event->attendees()) {
+    Q_FOREACH(const KCalendarCore::Attendee& attee, event->attendees()) {
         QVariantMap att;
 
         att.insert(QStringLiteral("displayName"), attee.name());
         att.insert(QStringLiteral("email"), attee.email());
 
-        if (attee.status() == KCalCore::Attendee::Accepted) {
+        if (attee.status() == KCalendarCore::Attendee::Accepted) {
             att.insert(QStringLiteral("responseStatus"), QStringLiteral("accepted"));
-        } else if (attee.status() == KCalCore::Attendee::Declined) {
+        } else if (attee.status() == KCalendarCore::Attendee::Declined) {
             att.insert(QStringLiteral("responseStatus"), QStringLiteral("declined"));
-        } else if (attee.status() == KCalCore::Attendee::Tentative) {
+        } else if (attee.status() == KCalendarCore::Attendee::Tentative) {
             att.insert(QStringLiteral("responseStatus"), QStringLiteral("tentative"));
         } else {
             att.insert(QStringLiteral("responseStatus"), QStringLiteral("needsAction"));
         }
 
-        if (attee.role() == KCalCore::Attendee::OptParticipant) {
+        if (attee.role() == KCalendarCore::Attendee::OptParticipant) {
             att.insert(QStringLiteral("optional"), true);
         }
         if (!attee.uid().isEmpty()) {
@@ -699,7 +699,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
 
         /* According to RFC, event without attendees should not have
          * any organizer. */
-        KCalCore::Person organizer = event->organizer();
+        KCalendarCore::Person organizer = event->organizer();
         if (!organizer.isEmpty()) {
             QVariantMap org;
             org.insert(QStringLiteral("displayName"), organizer.fullName());
@@ -710,12 +710,12 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
 
     /* Reminders */
     QVariantList overrides;
-    Q_FOREACH(const KCalCore::Alarm::Ptr &alarm, event->alarms()) {
+    Q_FOREACH(const KCalendarCore::Alarm::Ptr &alarm, event->alarms()) {
         QVariantMap override;
 
-        if (alarm->type() == KCalCore::Alarm::Display) {
+        if (alarm->type() == KCalendarCore::Alarm::Display) {
             override.insert(QStringLiteral("method"), QLatin1String("popup"));
-        } else if (alarm->type() == KCalCore::Alarm::Email) {
+        } else if (alarm->type() == KCalendarCore::Alarm::Email) {
             override.insert(QStringLiteral("method"), QLatin1String("email"));
         } else {
             continue;
@@ -785,9 +785,9 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 
 /******************************** PRIVATE ***************************************/
 
-KCalCore::DateList Private::parseRDate(const QString& rule)
+KCalendarCore::DateList Private::parseRDate(const QString& rule)
 {
-    KCalCore::DateList list;
+    KCalendarCore::DateList list;
     QString value;
     QTimeZone tz;
 
@@ -1051,9 +1051,9 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
 
     /* Damn, no match. Parse the iCal and try to find X-MICROSOFT-CDO-TZID
      * property that we can match against the MSCDOTZIDTable */
-    KCalCore::ICalFormat format;
+    KCalendarCore::ICalFormat format;
     /* Use a copy of @event, otherwise it would be deleted when ptr is destroyed */
-    KCalCore::Incidence::Ptr incidence = event.dynamicCast<KCalCore::Incidence>();
+    KCalendarCore::Incidence::Ptr incidence = event.dynamicCast<KCalendarCore::Incidence>();
     const QString vcard = format.toICalString(incidence);
     const QStringList properties = vcard.split(QLatin1Char('\n'));
     int CDOId = -1;

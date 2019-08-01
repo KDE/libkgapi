@@ -48,21 +48,21 @@ Task::Private::Private(const Private &other):
 
 Task::Task():
     Object(),
-    KCalCore::Todo(),
+    KCalendarCore::Todo(),
     d(new Private)
 {
 }
 
 Task::Task(const Task& other):
     Object(other),
-    KCalCore::Todo(other),
+    KCalendarCore::Todo(other),
     d(new Private(*(other.d)))
 {
 }
 
-Task::Task(const KCalCore::Todo &other):
+Task::Task(const KCalendarCore::Todo &other):
     Object(),
-    KCalCore::Todo(other),
+    KCalendarCore::Todo(other),
     d(new Private)
 {
 }
