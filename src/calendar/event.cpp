@@ -51,21 +51,21 @@ Event::Private::Private(const Private &other):
 
 Event::Event():
     Object(),
-    KCalCore::Event(),
+    KCalendarCore::Event(),
     d(new Private)
 {
 }
 
 Event::Event(const Event &other):
     Object(other),
-    KCalCore::Event(other),
+    KCalendarCore::Event(other),
     d(new Private(*(other.d)))
 {
 }
 
-Event::Event(const KCalCore::Event &other):
+Event::Event(const KCalendarCore::Event &other):
     Object(),
-    KCalCore::Event(other),
+    KCalendarCore::Event(other),
     d(new Private)
 {
 }
@@ -80,7 +80,7 @@ bool Event::operator==(const Event &other) const
     if (!Object::operator==(other)) {
         return false;
     }
-    if (!KCalCore::Event::operator==(other)) {
+    if (!KCalendarCore::Event::operator==(other)) {
         return false;
     }
     if (d->deleted != other.d->deleted) {
@@ -122,7 +122,7 @@ QString Event::id() const
     if (val.isEmpty()) {
         // Backwards compatibility: prior to introducing "id", UID was used for
         // remote identification: use it
-        return KCalCore::Incidence::uid();
+        return KCalendarCore::Incidence::uid();
     }
     return val;
 }

@@ -25,7 +25,7 @@
 #include "../debug.h"
 
 using namespace KGAPI2;
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 class Q_DECL_HIDDEN Reminder::Private
 {
