@@ -84,7 +84,7 @@ Revision::Private::Private(const Private& other):
 
 RevisionPtr Revision::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QStringLiteral("kind")) ||
+    if (!map.contains(QLatin1String("kind")) ||
         map[QStringLiteral("kind")].toString() != QLatin1String("drive#revision"))
     {
         return RevisionPtr();
@@ -279,7 +279,7 @@ RevisionsList Revision::fromJSONFeed(const QByteArray &jsonData)
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
 
-    if (!map.contains(QStringLiteral("kind")) ||
+    if (!map.contains(QLatin1String("kind")) ||
         map[QStringLiteral("kind")].toString() != QLatin1String("drive#revisionList"))
     {
         return RevisionsList();

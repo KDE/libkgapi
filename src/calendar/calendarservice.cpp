@@ -274,7 +274,7 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
     ObjectsList list;
 
     if (data.value(QStringLiteral("kind")) == QLatin1String("calendar#calendarList")) {
-        if (data.contains(QStringLiteral("nextPageToken"))) {
+        if (data.contains(QLatin1String("nextPageToken"))) {
             feedData.nextPageUrl = fetchCalendarsUrl();
             QUrlQuery query(feedData.nextPageUrl);
             query.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
@@ -317,7 +317,7 @@ struct ParsedDt {
 
 ParsedDt parseDt(const QVariantMap &data, const QString &timezone, bool isDtEnd)
 {
-    if (data.contains(QStringLiteral("date"))) {
+    if (data.contains(QLatin1String("date"))) {
         auto dt = QDateTime::fromString(data.value(QStringLiteral("date")).toString(), Qt::ISODate);
         if (isDtEnd) {
             // Google reports all-day events to end on the next day, e.g. a
@@ -327,10 +327,10 @@ ParsedDt parseDt(const QVariantMap &data, const QString &timezone, bool isDtEnd)
             dt = dt.addDays(-1);
         }
         return {dt, true};
-    } else if (data.contains(QStringLiteral("dateTime"))) {
+    } else if (data.contains(QLatin1String("dateTime"))) {
         auto dt = Utils::rfc3339DateFromString(data.value(QStringLiteral("dateTime")).toString());
         // If there's a timezone specified in the "start" entity, then use it
-        if (data.contains(QStringLiteral("timeZone"))) {
+        if (data.contains(QLatin1String("timeZone"))) {
             const QTimeZone tz = QTimeZone(data.value(QStringLiteral("timeZone")).toString().toUtf8());
             if (tz.isValid()) {
                 dt = dt.toTimeZone(tz);
@@ -405,7 +405,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     event->setDtEnd(dtEnd.dt);
 
     /* Recurrence ID */
-    if (data.contains(QStringLiteral("originalStartTime"))) {
+    if (data.contains(QLatin1String("originalStartTime"))) {
         const auto recurrenceId = parseDt(data.value(QStringLiteral("originalStartTime")).toMap(), timezone, false);
         event->setRecurrenceId(recurrenceId.dt);
     }
@@ -481,7 +481,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     }
 
     QVariantMap reminders = data.value(QStringLiteral("reminders")).toMap();
-    if (reminders.contains(QStringLiteral("useDefault")) && reminders.value(QStringLiteral("useDefault")).toBool()) {
+    if (reminders.contains(QLatin1String("useDefault")) && reminders.value(QStringLiteral("useDefault")).toBool()) {
         event->setUseDefaultReminders(true);
     } else {
         event->setUseDefaultReminders(false);
@@ -623,7 +623,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
     }
 
     if (!dates.isEmpty()) {
-        recurrence << QString(QStringLiteral("RDATE;VALUE=DATA:") + dates.join(QStringLiteral(",")));
+        recurrence << QString(QStringLiteral("RDATE;VALUE=DATA:") + dates.join(QLatin1String(",")));
     }
 
     dates.clear();
@@ -634,7 +634,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
     }
 
     if (!dates.isEmpty()) {
-        recurrence << QString(QStringLiteral("EXDATE;VALUE=DATE:") + dates.join(QStringLiteral(",")));
+        recurrence << QString(QStringLiteral("EXDATE;VALUE=DATE:") + dates.join(QLatin1String(",")));
     }
 
     if (!recurrence.isEmpty()) {
@@ -755,7 +755,7 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 
     QString timezone;
     if (data.value(QStringLiteral("kind")) == QLatin1String("calendar#events")) {
-        if (data.contains(QStringLiteral("nextPageToken"))) {
+        if (data.contains(QLatin1String("nextPageToken"))) {
             QString calendarId = feedData.requestUrl.toString().remove(QStringLiteral("https://www.googleapis.com/calendar/v3/calendars/"));
             calendarId = calendarId.left(calendarId.indexOf(QLatin1Char('/')));
             feedData.nextPageUrl = feedData.requestUrl;
@@ -765,7 +765,7 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
             query.addQueryItem(QStringLiteral("pageToken"), data.value(QStringLiteral("nextPageToken")).toString());
             feedData.nextPageUrl.setQuery(query);
         }
-        if (data.contains(QStringLiteral("timeZone"))) {
+        if (data.contains(QLatin1String("timeZone"))) {
             // This should always be in Olson format
             timezone = data.value(QStringLiteral("timeZone")).toString();
         }
@@ -1076,21 +1076,21 @@ QString Private::checkAndConverCDOTZID(const QString& tzid, const EventPtr& even
         if (CDOId == 2) {
 
             /* GMT Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London */
-            if (tzid.contains(QStringLiteral("Dublin")) ||
-                    tzid.contains(QStringLiteral("Edinburgh")) ||
-                    tzid.contains(QStringLiteral("Lisbon")) ||
-                    tzid.contains(QStringLiteral("London")))
+            if (tzid.contains(QLatin1String("Dublin")) ||
+                    tzid.contains(QLatin1String("Edinburgh")) ||
+                    tzid.contains(QLatin1String("Lisbon")) ||
+                    tzid.contains(QLatin1String("London")))
             {
                 return QStringLiteral("Europe/London");
             }
 
             /* GMT+01:00 Sarajevo, Skopje, Sofija, Vilnius, Warsaw, Zagreb */
-            else if (tzid.contains(QStringLiteral("Sarajevo")) ||
-                     tzid.contains(QStringLiteral("Skopje")) ||
-                     tzid.contains(QStringLiteral("Sofija")) ||
-                     tzid.contains(QStringLiteral("Vilnius")) ||
-                     tzid.contains(QStringLiteral("Warsaw")) ||
-                     tzid.contains(QStringLiteral("Zagreb")))
+            else if (tzid.contains(QLatin1String("Sarajevo")) ||
+                     tzid.contains(QLatin1String("Skopje")) ||
+                     tzid.contains(QLatin1String("Sofija")) ||
+                     tzid.contains(QLatin1String("Vilnius")) ||
+                     tzid.contains(QLatin1String("Warsaw")) ||
+                     tzid.contains(QLatin1String("Zagreb")))
             {
                 return QStringLiteral("Europe/Sarajevo");
             }

@@ -185,12 +185,12 @@ void Contact::addGroup(const QString &group)
         groups.append(group);
     }
 
-    insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QStringLiteral(",")));
+    insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QLatin1String(",")));
 }
 
 void Contact::setGroups(const QStringList &groups)
 {
-    insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QStringLiteral(",")));
+    insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QLatin1String(",")));
 
     d->groups.clear();
     for (const QString &group : groups) {

@@ -107,28 +107,28 @@ LocationPtr Private::parseLocation(const QVariantMap &map)
 {
     LocationPtr location(new Location);
 
-    if (map.contains(QStringLiteral("timestampMs"))) {
+    if (map.contains(QLatin1String("timestampMs"))) {
         location->setTimestamp(map.value(QStringLiteral("timestampMs")).toULongLong());
     }
-    if (map.contains(QStringLiteral("latitude"))) {
+    if (map.contains(QLatin1String("latitude"))) {
         location->setLatitude(map.value(QStringLiteral("latitude")).toFloat());
     }
-    if (map.contains(QStringLiteral("longitude"))) {
+    if (map.contains(QLatin1String("longitude"))) {
         location->setLongitude(map.value(QStringLiteral("longitude")).toFloat());
     }
-    if (map.contains(QStringLiteral("accuracy"))) {
+    if (map.contains(QLatin1String("accuracy"))) {
         location->setAccuracy(map.value(QStringLiteral("accuracy")).toInt());
     }
-    if (map.contains(QStringLiteral("speed"))) {
+    if (map.contains(QLatin1String("speed"))) {
         location->setSpeed(map.value(QStringLiteral("speed")).toInt());
     }
-    if (map.contains(QStringLiteral("heading"))) {
+    if (map.contains(QLatin1String("heading"))) {
         location->setHeading(map.value(QStringLiteral("heading")).toInt());
     }
-    if (map.contains(QStringLiteral("altitude"))) {
+    if (map.contains(QLatin1String("altitude"))) {
         location->setAltitude(map.value(QStringLiteral("altitude")).toInt());
     }
-    if (map.contains(QStringLiteral("altitudeAccuracy"))) {
+    if (map.contains(QLatin1String("altitudeAccuracy"))) {
         location->setAltitudeAccuracy(map.value(QStringLiteral("altitudeAccuracy")).toInt());
     }
 

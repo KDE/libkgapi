@@ -374,17 +374,17 @@ QUrl StaticMapUrl::url() const
         case Undefined:
         case String:
             param = d->locationString;
-            param = param.replace(QLatin1String(", "), QLatin1String(","));
-            param = param.replace(QLatin1String(". "), QLatin1String("."));
-            param = param.replace(QLatin1Char(' '), QLatin1Char('+'));
+            param.replace(QLatin1String(", "), QLatin1String(","));
+            param.replace(QLatin1String(". "), QLatin1String("."));
+            param.replace(QLatin1Char(' '), QLatin1Char('+'));
             query.addQueryItem(QStringLiteral("center"), param);
             break;
         case KABCAddress:
             param = d->locationAddress.formattedAddress();
-            param = param.replace(QLatin1String(", "), QLatin1String(","));
-            param = param.replace(QLatin1String(". "), QLatin1String("."));
-            param = param.replace(QLatin1Char(' '), QLatin1Char('+'));
-            param = param.replace(QLatin1Char('\n'), QLatin1Char(','));
+            param.replace(QLatin1String(", "), QLatin1String(","));
+            param.replace(QLatin1String(". "), QLatin1String("."));
+            param.replace(QLatin1Char(' '), QLatin1Char('+'));
+            param.replace(QLatin1Char('\n'), QLatin1Char(','));
             query.addQueryItem(QStringLiteral("center"), param);
             break;
         case KABCGeo:
@@ -468,17 +468,17 @@ QUrl StaticMapUrl::url() const
         case Undefined:
         case String:
             param = d->visibleString;
-            param = param.replace(QLatin1String(", "), QLatin1String(","));
-            param = param.replace(QLatin1String(". "), QLatin1String("."));
-            param = param.replace(QLatin1Char(' '), QLatin1Char('+'));
+            param.replace(QLatin1String(", "), QLatin1String(","));
+            param.replace(QLatin1String(". "), QLatin1String("."));
+            param.replace(QLatin1Char(' '), QLatin1Char('+'));
             query.addQueryItem(QStringLiteral("visible"), param);
             break;
         case KABCAddress:
             param = d->visibleAddress.formattedAddress();
-            param = param.replace(QLatin1String(", "), QLatin1String(","));
-            param = param.replace(QLatin1String(". "), QLatin1String("."));
-            param = param.replace(QLatin1Char(' '), QLatin1Char('+'));
-            param = param.replace(QLatin1Char('\n'), QLatin1Char(','));
+            param.replace(QLatin1String(", "), QLatin1String(","));
+            param.replace(QLatin1String(". "), QLatin1String("."));
+            param.replace(QLatin1Char(' '), QLatin1Char('+'));
+            param.replace(QLatin1Char('\n'), QLatin1Char(','));
             query.addQueryItem(QStringLiteral("visible"), param);
             break;
         case KABCGeo:

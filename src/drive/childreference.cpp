@@ -53,7 +53,7 @@ ChildReference::Private::Private(const Private &other):
 
 ChildReferencePtr ChildReference::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QStringLiteral("kind")) ||
+    if (!map.contains(QLatin1String("kind")) ||
             map[QStringLiteral("kind")].toString() != QLatin1String("drive#childReference")) {
         return ChildReferencePtr();
     }
@@ -130,7 +130,7 @@ ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QStringLiteral("kind")) ||
+    if (!map.contains(QLatin1String("kind")) ||
             map[QStringLiteral("kind")].toString() != QLatin1String("drive#childList")) {
         return ChildReferencesList();
     }
@@ -145,7 +145,7 @@ ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
         }
     }
 
-    if (map.contains(QStringLiteral("nextLink"))) {
+    if (map.contains(QLatin1String("nextLink"))) {
         feedData.nextPageUrl = map[QStringLiteral("nextLink")].toUrl();
     }
 

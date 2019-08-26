@@ -396,6 +396,6 @@ void MainWindow::slotDrivesItemFetchJobFinished(KGAPI2::Job *job)
     QStringList msgBuilder;
     msgBuilder << file->title();
     msgBuilder << QString::number(file->fileSize()) + QStringLiteral(" bytes");
-    QString msg = msgBuilder.join(QStringLiteral(", "));
+    QString msg = msgBuilder.join(QLatin1String(", "));
     m_ui->statusbar->showMessage(msg);
 }
