@@ -201,9 +201,9 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
     task->setLastModified(Utils::rfc3339DateFromString(jsonData.value(QStringLiteral("updated")).toString()));
     task->setDescription(jsonData.value(QStringLiteral("notes")).toString());
 
-    if (jsonData.value(QStringLiteral("status")).toString() == QStringLiteral("needsAction")) {
+    if (jsonData.value(QStringLiteral("status")).toString() == QLatin1String("needsAction")) {
         task->setStatus(KCalendarCore::Incidence::StatusNeedsAction);
-    } else if (jsonData.value(QStringLiteral("status")).toString() == QStringLiteral("completed")) {
+    } else if (jsonData.value(QStringLiteral("status")).toString() == QLatin1String("completed")) {
         task->setStatus(KCalendarCore::Incidence::StatusCompleted);
     } else {
         task->setStatus(KCalendarCore::Incidence::StatusNone);
