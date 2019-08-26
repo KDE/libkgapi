@@ -24,8 +24,8 @@ include(ECMSetupVersion)
 include(FeatureSummary)
 
 
-set(KCALENDARCORE_LIB_VERSION "5.12.0")
-set(KCONTACTS_LIB_VERSION "5.12.0")
+set(KCALENDARCORE_LIB_VERSION "5.12.1")
+set(KCONTACTS_LIB_VERSION "5.12.1")
 
 ecm_setup_version(PROJECT
     VARIABLE_PREFIX KGAPI
