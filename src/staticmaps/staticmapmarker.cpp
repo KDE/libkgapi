@@ -302,7 +302,7 @@ QString StaticMapMarker::toString() const
     ret.replace(QLatin1String(". "), QLatin1String("."));
     ret.replace(QLatin1Char(' '), QLatin1Char('+'));
     ret.replace(QLatin1Char('\n'), QLatin1Char(','));
-    ret = ret.remove(ret.lastIndexOf(QLatin1Char('|')), 1);
+    ret.remove(ret.lastIndexOf(QLatin1Char('|')), 1);
 
     return ret;
 

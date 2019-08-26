@@ -801,7 +801,7 @@ QByteArray contactToXML(const ContactPtr& contact)
         QString key = customStr.left(customStr.indexOf(QLatin1Char(':')));
         if (!parsedCustoms.contains(key)) {
             if (key.startsWith(QLatin1String("KADDRESSBOOK-"))) {
-                key = key.remove(QStringLiteral("KADDRESSBOOK-"));
+                key.remove(QStringLiteral("KADDRESSBOOK-"));
             }
             const QString value = customStr.mid(customStr.indexOf(QLatin1Char(':')) + 1);
             output.append(defined_str.arg(key.toHtmlEscaped(), value).toHtmlEscaped().toUtf8());
