@@ -560,7 +560,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
         }
     }
     contact->insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"),
-                         groupsList.join(QLatin1String(",")));
+                         groupsList.join(QLatin1Char(',')));
 
     return contact;
 }
@@ -1135,7 +1135,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         }
     }
 
-    contact->insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QLatin1String(",")));
+    contact->insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QLatin1Char(',')));
 
     return contact;
 }

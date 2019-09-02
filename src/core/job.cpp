@@ -332,7 +332,7 @@ void Job::Private::_k_dispatchTimeout()
     QUrl url = authorizedRequest.url();
     QUrlQuery standardParamQuery(url);
     if (!fields.isEmpty()) {
-        standardParamQuery.addQueryItem(Job::StandardParams::Fields, fields.join(QLatin1String(",")));
+        standardParamQuery.addQueryItem(Job::StandardParams::Fields, fields.join(QLatin1Char(',')));
     }
 
     if (!standardParamQuery.hasQueryItem(Job::StandardParams::PrettyPrint)) {
@@ -470,7 +470,7 @@ void Job::setFields(const QStringList &fields)
 }
 
 QString Job::buildSubfields(const QString &field, const QStringList &fields) {
-    return QStringLiteral("%1(%2)").arg(field).arg(fields.join(QStringLiteral(",")));
+    return QStringLiteral("%1(%2)").arg(field).arg(fields.join(QLatin1Char(',')));
 }
 
 void Job::restart()

@@ -173,7 +173,7 @@ void PostFetchJob::start()
             query.addQueryItem(QStringLiteral("maxResults"), QString::number(d->maxResults));
         }
         if (!d->filterLabels.isEmpty())
-            query.addQueryItem(QStringLiteral("labels"), d->filterLabels.join(QLatin1String(",")));
+            query.addQueryItem(QStringLiteral("labels"), d->filterLabels.join(QLatin1Char(',')));
         query.addQueryItem(QStringLiteral("fetchBodies"), Utils::bool2Str(d->fetchBodies));
         query.addQueryItem(QStringLiteral("fetchImages"), Utils::bool2Str(d->fetchImages));
     }

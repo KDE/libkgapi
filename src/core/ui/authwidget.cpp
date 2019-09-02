@@ -131,7 +131,7 @@ void AuthWidget::authenticate()
     QUrlQuery query(url);
     query.addQueryItem(QStringLiteral("client_id"), d->apiKey);
     query.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->serverPort));
-    query.addQueryItem(QStringLiteral("scope"), scopes.join(QLatin1String(" ")));
+    query.addQueryItem(QStringLiteral("scope"), scopes.join(QLatin1Char(' ')));
     query.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
     url.setQuery(query);
 

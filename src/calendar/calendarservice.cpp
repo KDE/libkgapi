@@ -623,7 +623,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
     }
 
     if (!dates.isEmpty()) {
-        recurrence << QString(QStringLiteral("RDATE;VALUE=DATA:") + dates.join(QLatin1String(",")));
+        recurrence << QString(QStringLiteral("RDATE;VALUE=DATA:") + dates.join(QLatin1Char(',')));
     }
 
     dates.clear();
@@ -634,7 +634,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
     }
 
     if (!dates.isEmpty()) {
-        recurrence << QString(QStringLiteral("EXDATE;VALUE=DATE:") + dates.join(QLatin1String(",")));
+        recurrence << QString(QStringLiteral("EXDATE;VALUE=DATE:") + dates.join(QLatin1Char(',')));
     }
 
     if (!recurrence.isEmpty()) {
