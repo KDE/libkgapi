@@ -34,13 +34,17 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
+namespace {
+    static constexpr bool useDomainAdminAccessDefault = false;
+}
+
 class Q_DECL_HIDDEN PermissionFetchJob::Private
 {
   public:
     QString fileId;
     QString permissionId;
     bool supportsAllDrives;
-
+    bool useDomainAdminAccess;
 };
 
 PermissionFetchJob::PermissionFetchJob(const QString &fileId,
@@ -50,6 +54,7 @@ PermissionFetchJob::PermissionFetchJob(const QString &fileId,
     d(new Private)
 {
     d->supportsAllDrives = true;
+    d->useDomainAdminAccess = useDomainAdminAccessDefault;
     d->fileId = fileId;
 }
 
@@ -60,6 +65,7 @@ PermissionFetchJob::PermissionFetchJob(const FilePtr &file,
     d(new Private)
 {
     d->supportsAllDrives = true;
+    d->useDomainAdminAccess = useDomainAdminAccessDefault;
     d->fileId = file->id();
 }
 
@@ -71,6 +77,7 @@ PermissionFetchJob::PermissionFetchJob(const QString &fileId,
     d(new Private)
 {
     d->supportsAllDrives = true;
+    d->useDomainAdminAccess = useDomainAdminAccessDefault;
     d->fileId = fileId;
     d->permissionId = permissionId;
 }
@@ -83,14 +90,12 @@ PermissionFetchJob::PermissionFetchJob(const FilePtr &file,
     d(new Private)
 {
     d->supportsAllDrives = true;
+    d->useDomainAdminAccess = useDomainAdminAccessDefault;
     d->fileId = file->id();
     d->permissionId = permissionId;
 }
 
-PermissionFetchJob::~PermissionFetchJob()
-{
-    delete d;
-}
+PermissionFetchJob::~PermissionFetchJob() = default;
 
 bool PermissionFetchJob::supportsAllDrives() const
 {
@@ -102,6 +107,16 @@ void PermissionFetchJob::setSupportsAllDrives(bool supportsAllDrives)
     d->supportsAllDrives = supportsAllDrives;
 }
 
+bool PermissionFetchJob::useDomainAdminAccess() const
+{
+    return d->useDomainAdminAccess;
+}
+
+void PermissionFetchJob::setUseDomainAdminAccess(bool useDomainAdminAccess)
+{
+    d->useDomainAdminAccess = useDomainAdminAccess;
+}
+
 void PermissionFetchJob::start()
 {
     QUrl url;
@@ -111,10 +126,12 @@ void PermissionFetchJob::start()
         url = DriveService::fetchPermissionUrl(d->fileId, d->permissionId);
     }
 
-    QUrlQuery withDriveSupportQuery(url);
-    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(d->supportsAllDrives));
-    url.setQuery(withDriveSupportQuery);
-
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(d->supportsAllDrives));
+    if (d->useDomainAdminAccess != useDomainAdminAccessDefault) {
+        query.addQueryItem(QStringLiteral("useDomainAdminAccess"), Utils::bool2Str(d->useDomainAdminAccess));
+    }
+    url.setQuery(query);
     QNetworkRequest request(url);
     enqueueRequest(request);
 }

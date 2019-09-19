@@ -35,6 +35,12 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
+namespace {
+    static constexpr bool removeExpirationDefault = false;
+    static constexpr bool transferOwnershipDefault = false;
+    static constexpr bool useDomainAdminAccessDefault = false;
+}
+
 class Q_DECL_HIDDEN PermissionModifyJob::Private
 {
   public:
@@ -44,6 +50,9 @@ class Q_DECL_HIDDEN PermissionModifyJob::Private
     QString fileId;
     PermissionsList permissions;
     bool supportsAllDrives;
+    bool removeExpiration;
+    bool transferOwnership;
+    bool useDomainAdminAccess;
 
   private:
     PermissionModifyJob *q;
@@ -51,6 +60,9 @@ class Q_DECL_HIDDEN PermissionModifyJob::Private
 
 PermissionModifyJob::Private::Private(PermissionModifyJob *parent):
     supportsAllDrives(true),
+    removeExpiration(removeExpirationDefault),
+    transferOwnership(transferOwnershipDefault),
+    useDomainAdminAccess(useDomainAdminAccessDefault),
     q(parent)
 {
 }
@@ -65,10 +77,22 @@ void PermissionModifyJob::Private::processNext()
     const PermissionPtr permission = permissions.takeFirst();
     QUrl url = DriveService::modifyPermissionUrl(fileId, permission->id());
 
-    QUrlQuery withDriveSupportQuery(url);
-    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(supportsAllDrives));
-    url.setQuery(withDriveSupportQuery);
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(supportsAllDrives));
 
+    if (removeExpiration != removeExpirationDefault) {
+        query.addQueryItem(QStringLiteral("removeExpiration"), Utils::bool2Str(removeExpiration));
+    }
+
+    if (!transferOwnership != transferOwnershipDefault) {
+        query.addQueryItem(QStringLiteral("transferOwnership"), Utils::bool2Str(transferOwnership));
+    }
+
+    if (!useDomainAdminAccess != useDomainAdminAccessDefault) {
+        query.addQueryItem(QStringLiteral("useDomainAdminAccess"), Utils::bool2Str(useDomainAdminAccess));
+    }
+
+    url.setQuery(query);
     QNetworkRequest request(url);
 
     const QByteArray rawData = Permission::toJSON(permission);
@@ -97,9 +121,16 @@ PermissionModifyJob::PermissionModifyJob(const QString &fileId,
     d->permissions << permissions;
 }
 
-PermissionModifyJob::~PermissionModifyJob()
+PermissionModifyJob::~PermissionModifyJob() = default;
+
+bool PermissionModifyJob::removeExpiration() const
 {
-    delete d;
+    return d->removeExpiration;
+}
+
+void PermissionModifyJob::setRemoveExpiration(bool removeExpiration)
+{
+    d->removeExpiration = removeExpiration;
 }
 
 bool PermissionModifyJob::supportsAllDrives() const
@@ -110,6 +141,26 @@ bool PermissionModifyJob::supportsAllDrives() const
 void PermissionModifyJob::setSupportsAllDrives(bool supportsAllDrives)
 {
     d->supportsAllDrives = supportsAllDrives;
+}
+
+bool PermissionModifyJob::transferOwnership() const
+{
+    return d->transferOwnership;
+}
+
+void PermissionModifyJob::setTransferOwnership(bool transferOwnership)
+{
+    d->transferOwnership = transferOwnership;
+}
+
+bool PermissionModifyJob::useDomainAdminAccess() const
+{
+    return d->useDomainAdminAccess;
+}
+
+void PermissionModifyJob::setUseDomainAdminAccess(bool useDomainAdminAccess)
+{
+    d->useDomainAdminAccess = useDomainAdminAccess;
 }
 
 void PermissionModifyJob::start()

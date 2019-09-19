@@ -228,7 +228,7 @@ QUrl deleteParentReferenceUrl(const QString &fileId, const QString &referenceId)
 QUrl fetchPermissionsUrl(const QString &fileId)
 {
     QUrl url(Private::GoogleApisUrl);
-    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/premissions"));
+    url.setPath(Private::FilesBasePath % QLatin1Char('/') % fileId % QLatin1String("/permissions"));
     return url;
 }
 

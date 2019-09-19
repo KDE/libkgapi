@@ -35,7 +35,7 @@ namespace KGAPI2
 namespace Drive
 {
 
-class KGAPIDRIVE_EXPORT PermissionDeleteJob :  KGAPI2::DeleteJob
+class KGAPIDRIVE_EXPORT PermissionDeleteJob :  public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
@@ -74,12 +74,28 @@ class KGAPIDRIVE_EXPORT PermissionDeleteJob :  KGAPI2::DeleteJob
      */
     KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
 
+    /**
+     * @brief Issue the request as a domain administrator; if set to true,
+     * then the requester will be granted access if the file ID parameter refers
+     * to a shared drive and the requester is an administrator of the domain to
+     * which the shared drive belongs. (Default: false)
+     */
+    bool useDomainAdminAccess() const;
+
+    /**
+     * @brief Sets to issue the request as a domain administrator; if set to true,
+     * then the requester will be granted access if the file ID parameter refers
+     * to a shared drive and the requester is an administrator of the domain to
+     * which the shared drive belongs. (Default: false)
+     */
+    void setUseDomainAdminAccess(bool useDomainAdminAccess);
+
   protected:
     void start() override;
 
   private:
     class Private;
-    Private *const d;
+    QScopedPointer<Private> d;
     friend class Private;
 };
 

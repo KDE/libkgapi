@@ -34,6 +34,11 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
+namespace {
+    static constexpr bool sendNotificationEmailsDefault = true;
+    static constexpr bool useDomainAdminAccessDefault = false;
+}
+
 class Q_DECL_HIDDEN PermissionCreateJob::Private
 {
   public:
@@ -42,14 +47,19 @@ class Q_DECL_HIDDEN PermissionCreateJob::Private
 
     PermissionsList permissions;
     QString fileId;
+    QString emailMessage;
+    bool sendNotificationEmails;
     bool supportsAllDrives;
+    bool useDomainAdminAccess;
 
   private:
     PermissionCreateJob *const q;
 };
 
 PermissionCreateJob::Private::Private(PermissionCreateJob *parent):
+    sendNotificationEmails(sendNotificationEmailsDefault),
     supportsAllDrives(true),
+    useDomainAdminAccess(useDomainAdminAccessDefault),
     q(parent)
 {
 }
@@ -65,10 +75,22 @@ void PermissionCreateJob::Private::processNext()
 
     QUrl url = DriveService::createPermissionUrl(fileId);
 
-    QUrlQuery withDriveSupportQuery(url);
-    withDriveSupportQuery.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(supportsAllDrives));
-    url.setQuery(withDriveSupportQuery);
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(supportsAllDrives));
 
+    if (sendNotificationEmails != sendNotificationEmailsDefault) {
+        query.addQueryItem(QStringLiteral("sendNotificationEmails"), Utils::bool2Str(sendNotificationEmails));
+    }
+
+    if (!emailMessage.isEmpty()) {
+        query.addQueryItem(QStringLiteral("emailMessage"), emailMessage);
+    }
+
+    if (useDomainAdminAccess != useDomainAdminAccessDefault) {
+        query.addQueryItem(QStringLiteral("useDomainAdminAccess"), Utils::bool2Str(useDomainAdminAccess));
+    }
+
+    url.setQuery(query);
     QNetworkRequest request(url);
 
     const QByteArray rawData = Permission::toJSON(permission);
@@ -97,9 +119,26 @@ PermissionCreateJob::PermissionCreateJob(const QString &fileId,
     d->permissions = permissions;
 }
 
-PermissionCreateJob::~PermissionCreateJob()
+PermissionCreateJob::~PermissionCreateJob() = default;
+
+QString PermissionCreateJob::emailMessage() const
 {
-    delete d;
+    return d->emailMessage;
+}
+
+void PermissionCreateJob::setEmailMessage(QString emailMessage)
+{
+    d->emailMessage = emailMessage;
+}
+
+bool PermissionCreateJob::sendNotificationEmails() const
+{
+    return d->sendNotificationEmails;
+}
+
+void PermissionCreateJob::setSendNotificationEmails(bool sendNotificationEmails)
+{
+    d->sendNotificationEmails = sendNotificationEmails;
 }
 
 bool PermissionCreateJob::supportsAllDrives() const
@@ -110,6 +149,16 @@ bool PermissionCreateJob::supportsAllDrives() const
 void PermissionCreateJob::setSupportsAllDrives(bool supportsAllDrives)
 {
     d->supportsAllDrives = supportsAllDrives;
+}
+
+bool PermissionCreateJob::useDomainAdminAccess() const
+{
+    return d->useDomainAdminAccess;
+}
+
+void PermissionCreateJob::setUseDomainAdminAccess(bool useDomainAdminAccess)
+{
+    d->useDomainAdminAccess = useDomainAdminAccess;
 }
 
 void PermissionCreateJob::start()

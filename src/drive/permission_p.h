@@ -45,6 +45,11 @@ class Q_DECL_HIDDEN Permission::Private
     bool withLink;
     QUrl photoLink;
     QString value;
+    QString emailAddress;
+    QString domain;
+    QDateTime expirationDate;
+    bool deleted;
+    PermissionDetailsList permissionDetails;
 
     static Role roleFromName(const QString &roleName);
     static Type typeFromName(const QString &typeName);

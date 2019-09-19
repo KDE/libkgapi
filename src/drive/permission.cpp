@@ -27,6 +27,92 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
+class Q_DECL_HIDDEN Permission::PermissionDetails::Private
+{
+  public:
+    Private() = default;
+    Private(const Private &other) = default;
+
+    PermissionDetails::PermissionType permissionType = PermissionType::UndefinedType;
+    Role role;
+    QList<Role> additionalRoles;
+    QString inheritedFrom;
+    bool inherited = false;
+
+    static PermissionType permissionTypeFromName(const QString &typeName);
+    static QString permissionTypeToName(PermissionType permissionType);
+};
+
+Permission::PermissionDetails::PermissionDetails():
+    d(new Private)
+{
+}
+
+Permission::PermissionDetails::PermissionDetails(const Permission::PermissionDetails &other):
+    d(new Private(*(other.d)))
+{
+}
+
+Permission::PermissionDetails::~PermissionDetails() = default;
+
+bool Permission::PermissionDetails::operator==(const Permission::PermissionDetails &other) const
+{
+    GAPI_COMPARE(permissionType);
+    GAPI_COMPARE(role);
+    GAPI_COMPARE(additionalRoles);
+    GAPI_COMPARE(inheritedFrom);
+    GAPI_COMPARE(inherited);
+    return true;
+}
+
+QString Permission::PermissionDetails::Private::permissionTypeToName(Permission::PermissionDetails::PermissionType permissionType)
+{
+    switch (permissionType) {
+    case Permission::PermissionDetails::TypeFile:
+        return QStringLiteral("file");
+    case Permission::PermissionDetails::TypeMember:
+        return QStringLiteral("member");
+    default:
+        return QString();
+    }
+}
+
+Permission::PermissionDetails::PermissionType Permission::PermissionDetails::Private::permissionTypeFromName(const QString &typeName)
+{
+    if (typeName == QLatin1String("file")) {
+        return Permission::PermissionDetails::TypeFile;
+    } else if (typeName == QLatin1String("member")) {
+        return Permission::PermissionDetails::TypeMember;
+    } else {
+        return Permission::PermissionDetails::UndefinedType;
+    }
+}
+
+Permission::PermissionDetails::PermissionType Permission::PermissionDetails::permissionType() const
+{
+    return d->permissionType;
+}
+
+Permission::Role Permission::PermissionDetails::role() const
+{
+    return d->role;
+}
+
+QList<Permission::Role> Permission::PermissionDetails::additionalRoles() const
+{
+    return d->additionalRoles;
+}
+
+QString Permission::PermissionDetails::inheritedFrom() const
+{
+    return d->inheritedFrom;
+}
+
+bool Permission::PermissionDetails::inherited() const
+{
+    return d->inherited;
+}
+
 Permission::Role Permission::Private::roleFromName(const QString &roleName)
 {
     if (roleName == QLatin1String("owner")) {
@@ -37,6 +123,10 @@ Permission::Role Permission::Private::roleFromName(const QString &roleName)
         return Permission::WriterRole;
     } else if (roleName == QLatin1String("commenter")) {
         return Permission::CommenterRole;
+    } else if (roleName == QLatin1String("organizer")) {
+        return Permission::OrganizerRole;
+    } else if (roleName == QLatin1String("fileOrganizer")) {
+        return Permission::FileOrganizerRole;
     } else {
         return Permission::UndefinedRole;
     }
@@ -67,7 +157,11 @@ QString Permission::Private::roleToName(Permission::Role role)
     case Permission::WriterRole:
         return QStringLiteral("writer");
     case Permission::CommenterRole:
-        return QStringLiteral("commented");
+        return QStringLiteral("commenter");
+    case Permission::OrganizerRole:
+        return QStringLiteral("organizerRole");
+    case Permission::FileOrganizerRole:
+        return QStringLiteral("fileOrganizerRole");
     default:
         return QString();
     }
@@ -114,6 +208,28 @@ PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
     permission->d->withLink = map[QStringLiteral("withLink")].toBool();
     permission->d->photoLink = map[QStringLiteral("photoLink")].toUrl();
     permission->d->value = map[QStringLiteral("value")].toString();
+    permission->d->emailAddress = map[QStringLiteral("emailAddress")].toString();
+    permission->d->domain = map[QStringLiteral("domain")].toString();
+    permission->d->expirationDate = QDateTime::fromString(map[QStringLiteral("expirationDate")].toString(), Qt::ISODate);
+    permission->d->deleted = map[QStringLiteral("deleted")].toBool();
+
+    if (map.contains(QStringLiteral("permissionDetails"))) {
+        const QVariantList permissionDetailsList = map[QStringLiteral("permissionDetails")].toList();
+        for (const QVariant &variant : permissionDetailsList) {
+            const QVariantMap permissionDetailsMap = variant.toMap();
+            auto permissionDetails = PermissionDetailsPtr::create();
+            permissionDetails->d->permissionType = PermissionDetails::Private::permissionTypeFromName(permissionDetailsMap[QStringLiteral("permissionType")].toString());
+            permissionDetails->d->role = Private::roleFromName(permissionDetailsMap[QStringLiteral("role")].toString());
+            const QStringList permissionDetailsAdditionalRoles = permissionDetailsMap[QStringLiteral("additionalRoles")].toStringList();
+            for (const QString &additionalRole : permissionDetailsAdditionalRoles) {
+                permissionDetails->d->additionalRoles << Private::roleFromName(additionalRole);
+            }
+            permissionDetails->d->inheritedFrom = permissionDetailsMap[QStringLiteral("inheritedFrom")].toString();
+            permissionDetails->d->inherited = map[QStringLiteral("inherited")].toBool();
+
+            permission->d->permissionDetails << permissionDetails;
+        }
+    }
 
     return permission;
 }
@@ -126,19 +242,7 @@ Permission::Private::Private():
 {
 }
 
-Permission::Private::Private(const Private &other):
-    id(other.id),
-    selfLink(other.selfLink),
-    name(other.name),
-    role(other.role),
-    additionalRoles(other.additionalRoles),
-    type(other.type),
-    authKey(other.authKey),
-    withLink(other.withLink),
-    photoLink(other.photoLink),
-    value(other.value)
-{
-}
+Permission::Private::Private(const Private &other) = default;
 
 Permission::Permission():
     KGAPI2::Object(),
@@ -171,6 +275,11 @@ bool Permission::operator==(const Permission &other) const
     GAPI_COMPARE(withLink)
     GAPI_COMPARE(photoLink)
     GAPI_COMPARE(value)
+    GAPI_COMPARE(emailAddress)
+    GAPI_COMPARE(domain)
+    GAPI_COMPARE(expirationDate)
+    GAPI_COMPARE(deleted)
+    GAPI_COMPARE(permissionDetails)
     return true;
 }
 
@@ -252,6 +361,31 @@ QString Permission::value() const
 void Permission::setValue(const QString &value)
 {
     d->value = value;
+}
+
+QString Permission::emailAddress() const
+{
+    return d->emailAddress;
+}
+
+QString Permission::domain() const
+{
+    return d->domain;
+}
+
+QDateTime Permission::expirationDate() const
+{
+    return d->expirationDate;
+}
+
+bool Permission::deleted() const
+{
+    return d->deleted;
+}
+
+Permission::PermissionDetailsList Permission::permissionDetails() const
+{
+    return d->permissionDetails;
 }
 
 PermissionPtr Permission::fromJSON(const QByteArray &jsonData)
