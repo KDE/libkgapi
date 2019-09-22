@@ -54,10 +54,7 @@ FreeBusyQueryJob::FreeBusyQueryJob(const QString &id, const QDateTime &timeMin, 
 {
 }
 
-FreeBusyQueryJob::~FreeBusyQueryJob()
-{
-    delete d;
-}
+FreeBusyQueryJob::~FreeBusyQueryJob() = default;
 
 FreeBusyQueryJob::BusyRangeList FreeBusyQueryJob::busy() const
 {
@@ -84,7 +81,7 @@ void FreeBusyQueryJob::start()
     QVariantMap requestData({
         { QStringLiteral("timeMin"), Utils::rfc3339DateToString(d->timeMin) },
         { QStringLiteral("timeMax"), Utils::rfc3339DateToString(d->timeMax) },
-        { QStringLiteral("items"), 
+        { QStringLiteral("items"),
             QVariantList({
                 QVariantMap({ { QStringLiteral("id"), d->id } })
             })
@@ -92,8 +89,7 @@ void FreeBusyQueryJob::start()
     QJsonDocument document = QJsonDocument::fromVariant(requestData);
     const QByteArray json = document.toJson(QJsonDocument::Compact);
 
-    QNetworkRequest request(CalendarService::freeBusyQueryUrl());
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
+    const auto request = CalendarService::prepareRequest(CalendarService::freeBusyQueryUrl());
     enqueueRequest(request, json, QStringLiteral("application/json"));
 }
 
@@ -126,7 +122,7 @@ void FreeBusyQueryJob::handleReply(const QNetworkReply *reply, const QByteArray 
             const QVariantList busyList = cal[QStringLiteral("busy")].toList();
             for (const QVariant &busyV : busyList) {
                 const QVariantMap busy = busyV.toMap();
-                d->busy << BusyRange{ 
+                d->busy << BusyRange{
                     Utils::rfc3339DateFromString(busy[QStringLiteral("start")].toString()),
                     Utils::rfc3339DateFromString(busy[QStringLiteral("end")].toString())
                 };

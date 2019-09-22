@@ -26,6 +26,8 @@
 #include "deletejob.h"
 #include "kgapicalendar_export.h"
 
+#include <QScopedPointer>
+
 namespace KGAPI2 {
 
 /**
@@ -113,7 +115,7 @@ class KGAPICALENDAR_EXPORT EventDeleteJob : public KGAPI2::DeleteJob
 
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

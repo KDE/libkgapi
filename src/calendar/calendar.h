@@ -28,6 +28,7 @@
 #include "kgapicalendar_export.h"
 
 #include <QColor>
+#include <QScopedPointer>
 
 namespace KGAPI2
 {
@@ -184,7 +185,7 @@ class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
 
   protected:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
 
 };
 

@@ -36,54 +36,24 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN CalendarFetchJob::Private
 {
-  public:
-    Private(CalendarFetchJob *parent);
-
-    QNetworkRequest createRequest(const QUrl &url);
-
+public:
     QString calendarId;
-
-  private:
-    CalendarFetchJob * const q;
 };
-
-CalendarFetchJob::Private::Private(CalendarFetchJob* parent):
-    q(parent)
-{
-}
-
-QNetworkRequest CalendarFetchJob::Private::createRequest(const QUrl& url)
-{
-    QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-
-    QStringList headers;
-    const auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
-
-    return request;
-}
 
 CalendarFetchJob::CalendarFetchJob(const AccountPtr& account, QObject* parent):
     FetchJob(account, parent),
-    d(new Private(this))
+    d(new Private())
 {
 }
 
 CalendarFetchJob::CalendarFetchJob(const QString& calendarId, const AccountPtr& account, QObject* parent):
     FetchJob(account, parent),
-    d(new Private(this))
+    d(new Private())
 {
     d->calendarId = calendarId;
 }
 
-CalendarFetchJob::~CalendarFetchJob()
-{
-    delete d;
-}
+CalendarFetchJob::~CalendarFetchJob() = default;
 
 void CalendarFetchJob::start()
 {
@@ -93,7 +63,7 @@ void CalendarFetchJob::start()
     } else {
         url = CalendarService::fetchCalendarUrl(d->calendarId);
     }
-    const QNetworkRequest request = d->createRequest(url);
+    const auto request = CalendarService::prepareRequest(url);
     enqueueRequest(request);
 }
 
@@ -119,7 +89,7 @@ ObjectsList CalendarFetchJob::handleReplyWithItems(const QNetworkReply *reply, c
     }
 
     if (feedData.nextPageUrl.isValid()) {
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        const auto request = CalendarService::prepareRequest(feedData.nextPageUrl);
         enqueueRequest(request);
     }
 

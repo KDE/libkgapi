@@ -36,64 +36,31 @@ using namespace KGAPI2;
 class Q_DECL_HIDDEN EventFetchJob::Private
 {
   public:
-    Private(EventFetchJob *parent);
-    QNetworkRequest createRequest(const QUrl &url);
-
     QString calendarId;
     QString eventId;
     QString filter;
-    bool fetchDeleted;
-    quint64 updatedTimestamp;
-    quint64 timeMin;
-    quint64 timeMax;
-
-  private:
-    EventFetchJob * const q;
+    bool fetchDeleted = true;
+    quint64 updatedTimestamp = 0;
+    quint64 timeMin = 0;
+    quint64 timeMax = 0;
 };
-
-EventFetchJob::Private::Private(EventFetchJob* parent):
-    fetchDeleted(true),
-    updatedTimestamp(0),
-    timeMin(0),
-    timeMax(0),
-    q(parent)
-{
-}
-
-QNetworkRequest EventFetchJob::Private::createRequest(const QUrl& url)
-{
-    QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
-
-    return request;
-}
 
 EventFetchJob::EventFetchJob(const QString& calendarId, const AccountPtr& account, QObject* parent):
     FetchJob(account, parent),
-    d(new Private(this))
+    d(new Private)
 {
     d->calendarId = calendarId;
 }
 
 EventFetchJob::EventFetchJob(const QString& eventId, const QString& calendarId, const AccountPtr& account, QObject* parent):
     FetchJob(account, parent),
-    d(new Private(this))
+    d(new Private)
 {
     d->calendarId = calendarId;
     d->eventId = eventId;
 }
 
-EventFetchJob::~EventFetchJob()
-{
-    delete d;
-}
+EventFetchJob::~EventFetchJob() = default;
 
 void EventFetchJob::setFetchDeleted(bool fetchDeleted)
 {
@@ -193,7 +160,7 @@ void EventFetchJob::start()
     } else {
         url = CalendarService::fetchEventUrl(d->calendarId, d->eventId);
     }
-    const QNetworkRequest request = d->createRequest(url);
+    const QNetworkRequest request = CalendarService::prepareRequest(url);
     enqueueRequest(request);
 }
 
@@ -218,7 +185,7 @@ ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, cons
     }
 
     if (feedData.nextPageUrl.isValid()) {
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        const auto request = CalendarService::prepareRequest(feedData.nextPageUrl);
         enqueueRequest(request);
     }
 

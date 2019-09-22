@@ -5,6 +5,8 @@ set(KGAPI_LIB_VERSION ${PIM_VERSION})
 
 project(kgapi VERSION ${KGAPI_LIB_VERSION})
 
+set(CMAKE_CXX_STANDARD 14)
+
 # ECM setup
 set(KF5_MIN_VERSION "5.62.0")
 

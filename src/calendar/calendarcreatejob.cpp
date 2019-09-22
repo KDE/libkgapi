@@ -56,10 +56,7 @@ CalendarCreateJob::CalendarCreateJob(const CalendarsList& calendars, const Accou
 }
 
 
-CalendarCreateJob::~CalendarCreateJob()
-{
-    delete d;
-}
+CalendarCreateJob::~CalendarCreateJob() = default;
 
 void CalendarCreateJob::start()
 {
@@ -68,19 +65,9 @@ void CalendarCreateJob::start()
         return;
     }
 
-    CalendarPtr calendar = d->calendars.current();
-    const QUrl url = CalendarService::createCalendarUrl();
-    QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-
+    const CalendarPtr calendar = d->calendars.current();
+    const auto request = CalendarService::prepareRequest(CalendarService::createCalendarUrl());
     const QByteArray rawData = CalendarService::calendarToJSON(calendar);
-
-    QStringList headers;
-    const auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
 
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }

@@ -29,47 +29,29 @@ using namespace KCalendarCore;
 
 class Q_DECL_HIDDEN Reminder::Private
 {
-  public:
-    Private();
-    Private(const Private &other);
-    ~Private() {}
-
-    Alarm::Type type;
+public:
+    Alarm::Type type = Alarm::Invalid;
     Duration offset;
 };
-
-Reminder::Private::Private():
-    type(Alarm::Invalid)
-{
-}
-
-Reminder::Private::Private(const Private &other):
-    type(other.type),
-    offset(other.offset)
-{
-}
 
 Reminder::Reminder():
     d(new Private)
 {
 }
 
-Reminder::Reminder (const Alarm::Type &type, const Duration& startOffset):
+Reminder::Reminder(const Alarm::Type &type, const Duration& startOffset):
     d(new Private)
 {
     d->type = type;
     d->offset = startOffset;
 }
 
-Reminder::Reminder (const Reminder& other):
+Reminder::Reminder(const Reminder& other):
     d(new Private(*(other.d)))
 {
 }
 
-Reminder::~Reminder()
-{
-    delete d;
-}
+Reminder::~Reminder() = default;
 
 bool Reminder::operator==(const Reminder &other) const
 {
@@ -84,8 +66,7 @@ bool Reminder::operator==(const Reminder &other) const
     return true;
 }
 
-
-void Reminder::setType (Alarm::Type type)
+void Reminder::setType(Alarm::Type type)
 {
     d->type = type;
 }
@@ -95,7 +76,7 @@ Alarm::Type Reminder::type() const
     return d->type;
 }
 
-void Reminder::setStartOffset (const Duration& startOffset)
+void Reminder::setStartOffset(const Duration &startOffset)
 {
     d->offset = startOffset;
 }
@@ -106,13 +87,11 @@ Duration Reminder::startOffset() const
 }
 
 // In LibKGAPI1 we return AlarmPtr
-Alarm* Reminder::toAlarm (Incidence* incidence) const
+Alarm *Reminder::toAlarm(Incidence *incidence) const
 {
-    Alarm* alarm = new Alarm(incidence);
-
+    auto alarm = new Alarm(incidence);
     alarm->setType(d->type);
     alarm->setStartOffset(d->offset);
-
     return alarm;
 }
 

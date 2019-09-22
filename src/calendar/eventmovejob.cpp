@@ -36,50 +36,17 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN EventMoveJob::Private
 {
-  public:
-    explicit Private(EventMoveJob *parent);
-    void processNextEvent();
-
+public:
     QueueHelper<QString> eventsIds;
     QString source;
     QString destination;
-
-  private:
-    EventMoveJob * const q;
 };
-
-EventMoveJob::Private::Private(EventMoveJob *parent):
-    q(parent)
-{
-}
-
-void EventMoveJob::Private::processNextEvent()
-{
-   if (eventsIds.atEnd()) {
-        q->emitFinished();
-        return;
-    }
-
-    const QString eventId = eventsIds.current();
-    const QUrl url = CalendarService::moveEventUrl(source, destination, eventId);
-    QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
-
-    q->enqueueRequest(request);
-}
 
 EventMoveJob::EventMoveJob(const EventPtr &event, const QString &sourceCalendarId,
                            const QString &destinationCalendarId, const AccountPtr &account,
                            QObject *parent):
     ModifyJob(account, parent),
-    d(new Private(this))
+    d(new Private())
 {
     d->eventsIds << event->id();
     d->source = sourceCalendarId;
@@ -90,7 +57,7 @@ EventMoveJob::EventMoveJob(const EventsList &events, const QString &sourceCalend
                            const QString &destinationCalendarId, const AccountPtr &account,
                            QObject *parent):
     ModifyJob(account, parent),
-    d(new Private(this))
+    d(new Private())
 {
     for (const EventPtr &event : events) {
         d->eventsIds << event->id();
@@ -103,7 +70,7 @@ EventMoveJob::EventMoveJob(const QString &eventId, const QString &sourceCalendar
                            const QString &destinationCalendarId, const AccountPtr &account,
                            QObject *parent):
     ModifyJob(account, parent),
-    d(new Private(this))
+    d(new Private())
 {
     d->eventsIds << eventId;
     d->source = sourceCalendarId;
@@ -114,21 +81,26 @@ EventMoveJob::EventMoveJob(const QStringList &eventsIds, const QString &sourceCa
                            const QString &destinationCalendarId, const AccountPtr &account,
                            QObject *parent):
     ModifyJob(account, parent),
-    d(new Private(this))
+    d(new Private())
 {
     d->eventsIds = eventsIds;
     d->source = sourceCalendarId;
     d->destination = destinationCalendarId;
 }
 
-EventMoveJob::~EventMoveJob()
-{
-    delete d;
-}
+EventMoveJob::~EventMoveJob() = default;
 
 void EventMoveJob::start()
 {
-    d->processNextEvent();
+    if (d->eventsIds.atEnd()) {
+        emitFinished();
+        return;
+    }
+
+    const QString eventId = d->eventsIds.current();
+    const auto request = CalendarService::prepareRequest(CalendarService::moveEventUrl(d->source, d->destination, eventId));
+
+    enqueueRequest(request);
 }
 
 void EventMoveJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType)
@@ -154,7 +126,7 @@ KGAPI2::ObjectsList EventMoveJob::handleReplyWithItems(const QNetworkReply *repl
     items << CalendarService::JSONToEvent(rawData).dynamicCast<Event>();
     d->eventsIds.currentProcessed();
     // Enqueue next item or finish
-    d->processNextEvent();
+    start();
 
     return items;
 }

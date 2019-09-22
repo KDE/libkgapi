@@ -59,10 +59,7 @@ EventCreateJob::EventCreateJob(const EventsList& events, const QString& calendar
     d->calendarId = calendarId;
 }
 
-EventCreateJob::~EventCreateJob()
-{
-    delete d;
-}
+EventCreateJob::~EventCreateJob() = default;
 
 void EventCreateJob::setSendUpdates(SendUpdatesPolicy policy)
 {
@@ -85,18 +82,8 @@ void EventCreateJob::start()
     }
 
     const EventPtr event = d->events.current();
-    const QUrl url = CalendarService::createEventUrl(d->calendarId, d->updatesPolicy);
-    QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-
+    const auto request = CalendarService::prepareRequest(CalendarService::createEventUrl(d->calendarId, d->updatesPolicy));
     const QByteArray rawData = CalendarService::eventToJSON(event, CalendarService::EventSerializeFlag::NoID);
-
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
 
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }

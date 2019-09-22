@@ -58,10 +58,7 @@ EventModifyJob::EventModifyJob(const EventsList& events, const QString& calendar
     d->calendarId = calendarId;
 }
 
-EventModifyJob::~EventModifyJob()
-{
-    delete d;
-}
+EventModifyJob::~EventModifyJob() = default;
 
 void EventModifyJob::setSendUpdates(KGAPI2::SendUpdatesPolicy updatesPolicy)
 {
@@ -84,18 +81,8 @@ void EventModifyJob::start()
     }
 
     const EventPtr event = d->events.current();
-    const QUrl url = CalendarService::updateEventUrl(d->calendarId, event->id(), d->updatesPolicy);
-    QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-
+    const auto request = CalendarService::prepareRequest(CalendarService::updateEventUrl(d->calendarId, event->id(), d->updatesPolicy));
     const QByteArray rawData = CalendarService::eventToJSON(event);
-
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
 
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }

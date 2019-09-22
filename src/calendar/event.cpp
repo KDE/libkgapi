@@ -25,29 +25,17 @@
 
 using namespace KGAPI2;
 
+namespace {
+static constexpr const char *EventIdProperty = "EventId";
+}
+
 class Q_DECL_HIDDEN Event::Private
 {
   public:
-    explicit Private();
-    Private(const Private &other);
-
     QString id;
-    bool deleted;
-    bool useDefaultReminders;
+    bool deleted = false;
+    bool useDefaultReminders = false;
 };
-
-Event::Private::Private():
-    deleted(false),
-    useDefaultReminders(false)
-{
-}
-
-Event::Private::Private(const Private &other):
-    id(other.id),
-    deleted(other.deleted),
-    useDefaultReminders(other.useDefaultReminders)
-{
-}
 
 Event::Event():
     Object(),
@@ -70,10 +58,7 @@ Event::Event(const KCalendarCore::Event &other):
 {
 }
 
-Event::~Event()
-{
-    delete d;
-}
+Event::~Event()= default;
 
 bool Event::operator==(const Event &other) const
 {
@@ -118,7 +103,7 @@ void Event::setUseDefaultReminders(bool useDefault)
 
 QString Event::id() const
 {
-    QString val = customProperty("LIBKGAPI", "EventId");
+    const QString val = customProperty("LIBKGAPI", EventIdProperty);
     if (val.isEmpty()) {
         // Backwards compatibility: prior to introducing "id", UID was used for
         // remote identification: use it
@@ -129,5 +114,5 @@ QString Event::id() const
 
 void Event::setId(const QString &id)
 {
-    setCustomProperty("LIBKGAPI", "EventId", id);
+    setCustomProperty("LIBKGAPI", EventIdProperty, id);
 }

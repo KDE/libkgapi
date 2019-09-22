@@ -29,6 +29,8 @@
 
 #include <QFlags>
 
+class QNetworkRequest;
+
 namespace KGAPI2
 {
 
@@ -44,6 +46,13 @@ namespace CalendarService
         NoID        =   1 << 0
     };
     using EventSerializeFlags = QFlags<EventSerializeFlag>;
+
+    /**
+     * @vrief Preparse a QNetworkRequest for given URL
+     *
+     * @param url
+     */
+    KGAPICALENDAR_EXPORT QNetworkRequest prepareRequest(const QUrl &url);
 
     /**
      * @brief Parses calendar JSON data into Calendar object

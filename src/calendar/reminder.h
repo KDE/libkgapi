@@ -30,6 +30,8 @@
 #include <KCalendarCore/Alarm>
 #include <KCalendarCore/Incidence>
 
+#include <QScopedPointer>
+
 namespace KGAPI2
 {
 
@@ -54,13 +56,13 @@ class KGAPICALENDAR_EXPORT Reminder
      * @param type Type of the reminder (email, notification, etc.)
      * @param startOffset How long before the event should the reminder be shown
      */
-    explicit Reminder( const KCalendarCore::Alarm::Type &type,
-                       const KCalendarCore::Duration &startOffset = KCalendarCore::Duration( 0 ) );
+    explicit Reminder(const KCalendarCore::Alarm::Type &type,
+                      const KCalendarCore::Duration &startOffset = KCalendarCore::Duration(0));
 
     /**
      * @brief Copy constructor
      */
-    Reminder( const Reminder &other );
+    Reminder(const Reminder &other);
 
     /**
      * @brief Destructor
@@ -79,7 +81,7 @@ class KGAPICALENDAR_EXPORT Reminder
      *
      * @param type
      */
-    void setType(KCalendarCore::Alarm::Type type );
+    void setType(KCalendarCore::Alarm::Type type);
 
     /**
      * @brief Returns how long before the event should reminder be shown
@@ -89,7 +91,7 @@ class KGAPICALENDAR_EXPORT Reminder
     /**
      * @brief Sets how long before the event should reminder be shown
      */
-    void setStartOffset( const KCalendarCore::Duration &startOffset );
+    void setStartOffset(const KCalendarCore::Duration &startOffset);
 
     /**
      * @brief Converts the reminder to a KCalendarCore::Alarm
@@ -97,11 +99,11 @@ class KGAPICALENDAR_EXPORT Reminder
      * @param incidence An incidence on which the reminder should be applied
      * @return Returns a new KCalendarCore::Alarm
      */
-    KCalendarCore::Alarm *toAlarm( KCalendarCore::Incidence *incidence ) const;
+    KCalendarCore::Alarm *toAlarm(KCalendarCore::Incidence *incidence) const;
 
   private:
     class Private;
-    Private *const d;
+    QScopedPointer<Private> const d;
 };
 
 } // namespace KGAPI2

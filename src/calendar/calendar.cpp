@@ -29,9 +29,8 @@ using namespace KGAPI2;
 class Q_DECL_HIDDEN Calendar::Private
 {
   public:
-    Private();
-    Private(const Private &other);
-    ~Private() {}
+    Private() = default;
+    Private(const Private &other) = default;
 
     QString uid;
     QString title;
@@ -45,23 +44,6 @@ class Q_DECL_HIDDEN Calendar::Private
     RemindersList reminders;
 };
 
-Calendar::Private::Private()
-{
-}
-
-Calendar::Private::Private(const Private &other) :
-    uid(other.uid),
-    title(other.title),
-    details(other.details),
-    timezone(other.timezone),
-    location(other.location),
-    editable(other.editable),
-    backgroundColor(other.backgroundColor),
-    foregroundColor(other.foregroundColor),
-    reminders(other.reminders)
-{
-}
-
 Calendar::Calendar() :
     Object(),
     d(new Private)
@@ -70,14 +52,11 @@ Calendar::Calendar() :
 
 Calendar::Calendar(const Calendar &other) :
     Object(other),
-    d(new Private(*(other.d)))
+    d(new Private(*(other.d.get())))
 {
 }
 
-Calendar::~Calendar()
-{
-    delete d;
-}
+Calendar::~Calendar() = default;
 
 bool Calendar::operator==(const Calendar &other) const
 {

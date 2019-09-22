@@ -25,6 +25,8 @@
 #include "deletejob.h"
 #include "kgapicalendar_export.h"
 
+#include <QScopedPointer>
+
 namespace KGAPI2 {
 
 /**
@@ -108,7 +110,7 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
     void handleReply(const QNetworkReply* reply, const QByteArray& rawData) override;
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

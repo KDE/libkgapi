@@ -29,6 +29,8 @@
 
 #include <KCalendarCore/Event>
 
+#include <QScopedPointer>
+
 namespace KGAPI2
 {
 
@@ -39,7 +41,7 @@ namespace KGAPI2
  * @since 0.1
  */
 class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
-                              public KCalendarCore::Event
+                                  public KCalendarCore::Event
 {
   public:
     /**
@@ -102,7 +104,7 @@ class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
 
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
 
 };
 

@@ -68,10 +68,7 @@ CalendarDeleteJob::CalendarDeleteJob(const QStringList &calendarsIds, const Acco
 }
 
 
-CalendarDeleteJob::~CalendarDeleteJob()
-{
-    delete d;
-}
+CalendarDeleteJob::~CalendarDeleteJob() = default;
 
 void CalendarDeleteJob::start()
 {
@@ -81,16 +78,7 @@ void CalendarDeleteJob::start()
     }
 
     const QString calendarId = d->calendarsIds.current();
-    const QUrl url = CalendarService::removeCalendarUrl(calendarId);
-    QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-
-    QStringList headers;
-    const auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
+    const auto request = CalendarService::prepareRequest(CalendarService::removeCalendarUrl(calendarId));
 
     enqueueRequest(request);
 }

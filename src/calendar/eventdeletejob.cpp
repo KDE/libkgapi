@@ -73,10 +73,7 @@ EventDeleteJob::EventDeleteJob(const QStringList &eventIds, const QString &calen
 }
 
 
-EventDeleteJob::~EventDeleteJob()
-{
-    delete d;
-}
+EventDeleteJob::~EventDeleteJob() = default;
 
 void EventDeleteJob::start()
 {
@@ -86,16 +83,7 @@ void EventDeleteJob::start()
     }
 
     const QString eventId = d->eventsIds.current();
-    const QUrl url = CalendarService::removeEventUrl(d->calendarId, eventId);
-    QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", CalendarService::APIVersion().toLatin1());
-
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
+    const auto request = CalendarService::prepareRequest(CalendarService::removeEventUrl(d->calendarId, eventId));
 
     enqueueRequest(request);
 }

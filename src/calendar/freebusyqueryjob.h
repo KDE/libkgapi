@@ -26,6 +26,7 @@
 
 #include <QVector>
 #include <QDateTime>
+#include <QScopedPointer>
 
 namespace KGAPI2 {
 
@@ -34,7 +35,7 @@ class KGAPICALENDAR_EXPORT FreeBusyQueryJob : public KGAPI2::FetchJob
     Q_OBJECT
 public:
     struct BusyRange {
-        BusyRange() {};
+        BusyRange() = default;
         BusyRange(const QDateTime &busyStart, const QDateTime &busyEnd)
             : busyStart(busyStart), busyEnd(busyEnd)
         {}
@@ -49,12 +50,12 @@ public:
     };
     typedef QVector<BusyRange> BusyRangeList;
 
-    explicit FreeBusyQueryJob(const QString &id, 
+    explicit FreeBusyQueryJob(const QString &id,
                               const QDateTime &timeMin,
                               const QDateTime &timeMax,
                               const AccountPtr &account,
                               QObject* parent = nullptr);
-    ~FreeBusyQueryJob();
+    ~FreeBusyQueryJob() override;
 
     QString id() const;
     QDateTime timeMin() const;
@@ -69,7 +70,7 @@ protected:
 
 private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

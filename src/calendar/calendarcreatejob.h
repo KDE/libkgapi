@@ -26,6 +26,8 @@
 #include "createjob.h"
 #include "kgapicalendar_export.h"
 
+#include <QScopedPointer>
+
 namespace KGAPI2 {
 
 /**
@@ -42,7 +44,7 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
   public:
 
     /**
-     * @brief Constructs a job that will create given @p calendar in user's 
+     * @brief Constructs a job that will create given @p calendar in user's
      *        Google Calendar account
      *
      * @param calendar Calendar to create
@@ -86,7 +88,7 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
 
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };
