@@ -14,6 +14,7 @@ set(kgapicalendar_SRCS
     reminder.cpp
     freebusyqueryjob.cpp
     ../debug.cpp
+    enums.h
 )
 
 ecm_generate_headers(kgapicalendar_CamelCase_HEADERS
