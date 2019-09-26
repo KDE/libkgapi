@@ -29,7 +29,11 @@
 
 namespace KGAPI2 {
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+Q_NAMESPACE_EXPORT(KGAPICALENDAR_EXPORT)
+#else
 KGAPICALENDAR_EXPORT Q_NAMESPACE
+#endif
 
 /**
  * Determines whether Google Calendar should send updates to participants
