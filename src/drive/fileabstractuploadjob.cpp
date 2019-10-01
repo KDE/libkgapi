@@ -119,7 +119,7 @@ QByteArray FileAbstractUploadJob::Private::buildMultipart(const QString &filePat
     body += "--" + boundary.toLatin1() + '\n';
     body += "Content-Type: application/json; charset=UTF-8\n";
     body += '\n';
-    body += File::toJSON(metaData);
+    body += File::toJSON(metaData, q->serializationOptions());
     body += '\n';
     body += '\n';
     body += "--" + boundary.toLatin1() + '\n';
@@ -167,7 +167,6 @@ void FileAbstractUploadJob::Private::processNext()
     if (metaData.isNull()) {
         query.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("media"));
 
-        contentType = metaData->mimeType();
         rawData = readFile(filePath, contentType);
         if (rawData.isEmpty()) {
             processNext();

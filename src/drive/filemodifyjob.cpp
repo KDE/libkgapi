@@ -76,10 +76,11 @@ FileModifyJob::FileModifyJob(const QString &filePath,
                              const FilePtr &metaData,
                              const AccountPtr &account,
                              QObject *parent):
-    FileAbstractUploadJob(filePath, account, parent),
+    FileAbstractUploadJob(filePath, metaData, account, parent),
     d(new Private)
 {
     d->files.insert(filePath, metaData->id());
+    setSerializationOptions(File::ExcludeCreationDate);
 }
 
 FileModifyJob::FileModifyJob(const QMap< QString, QString > &files,
@@ -102,6 +103,7 @@ FileModifyJob::FileModifyJob(const QMap< QString, FilePtr > &files,
     for (; iter != iterEnd; ++iter) {
         d->files.insert(iter.key(), iter.value()->id());
     }
+    setSerializationOptions(File::ExcludeCreationDate);
 }
 
 FileModifyJob::~FileModifyJob()
