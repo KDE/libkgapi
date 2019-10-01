@@ -84,11 +84,11 @@ void PermissionModifyJob::Private::processNext()
         query.addQueryItem(QStringLiteral("removeExpiration"), Utils::bool2Str(removeExpiration));
     }
 
-    if (!transferOwnership != transferOwnershipDefault) {
+    if (transferOwnership != transferOwnershipDefault) {
         query.addQueryItem(QStringLiteral("transferOwnership"), Utils::bool2Str(transferOwnership));
     }
 
-    if (!useDomainAdminAccess != useDomainAdminAccessDefault) {
+    if (useDomainAdminAccess != useDomainAdminAccessDefault) {
         query.addQueryItem(QStringLiteral("useDomainAdminAccess"), Utils::bool2Str(useDomainAdminAccess));
     }
 
