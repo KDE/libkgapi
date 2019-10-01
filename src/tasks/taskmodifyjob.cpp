@@ -59,10 +59,7 @@ TaskModifyJob::TaskModifyJob(const TasksList& tasks, const QString& taskListId,
     d->taskListId = taskListId;
 }
 
-TaskModifyJob::~TaskModifyJob()
-{
-    delete d;
-}
+TaskModifyJob::~TaskModifyJob() = default;
 
 void TaskModifyJob::start()
 {

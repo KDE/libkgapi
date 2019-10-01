@@ -34,55 +34,36 @@
 
 using namespace KGAPI2;
 
+namespace {
+    static const auto ShowDeletedParam = QStringLiteral("showDeleted");
+    static const auto ShowCompletedParam = QStringLiteral("showCompleted");
+    static const auto UpdatedMinParam = QStringLiteral("updatedMin");
+    static const auto CompletedMinParam = QStringLiteral("completedMin");
+    static const auto CompletedMaxParam = QStringLiteral("completedMax");
+    static const auto DueMinParam = QStringLiteral("dueMin");
+    static const auto DueMaxParam = QStringLiteral("dueMax");
+
+    static constexpr bool FetchDeletedDefault = false;
+    static constexpr bool FetchCompletedDefault = false;
+}
+
 class Q_DECL_HIDDEN TaskFetchJob::Private
 {
   public:
-    Private(TaskFetchJob *parent);
-    QNetworkRequest createRequest(const QUrl &url);
-
     QString taskId;
     QString taskListId;
-    bool fetchDeleted;
-    bool fetchCompleted;
+    bool fetchDeleted = true;
+    bool fetchCompleted = true;
     quint64 updatedTimestamp;
     quint64 completedMin;
     quint64 completedMax;
     quint64 dueMin;
     quint64 dueMax;
-
-  private:
-    TaskFetchJob * const q;
 };
-
-TaskFetchJob::Private::Private(TaskFetchJob* parent):
-    fetchDeleted(true),
-    fetchCompleted(true),
-    updatedTimestamp(0),
-    completedMin(0),
-    completedMax(0),
-    dueMin(0),
-    dueMax(0),
-    q(parent)
-{
-}
-
-QNetworkRequest TaskFetchJob::Private::createRequest(const QUrl& url)
-{
-    QNetworkRequest request(url);
-
-    QStringList headers;
-    const auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
-
-    return request;
-}
 
 TaskFetchJob::TaskFetchJob(const QString& taskListId, const AccountPtr& account, QObject* parent):
     FetchJob(account, parent),
-    d(new Private(this))
+    d(new Private())
 {
     d->taskListId = taskListId;
 }
@@ -90,16 +71,13 @@ TaskFetchJob::TaskFetchJob(const QString& taskListId, const AccountPtr& account,
 TaskFetchJob::TaskFetchJob(const QString& taskId, const QString& taskListId,
                            const AccountPtr& account, QObject* parent):
     FetchJob(account, parent),
-    d(new Private(this))
+    d(new Private())
 {
     d->taskId = taskId;
     d->taskListId = taskListId;
 }
 
-TaskFetchJob::~TaskFetchJob()
-{
-    delete d;
-}
+TaskFetchJob::~TaskFetchJob() = default;
 
 void TaskFetchJob::setFetchOnlyUpdated(quint64 timestamp)
 {
@@ -205,29 +183,33 @@ void TaskFetchJob::start()
     if (d->taskId.isEmpty()) {
         url = TasksService::fetchAllTasksUrl(d->taskListId);
         QUrlQuery query(url);
-        query.addQueryItem(QStringLiteral("showDeleted"), Utils::bool2Str(d->fetchDeleted));
-        query.addQueryItem(QStringLiteral("showCompleted"), Utils::bool2Str(d->fetchCompleted));
+        if (d->fetchDeleted != FetchDeletedDefault) {
+            query.addQueryItem(ShowDeletedParam, Utils::bool2Str(d->fetchDeleted));
+        }
+        if (d->fetchCompleted != FetchCompletedDefault) {
+            query.addQueryItem(ShowCompletedParam, Utils::bool2Str(d->fetchCompleted));
+        }
         if (d->updatedTimestamp > 0) {
-            query.addQueryItem(QStringLiteral("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
+            query.addQueryItem(UpdatedMinParam, Utils::ts2Str(d->updatedTimestamp));
         }
         if (d->completedMin > 0) {
-            query.addQueryItem(QStringLiteral("completedMin"), Utils::ts2Str(d->completedMin));
+            query.addQueryItem(CompletedMinParam, Utils::ts2Str(d->completedMin));
         }
         if (d->completedMax > 0) {
-            query.addQueryItem(QStringLiteral("completedMax"), Utils::ts2Str(d->completedMax));
+            query.addQueryItem(CompletedMaxParam, Utils::ts2Str(d->completedMax));
         }
         if (d->dueMin > 0) {
-            query.addQueryItem(QStringLiteral("dueMin"), Utils::ts2Str(d->dueMin));
+            query.addQueryItem(DueMinParam, Utils::ts2Str(d->dueMin));
         }
         if (d->dueMax > 0) {
-            query.addQueryItem(QStringLiteral("dueMax"), Utils::ts2Str(d->dueMax));
+            query.addQueryItem(DueMaxParam, Utils::ts2Str(d->dueMax));
         }
         url.setQuery(query);
     } else {
         url = TasksService::fetchTaskUrl(d->taskListId, d->taskId);
     }
 
-    const QNetworkRequest request = d->createRequest(url);
+    const QNetworkRequest request(url);
     enqueueRequest(request);
 }
 
@@ -254,7 +236,7 @@ ObjectsList TaskFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     }
 
     if (feedData.nextPageUrl.isValid()) {
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        const QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     }
 

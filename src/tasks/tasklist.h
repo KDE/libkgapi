@@ -28,6 +28,8 @@
 #include "types.h"
 #include "kgapitasks_export.h"
 
+#include <QScopedPointer>
+
 namespace KGAPI2
 {
 
@@ -82,9 +84,33 @@ class KGAPITASKS_EXPORT TaskList: public KGAPI2::Object
      */
     QString title() const;
 
+    /**
+     * @brief Sets tasklist selfLink
+     *
+     * @param selfLink
+     */
+    void setSelfLink(const QString &selfLink);
+
+    /**
+     * @brief Returns tasklist selfLink
+     */
+    QString selfLink() const;
+
+    /**
+     * @brief Sets tasklist updated
+     *
+     * @param updated
+     */
+    void setUpdated(const QString &updated);
+
+    /**
+     * @brief Returns tasklist updated
+     */
+    QString updated() const;
+
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

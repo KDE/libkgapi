@@ -28,23 +28,14 @@ using namespace KGAPI2;
 class Q_DECL_HIDDEN TaskList::Private
 {
   public:
-    Private();
-    Private(const Private &other);
+    Private() = default;
+    Private(const Private &other) = default;
 
     QString title;
+    QString selfLink;
+    QString updated;
     QString uid;
 };
-
-
-TaskList::Private::Private()
-{
-}
-
-TaskList::Private::Private (const Private& other):
-    title(other.title),
-    uid(other.uid)
-{
-}
 
 TaskList::TaskList():
     Object(),
@@ -54,14 +45,11 @@ TaskList::TaskList():
 
 TaskList::TaskList (const TaskList& other):
     Object(other),
-    d(new Private(*(other.d)))
+    d(new Private(*(other.d.get())))
 {
 }
 
-TaskList::~TaskList()
-{
-    delete d;
-}
+TaskList::~TaskList() = default;
 
 bool TaskList::operator==(const TaskList &other) const
 {
@@ -100,4 +88,24 @@ void TaskList::setTitle(const QString& title)
 QString TaskList::title() const
 {
     return d->title;
+}
+
+void TaskList::setSelfLink(const QString& selfLink)
+{
+    d->selfLink = selfLink;
+}
+
+QString TaskList::selfLink() const
+{
+    return d->selfLink;
+}
+
+void TaskList::setUpdated(const QString& updated)
+{
+    d->updated = updated;
+}
+
+QString TaskList::updated() const
+{
+    return d->updated;
 }

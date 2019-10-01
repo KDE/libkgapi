@@ -26,6 +26,8 @@
 #include "modifyjob.h"
 #include "kgapitasks_export.h"
 
+#include <QScopedPointer>
+
 namespace KGAPI2 {
 
 /**
@@ -86,7 +88,7 @@ class KGAPITASKS_EXPORT TaskListModifyJob : public KGAPI2::ModifyJob
 
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

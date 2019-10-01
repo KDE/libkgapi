@@ -27,6 +27,8 @@
 #include "types.h"
 #include "kgapitasks_export.h"
 
+#include <QScopedPointer>
+
 #include <KCalendarCore/Todo>
 
 namespace KGAPI2
@@ -79,7 +81,7 @@ class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
 
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

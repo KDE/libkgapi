@@ -34,12 +34,18 @@
 
 using namespace KGAPI2;
 
+namespace {
+    static const auto ParentParam = QStringLiteral("parent");
+    static const auto PreviousParam = QStringLiteral("previous");
+}
+
 class Q_DECL_HIDDEN TaskCreateJob::Private
 {
   public:
     QueueHelper<TaskPtr> tasks;
     QString taskListId;
     QString parentId;
+    QString previousId;
 };
 
 TaskCreateJob::TaskCreateJob(const TaskPtr& task, const QString& taskListId,
@@ -60,10 +66,7 @@ TaskCreateJob::TaskCreateJob(const TasksList& tasks, const QString& taskListId,
     d->taskListId = taskListId;
 }
 
-TaskCreateJob::~TaskCreateJob()
-{
-    delete d;
-}
+TaskCreateJob::~TaskCreateJob() = default;
 
 QString TaskCreateJob::parentItem() const
 {
@@ -80,6 +83,21 @@ void TaskCreateJob::setParentItem(const QString &parentId)
     d->parentId = parentId;
 }
 
+QString TaskCreateJob::previous() const
+{
+    return d->previousId;
+}
+
+void TaskCreateJob::setPrevious(const QString &previousId)
+{
+    if (isRunning()) {
+        qCWarning(KGAPIDebug) << "Can't modify previous property when job is running!";
+        return;
+    }
+
+    d->previousId = previousId;
+}
+
 void TaskCreateJob::start()
 {
    if (d->tasks.atEnd()) {
@@ -92,19 +110,15 @@ void TaskCreateJob::start()
     QUrl url = TasksService::createTaskUrl(d->taskListId);
     QUrlQuery query(url);
     if (!d->parentId.isEmpty()) {
-        query.addQueryItem(QStringLiteral("parent"), d->parentId);
+        query.addQueryItem(ParentParam, d->parentId);
+    }
+    if (!d->previousId.isEmpty()) {
+        query.addQueryItem(PreviousParam, d->previousId);
     }
     url.setQuery(query);
     QNetworkRequest request(url);
 
     const QByteArray rawData = TasksService::taskToJSON(task);
-
-    QStringList headers;
-    const auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
 
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }

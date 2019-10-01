@@ -67,10 +67,7 @@ TaskListFetchJob::TaskListFetchJob(const AccountPtr& account, QObject* parent):
 {
 }
 
-TaskListFetchJob::~TaskListFetchJob()
-{
-    delete d;
-}
+TaskListFetchJob::~TaskListFetchJob() = default;
 
 void TaskListFetchJob::start()
 {

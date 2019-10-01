@@ -26,6 +26,8 @@
 #include "createjob.h"
 #include "kgapitasks_export.h"
 
+#include <QScopedPointer>
+
 namespace KGAPI2 {
 
 /**
@@ -50,6 +52,16 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
      * @see setParentItem, parentItem
      */
     Q_PROPERTY(QString parentItem READ parentItem WRITE setParentItem)
+
+    /**
+     * @brief Previous sibling task identifier. If the task is created at the
+     * first position among its siblings, this parameter is omitted.
+     *
+     * This property can only be modified when job is not running.
+     *
+     * @see setPrevious, previous
+     */
+    Q_PROPERTY(QString previous READ previous WRITE setPrevious)
 
   public:
 
@@ -94,13 +106,27 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
      */
     QString parentItem() const;
 
+    /**
+     * @brief Sets previous sibling task identifier. If the task is created at the
+     * first position among its siblings, this parameter is omitted.
+     *
+     * @param previousId
+     */
+    void setPrevious(const QString &previousId);
+
+    /**
+     * @brief Previous sibling task identifier. If the task is created at the
+     * first position among its siblings, this parameter is omitted.
+     */
+    QString previous() const;
+
   protected:
     void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData) override;
 
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 };
 

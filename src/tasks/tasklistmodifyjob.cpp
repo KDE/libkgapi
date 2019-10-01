@@ -57,10 +57,7 @@ TaskListModifyJob::TaskListModifyJob(const TaskListsList& taskLists,
     d->taskLists = taskLists;
 }
 
-TaskListModifyJob::~TaskListModifyJob()
-{
-    delete d;
-}
+TaskListModifyJob::~TaskListModifyJob() = default;
 
 void TaskListModifyJob::start()
 {

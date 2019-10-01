@@ -55,10 +55,7 @@ TaskListCreateJob::TaskListCreateJob(const TaskListsList& taskLists,
     d->taskLists = taskLists;
 }
 
-TaskListCreateJob::~TaskListCreateJob()
-{
-    delete d;
-}
+TaskListCreateJob::~TaskListCreateJob() = default;
 
 void TaskListCreateJob::start()
 {

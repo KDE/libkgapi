@@ -120,10 +120,7 @@ TaskMoveJob::TaskMoveJob(const QStringList &tasksIds, const QString &taskListId,
     d->newParentId = newParentId;
 }
 
-TaskMoveJob::~TaskMoveJob()
-{
-    delete d;
-}
+TaskMoveJob::~TaskMoveJob() = default;
 
 void TaskMoveJob::start()
 {

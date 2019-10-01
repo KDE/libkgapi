@@ -30,21 +30,12 @@ class Q_DECL_HIDDEN Task::Private
 {
 
   public:
-    Private();
-    Private (const Private&);
+    Private() = default;
+    Private(const Private &other) = default;
 
     bool deleted = false;
 };
 
-Task::Private::Private():
-    deleted(false)
-{
-}
-
-Task::Private::Private(const Private &other):
-    deleted(other.deleted)
-{
-}
 
 Task::Task():
     Object(),
@@ -56,7 +47,7 @@ Task::Task():
 Task::Task(const Task& other):
     Object(other),
     KCalendarCore::Todo(other),
-    d(new Private(*(other.d)))
+    d(new Private(*(other.d.get())))
 {
 }
 
@@ -67,10 +58,7 @@ Task::Task(const KCalendarCore::Todo &other):
 {
 }
 
-Task::~Task()
-{
-    delete d;
-}
+Task::~Task() = default;
 
 bool Task::operator==(const Task &other) const
 {

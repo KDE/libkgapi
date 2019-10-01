@@ -104,10 +104,7 @@ TaskListDeleteJob::TaskListDeleteJob(const QString &taskListsId,
     d->taskListsIds << taskListsId;
 }
 
-TaskListDeleteJob::~TaskListDeleteJob()
-{
-    delete d;
-}
+TaskListDeleteJob::~TaskListDeleteJob() = default;
 
 void TaskListDeleteJob::start()
 {

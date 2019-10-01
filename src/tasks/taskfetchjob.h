@@ -26,6 +26,8 @@
 #include "fetchjob.h"
 #include "kgapitasks_export.h"
 
+#include <QScopedPointer>
+
 namespace KGAPI2 {
 
 /**
@@ -85,7 +87,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Timestamp of the newest completed task that will be fetched
      *
-     * Only tasks that have been completed before or precisely at the time 
+     * Only tasks that have been completed before or precisely at the time
      * indicated by this property will be fetched.
      *
      * By default the timestamp is 0 and no limit is applied.
@@ -100,7 +102,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Timestamp of the oldest completed task that will be fetched
      *
-     * Only tasks that have been completed after or precisely at the time 
+     * Only tasks that have been completed after or precisely at the time
      * indicated by this property will be fetched.
      *
      * By default the timestamp is 0 and no limit is applied.
@@ -130,7 +132,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
     /**
      * @brief Timestamp of the oldest due task that will be fetched
      *
-     * Only tasks that are due after or precisely at the time indicated by 
+     * Only tasks that are due after or precisely at the time indicated by
      * this property will be fetched.
      *
      * By default the timestamp is 0 and no limit is applied.
@@ -284,7 +286,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
 
   private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };
