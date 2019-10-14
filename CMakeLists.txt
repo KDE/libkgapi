@@ -8,7 +8,7 @@ project(kgapi VERSION ${KGAPI_LIB_VERSION})
 set(CMAKE_CXX_STANDARD 14)
 
 # ECM setup
-set(KF5_MIN_VERSION "5.62.0")
+set(KF5_MIN_VERSION "5.63.0")
 
 find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -26,9 +26,6 @@ include(ECMSetupVersion)
 include(FeatureSummary)
 
 set(CMAKE_AUTOMOC_MACRO_NAMES "Q_OBJECT" "Q_GADGET" "Q_NAMESPACE" "Q_NAMESPACE_EXPORT")
-
-set(KCALENDARCORE_LIB_VERSION "5.12.40")
-set(KCONTACTS_LIB_VERSION "5.12.40")
 
 ecm_setup_version(PROJECT
     VARIABLE_PREFIX KGAPI
@@ -53,8 +50,8 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Wallet
 )
 
-find_package(KF5CalendarCore ${KCALENDARCORE_LIB_VERSION} CONFIG REQUIRED)
-find_package(KF5Contacts ${KCONTACTS_LIB_VERSION} CONFIG REQUIRED)
+find_package(KF5CalendarCore ${KF5_MIN_VERSION} CONFIG REQUIRED)
+find_package(KF5Contacts ${KF5_MIN_VERSION} CONFIG REQUIRED)
 
 find_package(Sasl2)
 set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
