@@ -48,7 +48,7 @@ namespace CalendarService
     using EventSerializeFlags = QFlags<EventSerializeFlag>;
 
     /**
-     * @vrief Preparse a QNetworkRequest for given URL
+     * @brief Preparse a QNetworkRequest for given URL
      *
      * @param url
      */
