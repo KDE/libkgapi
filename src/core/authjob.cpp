@@ -238,6 +238,7 @@ void AuthJob::start()
         d->dialog = new QDialog();
         d->dialog->setModal(true);
         d->dialog->resize(840, 760);
+        d->dialog->setAttribute(Qt::WA_NativeWindow, true);
         KWindowSystem::setMainWindow(d->dialog->windowHandle(), KWindowSystem::activeWindow());
 
         QVBoxLayout *layout = new QVBoxLayout(d->dialog);
