@@ -22,7 +22,8 @@
 #include "latitudeservice.h"
 #include "location.h"
 
-
+#include <QVariantMap>
+#include <QVariant>
 #include <QJsonDocument>
 #include <QUrlQuery>
 
