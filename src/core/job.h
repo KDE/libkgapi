@@ -356,7 +356,7 @@ class KGAPICORE_EXPORT Job : public QObject
      *
      * Subclasses should call this method to enqueue the @p request in main job
      * queue. The request is automatically dispatched, and reply is handled.
-     * Authorization headers and standars query parameters will be applied.
+     * Authorization headers and standards query parameters will be applied.
      *
      * @param request Request to enqueue
      * @param data Data to be send in body of the request

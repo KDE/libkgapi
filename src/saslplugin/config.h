@@ -245,7 +245,7 @@
 /* Define to 1 if you have the `strstr' function. */
 #define HAVE_STRSTR 1
 
-/* Do we have struct sockaddr_stroage? */
+/* Do we have struct sockaddr_storage? */
 #define HAVE_STRUCT_SOCKADDR_STORAGE
 
 /* Define to 1 if you have the <sysexits.h> header file. */
@@ -358,49 +358,49 @@
 /* The size of a `long', as computed by sizeof. */
 #define SIZEOF_LONG 4
 
-/* Link ANONYMOUS Staticly */
+/* Link ANONYMOUS Statically */
 /* #undef STATIC_ANONYMOUS */
 
-/* Link CRAM-MD5 Staticly */
+/* Link CRAM-MD5 Statically */
 /* #undef STATIC_CRAMMD5 */
 
-/* Link DIGEST-MD5 Staticly */
+/* Link DIGEST-MD5 Statically */
 /* #undef STATIC_DIGESTMD5 */
 
-/* Link GSSAPI Staticly */
+/* Link GSSAPI Statically */
 #define STATIC_GSSAPIV2
 
-/* User KERBEROS_V4 Staticly */
+/* User KERBEROS_V4 Statically */
 /* #undef STATIC_KERBEROS4 */
 
-/* Link ldapdb plugin Staticly */
+/* Link ldapdb plugin Statically */
 /* #undef STATIC_LDAPDB */
 
-/* Link LOGIN Staticly */
+/* Link LOGIN Statically */
 /* #undef STATIC_LOGIN */
 
-/* Link NTLM Staticly */
+/* Link NTLM Statically */
 /* #undef STATIC_NTLM */
 
-/* Link OTP Staticly */
+/* Link OTP Statically */
 /* #undef STATIC_OTP */
 
-/* Link PASSDSS Staticly */
+/* Link PASSDSS Statically */
 /* #undef STATIC_PASSDSS */
 
-/* Link PLAIN Staticly */
+/* Link PLAIN Statically */
 /* #undef STATIC_PLAIN */
 
-/* Link OAUTH Staticly */
+/* Link OAUTH Statically */
 /* #undef STATIC_OAUTH */
 
-/* Link SASLdb Staticly */
+/* Link SASLdb Statically */
 /* #undef STATIC_SASLDB */
 
-/* Link SQL plugin staticly */
+/* Link SQL plugin statically */
 /* #undef STATIC_SQL */
 
-/* Link SRP Staticly */
+/* Link SRP Statically */
 /* #undef STATIC_SRP */
 
 /* Define to 1 if you have the ANSI C header files. */
@@ -409,7 +409,7 @@
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #define TIME_WITH_SYS_TIME 1
 
-/* Should we try to dlopen() plugins while staticly compiled? */
+/* Should we try to dlopen() plugins while statically compiled? */
 /* #undef TRY_DLOPEN_WHEN_STATIC */
 
 /* use the doors IPC API for saslauthd? */

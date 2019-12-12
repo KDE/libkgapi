@@ -31,7 +31,7 @@
  * 4. Redistributions of any form whatsoever must retain the following
  *    acknowledgment:
  *    "This product includes software developed by Computing Services
- *     at Carnegie Mellon University (http://www.cmu.edu/computing/)."
+ *     at Carnegie Mellon University (https://www.cmu.edu/computing/)."
  *
  * CARNEGIE MELLON UNIVERSITY DISCLAIMS ALL WARRANTIES WITH REGARD TO
  * THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY

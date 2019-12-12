@@ -59,7 +59,7 @@ ObjectPtr JSONToCalendar(const QVariantMap &data);
 ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString());
 
 /**
- * Checks whether TZID is in Olson format and converts it to it if neccessary
+ * Checks whether TZID is in Olson format and converts it to it if necessary
  *
  * This is mainly to handle crazy Microsoft TZIDs like
  * "(GMT) Greenwich Mean Time/Dublin/Edinburgh/London", because Google only
@@ -779,7 +779,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
     }
 
     /* TODO: Implement support for additional features:
-     * http://code.google.com/apis/gdata/docs/2.0/elements.html
+     * https://developers.google.com/gdata/docs/2.0/elements?csw=1
      */
 
     const auto document = QJsonDocument::fromVariant(data);
@@ -873,7 +873,7 @@ KCalendarCore::DateList Private::parseRDate(const QString& rule)
 namespace {
 
 /* Based on "Time Zone to CdoTimeZoneId Map"
- * http://msdn.microsoft.com/en-us/library/aa563018%28loband%29.aspx
+ * https://docs.microsoft.com/en-us/previous-versions/office/developer/exchange-server-2007/aa563018(v=exchg.80)
  *
  * The mapping is not exact, since the CdoTimeZoneId usually refers to a
  * region of multiple countries, so I always picked one of the countries
@@ -960,7 +960,7 @@ static const std::map<int, QLatin1String> MSCDOTZIDTable = {
 };
 
 /* Based on "Microsoft Time Zone Index Values"
- * http://support.microsoft.com/kb/973627
+ * https://support.microsoft.com/en-gb/help/973627/microsoft-time-zone-index-values
  *
  * The mapping is not exact, since the TZID usually refers to a
  * region of multiple countries, so I always picked one of the countries
