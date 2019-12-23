@@ -73,7 +73,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="locationType">
+        <widget class="QComboBox" name="locationType">
          <item>
           <property name="text">
            <string>Classic string</string>
@@ -209,7 +209,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="scale">
+      <widget class="QComboBox" name="scale">
        <item>
         <property name="text">
          <string>1</string>
@@ -230,7 +230,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="format">
+      <widget class="QComboBox" name="format">
        <item>
         <property name="text">
          <string>png</string>
@@ -266,7 +266,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="map">
+      <widget class="QComboBox" name="map">
        <item>
         <property name="text">
          <string>roadmap</string>
@@ -297,7 +297,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="sensor">
+      <widget class="QComboBox" name="sensor">
        <property name="currentIndex">
         <number>0</number>
        </property>
@@ -348,7 +348,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="markerSize">
+        <widget class="QComboBox" name="markerSize">
          <property name="currentIndex">
           <number>3</number>
          </property>
@@ -432,11 +432,6 @@
    <class>KColorButton</class>
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
