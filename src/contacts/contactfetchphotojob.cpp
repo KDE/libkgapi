@@ -92,7 +92,11 @@ void ContactFetchPhotoJob::start()
 
 void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     if (reply->error() == QNetworkReply::ContentNotFoundError
+#else
+    if (reply->networkError() == QNetworkReply::ContentNotFoundError
+#endif
         || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == NotFound) {
         d->contacts.currentProcessed();
         d->processNextContact();
