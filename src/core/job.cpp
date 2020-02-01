@@ -244,7 +244,12 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::Gone);
             q->setErrorString(tr("Requested resource does not exist anymore.\n\nGoogle replied '%1'").arg(msg));
-            q->emitFinished();
+            // don't emit finished() here, 410 means full sync at least for calendar api, let subclass decide.
+            q->handleReply(reply, rawData);
+
+            if (requestQueue.isEmpty()) {
+                q->emitFinished();
+            }
             return;
         }
 
