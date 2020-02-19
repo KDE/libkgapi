@@ -271,7 +271,7 @@ static const auto emailMethod = QLatin1String("email");
 static const auto popupMethod = QLatin1String("popup");
 
 static const auto confirmedStatus = QLatin1String("confirmed");
-static const auto canceledStatus = QLatin1String("cancalled");
+static const auto canceledStatus = QLatin1String("cancelled");
 static const auto tentativeStatus = QLatin1String("tentative");
 static const auto acceptedStatus = QLatin1String("accepted");
 static const auto needsActionStatus = QLatin1String("needsAction");
