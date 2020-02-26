@@ -80,7 +80,7 @@ StaticMapMarker::StaticMapMarker (const QString& address, const QChar& label, co
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker (const KContacts::Address& address, const QChar& label, const MarkerSize size, const QColor& color):
+StaticMapMarker::StaticMapMarker (const KContacts::Address& address, QChar label, const MarkerSize size, const QColor& color):
     d(new Private)
 {
     KContacts::Address::List list;
@@ -92,7 +92,7 @@ StaticMapMarker::StaticMapMarker (const KContacts::Address& address, const QChar
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker (const KContacts::Geo& address, const QChar& label, const MarkerSize size, const QColor& color):
+StaticMapMarker::StaticMapMarker (const KContacts::Geo& address, QChar label, const MarkerSize size, const QColor& color):
     d(new Private)
 {
     QList<KContacts::Geo> list;
@@ -104,7 +104,7 @@ StaticMapMarker::StaticMapMarker (const KContacts::Geo& address, const QChar& la
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const QStringList & locations, const QChar& label,
+StaticMapMarker::StaticMapMarker(const QStringList & locations, QChar label,
                                  const MarkerSize size, const QColor& color):
     d(new Private)
 {
@@ -115,7 +115,7 @@ StaticMapMarker::StaticMapMarker(const QStringList & locations, const QChar& lab
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const KContacts::Address::List & locations, const QChar& label,
+StaticMapMarker::StaticMapMarker(const KContacts::Address::List & locations, QChar label,
                                  const MarkerSize size, const QColor& color):
     d(new Private)
 {
@@ -126,7 +126,7 @@ StaticMapMarker::StaticMapMarker(const KContacts::Address::List & locations, con
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const QList< KContacts::Geo >& locations, const QChar& label,
+StaticMapMarker::StaticMapMarker(const QList< KContacts::Geo >& locations, QChar label,
                                  const MarkerSize size, const QColor& color):
     d(new Private)
 {
@@ -172,7 +172,7 @@ QChar StaticMapMarker::label() const
     return d->label;
 }
 
-void StaticMapMarker::setLabel(const QChar& label)
+void StaticMapMarker::setLabel(QChar label)
 {
     d->label = label;
 }

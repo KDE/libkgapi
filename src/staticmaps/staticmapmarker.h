@@ -83,7 +83,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const KContacts::Address & address, const QChar & label = QChar(),
+    explicit StaticMapMarker(const KContacts::Address & address, QChar label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
@@ -95,7 +95,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const KContacts::Geo & address, const QChar & label = QChar(),
+    explicit StaticMapMarker(const KContacts::Geo & address, QChar label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
@@ -107,7 +107,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const QStringList & locations, const QChar & label = QChar(),
+    explicit StaticMapMarker(const QStringList & locations, QChar label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
@@ -119,7 +119,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const KContacts::Address::List &locations, const QChar & label = QChar(),
+    explicit StaticMapMarker(const KContacts::Address::List &locations, QChar label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
@@ -131,7 +131,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const QList<KContacts::Geo> & locations, const QChar & label = QChar(),
+    explicit StaticMapMarker(const QList<KContacts::Geo> & locations, QChar label = QChar(),
                              const MarkerSize size = Normal, const QColor & color = Qt::red);
 
     /**
@@ -177,7 +177,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param label Specifies a single uppercase alphanumeric character from
      *              set {A-Z, 0-9} which will be displayed in the marker
      */
-    void setLabel(const QChar & label);
+    void setLabel(QChar label);
 
     /**
      * @brief Returns locations in QString
