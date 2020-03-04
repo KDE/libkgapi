@@ -120,8 +120,13 @@ void AuthWidget::authenticate()
     connect(d->server, &QTcpServer::newConnection, [&]() {
         d->connection = d->server->nextPendingConnection();
         d->connection->setParent(this);
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         connect(d->connection, static_cast<void (QAbstractSocket::*)(QAbstractSocket::SocketError)>
-            (&QAbstractSocket::error), d, &AuthWidgetPrivate::socketError);
+                (&QAbstractSocket::error), d, &AuthWidgetPrivate::socketError);
+#else
+        connect(d->connection, static_cast<void (QAbstractSocket::*)(QAbstractSocket::SocketError)>
+                (&QAbstractSocket::errorOccurred), d, &AuthWidgetPrivate::socketError);
+#endif
         connect(d->connection, &QTcpSocket::readyRead, d, &AuthWidgetPrivate::socketReady);
         d->server->close();
         d->server->deleteLater();

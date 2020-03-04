@@ -72,7 +72,11 @@ Contact::Contact(const Contact &other):
     KContacts::Addressee(other),
     d(new Private(*(other.d)))
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+#else
+    const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+#endif
     for (const QString &group : groups) {
         d->groups.insert(group, false);
     }
@@ -83,7 +87,11 @@ Contact::Contact(const KContacts::Addressee& other):
     KContacts::Addressee(other),
     d(new Private)
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+#else
+    const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+#endif
     for (const QString &group : groups) {
         d->groups.insert(group, false);
     }
@@ -180,7 +188,11 @@ void Contact::addGroup(const QString &group)
 
     d->groups.insert(group, false);
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+#else
+    QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+#endif
     if (!groups.contains(group)) {
         groups.append(group);
     }
@@ -200,7 +212,11 @@ void Contact::setGroups(const QStringList &groups)
 
 QStringList Contact::groups() const
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     return custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+#else
+    return custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+#endif
 }
 
 void Contact::clearGroups()
