@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-set(PIM_VERSION "5.13.40")
+set(PIM_VERSION "5.13.80")
 
 set(KGAPI_LIB_VERSION ${PIM_VERSION})
 
@@ -8,7 +8,7 @@ project(kgapi VERSION ${KGAPI_LIB_VERSION})
 set(CMAKE_CXX_STANDARD 14)
 
 # ECM setup
-set(KF5_MIN_VERSION "5.67.0")
+set(KF5_MIN_VERSION "5.68.0")
 
 find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
