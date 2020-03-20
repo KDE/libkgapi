@@ -39,6 +39,7 @@ class Q_DECL_HIDDEN EventFetchJob::Private
     QString calendarId;
     QString eventId;
     QString filter;
+    QString syncToken;
     bool fetchDeleted = true;
     quint64 updatedTimestamp = 0;
     quint64 timeMin = 0;
@@ -107,6 +108,16 @@ quint64 EventFetchJob::timeMax() const
     return d->timeMax;
 }
 
+void EventFetchJob::setSyncToken(const QString& syncToken)
+{
+    d->syncToken = syncToken;
+}
+
+QString EventFetchJob::syncToken()
+{
+    return d->syncToken;
+}
+
 void EventFetchJob::setTimeMin(quint64 timestamp)
 {
     if (isRunning()) {
@@ -147,14 +158,18 @@ void EventFetchJob::start()
         if (!d->filter.isEmpty()) {
             query.addQueryItem(QStringLiteral("q"), d->filter);
         }
-        if (d->updatedTimestamp > 0) {
-            query.addQueryItem(QStringLiteral("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
-        }
-        if (d->timeMin > 0) {
-            query.addQueryItem(QStringLiteral("timeMin"), Utils::ts2Str(d->timeMin));
-        }
-        if (d->timeMax > 0) {
-            query.addQueryItem(QStringLiteral("timeMax"), Utils::ts2Str(d->timeMax));
+        if (d->syncToken.isEmpty()) {
+            if (d->updatedTimestamp > 0) {
+                query.addQueryItem(QStringLiteral("updatedMin"), Utils::ts2Str(d->updatedTimestamp));
+            }
+            if (d->timeMin > 0) {
+                query.addQueryItem(QStringLiteral("timeMin"), Utils::ts2Str(d->timeMin));
+            }
+            if (d->timeMax > 0) {
+                query.addQueryItem(QStringLiteral("timeMax"), Utils::ts2Str(d->timeMax));
+            }
+        } else {
+            query.addQueryItem(QStringLiteral("syncToken"), d->syncToken);
         }
         url.setQuery(query);
     } else {
@@ -168,8 +183,9 @@ ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, cons
 {
     if (reply->error() == QNetworkReply::ContentGoneError
         || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == Gone) {
-        // Full sync required by server, redo request with no updatedMin
+        // Full sync required by server, redo request with no updatedMin and no syncToken
         d->updatedTimestamp = 0;
+        d->syncToken.clear();
         start();
         // Errors are not cleared on success
         // Do it here or else the job will fail
@@ -189,6 +205,7 @@ ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, cons
         } else {
             items << CalendarService::JSONToEvent(rawData).dynamicCast<Object>();
         }
+        d->syncToken = feedData.syncToken;
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));

@@ -207,6 +207,7 @@ static const auto kindParam = QStringLiteral("kind");
 static const auto idParam = QStringLiteral("id");
 static const auto etagParam = QStringLiteral("etag");
 
+static const auto nextSyncTokenParam = QStringLiteral("nextSyncToken");
 static const auto nextPageTokenParam = QStringLiteral("nextPageToken");
 static const auto pageTokenParam = QStringLiteral("pageToken");
 static const auto itemsParam = QStringLiteral("items");
@@ -806,6 +807,9 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
         if (data.contains(timeZoneParam)) {
             // This should always be in Olson format
             timezone = data.value(timeZoneParam).toString();
+        }
+        if (data.contains(nextSyncTokenParam)) {
+            feedData.syncToken = data[nextSyncTokenParam].toString();
         }
     } else {
         return {};

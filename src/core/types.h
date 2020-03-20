@@ -53,6 +53,8 @@ class KGAPICORE_EXPORT FeedData {
     QUrl requestUrl;    /**< Original URL of the request. This value is filled 
                              by AccessManager when passing the structure to a
                              service */
+    QString syncToken;  /**< Sync token that can be used for incremental
+                             updates by some of the services.*/
 };
 
 

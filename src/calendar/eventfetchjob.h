@@ -114,6 +114,16 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      */
     Q_PROPERTY(QString filter READ filter WRITE setFilter)
 
+    /**
+     * @brief A token to fetch updates incrementally
+     *
+     * By default the property is empty. Properties timeMin, timeMax,
+     * updatedMin will be ignored if sync token is specified
+     *
+     * @see setSyncToken, syncToken
+     */
+    Q_PROPERTY(QString syncToken READ syncToken WRITE setSyncToken)
+
   public:
 
     /**
@@ -213,6 +223,18 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      * @brief Returns lower boundary for events occurrence
      */
     quint64 timeMin() const;
+
+    /**
+     * @brief Sets token for incremental updates
+     *
+     * @param syncToken
+     */
+    void setSyncToken(const QString& syncToken);
+
+    /**
+     * @brief Token for next incremental update
+     */
+    QString syncToken();
 
   protected:
 
