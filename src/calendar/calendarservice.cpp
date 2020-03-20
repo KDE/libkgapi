@@ -187,7 +187,7 @@ QUrl removeEventUrl(const QString& calendarID, const QString& eventID)
 QUrl moveEventUrl(const QString& sourceCalendar, const QString& destCalendar, const QString& eventID)
 {
     QUrl url(Private::GoogleApisUrl);
-    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % sourceCalendar % QLatin1String("/events/") % eventID);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % sourceCalendar % QLatin1String("/events/") % eventID % QLatin1String("/move"));
     QUrlQuery query(url);
     query.addQueryItem(destinationQueryParam, destCalendar);
     url.setQuery(query);
