@@ -41,6 +41,7 @@ class Q_DECL_HIDDEN ContactModifyJob::Private
   public:
     Private(ContactModifyJob *parent);
     void processNextContact();
+    void updatePhoto(const ContactPtr &contact);
 
     QueueHelper<ContactPtr> contacts;
     ContactPtr lastContact;
@@ -84,7 +85,10 @@ void ContactModifyJob::Private::processNextContact()
     }
 
     q->enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
+}
 
+void ContactModifyJob::Private::updatePhoto(const ContactPtr &contact)
+{
     const QUrl photoUrl = ContactsService::photoUrl(q->account()->accountName(), contact->uid());
     QNetworkRequest photoRequest(photoUrl);
     if (!contact->photo().isEmpty()) {
@@ -94,7 +98,7 @@ void ContactModifyJob::Private::processNextContact()
         q->enqueueRequest(photoRequest, pendingPhoto.first, QStringLiteral("modifyImage"));
     } else {
         q->enqueueRequest(photoRequest, QByteArray(), QStringLiteral("deleteImage"));
-  }
+    }
 }
 
 
@@ -154,17 +158,17 @@ ObjectsList ContactModifyJob::handleReplyWithItems(const QNetworkReply *reply, c
         if (ct == KGAPI2::JSON) {
             d->lastContact = ContactsService::JSONToContact(rawData);
             items << d->lastContact;
-            d->contacts.currentProcessed();
         } else if (ct == KGAPI2::XML) {
             d->lastContact = ContactsService::XMLToContact(rawData);
             items << d->lastContact;
-            d->contacts.currentProcessed();
         } else {
             setError(KGAPI2::InvalidResponse);
             setErrorString(tr("Invalid response content type"));
             emitFinished();
             return items;
         }
+        d->updatePhoto(d->contacts.current());
+        d->contacts.currentProcessed();
     } else {
         if (d->lastContact && !d->pendingPhoto.first.isEmpty()) {
             KContacts::Picture picture;
