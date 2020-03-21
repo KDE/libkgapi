@@ -40,6 +40,7 @@ class Q_DECL_HIDDEN ContactCreateJob::Private
   public:
     Private(ContactCreateJob *parent);
     void processNextContact();
+    void setPhoto(const KContacts::Picture &photo, const QString &uid);
 
     QueueHelper<ContactPtr> contacts;
     ContactPtr lastContact;
@@ -83,15 +84,16 @@ void ContactCreateJob::Private::processNextContact()
     }
 
     q->enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
+}
 
-    if (!contact->photo().isEmpty()) {
-        const QUrl url = ContactsService::photoUrl(q->account()->accountName(), contact->uid());
-        QNetworkRequest photoRequest(url);
-        photoRequest.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("image/*"));
-        pendingPhoto.first = contact->photo().rawData();
-        pendingPhoto.second = contact->photo().type();
-        q->enqueueRequest(photoRequest, pendingPhoto.first, QStringLiteral("modifyImage"));
-    }
+void ContactCreateJob::Private::setPhoto(const KContacts::Picture &photo, const QString &uid)
+{
+    const QUrl url = ContactsService::photoUrl(q->account()->accountName(), uid);
+    QNetworkRequest photoRequest(url);
+    photoRequest.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("image/*"));
+    pendingPhoto.first = photo.rawData();
+    pendingPhoto.second = photo.type();
+    q->enqueueRequest(photoRequest, pendingPhoto.first, QStringLiteral("modifyImage"));
 }
 
 ContactCreateJob::ContactCreateJob(const ContactsList& contacts, const AccountPtr& account, QObject* parent):
@@ -139,16 +141,22 @@ ObjectsList ContactCreateJob::handleReplyWithItems(const QNetworkReply *reply, c
         if (ct == KGAPI2::JSON) {
             d->lastContact = ContactsService::JSONToContact(rawData);
             items << d->lastContact.dynamicCast<Object>();
-            d->contacts.currentProcessed();
         } else if (ct == KGAPI2::XML) {
             d->lastContact = ContactsService::XMLToContact(rawData);
             items << d->lastContact.dynamicCast<Object>();
-            d->contacts.currentProcessed();
         } else {
             setError(KGAPI2::InvalidResponse);
             setErrorString(tr("Invalid response content type"));
             emitFinished();
             return items;
+        }
+        if (!d->contacts.current()->photo().isEmpty()) {
+            // current contact does not have uid populated
+            d->setPhoto(d->contacts.current()->photo(), d->lastContact->uid());
+            d->contacts.currentProcessed();
+        } else {
+            d->contacts.currentProcessed();
+            d->processNextContact();
         }
     } else {
         if (d->lastContact) {
@@ -158,11 +166,9 @@ ObjectsList ContactCreateJob::handleReplyWithItems(const QNetworkReply *reply, c
             d->pendingPhoto.first.clear();
             d->pendingPhoto.second.clear();
         }
+        // Enqueue next item or finish
+        d->processNextContact();
     }
-
-    // Enqueue next item or finish
-    d->processNextContact();
-
     return items;
 }
 
