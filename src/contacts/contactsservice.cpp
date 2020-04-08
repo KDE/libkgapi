@@ -334,25 +334,25 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     }
 
     /* Formatted name */
-    if (data.contains(QLatin1String("gd$name"))) {
+    if (data.contains(QStringLiteral("gd$name"))) {
         const QVariantMap name = data.value(QStringLiteral("gd$name")).toMap();
 
-        if (name.contains(QLatin1String("gd$fullName"))) {
+        if (name.contains(QStringLiteral("gd$fullName"))) {
             contact->setFormattedName(Private::stringFromXMLMap(name, QStringLiteral("gd$fullName")));
         }
-        if (name.contains(QLatin1String("gd$givenName"))) {
+        if (name.contains(QStringLiteral("gd$givenName"))) {
             contact->setGivenName(Private::stringFromXMLMap(name, QStringLiteral("gd$givenName")));
         }
-        if (name.contains(QLatin1String("gd$familyName"))) {
+        if (name.contains(QStringLiteral("gd$familyName"))) {
             contact->setFamilyName(Private::stringFromXMLMap(name, QStringLiteral("gd$familyName")));
         }
-        if (name.contains(QLatin1String("gd$additionalName"))) {
+        if (name.contains(QStringLiteral("gd$additionalName"))) {
             contact->setAdditionalName(Private::stringFromXMLMap(name, QStringLiteral("gd$additionalName")));
         }
-        if (name.contains(QLatin1String("gd$namePrefix"))) {
+        if (name.contains(QStringLiteral("gd$namePrefix"))) {
             contact->setPrefix(Private::stringFromXMLMap(name, QStringLiteral("gd$namePrefix")));
         }
-        if (name.contains(QLatin1String("gd$nameSuffix"))) {
+        if (name.contains(QStringLiteral("gd$nameSuffix"))) {
             contact->setSuffix(Private::stringFromXMLMap(name, QStringLiteral("gd$nameSuffix")));
         }
     }
@@ -367,32 +367,32 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
         const QVariantList organizations = data.value(QStringLiteral("gd$organization")).toList();
         const QVariantMap organization = organizations.first().toMap();
 
-        if (organization.contains(QLatin1String("gd$orgName"))) {
+        if (organization.contains(QStringLiteral("gd$orgName"))) {
             contact->setOrganization(Private::stringFromXMLMap(organization, QStringLiteral("gd$orgName")));
         }
-        if (organization.contains(QLatin1String("gd$orgDepartment"))) {
+        if (organization.contains(QStringLiteral("gd$orgDepartment"))) {
             contact->setDepartment(Private::stringFromXMLMap(organization, QStringLiteral("gd$orgDepartment")));
         }
-        if (organization.contains(QLatin1String("gd$orgTitle"))) {
+        if (organization.contains(QStringLiteral("gd$orgTitle"))) {
             contact->setTitle(Private::stringFromXMLMap(organization, QStringLiteral("gd$orgTitle")));
         }
-        if (organization.contains(QLatin1String("gd$where"))) {
+        if (organization.contains(QStringLiteral("gd$where"))) {
             contact->setOffice(Private::stringFromXMLMap(organization, QStringLiteral("gd$where")));
         }
     }
 
     /* Nickname */
-    if (data.contains(QLatin1String("gContact$nickname"))) {
+    if (data.contains(QStringLiteral("gContact$nickname"))) {
         contact->setNickName(Private::stringFromXMLMap(data, QStringLiteral("gContact$nickname")));
     }
 
     /* Occupation (= organization/title) */
-    if (data.contains(QLatin1String("gContact$occupation"))) {
+    if (data.contains(QStringLiteral("gContact$occupation"))) {
         contact->setProfession(Private::stringFromXMLMap(data, QStringLiteral("gContact$occupation")));
     }
 
     /* Relationships */
-    if (data.contains(QLatin1String("gContact$relation"))) {
+    if (data.contains(QStringLiteral("gContact$relation"))) {
         const QVariantList relations = data.value(QStringLiteral("gContact$relation")).toList();
         for (const QVariant &r : relations) {
             const QVariantMap relation = r.toMap();
@@ -414,7 +414,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     }
 
     /* Anniversary */
-    if (data.contains(QLatin1String("gContact$event"))) {
+    if (data.contains(QStringLiteral("gContact$event"))) {
         const QVariantList events = data.value(QStringLiteral("gContact$event")).toList();
         for (const QVariant &e : events) {
             const QVariantMap event = e.toMap();
@@ -427,7 +427,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     }
 
     /* Websites */
-    if (data.contains(QLatin1String("gContact$website"))) {
+    if (data.contains(QStringLiteral("gContact$website"))) {
         const QVariantList websites = data.value(QStringLiteral("gContact$website")).toList();
         for (const QVariant &w : websites) {
             const QVariantMap web = w.toMap();

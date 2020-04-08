@@ -115,7 +115,7 @@ void FreeBusyQueryJob::handleReply(const QNetworkReply *reply, const QByteArray 
         const QVariantMap data = document.toVariant().toMap();
         const QVariantMap cals = data[QStringLiteral("calendars")].toMap();
         const QVariantMap cal = cals[d->id].toMap();
-        if (cal.contains(QLatin1String("errors"))) {
+        if (cal.contains(QStringLiteral("errors"))) {
             setError(KGAPI2::NotFound);
             setErrorString(tr("FreeBusy information is not available"));
         } else {

@@ -60,7 +60,7 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     if (feed.value(QStringLiteral("kind")).toString() == QLatin1String("tasks#taskLists")) {
         list = Private::parseTaskListJSONFeed(feed.value(QStringLiteral("items")).toList());
 
-        if (feed.contains(QLatin1String("nextPageToken"))) {
+        if (feed.contains(QStringLiteral("nextPageToken"))) {
             feedData.nextPageUrl = fetchTaskListsUrl();
             QUrlQuery query(feedData.nextPageUrl);
             query.addQueryItem(QStringLiteral("pageToken"), feed.value(QStringLiteral("nextPageToken")).toString());
@@ -73,7 +73,7 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     } else if (feed.value(QStringLiteral("kind")).toString() == QLatin1String("tasks#tasks")) {
         list = Private::parseTasksJSONFeed(feed.value(QStringLiteral("items")).toList());
 
-        if (feed.contains(QLatin1String("nextPageToken"))) {
+        if (feed.contains(QStringLiteral("nextPageToken"))) {
             QString taskListId = feedData.requestUrl.toString().remove(QStringLiteral("https://www.googleapis.com/tasks/v1/lists/"));
             taskListId = taskListId.left(taskListId.indexOf(QLatin1Char('/')));
 
@@ -217,7 +217,7 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
 
     task->setDeleted(jsonData.value(QStringLiteral("deleted")).toBool());
 
-    if (jsonData.contains(QLatin1String("parent"))) {
+    if (jsonData.contains(QStringLiteral("parent"))) {
         task->setRelatedTo(jsonData.value(QStringLiteral("parent")).toString(), KCalendarCore::Incidence::RelTypeParent);
     }
 

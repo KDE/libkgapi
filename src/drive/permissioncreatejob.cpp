@@ -126,7 +126,7 @@ QString PermissionCreateJob::emailMessage() const
     return d->emailMessage;
 }
 
-void PermissionCreateJob::setEmailMessage(QString emailMessage)
+void PermissionCreateJob::setEmailMessage(const QString &emailMessage)
 {
     d->emailMessage = emailMessage;
 }

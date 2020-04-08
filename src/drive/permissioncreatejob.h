@@ -53,7 +53,7 @@ class KGAPIDRIVE_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
     /**
      * @brief Sets the plain text custom message to include in notification emails.
      */
-    void setEmailMessage(QString emailMessage);
+    void setEmailMessage(const QString &emailMessage);
 
     /**
      * @brief Sets whether to send notification emails when sharing to users
