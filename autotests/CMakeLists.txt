@@ -11,6 +11,8 @@ set(kgapitest_SRCS
     testutils.cpp
 )
 
+
+if (NOT WIN32)
 # Silence deprecation warnings for deprecated APIs tests.
 set_source_files_properties(
     drive/teamdrivecreatejobtest.cpp
@@ -19,6 +21,7 @@ set_source_files_properties(
     drive/teamdrivemodifyjobtest.cpp
     PROPERTIES COMPILE_FLAGS -Wno-deprecated-declarations
 )
+endif()
 
 add_library(kgapitest STATIC ${kgapitest_SRCS})
 target_link_libraries(kgapitest Qt5::Core Qt5::Network Qt5::Test KPimGAPICore)
