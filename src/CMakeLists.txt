@@ -7,7 +7,9 @@ add_subdirectory(latitude)
 add_subdirectory(staticmaps)
 add_subdirectory(tasks)
 
-add_subdirectory(saslplugin)
+if (NOT WIN32)
+    add_subdirectory(saslplugin)
+endif()
 
 if (${ECM_VERSION} STRGREATER "5.58.0")
     install(FILES libkgapi.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
