@@ -221,7 +221,7 @@ public:
     typedef QSharedPointer<MaxUploadSize> MaxUploadSizePtr;
     typedef QList<MaxUploadSizePtr> MaxUploadSizesList;
 
-    struct Fields {
+    struct KGAPIDRIVE_EXPORT Fields {
         static const QString AdditionalRoleInfo;
         static const QString AdditionalRoles;
         static const QString BackgroundImageLink;
