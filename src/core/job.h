@@ -98,7 +98,7 @@ class KGAPICORE_EXPORT Job : public QObject
      */
     explicit Job(const AccountPtr &account, QObject* parent = nullptr);
 
-    struct StandardParams {
+    struct KGAPICORE_EXPORT StandardParams {
         static const QString PrettyPrint;
         static const QString Fields;
     };
