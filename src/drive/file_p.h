@@ -54,6 +54,7 @@ class Q_DECL_HIDDEN File::Private
     qlonglong fileSize;
     QUrl alternateLink;
     QUrl embedLink;
+    qlonglong version;
     QDateTime sharedWithMeDate;
     ParentReferencesList parents;
     QMap<QString,QUrl> exportLinks;

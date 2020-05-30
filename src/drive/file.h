@@ -476,6 +476,11 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     QUrl embedLink() const;
 
     /**
+     * @brief Returns the version of the file;
+     */
+    qlonglong version() const;
+
+    /**
      * @brief Returns the time at which this file was shared with the user.
      */
     QDateTime sharedWithMeDate() const;

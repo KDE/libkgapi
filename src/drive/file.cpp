@@ -559,6 +559,7 @@ QString File::Thumbnail::mimeType() const
 
 File::Private::Private():
     fileSize(-1),
+    version(-1),
     quotaBytesUsed(-1),
     editable(false),
     writersCanShare(false),
@@ -585,6 +586,7 @@ File::Private::Private(const Private& other):
     fileSize(other.fileSize),
     alternateLink(other.alternateLink),
     embedLink(other.embedLink),
+    version(other.version),
     sharedWithMeDate(other.sharedWithMeDate),
     parents(other.parents),
     exportLinks(other.exportLinks),
@@ -630,6 +632,7 @@ bool File::operator==(const File &other) const
     GAPI_COMPARE(fileSize)
     GAPI_COMPARE(alternateLink)
     GAPI_COMPARE(embedLink)
+    GAPI_COMPARE(version)
     GAPI_COMPARE(sharedWithMeDate)
     GAPI_COMPARE_CONTAINERS(parents)
     GAPI_COMPARE(exportLinks)
@@ -697,6 +700,7 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->fileSize = map[Fields::FileSize].toLongLong();
     file->d->alternateLink = map[Fields::AlternateLink].toUrl();
     file->d->embedLink = map[Fields::EmbedLink].toUrl();
+    file->d->version = map[Fields::Version].toLongLong();
     file->d->sharedWithMeDate = QDateTime::fromString(map[Fields::SharedWithMeDate].toString(), Qt::ISODate);
 
     const QVariantList parents = map[Fields::Parents].toList();
@@ -874,6 +878,11 @@ QUrl File::alternateLink() const
 QUrl File::embedLink() const
 {
     return d->embedLink;
+}
+
+qlonglong File::version() const
+{
+    return d->version;
 }
 
 QDateTime File::sharedWithMeDate() const
