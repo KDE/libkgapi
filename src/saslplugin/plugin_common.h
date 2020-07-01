@@ -3,7 +3,7 @@
  * $Id: plugin_common.h,v 1.21 2006/01/17 12:18:21 mel Exp $
  */
 /*
- * Copyright (c) 1998-2003 Carnegie Mellon University.  All rights reserved.
+ * SPDX-FileCopyrightText: 1998-2003 Carnegie Mellon University. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
