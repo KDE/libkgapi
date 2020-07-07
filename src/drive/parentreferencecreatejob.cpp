@@ -31,7 +31,7 @@ class Q_DECL_HIDDEN ParentReferenceCreateJob::Private
     ParentReferencesList references;
 
 private:
-    ParentReferenceCreateJob *q;
+    ParentReferenceCreateJob *const q;
 };
 
 ParentReferenceCreateJob::Private::Private(ParentReferenceCreateJob *parent):

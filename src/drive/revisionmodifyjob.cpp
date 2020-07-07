@@ -29,7 +29,7 @@ class Q_DECL_HIDDEN RevisionModifyJob::Private
     RevisionsList revisions;
 
   private:
-    RevisionModifyJob *q;
+    RevisionModifyJob *const q;
 };
 
 RevisionModifyJob::Private::Private(RevisionModifyJob *parent):

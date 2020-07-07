@@ -28,7 +28,7 @@ class Q_DECL_HIDDEN ChildReferenceFetchJob::Private
     QString childId;
 
   private:
-    ChildReferenceFetchJob *q;
+    ChildReferenceFetchJob *const q;
 };
 
 ChildReferenceFetchJob::Private::Private(ChildReferenceFetchJob *parent):

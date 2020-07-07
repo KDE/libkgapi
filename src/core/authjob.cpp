@@ -52,7 +52,7 @@ class Q_DECL_HIDDEN AuthJob::Private
     QPointer<QDialog> dialog;
 
   private:
-    AuthJob *q;
+    AuthJob *const q;
 };
 
 AuthJob::Private::Private(AuthJob *parent):

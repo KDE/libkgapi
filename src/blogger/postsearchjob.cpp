@@ -29,7 +29,7 @@ class Q_DECL_HIDDEN PostSearchJob::Private
     bool fetchBodies;
 
   private:
-    PostSearchJob *q;
+    PostSearchJob *const q;
 };
 
 PostSearchJob::Private::Private(const QString &blogId_,

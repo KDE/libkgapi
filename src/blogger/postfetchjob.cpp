@@ -36,7 +36,7 @@ class Q_DECL_HIDDEN PostFetchJob::Private
     StatusFilters statusFilter;
 
   private:
-    PostFetchJob *q;
+    PostFetchJob *const q;
 };
 
 PostFetchJob::Private::Private(const QString &blogId_,

@@ -35,7 +35,7 @@ class Q_DECL_HIDDEN CommentFetchJob::Private
     bool fetchBodies;
 
   private:
-    CommentFetchJob *q;
+    CommentFetchJob *const q;
 };
 
 CommentFetchJob::Private::Private(const QString &blogId_,

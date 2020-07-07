@@ -31,7 +31,7 @@ class Q_DECL_HIDDEN FileAbstractModifyJob::Private
     bool supportsAllDrives;
 
   private:
-    FileAbstractModifyJob *q;
+    FileAbstractModifyJob *const q;
 };
 
 FileAbstractModifyJob::Private::Private(FileAbstractModifyJob *parent):

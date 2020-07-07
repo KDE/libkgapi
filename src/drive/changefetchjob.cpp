@@ -35,7 +35,7 @@ class Q_DECL_HIDDEN ChangeFetchJob::Private
     bool supportsAllDrives;
 
   private:
-    ChangeFetchJob *q;
+    ChangeFetchJob *const q;
 };
 
 ChangeFetchJob::Private::Private(ChangeFetchJob *parent):

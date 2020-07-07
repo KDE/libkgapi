@@ -33,7 +33,7 @@ class Q_DECL_HIDDEN ContactModifyJob::Private
     ContactPtr lastContact;
     QPair<QByteArray, QString> pendingPhoto;
   private:
-    ContactModifyJob *q;
+    ContactModifyJob *const q;
 };
 
 ContactModifyJob::Private::Private(ContactModifyJob *parent):

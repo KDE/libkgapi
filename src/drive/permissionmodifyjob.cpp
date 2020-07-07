@@ -41,7 +41,7 @@ class Q_DECL_HIDDEN PermissionModifyJob::Private
     bool useDomainAdminAccess;
 
   private:
-    PermissionModifyJob *q;
+    PermissionModifyJob *const q;
 };
 
 PermissionModifyJob::Private::Private(PermissionModifyJob *parent):

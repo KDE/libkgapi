@@ -79,7 +79,7 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
 
   private:
     class Private;
-    Private const * d;
+    Private *const d;
     friend class Private;
 
 };

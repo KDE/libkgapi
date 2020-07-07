@@ -81,7 +81,7 @@ class KGAPICORE_EXPORT AuthWidgetPrivate: public QObject {
 
     void setSslIcon(const QString &icon);
 
-    AuthWidget *q;
+    AuthWidget *const q;
 
     friend class AuthWidget;
 };

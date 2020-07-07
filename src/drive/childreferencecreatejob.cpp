@@ -31,7 +31,7 @@ class Q_DECL_HIDDEN ChildReferenceCreateJob::Private
     bool supportsAllDrives;
 
   private:
-    ChildReferenceCreateJob *q;
+    ChildReferenceCreateJob *const q;
 };
 
 ChildReferenceCreateJob::Private::Private(ChildReferenceCreateJob *parent):
