@@ -170,6 +170,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
         case KGAPI2::NoContent:    /** << OK status (removed task using Tasks API) */
             break;
 
+        case KGAPI2::TemporarilyMovedUseSameMethod: /** << Temporarily moved - Google provides a new URL where to send the request which must use the original method */
         case KGAPI2::TemporarilyMoved: {  /** << Temporarily moved - Google provides a new URL where to send the request */
             qCDebug(KGAPIDebug) << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
             QNetworkRequest request = currentRequest.request;

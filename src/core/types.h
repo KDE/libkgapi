@@ -189,6 +189,7 @@ enum Error {
     NoContent = 204,         ///< Tasks API returns 204 when task is successfully removed.
     TemporarilyMoved = 302,  ///< The object is located on a different URL provided in reply.
     NotModified = 304,       ///< Request was successful, but no data were updated.
+    TemporarilyMovedUseSameMethod = 307,  ///< The object is located at a different URL provided in the reply. The same request method must be used.
     BadRequest = 400,        ///< Invalid (malformed) request.
     Unauthorized = 401,      ///< Invalid or expired token. See KGAPI2::Account::refreshTokens().
     Forbidden = 403,         ///< The requested data is not accessible to this account.
