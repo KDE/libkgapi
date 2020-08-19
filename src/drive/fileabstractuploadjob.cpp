@@ -191,7 +191,7 @@ void FileAbstractUploadJob::Private::_k_uploadProgress(qint64 bytesSent,
     // Each file consists of 100 units, so if we have two files, one already
     // uploaded and the other one uploaded from 50%, the values are (150, 200)
 
-    int processedParts = (originalFilesCount - files.count()) * 100;
+    int processedParts = (originalFilesCount - files.count() - 1) * 100;
     int currentFileParts = 100.0 * ((qreal) bytesSent / (qreal) totalBytes);
 
     q->emitProgress(processedParts + currentFileParts, originalFilesCount * 100);
