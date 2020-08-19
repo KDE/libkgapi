@@ -15,12 +15,15 @@ set(kgapidrive_SRCS
     fileabstractdatajob.cpp
     fileabstractmodifyjob.cpp
     fileabstractuploadjob.cpp
+    fileabstractresumablejob.cpp
     filecopyjob.cpp
     filecreatejob.cpp
     filedeletejob.cpp
     filefetchcontentjob.cpp
     filefetchjob.cpp
     filemodifyjob.cpp
+    fileresumablecreatejob.cpp
+    fileresumablemodifyjob.cpp
     filesearchquery.cpp
     filetouchjob.cpp
     filetrashjob.cpp
@@ -73,12 +76,15 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     FileAbstractDataJob
     FileAbstractModifyJob
     FileAbstractUploadJob
+    FileAbstractResumableJob
     FileCopyJob
     FileCreateJob
     FileDeleteJob
     FileFetchContentJob
     FileFetchJob
     FileModifyJob
+    FileResumableCreateJob
+    FileResumableModifyJob
     FileSearchQuery
     FileTouchJob
     FileTrashJob

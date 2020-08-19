@@ -168,6 +168,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
         case KGAPI2::OK:           /** << OK status (fetched, updated, removed) */
         case KGAPI2::Created:      /** << OK status (created) */
         case KGAPI2::NoContent:    /** << OK status (removed task using Tasks API) */
+        case KGAPI2::ResumeIncomplete: /** << OK status (partially uploaded a file via resumable upload) */
             break;
 
         case KGAPI2::TemporarilyMovedUseSameMethod: /** << Temporarily moved - Google provides a new URL where to send the request which must use the original method */

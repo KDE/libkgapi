@@ -187,6 +187,7 @@ enum Error {
     OK = 200,                ///< Request successfully executed.
     Created = 201,           ///< Create request successfully executed.
     NoContent = 204,         ///< Tasks API returns 204 when task is successfully removed.
+    ResumeIncomplete = 308,  ///< Drive Api returns 308 when accepting a partial file upload
     TemporarilyMoved = 302,  ///< The object is located on a different URL provided in reply.
     NotModified = 304,       ///< Request was successful, but no data were updated.
     TemporarilyMovedUseSameMethod = 307,  ///< The object is located at a different URL provided in the reply. The same request method must be used.
