@@ -26,17 +26,6 @@ class KGAPIDRIVE_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstra
 {
     Q_OBJECT
 
-    /**
-     * Whether to use the content as indexable text.
-     *
-     * Default value is false.
-     *
-     * This property can be modified only when the job is not running.
-     */
-    Q_PROPERTY(bool useContentAsIndexableText
-               READ useContentAsIndexableText
-               WRITE setUseContentAsIndexableText)
-
   public:
     explicit FileAbstractUploadJob(const FilePtr &metadata,
                                    const AccountPtr &account,
@@ -58,9 +47,6 @@ class KGAPIDRIVE_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstra
                                    FilePtr /* metadata */ > &files,
                                    const AccountPtr &account, QObject *parent = nullptr);
     ~FileAbstractUploadJob() override;
-
-    bool useContentAsIndexableText() const;
-    void setUseContentAsIndexableText(bool useContentAsIndexableText);
 
     QMap < QString /* file path */, FilePtr /* metadata */ > files() const;
 

@@ -26,6 +26,7 @@ class Q_DECL_HIDDEN FileAbstractDataJob::Private
     bool pinned;
     QString timedTextLanguage;
     QString timedTextTrackName;
+    bool useContentAsIndexableText;
     bool supportsAllDrives;
 };
 
@@ -33,6 +34,7 @@ FileAbstractDataJob::Private::Private():
     convert(false),
     ocr(false),
     pinned(false),
+    useContentAsIndexableText(false),
     supportsAllDrives(true)
 {
 }
@@ -140,6 +142,21 @@ void FileAbstractDataJob::setTimedTextTrackName(const QString &timedTextTrackNam
     d->timedTextTrackName = timedTextTrackName;
 }
 
+void FileAbstractDataJob::setUseContentAsIndexableText(bool useContentAsIndexableText)
+{
+    if (isRunning()) {
+        qCWarning(KGAPIDebug) << "Can't modify useContentAsIndexableText property when job is running";
+        return;
+    }
+
+    d->useContentAsIndexableText = useContentAsIndexableText;
+}
+
+bool FileAbstractDataJob::useContentAsIndexableText() const
+{
+    return d->useContentAsIndexableText;
+}
+
 bool FileAbstractDataJob::supportsAllDrives() const
 {
     return d->supportsAllDrives;
@@ -175,6 +192,9 @@ QUrl FileAbstractDataJob::updateUrl(QUrl &url)
     if (!d->timedTextTrackName.isEmpty()) {
         query.addQueryItem(QStringLiteral("timedTextTrackName"), d->timedTextTrackName);
     }
+    
+    query.removeQueryItem(QStringLiteral("useContentAsIndexableText"));
+    query.addQueryItem(QStringLiteral("useContentAsIndexableText"), Utils::bool2Str(d->useContentAsIndexableText));
 
     query.removeQueryItem(QStringLiteral("supportsAllDrives"));
     query.addQueryItem(QStringLiteral("supportsAllDrives"), Utils::bool2Str(d->supportsAllDrives));

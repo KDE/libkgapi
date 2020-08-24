@@ -85,6 +85,17 @@ class KGAPIDRIVE_EXPORT FileAbstractDataJob : public KGAPI2::Job
                WRITE setTimedTextTrackName)
 
     /**
+     * Whether to use the content as indexable text.
+     *
+     * Default value is false.
+     *
+     * This property can be modified only when the job is not running.
+     */
+    Q_PROPERTY(bool useContentAsIndexableText
+               READ useContentAsIndexableText
+               WRITE setUseContentAsIndexableText)
+
+    /**
      *  Sets whether the request supports both My Drives and shared drives.
      *
      * Set to true by default as LibKGAPI supports Team Drives.
@@ -117,6 +128,9 @@ class KGAPIDRIVE_EXPORT FileAbstractDataJob : public KGAPI2::Job
 
     QString timedTextTrackName() const;
     void setTimedTextTrackName(const QString &timedTextTrackName);
+
+    bool useContentAsIndexableText() const;
+    void setUseContentAsIndexableText(bool useContentAsIndexableText);
 
     /**
      * @brief Whether the request supports both My Drives and shared drives.

@@ -44,7 +44,6 @@ class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 
     QMap<QString, FilePtr> uploadedFiles;
 
-    bool useContentAsIndexableText;
     File::SerializationOptions serializationOptions = File::NoOptions;
 
   private:
@@ -53,7 +52,6 @@ class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 
 FileAbstractUploadJob::Private::Private(FileAbstractUploadJob *parent):
     originalFilesCount(0),
-    useContentAsIndexableText(false),
     q(parent)
 {
 }
@@ -143,7 +141,6 @@ void FileAbstractUploadJob::Private::processNext()
 
     q->updateUrl(url);
     QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("useContentAsIndexableText"), Utils::bool2Str(useContentAsIndexableText));
 
     QByteArray rawData;
     QString contentType;
@@ -267,21 +264,6 @@ FileAbstractUploadJob::FileAbstractUploadJob(const QMap< QString, FilePtr > &fil
 FileAbstractUploadJob::~FileAbstractUploadJob()
 {
     delete d;
-}
-
-void FileAbstractUploadJob::setUseContentAsIndexableText(bool useContentAsIndexableText)
-{
-    if (isRunning()) {
-        qCWarning(KGAPIDebug) << "Can't modify useContentAsIndexableText property when job is running";
-        return;
-    }
-
-    d->useContentAsIndexableText = useContentAsIndexableText;
-}
-
-bool FileAbstractUploadJob::useContentAsIndexableText() const
-{
-    return d->useContentAsIndexableText;
 }
 
 void FileAbstractUploadJob::start()
