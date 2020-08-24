@@ -44,12 +44,6 @@ Content-type: application/json; charset=UTF-8
       "$t": "2018-03-25T16:37:29.565Z"
     }, 
     "xmlns$gd": "http://schemas.google.com/g/2005", 
-    "gContact$groupMembershipInfo": [
-      {
-        "deleted": "false", 
-        "href": "http://www.google.com/m8/feeds/groups/MockAccount/base/6"
-      }
-    ], 
     "gd$structuredPostalAddress": [
       {
         "gd$country": {
