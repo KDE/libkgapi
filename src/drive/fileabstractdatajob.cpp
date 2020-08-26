@@ -21,21 +21,24 @@ class Q_DECL_HIDDEN FileAbstractDataJob::Private
     Private();
 
     bool convert;
+    bool enforceSingleParent;
+    QString includePermissionsForView;
     bool ocr;
     QString ocrLanguage;
     bool pinned;
+    bool supportsAllDrives;
     QString timedTextLanguage;
     QString timedTextTrackName;
     bool useContentAsIndexableText;
-    bool supportsAllDrives;
 };
 
 FileAbstractDataJob::Private::Private():
     convert(false),
+    enforceSingleParent(false),
     ocr(false),
     pinned(false),
-    useContentAsIndexableText(false),
-    supportsAllDrives(true)
+    supportsAllDrives(true),
+    useContentAsIndexableText(false)
 {
 }
 
@@ -65,6 +68,38 @@ void FileAbstractDataJob::setConvert(bool convert)
 
     d->convert = convert;
 }
+
+
+bool FileAbstractDataJob::enforceSingleParent() const
+{
+    return d->enforceSingleParent;
+}
+
+void FileAbstractDataJob::setEnforceSingleParent(bool enforceSingleParent)
+{
+    if (isRunning()) {
+        qCWarning(KGAPIDebug) << "Can't modify enforceSingleParent property when job is running";
+        return;
+    }
+
+    d->enforceSingleParent = enforceSingleParent;
+}
+
+QString FileAbstractDataJob::includePermissionsForView() const
+{
+    return d->includePermissionsForView;
+}
+
+void FileAbstractDataJob::setIncludePermissionsForView(const QString &includePermissionsForView)
+{
+    if (isRunning()) {
+        qCWarning(KGAPIDebug) << "Can't modify includePermissionsForView property when job is running";
+        return;
+    }
+
+    d->includePermissionsForView = includePermissionsForView;
+}
+
 
 bool FileAbstractDataJob::ocr() const
 {
@@ -109,6 +144,16 @@ void FileAbstractDataJob::setPinned(bool pinned)
     }
 
     d->pinned = pinned;
+}
+
+bool FileAbstractDataJob::supportsAllDrives() const
+{
+    return d->supportsAllDrives;
+}
+
+void FileAbstractDataJob::setSupportsAllDrives(bool supportsAllDrives)
+{
+    d->supportsAllDrives = supportsAllDrives;
 }
 
 QString FileAbstractDataJob::timedTextLanguage() const
@@ -157,21 +202,18 @@ bool FileAbstractDataJob::useContentAsIndexableText() const
     return d->useContentAsIndexableText;
 }
 
-bool FileAbstractDataJob::supportsAllDrives() const
-{
-    return d->supportsAllDrives;
-}
-
-void FileAbstractDataJob::setSupportsAllDrives(bool supportsAllDrives)
-{
-    d->supportsAllDrives = supportsAllDrives;
-}
-
 QUrl FileAbstractDataJob::updateUrl(QUrl &url)
 {
     QUrlQuery query(url);
     query.removeQueryItem(QStringLiteral("convert"));
     query.addQueryItem(QStringLiteral("convert"), Utils::bool2Str(d->convert));
+
+    query.removeQueryItem(QStringLiteral("enforceSingleParent"));
+    query.removeQueryItem(QStringLiteral("includePermissionsForView"));
+    query.addQueryItem(QStringLiteral("enforceSingleParent"), Utils::bool2Str(d->enforceSingleParent));
+    if (!d->includePermissionsForView.isEmpty()) {
+        query.addQueryItem(QStringLiteral("includePermissionsForView"), d->includePermissionsForView);
+    }
 
     query.removeQueryItem(QStringLiteral("ocr"));
     query.removeQueryItem(QStringLiteral("ocrLanguage"));
