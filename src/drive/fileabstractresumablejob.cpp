@@ -31,12 +31,16 @@ class Q_DECL_HIDDEN FileAbstractResumableJob::Private
     void startUploadSession();
     void uploadChunk(bool lastChunk);
     void processNext();
+    bool isTotalSizeKnown() const;
+
+    void _k_uploadProgress(qint64 bytesSent, qint64 totalBytes);
 
     FilePtr metaData;
 
     QString sessionPath;
     QList<QByteArray> chunks;
     int uploadedSize = 0;
+    int totalUploadSize = 0;
 
     enum SessionState {
         ReadyStart,
@@ -109,8 +113,9 @@ void FileAbstractResumableJob::Private::uploadChunk(bool lastChunk)
             // Need to send last chunk, therefore final file size is known now
             tempRangeHeader = tempRangeHeader.arg(uploadedSize + partData.size());
         } else {
-            // In the middle of the upload, file size is not yet known so use star
-            tempRangeHeader = tempRangeHeader.arg(QStringLiteral("*"));
+            // Use star in the case that total upload size in unknown
+            QString totalSymbol = isTotalSizeKnown() ? QString::number(totalUploadSize) : QStringLiteral("*");
+            tempRangeHeader = tempRangeHeader.arg(totalSymbol);
         }
         rangeHeader = tempRangeHeader;
     }
@@ -158,6 +163,19 @@ void FileAbstractResumableJob::Private::processNext()
     }
 }
 
+bool FileAbstractResumableJob::Private::isTotalSizeKnown() const
+{
+    return totalUploadSize != 0;
+}
+
+void FileAbstractResumableJob::Private::_k_uploadProgress(qint64 bytesSent,
+        qint64 totalBytes)
+{
+    // uploadedSize corresponds to total bytes enqueued (including current chunk upload)
+    qint64 totalUploaded = uploadedSize - totalBytes + bytesSent;
+    q->emitProgress(totalUploaded, totalUploadSize);
+}
+
 
 FileAbstractResumableJob::FileAbstractResumableJob(const AccountPtr &account,
                                              QObject *parent):
@@ -180,6 +198,16 @@ FileAbstractResumableJob::~FileAbstractResumableJob() = default;
 FilePtr FileAbstractResumableJob::metadata() const
 {
     return d->metaData;
+}
+
+void FileAbstractResumableJob::setUploadSize(int size)
+{
+    if (isRunning()) {
+        qCWarning(KGAPIDebug) << "Can't set upload size when the job is already running";
+        return;
+    }
+
+    d->totalUploadSize = size;
 }
 
 void FileAbstractResumableJob::write(const QByteArray &data)
@@ -232,12 +260,17 @@ void FileAbstractResumableJob::dispatchRequest(QNetworkAccessManager *accessMana
 {
     Q_UNUSED(contentType)
 
+    QNetworkReply *reply;
     if (d->sessionState == Private::ReadyStart) {
-        accessManager->post(request, data);
+        reply = accessManager->post(request, data);
     } else {
-        accessManager->put(request, data);
+        reply = accessManager->put(request, data);
     }
 
+    if (d->isTotalSizeKnown()) {
+        connect(reply, &QNetworkReply::uploadProgress,
+                this, [this](qint64 bytesSent, qint64 totalBytes) {d->_k_uploadProgress(bytesSent, totalBytes); });
+    }
 }
 
 void FileAbstractResumableJob::handleReply(const QNetworkReply *reply,
@@ -264,6 +297,20 @@ void FileAbstractResumableJob::handleReply(const QNetworkReply *reply,
             break;
         }
         case Private::Started: {
+            // If during upload total size is declared via Content-Range header, Google will
+            // respond with 200 on the last chunk upload. The job is complete in that case.
+            if (d->isTotalSizeKnown() && replyCode == KGAPI2::OK) {
+                d->sessionState = Private::Completed;
+                const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+                ContentType ct = Utils::stringToContentType(contentType);
+                if (ct == KGAPI2::JSON) {
+                    d->metaData = File::fromJSON(rawData);
+                }
+                return;
+            }
+
+            // Google will continue answering ResumeIncomplete until the total upload size is declared
+            // in the Content-Range header or until last upload range not total upload size.
             if (replyCode != KGAPI2::ResumeIncomplete) {
                 qCWarning(KGAPIDebug) << "Failed uploading chunk" << replyCode;
                 setError(KGAPI2::UnknownError);

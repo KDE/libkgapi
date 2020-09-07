@@ -93,15 +93,23 @@ void MainWindow::uploadFile()
     uploadFile->setTitle(fileInfo.fileName());
     
     KGAPI2::Drive::FileResumableCreateJob *fileCreateJob = new KGAPI2::Drive::FileResumableCreateJob(uploadFile, m_account, this);
+    fileCreateJob->setUploadSize(uploadingFile->size());
     connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::finished,
             this, &MainWindow::slotFileCreateJobFinished);
     connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::readyWrite,
             this, &MainWindow::slotFileCreateJobReadyWrite);
+    connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::progress,
+            this, &MainWindow::slotFileCreateJobProgress);
     
     bytesUploaded = 0;
-    uploadProgressBar = new QProgressBar(m_ui->statusbar);
-    uploadProgressBar->setMaximum(uploadingFile->size());
-    m_ui->statusbar->addWidget(uploadProgressBar);
+    fileUploadProgressBar = new QProgressBar(m_ui->statusbar);
+    fileUploadProgressBar->setFormat(QStringLiteral("Sent to Job: %v bytes [%p%]"));
+    fileUploadProgressBar->setMaximum(uploadingFile->size());
+    m_ui->statusbar->addWidget(fileUploadProgressBar);
+
+    jobUploadProgressBar = new QProgressBar(m_ui->statusbar);
+    jobUploadProgressBar->setFormat(QStringLiteral("Job progress: %v bytes [%p%]"));
+    m_ui->statusbar->addWidget(jobUploadProgressBar);
 }
 
 void MainWindow::slotFileCreateJobFinished(KGAPI2::Job *job)
@@ -119,8 +127,11 @@ void MainWindow::slotFileCreateJobFinished(KGAPI2::Job *job)
         m_ui->statusbar->showMessage(QStringLiteral("Upload complete, id %1, size %2 (uploaded %3), mimeType %4").arg(file->id()).arg(file->fileSize()).arg(bytesUploaded).arg(file->mimeType()));
     }
 
-    m_ui->statusbar->removeWidget(uploadProgressBar);
-    uploadProgressBar->deleteLater();
+    m_ui->statusbar->removeWidget(fileUploadProgressBar);
+    fileUploadProgressBar->deleteLater();
+
+    m_ui->statusbar->removeWidget(jobUploadProgressBar);
+    jobUploadProgressBar->deleteLater();
 }
 
 
@@ -130,7 +141,13 @@ void MainWindow::slotFileCreateJobReadyWrite(KGAPI2::Drive::FileAbstractResumabl
     bytesUploaded += data.size();
     job->write(data);
 
-    uploadProgressBar->setValue(bytesUploaded);
+    fileUploadProgressBar->setValue(bytesUploaded);
+}
+
+void MainWindow::slotFileCreateJobProgress(KGAPI2::Job *job, int base, int total)
+{
+    jobUploadProgressBar->setValue(base);
+    jobUploadProgressBar->setMaximum(total);
 }
 
 void MainWindow::setInputsEnabled(bool enabled)

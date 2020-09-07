@@ -65,6 +65,11 @@ class MainWindow : public QMainWindow
      */
     void slotFileCreateJobReadyWrite(KGAPI2::Drive::FileAbstractResumableJob *job);
 
+    /**
+     * FileCreateJob emits progress
+     */
+    void slotFileCreateJobProgress(KGAPI2::Job *job, int base, int total);
+
   private:
     Ui::MainWindow *m_ui;
 
@@ -72,7 +77,8 @@ class MainWindow : public QMainWindow
     
     QFile *uploadingFile;
     int bytesUploaded;
-    QProgressBar *uploadProgressBar;
+    QProgressBar *fileUploadProgressBar;
+    QProgressBar *jobUploadProgressBar;
     
     void setInputsEnabled(bool enabled);
 

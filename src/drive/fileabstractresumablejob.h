@@ -78,6 +78,12 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
     FilePtr metadata() const;
 
     /**
+     * @brief Sets the total upload size and is required for progress reporting
+     * via the Job::progress() signal.
+     */
+    void setUploadSize(int size);
+
+    /**
      * @brief This function writes all the bytes in \p data to the upload session.
      *
      * The write operation splits written data in chunks that will be
@@ -156,6 +162,8 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
+
+    Q_PRIVATE_SLOT(d, void _k_uploadProgress(qint64 uploadedBytes, qint64 totalBytes))
 };
 
 } // namespace Drive
