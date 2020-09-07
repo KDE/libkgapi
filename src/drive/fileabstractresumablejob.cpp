@@ -14,7 +14,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QMimeDatabase>
-
 #include <QUrlQuery>
 
 using namespace KGAPI2;
@@ -31,11 +30,13 @@ class Q_DECL_HIDDEN FileAbstractResumableJob::Private
     void startUploadSession();
     void uploadChunk(bool lastChunk);
     void processNext();
+    void readFromDevice();
     bool isTotalSizeKnown() const;
 
     void _k_uploadProgress(qint64 bytesSent, qint64 totalBytes);
 
     FilePtr metaData;
+    QIODevice *device = nullptr;
 
     QString sessionPath;
     QList<QByteArray> chunks;
@@ -142,9 +143,13 @@ void FileAbstractResumableJob::Private::processNext()
             if (chunks.isEmpty() || chunks.first().size() < ChunkSize) {
                 qCDebug(KGAPIDebug) << "Chunks empty or not big enough to process, asking for more";
 
-                // Warning: an endless loop could be started here is the signal receiver isn't using
-                // a direct connection.
-                q->emitReadyWrite();
+                if (device) {
+                    readFromDevice();
+                } else {
+                    // Warning: an endless loop could be started here if the signal receiver isn't using
+                    // a direct connection.
+                    q->emitReadyWrite();
+                }
                 processNext();
                 return;
             }
@@ -161,6 +166,18 @@ void FileAbstractResumableJob::Private::processNext()
             q->emitFinished();
             return;
     }
+}
+
+void KGAPI2::Drive::FileAbstractResumableJob::Private::readFromDevice()
+{
+    char buf[ChunkSize];
+    int read = device->read(buf, ChunkSize);
+    if (read == -1) {
+        qCWarning(KGAPIDebug) << "Failed reading from device" << device->errorString();
+        return;
+    }
+    qCDebug(KGAPIDebug) << "Read from device bytes" << read;
+    q->write(QByteArray(buf, read));
 }
 
 bool FileAbstractResumableJob::Private::isTotalSizeKnown() const
@@ -190,6 +207,26 @@ FileAbstractResumableJob::FileAbstractResumableJob(const FilePtr &metadata,
     FileAbstractDataJob(account, parent),
     d(new Private(this))
 {
+    d->metaData = metadata;
+}
+
+FileAbstractResumableJob::FileAbstractResumableJob(QIODevice *device,
+                                             const AccountPtr &account,
+                                             QObject *parent):
+    FileAbstractDataJob(account, parent),
+    d(new Private(this))
+{
+    d->device = device;
+}
+
+FileAbstractResumableJob::FileAbstractResumableJob(QIODevice *device,
+                                             const FilePtr &metadata,
+                                             const AccountPtr &account,
+                                             QObject *parent):
+    FileAbstractDataJob(account, parent),
+    d(new Private(this))
+{
+    d->device = device;
     d->metaData = metadata;
 }
 
@@ -245,6 +282,9 @@ void FileAbstractResumableJob::write(const QByteArray &data)
 
 void FileAbstractResumableJob::start()
 {
+    if (d->device) {
+        d->readFromDevice();
+    }
     // Ask for more chunks right away in case
     // write() wasn't called before starting
     if (d->chunks.isEmpty()) {

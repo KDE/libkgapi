@@ -33,6 +33,23 @@ FileResumableCreateJob::FileResumableCreateJob(const FilePtr &metadata,
 {
 }
 
+FileResumableCreateJob::FileResumableCreateJob(QIODevice *device,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractResumableJob(device, account, parent),
+    d(new Private)
+{
+}
+
+FileResumableCreateJob::FileResumableCreateJob(QIODevice *device,
+                             const FilePtr &metadata,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractResumableJob(device, metadata, account, parent),
+    d(new Private)
+{
+}
+
 FileResumableCreateJob::~FileResumableCreateJob() = default;
 
 QUrl FileResumableCreateJob::createUrl()

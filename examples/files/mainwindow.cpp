@@ -92,24 +92,34 @@ void MainWindow::uploadFile()
     QFileInfo fileInfo(uploadingFile->fileName());
     uploadFile->setTitle(fileInfo.fileName());
     
-    KGAPI2::Drive::FileResumableCreateJob *fileCreateJob = new KGAPI2::Drive::FileResumableCreateJob(uploadFile, m_account, this);
+    KGAPI2::Drive::FileResumableCreateJob *fileCreateJob;
+    if (m_ui->writeOnSignalRadioButton->isChecked()) {
+        fileCreateJob = new KGAPI2::Drive::FileResumableCreateJob(uploadFile, m_account, this);
+        connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::readyWrite,
+                this, &MainWindow::slotFileCreateJobReadyWrite);
+    } else {
+        fileCreateJob = new KGAPI2::Drive::FileResumableCreateJob(uploadingFile, uploadFile, m_account, this);
+    }
     fileCreateJob->setUploadSize(uploadingFile->size());
     connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::finished,
             this, &MainWindow::slotFileCreateJobFinished);
-    connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::readyWrite,
-            this, &MainWindow::slotFileCreateJobReadyWrite);
     connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::progress,
             this, &MainWindow::slotFileCreateJobProgress);
     
+    m_ui->statusbar->clearMessage();
     bytesUploaded = 0;
-    fileUploadProgressBar = new QProgressBar(m_ui->statusbar);
-    fileUploadProgressBar->setFormat(QStringLiteral("Sent to Job: %v bytes [%p%]"));
-    fileUploadProgressBar->setMaximum(uploadingFile->size());
-    m_ui->statusbar->addWidget(fileUploadProgressBar);
+    if (m_ui->writeOnSignalRadioButton->isChecked()) {
+        fileUploadProgressBar = new QProgressBar(m_ui->statusbar);
+        fileUploadProgressBar->setFormat(QStringLiteral("Sent to Job: %v bytes [%p%]"));
+        fileUploadProgressBar->setMaximum(uploadingFile->size());
+        m_ui->statusbar->addWidget(fileUploadProgressBar);
+    }
 
     jobUploadProgressBar = new QProgressBar(m_ui->statusbar);
     jobUploadProgressBar->setFormat(QStringLiteral("Job progress: %v bytes [%p%]"));
     m_ui->statusbar->addWidget(jobUploadProgressBar);
+
+    setInputsEnabled(false);
 }
 
 void MainWindow::slotFileCreateJobFinished(KGAPI2::Job *job)
@@ -127,11 +137,15 @@ void MainWindow::slotFileCreateJobFinished(KGAPI2::Job *job)
         m_ui->statusbar->showMessage(QStringLiteral("Upload complete, id %1, size %2 (uploaded %3), mimeType %4").arg(file->id()).arg(file->fileSize()).arg(bytesUploaded).arg(file->mimeType()));
     }
 
-    m_ui->statusbar->removeWidget(fileUploadProgressBar);
-    fileUploadProgressBar->deleteLater();
+    if (m_ui->writeOnSignalRadioButton->isChecked()) {
+        m_ui->statusbar->removeWidget(fileUploadProgressBar);
+        fileUploadProgressBar->deleteLater();
+    }
 
     m_ui->statusbar->removeWidget(jobUploadProgressBar);
     jobUploadProgressBar->deleteLater();
+
+    setInputsEnabled(true);
 }
 
 
@@ -146,6 +160,8 @@ void MainWindow::slotFileCreateJobReadyWrite(KGAPI2::Drive::FileAbstractResumabl
 
 void MainWindow::slotFileCreateJobProgress(KGAPI2::Job *job, int base, int total)
 {
+    Q_UNUSED(job)
+
     jobUploadProgressBar->setValue(base);
     jobUploadProgressBar->setMaximum(total);
 }
@@ -154,5 +170,7 @@ void MainWindow::setInputsEnabled(bool enabled)
 {
     m_ui->sourceLineEdit->setEnabled(enabled);
     m_ui->browseButton->setEnabled(enabled);
+    m_ui->writeOnSignalRadioButton->setEnabled(enabled);
+    m_ui->passFileToJobRadioButton->setEnabled(enabled);
     m_ui->uploadButton->setEnabled(enabled);
 }

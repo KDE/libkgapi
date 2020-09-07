@@ -67,6 +67,32 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
                                    QObject *parent = nullptr);
 
     /**
+     * @brief Constructs a job that will upload an Untitled file in the
+     * users root folder with data contained in device.
+     *
+     * @param device Open device to read from
+     * @param account Account to authenticate the request
+     * @param parent
+     */
+    explicit FileAbstractResumableJob(QIODevice *device,
+                                   const AccountPtr &account,
+                                   QObject *parent = nullptr);
+
+    /**
+     * @brief Constructs a job that will upload a file with its metadata
+     * with data contained in device.
+     *
+     * @param device Open device to read from
+     * @param metadata File metadata to upload
+     * @param account Account to authenticate the request
+     * @param parent
+     */
+    explicit FileAbstractResumableJob(QIODevice *device,
+                                   const FilePtr &metadata,
+                                   const AccountPtr &account,
+                                   QObject *parent = nullptr);
+
+    /**
      * @brief Destructor
      */
     ~FileAbstractResumableJob() override;

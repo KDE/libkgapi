@@ -87,6 +87,23 @@
        </spacer>
       </item>
       <item>
+       <widget class="QRadioButton" name="writeOnSignalRadioButton">
+        <property name="text">
+         <string>Write on Job signal</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="passFileToJobRadioButton">
+        <property name="text">
+         <string>Pass file to Job</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="uploadButton">
         <property name="text">
          <string>Upload to My Drive root</string>

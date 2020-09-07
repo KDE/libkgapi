@@ -64,6 +64,10 @@ class KGAPIDRIVE_EXPORT FileResumableModifyJob : public KGAPI2::Drive::FileAbstr
     
     explicit FileResumableModifyJob(const QString &fileId, const AccountPtr &account,
                            QObject *parent = nullptr);
+    explicit FileResumableModifyJob(QIODevice *device, const FilePtr &metadata,
+                           const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileResumableModifyJob(QIODevice *device, const QString &fileId,
+                           const AccountPtr &account, QObject *parent = nullptr);
     ~FileResumableModifyJob() override;
 
     bool createNewRevision() const;

@@ -44,6 +44,26 @@ FileResumableModifyJob::FileResumableModifyJob(const QString &fileId,
     d->fileId = fileId;
 }
 
+FileResumableModifyJob::FileResumableModifyJob(QIODevice *device,
+                             const FilePtr &metadata,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractResumableJob(device, metadata, account, parent),
+    d(new Private)
+{
+    d->fileId = metadata->id();
+}
+
+FileResumableModifyJob::FileResumableModifyJob(QIODevice *device,
+                             const QString &fileId,
+                             const AccountPtr &account,
+                             QObject *parent):
+    FileAbstractResumableJob(device, account, parent),
+    d(new Private)
+{
+    d->fileId = fileId;
+}
+
 FileResumableModifyJob::~FileResumableModifyJob() = default;
 
 bool FileResumableModifyJob::createNewRevision() const

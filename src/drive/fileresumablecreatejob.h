@@ -27,6 +27,10 @@ class KGAPIDRIVE_EXPORT FileResumableCreateJob : public KGAPI2::Drive::FileAbstr
                            QObject *parent = nullptr);
     explicit FileResumableCreateJob(const FilePtr &metadata, const AccountPtr &account,
                            QObject *parent = nullptr);
+    explicit FileResumableCreateJob(QIODevice *device, const AccountPtr &account,
+                           QObject *parent = nullptr);
+    explicit FileResumableCreateJob(QIODevice *device, const FilePtr &metadata,
+                           const AccountPtr &account, QObject *parent = nullptr);
     ~FileResumableCreateJob() override;
 
   protected:
