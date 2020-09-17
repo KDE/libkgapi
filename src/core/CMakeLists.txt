@@ -63,7 +63,6 @@ target_include_directories(KPimGAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INS
 target_link_libraries(KPimGAPICore
 PRIVATE
     KF5::KIOWidgets
-    KF5::WindowSystem
     KF5::Wallet
 )
 
