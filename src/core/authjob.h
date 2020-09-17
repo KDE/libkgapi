@@ -67,9 +67,7 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
       * Sets the username that will be used when authenticate is called
       *
       * @param username username to use
-      * @deprecated
       */
-    QT_DEPRECATED_X("It's no longer possible to prefill username")
     void setUsername(const QString &username);
 
     /**

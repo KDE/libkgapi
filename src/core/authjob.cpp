@@ -43,6 +43,7 @@ public:
     AccountPtr account;
     QString apiKey;
     QString secretKey;
+    QString username;
 
 private:
     AuthJob * const q;
@@ -64,8 +65,9 @@ AccountPtr AuthJob::account() const
     return d->account;
 }
 
-void AuthJob::setUsername(const QString& /*username*/)
+void AuthJob::setUsername(const QString& username)
 {
+    d->username = username;
 }
 
 void AuthJob::setPassword(const QString& /*password*/)
@@ -92,6 +94,7 @@ void AuthJob::start()
         d->account->addScope(Account::accountInfoEmailScopeUrl());
 
         auto *job = new FullAuthenticationJob(d->account, d->apiKey, d->secretKey, this);
+        job->setUsername(d->username);
         job->setServerPort(kgapiTcpAuthServerPort);
         connect(job, &Job::finished, this, [this](Job *job) { d->jobFinished<FullAuthenticationJob>(job); });
     } else {

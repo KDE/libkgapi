@@ -56,7 +56,15 @@ public:
     {
         Q_ASSERT(mConnection);
         const QByteArray data = mConnection->readLine();
-        mConnection->write("HTTP/1.1 200 OK\n");
+        const QString title = tr("Authentication successful");
+        const QString text = tr("You can close this tab and return to the application now.");
+        mConnection->write("HTTP/1.1 200 OK\n"
+                           "Content-Type: text/html\n"
+                           "\n"
+                           "<!DOCTYPE><html>"
+                           "<head><title>" + title.toUtf8() + "</title></head>"
+                           "<body><h1>" + text.toUtf8() + "</h1></body>"
+                           "</html>\n");
         mConnection->flush();
         mConnection->deleteLater();
         qCDebug(KGAPIDebug) << "Got connection on socket";
@@ -84,7 +92,6 @@ public:
             return;
         }
 
-        Q_ASSERT(mServerPort != -1);
         auto fetch = new KGAPI2::NewTokensFetchJob(code, mApiKey, mSecretKey, mServerPort);
         q->connect(fetch, &Job::finished, q, [this](Job *job) { tokensReceived(job); });
     }
@@ -131,6 +138,7 @@ public:
     AccountPtr mAccount;
     QString mApiKey;
     QString mSecretKey;
+    QString mUsername;
 
     std::unique_ptr<QTcpServer> mServer;
     QTcpSocket *mConnection = nullptr;
@@ -153,6 +161,11 @@ FullAuthenticationJob::~FullAuthenticationJob() = default;
 void FullAuthenticationJob::setServerPort(uint16_t port)
 {
     d->mServerPort = port;
+}
+
+void FullAuthenticationJob::setUsername(const QString &username)
+{
+    d->mUsername = username;
 }
 
 AccountPtr FullAuthenticationJob::account() const
@@ -205,6 +218,9 @@ void FullAuthenticationJob::start()
     query.addQueryItem(QStringLiteral("redirect_uri"), QStringLiteral("http://127.0.0.1:%1").arg(d->mServerPort));
     query.addQueryItem(QStringLiteral("scope"), scopes.join(QLatin1Char(' ')));
     query.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
+    if (!d->mUsername.isEmpty()) {
+        query.addQueryItem(QStringLiteral("login_hint"), d->mUsername);
+    }
     url.setQuery(query);
 
     QDesktopServices::openUrl(url);

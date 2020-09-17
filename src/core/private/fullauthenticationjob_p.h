@@ -28,6 +28,8 @@ public:
     /** For testing purposes only */
     void setServerPort(uint16_t port);
 
+    void setUsername(const QString &username);
+
 protected:
     void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
     void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request,
