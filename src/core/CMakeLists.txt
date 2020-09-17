@@ -3,10 +3,9 @@ ecm_create_qm_loader(QM_LOADER libkgapi_qt)
 set(kgapicore_SRCS
     accountinfo/accountinfo.cpp
     accountinfo/accountinfofetchjob.cpp
+    private/fullauthenticationjob.cpp
     private/newtokensfetchjob.cpp
-    ui/authwidget.cpp
-    ui/authwidget_p.cpp
-    ui/authwidgetfactory.cpp
+    private/refreshtokensjob.cpp
     account.cpp
     accountmanager.cpp
     accountstorage.cpp
@@ -50,13 +49,6 @@ ecm_generate_headers(kgapicore_accountinfo_CamelCase_HEADERS
     RELATIVE accountinfo
 )
 
-ecm_generate_headers(kgapicore_ui_CamelCase_HEADERS
-    HEADER_NAMES
-    AuthWidget
-    REQUIRED_HEADERS kgapicore_ui_HEADERS
-    RELATIVE ui
-)
-
 add_library(KPimGAPICore
     ${kgapicore_SRCS}
 )
@@ -73,9 +65,6 @@ PRIVATE
     KF5::KIOWidgets
     KF5::WindowSystem
     KF5::Wallet
-    Qt5::WebEngineWidgets
-PUBLIC
-    Qt5::Widgets
 )
 
 set_target_properties(KPimGAPICore PROPERTIES
