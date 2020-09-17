@@ -134,6 +134,7 @@ target_include_directories(KPimGAPIDrive INTERFACE "$<INSTALL_INTERFACE:${KDE_IN
 target_link_libraries(KPimGAPIDrive
 PUBLIC
     KPim::GAPICore
+    Qt5::Gui
 PRIVATE
     Qt5::Network
 )

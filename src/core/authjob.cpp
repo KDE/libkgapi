@@ -17,6 +17,7 @@
 
 using namespace KGAPI2;
 
+// Used by fakeauthbrowser in tests
 KGAPICORE_EXPORT uint16_t kgapiTcpAuthServerPort = 0;
 
 class Q_DECL_HIDDEN AuthJob::Private

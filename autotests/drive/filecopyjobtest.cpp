@@ -93,7 +93,7 @@ private Q_SLOTS:
     }
 };
 
-QTEST_GUILESS_MAIN(FileCopyJobTest)
+QTEST_MAIN(FileCopyJobTest)
 
 #include "filecopyjobtest.moc"
 

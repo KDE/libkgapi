@@ -4,7 +4,7 @@ find_package(Qt5Test CONFIG REQUIRED)
 
 set(kgapitest_SRCS
     fakeaccountstorage.cpp
-    fakeauthwidget.cpp
+    fakeauthbrowser.cpp
     fakenetworkreply.cpp
     fakenetworkaccessmanager.cpp
     fakenetworkaccessmanagerfactory.cpp
@@ -24,17 +24,18 @@ set_source_files_properties(
 endif()
 
 add_library(kgapitest STATIC ${kgapitest_SRCS})
-target_link_libraries(kgapitest Qt5::Core Qt5::Network Qt5::Test KPimGAPICore)
+target_link_libraries(kgapitest Qt5::Core Qt5::Network Qt5::Gui Qt5::Test KPimGAPICore)
 
 
 
 macro(add_libkgapi2_test _module _testname)
+    set(_extraLibs ${ARGN})
     set(testSources ${_module}/${_testname}.cpp)
     string(SUBSTRING ${_module} 0 1 moduleFirst)
     string(SUBSTRING ${_module} 1 -1 moduleLast)
     string(TOUPPER ${moduleFirst} moduleFirst)
     string(CONCAT moduleName ${moduleFirst} ${moduleLast})
-    set(extraLibs "KPimGAPI${moduleName}")
+    set(extraLibs "${_extraLibs};KPimGAPI${moduleName}")
     set(utilsFile ${CMAKE_CURRENT_SOURCE_DIR}/${_module}/${_module}testutils.cpp)
     if (EXISTS ${utilsFile})
         list(APPEND testSources ${utilsFile})
@@ -85,8 +86,8 @@ add_libkgapi2_test(tasks tasklistmodifyjobtest)
 
 add_libkgapi2_test(drive aboutfetchjobtest)
 add_libkgapi2_test(drive changefetchjobtest)
-add_libkgapi2_test(drive filecopyjobtest)
-add_libkgapi2_test(drive filecreatejobtest)
+add_libkgapi2_test(drive filecopyjobtest Qt5::Gui)
+add_libkgapi2_test(drive filecreatejobtest Qt5::Gui)
 add_libkgapi2_test(drive filesearchquerytest)
 add_libkgapi2_test(drive drivescreatejobtest)
 add_libkgapi2_test(drive drivesdeletejobtest)

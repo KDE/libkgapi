@@ -11,7 +11,7 @@
 #include <QList>
 
 #include "fakeaccountstorage.h"
-#include "fakeauthwidget.h"
+#include "fakeauthbrowser.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "fakenetworkaccessmanager.h"
 #include "fakenetworkreply.h"
@@ -68,7 +68,7 @@ private Q_SLOTS:
 
     void testGetNewAccount()
     {
-        FakeAuthWidgetFactory authFactory;
+        FakeAuthBrowser authBrowser;
         FakeNetworkAccessManagerFactory::get()->setScenarios(
             { scenarioFromFile(QFINDTESTDATA("data/accountmanager_part1_request.txt"),
                                QFINDTESTDATA("data/accountmanager_part1_response.txt"),
@@ -116,7 +116,7 @@ private Q_SLOTS:
 
     void testMergeAccountScopes()
     {
-        FakeAuthWidgetFactory authFactory;
+        FakeAuthBrowser authBrowser;
         FakeNetworkAccessManagerFactory::get()->setScenarios(
             { scenarioFromFile(QFINDTESTDATA("data/accountmanager_part1_request.txt"),
                                QFINDTESTDATA("data/accountmanager_part1_response.txt"),
@@ -211,7 +211,7 @@ private Q_SLOTS:
 
     void testRefreshTokens()
     {
-        FakeAuthWidgetFactory authFactory;
+        FakeAuthBrowser authBrowser;
         FakeNetworkAccessManagerFactory::get()->setScenarios(
             { scenarioFromFile(QFINDTESTDATA("data/accountmanager_refresh_request.txt"),
                                QFINDTESTDATA("data/accountmanager_refresh_response.txt"),

@@ -47,6 +47,7 @@ target_link_libraries(KPimGAPIContacts
 PUBLIC
     KPim::GAPICore
     KF5::Contacts
+    Qt5::Gui
 PRIVATE
     Qt5::Xml
     Qt5::Network

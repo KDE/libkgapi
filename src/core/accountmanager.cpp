@@ -84,7 +84,6 @@ public:
             account->setScopes(currentScopes);
         }
         AuthJob *job = new AuthJob(account, apiKey, apiSecret);
-        job->setUsername(account->accountName());
         connect(job, &AuthJob::finished,
                 [=]() {
                     if (job->error() != KGAPI2::NoError) {
