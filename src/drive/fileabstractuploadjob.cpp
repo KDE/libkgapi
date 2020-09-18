@@ -189,7 +189,7 @@ void FileAbstractUploadJob::Private::_k_uploadProgress(qint64 bytesSent,
     int processedParts = (originalFilesCount - files.count() - 1) * 100;
     int currentFileParts = 100.0 * ((qreal) bytesSent / (qreal) totalBytes);
 
-    q->emitProgress(processedParts + currentFileParts, originalFilesCount * 100);
+    q->emitPercent(processedParts + currentFileParts, originalFilesCount * 100);
 }
 
 FileAbstractUploadJob::FileAbstractUploadJob(const FilePtr &metadata,

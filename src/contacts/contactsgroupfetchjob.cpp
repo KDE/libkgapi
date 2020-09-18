@@ -103,7 +103,7 @@ ObjectsList ContactsGroupFetchJob::handleReplyWithItems(const QNetworkReply *rep
     }
 
     if (feedData.nextPageUrl.isValid()) {
-        emitProgress(feedData.itemsPerPage * feedData.startIndex, feedData.totalResults);
+        emitPercent(feedData.itemsPerPage * feedData.startIndex, feedData.totalResults);
 
         const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
         enqueueRequest(request);

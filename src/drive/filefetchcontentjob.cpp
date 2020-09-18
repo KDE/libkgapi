@@ -38,7 +38,7 @@ FileFetchContentJob::Private::Private(FileFetchContentJob *parent):
 
 void FileFetchContentJob::Private::_k_downloadProgress(qint64 downloaded, qint64 total)
 {
-    q->emitProgress(downloaded, total);
+    q->emitPercent(downloaded, total);
 }
 
 FileFetchContentJob::FileFetchContentJob(const FilePtr &file,

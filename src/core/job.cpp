@@ -492,9 +492,19 @@ void Job::emitResult()
     });
 }
 
+void Job::emitPercent(qulonglong processedAmount, qulonglong totalAmount)
+{
+    if (totalAmount != 0) {
+        auto percentage = 100.0f * processedAmount / totalAmount;
+        Q_EMIT percent(this, percentage, {});
+    }
+    Q_EMIT progress(this, static_cast<int>(processedAmount), static_cast<int>(totalAmount), {});
+}
+
 void Job::emitProgress(int processed, int total)
 {
-    Q_EMIT progress(this, processed, total);
+    Q_EMIT progress(this, processed, total, {});
+    emitPercent(processed, total);
 }
 
 void Job::enqueueRequest(const QNetworkRequest& request, const QByteArray& data, const QString& contentType)

@@ -190,7 +190,7 @@ void FileAbstractResumableJob::Private::_k_uploadProgress(qint64 bytesSent,
 {
     // uploadedSize corresponds to total bytes enqueued (including current chunk upload)
     qint64 totalUploaded = uploadedSize - totalBytes + bytesSent;
-    q->emitProgress(totalUploaded, totalUploadSize);
+    q->emitPercent(totalUploaded, totalUploadSize);
 }
 
 

@@ -258,11 +258,32 @@ class KGAPICORE_EXPORT Job : public QObject
      * Note that some jobs might not provide progress information, thus this
      * signal will never be emitted.
      *
+     * For compatibility reasons this signal is emitted alongside the percent()
+     * signal.
+     *
      * @param job The job that the information relates to
      * @param processed Amount of already processed items
      * @param total Total amount of items to process
+     * @see emitProgress()
+     * @see emitPercent()
+     * @deprecated Connect to percent() instead.
      */
-    void progress(KGAPI2::Job *job, int processed, int total);
+    QT_DEPRECATED_X("Use percent() instead")
+    void progress(KGAPI2::Job *job, int processed, int total, QPrivateSignal);
+
+    /**
+     * @brief Emitted when a job progress changes.
+     *
+     * Note that some jobs might not provide progress information, thus
+     * they will never emit this signal.
+     *
+     * For compatibility reasons the progress() signal is emitted as well.
+     *
+     * @param job The job that the information relates to
+     * @param percent Overall progress of this job.
+     * @see emitPercent()
+     */
+    void percent(KGAPI2::Job *job, unsigned long percent, QPrivateSignal);
 
   protected:
 
@@ -321,10 +342,28 @@ class KGAPICORE_EXPORT Job : public QObject
      * Subclasses should always use this method instead of directly emitting
      * Job::progress().
      *
+     * For compatibility reasons the new percent() signal is emitted as well.
+     *
      * @param processed Amount of already processed items
      * @param total Total amount of items to process
+     * @deprecated Use emitPercent() instead
+     * @see progress()
+     * @see percent()
      */
+    QT_DEPRECATED_X("Use emitPercent() instead")
     virtual void emitProgress(int processed, int total);
+
+    /**
+     * @brief Emit percent() signal.
+     *
+     * For compatibility reasons the deprecated progress() signal is emitted
+     * as well.
+     *
+     * @param procesedAmount The amount processed
+     * @param totalAmount The total amount.
+     * @see percent()
+     */
+    void emitPercent(qulonglong processedAmount, qulonglong totalAmount);
 
     /**
      * @brief This method is invoked right before Job::start() is called.
