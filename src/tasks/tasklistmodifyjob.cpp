@@ -32,7 +32,7 @@ TaskListModifyJob::TaskListModifyJob(const TaskListPtr& taskList,
     ModifyJob(account, parent),
     d(new Private)
 {
-    d->taskLists << taskList;
+    d->taskLists.enqueue(taskList);
 }
 
 TaskListModifyJob::TaskListModifyJob(const TaskListsList& taskLists,

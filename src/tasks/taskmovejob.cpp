@@ -65,7 +65,7 @@ TaskMoveJob::TaskMoveJob(const TaskPtr& task, const QString& taskListId,
     ModifyJob(account, parent),
     d(new Private(this))
 {
-    d->tasksIds << task->uid();
+    d->tasksIds.enqueue(task->uid());
     d->taskListId = taskListId;
     d->newParentId = newParentId;
 }
@@ -78,7 +78,7 @@ TaskMoveJob::TaskMoveJob(const TasksList& tasks, const QString& taskListId,
 {
     d->tasksIds.reserve(tasks.size());
     for (const TaskPtr &task : tasks) {
-        d->tasksIds << task->uid();
+        d->tasksIds.enqueue(task->uid());
     }
     d->taskListId = taskListId;
     d->newParentId = newParentId;
@@ -90,7 +90,7 @@ TaskMoveJob::TaskMoveJob(const QString &taskId, const QString &taskListId,
     ModifyJob(account, parent),
     d(new Private(this))
 {
-    d->tasksIds << taskId;
+    d->tasksIds.enqueue(taskId);
     d->taskListId = taskListId;
     d->newParentId = newParentId;
 }

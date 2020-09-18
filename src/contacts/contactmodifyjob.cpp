@@ -99,7 +99,7 @@ ContactModifyJob::ContactModifyJob(const ContactPtr& contact, const AccountPtr& 
     ModifyJob(account, parent),
     d(new Private(this))
 {
-    d->contacts << contact;
+    d->contacts.enqueue(contact);
 }
 
 ContactModifyJob::~ContactModifyJob()

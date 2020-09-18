@@ -27,7 +27,7 @@ CalendarDeleteJob::CalendarDeleteJob(const CalendarPtr& calendar, const AccountP
     DeleteJob(account, parent),
     d(new Private)
 {
-    d->calendarsIds << calendar->uid();
+    d->calendarsIds.enqueue(calendar->uid());
 }
 
 CalendarDeleteJob::CalendarDeleteJob(const CalendarsList& calendars, const AccountPtr& account, QObject* parent):
@@ -35,7 +35,7 @@ CalendarDeleteJob::CalendarDeleteJob(const CalendarsList& calendars, const Accou
     d(new Private)
 {
     for (const CalendarPtr &calendar : calendars) {
-        d->calendarsIds << calendar->uid();
+        d->calendarsIds.enqueue(calendar->uid());
     }
 }
 
@@ -43,7 +43,7 @@ CalendarDeleteJob::CalendarDeleteJob(const QString &calendarId, const AccountPtr
     DeleteJob(account, parent),
     d(new Private)
 {
-    d->calendarsIds << calendarId;
+    d->calendarsIds.enqueue(calendarId);
 }
 
 CalendarDeleteJob::CalendarDeleteJob(const QStringList &calendarsIds, const AccountPtr &account, QObject *parent):

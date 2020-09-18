@@ -30,7 +30,7 @@ CalendarModifyJob::CalendarModifyJob(const CalendarPtr& calendar, const AccountP
     ModifyJob(account, parent),
     d(new Private)
 {
-    d->calendars << calendar;
+    d->calendars.enqueue(calendar);
 }
 
 CalendarModifyJob::CalendarModifyJob(const CalendarsList& calendars, const AccountPtr& account, QObject* parent):

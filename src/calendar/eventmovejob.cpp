@@ -34,7 +34,7 @@ EventMoveJob::EventMoveJob(const EventPtr &event, const QString &sourceCalendarI
     ModifyJob(account, parent),
     d(new Private())
 {
-    d->eventsIds << event->id();
+    d->eventsIds.enqueue(event->id());
     d->source = sourceCalendarId;
     d->destination = destinationCalendarId;
 }
@@ -46,7 +46,7 @@ EventMoveJob::EventMoveJob(const EventsList &events, const QString &sourceCalend
     d(new Private())
 {
     for (const EventPtr &event : events) {
-        d->eventsIds << event->id();
+        d->eventsIds.enqueue(event->id());
     }
     d->source = sourceCalendarId;
     d->destination = destinationCalendarId;
@@ -58,7 +58,7 @@ EventMoveJob::EventMoveJob(const QString &eventId, const QString &sourceCalendar
     ModifyJob(account, parent),
     d(new Private())
 {
-    d->eventsIds << eventId;
+    d->eventsIds.enqueue(eventId);
     d->source = sourceCalendarId;
     d->destination = destinationCalendarId;
 }

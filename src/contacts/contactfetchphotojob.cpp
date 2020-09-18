@@ -63,7 +63,7 @@ ContactFetchPhotoJob::ContactFetchPhotoJob(const ContactPtr &contact, const Acco
     FetchJob(account, parent),
     d(new Private(this))
 {
-    d->contacts << contact;
+    d->contacts.enqueue(contact);
 }
 
 ContactFetchPhotoJob::~ContactFetchPhotoJob()

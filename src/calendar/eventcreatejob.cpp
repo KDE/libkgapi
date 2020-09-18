@@ -33,7 +33,7 @@ EventCreateJob::EventCreateJob(const EventPtr& event, const QString &calendarId,
     CreateJob(account, parent),
     d(new Private)
 {
-    d->events << event;
+    d->events.enqueue(event);
     d->calendarId = calendarId;
 }
 

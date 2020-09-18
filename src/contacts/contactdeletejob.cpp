@@ -63,7 +63,7 @@ ContactDeleteJob::ContactDeleteJob(const ContactsList& contacts, const AccountPt
 {
     d->contactIds.reserve(contacts.size());
     for (const ContactPtr &contact : contacts) {
-        d->contactIds <<  contact->uid();
+        d->contactIds.enqueue(contact->uid());
     }
 }
 
@@ -71,7 +71,7 @@ ContactDeleteJob::ContactDeleteJob(const ContactPtr& contact, const AccountPtr& 
     DeleteJob(account, parent),
     d(new Private(this))
 {
-    d->contactIds << contact->uid();
+    d->contactIds.enqueue(contact->uid());
 }
 
 ContactDeleteJob::ContactDeleteJob(const QStringList &contactIds, const AccountPtr &account, QObject *parent):
@@ -85,7 +85,7 @@ ContactDeleteJob::ContactDeleteJob(const QString &contactId, const AccountPtr &a
     DeleteJob(account, parent),
     d(new Private(this))
 {
-    d->contactIds << contactId;
+    d->contactIds.enqueue(contactId);
 }
 
 ContactDeleteJob::~ContactDeleteJob()

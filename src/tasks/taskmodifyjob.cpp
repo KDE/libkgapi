@@ -32,7 +32,7 @@ TaskModifyJob::TaskModifyJob(const TaskPtr& task, const QString& taskListId,
     ModifyJob(account, parent),
     d(new Private)
 {
-    d->tasks << task;
+    d->tasks.enqueue(task);
     d->taskListId = taskListId;
 }
 

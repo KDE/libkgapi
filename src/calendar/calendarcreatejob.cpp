@@ -31,7 +31,7 @@ CalendarCreateJob::CalendarCreateJob(const CalendarPtr& calendar, const AccountP
     CreateJob(account, parent),
     d(new Private)
 {
-    d->calendars << calendar;
+    d->calendars.enqueue(calendar);
 }
 
 CalendarCreateJob::CalendarCreateJob(const CalendarsList& calendars, const AccountPtr& account, QObject* parent):

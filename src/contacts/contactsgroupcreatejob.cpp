@@ -37,7 +37,7 @@ ContactsGroupCreateJob::ContactsGroupCreateJob(const ContactsGroupPtr& contactsG
     CreateJob(account, parent),
     d(new Private)
 {
-    d->groups << contactsGroup;
+    d->groups.enqueue(contactsGroup);
 }
 
 ContactsGroupCreateJob::~ContactsGroupCreateJob()

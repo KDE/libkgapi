@@ -30,7 +30,7 @@ TaskListCreateJob::TaskListCreateJob(const TaskListPtr& taskList, const AccountP
     CreateJob(account, parent),
     d(new Private)
 {
-    d->taskLists << taskList;
+    d->taskLists.enqueue(taskList);
 }
 
 TaskListCreateJob::TaskListCreateJob(const TaskListsList& taskLists,

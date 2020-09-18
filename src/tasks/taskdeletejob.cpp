@@ -31,7 +31,7 @@ TaskDeleteJob::TaskDeleteJob(const TaskPtr& task, const QString& taskListId,
     DeleteJob(account, parent),
     d(new Private())
 {
-    d->tasksIds << task->uid();
+    d->tasksIds.enqueue(task->uid());
     d->taskListId = taskListId;
 }
 
@@ -42,7 +42,7 @@ TaskDeleteJob::TaskDeleteJob(const TasksList& tasks, const QString& tasklistId,
 {
     d->tasksIds.reserve(tasks.size());
     for (const TaskPtr &task : qAsConst(tasks)) {
-        d->tasksIds << task->uid();
+        d->tasksIds.enqueue(task->uid());
     }
     d->taskListId = tasklistId;
 }
@@ -52,7 +52,7 @@ TaskDeleteJob::TaskDeleteJob(const QString &taskId, const QString &taskListId,
     DeleteJob(account, parent),
     d(new Private())
 {
-    d->tasksIds << taskId;
+    d->tasksIds.enqueue(taskId);
     d->taskListId = taskListId;
 }
 

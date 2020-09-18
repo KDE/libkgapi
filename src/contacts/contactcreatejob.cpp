@@ -93,7 +93,7 @@ ContactCreateJob::ContactCreateJob(const ContactPtr& contact, const AccountPtr& 
     CreateJob(account, parent),
     d(new Private(this))
 {
-    d->contacts << contact;
+    d->contacts.enqueue(contact);
 }
 
 ContactCreateJob::~ContactCreateJob()

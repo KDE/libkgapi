@@ -16,34 +16,36 @@ template<typename T>
 class QueueHelper
 {
   public:
-    explicit QueueHelper() {}
-    virtual ~QueueHelper() {}
-
     bool atEnd() const { return (m_iter == m_items.constEnd()); }
 
     void currentProcessed() { ++m_iter; }
 
     T current() { return *m_iter; }
 
-    QueueHelper& operator<<(const T &item)
+    void enqueue(const T &item)
     {
-        m_items << item;
-        if (m_items.count() == 1) {
+        m_items.push_back(item);
+        if (m_items.size() == 1) {
             m_iter = m_items.constBegin();
         }
-        return *this;
     }
 
-    QueueHelper& operator<<(const QList<T> &list)
+    void enqueue(T &&item)
     {
-        if (m_items.count() == 0) {
-            m_items << list;
+        m_items.push_back(std::move(item));
+        if (m_items.size() == 1) {
+            m_iter = m_items.constBegin();
+        }
+    }
+
+    void enqueue(const QList<T> &list)
+    {
+        if (m_items.empty()) {
+            m_items.append(list);
             m_iter = m_items.constBegin();
         } else {
-            m_items << list;
+            m_items.append(list);
         }
-
-        return *this;
     }
 
     void reserve(int n) { m_items.reserve(n); }
@@ -51,7 +53,7 @@ class QueueHelper
     QueueHelper& operator=(const QList<T> &list )
     {
         m_items.clear();
-        m_items << list;
+        m_items.append(list);
         m_iter = m_items.constBegin();
         return *this;
     }
@@ -59,8 +61,7 @@ class QueueHelper
   private:
     QQueue<T> m_items;
 
-    typename
-    QList<T>::ConstIterator m_iter;
+    typename QList<T>::ConstIterator m_iter;
 };
 
 #endif // LIBKGAPI2_PRIVATE_QUEUEHELPER_P_H

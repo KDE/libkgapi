@@ -37,7 +37,7 @@ ContactsGroupModifyJob::ContactsGroupModifyJob(const ContactsGroupPtr& group, co
     ModifyJob(account, parent),
     d(new Private)
 {
-    d->groups << group;
+    d->groups.enqueue(group);
 }
 
 ContactsGroupModifyJob::~ContactsGroupModifyJob()
