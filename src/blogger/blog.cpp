@@ -23,8 +23,8 @@ class Q_DECL_HIDDEN Blog::Private
     QDateTime published;
     QDateTime updated;
     QUrl url;
-    uint postsCount;
-    uint pagesCount;
+    uint postsCount = 0;
+    uint pagesCount = 0;
     QString language;
     QString languageVariant;
     QString country;
@@ -32,8 +32,6 @@ class Q_DECL_HIDDEN Blog::Private
 };
 
 Blog::Private::Private()
-    : postsCount(0)
-    , pagesCount(0)
 {
 }
 
