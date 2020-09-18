@@ -65,7 +65,6 @@ PUBLIC
     Qt5::Core
 PRIVATE
     Qt5::Network
-    KF5::KIOWidgets
     KF5::Wallet
 )
 

@@ -14,22 +14,25 @@ class QObject;
 
 #include "kgapicore_export.h"
 
+#include <memory>
+
 namespace KGAPI2 {
 
 // Export for use in unit-tests, header not installed though
 class KGAPICORE_EXPORT NetworkAccessManagerFactory
 {
 public:
+    virtual ~NetworkAccessManagerFactory() = default;
+
     static NetworkAccessManagerFactory *instance();
     static void setFactory(NetworkAccessManagerFactory *factory);
 
     virtual QNetworkAccessManager *networkAccessManager(QObject *parent = nullptr) const = 0;
 
 protected:
-    static NetworkAccessManagerFactory *sInstance;
+    static std::unique_ptr<NetworkAccessManagerFactory> sInstance;
 
-    explicit NetworkAccessManagerFactory();
-    virtual ~NetworkAccessManagerFactory();
+    explicit NetworkAccessManagerFactory() = default;
 };
 
 }

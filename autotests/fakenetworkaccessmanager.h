@@ -15,6 +15,7 @@
 
 class FakeNetworkAccessManager : public QNetworkAccessManager
 {
+    Q_OBJECT
 public:
     class Scenario
     {

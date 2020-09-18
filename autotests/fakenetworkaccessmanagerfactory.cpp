@@ -6,10 +6,6 @@
 
 #include "fakenetworkaccessmanagerfactory.h"
 
-FakeNetworkAccessManagerFactory::FakeNetworkAccessManagerFactory()
-{
-}
-
 void FakeNetworkAccessManagerFactory::setScenarios(const QList<FakeNetworkAccessManager::Scenario> &scenarios)
 {
     mScenarios = scenarios;

@@ -15,7 +15,7 @@
 class FakeNetworkAccessManagerFactory : public KGAPI2::NetworkAccessManagerFactory
 {
 public:
-    explicit FakeNetworkAccessManagerFactory();
+    explicit FakeNetworkAccessManagerFactory() = default;
 
     static FakeNetworkAccessManagerFactory *get(); // instance+dynamic_cast
 

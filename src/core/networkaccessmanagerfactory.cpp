@@ -1,7 +1,7 @@
 /*
  * This file is part of LibKGAPI library
  *
- * SPDX-FileCopyrightText: 2018 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2018 - 2020 Daniel Vrátil <dvratil@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
@@ -9,40 +9,33 @@
 #include "networkaccessmanagerfactory_p.h"
 #include "../debug.h"
 
-#include <KIO/AccessManager>
+#include <QNetworkAccessManager>
 
 using namespace KGAPI2;
 
-NetworkAccessManagerFactory *NetworkAccessManagerFactory::sInstance = nullptr;
+std::unique_ptr<NetworkAccessManagerFactory> NetworkAccessManagerFactory::sInstance;
 
-class KIONetworkAccessManagerFactory : public NetworkAccessManagerFactory
+class QtNetworkAccessManagerFactory : public NetworkAccessManagerFactory
 {
 public:
     QNetworkAccessManager *networkAccessManager(QObject *parent) const override
     {
-        return new KIO::Integration::AccessManager(parent);
+        auto *nam = new QNetworkAccessManager(parent);
+        nam->setStrictTransportSecurityEnabled(true);
+        nam->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
+        return nam;
     }
 };
 
-
-NetworkAccessManagerFactory::NetworkAccessManagerFactory()
-{
-}
-
-NetworkAccessManagerFactory::~NetworkAccessManagerFactory()
-{
-}
-
 void NetworkAccessManagerFactory::setFactory(NetworkAccessManagerFactory *factory)
 {
-    delete sInstance;
-    sInstance = factory;
+    sInstance.reset(factory);
 }
 
 NetworkAccessManagerFactory *NetworkAccessManagerFactory::instance()
 {
     if (!sInstance) {
-        sInstance = new KIONetworkAccessManagerFactory();
+        setFactory(new QtNetworkAccessManagerFactory);
     }
-    return sInstance;
+    return sInstance.get();
 }
