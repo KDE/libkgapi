@@ -68,7 +68,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      */
     Q_PROPERTY(QString filter READ filter WRITE setFilter)
 
-  public:
+public:
 
     /**
      * @brief Constructs a job that will fetch all contacts from user's
@@ -138,7 +138,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      */
     QString filter() const;
 
-  protected:
+protected:
 
     /**
      * @brief KGAPI2::Job::start implementation
@@ -152,13 +152,12 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      * @param rawData
      */
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray &rawData) override;
+                                     const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2

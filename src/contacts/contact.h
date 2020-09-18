@@ -26,9 +26,9 @@ namespace KGAPI2
  * @since 0.1
  */
 class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
-                                 public KContacts::Addressee
+                                     public KContacts::Addressee
 {
-  public:
+public:
 
     /**
      * @brief Instant Messaging Protocols
@@ -48,7 +48,7 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
     /**
      * @brief Constructor
      */
-    Contact();
+    explicit Contact();
 
     /**
      * @brief Copy constructor
@@ -227,9 +227,9 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      */
     static QString emailSchemeToProtocolName(const QString &scheme);
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
 
 };
 

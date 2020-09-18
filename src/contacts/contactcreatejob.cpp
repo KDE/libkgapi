@@ -13,6 +13,7 @@
 #include "../debug.h"
 #include "account.h"
 #include "private/queuehelper_p.h"
+#include "common_p.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -23,7 +24,7 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactCreateJob::Private
 {
-  public:
+public:
     Private(ContactCreateJob *parent);
     void processNextContact();
     void setPhoto(const KContacts::Picture &photo, const QString &uid);
@@ -31,7 +32,7 @@ class Q_DECL_HIDDEN ContactCreateJob::Private
     QueueHelper<ContactPtr> contacts;
     ContactPtr lastContact;
     QPair<QByteArray, QString> pendingPhoto;
-  private:
+private:
     ContactCreateJob * const q;
 };
 
@@ -52,24 +53,11 @@ void ContactCreateJob::Private::processNextContact()
     const ContactPtr contact = contacts.current();
     const QUrl url = ContactsService::createContactUrl(q->account()->accountName());
     QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
+    request.setRawHeader(headerGDataVersion, ContactsService::APIVersion().toLatin1());
 
-    QByteArray rawData = ContactsService::contactToXML(contact);
-    rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
-                     "xmlns:gd=\"http://schemas.google.com/g/2005\" "
-                     "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
-                    "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
-                     "term=\"http://schemas.google.com/contact/2008#contact\"/>");
-    rawData.append("</atom:entry>");
+    const QByteArray rawData = xmlContactHeader + ContactsService::contactToXML(contact) + xmlFooter;
 
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
-
-    q->enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
+    q->enqueueRequest(request, rawData, mimeTypeApplicationAtomXml);
 }
 
 void ContactCreateJob::Private::setPhoto(const KContacts::Picture &photo, const QString &uid)
@@ -96,10 +84,7 @@ ContactCreateJob::ContactCreateJob(const ContactPtr& contact, const AccountPtr& 
     d->contacts.enqueue(contact);
 }
 
-ContactCreateJob::~ContactCreateJob()
-{
-    delete d;
-}
+ContactCreateJob::~ContactCreateJob() = default;
 
 void ContactCreateJob::start()
 {

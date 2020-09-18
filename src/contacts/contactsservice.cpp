@@ -8,11 +8,14 @@
 #include "contact.h"
 #include "contactsgroup.h"
 #include "utils.h"
+#include "common_p.h"
 #include "../debug.h"
 
 #include <QDomDocument>
 #include <QDomElement>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QUrlQuery>
 
 /* Qt::escape() */
@@ -25,15 +28,41 @@ namespace KGAPI2
 namespace ContactsService
 {
 
+namespace {
+
+static const QString fieldFeed = QStringLiteral("feed");
+static const QString fieldCategory = QStringLiteral("category");
+static const QString fieldTerm = QStringLiteral("term");
+static const QString fieldEntry = QStringLiteral("entry");
+static const QString fieldLink = QStringLiteral("link");
+static const QString fieldHref = QStringLiteral("href");
+static const QString fieldRel = QStringLiteral("rel");
+static const QString fieldNext = QStringLiteral("next");
+static const QString fieldDollarT = QStringLiteral("$t");
+static const QString fieldOpenSearchTotalResults = QStringLiteral("openSearch$totalResults");
+static const QString fieldOpenSearchStartIndex = QStringLiteral("openSearch$startIndex");
+static const QString fieldOpenSearchItemsPerPage = QStringLiteral("openSearch$itemsPerPage");
+
+static constexpr QStringView schemaUrlContact = QStringView(u"http://schemas.google.com/contact/2008#contact");
+static constexpr QStringView schemaUrlContactGroup = QStringView(u"http://schemas.google.com/contact/2008#group");
+static constexpr QStringView schemaUrlGroup = QStringView(u"http://schemas.google.com/g/2008#group");
+
+static const QString queryItemAlt = QStringLiteral("alt");
+static const QString queryItemShowdeleted = QStringLiteral("showdeleted");
+static const QString queryValueJson = QStringLiteral("json");
+static const QString queryValueTrue = QStringLiteral("true");
+
+static const QString propertyKADDRESSBOOK = QStringLiteral("KADDRESSBOOK");
+}
+
 namespace Private
 {
-    QString stringFromXMLMap(const QVariantMap &map, const QString &key) {
-        const QVariantMap t = map.value(key).toMap();
-        return t.value(QStringLiteral("$t")).toString();
+    QString stringFromXMLMap(const QJsonObject &map, const QString &key) {
+        return map[key][fieldDollarT].toString();
     }
 
-    ObjectPtr JSONToContactsGroup(const QVariantMap &map);
-    ObjectPtr JSONToContact(const QVariantMap& map);
+    ObjectPtr JSONToContactsGroup(const QJsonObject &map);
+    ObjectPtr JSONToContact(const QJsonObject & map);
 
     static const QUrl GoogleApisUrl(QStringLiteral("https://www.google.com"));
     static const QString ContactsBasePath(QStringLiteral("/m8/feeds/contacts"));
@@ -53,40 +82,38 @@ namespace Private
 ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
     ObjectsList output;
-    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
-    const QVariantMap head = document.toVariant().toMap();
-    const QVariantMap feed = head.value(QStringLiteral("feed")).toMap();
-    const QVariantList categories = feed.value(QStringLiteral("category")).toList();
-    for (const QVariant &c : categories) {
-        const QVariantMap category = c.toMap();
+    const auto document = QJsonDocument::fromJson(jsonFeed);
+    const auto feed = document[fieldFeed].toObject();
+    const auto categories = feed.value(fieldCategory).toArray();
+    for (const auto &c : categories) {
+        const auto category = c.toObject();
         bool groups = false;
 
-        if (category.value(QStringLiteral("term")).toString() == QLatin1String("http://schemas.google.com/contact/2008#group")) {
+        if (category.value(fieldTerm).toString() == schemaUrlContactGroup) {
             groups = true;
         }
 
-        const QVariantList entries = feed.value(QStringLiteral("entry")).toList();
-        for (const QVariant &e : entries) {
+        const auto entries = feed.value(fieldEntry).toArray();
+        for (const auto &e : entries) {
             if (groups) {
-                output << Private::JSONToContactsGroup(e.toMap());
+                output << Private::JSONToContactsGroup(e.toObject());
             } else {
-                output << Private::JSONToContact(e.toMap());
+                output << Private::JSONToContact(e.toObject());
             }
         }
     }
 
-    const QVariantList links = feed.value(QStringLiteral("link")).toList();
-    for (const QVariant &l : links) {
-        const QVariantMap link = l.toMap();
-        if (link.value(QStringLiteral("rel")).toString() == QLatin1String("next")) {
-            feedData.nextPageUrl = QUrl(link.value(QStringLiteral("href")).toString());
+    const auto links = feed[fieldLink].toArray();
+    for (const auto &link : links) {
+        if (link[fieldRel].toString() == QLatin1String("next")) {
+            feedData.nextPageUrl = QUrl(link[fieldHref].toString());
             break;
         }
     }
 
-    feedData.totalResults = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$totalResults")).toInt();
-    feedData.startIndex = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$startIndex")).toInt();
-    feedData.itemsPerPage = Private::stringFromXMLMap(feed, QStringLiteral("openSearch$itemsPerPage")).toInt();
+    feedData.totalResults = Private::stringFromXMLMap(feed, fieldOpenSearchTotalResults).toInt();
+    feedData.startIndex = Private::stringFromXMLMap(feed, fieldOpenSearchStartIndex).toInt();
+    feedData.itemsPerPage = Private::stringFromXMLMap(feed, fieldOpenSearchItemsPerPage).toInt();
 
     return output;
 }
@@ -96,9 +123,9 @@ QUrl fetchAllContactsUrl(const QString& user, bool showDeleted)
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
     QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    query.addQueryItem(queryItemAlt, queryValueJson);
     if (showDeleted) {
-        query.addQueryItem(QStringLiteral("showdeleted"), QStringLiteral("true"));
+        query.addQueryItem(queryItemShowdeleted, queryValueTrue);
     }
     url.setQuery(query);
 
@@ -117,7 +144,7 @@ QUrl fetchContactUrl(const QString& user, const QString& contactID)
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsBasePath % QLatin1Char('/') % user % QLatin1String("/full/") % id);
     QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    query.addQueryItem(queryItemAlt, queryValueJson);
     url.setQuery(query);
     return url;
 }
@@ -162,7 +189,7 @@ QUrl fetchAllGroupsUrl(const QString &user)
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/full"));
     QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    query.addQueryItem(queryItemAlt, queryValueJson);
     url.setQuery(query);
     return url;
 }
@@ -179,7 +206,7 @@ QUrl fetchGroupUrl(const QString &user, const QString &groupId)
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::ContactsGroupBasePath % QLatin1Char('/') % user % QLatin1String("/base/") % id);
     QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("alt"), QStringLiteral("json"));
+    query.addQueryItem(queryItemAlt, queryValueJson);
     url.setQuery(query);
     return url;
 }
@@ -242,282 +269,312 @@ QString APIVersion()
 
 /*********************************** PRIVATE *************************************/
 
-ObjectPtr Private::JSONToContactsGroup(const QVariantMap& data)
+namespace {
+static const QString fieldId = QStringLiteral("id");
+static const QString fieldGdEtag = QStringLiteral("gd$etag");
+static const QString fieldTitle = QStringLiteral("title");
+static const QString fieldContent = QStringLiteral("content");
+static const QString fieldUpdated = QStringLiteral("updated");
+static const QString fieldGContactSystemGroup = QStringLiteral("gContact$systemGroup");
+}
+
+ObjectPtr Private::JSONToContactsGroup(const QJsonObject &data)
 {
     ContactsGroupPtr group(new ContactsGroup);
 
-    group->setId(Private::stringFromXMLMap(data, QStringLiteral("id")));
-    group->setEtag(data.value(QStringLiteral("gd$etag")).toString());
+    group->setId(Private::stringFromXMLMap(data, fieldId));
+    group->setEtag(data[fieldGdEtag].toString());
 
-    group->setTitle(Private::stringFromXMLMap(data, QStringLiteral("title")));
-    group->setContent(Private::stringFromXMLMap(data, QStringLiteral("content")));
+    group->setTitle(Private::stringFromXMLMap(data, fieldTitle));
+    group->setContent(Private::stringFromXMLMap(data, fieldContent));
 
-    group->setUpdated(QDateTime::fromString(Private::stringFromXMLMap(data, QStringLiteral("updated")), Qt::ISODate));
+    group->setUpdated(QDateTime::fromString(Private::stringFromXMLMap(data, fieldUpdated), Qt::ISODate));
 
-    if (data.contains(QLatin1String("gContact$systemGroup"))) {
-        group->setIsSystemGroup(true);
-    } else {
-        group->setIsSystemGroup(false);
-    }
+    group->setIsSystemGroup(data.contains(fieldGContactSystemGroup));
 
     return group;
 }
 
 ContactsGroupPtr JSONToContactsGroup(const QByteArray& jsonData)
 {
-    QJsonDocument document = QJsonDocument::fromJson(jsonData);
-    const QVariantMap data = document.toVariant().toMap();
-    const QVariantMap entry = data.value(QStringLiteral("entry")).toMap();
-    const QVariantList categories = entry.value(QStringLiteral("category")).toList();
+    const auto document = QJsonDocument::fromJson(jsonData);
+    const auto categories = document[fieldEntry][fieldCategory].toArray();
 
-    bool isGroup = false;
-    for (const QVariant &c : categories) {
-        const QVariantMap category = c.toMap();
+    const bool isGroup = std::any_of(categories.cbegin(), categories.cend(), [](const auto &category) {
+        return category[fieldTerm].toString() == schemaUrlContactGroup;
+    });
 
-        if (category.value(QStringLiteral("term")).toString() == QLatin1String("http://schemas.google.com/contact/2008#group")) {
-            isGroup = true;
-            break;
-        }
-    }
     if (!isGroup) {
         return ContactsGroupPtr();
     }
 
-    return Private::JSONToContactsGroup(entry).staticCast<ContactsGroup>();
+    return Private::JSONToContactsGroup(document[fieldEntry].toObject()).staticCast<ContactsGroup>();
 }
 
-ObjectPtr Private::JSONToContact(const QVariantMap& data)
+namespace {
+static const QString fieldGdDeleted = QStringLiteral("gd$deleted");
+static const QString fieldGdName = QStringLiteral("gd$name");
+static const QString fieldGdFullName = QStringLiteral("gd$fullName");
+static const QString fieldGdGivenName = QStringLiteral("gd$givenName");
+static const QString fieldGdFamilyName = QStringLiteral("gd$familyName");
+static const QString fieldGdAdditionalName = QStringLiteral("gd$additionalName");
+static const QString fieldGdNamePrefix = QStringLiteral("gd$namePrefix");
+static const QString fieldGdNameSuffix = QStringLiteral("gd$nameSuffix");
+static const QString fieldGdOrganization = QStringLiteral("gd$organization");
+static const QString fieldGdOrgName = QStringLiteral("gd$orgName");
+static const QString fieldGdOrgDepartment = QStringLiteral("gd$orgDepartment");
+static const QString fieldGdOrgTitle = QStringLiteral("gd$orgTitle");
+static const QString fieldGdWhere = QStringLiteral("gd$where");
+static const QString fieldGContactNickname = QStringLiteral("gContact$nickname");
+static const QString fieldGContactOccupation = QStringLiteral("gContact$occupation");
+static const QString fieldGContactRelation = QStringLiteral("gContact$relation");
+static const QString fieldGContactEvent = QStringLiteral("gContact$event");
+static const QString fieldGdWhen = QStringLiteral("gd$when");
+static const QString fieldStartTime = QStringLiteral("startTime");
+static const QString fieldGContactWebsite = QStringLiteral("gContact$website");
+static const QString fieldGdEmail = QStringLiteral("gd$email");
+static const QString fieldGdIm = QStringLiteral("gd$im");
+static const QString fieldAddress = QStringLiteral("address");
+static const QString fieldPrimary = QStringLiteral("primary");
+static const QString fieldProtocol = QStringLiteral("protocol");
+static const QString fieldGdPhoneNumber = QStringLiteral("gd$phoneNumber");
+static const QString fieldGdStructuredPostalAddress = QStringLiteral("gd$structuredPostalAddress");
+static const QString fieldGdCity = QStringLiteral("gd$city");
+static const QString fieldGdCountry = QStringLiteral("gd$country");
+static const QString fieldGdPostcode = QStringLiteral("gd$postcode");
+static const QString fieldGdRegion = QStringLiteral("gd$region");
+static const QString fieldGdPOBox = QStringLiteral("gd$pobox");
+static const QString fieldGdStreet = QStringLiteral("gd$street");
+static const QString fieldGContactBirthday = QStringLiteral("gContact$birthday");
+static const QString fieldWhen = QStringLiteral("when");
+static const QString fieldGContactUserDefinedField = QStringLiteral("gContact$userDefinedField");
+static const QString fieldKey = QStringLiteral("key");
+static const QString fieldValue = QStringLiteral("value");
+static const QString fieldGContactGroupMembershipInfo = QStringLiteral("gContact$groupMembershipInfo");
+static const QString fieldDeleted = QStringLiteral("deleted");
+
+static constexpr QStringView relationSpouse = {u"spouse"};
+static constexpr QStringView relationManager = {u"manager"};
+static constexpr QStringView relationAssistant = {u"assistant"};
+static constexpr QStringView eventAnniversary = {u"anniversary"};
+static constexpr QStringView websiteHomePage = {u"home-page"};
+static constexpr QStringView websiteWork = {u"work"};
+static constexpr QStringView websiteProfile = {u"profile"};
+static constexpr QStringView websiteBlog = {u"blog"};
+
+static const QString paramType = QStringLiteral("TYPE");
+static const QString locatorHome = QStringLiteral("HOME");
+static const QString locatorWork = QStringLiteral("WORK");
+static const QString locatorProfile = QStringLiteral("PROFILE");
+
+static constexpr QStringView schemaUrlPhoto = {u"http://schemas.google.com/contacts/2008/rel#photo"};
+}
+
+namespace Private {
+
+template<typename T, typename Func>
+void fromXMLMap(T *obj, Func func, const QJsonObject &data, const QString &entry)
+{
+    if (data.contains(entry)) {
+        (obj->*func)(Private::stringFromXMLMap(data, entry));
+    }
+}
+
+template<typename Obj>
+void fromXMLMapProperties(Obj *o, const QJsonObject &data,
+                          std::initializer_list<std::pair<void(Obj::*)(const QString &), const QString &>> properties)
+{
+    for (const auto &entry : properties) {
+        if (data.contains(entry.second)) {
+            (o->*(entry.first))(Private::stringFromXMLMap(data, entry.second));
+        }
+    }
+}
+
+} // namespace
+
+ObjectPtr Private::JSONToContact(const QJsonObject& data)
 {
     ContactPtr contact(new Contact);
 
     /* Google contact ID */
-    contact->setUid(Private::stringFromXMLMap(data, QStringLiteral("id")));
+    contact->setUid(Private::stringFromXMLMap(data, fieldId));
 
     /* Google ETAG. This can be used to identify if the item was changed remotely */
-    contact->setEtag(data.value(QStringLiteral("gd$etag")).toString());
+    contact->setEtag(data[fieldGdEtag].toString());
 
     /* Date and time when contact was updated on the remote server */
-    contact->setUpdated(QDateTime::fromString(Private::stringFromXMLMap(data, QStringLiteral("updated")), Qt::ISODate));
+    contact->setUpdated(QDateTime::fromString(Private::stringFromXMLMap(data, fieldUpdated), Qt::ISODate));
 
     /* If the contact was deleted, we don't need more info about it.
      * Just store our own flag, which will be then parsed by the resource
      * itself. */
-    contact->setDeleted(data.value(QStringLiteral("gd$deleted")).isValid());
+    contact->setDeleted(data.contains(fieldGdDeleted));
 
     /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture
      * itself. */
-    const QVariantList links = data.value(QStringLiteral("link")).toList();
-    for (const QVariant &link : links) {
-        const QVariantMap linkMap = link.toMap();
-        if (linkMap.value(QStringLiteral("rel")).toString() == QLatin1String("http://schemas.google.com/contacts/2008/rel#photo")) {
-            contact->setPhotoUrl(linkMap.value(QStringLiteral("href")).toString());
+    const auto links = data[fieldLink].toArray();
+    for (const auto &link : links) {
+        if (link[fieldRel].toString() == schemaUrlPhoto) {
+            contact->setPhotoUrl(link[fieldHref].toString());
         }
     }
 
-    /* Name */
-    if (data.contains(QLatin1String("title"))) {
-        contact->setName(Private::stringFromXMLMap(data, QStringLiteral("title")));
-    }
+    /* Name, note, nickname and occupation (=organization/title) */
+    Private::fromXMLMapProperties(contact.get(), data, {
+            {&Contact::setName, fieldTitle},
+            {&Contact::setNote, fieldContent},
+            {&Contact::setNickName, fieldGContactNickname},
+            {&Contact::setProfession, fieldGContactOccupation}
+    });
 
     /* Formatted name */
-    if (data.contains(QStringLiteral("gd$name"))) {
-        const QVariantMap name = data.value(QStringLiteral("gd$name")).toMap();
-
-        if (name.contains(QStringLiteral("gd$fullName"))) {
-            contact->setFormattedName(Private::stringFromXMLMap(name, QStringLiteral("gd$fullName")));
-        }
-        if (name.contains(QStringLiteral("gd$givenName"))) {
-            contact->setGivenName(Private::stringFromXMLMap(name, QStringLiteral("gd$givenName")));
-        }
-        if (name.contains(QStringLiteral("gd$familyName"))) {
-            contact->setFamilyName(Private::stringFromXMLMap(name, QStringLiteral("gd$familyName")));
-        }
-        if (name.contains(QStringLiteral("gd$additionalName"))) {
-            contact->setAdditionalName(Private::stringFromXMLMap(name, QStringLiteral("gd$additionalName")));
-        }
-        if (name.contains(QStringLiteral("gd$namePrefix"))) {
-            contact->setPrefix(Private::stringFromXMLMap(name, QStringLiteral("gd$namePrefix")));
-        }
-        if (name.contains(QStringLiteral("gd$nameSuffix"))) {
-            contact->setSuffix(Private::stringFromXMLMap(name, QStringLiteral("gd$nameSuffix")));
-        }
-    }
-
-    /* Note */
-    if (data.contains(QLatin1String("content"))) {
-        contact->setNote(Private::stringFromXMLMap(data, QStringLiteral("content")));
+    if (data.contains(fieldGdName)) {
+        Private::fromXMLMapProperties(contact.get(), data[fieldGdName].toObject(), {
+                {&Contact::setFormattedName, fieldGdFullName},
+                {&Contact::setGivenName, fieldGdGivenName},
+                {&Contact::setFamilyName, fieldGdFamilyName},
+                {&Contact::setAdditionalName, fieldGdAdditionalName},
+                {&Contact::setPrefix, fieldGdNamePrefix},
+                {&Contact::setSuffix, fieldGdNameSuffix}
+        });
     }
 
     /* Organization (work) - KABC supports only one organization */
-    if (data.contains(QLatin1String("gd$organization"))) {
-        const QVariantList organizations = data.value(QStringLiteral("gd$organization")).toList();
-        const QVariantMap organization = organizations.first().toMap();
-
-        if (organization.contains(QStringLiteral("gd$orgName"))) {
-            contact->setOrganization(Private::stringFromXMLMap(organization, QStringLiteral("gd$orgName")));
-        }
-        if (organization.contains(QStringLiteral("gd$orgDepartment"))) {
-            contact->setDepartment(Private::stringFromXMLMap(organization, QStringLiteral("gd$orgDepartment")));
-        }
-        if (organization.contains(QStringLiteral("gd$orgTitle"))) {
-            contact->setTitle(Private::stringFromXMLMap(organization, QStringLiteral("gd$orgTitle")));
-        }
-        if (organization.contains(QStringLiteral("gd$where"))) {
-            contact->setOffice(Private::stringFromXMLMap(organization, QStringLiteral("gd$where")));
-        }
-    }
-
-    /* Nickname */
-    if (data.contains(QStringLiteral("gContact$nickname"))) {
-        contact->setNickName(Private::stringFromXMLMap(data, QStringLiteral("gContact$nickname")));
-    }
-
-    /* Occupation (= organization/title) */
-    if (data.contains(QStringLiteral("gContact$occupation"))) {
-        contact->setProfession(Private::stringFromXMLMap(data, QStringLiteral("gContact$occupation")));
+    if (data.contains(fieldGdOrganization)) {
+        Private::fromXMLMapProperties(contact.get(), data[fieldGdOrganization].toArray()[0].toObject(), {
+                {&Contact::setOrganization, fieldGdOrgName},
+                {&Contact::setDepartment, fieldGdOrgDepartment},
+                {&Contact::setTitle, fieldGdOrgTitle},
+                {&Contact::setOffice, fieldGdWhere}
+        });
     }
 
     /* Relationships */
-    if (data.contains(QStringLiteral("gContact$relation"))) {
-        const QVariantList relations = data.value(QStringLiteral("gContact$relation")).toList();
-        for (const QVariant &r : relations) {
-            const QVariantMap relation = r.toMap();
-            if (relation.value(QStringLiteral("rel")).toString() == QLatin1String("spouse")) {
-                contact->setSpousesName(relation.value(QStringLiteral("$t")).toString());
-                continue;
-            }
-
-            if (relation.value(QStringLiteral("rel")).toString() == QLatin1String("manager")) {
-                contact->setManagersName(relation.value(QStringLiteral("$t")).toString());
-                continue;
-            }
-
-            if (relation.value(QStringLiteral("rel")).toString() == QLatin1String("assistant")) {
-                contact->setAssistantsName(relation.value(QStringLiteral("$t")).toString());
-                continue;
+    if (data.contains(fieldGContactRelation)) {
+        const auto relations = data[fieldGContactRelation].toArray();
+        for (const auto &relation : relations) {
+            if (relation[fieldRel].toString() == relationSpouse) {
+                contact->setSpousesName(relation[fieldDollarT].toString());
+            } else if (relation[fieldRel].toString() == relationManager) {
+                contact->setManagersName(relation[fieldDollarT].toString());
+            } else if (relation[fieldRel].toString() == relationAssistant) {
+                contact->setAssistantsName(relation[fieldDollarT].toString());
             }
         }
     }
 
     /* Anniversary */
-    if (data.contains(QStringLiteral("gContact$event"))) {
-        const QVariantList events = data.value(QStringLiteral("gContact$event")).toList();
-        for (const QVariant &e : events) {
-            const QVariantMap event = e.toMap();
-
-            if (event.value(QStringLiteral("rel")).toString() == QLatin1String("anniversary")) {
-                QVariantMap when = event.value(QStringLiteral("gd$when")).toMap();
-                contact->setAnniversary(QDate::fromString(when.value(QStringLiteral("startTime")).toString(), Qt::ISODate));
+    if (data.contains(fieldGContactEvent)) {
+        const auto &events = data[fieldGContactEvent].toArray();
+        for (const auto &event : events) {
+            if (event[fieldRel].toString() == eventAnniversary) {
+                contact->setAnniversary(QDate::fromString(event[fieldGdWhen][fieldStartTime].toString(), Qt::ISODate));
+                break;
             }
         }
     }
 
     /* Websites */
-    if (data.contains(QStringLiteral("gContact$website"))) {
-        const QVariantList websites = data.value(QStringLiteral("gContact$website")).toList();
-        for (const QVariant &w : websites) {
-            const QVariantMap web = w.toMap();
-            const auto rel = web.value(QStringLiteral("rel")).toString();
-            const QUrl url(web.value(QStringLiteral("href")).toString());
-            if (rel == QLatin1String("home-page")) {
+    if (data.contains(fieldGContactWebsite)) {
+        const auto websites = data[fieldGContactWebsite].toArray();
+        for (const auto &website : websites) {
+            const auto rel = website[fieldRel].toString();
+            const QUrl url(website[fieldHref].toString());
+            if (rel == websiteHomePage) {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("HOME") } } });
+                locator.setParameters({{paramType, {locatorHome}}});
                 contact->insertExtraUrl(locator);
-            } else if (rel == QLatin1String("work")) {
+            } else if (rel == websiteWork) {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("WORK") } } });
+                locator.setParameters({{paramType, {locatorWork}}});
                 contact->insertExtraUrl(locator);
-            } else if (rel == QLatin1String("profile")) {
+            } else if (rel == websiteProfile) {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("PROFILE") } } });
+                locator.setParameters({{paramType, {locatorProfile}}});
                 contact->insertExtraUrl(locator);
-            } else if (rel == QLatin1String("blog")) {
+            } else if (rel == websiteBlog) {
                 contact->setBlogFeed(url);
             } else {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("TYPE"), { rel } } });
+                locator.setParameters({{paramType, {rel}}});
                 contact->insertExtraUrl(locator);
             }
         }
     }
 
     /* Emails */
-    const QVariantList emails = data.value(QStringLiteral("gd$email")).toList();
-    for (const QVariant & em : emails) {
-        const QVariantMap email = em.toMap();
-        const auto emailType = Contact::emailSchemeToProtocolName(email.value(QStringLiteral("rel")).toString());
-        const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { emailType } } });
-        contact->insertEmail(email.value(QStringLiteral("address")).toString(),
-                             email.value(QStringLiteral("primary")).toBool(), params);
+    const auto emails = data[fieldGdEmail].toArray();
+    for (const auto &email : emails) {
+        const auto emailType = Contact::emailSchemeToProtocolName(email[fieldRel].toString());
+        const QMap<QString, QStringList> params({{paramType, {emailType}}});
+        contact->insertEmail(email[fieldAddress].toString(), email[fieldPrimary].toBool(), params);
     }
 
     /* IMs */
-    const QVariantList ims = data.value(QStringLiteral("gd$im")).toList();
-    for (const QVariant & i : ims) {
-        const QVariantMap im = i.toMap();
-        const QString protocol = Contact::IMSchemeToProtocolName(im.value(QStringLiteral("protocol")).toString());
+    const auto ims = data[fieldGdIm].toArray();
+    for (const auto &im : ims) {
+        const QString protocol = Contact::IMSchemeToProtocolName(im[fieldProtocol].toString());
         contact->insertCustom(QLatin1String("messaging/") + protocol,
                              QStringLiteral("All"),
-                             im.value(QStringLiteral("address")).toString());
+                             im[fieldAddress].toString());
     }
 
     /* Phone numbers */
-    const QVariantList phones = data.value(QStringLiteral("gd$phoneNumber")).toList();
-    for (const QVariant & p : phones) {
-        const QVariantMap phone = p.toMap();
+    const auto phones = data[fieldGdPhoneNumber].toArray();
+    for (const auto &phone : phones) {
         KContacts::PhoneNumber phoneNumber(
-            phone.value(QStringLiteral("$t")).toString(),
-            Contact::phoneSchemeToType(phone.value(QStringLiteral("rel")).toString()));
+                phone[fieldDollarT].toString(),
+                Contact::phoneSchemeToType(phone[fieldRel].toString()));
         phoneNumber.setId(phoneNumber.number());
         contact->insertPhoneNumber(phoneNumber);
     }
 
     /* Addresses */
-    const QVariantList addresses = data.value(QStringLiteral("gd$structuredPostalAddress")).toList();
-    for (const QVariant &a : addresses) {
-        const QVariantMap address = a.toMap();
+    const auto addresses = data[fieldGdStructuredPostalAddress].toArray();
+    for (const auto &address : addresses) {
         KContacts::Address addr;
         addr.setId(QString::number(contact->addresses().count()));
-        if (!address.contains(QLatin1String("gd$city")) &&
-                !address.contains(QLatin1String("gd$country")) &&
-                !address.contains(QLatin1String("gd$postcode")) &&
-                !address.contains(QLatin1String("gd$region")) &&
-                !address.contains(QLatin1String("gd$pobox")))
-        {
-            addr.setExtended(Private::stringFromXMLMap(address, QStringLiteral("gd$street")));
+        const auto addrObj = address.toObject();
+        if (!addrObj.contains(fieldGdCity) &&
+                !addrObj.contains(fieldGdCountry) &&
+                !addrObj.contains(fieldGdPostcode) &&
+                !addrObj.contains(fieldGdRegion) &&
+                !addrObj.contains(fieldGdPOBox)) {
+            fromXMLMap(&addr, &KContacts::Address::setExtended, addrObj, fieldGdStreet);
         } else {
-            if (address.contains(QLatin1String("gd$street"))) {
-                addr.setStreet(Private::stringFromXMLMap(address, QStringLiteral("gd$street")));
+            if (addrObj.contains(fieldGdStreet)) {
+                fromXMLMap(&addr, &KContacts::Address::setStreet, addrObj, fieldGdStreet);
             }
-            if (address.contains(QLatin1String("gd$country"))) {
-                addr.setCountry(Private::stringFromXMLMap(address, QStringLiteral("gd$country")));
+            if (addrObj.contains(fieldGdCountry)) {
+                fromXMLMap(&addr, &KContacts::Address::setCountry, addrObj, fieldGdCountry);
             }
-            if (address.contains(QLatin1String("gd$city"))) {
-                addr.setLocality(Private::stringFromXMLMap(address, QStringLiteral("gd$city")));
+            if (addrObj.contains(fieldGdCity)) {
+                fromXMLMap(&addr, &KContacts::Address::setLocality, addrObj, fieldGdCity);
             }
-            if (address.contains(QLatin1String("gd$postcode"))) {
-                addr.setPostalCode(Private::stringFromXMLMap(address, QStringLiteral("gd$postcode")));
+            if (addrObj.contains(fieldGdPostcode)) {
+                fromXMLMap(&addr, &KContacts::Address::setPostalCode, addrObj, fieldGdPostcode);
             }
-            if (address.contains(QLatin1String("gdregion"))) {
-                addr.setRegion(Private::stringFromXMLMap(address, QStringLiteral("gd$region")));
+            if (addrObj.contains(fieldGdRegion)) {
+                fromXMLMap(&addr, &KContacts::Address::setRegion, addrObj, fieldGdRegion);
             }
-            if (address.contains(QLatin1String("gd$pobox"))) {
-                addr.setPostOfficeBox(Private::stringFromXMLMap(address, QStringLiteral("gd$pobox")));
+            if (addrObj.contains(fieldGdPOBox)) {
+                fromXMLMap(&addr, &KContacts::Address::setPostOfficeBox, addrObj, fieldGdPOBox);
             }
         }
-        addr.setType(Contact::addressSchemeToType(address.value(QStringLiteral("rel")).toString()));
+        addr.setType(Contact::addressSchemeToType(address[fieldRel].toString()));
 
         contact->insertAddress(addr);
     }
 
     /* Birthday */
-    const QVariantMap bDay = data.value(QStringLiteral("gContact$birthday")).toMap();
-    if (!bDay.isEmpty()) {
-        QString birthday = bDay.value(QStringLiteral("when")).toString();
+    static const auto bDay = data[fieldGContactBirthday];
+    if (bDay.isObject()) {
+        QString birthday = bDay[fieldWhen].toString();
         /* Birthdays in format "--MM-DD" are valid and mean that no year has
          * been specified. Since KABC does not support birthdays without year,
          * we simulate that by specifying a fake year - 1900 */
@@ -528,50 +585,39 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     }
 
     /* User-defined fields */
-    const QVariantList userDefined = data.value(QStringLiteral("gContact$userDefinedField")).toList();
-    for (const QVariant & u : userDefined) {
-        const QVariantMap field = u.toMap();
-        contact->insertCustom(QStringLiteral("KADDRESSBOOK"),
-                             field.value(QStringLiteral("key")).toString(),
-                             field.value(QStringLiteral("value")).toString());
+    const auto userDefined = data[fieldGContactUserDefinedField].toArray();
+    for (const auto &ud : userDefined) {
+        contact->insertCustom(propertyKADDRESSBOOK, ud[fieldKey].toString(), ud[fieldValue].toString());
     }
 
     /* Groups */
-    const QVariantList groups = data.value(QStringLiteral("gContact$groupMembershipInfo")).toList();
+    const auto groups = data[fieldGContactGroupMembershipInfo].toArray();
     QStringList groupsList;
-    for (const QVariant & g : groups) {
-        const QVariantMap group = g.toMap();
-        if (group.value(QStringLiteral("deleted")).toBool() == false) {
-            groupsList.append(group.value(QStringLiteral("href")).toString());
+    for (const auto &group : groups) {
+        if (group[fieldDeleted].toBool() == false) {
+            groupsList.append(group[fieldHref].toString());
         }
     }
-    contact->insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"),
-                         groupsList.join(QLatin1Char(',')));
+    contact->insertCustom(propertyGCalendar, propertyGroupMembershipInfo, groupsList.join(QLatin1Char(',')));
 
     return contact;
 }
 
 ContactPtr JSONToContact(const QByteArray& jsonData)
 {
-    QJsonDocument document = QJsonDocument::fromJson(jsonData);
-    const QVariantMap data = document.toVariant().toMap();
-    const QVariantMap entry = data.value(QStringLiteral("entry")).toMap();
-    const QVariantList categories = entry.value(QStringLiteral("category")).toList();
+    const auto document = QJsonDocument::fromJson(jsonData);
+    const QJsonValue entry = document.object()[fieldEntry];
+    const auto categories = entry[fieldCategory].toArray();
 
-    bool isContact = false;
-    for (const QVariant &c : categories) {
-        const QVariantMap category = c.toMap();
-
-        if (category.value(QStringLiteral("term")).toString() == QLatin1String("http://schemas.google.com/contact/2008#contact")) {
-            isContact = true;
-            break;
-        }
-    }
+    const bool isContact = std::any_of(categories.cbegin(), categories.cend(),
+                                       [](const auto &category) {
+                                           return category[fieldTerm].toString() == schemaUrlContact;
+                                       });
     if (!isContact) {
         return ContactPtr();
     }
 
-    return Private::JSONToContact(entry).staticCast<Contact>();
+    return Private::JSONToContact(entry.toObject()).staticCast<Contact>();
 }
 
 
@@ -832,9 +878,9 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         const QDomElement e = n.toElement();
 
         if (((e.tagName() == QLatin1String("category")) &&
-             (e.attribute(QStringLiteral("term")) == QLatin1String("http://schemas.google.com/contact/2008#group"))) ||
+             (e.attribute(QStringLiteral("term")) == schemaUrlContactGroup)) ||
             ((e.tagName() == QLatin1String("atom:category")) &&
-             (e.attribute(QStringLiteral("term")) == QLatin1String("http://schemas.google.com/g/2005#group"))))
+             (e.attribute(QStringLiteral("term")) == schemaUrlGroup)))
         {
             isGroup = true;
             break;
@@ -916,7 +962,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         /* Store URL of the picture. The URL will be used later by PhotoJob to fetch the picture
         * itself. */
         if ((e.tagName() == QLatin1String("link")) &&
-            (e.attribute(QStringLiteral("rel")) == QLatin1String("http://schemas.google.com/contacts/2008/rel#photo"))) {
+            (e.attribute(QStringLiteral("rel")) == schemaUrlPhoto)) {
             contact->setPhotoUrl(e.attribute(QStringLiteral("href")));    /* URL */
             continue;
         }
@@ -1151,9 +1197,9 @@ ContactsGroupPtr XMLToContactsGroup(const QByteArray& xmlData)
         const QDomElement e = n.toElement();
 
         if (((e.tagName() == QLatin1String("category")) &&
-             (e.attribute(QStringLiteral("term")) == QLatin1String("http://schemas.google.com/contact/2008#group"))) ||
+             (e.attribute(QStringLiteral("term")) == schemaUrlContactGroup)) ||
             ((e.tagName() == QLatin1String("atom:category")) &&
-             (e.attribute(QStringLiteral("term")) == QLatin1String("http://schemas.google.com/g/2005#group"))))
+             (e.attribute(QStringLiteral("term")) == schemaUrlGroup)))
         {
             isGroup = true;
             break;

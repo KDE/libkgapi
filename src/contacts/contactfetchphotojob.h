@@ -24,7 +24,7 @@ namespace KGAPI2
 class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
-  public:
+public:
 
     /**
      * @brief Constructs a job that will fetch photos for given @p contacts
@@ -64,7 +64,7 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
      */
     void photoFetched(KGAPI2::Job *job, const KGAPI2::ContactPtr &contact);
 
-  protected:
+protected:
 
     /**
      * @brief KGAPI2::Job::start implementation
@@ -80,11 +80,10 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
     void handleReply(const QNetworkReply *reply,
                              const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2

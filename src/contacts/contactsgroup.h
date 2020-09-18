@@ -33,17 +33,12 @@ namespace KGAPI2
  */
 class KGAPICONTACTS_EXPORT ContactsGroup : public KGAPI2::Object
 {
-  public:
+public:
 
     /**
      * @brief Constructor
      */
-    ContactsGroup();
-
-    /**
-     * @brief Copy constructor
-     */
-    ContactsGroup(const ContactsGroup &other);
+    explicit ContactsGroup();
 
     /**
      * @brief Destructor
@@ -120,10 +115,9 @@ class KGAPICONTACTS_EXPORT ContactsGroup : public KGAPI2::Object
      */
     bool isSystemGroup() const;
 
-  private:
+private:
     class Private;
-    Private * const d;
-
+    QScopedPointer<Private> const d;
 };
 
 } // namespace KGAPI2

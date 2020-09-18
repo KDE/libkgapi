@@ -24,7 +24,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
-  public:
+public:
 
     /**
      * @brief Constructs a job that will fetch all groups from user's
@@ -53,7 +53,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupFetchJob : public KGAPI2::FetchJob
      */
     ~ContactsGroupFetchJob() override;
 
-  protected:
+protected:
 
       /**
        * @brief KGAPI2::Job::start implementation
@@ -67,13 +67,12 @@ class KGAPICONTACTS_EXPORT ContactsGroupFetchJob : public KGAPI2::FetchJob
      * @param rawData
      */
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+                                     const QByteArray& rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2

@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "account.h"
 #include "private/queuehelper_p.h"
+#include "common_p.h"
 
 #include <QUrlQuery>
 #include <QNetworkRequest>
@@ -24,7 +25,7 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactModifyJob::Private
 {
-  public:
+public:
     Private(ContactModifyJob *parent);
     void processNextContact();
     void updatePhoto(const ContactPtr &contact);
@@ -32,8 +33,9 @@ class Q_DECL_HIDDEN ContactModifyJob::Private
     QueueHelper<ContactPtr> contacts;
     ContactPtr lastContact;
     QPair<QByteArray, QString> pendingPhoto;
-  private:
-    ContactModifyJob *const q;
+
+private:
+    ContactModifyJob * const q;
 };
 
 ContactModifyJob::Private::Private(ContactModifyJob *parent):
@@ -55,22 +57,8 @@ void ContactModifyJob::Private::processNextContact()
     const QUrl url = ContactsService::updateContactUrl(q->account()->accountName(), contact->uid());
     QNetworkRequest request(url);
 
-    QByteArray rawData = ContactsService::contactToXML(contact);
-    rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
-                     "xmlns:gd=\"http://schemas.google.com/g/2005\" "
-                     "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
-                    "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
-                     "term=\"http://schemas.google.com/contact/2008#contact\"/>");
-    rawData.append("</atom:entry>");
-
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
-
-    q->enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
+    const QByteArray rawData = xmlContactHeader + ContactsService::contactToXML(contact) + xmlFooter;
+    q->enqueueRequest(request, rawData, mimeTypeApplicationAtomXml);
 }
 
 void ContactModifyJob::Private::updatePhoto(const ContactPtr &contact)
@@ -78,7 +66,7 @@ void ContactModifyJob::Private::updatePhoto(const ContactPtr &contact)
     const QUrl photoUrl = ContactsService::photoUrl(q->account()->accountName(), contact->uid());
     QNetworkRequest photoRequest(photoUrl);
     if (!contact->photo().isEmpty()) {
-        photoRequest.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("image/*"));
+        photoRequest.setHeader(QNetworkRequest::ContentTypeHeader, mimeTypeImageAny);
         pendingPhoto.first = contact->photo().rawData();
         pendingPhoto.second = contact->photo().type();
         q->enqueueRequest(photoRequest, pendingPhoto.first, QStringLiteral("modifyImage"));
@@ -102,10 +90,7 @@ ContactModifyJob::ContactModifyJob(const ContactPtr& contact, const AccountPtr& 
     d->contacts.enqueue(contact);
 }
 
-ContactModifyJob::~ContactModifyJob()
-{
-    delete d;
-}
+ContactModifyJob::~ContactModifyJob() = default;
 
 void ContactModifyJob::start()
 {
@@ -115,8 +100,8 @@ void ContactModifyJob::start()
 void ContactModifyJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType)
 {
     QNetworkRequest r = request;
-    r.setRawHeader("If-Match", "*");
-    r.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
+    r.setRawHeader(headerIfMatch, "*");
+    r.setRawHeader(headerGDataVersion, ContactsService::APIVersion().toLatin1());
 
     if (contentType == QLatin1String("modifyImage")) {
         accessManager->put(r, data);

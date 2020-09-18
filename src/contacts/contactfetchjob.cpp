@@ -12,6 +12,7 @@
 #include "../debug.h"
 #include "utils.h"
 #include "account.h"
+#include "common_p.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -22,58 +23,36 @@ using namespace KGAPI2;
 class Q_DECL_HIDDEN ContactFetchJob::Private
 {
   public:
-    Private(ContactFetchJob *parent);
-
     QNetworkRequest createRequest(const QUrl &url);
 
-    bool fetchDeleted;
+    bool fetchDeleted = true;
     QString contactId;
-    quint64 timestamp;
+    quint64 timestamp = 0;
     QString filter;
-
-  private:
-    ContactFetchJob * const q;
 };
-
-ContactFetchJob::Private::Private(ContactFetchJob *parent):
-    fetchDeleted(true),
-    timestamp(0),
-    q(parent)
-{
-}
 
 QNetworkRequest ContactFetchJob::Private::createRequest(const QUrl& url)
 {
     QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
-
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
+    request.setRawHeader(headerGDataVersion, ContactsService::APIVersion().toLatin1());
 
     return request;
 }
 
 ContactFetchJob::ContactFetchJob(const AccountPtr& account, QObject* parent):
     FetchJob(account, parent),
-    d(new Private(this))
+    d(new Private{})
 {
 }
 
 ContactFetchJob::ContactFetchJob(const QString& contactId, const AccountPtr& account, QObject* parent):
     FetchJob(account, parent),
-    d(new Private(this))
+    d(new Private{})
 {
     d->contactId = contactId;
 }
 
-ContactFetchJob::~ContactFetchJob()
-{
-    delete d;
-}
+ContactFetchJob::~ContactFetchJob() = default;
 
 bool ContactFetchJob::fetchDeleted() const
 {

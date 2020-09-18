@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "account.h"
 #include "private/queuehelper_p.h"
+#include "common_p.h"
 
 #include <QNetworkRequest>
 
@@ -45,14 +46,7 @@ void ContactDeleteJob::Private::processNextContact()
     const QString contactId = contactIds.current();
     const QUrl url = ContactsService::removeContactUrl(q->account()->accountName(), contactId);
     QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
-
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
+    request.setRawHeader(headerGDataVersion, ContactsService::APIVersion().toLatin1());
 
     q->enqueueRequest(request);
 }
@@ -88,10 +82,7 @@ ContactDeleteJob::ContactDeleteJob(const QString &contactId, const AccountPtr &a
     d->contactIds.enqueue(contactId);
 }
 
-ContactDeleteJob::~ContactDeleteJob()
-{
-    delete d;
-}
+ContactDeleteJob::~ContactDeleteJob() = default;
 
 void ContactDeleteJob::start()
 {

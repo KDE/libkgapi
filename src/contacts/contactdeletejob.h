@@ -27,7 +27,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
+public:
 
     /**
      * @brief Constructs a new job that will delete given @p contact from
@@ -78,7 +78,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      */
     ~ContactDeleteJob() override;
 
-  protected:
+protected:
 
     /**
      * @brief KGAPI::Job::start implementation
@@ -94,9 +94,9 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
     void handleReply(const QNetworkReply *reply,
                              const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

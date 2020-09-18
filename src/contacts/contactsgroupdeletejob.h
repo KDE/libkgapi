@@ -32,7 +32,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
+public:
 
     /**
      * @brief Constructs a new job that will delete given @p groups from
@@ -83,7 +83,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
      */
     ~ContactsGroupDeleteJob() override;
 
-  protected:
+protected:
 
     /**
      * @brief KGAPI2::Job::start implementation
@@ -92,17 +92,16 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
-     * 
+     *
      * @param reply
      * @param rawData
      */
     void handleReply(const QNetworkReply* reply, const QByteArray& rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2

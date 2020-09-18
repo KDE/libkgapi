@@ -8,43 +8,63 @@
 
 
 #include "contact.h"
+#include "common_p.h"
 #include "../debug.h"
 
 #include <KContacts/Address>
 #include <KContacts/PhoneNumber>
 #include <QMap>
 
-#define SCHEME_URL QLatin1String("http://schemas.google.com/g/2005#")
+namespace {
+static const QString schemeUrl = QStringLiteral("http://schemas.google.com/g/2005#");
+
+static const QString imSchemeJabber = QStringLiteral("JABBER");
+static const QString imSchemeICQ = QStringLiteral("ICQ");
+static const QString imSchemeGoogle_Talk = QStringLiteral("GOOGLE_TALK");
+static const QString imSchemeGoogleTalk = QStringLiteral("GOOGLETALK");
+static const QString imSchemeQQ = QStringLiteral("QQ");
+static const QString imSchemeSkype = QStringLiteral("SKYPE");
+static const QString imSchemeYahoo = QStringLiteral("YAHOO");
+static const QString imSchemeMSN = QStringLiteral("MSN");
+static const QString imSchemeAIM = QStringLiteral("AIM");
+static const QString imSchemeOther = QStringLiteral("Other");
+static const QString imSchemeXMPP = QStringLiteral("XMPP");
+static const QString addressTypeWork = QStringLiteral("work");
+static const QString addressTypeHome = QStringLiteral("home");
+static const QString addressTypeOther = QStringLiteral("other");
+static const QString phoneSchemeWorkMobile = QStringLiteral("work_mobile");
+static const QString phoneSchemeWorkFax = QStringLiteral("work_fax");
+static const QString phoneSchemeWorkPager = QStringLiteral("work_pager");
+static const QString phoneSchemeCompanyMain = QStringLiteral("company_main");
+static const QString phoneSchemeWork = QStringLiteral("work");
+static const QString phoneSchemeHomeFax = QStringLiteral("home_fax");
+static const QString phoneSchemeHome = QStringLiteral("home");
+static const QString phoneSchemeMain = QStringLiteral("main");
+static const QString phoneSchemeCar = QStringLiteral("car");
+static const QString phoneSchemeISDN = QStringLiteral("isdn");
+static const QString phoneSchemeFax = QStringLiteral("fax");
+static const QString phoneSchemeMobile = QStringLiteral("mobile");
+static const QString phoneSchemePager = QStringLiteral("pager");
+static const QString phoneSchemeOther = QStringLiteral("other");
+static const QString emailSchemeWork = QStringLiteral("work");
+static const QString emailSchemeHome = QStringLiteral("home");
+static const QString emailSchemeOther = QStringLiteral("other");
+}
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN Contact::Private
 {
-
-  public:
-    Private() : deleted(false) { }
-    Private(const Private &other);
-    ~Private() { }
-
-    bool deleted;
+public:
+    bool deleted = false;
     QUrl photoUrl;
 
     /* group URI, isDeleted */
-    QMap< QString, bool > groups;
+    QMap<QString, bool> groups;
 
     QDateTime updated;
     QDateTime created;
 };
-
-
-Contact::Private::Private(const Private &other):
-    deleted(other.deleted),
-    photoUrl(other.photoUrl),
-    groups(other.groups),
-    updated(other.updated),
-    created(other.created)
-{
-}
 
 Contact::Contact():
     Object(),
@@ -59,9 +79,9 @@ Contact::Contact(const Contact &other):
     d(new Private(*(other.d)))
 {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    const QStringList groups = custom(propertyGCalendar, propertyGroupMembershipInfo).split(QLatin1Char(','), QString::SkipEmptyParts);
 #else
-    const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+    const QStringList groups = custom(propertyGCalendar, propertyGroupMembershipInfo).split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
     for (const QString &group : groups) {
         d->groups.insert(group, false);
@@ -74,19 +94,16 @@ Contact::Contact(const KContacts::Addressee& other):
     d(new Private)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    const QStringList groups = custom(propertyGCalendar, propertyGroupMembershipInfo).split(QLatin1Char(','), QString::SkipEmptyParts);
 #else
-    const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+    const QStringList groups = custom(propertyGCalendar, propertyGroupMembershipInfo).split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
     for (const QString &group : groups) {
         d->groups.insert(group, false);
     }
 }
 
-Contact::~Contact()
-{
-    delete d;
-}
+Contact::~Contact() = default;
 
 bool Contact::operator==(const Contact &other) const
 {
@@ -175,20 +192,20 @@ void Contact::addGroup(const QString &group)
     d->groups.insert(group, false);
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    QStringList groups = custom(propertyGCalendar, propertyGroupMembershipInfo).split(QLatin1Char(','), QString::SkipEmptyParts);
 #else
-    QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+    QStringList groups = custom(propertyGCalendar, propertyGroupMembershipInfo).split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
     if (!groups.contains(group)) {
         groups.append(group);
     }
 
-    insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QLatin1Char(',')));
+    insertCustom(propertyGCalendar, propertyGroupMembershipInfo, groups.join(QLatin1Char(',')));
 }
 
 void Contact::setGroups(const QStringList &groups)
 {
-    insertCustom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo"), groups.join(QLatin1Char(',')));
+    insertCustom(propertyGCalendar, propertyGroupMembershipInfo, groups.join(QLatin1Char(',')));
 
     d->groups.clear();
     for (const QString &group : groups) {
@@ -199,9 +216,9 @@ void Contact::setGroups(const QStringList &groups)
 QStringList Contact::groups() const
 {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    return custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), QString::SkipEmptyParts);
+    return custom(propertyGCalendar, propertyGroupMembershipInfo).split(QLatin1Char(','), QString::SkipEmptyParts);
 #else
-    return custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+    return custom(propertyGCalendar, propertyGroupMembershipInfo).split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
 }
 
@@ -229,58 +246,58 @@ bool Contact::groupIsDeleted(const QString& group) const
     return false;
 }
 
-
 QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
 {
     switch (protocol) {
     case Jabber:
-        return QStringLiteral("JABBER");
+      return imSchemeJabber;
     case ICQ:
-        return QStringLiteral("ICQ");
+      return imSchemeICQ;
     case GoogleTalk:
-        return QStringLiteral("GOOGLE_TALK");
+      return imSchemeGoogle_Talk;
     case QQ:
-        return QStringLiteral("QQ");
+      return imSchemeQQ;
     case Skype:
-        return QStringLiteral("SKYPE");
+      return imSchemeSkype;
     case Yahoo:
-        return QStringLiteral("YAHOO");
+      return imSchemeYahoo;
     case MSN:
-        return QStringLiteral("MSN");
+      return imSchemeMSN;
     case AIM:
-        return QStringLiteral("AIM");
+      return imSchemeAIM;
     default:
-        return QStringLiteral("Other");
+      return imSchemeOther;
     }
 
-    return QStringLiteral("Other");
+    return imSchemeOther;
 }
 
 QString Contact::IMSchemeToProtocolName(const QString& scheme)
 {
-    QString newScheme = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toLower();
-    if (newScheme == QLatin1String("google_talk")) {
-        newScheme = QStringLiteral("googletalk");
+    auto newScheme = scheme.midRef(scheme.lastIndexOf(QLatin1Char('#')) + 1);
+    if (newScheme.compare(imSchemeGoogle_Talk, Qt::CaseInsensitive) == 0) {
+        return imSchemeGoogleTalk.toLower();
     }
-    return newScheme;
+    return newScheme.toString();
 }
 
 QString Contact::IMProtocolNameToScheme(const QString& protocolName)
 {
     QString proto;
-    if (protocolName.toUpper() == QLatin1String("XMPP")) {
-        return SCHEME_URL + QLatin1String("JABBER");
-    } else if ((protocolName.toUpper() == QLatin1String("ICQ")) ||
-               (protocolName.toUpper() == QLatin1String("GOOGLE_TALK")) ||
-               (protocolName.toUpper() == QLatin1String("QQ")) ||
-               (protocolName.toUpper() == QLatin1String("SKYPE")) ||
-               (protocolName.toUpper() == QLatin1String("YAHOO")) ||
-               (protocolName.toUpper() == QLatin1String("MSN")) ||
-               (protocolName.toUpper() == QLatin1String("AIM")))
+    const auto protoName = protocolName.toUpper();
+    if (protoName == imSchemeXMPP) {
+      return schemeUrl + imSchemeJabber;
+    } else if (protoName == imSchemeICQ ||
+               protoName == imSchemeGoogle_Talk ||
+               protoName == imSchemeQQ ||
+               protoName == imSchemeSkype ||
+               protoName == imSchemeYahoo ||
+               protoName == imSchemeMSN ||
+               protoName == imSchemeAIM)
     {
-        return SCHEME_URL + protocolName.toUpper();
-    } else if (protocolName.toUpper() == QLatin1String("GOOGLETALK")) {
-        return SCHEME_URL + QStringLiteral("GOOGLE_TALK");
+        return schemeUrl + protoName;
+    } else if (protoName == imSchemeGoogleTalk) {
+        return schemeUrl + imSchemeGoogle_Talk;
     }
 
     /* If the protocolName is not officially supported by Google, then instead
@@ -290,24 +307,25 @@ QString Contact::IMProtocolNameToScheme(const QString& protocolName)
 
 Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)
 {
-    QString protoName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toUpper();
+    const auto protoName = scheme.midRef(scheme.lastIndexOf(QLatin1Char('#')) + 1);
 
-    if ((protoName == QLatin1String("JABBER")) || (protoName == QLatin1String("XMPP")))
+    if (protoName == imSchemeJabber || protoName == imSchemeXMPP) {
         return Jabber;
-    if (protoName == QLatin1String("ICQ"))
+    } else if(protoName == imSchemeICQ ) {
         return ICQ;
-    if (protoName == QLatin1String("GOOGLE_TALK") || protoName == QLatin1String("GOOGLETALK"))
+    } else if (protoName == imSchemeGoogleTalk || protoName == imSchemeGoogle_Talk) {
         return GoogleTalk;
-    if (protoName == QLatin1String("QQ"))
+    } else if (protoName == imSchemeQQ) {
         return QQ;
-    if (protoName == QLatin1String("SKYPE"))
+    } else if (protoName == imSchemeSkype) {
         return Skype;
-    if (protoName == QLatin1String("YAHOO"))
+    } else if (protoName == imSchemeYahoo) {
         return Yahoo;
-    if (protoName == QLatin1String("MSN"))
+    } else if (protoName == imSchemeMSN) {
         return MSN;
-    if (protoName == QLatin1String("AIM"))
+    } else if (protoName == imSchemeAIM) {
         return AIM;
+    }
 
     return Other;
 }
@@ -320,22 +338,22 @@ QString Contact::addressTypeToScheme(const KContacts::Address::Type type, bool *
         *primary = (type & KContacts::Address::Pref);
 
     if (type & KContacts::Address::Work) {
-        typeName = QStringLiteral("work");
+        typeName = addressTypeWork;
     } else if (type & KContacts::Address::Home) {
-        typeName = QStringLiteral("home");
+        typeName = addressTypeHome;
     } else {
-        typeName = QStringLiteral("other");
+        typeName = addressTypeOther;
     }
 
-    return SCHEME_URL + typeName;
+    return schemeUrl + typeName;
 }
 
 KContacts::Address::Type Contact::addressSchemeToType(const QString& scheme, const bool primary)
 {
-    QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
+    const auto typeName = scheme.midRef(scheme.lastIndexOf(QLatin1Char('#')) + 1);
     KContacts::Address::Type type;
 
-    if (typeName == QLatin1String("work")) {
+    if (typeName == addressTypeWork) {
         type = KContacts::Address::Work;
     } else {
         type = KContacts::Address::Home;
@@ -352,85 +370,87 @@ QString Contact::phoneTypeToScheme(const KContacts::PhoneNumber::Type type)
 {
     QString typeName;
 
-    if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell))
-        typeName = QStringLiteral("work_mobile");
-    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax))
-        typeName = QStringLiteral("work_fax");
-    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager))
-        typeName = QStringLiteral("work_pager");
-    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref))
-        typeName = QStringLiteral("company_main");
-    else if (type & KContacts::PhoneNumber::Work)
-        typeName = QStringLiteral("work");
-    else if ((type & (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax))
-        typeName = QStringLiteral("home_fax");
-    else if (type & KContacts::PhoneNumber::Home)
-        typeName = QStringLiteral("home");
-    else if (type & KContacts::PhoneNumber::Pref)
-        typeName = QStringLiteral("main");
-    else if (type & KContacts::PhoneNumber::Car)
-        typeName = QStringLiteral("car");
-    else if (type & KContacts::PhoneNumber::Isdn)
-        typeName = QStringLiteral("isdn");
-    else if (type & KContacts::PhoneNumber::Fax)
-        typeName = QStringLiteral("fax");
-    else if (type & KContacts::PhoneNumber::Cell)
-        typeName = QStringLiteral("mobile");
-    else if (type & KContacts::PhoneNumber::Pager)
-        typeName = QStringLiteral("pager");
-    else
-        typeName = QStringLiteral("other");
+    if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell)) {
+        typeName = phoneSchemeWorkMobile;
+    } else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax)) {
+        typeName = phoneSchemeWorkFax;
+    } else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager)) {
+        typeName = phoneSchemeWorkPager;
+    } else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref)) {
+        typeName = phoneSchemeCompanyMain;
+    } else if (type & KContacts::PhoneNumber::Work) {
+        typeName = phoneSchemeWork;
+    } else if ((type & (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax)) {
+        typeName = phoneSchemeHomeFax;
+    } else if (type & KContacts::PhoneNumber::Home) {
+        typeName = phoneSchemeHome;
+    } else if (type & KContacts::PhoneNumber::Pref) {
+        typeName = phoneSchemeMain;
+    } else if (type & KContacts::PhoneNumber::Car) {
+        typeName = phoneSchemeCar;
+    } else if (type & KContacts::PhoneNumber::Isdn) {
+        typeName = phoneSchemeISDN;
+    } else if (type & KContacts::PhoneNumber::Fax) {
+        typeName = phoneSchemeFax;
+    } else if (type & KContacts::PhoneNumber::Cell) {
+        typeName = phoneSchemeMobile;
+    } else if (type & KContacts::PhoneNumber::Pager) {
+        typeName = phoneSchemePager;
+    } else {
+        typeName = phoneSchemeOther;
+    }
 
-    return SCHEME_URL + typeName;
+    return schemeUrl + typeName;
 }
 
 KContacts::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
 {
-    QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
+    const auto typeName = scheme.midRef(scheme.lastIndexOf(QLatin1Char('#')) + 1);
     KContacts::PhoneNumber::Type type = {};
 
-    if (typeName == QLatin1String("car"))
+    if (typeName == phoneSchemeCar) {
         type |= KContacts::PhoneNumber::Car;
-    else if (typeName == QLatin1String("fax"))
+    } else if (typeName == phoneSchemeFax) {
         type |= KContacts::PhoneNumber::Fax;
-    else if (typeName == QLatin1String("isdn"))
+    } else if (typeName == phoneSchemeISDN) {
         type |= KContacts::PhoneNumber::Isdn;
-    else if (typeName == QLatin1String("mobile"))
+    } else if (typeName == phoneSchemeMobile) {
         type |= KContacts::PhoneNumber::Cell;
-    else if (typeName == QLatin1String("pager"))
+    } else if (typeName == phoneSchemePager) {
         type |= KContacts::PhoneNumber::Pager;
-    else if (typeName == QLatin1String("main"))
+    } else if (typeName == phoneSchemeMain) {
         type |= KContacts::PhoneNumber::Pref;
-    else if (typeName == QLatin1String("home"))
+    } else if (typeName == phoneSchemeHome) {
         type |= KContacts::PhoneNumber::Home;
-    else if (typeName == QLatin1String("home_fax"))
+    } else if (typeName == phoneSchemeHomeFax) {
         type |= KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax;
-    else if (typeName == QLatin1String("work"))
+    } else if (typeName == phoneSchemeWork) {
         type |= KContacts::PhoneNumber::Work;
-    else if (typeName == QLatin1String("work_fax"))
+    } else if (typeName == phoneSchemeWorkFax) {
         type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax;
-    else if (typeName == QLatin1String("work_mobile"))
+    } else if (typeName == phoneSchemeWorkMobile) {
         type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell;
-    else if (typeName == QLatin1String("work_pager"))
+    } else if (typeName == phoneSchemeWorkPager) {
         type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager;
-    else if (typeName == QLatin1String("company_main"))
+    } else if (typeName == phoneSchemeCompanyMain) {
         type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref;
-    else
+    } else {
         type |= KContacts::PhoneNumber::Home;
+    }
 
     return type;
 }
 
 QString Contact::emailSchemeToProtocolName(const QString &scheme)
 {
-    QString type = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
-    if (type == QLatin1String("work")) {
-        return QStringLiteral("WORK");
-    } else if (type == QLatin1String("home")) {
-        return QStringLiteral("HOME");
-    } else if (type == QLatin1String("other")) {
-        return QStringLiteral("OTHER");
+    const auto type = scheme.midRef(scheme.lastIndexOf(QLatin1Char('#')) + 1);
+    if (type == emailSchemeWork) {
+        return emailSchemeWork.toUpper();
+    } else if (type == emailSchemeHome) {
+        return emailSchemeHome.toUpper();
+    } else if (type == emailSchemeOther) {
+        return emailSchemeOther.toUpper();
     }
-    return type;
+    return type.toString();
 }
 

@@ -24,7 +24,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
-  public:
+public:
 
     /**
      * @brief Constructs a job that will write changes in given @p groups to
@@ -55,7 +55,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupModifyJob : public KGAPI2::ModifyJob
      */
     ~ContactsGroupModifyJob() override;
 
-  protected:
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -68,11 +68,11 @@ class KGAPICONTACTS_EXPORT ContactsGroupModifyJob : public KGAPI2::ModifyJob
      * @param rawData
      */
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+                                     const QByteArray& rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

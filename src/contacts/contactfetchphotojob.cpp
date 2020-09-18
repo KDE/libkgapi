@@ -11,6 +11,7 @@
 #include "contact.h"
 #include "contactsservice.h"
 #include "private/queuehelper_p.h"
+#include "common_p.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -47,7 +48,7 @@ void ContactFetchPhotoJob::Private::processNextContact()
     const ContactPtr contact = contacts.current();
     const QUrl url = ContactsService::photoUrl(q->account()->accountName(), contact->uid());
     QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
+    request.setRawHeader(headerGDataVersion, ContactsService::APIVersion().toLatin1());
     q->enqueueRequest(request);
 }
 
@@ -66,10 +67,7 @@ ContactFetchPhotoJob::ContactFetchPhotoJob(const ContactPtr &contact, const Acco
     d->contacts.enqueue(contact);
 }
 
-ContactFetchPhotoJob::~ContactFetchPhotoJob()
-{
-    delete d;
-}
+ContactFetchPhotoJob::~ContactFetchPhotoJob() = default;
 
 void ContactFetchPhotoJob::start()
 {

@@ -25,7 +25,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
+public:
 
     /**
      * @brief Constructs a job that will create given @p groups in user's
@@ -56,7 +56,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
      */
     ~ContactsGroupCreateJob() override;
 
-  protected:
+protected:
 
     /**
      * @brief KGAPI2::Job::start implementation
@@ -70,11 +70,11 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
      * @param rawData
      */
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+                                     const QByteArray& rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
 
 };

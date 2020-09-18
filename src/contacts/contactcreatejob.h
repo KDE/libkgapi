@@ -23,7 +23,7 @@ namespace KGAPI2 {
 class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
-  public:
+public:
 
     /**
      * @brief Constructs a job that will create given @p contact in user's
@@ -50,7 +50,7 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      */
     ~ContactCreateJob() override;
 
-  protected:
+protected:
 
     /**
      * @brief KGAPI2::Job::start implementation
@@ -79,11 +79,10 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
                                              const QByteArray& rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2

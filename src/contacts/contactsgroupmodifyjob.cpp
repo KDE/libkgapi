@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "account.h"
 #include "private/queuehelper_p.h"
+#include "common_p.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -22,7 +23,7 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactsGroupModifyJob::Private
 {
-  public:
+public:
     QueueHelper<ContactsGroupPtr> groups;
 };
 
@@ -40,11 +41,7 @@ ContactsGroupModifyJob::ContactsGroupModifyJob(const ContactsGroupPtr& group, co
     d->groups.enqueue(group);
 }
 
-ContactsGroupModifyJob::~ContactsGroupModifyJob()
-{
-    delete d;
-}
-
+ContactsGroupModifyJob::~ContactsGroupModifyJob() = default;
 
 void ContactsGroupModifyJob::start()
 {
@@ -57,24 +54,11 @@ void ContactsGroupModifyJob::start()
 
     const QUrl url = ContactsService::updateGroupUrl(account()->accountName(), group->id());
     QNetworkRequest request(url);
-    request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
+    request.setRawHeader(headerGDataVersion, ContactsService::APIVersion().toLatin1());
 
-    QByteArray rawData = ContactsService::contactsGroupToXML(group);
-    rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
-                     "xmlns:gd=\"http://schemas.google.com/g/2005\" "
-                     "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
-                    "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
-                     "term=\"http://schemas.google.com/g/2008#group\"/>");
-    rawData.append("</atom:entry>");
+    const QByteArray rawData = xmlGroupHeader + ContactsService::contactsGroupToXML(group) + xmlFooter;
 
-    QStringList headers;
-    auto rawHeaderList = request.rawHeaderList();
-    headers.reserve(rawHeaderList.size());
-    for (const QByteArray &str : qAsConst(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
-    }
-
-    enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
+    enqueueRequest(request, rawData, mimeTypeApplicationAtomXml);
 }
 
 ObjectsList ContactsGroupModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
@@ -100,5 +84,4 @@ ObjectsList ContactsGroupModifyJob::handleReplyWithItems(const QNetworkReply *re
 
     return items;
 }
-
 
