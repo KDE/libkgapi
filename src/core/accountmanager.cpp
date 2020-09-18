@@ -29,13 +29,13 @@ public:
     void setError(const QString &error)
     {
         this->error = error;
-        emitFinished();
+        emitResult();
     }
 
     void setAccount(const AccountPtr &account)
     {
         this->account = account;
-        emitFinished();
+        emitResult();
     }
 
     void setRunning()
@@ -52,7 +52,7 @@ public:
     QString error;
     AccountPtr account;
 private:
-    void emitFinished()
+    void emitResult()
     {
         QTimer::singleShot(0, q, [this]() {
             Q_EMIT q->finished(q);
@@ -85,7 +85,7 @@ public:
         }
         AuthJob *job = new AuthJob(account, apiKey, apiSecret);
         job->setUsername(account->accountName());
-        connect(job, &AuthJob::finished,
+        connect(job, &AuthJob::result,
                 [=]() {
                     if (job->error() != KGAPI2::NoError) {
                         promise->d->setError(tr("Failed to authenticate additional scopes"));

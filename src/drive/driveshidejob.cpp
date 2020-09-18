@@ -42,7 +42,7 @@ DrivesHideJob::Private::Private(DrivesHideJob *parent):
 void DrivesHideJob::Private::processNext()
 {
     if (drives.isEmpty()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 
@@ -96,7 +96,7 @@ ObjectsList DrivesHideJob::handleReplyWithItems(const QNetworkReply *reply,
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

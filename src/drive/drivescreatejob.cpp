@@ -44,7 +44,7 @@ DrivesCreateJob::Private::Private(DrivesCreateJob *parent):
 void DrivesCreateJob::Private::processNext()
 {
     if (drives.isEmpty()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 
@@ -109,7 +109,7 @@ ObjectsList DrivesCreateJob::handleReplyWithItems(const QNetworkReply *reply,
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

@@ -129,11 +129,11 @@ void PostPublishJob::handleReply(const QNetworkReply *reply,
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
     }
 
     d->response = Post::fromJSON(rawData);
-    emitFinished();
+    emitResult();
 }
 
 

@@ -49,7 +49,7 @@ ContactsGroupModifyJob::~ContactsGroupModifyJob()
 void ContactsGroupModifyJob::start()
 {
     if (d->groups.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 
@@ -91,7 +91,7 @@ ObjectsList ContactsGroupModifyJob::handleReplyWithItems(const QNetworkReply *re
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

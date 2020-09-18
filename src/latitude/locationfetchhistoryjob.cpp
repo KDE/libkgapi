@@ -130,7 +130,7 @@ ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *r
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
     }
 
     if (feedData.nextPageUrl.isValid()) {

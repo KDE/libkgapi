@@ -53,7 +53,6 @@ class Q_DECL_HIDDEN Job::Private
     QString parseErrorMessage(const QByteArray &json);
 
     void _k_doStart();
-    void _k_doEmitFinished();
     void _k_replyReceived(QNetworkReply *reply);
     void _k_dispatchTimeout();
 

@@ -75,12 +75,12 @@ ObjectsList CommentDeleteContentJob::handleReplyWithItems(const QNetworkReply *r
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 
     items << Comment::fromJSON(rawData);
-    emitFinished();
+    emitResult();
     return items;
 }
 

@@ -86,7 +86,7 @@ ObjectsList BlogFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
         setErrorString(tr("Invalid response content type"));
     }
 
-    emitFinished();
+    emitResult();
     return items;
 }
 

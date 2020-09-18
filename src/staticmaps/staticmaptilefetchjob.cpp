@@ -75,7 +75,7 @@ void StaticMapTileFetchJob::handleReply(const QNetworkReply *reply,
     Q_UNUSED(reply);
 
     d->tilePixmap.loadFromData(rawData);
-    emitFinished();
+    emitResult();
 }
 
 

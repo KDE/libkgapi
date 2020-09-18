@@ -40,7 +40,7 @@ RevisionModifyJob::Private::Private(RevisionModifyJob *parent):
 void RevisionModifyJob::Private::processNext()
 {
     if (revisions.isEmpty()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 
@@ -95,7 +95,7 @@ ObjectsList RevisionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
     }
 
     // Enqueue next item or finish

@@ -195,7 +195,7 @@ ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, cons
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

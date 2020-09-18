@@ -111,7 +111,7 @@ void PermissionDeleteJob::setUseDomainAdminAccess(bool useDomainAdminAccess)
 void PermissionDeleteJob::start()
 {
     if (d->permissionsIds.isEmpty()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

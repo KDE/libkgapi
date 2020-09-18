@@ -42,7 +42,7 @@ ChildReferenceCreateJob::Private::Private(ChildReferenceCreateJob *parent):
 void ChildReferenceCreateJob::Private::processNext()
 {
     if (references.isEmpty()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 
@@ -136,7 +136,7 @@ ObjectsList ChildReferenceCreateJob::handleReplyWithItems(const QNetworkReply *r
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
     }
 
     // Enqueue next item or finish

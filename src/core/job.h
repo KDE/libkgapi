@@ -228,13 +228,29 @@ class KGAPICORE_EXPORT Job : public QObject
      * The signal is emitted every time, no matter whether the job is successful
      * or an error has occurred.
      *
-     * Subclasses should never ever emit this signal directly.
-     * Use Job::emitFinished instead.
+     * For compatbility this signal is still being emitted when emitResult() or emitFinished()
+     * is called.
      *
      * @param job The job that has finished
-     * @sa emitFinished()
+     * @sa result(), emitResult()
+     * @deprecated
      */
-    void finished(KGAPI2::Job *job);
+    QT_DEPRECATED_X("Use Job::result instead")
+    void finished(KGAPI2::Job *job, QPrivateSignal);
+
+    /**
+     * Emitted when @p job has finished.
+     *
+     * The signal is emitted every time, no matter whether the job is successful
+     * or an error has occurred.
+     *
+     * For compatibility reasons the deprecated finished() singal is emitted as well, so
+     * make sure you connect only to one of those signals.
+     *
+     * @param job The job that has finished
+     * @sa emitResult()
+     */
+    void result(KGAPI2::Job *job, QPrivateSignal);
 
     /**
      * @brief Emitted when a job progress changes.
@@ -271,8 +287,22 @@ class KGAPICORE_EXPORT Job : public QObject
      *
      * Subclasses should always use this method instead of directly emitting
      * Job::finished().
+     *
+     * For compatibility reasons calling this method emits both finished() and result()
+     * signals, so make sure you connect to only one of them.
+     *
+     * @deprecated Use emitResult()
      */
+    QT_DEPRECATED_X("Connect to emitResult instead")
     virtual void emitFinished();
+
+    /**
+     * @brief Emits Job::result() signal.
+     *
+     * For compatibility reasons calling this method emits both finished() and result()
+     * signals, so make sure you connect to only one of them.
+     */
+    virtual void emitResult();
 
     /**
      * @brief This method is invoked right before finished() is emitted

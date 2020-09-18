@@ -193,7 +193,7 @@ ObjectsList PostFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 
@@ -201,7 +201,7 @@ ObjectsList PostFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
         const QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     } else {
-        emitFinished();
+        emitResult();
     }
 
     return items;

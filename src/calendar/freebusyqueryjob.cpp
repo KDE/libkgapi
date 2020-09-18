@@ -119,5 +119,5 @@ void FreeBusyQueryJob::handleReply(const QNetworkReply *reply, const QByteArray 
         setErrorString(tr("Invalid response content type"));
     }
 
-    emitFinished();
+    emitResult();
 }

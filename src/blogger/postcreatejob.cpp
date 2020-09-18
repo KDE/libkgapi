@@ -72,11 +72,11 @@ ObjectsList PostCreateJob::handleReplyWithItems(const QNetworkReply *reply, cons
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 
     items << Post::fromJSON(rawData);
-    emitFinished();
+    emitResult();
     return items;
 }

@@ -38,7 +38,7 @@ ContactDeleteJob::Private::Private(ContactDeleteJob* parent):
 void ContactDeleteJob::Private::processNextContact()
 {
     if (contactIds.atEnd()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 

@@ -163,7 +163,7 @@ void FileAbstractResumableJob::Private::processNext()
         }
         case Completed:
             qCDebug(KGAPIDebug) << "Nothing left to process, done";
-            q->emitFinished();
+            q->emitResult();
             return;
     }
 }
@@ -326,7 +326,7 @@ void FileAbstractResumableJob::handleReply(const QNetworkReply *reply,
                 qCWarning(KGAPIDebug) << "Failed opening upload session" << replyCode;
                 setError(KGAPI2::UnknownError);
                 setErrorString(tr("Failed opening upload session"));
-                emitFinished();
+                emitResult();
                 return;
             }
 
@@ -355,7 +355,7 @@ void FileAbstractResumableJob::handleReply(const QNetworkReply *reply,
                 qCWarning(KGAPIDebug) << "Failed uploading chunk" << replyCode;
                 setError(KGAPI2::UnknownError);
                 setErrorString(tr("Failed uploading chunk"));
-                emitFinished();
+                emitResult();
                 return;
             }
 
@@ -376,7 +376,7 @@ void FileAbstractResumableJob::handleReply(const QNetworkReply *reply,
                 qCWarning(KGAPIDebug) << "Failed completing upload session" << replyCode;
                 setError(KGAPI2::UnknownError);
                 setErrorString(tr("Failed completing upload session"));
-                emitFinished();
+                emitResult();
                 return;
             }
             const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();

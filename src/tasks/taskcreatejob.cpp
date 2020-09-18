@@ -87,7 +87,7 @@ void TaskCreateJob::setPrevious(const QString &previousId)
 void TaskCreateJob::start()
 {
    if (d->tasks.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 
@@ -117,7 +117,7 @@ ObjectsList TaskCreateJob::handleReplyWithItems(const QNetworkReply *reply, cons
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

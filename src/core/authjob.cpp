@@ -101,12 +101,12 @@ void AuthJob::start()
        if (d->account->accountName().isEmpty()) {
             setError(KGAPI2::InvalidAccount);
             setErrorString(tr("Account name is empty"));
-            emitFinished();
+            emitResult();
             return;
         }
 
         auto *job = new RefreshTokensJob(d->account, d->apiKey, d->secretKey, this);
-        connect(job, &Job::finished, this, [this](Job *job) { d->jobFinished<RefreshTokensJob>(job); });
+        connect(job, &Job::result, this, [this](Job *job) { d->jobFinished<RefreshTokensJob>(job); });
     }
 }
 

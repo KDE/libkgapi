@@ -79,7 +79,7 @@ void FileFetchJob::Private::processNext()
         }
     } else {
         if (filesIDs.isEmpty()) {
-            q->emitFinished();
+            q->emitResult();
             return;
         }
 
@@ -252,7 +252,7 @@ ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

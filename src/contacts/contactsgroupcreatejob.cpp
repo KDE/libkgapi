@@ -48,7 +48,7 @@ ContactsGroupCreateJob::~ContactsGroupCreateJob()
 void ContactsGroupCreateJob::start()
 {
     if (d->groups.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 
@@ -89,7 +89,7 @@ ObjectsList ContactsGroupCreateJob::handleReplyWithItems(const QNetworkReply *re
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
     }
 
     // Enqueue next item or finish

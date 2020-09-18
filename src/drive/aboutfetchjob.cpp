@@ -122,7 +122,7 @@ KGAPI2::ObjectsList AboutFetchJob::handleReplyWithItems(const QNetworkReply *rep
         setErrorString(tr("Invalid response content type"));
     }
 
-    emitFinished();
+    emitResult();
     return items;
 }
 

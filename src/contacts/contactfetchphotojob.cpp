@@ -40,7 +40,7 @@ ContactFetchPhotoJob::Private::Private(ContactFetchPhotoJob *parent):
 void ContactFetchPhotoJob::Private::processNextContact()
 {
     if (contacts.atEnd()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 

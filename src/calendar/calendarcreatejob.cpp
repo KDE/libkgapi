@@ -47,7 +47,7 @@ CalendarCreateJob::~CalendarCreateJob() = default;
 void CalendarCreateJob::start()
 {
     if (d->calendars.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 
@@ -66,7 +66,7 @@ ObjectsList CalendarCreateJob::handleReplyWithItems(const QNetworkReply *reply, 
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

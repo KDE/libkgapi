@@ -62,7 +62,7 @@ DrivesDeleteJob::~DrivesDeleteJob() = default;
 void DrivesDeleteJob::start()
 {
     if (d->drivesIds.isEmpty()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

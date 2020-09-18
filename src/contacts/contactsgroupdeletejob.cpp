@@ -90,7 +90,7 @@ ContactsGroupDeleteJob::~ContactsGroupDeleteJob()
 void ContactsGroupDeleteJob::start()
 {
     if (d->groupsIds.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

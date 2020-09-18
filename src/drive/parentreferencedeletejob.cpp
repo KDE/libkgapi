@@ -79,7 +79,7 @@ ParentReferenceDeleteJob::~ParentReferenceDeleteJob()
 void ParentReferenceDeleteJob::start()
 {
     if (d->referencesIds.isEmpty()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

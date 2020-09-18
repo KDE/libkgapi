@@ -61,7 +61,7 @@ LocationDeleteJob::~LocationDeleteJob()
 void LocationDeleteJob::start()
 {
     if (d->finished) {
-        emitFinished();
+        emitResult();
         return;
     }
 

@@ -117,7 +117,7 @@ QByteArray FileAbstractUploadJob::Private::buildMultipart(const QString &filePat
 void FileAbstractUploadJob::Private::processNext()
 {
     if (files.isEmpty()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 
@@ -302,7 +302,7 @@ void FileAbstractUploadJob::handleReply(const QNetworkReply *reply,
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return;
     }
 

@@ -115,11 +115,11 @@ ObjectsList PageFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 
-    emitFinished();
+    emitResult();
     return items;
 }
 

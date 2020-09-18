@@ -66,7 +66,7 @@ void PageDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &ra
     Q_UNUSED(reply);
     Q_UNUSED(rawData);
 
-    emitFinished();
+    emitResult();
 }
 
 

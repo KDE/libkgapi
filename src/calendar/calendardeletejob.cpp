@@ -59,7 +59,7 @@ CalendarDeleteJob::~CalendarDeleteJob() = default;
 void CalendarDeleteJob::start()
 {
     if (d->calendarsIds.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

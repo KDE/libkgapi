@@ -42,7 +42,7 @@ FileAbstractModifyJob::Private::Private(FileAbstractModifyJob *parent):
 void FileAbstractModifyJob::Private::processNext()
 {
     if (filesIds.isEmpty()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 
@@ -128,7 +128,7 @@ ObjectsList FileAbstractModifyJob::handleReplyWithItems(const QNetworkReply *rep
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
     }
 
     d->processNext();

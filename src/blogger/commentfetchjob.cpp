@@ -172,7 +172,7 @@ ObjectsList CommentFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 
@@ -180,7 +180,7 @@ ObjectsList CommentFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
         const QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     } else {
-        emitFinished();
+        emitResult();
     }
 
     return items;

@@ -92,7 +92,7 @@ ObjectsList PostSearchJob::handleReplyWithItems(const QNetworkReply *reply, cons
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 
@@ -100,7 +100,7 @@ ObjectsList PostSearchJob::handleReplyWithItems(const QNetworkReply *reply, cons
         const QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
     } else {
-        emitFinished();
+        emitResult();
     }
 
     return items;

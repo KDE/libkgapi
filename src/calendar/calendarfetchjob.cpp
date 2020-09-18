@@ -70,7 +70,7 @@ ObjectsList CalendarFetchJob::handleReplyWithItems(const QNetworkReply *reply, c
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

@@ -75,7 +75,7 @@ void CommentDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray 
     Q_UNUSED(reply);
     Q_UNUSED(rawData);
 
-    emitFinished();
+    emitResult();
 }
 
 

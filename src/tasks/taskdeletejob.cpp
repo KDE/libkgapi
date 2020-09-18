@@ -70,7 +70,7 @@ TaskDeleteJob::~TaskDeleteJob() = default;
 void TaskDeleteJob::start()
 {
     if (d->tasksIds.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

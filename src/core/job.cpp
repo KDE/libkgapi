@@ -138,11 +138,6 @@ void Job::Private::_k_doStart()
     q->start();
 }
 
-void Job::Private::_k_doEmitFinished()
-{
-    Q_EMIT q->finished(q);
-}
-
 void Job::Private::_k_replyReceived(QNetworkReply* reply)
 {
     int replyCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -184,14 +179,14 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             qCWarning(KGAPIDebug) << "Bad request, Google replied '" << rawData << "'";
             q->setError(KGAPI2::BadRequest);
             q->setErrorString(tr("Bad request."));
-            q->emitFinished();
+            q->emitResult();
             return;
 
         case KGAPI2::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
             qCWarning(KGAPIDebug) << "Unauthorized. Access token has expired or is invalid.";
             q->setError(KGAPI2::Unauthorized);
             q->setErrorString(tr("Invalid authentication."));
-            q->emitFinished();
+            q->emitResult();
             return;
 
         case KGAPI2::Forbidden: {
@@ -199,7 +194,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::Forbidden);
             q->setErrorString(tr("Requested resource is forbidden.\n\nGoogle replied '%1'").arg(msg));
-            q->emitFinished();
+            q->emitResult();
             return;
         }
 
@@ -213,7 +208,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             q->handleReply(reply, rawData);
 
             if (requestQueue.isEmpty()) {
-                q->emitFinished();
+                q->emitResult();
             }
             return;
         }
@@ -223,7 +218,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::Conflict);
             q->setErrorString(tr("Conflict. Remote resource is newer than local.\n\nGoogle replied '%1'").arg(msg));
-            q->emitFinished();
+            q->emitResult();
             return;
         }
 
@@ -236,7 +231,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             q->handleReply(reply, rawData);
 
             if (requestQueue.isEmpty()) {
-                q->emitFinished();
+                q->emitResult();
             }
             return;
         }
@@ -246,7 +241,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::InternalError);
             q->setErrorString(tr("Internal server error. Try again later.\n\nGoogle replied '%1'").arg(msg));
-            q->emitFinished();
+            q->emitResult();
             return;
         }
 
@@ -263,7 +258,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
                 const QString msg = parseErrorMessage(rawData);
                 q->setError(KGAPI2::QuotaExceeded);
                 q->setErrorString(tr("Maximum quota exceeded. Try again later.\n\nGoogle replied '%1'").arg(msg));
-                q->emitFinished();
+                q->emitResult();
                 return;
             } else {
                 interval = interval ^ 2;
@@ -284,7 +279,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
             const QString msg = parseErrorMessage(rawData);
             q->setError(KGAPI2::UnknownError);
             q->setErrorString(tr("Unknown error.\n\nGoogle replied '%1'").arg(msg));
-            q->emitFinished();
+            q->emitResult();
             return;
         }
     }
@@ -298,7 +293,7 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
 
     qCDebug(KGAPIDebug) << requestQueue.length() << "requests in requestQueue.";
     if (requestQueue.isEmpty()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 
@@ -478,6 +473,11 @@ void Job::restart()
 
 void Job::emitFinished()
 {
+    emitResult();
+}
+
+void Job::emitResult()
+{
     aboutToFinish();
 
     d->isRunning = false;
@@ -486,7 +486,10 @@ void Job::emitFinished()
 
     // Emit in next event loop iteration so that the method caller can finish
     // before user is notified
-    QTimer::singleShot(0, this, [this]() { d->_k_doEmitFinished(); });
+    QTimer::singleShot(0, this, [this]() {
+        Q_EMIT finished(this, {});
+        Q_EMIT result(this, {});
+    });
 }
 
 void Job::emitProgress(int processed, int total)

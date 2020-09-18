@@ -46,7 +46,7 @@ TaskListCreateJob::~TaskListCreateJob() = default;
 void TaskListCreateJob::start()
 {
     if (d->taskLists.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 
@@ -75,7 +75,7 @@ ObjectsList TaskListCreateJob::handleReplyWithItems(const QNetworkReply *reply, 
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

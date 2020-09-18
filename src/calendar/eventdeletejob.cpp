@@ -64,7 +64,7 @@ EventDeleteJob::~EventDeleteJob() = default;
 void EventDeleteJob::start()
 {
     if (d->eventsIds.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

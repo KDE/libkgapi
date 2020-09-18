@@ -62,7 +62,7 @@ TeamdriveDeleteJob::~TeamdriveDeleteJob() = default;
 void TeamdriveDeleteJob::start()
 {
     if (d->teamdrivesIds.isEmpty()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

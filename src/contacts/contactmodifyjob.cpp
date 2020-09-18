@@ -45,7 +45,7 @@ void ContactModifyJob::Private::processNextContact()
 {
     if (contacts.atEnd()) {
         if (pendingPhoto.first.isEmpty()) {
-            q->emitFinished();
+            q->emitResult();
         }
         return;
     }
@@ -150,7 +150,7 @@ ObjectsList ContactModifyJob::handleReplyWithItems(const QNetworkReply *reply, c
         } else {
             setError(KGAPI2::InvalidResponse);
             setErrorString(tr("Invalid response content type"));
-            emitFinished();
+            emitResult();
             return items;
         }
         d->updatePhoto(d->contacts.current());

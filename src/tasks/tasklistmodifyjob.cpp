@@ -48,7 +48,7 @@ TaskListModifyJob::~TaskListModifyJob() = default;
 void TaskListModifyJob::start()
 {
     if (d->taskLists.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 
@@ -77,7 +77,7 @@ ObjectsList TaskListModifyJob::handleReplyWithItems(const QNetworkReply *reply, 
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

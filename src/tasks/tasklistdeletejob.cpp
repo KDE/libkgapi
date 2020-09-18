@@ -37,7 +37,7 @@ TaskListDeleteJob::Private::Private(TaskListDeleteJob *parent):
 void TaskListDeleteJob::Private::processNextTaskList()
 {
    if (taskListsIds.atEnd()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 

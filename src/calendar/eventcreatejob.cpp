@@ -63,7 +63,7 @@ SendUpdatesPolicy EventCreateJob::sendUpdates() const
 void EventCreateJob::start()
 {
     if (d->events.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 
@@ -82,7 +82,7 @@ ObjectsList EventCreateJob::handleReplyWithItems(const QNetworkReply *reply, con
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

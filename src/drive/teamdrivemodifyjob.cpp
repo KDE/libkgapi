@@ -40,7 +40,7 @@ TeamdriveModifyJob::Private::Private(TeamdriveModifyJob *parent):
 void TeamdriveModifyJob::Private::processNext()
 {
     if (teamdrives.isEmpty()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 
@@ -89,7 +89,7 @@ ObjectsList TeamdriveModifyJob::handleReplyWithItems(const QNetworkReply *reply,
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 

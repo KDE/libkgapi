@@ -140,7 +140,7 @@ ObjectsList PermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
         setErrorString(tr("Invalid response content type"));
     }
 
-    emitFinished();
+    emitResult();
     return items;
 }
 

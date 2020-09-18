@@ -41,7 +41,7 @@ TaskMoveJob::Private::Private(TaskMoveJob *parent):
 void TaskMoveJob::Private::processNextTask()
 {
     if (tasksIds.atEnd()) {
-        q->emitFinished();
+        q->emitResult();
         return;
     }
 

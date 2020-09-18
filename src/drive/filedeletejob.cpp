@@ -68,7 +68,7 @@ FileDeleteJob::~FileDeleteJob()
 void FileDeleteJob::start()
 {
     if (d->filesIDs.isEmpty()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

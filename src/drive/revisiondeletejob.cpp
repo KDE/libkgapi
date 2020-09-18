@@ -77,7 +77,7 @@ RevisionDeleteJob::~RevisionDeleteJob()
 void RevisionDeleteJob::start()
 {
     if (d->revisionsIds.isEmpty()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

@@ -82,7 +82,7 @@ ObjectsList ParentReferenceFetchJob::handleReplyWithItems(const QNetworkReply *r
         setErrorString(tr("Invalid response content type"));
     }
 
-    emitFinished();
+    emitResult();
     return items;
 }
 

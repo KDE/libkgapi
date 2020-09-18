@@ -77,7 +77,7 @@ ChildReferenceDeleteJob::~ChildReferenceDeleteJob()
 void ChildReferenceDeleteJob::start()
 {
     if (d->childrenIds.isEmpty()) {
-        emitFinished();
+        emitResult();
         return;
     }
 

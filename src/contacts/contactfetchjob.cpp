@@ -159,7 +159,7 @@ ObjectsList ContactFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
             const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
             enqueueRequest(request);
         } else {
-            emitFinished();
+            emitResult();
         }
 
         return items;

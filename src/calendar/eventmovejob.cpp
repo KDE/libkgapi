@@ -79,7 +79,7 @@ EventMoveJob::~EventMoveJob() = default;
 void EventMoveJob::start()
 {
     if (d->eventsIds.atEnd()) {
-        emitFinished();
+        emitResult();
         return;
     }
 
@@ -105,7 +105,7 @@ KGAPI2::ObjectsList EventMoveJob::handleReplyWithItems(const QNetworkReply *repl
     if (ct != KGAPI2::JSON) {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
-        emitFinished();
+        emitResult();
         return items;
     }
 
