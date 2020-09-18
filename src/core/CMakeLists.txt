@@ -61,7 +61,10 @@ add_library(KF5::GAPICore ALIAS KPimGAPICore)
 target_include_directories(KPimGAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi>")
 
 target_link_libraries(KPimGAPICore
+PUBLIC
+    Qt5::Core
 PRIVATE
+    Qt5::Network
     KF5::KIOWidgets
     KF5::Wallet
 )
@@ -96,7 +99,7 @@ install(FILES
 
 ecm_generate_pri_file(BASE_NAME KGAPICore
     LIB_NAME KPimGAPICore
-    DEPS "Qt5::Widgets"
+    DEPS "core network"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 
