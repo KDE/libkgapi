@@ -22,8 +22,8 @@ class Q_DECL_HIDDEN PageDeleteJob::Private
     Private(const QString &blogId,
             const QString &pageId);
 
-    QString blogId;
-    QString pageId;
+    const QString blogId;
+    const QString pageId;
 };
 
 PageDeleteJob::Private::Private(const QString &blogId_, const QString &pageId_)

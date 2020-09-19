@@ -25,11 +25,10 @@ class Q_DECL_HIDDEN LocationCreateJob::Private
     Private();
 
     LocationPtr location;
-    bool isCurrent;
+    bool isCurrent = true;
 };
 
-LocationCreateJob::Private::Private():
-    isCurrent(true)
+LocationCreateJob::Private::Private()
 {
 }
 

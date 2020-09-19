@@ -21,14 +21,13 @@ class Q_DECL_HIDDEN App::Icon::Private
     Private(const Private &other);
 
     Category category;
-    int size;
+    int size = -1;
     QUrl iconUrl;
 
     static Category categoryFromName(const QString &categoryName);
 };
 
-App::Icon::Private::Private():
-    size(-1)
+App::Icon::Private::Private()
 {
 }
 

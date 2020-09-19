@@ -45,7 +45,7 @@ class Q_DECL_HIDDEN AuthJob::Private
     AccountPtr account;
     QString apiKey;
     QString secretKey;
-    QWidget* widget;
+    QWidget* widget = nullptr;
 
     QString username;
     QString password;
@@ -56,7 +56,6 @@ class Q_DECL_HIDDEN AuthJob::Private
 };
 
 AuthJob::Private::Private(AuthJob *parent):
-    widget(nullptr),
     q(parent)
 {
 }

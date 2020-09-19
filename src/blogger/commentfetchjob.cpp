@@ -26,9 +26,9 @@ class Q_DECL_HIDDEN CommentFetchJob::Private
             CommentFetchJob *parent);
     ~Private();
 
-    QString blogId;
-    QString postId;
-    QString commentId;
+    const QString blogId;
+    const QString postId;
+    const QString commentId;
     uint maxResults;
     QDateTime startDate;
     QDateTime endDate;

@@ -31,20 +31,17 @@ class Q_DECL_HIDDEN Post::Private
     QString authorName;
     QUrl authorUrl;
     QUrl authorImageUrl;
-    uint commentsCount;
+    uint commentsCount =0;
     QStringList labels;
     QVariant customMetaData;
     QString location;
-    double latitude;
-    double longitude;
+    double latitude = -1;
+    double longitude = -1;
     QList<QUrl> images;
     QString status;
 };
 
 Post::Private::Private()
-    : commentsCount(0)
-    , latitude(-1)
-    , longitude(-1)
 {
 }
 

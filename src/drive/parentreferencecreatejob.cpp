@@ -25,7 +25,7 @@ class Q_DECL_HIDDEN ParentReferenceCreateJob::Private
   public:
     Private(ParentReferenceCreateJob *parent);
     void processNext();
-    bool supportsAllDrives;
+    bool supportsAllDrives = true;
 
     QString fileId;
     ParentReferencesList references;
@@ -35,7 +35,6 @@ private:
 };
 
 ParentReferenceCreateJob::Private::Private(ParentReferenceCreateJob *parent):
-    supportsAllDrives(true),
     q(parent)
 {
 }

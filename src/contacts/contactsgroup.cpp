@@ -23,12 +23,11 @@ class Q_DECL_HIDDEN ContactsGroup::Private
     QString title;
     QString content;
     QDateTime updated;
-    bool isSystemGroup;
+    bool isSystemGroup = false;
 
 };
 
-ContactsGroup::Private::Private():
-    isSystemGroup(false)
+ContactsGroup::Private::Private()
 {
 }
 

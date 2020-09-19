@@ -15,21 +15,15 @@ class Q_DECL_HIDDEN Location::Private
     Private();
     Private(const Private &other);
 
-    qulonglong timestamp;
-    qint32 accuracy;
-    qint32 speed;
-    qint32 heading;
-    qint32 altitude;
-    qint32 altitudeAccuracy;
+    qulonglong timestamp = 0;
+    qint32 accuracy = -1;
+    qint32 speed = -1;
+    qint32 heading = -1;
+    qint32 altitude = 0;
+    qint32 altitudeAccuracy = -1;
 };
 
-Location::Private::Private():
-    timestamp(0),
-    accuracy(-1),
-    speed(-1),
-    heading(-1),
-    altitude(0),
-    altitudeAccuracy(-1)
+Location::Private::Private()
 { }
 
 Location::Private::Private(const Private &other):

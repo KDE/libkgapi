@@ -29,11 +29,11 @@ class Q_DECL_HIDDEN FileFetchJob::Private
 
     FileSearchQuery searchQuery;
     QStringList filesIDs;
-    bool isFeed;
-    bool includeItemsFromAllDrives;
-    bool supportsAllDrives;
+    bool isFeed = false;
+    bool includeItemsFromAllDrives = true;
+    bool supportsAllDrives = true;
 
-    bool updateViewedDate;
+    bool updateViewedDate = false;
 
     QStringList fields;
 
@@ -42,10 +42,6 @@ class Q_DECL_HIDDEN FileFetchJob::Private
 };
 
 FileFetchJob::Private::Private(FileFetchJob *parent):
-    isFeed(false),
-    includeItemsFromAllDrives(true),
-    supportsAllDrives(true),
-    updateViewedDate(false),
     q(parent)
 {
 }

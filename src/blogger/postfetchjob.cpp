@@ -27,13 +27,13 @@ class Q_DECL_HIDDEN PostFetchJob::Private
     QString blogId;
     QString postId;
 
-    bool fetchBodies;
-    bool fetchImages;
-    uint maxResults;
+    bool fetchBodies = true;
+    bool fetchImages = true;
+    uint maxResults = 0;
     QStringList filterLabels;
     QDateTime startDate;
     QDateTime endDate;
-    StatusFilters statusFilter;
+    StatusFilters statusFilter = All;
 
   private:
     PostFetchJob *const q;
@@ -44,10 +44,6 @@ PostFetchJob::Private::Private(const QString &blogId_,
                                PostFetchJob *parent)
     : blogId(blogId_)
     , postId(postId_)
-    , fetchBodies(true)
-    , fetchImages(true)
-    , maxResults(0)
-    , statusFilter(All)
     , q(parent)
 {
 }

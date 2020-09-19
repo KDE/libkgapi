@@ -23,9 +23,9 @@ class Q_DECL_HIDDEN CommentDeleteContentJob::Private
             const QString &postId,
             const QString &commentId);
 
-    QString blogId;
-    QString postId;
-    QString commentId;
+    const QString blogId;
+    const QString postId;
+    const QString commentId;
 };
 
 CommentDeleteContentJob::Private::Private(const QString &blogId_,

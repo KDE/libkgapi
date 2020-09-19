@@ -25,15 +25,12 @@ class Q_DECL_HIDDEN AboutFetchJob::Private
   public:
     Private();
 
-    bool includeSubscribed;
-    qlonglong maxChangeIdCount;
-    qlonglong startChangeId;
+    bool includeSubscribed = true;
+    qlonglong maxChangeIdCount = 0;
+    qlonglong startChangeId = 0;
 };
 
-AboutFetchJob::Private::Private():
-    includeSubscribed(true),
-    maxChangeIdCount(0),
-    startChangeId(0)
+AboutFetchJob::Private::Private()
 {
 }
 

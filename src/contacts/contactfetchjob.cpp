@@ -26,9 +26,9 @@ class Q_DECL_HIDDEN ContactFetchJob::Private
 
     QNetworkRequest createRequest(const QUrl &url);
 
-    bool fetchDeleted;
+    bool fetchDeleted = true;
     QString contactId;
-    quint64 timestamp;
+    quint64 timestamp = 0;
     QString filter;
 
   private:
@@ -36,8 +36,6 @@ class Q_DECL_HIDDEN ContactFetchJob::Private
 };
 
 ContactFetchJob::Private::Private(ContactFetchJob *parent):
-    fetchDeleted(true),
-    timestamp(0),
     q(parent)
 {
 }

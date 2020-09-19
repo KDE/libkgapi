@@ -22,11 +22,11 @@ class Q_DECL_HIDDEN Contact::Private
 {
 
   public:
-    Private() : deleted(false) { }
+    Private() { }
     Private(const Private &other);
     ~Private() { }
 
-    bool deleted;
+    bool deleted = false;
     QUrl photoUrl;
 
     /* group URI, isDeleted */

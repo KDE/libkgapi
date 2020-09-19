@@ -36,13 +36,12 @@ public:
     QString locale;
     QString timezone;
 
-    bool verifiedEmail;
+    bool verifiedEmail = false;
 
     QString pictureUrl;
 };
 
-AccountInfo::Private::Private():
-    verifiedEmail(false)
+AccountInfo::Private::Private()
 {
 }
 

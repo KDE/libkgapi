@@ -39,7 +39,7 @@ class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 
     void _k_uploadProgress(qint64 bytesSent, qint64 totalBytes);
 
-    int originalFilesCount;
+    int originalFilesCount = 0;
     QMap<QString, FilePtr> files;
 
     QMap<QString, FilePtr> uploadedFiles;
@@ -51,7 +51,6 @@ class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 };
 
 FileAbstractUploadJob::Private::Private(FileAbstractUploadJob *parent):
-    originalFilesCount(0),
     q(parent)
 {
 }

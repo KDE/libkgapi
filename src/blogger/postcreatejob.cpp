@@ -23,8 +23,8 @@ class Q_DECL_HIDDEN PostCreateJob::Private
     Private(const PostPtr &post,
             bool isDraft);
 
-    PostPtr post;
-    bool isDraft;
+    const PostPtr post;
+    const bool isDraft;
 };
 
 PostCreateJob::Private::Private(const PostPtr &post_,

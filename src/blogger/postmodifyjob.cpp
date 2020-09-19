@@ -21,7 +21,7 @@ class Q_DECL_HIDDEN PostModifyJob::Private
   public:
     Private(const PostPtr &post);
 
-    PostPtr post;
+    const PostPtr post;
 };
 
 PostModifyJob::Private::Private(const PostPtr &post_)

@@ -21,7 +21,7 @@ class Q_DECL_HIDDEN PageCreateJob::Private
   public:
     Private(const PagePtr &page);
 
-    PagePtr page;
+    const PagePtr page;
 };
 
 PageCreateJob::Private::Private(const PagePtr &page_)

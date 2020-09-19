@@ -27,24 +27,18 @@ class Q_DECL_HIDDEN ChangeFetchJob::Private
 
     QString changeId;
 
-    bool includeDeleted;
-    bool includeSubscribed;
-    int maxResults;
-    qlonglong startChangeId;
-    bool includeItemsFromAllDrives;
-    bool supportsAllDrives;
+    bool includeDeleted = true;
+    bool includeSubscribed = true;
+    int maxResults = 0;
+    qlonglong startChangeId = 0;
+    bool includeItemsFromAllDrives = true;
+    bool supportsAllDrives = true;
 
   private:
     ChangeFetchJob *const q;
 };
 
 ChangeFetchJob::Private::Private(ChangeFetchJob *parent):
-    includeDeleted(true),
-    includeSubscribed(true),
-    maxResults(0),
-    startChangeId(0),
-    includeItemsFromAllDrives(true),
-    supportsAllDrives(true),
     q(parent)
 {
 }

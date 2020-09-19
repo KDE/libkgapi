@@ -21,8 +21,8 @@ class Q_DECL_HIDDEN PostDeleteJob::Private
     Private(const QString &blogId,
             const QString &postId);
 
-    QString blogId;
-    QString postId;
+    const QString blogId;
+    const QString postId;
 };
 
 PostDeleteJob::Private::Private(const QString &blogId_,

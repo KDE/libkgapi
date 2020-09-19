@@ -20,16 +20,10 @@ using namespace KGAPI2;
 class Q_DECL_HIDDEN NewTokensFetchJob::Private
 {
   public:
-    Private()
-        : expiresIn(0)
-    {
-
-    }
-
     QString tmpToken;
     QString apiKey;
     QString secretKey;
-    int localPort;
+    int localPort = 0;
 
     QString accessToken;
     QString refreshToken;

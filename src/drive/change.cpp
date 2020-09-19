@@ -20,18 +20,16 @@ class Q_DECL_HIDDEN Change::Private
     Private();
     Private(const Private &other);
 
-    qlonglong id;
+    qlonglong id = -1;
     QString fileId;
     QUrl selfLink;
-    bool deleted;
+    bool deleted = false;
     FilePtr file;
 
     static ChangePtr fromJSON(const  QVariantMap &map);
 };
 
-Change::Private::Private():
-    id(-1),
-    deleted(false)
+Change::Private::Private()
 {
 }
 

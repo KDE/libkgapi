@@ -26,10 +26,10 @@ class Q_DECL_HIDDEN PostPublishJob::Private
             PostPublishJob::PublishAction action,
             const QDateTime &publishDate = QDateTime());
 
-    QString blogId;
-    QString postId;
-    PublishAction action;
-    QDateTime publishDate;
+    const QString blogId;
+    const QString postId;
+    const PublishAction action;
+    const QDateTime publishDate;
 
     ObjectPtr response;
 };

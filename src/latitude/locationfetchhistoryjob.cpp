@@ -25,20 +25,16 @@ class Q_DECL_HIDDEN LocationFetchHistoryJob::Private
     Private(LocationFetchHistoryJob *parent);
     QNetworkRequest createRequest(const QUrl &url);
 
-    Latitude::Granularity granularity;
-    int maxResults;
-    qlonglong minTimestamp;
-    qlonglong maxTimestamp;
+    Latitude::Granularity granularity = Latitude::City;
+    int maxResults = 0;
+    qlonglong minTimestamp = 0;
+    qlonglong maxTimestamp = 0;
 
   private:
     LocationFetchHistoryJob * const q;
 };
 
 LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent):
-    granularity(Latitude::City),
-    maxResults(0),
-    minTimestamp(0),
-    maxTimestamp(0),
     q(parent)
 {
 }

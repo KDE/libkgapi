@@ -23,19 +23,17 @@ class Q_DECL_HIDDEN PageFetchJob::Private
     Private(const QString &blogId,
             const QString &pageId);
 
-    QString blogId;
-    QString pageId;
+    const QString blogId;
+    const QString pageId;
 
-    bool fetchContent;
-    StatusFilters statusFilter;
+    bool fetchContent = true;
+    StatusFilters statusFilter = All;
 };
 
 PageFetchJob::Private::Private(const QString &blogId_,
                                const QString &pageId_)
     : blogId(blogId_)
     , pageId(pageId_)
-    , fetchContent(true)
-    , statusFilter(All)
 {
 }
 

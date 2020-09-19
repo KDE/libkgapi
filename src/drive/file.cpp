@@ -25,19 +25,14 @@ class Q_DECL_HIDDEN File::Labels::Private
     Private();
     Private(const Private &other);
 
-    bool starred;
-    bool hidden;
-    bool trashed;
-    bool restricted;
-    bool viewed;
+    bool starred = false;
+    bool hidden = false;
+    bool trashed = false;
+    bool restricted = false;
+    bool viewed = false;
 };
 
-File::Labels::Private::Private():
-    starred(false),
-    hidden(false),
-    trashed(false),
-    restricted(false),
-    viewed(false)
+File::Labels::Private::Private()
 {
 }
 

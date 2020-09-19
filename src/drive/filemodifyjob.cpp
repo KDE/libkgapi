@@ -26,15 +26,12 @@ class Q_DECL_HIDDEN FileModifyJob::Private
 
     QMap < QString /* filepath */, QString /* fileId */ > files;
 
-    bool createNewRevision;
-    bool changeModifiedDate;
-    bool updateViewedDate;
+    bool createNewRevision = true;
+    bool changeModifiedDate = false;
+    bool updateViewedDate = true;
 };
 
-FileModifyJob::Private::Private():
-    createNewRevision(true),
-    changeModifiedDate(false),
-    updateViewedDate(true)
+FileModifyJob::Private::Private()
 {
 }
 

@@ -28,14 +28,13 @@ class Q_DECL_HIDDEN ChildReferenceCreateJob::Private
 
     QString folderId;
     ChildReferencesList references;
-    bool supportsAllDrives;
+    bool supportsAllDrives = true;
 
   private:
     ChildReferenceCreateJob *const q;
 };
 
 ChildReferenceCreateJob::Private::Private(ChildReferenceCreateJob *parent):
-    supportsAllDrives(true),
     q(parent)
 {
 }

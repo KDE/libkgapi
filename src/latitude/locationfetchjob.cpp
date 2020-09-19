@@ -24,13 +24,11 @@ class Q_DECL_HIDDEN LocationFetchJob::Private
   public:
     Private();
 
-    qlonglong timestamp;
-    Latitude::Granularity granularity;
+    qlonglong timestamp = -1;
+    Latitude::Granularity granularity = Latitude::City;
 };
 
-LocationFetchJob::Private::Private():
-    timestamp(-1),
-    granularity(Latitude::City)
+LocationFetchJob::Private::Private()
 {
 }
 

@@ -20,25 +20,19 @@ class Q_DECL_HIDDEN FileAbstractDataJob::Private
   public:
     Private();
 
-    bool convert;
-    bool enforceSingleParent;
+    bool convert = false;
+    bool enforceSingleParent = false;
     QString includePermissionsForView;
-    bool ocr;
+    bool ocr = false;
     QString ocrLanguage;
-    bool pinned;
-    bool supportsAllDrives;
+    bool pinned = false;
+    bool supportsAllDrives = true;
     QString timedTextLanguage;
     QString timedTextTrackName;
-    bool useContentAsIndexableText;
+    bool useContentAsIndexableText = false;
 };
 
-FileAbstractDataJob::Private::Private():
-    convert(false),
-    enforceSingleParent(false),
-    ocr(false),
-    pinned(false),
-    supportsAllDrives(true),
-    useContentAsIndexableText(false)
+FileAbstractDataJob::Private::Private()
 {
 }
 

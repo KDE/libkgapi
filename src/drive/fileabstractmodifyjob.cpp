@@ -28,14 +28,13 @@ class Q_DECL_HIDDEN FileAbstractModifyJob::Private
 
     QStringList filesIds;
 
-    bool supportsAllDrives;
+    bool supportsAllDrives = true;
 
   private:
     FileAbstractModifyJob *const q;
 };
 
 FileAbstractModifyJob::Private::Private(FileAbstractModifyJob *parent):
-    supportsAllDrives(true),
     q(parent)
 {
 }

@@ -24,10 +24,10 @@ class Q_DECL_HIDDEN CommentApproveJob::Private
             const QString &commentId,
             ApprovalAction action);
 
-    QString blogId;
-    QString postId;
-    QString commentId;
-    ApprovalAction action;
+    const QString blogId;
+    const QString postId;
+    const QString commentId;
+    const ApprovalAction action;
 };
 
 CommentApproveJob::Private::Private(const QString &blogId_,

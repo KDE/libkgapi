@@ -22,8 +22,8 @@ class Q_DECL_HIDDEN BlogFetchJob::Private
     Private(const QString &id, FetchBy fetchBy);
     ~Private();
 
-    QString id;
-    FetchBy fetchBy;
+    const QString id;
+    const FetchBy fetchBy;
 };
 
 BlogFetchJob::Private::Private(const QString &id_, FetchBy fetchBy_)

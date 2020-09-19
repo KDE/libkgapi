@@ -19,9 +19,9 @@ class Q_DECL_HIDDEN StaticMapPath::Private
 
     StaticMapPath::LocationType locationType;
 
-    QColor color;
+    QColor color = Qt::blue;
     QColor fillColor;
-    quint8 weight;
+    quint8 weight = 5;
 
     QStringList locationsString;
     KContacts::Address::List locationsAddress;
@@ -29,9 +29,7 @@ class Q_DECL_HIDDEN StaticMapPath::Private
 };
 
 
-StaticMapPath::Private::Private():
-    color(Qt::blue),
-    weight(5)
+StaticMapPath::Private::Private()
 {
 }
 

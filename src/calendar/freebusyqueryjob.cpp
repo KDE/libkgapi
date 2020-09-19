@@ -26,9 +26,9 @@ public:
         , timeMax(timeMax)
     {}
 
-    QString id;
-    QDateTime timeMin;
-    QDateTime timeMax;
+    const QString id;
+    const QDateTime timeMin;
+    const QDateTime timeMax;
     FreeBusyQueryJob::BusyRangeList busy;
 };
 

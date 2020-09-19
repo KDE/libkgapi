@@ -22,13 +22,11 @@ class Q_DECL_HIDDEN LocationDeleteJob::Private
   public:
     Private();
 
-    qulonglong locationId;
-    bool finished;
+    qulonglong locationId = 0;
+    bool finished = false;
 };
 
-LocationDeleteJob::Private::Private():
-    locationId(0),
-    finished(false)
+LocationDeleteJob::Private::Private()
 {
 }
 

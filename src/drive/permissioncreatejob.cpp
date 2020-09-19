@@ -35,7 +35,7 @@ class Q_DECL_HIDDEN PermissionCreateJob::Private
     QString fileId;
     QString emailMessage;
     bool sendNotificationEmails;
-    bool supportsAllDrives;
+    bool supportsAllDrives = true;
     bool useDomainAdminAccess;
 
   private:
@@ -44,7 +44,6 @@ class Q_DECL_HIDDEN PermissionCreateJob::Private
 
 PermissionCreateJob::Private::Private(PermissionCreateJob *parent):
     sendNotificationEmails(sendNotificationEmailsDefault),
-    supportsAllDrives(true),
     useDomainAdminAccess(useDomainAdminAccessDefault),
     q(parent)
 {

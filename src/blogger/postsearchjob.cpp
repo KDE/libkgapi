@@ -24,9 +24,9 @@ class Q_DECL_HIDDEN PostSearchJob::Private
             const QString &query,
             PostSearchJob *parent);
 
-    QString blogId;
-    QString query;
-    bool fetchBodies;
+    const QString blogId;
+    const QString query;
+    bool fetchBodies = true;
 
   private:
     PostSearchJob *const q;

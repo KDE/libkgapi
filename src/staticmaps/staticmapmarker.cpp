@@ -16,10 +16,10 @@ public:
 
     void init(const Private &other);
 
-    LocationType locationType;
-    MarkerSize size;
+    LocationType locationType = StaticMapMarker::Undefined;
+    MarkerSize size = StaticMapMarker::Normal;
 
-    QColor color;
+    QColor color = Qt::red;
     QChar label;
 
     QStringList locationsString;
@@ -27,10 +27,7 @@ public:
     QList<KContacts::Geo> locationsGeo;
 };
 
-StaticMapMarker::Private::Private():
-    locationType(StaticMapMarker::Undefined),
-    size(StaticMapMarker::Normal),
-    color(Qt::red)
+StaticMapMarker::Private::Private()
 { }
 
 StaticMapMarker::Private::Private(const Private & other)
