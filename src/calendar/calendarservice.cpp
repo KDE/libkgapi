@@ -25,7 +25,6 @@
 #include <QUrlQuery>
 #include <QTimeZone>
 #include <QVariant>
-#include <QFlags>
 #include <QNetworkRequest>
 
 #include <map>

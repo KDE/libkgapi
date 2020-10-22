@@ -13,7 +13,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QPixmap>
 
 using namespace KGAPI2;
 
