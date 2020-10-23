@@ -219,7 +219,7 @@ AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString 
                     if (d->compareScopes(account->scopes(), scopes)) {
                         // Don't hand out obviously expired tokens
                         if (account->expireDateTime() <= QDateTime::currentDateTime()) {
-                            d->updateAccount(promise, apiKey, apiSecret, account, {});
+                            d->updateAccount(promise, apiKey, apiSecret, account, scopes);
                         } else {
                             promise->d->setAccount(account);
                         }
