@@ -67,7 +67,7 @@ install(FILES
 
 ecm_generate_pri_file(BASE_NAME KGAPILatitude
     LIB_NAME KPimGAPILatitude
-    DEPS "GAPICore Contacts"
+    DEPS "GAPICore KContacts"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 
