@@ -12,7 +12,7 @@
 #include <QTcpSocket>
 #include <QHostAddress>
 
-extern uint16_t kgapiTcpAuthServerPort; // defined in authjob.cpp
+extern Q_DECL_IMPORT uint16_t kgapiTcpAuthServerPort; // defined in authjob.cpp
 
 class FakeAuthBrowser::Private : public QObject
 {
