@@ -14,12 +14,13 @@
 #include "../../debug.h"
 
 #include <QAbstractSocket>
+#include <QDateTime>
+#include <QDesktopServices>
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <QDesktopServices>
-#include <QUrlQuery>
 #include <QUrl>
-#include <QDateTime>
+#include <QUrlQuery>
+#include <memory>
 
 using namespace KGAPI2;
 
@@ -190,7 +191,7 @@ void FullAuthenticationJob::start()
         scopes << scope.toString();
     }
 
-    d->mServer = std::unique_ptr<QTcpServer>(new QTcpServer(this));
+    d->mServer = std::make_unique<QTcpServer>(this);
     if (!d->mServer->listen(QHostAddress::LocalHost, d->mServerPort)) {
         d->emitError(InvalidAccount, tr("Could not start OAuth HTTP server"));
         return;

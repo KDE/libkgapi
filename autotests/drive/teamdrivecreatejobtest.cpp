@@ -57,7 +57,7 @@ private Q_SLOTS:
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        Drive::TeamdriveCreateJob *job = new Drive::TeamdriveCreateJob(requestId, sourceTeamdrive, account);
+        auto *job = new Drive::TeamdriveCreateJob(requestId, sourceTeamdrive, account);
 
         QVERIFY(execJob(job));
         const auto items = job->items();

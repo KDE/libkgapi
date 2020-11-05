@@ -45,115 +45,115 @@ class KGAPICORE_EXPORT FeedData {
 
 
 class Object;
-typedef QSharedPointer<Object> ObjectPtr;
-typedef QList<ObjectPtr> ObjectsList;
+using ObjectPtr = QSharedPointer<Object>;
+using ObjectsList = QList<ObjectPtr>;
 
 class Account;
-typedef QSharedPointer<Account> AccountPtr;
-typedef QList<AccountPtr> AccountsList;
+using AccountPtr = QSharedPointer<Account>;
+using AccountsList = QList<AccountPtr>;
 
 class AccountInfo;
-typedef QSharedPointer<AccountInfo> AccountInfoPtr;
-typedef QList<AccountInfoPtr> AccountInfosList;
+using AccountInfoPtr = QSharedPointer<AccountInfo>;
+using AccountInfosList = QList<AccountInfoPtr>;
 
 class Contact;
-typedef QSharedPointer<Contact> ContactPtr;
-typedef QList<ContactPtr> ContactsList;
+using ContactPtr = QSharedPointer<Contact>;
+using ContactsList = QList<ContactPtr>;
 
 class ContactsGroup;
-typedef QSharedPointer<ContactsGroup> ContactsGroupPtr;
-typedef QList<ContactsGroupPtr> ContactsGroupsList;
+using ContactsGroupPtr = QSharedPointer<ContactsGroup>;
+using ContactsGroupsList = QList<ContactsGroupPtr>;
 
 class Calendar;
-typedef QSharedPointer<Calendar> CalendarPtr;
-typedef QList<CalendarPtr> CalendarsList;
+using CalendarPtr = QSharedPointer<Calendar>;
+using CalendarsList = QList<CalendarPtr>;
 
 namespace Drive
 {
 
 class About;
-typedef QSharedPointer<About> AboutPtr;
-typedef QList<AboutPtr> AboutsList;
+using AboutPtr = QSharedPointer<About>;
+using AboutsList = QList<AboutPtr>;
 
 class App;
-typedef QSharedPointer<App> AppPtr;
-typedef QList<AppPtr> AppsList;
+using AppPtr = QSharedPointer<App>;
+using AppsList = QList<AppPtr>;
 
 class Change;
-typedef QSharedPointer<Change> ChangePtr;
-typedef QList<ChangePtr> ChangesList;
+using ChangePtr = QSharedPointer<Change>;
+using ChangesList = QList<ChangePtr>;
 
 class ChildReference;
-typedef QSharedPointer<ChildReference> ChildReferencePtr;
-typedef QList<ChildReferencePtr> ChildReferencesList;
+using ChildReferencePtr = QSharedPointer<ChildReference>;
+using ChildReferencesList = QList<ChildReferencePtr>;
 
 class File;
-typedef QSharedPointer<File> FilePtr;
-typedef QList<FilePtr> FilesList;
+using FilePtr = QSharedPointer<File>;
+using FilesList = QList<FilePtr>;
 
 class ParentReference;
-typedef QSharedPointer<ParentReference> ParentReferencePtr;
-typedef QList<ParentReferencePtr> ParentReferencesList;
+using ParentReferencePtr = QSharedPointer<ParentReference>;
+using ParentReferencesList = QList<ParentReferencePtr>;
 
 class Permission;
-typedef QSharedPointer<Permission> PermissionPtr;
-typedef QList<PermissionPtr> PermissionsList;
+using PermissionPtr = QSharedPointer<Permission>;
+using PermissionsList = QList<PermissionPtr>;
 
 class Revision;
-typedef QSharedPointer<Revision> RevisionPtr;
-typedef QList<RevisionPtr> RevisionsList;
+using RevisionPtr = QSharedPointer<Revision>;
+using RevisionsList = QList<RevisionPtr>;
 
 class Drives;
-typedef QSharedPointer<Drives> DrivesPtr;
-typedef QList<DrivesPtr> DrivesList;
+using DrivesPtr = QSharedPointer<Drives>;
+using DrivesList = QList<DrivesPtr>;
 
 class Teamdrive;
-typedef QSharedPointer<Teamdrive> TeamdrivePtr;
-typedef QList<TeamdrivePtr> TeamdrivesList;
+using TeamdrivePtr = QSharedPointer<Teamdrive>;
+using TeamdrivesList = QList<TeamdrivePtr>;
 
 class User;
-typedef QSharedPointer<User> UserPtr;
-typedef QList<UserPtr> UsersList;
+using UserPtr = QSharedPointer<User>;
+using UsersList = QList<UserPtr>;
 
 }
 
 class Event;
-typedef QSharedPointer<Event> EventPtr;
-typedef QList<EventPtr> EventsList;
+using EventPtr = QSharedPointer<Event>;
+using EventsList = QList<EventPtr>;
 
 class Location;
-typedef QSharedPointer<Location> LocationPtr;
-typedef QList<LocationPtr> LocationsList;
+using LocationPtr = QSharedPointer<Location>;
+using LocationsList = QList<LocationPtr>;
 
 class Reminder;
-typedef QSharedPointer<Reminder> ReminderPtr;
-typedef QList<ReminderPtr> RemindersList;
+using ReminderPtr = QSharedPointer<Reminder>;
+using RemindersList = QList<ReminderPtr>;
 
 class Task;
-typedef QSharedPointer<Task> TaskPtr;
-typedef QList<TaskPtr> TasksList;
+using TaskPtr = QSharedPointer<Task>;
+using TasksList = QList<TaskPtr>;
 
 class TaskList;
-typedef QSharedPointer<TaskList> TaskListPtr;
-typedef QList<TaskListPtr> TaskListsList;
+using TaskListPtr = QSharedPointer<TaskList>;
+using TaskListsList = QList<TaskListPtr>;
 
 namespace Blogger
 {
 class Blog;
-typedef QSharedPointer<Blog> BlogPtr;
-typedef QList<BlogPtr> BlogsList;
+using BlogPtr = QSharedPointer<Blog>;
+using BlogsList = QList<BlogPtr>;
 
 class Comment;
-typedef QSharedPointer<Comment> CommentPtr;
-typedef QList<CommentPtr> CommentsList;
+using CommentPtr = QSharedPointer<Comment>;
+using CommentsList = QList<CommentPtr>;
 
 class Page;
-typedef QSharedPointer<Page> PagePtr;
-typedef QList<PagePtr> PagesList;
+using PagePtr = QSharedPointer<Page>;
+using PagesList = QList<PagePtr>;
 
 class Post;
-typedef QSharedPointer<Post> PostPtr;
-typedef QList<PostPtr> PostsList;
+using PostPtr = QSharedPointer<Post>;
+using PostsList = QList<PostPtr>;
 
 }
 

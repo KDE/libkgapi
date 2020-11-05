@@ -68,8 +68,8 @@ public:
         friend class About;
     };
 
-    typedef QSharedPointer<Format> FormatPtr;
-    typedef QList<FormatPtr> FormatsList;
+    using FormatPtr = QSharedPointer<Format>;
+    using FormatsList = QList<FormatPtr>;
 
     /**
      * @brief DriveAbout::AdditionalRoleInfo holds the structure used for
@@ -110,8 +110,8 @@ public:
             friend class About;
         };
 
-        typedef QSharedPointer<RoleSet> RoleSetPtr;
-        typedef QList<RoleSetPtr> RoleSetsList;
+        using RoleSetPtr = QSharedPointer<RoleSet>;
+        using RoleSetsList = QList<RoleSetPtr>;
 
         explicit AdditionalRoleInfo(const AdditionalRoleInfo &other);
         virtual ~AdditionalRoleInfo();
@@ -137,8 +137,8 @@ public:
         friend class About;
     };
 
-    typedef QSharedPointer<AdditionalRoleInfo> AdditionalRoleInfoPtr;
-    typedef QList<AdditionalRoleInfoPtr> AdditionalRoleInfosList;
+    using AdditionalRoleInfoPtr = QSharedPointer<AdditionalRoleInfo>;
+    using AdditionalRoleInfosList = QList<AdditionalRoleInfoPtr>;
 
     /**
      * @brief DriveAbout::Feature holds the structure used for features[] property.
@@ -170,8 +170,8 @@ public:
         friend class About;
     };
 
-    typedef QSharedPointer<Feature> FeaturePtr;
-    typedef QList<FeaturePtr> FeaturesList;
+    using FeaturePtr = QSharedPointer<Feature>;
+    using FeaturesList = QList<FeaturePtr>;
 
     /**
      * @brief DriveAbout::MaxUploadSize holds the structure used for maxUploadSizes[] property.
@@ -204,8 +204,8 @@ public:
         friend class About;
     };
 
-    typedef QSharedPointer<MaxUploadSize> MaxUploadSizePtr;
-    typedef QList<MaxUploadSizePtr> MaxUploadSizesList;
+    using MaxUploadSizePtr = QSharedPointer<MaxUploadSize>;
+    using MaxUploadSizesList = QList<MaxUploadSizePtr>;
 
     struct KGAPIDRIVE_EXPORT Fields {
         static const QString AdditionalRoleInfo;

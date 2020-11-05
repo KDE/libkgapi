@@ -124,8 +124,8 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
         friend class File::Private;
     };
 
-    typedef QSharedPointer<Labels> LabelsPtr;
-    typedef QList<LabelsPtr> LabelsList;
+    using LabelsPtr = QSharedPointer<Labels>;
+    using LabelsList = QList<LabelsPtr>;
 
     /**
      * @brief DriveFile::IndexableText holds the structure used for indexableText property.
@@ -159,7 +159,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
         friend class File::Private;
     };
 
-    typedef QSharedPointer<IndexableText> IndexableTextPtr;
+    using IndexableTextPtr = QSharedPointer<IndexableText>;
 
     /**
      * @brief DriveFile::ImageMediaMetadata holds the structure used for
@@ -204,7 +204,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
             friend class ImageMediaMetadata;
         };
 
-        typedef QSharedPointer<Location> LocationPtr;
+        using LocationPtr = QSharedPointer<Location>;
 
         explicit ImageMediaMetadata(const ImageMediaMetadata &other);
         virtual ~ImageMediaMetadata();
@@ -274,7 +274,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
         friend class File::Private;
     };
 
-    typedef QSharedPointer<ImageMediaMetadata> ImageMediaMetadataPtr;
+    using ImageMediaMetadataPtr = QSharedPointer<ImageMediaMetadata>;
 
     class Thumbnail
     {
@@ -297,7 +297,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
         friend class File::Private;
     };
 
-    typedef QSharedPointer<Thumbnail> ThumbnailPtr;
+    using ThumbnailPtr = QSharedPointer<Thumbnail>;
 
     /**
      * @brief JSON serialization options.

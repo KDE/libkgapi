@@ -128,7 +128,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
         friend class Drives;
     };
 
-    typedef QSharedPointer<Restrictions> RestrictionsPtr;
+    using RestrictionsPtr = QSharedPointer<Restrictions>;
 
     /**
      * @brief Drives::Capabilities holds the structure used for
@@ -280,7 +280,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
         friend class Drives;
     };
 
-    typedef QSharedPointer<Capabilities> CapabilitiesPtr;
+    using CapabilitiesPtr = QSharedPointer<Capabilities>;
 
     /**
      * @brief Drives::BackgroundImageFile holds the structure used
@@ -388,7 +388,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
         friend class Drives;
     };
 
-    typedef QSharedPointer<BackgroundImageFile> BackgroundImageFilePtr;
+    using BackgroundImageFilePtr = QSharedPointer<BackgroundImageFile>;
 
     struct Fields {
         static const QString Kind;

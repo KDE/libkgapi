@@ -54,7 +54,7 @@ private Q_SLOTS:
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        Drive::DrivesHideJob *job = new Drive::DrivesHideJob(sourceDrive, true, account);
+        auto *job = new Drive::DrivesHideJob(sourceDrive, true, account);
 
         QVERIFY(execJob(job));
         const auto items = job->items();

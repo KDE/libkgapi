@@ -663,14 +663,14 @@ QByteArray contactToXML(const ContactPtr& contact)
     /* Anniversary */
     const QString anniversary = contact->anniversary().toString(Qt::ISODate);
     if (!anniversary.isEmpty()) {
-        output.append("<gContact:event rel=\"anniversary\"><gd:when startTime=\"").append(anniversary.toHtmlEscaped().toUtf8()).append("\" /></gContact:event>");
+        output.append(R"(<gContact:event rel="anniversary"><gd:when startTime=")").append(anniversary.toHtmlEscaped().toUtf8()).append("\" /></gContact:event>");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-X-Anniversary");
     }
 
     /* Blog */
     const QString blog = contact->blogFeed().url();
     if (!blog.isEmpty()) {
-        output.append("<gContact:website rel=\"blog\" href=\"").append(blog.toHtmlEscaped().toUtf8()).append("\" />");
+        output.append(R"(<gContact:website rel="blog" href=")").append(blog.toHtmlEscaped().toUtf8()).append("\" />");
         parsedCustoms << QStringLiteral("KADDRESSBOOK-BlogFeed");
     }
 

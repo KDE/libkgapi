@@ -50,7 +50,7 @@ private Q_SLOTS:
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        Drive::DrivesDeleteJob *job = new Drive::DrivesDeleteJob(drivesId, account);
+        auto *job = new Drive::DrivesDeleteJob(drivesId, account);
 
         QVERIFY(execJob(job));
     }

@@ -110,8 +110,8 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
         friend class Permission;
     };
 
-    typedef QSharedPointer<PermissionDetails> PermissionDetailsPtr;
-    typedef QList<PermissionDetailsPtr> PermissionDetailsList;
+    using PermissionDetailsPtr = QSharedPointer<PermissionDetails>;
+    using PermissionDetailsList = QList<PermissionDetailsPtr>;
 
     explicit Permission();
     explicit Permission(const Permission &other);

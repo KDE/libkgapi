@@ -34,7 +34,7 @@ public:
         QDateTime busyStart;
         QDateTime busyEnd;
     };
-    typedef QVector<BusyRange> BusyRangeList;
+    using BusyRangeList = QVector<BusyRange>;
 
     explicit FreeBusyQueryJob(const QString &id,
                               const QDateTime &timeMin,

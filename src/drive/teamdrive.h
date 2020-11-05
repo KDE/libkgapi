@@ -127,7 +127,7 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
         friend class Teamdrive;
     };
 
-    typedef QSharedPointer<Restrictions> RestrictionsPtr;
+    using RestrictionsPtr = QSharedPointer<Restrictions>;
 
     /**
      * @brief DriveTeamdrive::Capabilities holds the structure used for capabilities property.
@@ -278,7 +278,7 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
         friend class Teamdrive;
     };
 
-    typedef QSharedPointer<Capabilities> CapabilitiesPtr;
+    using CapabilitiesPtr = QSharedPointer<Capabilities>;
 
     /**
      * @brief DriveTeamdrive::BackgroundImageFile holds the structure used
@@ -356,7 +356,7 @@ class KGAPIDRIVE_EXPORT Teamdrive: public KGAPI2::Object
         friend class Teamdrive;
     };
 
-    typedef QSharedPointer<BackgroundImageFile> BackgroundImageFilePtr;
+    using BackgroundImageFilePtr = QSharedPointer<BackgroundImageFile>;
 
     struct Fields {
         static const QString Kind;

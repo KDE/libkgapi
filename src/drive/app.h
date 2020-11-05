@@ -55,8 +55,8 @@ class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
         friend class App::Private;
     };
 
-    typedef QSharedPointer<Icon> IconPtr;
-    typedef QList<IconPtr> IconsList;
+    using IconPtr = QSharedPointer<Icon>;
+    using IconsList = QList<IconPtr>;
 
     explicit App();
     explicit App(const App &other);
