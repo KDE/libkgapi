@@ -154,7 +154,7 @@ FullAuthenticationJob::FullAuthenticationJob(const AccountPtr &account, const QS
     : Job(parent)
     , d(new Private(account, apiKey, secretKey, this))
 {
-};
+}
 
 FullAuthenticationJob::~FullAuthenticationJob() = default;
 

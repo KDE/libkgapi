@@ -55,7 +55,7 @@ RefreshTokensJob::RefreshTokensJob(const AccountPtr &account, const QString &api
     : Job(parent)
     , d(new Private(account, apiKey, secretKey, this))
 {
-};
+}
 
 RefreshTokensJob::~RefreshTokensJob() = default;
 
