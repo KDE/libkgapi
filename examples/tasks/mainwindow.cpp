@@ -17,7 +17,6 @@
 #include <account.h>
 
 #include <QListWidgetItem>
-#include <QUuid>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget * parent):

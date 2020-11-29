@@ -13,7 +13,6 @@
 #include "kgapicore_export.h"
 
 #include <QObject>
-#include <QUrl>
 
 class QNetworkAccessManager;
 class QNetworkReply;

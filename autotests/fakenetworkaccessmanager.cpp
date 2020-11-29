@@ -10,9 +10,6 @@
 #include "testutils.h"
 
 #include <QNetworkRequest>
-#include <QBuffer>
-#include <QTest>
-#include <QProcess>
 
 #include <iostream>
 

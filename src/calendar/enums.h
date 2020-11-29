@@ -11,7 +11,6 @@
 
 #include "kgapicalendar_export.h"
 
-#include <QObject>
 
 namespace KGAPI2 {
 

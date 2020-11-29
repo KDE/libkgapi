@@ -13,7 +13,6 @@
 #include <account.h>
 
 #include <QListWidgetItem>
-#include <QUuid>
 
 MainWindow::MainWindow(QWidget * parent):
     QMainWindow(parent),

@@ -17,8 +17,6 @@
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QBuffer>
-#include <QImage>
 
 using namespace KGAPI2;
 

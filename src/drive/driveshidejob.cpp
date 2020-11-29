@@ -14,7 +14,6 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QUrlQuery>
 
 
 using namespace KGAPI2;

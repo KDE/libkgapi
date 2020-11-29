@@ -6,7 +6,6 @@
 
 #include <QObject>
 #include <QTest>
-#include <QMap>
 #include <QSignalSpy>
 #include <QList>
 

@@ -13,7 +13,6 @@
 #include "private/fullauthenticationjob_p.h"
 #include "private/refreshtokensjob_p.h"
 
-#include <QJsonDocument>
 
 using namespace KGAPI2;
 
