@@ -225,6 +225,8 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
         task->setStatus(KCalendarCore::Incidence::StatusNone);
     }
 
+    // "due" is date-only -- no time-of-day given.
+    task->setAllDay(true);
     task->setDtDue(Utils::rfc3339DateFromString(jsonData.value(DueAttr).toString()));
 
     if (task->status() == KCalendarCore::Incidence::StatusCompleted) {
