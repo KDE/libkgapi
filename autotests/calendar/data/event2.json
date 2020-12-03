@@ -44,8 +44,8 @@
     }
   ], 
   "organizer": {
-    "displayName": "KDE Hacker 0", 
-    "email": "hacker@kde.test"
+    "displayName": "MockAccount", 
+    "email": "MockAccount"
   }, 
   "creator": {
     "self": true, 
