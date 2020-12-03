@@ -18,6 +18,7 @@ set(kgapicore_SRCS
     networkaccessmanagerfactory.cpp
     modifyjob.cpp
     object.cpp
+    propertymapper.cpp
     utils.cpp
     ${QM_LOADER}
 

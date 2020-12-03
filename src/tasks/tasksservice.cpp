@@ -9,10 +9,15 @@
 #include "task.h"
 #include "tasklist.h"
 #include "utils.h"
+#include "propertymapper_p.h"
 
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QUrlQuery>
 #include <QVariant>
+
+#include <tuple>
 
 namespace KGAPI2
 {
@@ -50,42 +55,58 @@ namespace TasksService
 
 namespace Private
 {
-    ObjectsList parseTaskListJSONFeed(const QVariantList &items);
-    ObjectsList parseTasksJSONFeed(const QVariantList &items);
+    ObjectsList parseTaskListJSONFeed(const QJsonArray &items);
+    ObjectsList parseTasksJSONFeed(const QJsonArray &items);
 
-    ObjectPtr JSONToTaskList(const QVariantMap &jsonData);
-    ObjectPtr JSONToTask(const QVariantMap &jsonData);
+    ObjectPtr JSONToTaskList(const QJsonValue &jsonData);
+    ObjectPtr JSONToTask(const QJsonValue &jsonData);
 
     static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
     static const QString TasksBasePath(QStringLiteral("/tasks/v1/lists"));
     static const QString TasksListsBasePath(QStringLiteral("/tasks/v1/users/@me/lists"));
+} // namespace Private
+
+} // namespace TasksService
+
+template<>
+KCalendarCore::Incidence::Status convertTo<KCalendarCore::Incidence::Status>(const QJsonValue &val) {
+    if (val == TasksService::NeedsActionAttrVal) {
+        return KCalendarCore::Incidence::StatusNeedsAction;
+    } else if (val == TasksService::CompletedAttrVal) {
+        return KCalendarCore::Incidence::StatusCompleted;
+    } else {
+        return KCalendarCore::Incidence::StatusNone;
+    }
 }
+
+namespace TasksService
+{
 
 ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 {
-    QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
+    const auto document = QJsonDocument::fromJson(jsonFeed);
     if (document.isNull()) {
         return ObjectsList();
     }
 
     ObjectsList list;
-    const QVariantMap feed = document.toVariant().toMap();
+    const auto feed = document.object();
 
-    if (feed.value(KindAttr).toString() == QLatin1String("tasks#taskLists")) {
-        list = Private::parseTaskListJSONFeed(feed.value(ItemsAttr).toList());
+    if (feed[KindAttr].toString() == QLatin1String("tasks#taskLists")) {
+        list = Private::parseTaskListJSONFeed(feed[ItemsAttr].toArray());
 
         if (feed.contains(NextPageTokenAttr)) {
             feedData.nextPageUrl = fetchTaskListsUrl();
             QUrlQuery query(feedData.nextPageUrl);
-            query.addQueryItem(PageTokenParam, feed.value(NextPageTokenAttr).toString());
+            query.addQueryItem(PageTokenParam, feed[NextPageTokenAttr].toString());
             if (query.queryItemValue(MaxResultsParam).isEmpty()) {
                 query.addQueryItem(MaxResultsParam, MaxResultsParamValueDefault);
             }
             feedData.nextPageUrl.setQuery(query);
         }
 
-    } else if (feed.value(KindAttr).toString() == QLatin1String("tasks#tasks")) {
-        list = Private::parseTasksJSONFeed(feed.value(ItemsAttr).toList());
+    } else if (feed[KindAttr].toString() == QLatin1String("tasks#tasks")) {
+        list = Private::parseTasksJSONFeed(feed[ItemsAttr].toArray());
 
         if (feed.contains(NextPageTokenAttr)) {
             QString taskListId = feedData.requestUrl.toString().remove(QStringLiteral("https://www.googleapis.com/tasks/v1/lists/"));
@@ -93,7 +114,7 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 
             feedData.nextPageUrl = fetchAllTasksUrl(taskListId);
             QUrlQuery query(feedData.nextPageUrl);
-            query.addQueryItem(PageTokenParam, feed.value(NextPageTokenAttr).toString());
+            query.addQueryItem(PageTokenParam, feed[NextPageTokenAttr].toString());
             if (query.queryItemValue(MaxResultsParam).isEmpty()) {
                 query.addQueryItem(MaxResultsParam, MaxResultsParamValueDefault);
             }
@@ -182,59 +203,55 @@ QUrl removeTaskListUrl(const QString& tasklistID)
 
 /******************************* PRIVATE ******************************/
 
-ObjectPtr Private::JSONToTaskList(const QVariantMap &jsonData)
+ObjectPtr Private::JSONToTaskList(const QJsonValue &jsonData)
 {
     TaskListPtr taskList(new TaskList());
 
-    taskList->setUid(jsonData.value(IdAttr).toString());
-    taskList->setEtag(jsonData.value(EtagAttr).toString());
-    taskList->setTitle(jsonData.value(TitleAttr).toString());
-    taskList->setSelfLink(jsonData.value(SelfLinkAttr).toString());
-    taskList->setUpdated(jsonData.value(UpdatedAttr).toString());
+    PropertyMapper{taskList.get(), jsonData.toObject()}(
+         Mapping{&TaskList::setUid, IdAttr},
+         Mapping{&TaskList::setEtag, EtagAttr},
+         Mapping{&TaskList::setTitle, TitleAttr},
+         Mapping{&TaskList::setSelfLink, SelfLinkAttr},
+         Mapping{&TaskList::setUpdated, UpdatedAttr}
+    );
 
     return taskList.dynamicCast<Object>();
 }
 
 TaskListPtr JSONToTaskList(const QByteArray& jsonData)
 {
-    QJsonDocument document = QJsonDocument::fromJson(jsonData);
-    const QVariantMap data = document.toVariant().toMap();
+    const auto document = QJsonDocument::fromJson(jsonData);
 
-    if (data.value(KindAttr).toString() == QLatin1String("tasks#taskList")) {
-        return Private::JSONToTaskList(data).staticCast<TaskList>();
+    if (document[KindAttr].toString() == QLatin1String("tasks#taskList")) {
+        return Private::JSONToTaskList(document.object()).staticCast<TaskList>();
     }
 
     return TaskListPtr();
 }
 
-ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
+ObjectPtr Private::JSONToTask(const QJsonValue &json)
 {
+    const QJsonObject jsonData = json.toObject();
+
     TaskPtr task(new Task());
 
-    task->setUid(jsonData.value(IdAttr).toString());
-    task->setEtag(jsonData.value(EtagAttr).toString());
-    task->setSummary(jsonData.value(TitleAttr).toString());
-    task->setLastModified(Utils::rfc3339DateFromString(jsonData.value(UpdatedAttr).toString()));
-    task->setDescription(jsonData.value(NotesAttr).toString());
-
-    if (jsonData.value(StatusAttr).toString() == NeedsActionAttrVal) {
-        task->setStatus(KCalendarCore::Incidence::StatusNeedsAction);
-    } else if (jsonData.value(StatusAttr).toString() == CompletedAttrVal) {
-        task->setStatus(KCalendarCore::Incidence::StatusCompleted);
-    } else {
-        task->setStatus(KCalendarCore::Incidence::StatusNone);
-    }
-
-    task->setDtDue(Utils::rfc3339DateFromString(jsonData.value(DueAttr).toString()));
+    PropertyMapper mapper{task.get(), jsonData};
+    mapper(
+        Mapping{&Task::setUid, IdAttr},
+        Mapping{&Task::setEtag, EtagAttr},
+        Mapping{qOverload<const QString &>(&Task::setSummary), TitleAttr},
+        Mapping{qOverload<const QString &>(&Task::setLocation), UpdatedAttr},
+        Mapping{qOverload<const QString &>(&Task::setDescription), NotesAttr},
+        Mapping{&Task::setStatus, StatusAttr},
+        Mapping{&Task::setDtDue, DueAttr, false},
+        Mapping{&Task::setDeleted, DeletedAttr}
+    );
 
     if (task->status() == KCalendarCore::Incidence::StatusCompleted) {
-        task->setCompleted(Utils::rfc3339DateFromString(jsonData.value(CompletedAttrVal).toString()));
+        mapper(qOverload<const QDateTime &>(&Task::setCompleted), CompletedAttrVal);
     }
-
-    task->setDeleted(jsonData.value(DeletedAttr).toBool());
-
     if (jsonData.contains(ParentAttr)) {
-        task->setRelatedTo(jsonData.value(ParentAttr).toString(), KCalendarCore::Incidence::RelTypeParent);
+        mapper(&Task::setRelatedTo, ParentAttr, KCalendarCore::Incidence::RelTypeParent);
     }
 
     return task.dynamicCast<Object>();
@@ -242,11 +259,10 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
 
 TaskPtr JSONToTask(const QByteArray& jsonData)
 {
-    QJsonDocument document = QJsonDocument::fromJson(jsonData);
-    const QVariantMap data = document.toVariant().toMap();
+    const auto document = QJsonDocument::fromJson(jsonData);
 
-    if (data.value(KindAttr).toString() == QLatin1String("tasks#task")) {
-        return Private::JSONToTask(data).staticCast<Task>();
+    if (document[KindAttr].toString() == QLatin1String("tasks#task")) {
+        return Private::JSONToTask(document.object()).staticCast<Task>();
     }
 
     return TaskPtr();
@@ -254,69 +270,59 @@ TaskPtr JSONToTask(const QByteArray& jsonData)
 
 QByteArray taskListToJSON(const TaskListPtr &taskList)
 {
-    QVariantMap output;
-
-    output.insert(KindAttr, QStringLiteral("tasks#taskList"));
+    QJsonObject output;
+    output[KindAttr] = QStringLiteral("tasks#taskList");
     if (!taskList->uid().isEmpty()) {
-        output.insert(IdAttr, taskList->uid());
+        output[IdAttr] = taskList->uid();
     }
-    output.insert(TitleAttr, taskList->title());
+    output[TitleAttr] = taskList->title();
 
-    QJsonDocument document = QJsonDocument::fromVariant(output);
-    return document.toJson(QJsonDocument::Compact);
+    return QJsonDocument{output}.toJson(QJsonDocument::Compact);
 }
 
 QByteArray taskToJSON(const TaskPtr &task)
 {
-    QVariantMap output;
-
-    output.insert(KindAttr, QStringLiteral("tasks#task"));
+    QJsonObject output;
+    output[KindAttr] = QStringLiteral("tasks#task");
 
     if (!task->uid().isEmpty()) {
-        output.insert(IdAttr, task->uid());
+        output[IdAttr] = task->uid();
     }
 
-    output.insert(TitleAttr, task->summary());
-    output.insert(NotesAttr, task->description());
+    output[TitleAttr] = task->summary();
+    output[NotesAttr] = task->description();
 
     if (!task->relatedTo(KCalendarCore::Incidence::RelTypeParent).isEmpty()) {
-        output.insert(ParentAttr, task->relatedTo(KCalendarCore::Incidence::RelTypeParent));
+        output[ParentAttr] = task->relatedTo(KCalendarCore::Incidence::RelTypeParent);
     }
 
     if (task->dtDue().isValid()) {
-        output.insert(DueAttr, task->dtDue().toUTC().toString(DatetimeFormat));
+        output[DueAttr] = task->dtDue().toUTC().toString(DatetimeFormat);
     }
 
     if ((task->status() == KCalendarCore::Incidence::StatusCompleted) && task->completed().isValid()) {
-        output.insert(CompletedAttrVal, task->completed().toUTC().toString(DatetimeFormat));
-        output.insert(StatusAttr, CompletedAttrVal);
+        output[CompletedAttrVal] = task->completed().toUTC().toString(DatetimeFormat);
+        output[StatusAttr] = CompletedAttrVal;
     } else {
-        output.insert(StatusAttr, NeedsActionAttrVal);
+        output[StatusAttr] = NeedsActionAttrVal;
     }
 
-    QJsonDocument document = QJsonDocument::fromVariant(output);
-    return document.toJson(QJsonDocument::Compact);
+    return QJsonDocument{output}.toJson(QJsonDocument::Compact);
 }
 
-ObjectsList Private::parseTaskListJSONFeed(const QVariantList &items)
+ObjectsList Private::parseTaskListJSONFeed(const QJsonArray &items)
 {
     ObjectsList list;
     list.reserve(items.size());
-    for (const QVariant &item : items) {
-        list.append(Private::JSONToTaskList(item.toMap()));
-    }
-
+    std::transform(items.cbegin(), items.cend(), std::back_inserter(list), Private::JSONToTaskList);
     return list;
 }
 
-ObjectsList Private::parseTasksJSONFeed(const QVariantList &items)
+ObjectsList Private::parseTasksJSONFeed(const QJsonArray &items)
 {
     ObjectsList list;
     list.reserve(items.size());
-    for (const QVariant &item : items) {
-        list.append(Private::JSONToTask(item.toMap()));
-    }
-
+    std::transform(items.cbegin(), items.cend(), std::back_inserter(list), Private::JSONToTask);
     return list;
 }
 
