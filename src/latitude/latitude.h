@@ -21,12 +21,12 @@ namespace KGAPI2
 class KGAPILATITUDE_DEPRECATED_EXPORT Latitude: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(Granularity)
 
   public:
     enum Granularity {
         City, Best
     };
+    Q_ENUM(Granularity)
 };
 
 } // namespace KGAPI2

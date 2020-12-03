@@ -67,7 +67,6 @@ ObjectsList TaskListFetchJob::handleReplyWithItems(const QNetworkReply *reply,
 {
     FeedData feedData;
     ObjectsList items;
-    QString itemId;
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {

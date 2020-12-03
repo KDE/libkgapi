@@ -45,7 +45,7 @@ Q_SIGNALS:
      * The object is automatically scheduled for deletion after this signal
      * is emitted.
      */
-    void finished(AccountPromise *self);
+    void finished(KGAPI2::AccountPromise *self);
 
 private:
     AccountPromise(QObject *parent = nullptr);

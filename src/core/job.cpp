@@ -463,7 +463,7 @@ void Job::setFields(const QStringList &fields)
 }
 
 QString Job::buildSubfields(const QString &field, const QStringList &fields) {
-    return QStringLiteral("%1(%2)").arg(field).arg(fields.join(QLatin1Char(',')));
+    return QStringLiteral("%1(%2)").arg(field, fields.join(QLatin1Char(',')));
 }
 
 void Job::restart()

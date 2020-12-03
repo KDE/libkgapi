@@ -182,7 +182,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      *
      * @see write
      */
-    void readyWrite(FileAbstractResumableJob *job);
+    void readyWrite(KGAPI2::Drive::FileAbstractResumableJob *job);
 
   private:
     class Private;

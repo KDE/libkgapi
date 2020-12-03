@@ -329,7 +329,7 @@ ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
 
 QByteArray calendarToJSON(const CalendarPtr& calendar)
 {
-    QVariantMap output, entry;
+    QVariantMap entry;
 
     if (!calendar->uid().isEmpty()) {
         entry.insert(idParam, calendar->uid());

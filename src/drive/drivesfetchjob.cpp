@@ -145,7 +145,6 @@ ObjectsList DrivesFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     feedData.requestUrl = reply->url();
 
     ObjectsList items;
-    QString itemId;
 
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);

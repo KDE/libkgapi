@@ -267,19 +267,19 @@ QString Contact::IMSchemeToProtocolName(const QString& scheme)
 
 QString Contact::IMProtocolNameToScheme(const QString& protocolName)
 {
-    QString proto;
-    if (protocolName.toUpper() == QLatin1String("XMPP")) {
+    QString proto {protocolName.toUpper()};
+    if (proto == QLatin1String("XMPP")) {
         return SCHEME_URL + QLatin1String("JABBER");
-    } else if ((protocolName.toUpper() == QLatin1String("ICQ")) ||
-               (protocolName.toUpper() == QLatin1String("GOOGLE_TALK")) ||
-               (protocolName.toUpper() == QLatin1String("QQ")) ||
-               (protocolName.toUpper() == QLatin1String("SKYPE")) ||
-               (protocolName.toUpper() == QLatin1String("YAHOO")) ||
-               (protocolName.toUpper() == QLatin1String("MSN")) ||
-               (protocolName.toUpper() == QLatin1String("AIM")))
+    } else if ((proto == QLatin1String("ICQ")) ||
+               (proto == QLatin1String("GOOGLE_TALK")) ||
+               (proto == QLatin1String("QQ")) ||
+               (proto == QLatin1String("SKYPE")) ||
+               (proto == QLatin1String("YAHOO")) ||
+               (proto == QLatin1String("MSN")) ||
+               (proto == QLatin1String("AIM")))
     {
-        return SCHEME_URL + protocolName.toUpper();
-    } else if (protocolName.toUpper() == QLatin1String("GOOGLETALK")) {
+        return SCHEME_URL + proto;
+    } else if (proto == QLatin1String("GOOGLETALK")) {
         return SCHEME_URL + QStringLiteral("GOOGLE_TALK");
     }
 
