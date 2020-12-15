@@ -52,7 +52,7 @@ ecm_generate_headers(kgapicore_accountinfo_CamelCase_HEADERS
 add_library(KPimGAPICore
     ${kgapicore_SRCS}
 )
-if (COMPILE_WITH_CMAKE_SUPPORT)
+if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPICore PROPERTIES UNITY_BUILD ON)
 endif()
 

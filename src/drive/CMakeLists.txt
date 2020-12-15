@@ -124,7 +124,7 @@ add_library(KPimGAPIDrive
     ${kgapidrive_SRCS}
 )
 #Disable for the moment
-#if (COMPILE_WITH_CMAKE_SUPPORT)
+#if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
 #    set_target_properties(KPimGAPIDrive PROPERTIES UNITY_BUILD ON)
 #endif()
 

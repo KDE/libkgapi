@@ -20,7 +20,7 @@ ecm_generate_headers(kgapimaps_CamelCase_HEADERS
 add_library(KPimGAPIMaps
     ${kgapimaps_SRCS}
 )
-if (COMPILE_WITH_CMAKE_SUPPORT)
+if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPIMaps PROPERTIES UNITY_BUILD ON)
 endif()
 

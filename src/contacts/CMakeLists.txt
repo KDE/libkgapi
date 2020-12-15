@@ -35,7 +35,7 @@ ecm_generate_headers(kgapicontacts_CamelCase_HEADERS
 add_library(KPimGAPIContacts
     ${kgapicontacts_SRCS}
 )
-if (COMPILE_WITH_CMAKE_SUPPORT)
+if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPIContacts PROPERTIES UNITY_BUILD ON)
 endif()
 

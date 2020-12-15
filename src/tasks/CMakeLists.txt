@@ -35,7 +35,7 @@ ecm_generate_headers(kgapitasks_CamelCase_HEADERS
 add_library(KPimGAPITasks
     ${kgapitasks_SRCS}
 )
-if (COMPILE_WITH_CMAKE_SUPPORT)
+if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPITasks PROPERTIES UNITY_BUILD ON)
 endif()
 
