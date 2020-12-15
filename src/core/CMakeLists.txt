@@ -52,10 +52,14 @@ ecm_generate_headers(kgapicore_accountinfo_CamelCase_HEADERS
 add_library(KPimGAPICore
     ${kgapicore_SRCS}
 )
+if (COMPILE_WITH_CMAKE_SUPPORT)
+    set_target_properties(KPimGAPICore PROPERTIES UNITY_BUILD ON)
+endif()
 
 generate_export_header(KPimGAPICore BASE_NAME kgapicore)
 
 add_library(KPim::GAPICore ALIAS KPimGAPICore)
+
 # TODO: Backwards compatibility, remove in next major release
 add_library(KF5::GAPICore ALIAS KPimGAPICore)
 target_include_directories(KPimGAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi>")

@@ -24,6 +24,10 @@ set_source_files_properties(
 endif()
 
 add_library(kgapitest STATIC ${kgapitest_SRCS})
+if (COMPILE_WITH_CMAKE_SUPPORT)
+    set_target_properties(kgapitest PROPERTIES UNITY_BUILD ON)
+endif()
+
 target_link_libraries(kgapitest Qt5::Core Qt5::Network Qt5::Gui Qt5::Test KPimGAPICore)
 
 

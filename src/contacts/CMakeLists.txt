@@ -35,10 +35,14 @@ ecm_generate_headers(kgapicontacts_CamelCase_HEADERS
 add_library(KPimGAPIContacts
     ${kgapicontacts_SRCS}
 )
+if (COMPILE_WITH_CMAKE_SUPPORT)
+    set_target_properties(KPimGAPIContacts PROPERTIES UNITY_BUILD ON)
+endif()
 
 generate_export_header(KPimGAPIContacts BASE_NAME kgapicontacts)
 
 add_library(KPim::GAPIContacts ALIAS KPimGAPIContacts)
+
 # TODO: Backwards compatibility, remove in next major release
 add_library(KF5::GAPIContacts ALIAS KPimGAPIContacts)
 target_include_directories(KPimGAPIContacts INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")

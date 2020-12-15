@@ -51,10 +51,14 @@ ecm_generate_headers(kgapiblogger_CamelCase_HEADERS
 add_library(KPimGAPIBlogger
     ${kgapiblogger_SRCS}
 )
+if (COMPILE_WITH_CMAKE_SUPPORT)
+    set_target_properties(KPimGAPIBlogger PROPERTIES UNITY_BUILD ON)
+endif()
 
 generate_export_header(KPimGAPIBlogger BASE_NAME kgapiblogger)
 
 add_library(KPim::GAPIBlogger ALIAS KPimGAPIBlogger)
+
 # TODO: Backwards compatibility, remove in next major release
 add_library(KF5::GAPIBlogger ALIAS KPimGAPIBlogger)
 target_include_directories(KPimGAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")

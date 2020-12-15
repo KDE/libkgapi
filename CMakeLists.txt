@@ -60,6 +60,17 @@ add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054E00)
 
 add_definitions(-DQT_NO_EMIT)
 
+option(USE_UNIFY_CMAKE_SUPPORT "Use UNIFY cmake support (speedup compile time)" FALSE)
+
+set(COMPILE_WITH_CMAKE_SUPPORT false)
+if (USE_UNIFY_CMAKE_SUPPORT)
+    if(${CMAKE_VERSION} VERSION_LESS "3.16.0")
+        message(STATUS "CMAKE version is less than 3.16.0 . We can't use cmake unify build support")
+    else()
+        set(COMPILE_WITH_CMAKE_SUPPORT true)
+    endif()
+endif()
+
 ############## Targets ##############
 add_subdirectory(src)
 if (KGAPI_BUILD_EXAMPLES)
