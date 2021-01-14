@@ -81,7 +81,9 @@ public:
                     currentScopes.push_back(requestedScope);
                 }
             }
-            account->setScopes(currentScopes);
+            if (currentScopes != account->scopes()) {
+                account->setScopes(currentScopes);
+            }
         }
         auto *job = new AuthJob(account, apiKey, apiSecret);
         job->setUsername(account->accountName());
