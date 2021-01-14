@@ -63,8 +63,8 @@ void StaticMapTileFetchJob::dispatchRequest(QNetworkAccessManager* accessManager
                                             const QByteArray& data,
                                             const QString& contentType)
 {
-    Q_UNUSED(data);
-    Q_UNUSED(contentType);
+    Q_UNUSED(data)
+    Q_UNUSED(contentType)
 
     accessManager->get(request);
 }
@@ -72,7 +72,7 @@ void StaticMapTileFetchJob::dispatchRequest(QNetworkAccessManager* accessManager
 void StaticMapTileFetchJob::handleReply(const QNetworkReply *reply,
                                         const QByteArray& rawData)
 {
-    Q_UNUSED(reply);
+    Q_UNUSED(reply)
 
     d->tilePixmap.loadFromData(rawData);
     emitFinished();

@@ -64,8 +64,8 @@ void PostDeleteJob::start()
 
 void PostDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
-    Q_UNUSED(reply);
-    Q_UNUSED(rawData);
+    Q_UNUSED(reply)
+    Q_UNUSED(rawData)
 
     emitFinished();
 }

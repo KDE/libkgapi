@@ -26,7 +26,7 @@ public:
 public Q_SLOTS:
     void openUrl(const QUrl &url)
     {
-        Q_UNUSED(url);
+        Q_UNUSED(url)
 
         // don't do anything, don't even try to load Google auth page. Instead
         // pretend the user have already authenticated and we've reached the

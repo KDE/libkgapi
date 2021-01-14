@@ -117,7 +117,7 @@ void PostPublishJob::dispatchRequest(QNetworkAccessManager *accessManager,
                                      const QByteArray &data,
                                      const QString &contentType)
 {
-    Q_UNUSED(contentType);
+    Q_UNUSED(contentType)
     accessManager->post(request, data);
 }
 

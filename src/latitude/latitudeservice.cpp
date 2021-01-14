@@ -73,7 +73,7 @@ QByteArray locationToJSON(const LocationPtr &location)
 
 ObjectsList parseLocationJSONFeed(const QByteArray & jsonFeed, FeedData & feedData)
 {
-    Q_UNUSED(feedData);
+    Q_UNUSED(feedData)
 
     ObjectsList output;
 
@@ -209,7 +209,7 @@ QUrl insertLocationUrl()
 
 QUrl deleteLocationUrl(const qlonglong id)
 {
-    Q_UNUSED(id);
+    Q_UNUSED(id)
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::LocationBasePath);
     return url;

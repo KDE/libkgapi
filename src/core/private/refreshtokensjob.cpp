@@ -83,7 +83,7 @@ void RefreshTokensJob::start()
 
 void RefreshTokensJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
-    Q_UNUSED(reply);
+    Q_UNUSED(reply)
 
     QJsonDocument document = QJsonDocument::fromJson(rawData);
     if (document.isNull()) {
@@ -112,7 +112,7 @@ void RefreshTokensJob::handleReply(const QNetworkReply *reply, const QByteArray 
 void RefreshTokensJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request,
                                        const QByteArray &data, const QString &contentType)
 {
-    Q_UNUSED(contentType);
+    Q_UNUSED(contentType)
 
     accessManager->setCookieJar(new QNetworkCookieJar);
     accessManager->post(request, data);

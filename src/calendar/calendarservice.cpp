@@ -533,12 +533,12 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
         KCalendarCore::ICalFormat format;
         if (rec.leftRef(5) == QLatin1String("RRULE")) {
             auto recurrenceRule = std::make_unique<KCalendarCore::RecurrenceRule>();
-            const auto ok = format.fromString(recurrenceRule.get(), rec.mid(6)); Q_UNUSED(ok);
+            const auto ok = format.fromString(recurrenceRule.get(), rec.mid(6)); Q_UNUSED(ok)
             recurrenceRule->setRRule(rec);
             event->recurrence()->addRRule(recurrenceRule.release());
         } else if (rec.leftRef(6) == QLatin1String("EXRULE")) {
             auto recurrenceRule = std::make_unique<KCalendarCore::RecurrenceRule>();
-            const auto ok = format.fromString(recurrenceRule.get(), rec.mid(7)); Q_UNUSED(ok);
+            const auto ok = format.fromString(recurrenceRule.get(), rec.mid(7)); Q_UNUSED(ok)
             recurrenceRule->setRRule(rec);
             event->recurrence()->addExRule(recurrenceRule.release());
         } else if (rec.leftRef(6) == QLatin1String("EXDATE")) {
