@@ -687,7 +687,8 @@ QByteArray contactToXML(const ContactPtr& contact)
 
     /* Emails */
     const auto preferredEmail = contact->preferredEmail();
-    Q_FOREACH(const auto &email, contact->emailList()) {
+    const auto emailList = contact->emailList();
+    for(const auto &email : emailList) {
         const auto rels = email.parameters().value(QStringLiteral("TYPE"), { QStringLiteral("home") });
         const auto rel = Private::addRelSchema(rels.isEmpty() ? "home" : rels.at(0).toLower().toUtf8());
         output.append("<gd:email rel='" + rel + "' address='").append(email.mail().toHtmlEscaped().toUtf8()).append("'");
@@ -699,10 +700,12 @@ QByteArray contactToXML(const ContactPtr& contact)
 
     /* IMs */
     const QString im_str = QStringLiteral("<gd:im address=\"%1\" protocol=\"%2\" rel=\"http://schemas.google.com/g/2005#other\" primary=\"%3\"/>");
-    Q_FOREACH(const auto &impp, contact->imppList()) {
+    const auto imppList = contact->imppList();
+    for (const auto &impp : imppList) {
         output.append(im_str.arg(impp.address().path(), Contact::IMProtocolNameToScheme(impp.serviceType()), Utils::bool2Str(impp.isPreferred())).toUtf8());
     }
-    Q_FOREACH(const QString &im, contact->customs()) {
+    const auto customs = contact->customs();
+    for (const QString &im : customs) {
         if (im.startsWith(QLatin1String("messaging/"))) {
             QString key = im.left(im.indexOf(QLatin1Char(':')));
             QString value = im.mid(im.indexOf(QLatin1Char(':')) + 1);
@@ -728,12 +731,14 @@ QByteArray contactToXML(const ContactPtr& contact)
 
     /* Phone numbers */
     const QString phone_str = QStringLiteral("<gd:phoneNumber rel=\"%1\">%2</gd:phoneNumber>");
-    Q_FOREACH(const KContacts::PhoneNumber &number, contact->phoneNumbers()) {
+    const auto phoneNumbers = contact->phoneNumbers();
+    for (const KContacts::PhoneNumber &number : phoneNumbers) {
         output.append(phone_str.arg(Contact::phoneTypeToScheme(number.type()), number.number()).toUtf8());
     }
 
     /* Address */
-    Q_FOREACH(const KContacts::Address &address, contact->addresses()) {
+    const auto addresses = contact->addresses();
+    for (const KContacts::Address &address : addresses) {
         output.append("<gd:structuredPostalAddress rel='")
         .append(Contact::addressTypeToScheme(address.type()).toUtf8())
         .append("'>");
@@ -781,9 +786,9 @@ QByteArray contactToXML(const ContactPtr& contact)
     parsedCustoms << QStringLiteral("GCALENDAR-groupMembershipInfo");
 
     /* User-defined fields */
-    const QStringList customs = contact->customs();
+    const QStringList customsLst = contact->customs();
     const QString defined_str = QStringLiteral("<gContact:userDefinedField key=\"%1\" value=\"%2\" />");
-    for (const QString &customStr : customs) {
+    for (const QString &customStr : customsLst) {
         QString key = customStr.left(customStr.indexOf(QLatin1Char(':')));
         if (!parsedCustoms.contains(key)) {
             if (key.startsWith(QLatin1String("KADDRESSBOOK-"))) {

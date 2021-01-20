@@ -187,7 +187,8 @@ void FullAuthenticationJob::start()
 
     QStringList scopes;
     scopes.reserve(d->mAccount->scopes().size());
-    Q_FOREACH(const QUrl & scope, d->mAccount->scopes()) {
+    const auto scopesList = d->mAccount->scopes();
+    for (const QUrl & scope : scopesList) {
         scopes << scope.toString();
     }
 
