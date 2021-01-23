@@ -162,6 +162,16 @@ QUrl createEventUrl(const QString& calendarID, SendUpdatesPolicy updatePolicy)
     return url;
 }
 
+QUrl importEventUrl(const QString& calendarID, SendUpdatesPolicy updatePolicy)
+{
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events") % QLatin1String("/import"));
+    QUrlQuery query(url);
+    query.addQueryItem(sendUpatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
+    url.setQuery(query);
+    return url;
+}
+
 QUrl removeEventUrl(const QString& calendarID, const QString& eventID)
 {
     QUrl url(Private::GoogleApisUrl);

@@ -154,6 +154,14 @@ namespace CalendarService
      * @param updatesPolicy Whether to send notification to participants
      */
     KGAPICALENDAR_EXPORT QUrl createEventUrl(const QString &calendarID, SendUpdatesPolicy updatesPolicy);
+    
+    /**
+     * @brief Returns URL importing private copies of existing events.
+     *
+     * @param calendarID ID of calendar in which to create the event
+     * @param updatesPolicy Whether to send notification to participants
+     */
+    KGAPICALENDAR_EXPORT QUrl importEventUrl(const QString &calendarID, SendUpdatesPolicy updatesPolicy);
 
     /**
      * @brief Returns URL for removing events

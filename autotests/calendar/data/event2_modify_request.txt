@@ -19,8 +19,8 @@ Content-Type: application/json
   "kind": "calendar#event", 
   "location": "Toulouse, France", 
   "organizer": {
-    "displayName": "KDE Hacker 0 <hacker@kde.test>", 
-    "email": "hacker@kde.test"
+    "displayName": "MockAccount <MockAccount>", 
+    "email": "MockAccount"
   }, 
   "recurrence": [
     "RRULE:FREQ=YEARLY;BYMONTHDAY=20;BYMONTH=4"

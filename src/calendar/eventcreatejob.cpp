@@ -68,7 +68,18 @@ void EventCreateJob::start()
     }
 
     const EventPtr event = d->events.current();
-    const auto request = CalendarService::prepareRequest(CalendarService::createEventUrl(d->calendarId, d->updatesPolicy));
+    QUrl requestUrl;
+        
+    // If the organizer is different from the account name, import a private copy of the event in the user's calendar, 
+    // or normally create it otherwise.  This prevents that Google Calendar creates a copy event when accepting invitations 
+    // to events created by others.
+    if (!event->attendees().isEmpty() && !event->organizer().isEmpty() && event->organizer().email() != this->account()->accountName()) {
+        requestUrl = CalendarService::importEventUrl(d->calendarId, d->updatesPolicy);
+    } else {
+        requestUrl = CalendarService::createEventUrl(d->calendarId, d->updatesPolicy);
+    }
+    
+    const auto request = CalendarService::prepareRequest(requestUrl);
     const QByteArray rawData = CalendarService::eventToJSON(event, CalendarService::EventSerializeFlag::NoID);
 
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
