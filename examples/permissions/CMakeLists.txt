@@ -16,8 +16,8 @@ add_executable(permissions-example
 )
 
 target_link_libraries(permissions-example
-        Qt5::Widgets
-        Qt5::Core
+        Qt::Widgets
+        Qt::Core
         KF5::GAPICore
         KF5::GAPIDrive
 )

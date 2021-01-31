@@ -16,8 +16,8 @@ add_executable(drives-example
 )
 
 target_link_libraries(drives-example
-        Qt5::Widgets
-        Qt5::Core
+        Qt::Widgets
+        Qt::Core
         KF5::GAPICore
         KF5::GAPIDrive
 )
