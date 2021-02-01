@@ -17,8 +17,8 @@ add_executable(contacts-example
 
 target_link_libraries(contacts-example
         KF5::Contacts
-        Qt::Widgets
-        Qt::Core
+        Qt5::Widgets
+        Qt5::Core
         KF5::GAPICore
         KF5::GAPIContacts
 )

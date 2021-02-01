@@ -66,9 +66,9 @@ target_include_directories(KPimGAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INS
 
 target_link_libraries(KPimGAPICore
 PUBLIC
-    Qt::Core
+    Qt5::Core
 PRIVATE
-    Qt::Network
+    Qt5::Network
     KF5::Wallet
 )
 

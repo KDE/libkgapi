@@ -42,7 +42,7 @@ PUBLIC
     KPim::GAPICore
     KF5::Contacts
 PRIVATE
-    Qt::Network
+    Qt5::Network
 )
 
 set_target_properties(KPimGAPILatitude PROPERTIES
