@@ -109,6 +109,4 @@ install(FILES
 )
 
 
-ki18n_install(po)
-kdoctools_install(po)
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
