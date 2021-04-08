@@ -202,13 +202,8 @@ void FullAuthenticationJob::start()
     connect(d->mServer.get(), &QTcpServer::newConnection, this, [this]() {
         d->mConnection = d->mServer->nextPendingConnection();
         d->mConnection->setParent(this);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        connect(d->mConnection, static_cast<void (QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error),
-                this, [this](QAbstractSocket::SocketError e) { d->socketError(e); });
-#else
         connect(d->mConnection, static_cast<void (QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::errorOccurred),
                 this, [this](QAbstractSocket::SocketError e) { d->socketError(e); });
-#endif
         connect(d->mConnection, &QTcpSocket::readyRead, this, [this]() { d->socketReady(); });
         d->mServer->close();
         d->mServer->deleteLater();
