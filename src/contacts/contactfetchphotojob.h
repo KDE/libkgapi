@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef CONTACTFETCHPHOTOJOB_H
-#define CONTACTFETCHPHOTOJOB_H
+#pragma once
 
 #include "fetchjob.h"
 #include "kgapicontacts_export.h"
@@ -89,4 +88,3 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
 
 } // namespace KGAPI2
 
-#endif // CONTACTFETCHPHOTOJOB_H

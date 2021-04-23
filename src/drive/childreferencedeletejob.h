@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI2_DRIVECHILDREFERENCEDELETEJOB_H
-#define KGAPI2_DRIVECHILDREFERENCEDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapidrive_export.h"
@@ -57,4 +56,3 @@ class KGAPIDRIVE_EXPORT ChildReferenceDeleteJob : public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVECHILDREFERENCEDELETEJOB_H

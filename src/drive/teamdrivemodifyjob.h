@@ -7,8 +7,7 @@
  */
 
 
-#ifndef KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H
-#define KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H
+#pragma once
 
 #include "modifyjob.h"
 #include "kgapidrive_export.h"
@@ -45,4 +44,3 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveModifyJob : public KGAPI2::ModifyJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVETEAMDRIVEMODIFYJOB_H

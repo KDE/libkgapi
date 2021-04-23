@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_LOCATIONCREATEJOB_H
-#define LIBKGAPI2_LOCATIONCREATEJOB_H
+#pragma once
 
 #include "createjob.h"
 #include "kgapilatitude_export.h"
@@ -68,4 +67,3 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationCreateJob : public KGAPI2::CreateJ
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_LOCATIONCREATEJOB_H

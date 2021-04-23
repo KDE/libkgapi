@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_ENUMS_H_
-#define LIBKGAPI2_ENUMS_H_
+#pragma once
 
 #include "kgapicalendar_export.h"
 
@@ -30,4 +29,3 @@ Q_ENUM_NS(KGAPI2::SendUpdatesPolicy)
 
 } // namespace KGAPI
 
-#endif // LIBKGAPI2_ENUMS_H_

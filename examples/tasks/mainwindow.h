@@ -5,8 +5,7 @@
 */
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -92,4 +91,3 @@ class MainWindow : public QMainWindow
     void enableCreateTask(bool enabled);
 };
 
-#endif // MAINWINDOW_H

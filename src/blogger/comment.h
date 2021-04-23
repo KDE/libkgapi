@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI2_BLOGGER_COMMENT_H
-#define KGAPI2_BLOGGER_COMMENT_H
+#pragma once
 
 #include "object.h"
 #include "kgapiblogger_export.h"
@@ -72,4 +71,3 @@ class KGAPIBLOGGER_EXPORT Comment : public KGAPI2::Object
 }
 }
 
-#endif // KGAPI2_BLOGGER_COMMENT_H

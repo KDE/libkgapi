@@ -5,8 +5,7 @@
 */
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -37,4 +36,3 @@ class MainWindow : public QMainWindow
     QList<KGAPI2::StaticMapMarker> m_markers;
 };
 
-#endif // MAINWINDOW_H

@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_LOCATIONFETCHHISTORYJOB_H
-#define LIBKGAPI2_LOCATIONFETCHHISTORYJOB_H
+#pragma once
 
 #include "fetchjob.h"
 #include "latitude.h"
@@ -160,4 +159,3 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchHistoryJob : public KGAPI2::F
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_LOCATIONFETCHHISTORYJOB_H

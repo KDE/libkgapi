@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI2_BLOGGERSERVICE_H
-#define KGAPI2_BLOGGERSERVICE_H
+#pragma once
 
 #include "types.h"
 #include "kgapiblogger_export.h"
@@ -63,4 +62,3 @@ namespace BloggerService
 } // namespace BloggerService
 } // namespace KGAPI2
 
-#endif // KGAPI2_BLOGGERSERVICE_H

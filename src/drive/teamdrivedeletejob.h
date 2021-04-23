@@ -7,8 +7,7 @@
  */
 
 
-#ifndef KGAPI2_DRIVETEAMDRIVEDELETEJOB_H
-#define KGAPI2_DRIVETEAMDRIVEDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapidrive_export.h"
@@ -47,4 +46,3 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveDeleteJob : public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVETEAMDRIVEDELETEJOB_H

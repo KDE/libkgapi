@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_DELETEJOB_H
-#define LIBKGAPI2_DELETEJOB_H
+#pragma once
 
 #include "job.h"
 #include "kgapicore_export.h"
@@ -86,4 +85,3 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_DELETEJOB_H

@@ -5,8 +5,7 @@
 */
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -111,4 +110,3 @@ class MainWindow : public QMainWindow
 
 };
 
-#endif // MAINWINDOW_H

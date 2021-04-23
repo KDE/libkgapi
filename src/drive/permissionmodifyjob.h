@@ -7,8 +7,7 @@
  */
 
 
-#ifndef KGAPI2_DRIVEPERMISSIONMODIFYJOB_H
-#define KGAPI2_DRIVEPERMISSIONMODIFYJOB_H
+#pragma once
 
 #include "modifyjob.h"
 #include "kgapidrive_export.h"
@@ -107,4 +106,3 @@ class KGAPIDRIVE_EXPORT PermissionModifyJob : public KGAPI2::ModifyJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVEPERMISSIONMODIFYJOB_H

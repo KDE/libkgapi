@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_CONTACTDELETEJOB_H
-#define LIBKGAPI2_CONTACTDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapicontacts_export.h"
@@ -103,4 +102,3 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_CONTACTDELETEJOB_H

@@ -7,8 +7,7 @@
  */
 
 
-#ifndef LIBKGAPI2_PRIVATE_QUEUEHELPER_P_H
-#define LIBKGAPI2_PRIVATE_QUEUEHELPER_P_H
+#pragma once
 
 #include <QQueue>
 
@@ -63,4 +62,3 @@ class QueueHelper
     QList<T>::ConstIterator m_iter;
 };
 
-#endif // LIBKGAPI2_PRIVATE_QUEUEHELPER_P_H

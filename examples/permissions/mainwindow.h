@@ -5,8 +5,7 @@
 */
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -73,4 +72,3 @@ class MainWindow : public QMainWindow
     QString permissionTypeToName(KGAPI2::Drive::Permission::PermissionDetails::PermissionType permissionType);
 };
 
-#endif // MAINWINDOW_H

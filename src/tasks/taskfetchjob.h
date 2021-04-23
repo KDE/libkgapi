@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_TASKFETCHJOB_H
-#define LIBKGAPI2_TASKFETCHJOB_H
+#pragma once
 
 #include "fetchjob.h"
 #include "kgapitasks_export.h"
@@ -279,4 +278,3 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_TASKFETCHJOB_H

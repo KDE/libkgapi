@@ -5,8 +5,7 @@
 */
 
 
-#ifndef LIBKGAPI2_LATITUDE_H
-#define LIBKGAPI2_LATITUDE_H
+#pragma once
 
 #include <QObject>
 
@@ -31,4 +30,3 @@ class KGAPILATITUDE_DEPRECATED_EXPORT Latitude: public QObject
 
 } // namespace KGAPI2
 
-#endif

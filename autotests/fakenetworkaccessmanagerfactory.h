@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI_FAKENETWORKACCESSMANAGERFACTORY_H_
-#define KGAPI_FAKENETWORKACCESSMANAGERFACTORY_H_
+#pragma once
 
 #include "../src/core/networkaccessmanagerfactory_p.h"
 #include "fakenetworkaccessmanager.h"
@@ -29,4 +28,3 @@ private:
     QList<FakeNetworkAccessManager::Scenario> mScenarios;
 };
 
-#endif

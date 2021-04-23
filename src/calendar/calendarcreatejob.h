@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_CALENDARCREATEJOB_H
-#define LIBKGAPI2_CALENDARCREATEJOB_H
+#pragma once
 
 #include "createjob.h"
 #include "kgapicalendar_export.h"
@@ -81,4 +80,3 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_CALENDARCREATEJOB_H

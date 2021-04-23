@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_EVENTMODIFYJOB_H
-#define LIBKGAPI2_EVENTMODIFYJOB_H
+#pragma once
 
 #include "modifyjob.h"
 #include "enums.h"
@@ -92,4 +91,3 @@ class KGAPICALENDAR_EXPORT EventModifyJob : public KGAPI2::ModifyJob
 
 } // namespace KGAPI
 
-#endif // LIBKGAPI2_EVENTMODIFYJOB_H

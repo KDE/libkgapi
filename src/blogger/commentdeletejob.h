@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI2_BLOGGER_COMMENTDELETEJOB_H
-#define KGAPI2_BLOGGER_COMMENTDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapiblogger_export.h"
@@ -42,4 +41,3 @@ class KGAPIBLOGGER_EXPORT CommentDeleteJob : public KGAPI2::DeleteJob
 }
 }
 
-#endif // KGAPI2_BLOGGER_COMMENTDELETEJOB_H

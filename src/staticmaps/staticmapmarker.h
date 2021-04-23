@@ -5,8 +5,7 @@
 */
 
 
-#ifndef LIBKGAPI2_STATICMAPMARKER_H
-#define LIBKGAPI2_STATICMAPMARKER_H
+#pragma once
 
 #include "kgapimaps_export.h"
 
@@ -254,4 +253,3 @@ class KGAPIMAPS_EXPORT StaticMapMarker
 } // namespace KGAPI2
 
 
-#endif // LIBKGAPI2_STATICMAPMARKER_H

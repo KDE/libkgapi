@@ -7,8 +7,7 @@
  */
 
 
-#ifndef KGAPI2_DRIVEFILEMODIFYJOB_H
-#define KGAPI2_DRIVEFILEMODIFYJOB_H
+#pragma once
 
 #include "fileabstractuploadjob.h"
 #include "kgapidrive_export.h"
@@ -100,4 +99,3 @@ class KGAPIDRIVE_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUpload
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVEFILEMODIFYJOB_H

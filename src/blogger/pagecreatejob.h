@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI2_BLOGGER_PAGECREATEJOB_H
-#define KGAPI2_BLOGGER_PAGECREATEJOB_H
+#pragma once
 
 #include "createjob.h"
 #include "kgapiblogger_export.h"
@@ -37,4 +36,3 @@ class KGAPIBLOGGER_EXPORT PageCreateJob : public KGAPI2::CreateJob
 }
 }
 
-#endif // KGAPI2_BLOGGER_PAGECREATEJOB_H

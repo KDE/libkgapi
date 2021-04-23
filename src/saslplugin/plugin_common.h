@@ -42,8 +42,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _PLUGIN_COMMON_H_
-#define _PLUGIN_COMMON_H_
+#pragma once
 
 #include <config.h>
 
@@ -194,4 +193,3 @@ void _plug_snprintf_os_info(char *osbuf, int osbuf_len);
 }
 #endif
 
-#endif /* _PLUGIN_COMMON_H_ */

@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI2_DRIVEREVISIONMODIFYJOB_H
-#define KGAPI2_DRIVEREVISIONMODIFYJOB_H
+#pragma once
 
 #include "modifyjob.h"
 #include "kgapidrive_export.h"
@@ -46,4 +45,3 @@ class KGAPIDRIVE_EXPORT RevisionModifyJob : public KGAPI2::ModifyJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVEREVISIONMODIFYJOB_H

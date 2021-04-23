@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef LIBKGAPI2_ACCOUNTSTORAGE_P_H_
-#define LIBKGAPI2_ACCOUNTSTORAGE_P_H_
+#pragma once
 
 #include "types.h"
 #include "kgapicore_export.h"
@@ -47,4 +46,3 @@ public:
 
 }
 
-#endif

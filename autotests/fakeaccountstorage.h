@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI_FAKEACCOUNTSTORAGE_H
-#define KGAPI_FAKEACCOUNTSTORAGE_H
+#pragma once
 
 #include "accountstorage_p.h"
 
@@ -43,4 +42,3 @@ private:
     FakeAccountStorage *mStore;
 };
 
-#endif

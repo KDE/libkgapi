@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_EVENTDELETEJOB_H
-#define LIBKGAPI2_EVENTDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapicalendar_export.h"
@@ -108,4 +107,3 @@ class KGAPICALENDAR_EXPORT EventDeleteJob : public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_EVENTDELETEJOB_H

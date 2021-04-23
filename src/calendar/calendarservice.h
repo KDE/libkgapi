@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_CALENDARSERVICE_H
-#define LIBKGAPI2_CALENDARSERVICE_H
+#pragma once
 
 #include "types.h"
 #include "enums.h"
@@ -191,4 +190,3 @@ namespace CalendarService
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KGAPI2::CalendarService::EventSerializeFlags)
 
-#endif // LIBKGAPI2_CALENDARSERVICE_H

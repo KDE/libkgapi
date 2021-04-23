@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI_JOB_P_H
-#define KGAPI_JOB_P_H
+#pragma once
 
 #include "job.h"
 
@@ -78,4 +77,3 @@ class Q_DECL_HIDDEN Job::Private
 
 }
 
-#endif // KGAPI_JOB_P_H

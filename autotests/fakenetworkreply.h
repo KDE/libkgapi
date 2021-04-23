@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI_FAKENETWORKREPLY_H_
-#define KGAPI_FAKENETWORKREPLY_H_
+#pragma once
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -40,4 +39,3 @@ private:
 };
 
 
-#endif

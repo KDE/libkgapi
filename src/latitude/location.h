@@ -5,8 +5,7 @@
 */
 
 
-#ifndef LIBKGAPI2_OBJECTS_LOCATION_H
-#define LIBKGAPI2_OBJECTS_LOCATION_H
+#pragma once
 
 #include "object.h"
 #include "types.h"
@@ -137,4 +136,3 @@ class KGAPILATITUDE_DEPRECATED_EXPORT Location : public KGAPI2::Object,
 
 } // namespace KGAPI2
 
-#endif // LOCATION_H

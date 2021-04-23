@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_JOB_H
-#define LIBKGAPI2_JOB_H
+#pragma once
 
 #include "types.h"
 #include "kgapicore_export.h"
@@ -360,4 +359,3 @@ class KGAPICORE_EXPORT Job : public QObject
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_JOB_H

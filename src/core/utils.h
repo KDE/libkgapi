@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_UTILS_H
-#define LIBKGAPI2_UTILS_H
+#pragma once
 
 #include <QString>
 
@@ -74,4 +73,3 @@ namespace Utils
     }
 } // namespace Utils
 
-#endif // LIBKGAPI2_UTILS_H

@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef DRIVETESTUTILS_H_
-#define DRIVETESTUTILS_H_
+#pragma once
 
 #include "types.h"
 
@@ -15,6 +14,5 @@ KGAPI2::Drive::FilePtr fileFromFile(const QString &path);
 KGAPI2::Drive::DrivesPtr drivesFromFile(const QString &path);
 KGAPI2::Drive::TeamdrivePtr teamdriveFromFile(const QString &path);
 
-#endif
 
 

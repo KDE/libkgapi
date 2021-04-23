@@ -7,8 +7,7 @@
  */
 
 
-#ifndef KGAPI2_DRIVEPARENTREFERENCEDELETEJOB_H
-#define KGAPI2_DRIVEPARENTREFERENCEDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapidrive_export.h"
@@ -58,4 +57,3 @@ class KGAPIDRIVE_EXPORT ParentReferenceDeleteJob : public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVEPARENTREFERENCEDELETEJOB_H

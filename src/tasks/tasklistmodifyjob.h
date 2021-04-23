@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_TASKLISTMODIFYJOB_H
-#define LIBKGAPI2_TASKLISTMODIFYJOB_H
+#pragma once
 
 #include "modifyjob.h"
 #include "kgapitasks_export.h"
@@ -81,4 +80,3 @@ class KGAPITASKS_EXPORT TaskListModifyJob : public KGAPI2::ModifyJob
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_TASKLISTMODIFYJOB_H

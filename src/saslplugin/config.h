@@ -42,8 +42,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
 
 /* Runtime config file location */
 #define CONFIGDIR "/usr/lib/sasl2:/etc/sasl2"
@@ -572,4 +571,3 @@ struct sockaddr_storage {
 #define HIER_DELIMITER '/'
 #endif
 
-#endif /* CONFIG_H */

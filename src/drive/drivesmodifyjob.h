@@ -7,8 +7,7 @@
  */
 
 
-#ifndef KGAPI2_DRIVEDRIVESMODIFYJOB_H
-#define KGAPI2_DRIVEDRIVESMODIFYJOB_H
+#pragma once
 
 #include "modifyjob.h"
 #include "kgapidrive_export.h"
@@ -62,4 +61,3 @@ class KGAPIDRIVE_EXPORT DrivesModifyJob : public KGAPI2::ModifyJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVEDRIVESMODIFYJOB_H

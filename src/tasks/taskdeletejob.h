@@ -7,8 +7,7 @@
  */
 
 
-#ifndef LIBKGAPI2_TASKDELETEJOB_H
-#define LIBKGAPI2_TASKDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapitasks_export.h"
@@ -108,4 +107,3 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_TASKDELETEJOB_H

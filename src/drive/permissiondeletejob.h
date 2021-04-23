@@ -7,8 +7,7 @@
  */
 
 
-#ifndef KGAPI2_DRIVEPERMISSIONDELETEJOB_H
-#define KGAPI2_DRIVEPERMISSIONDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapidrive_export.h"
@@ -89,4 +88,3 @@ class KGAPIDRIVE_EXPORT PermissionDeleteJob :  public KGAPI2::DeleteJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVEPERMISSIONDELETEJOB_H

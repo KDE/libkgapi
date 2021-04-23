@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef LIBKGAPI2_CONTACTSSERVICE_H
-#define LIBKGAPI2_CONTACTSSERVICE_H
+#pragma once
 
 #include "types.h"
 #include "kgapicontacts_export.h"
@@ -173,4 +172,3 @@ namespace ContactsService
 
 } // namespace KGAPI
 
-#endif // LIBKGAPI2_CONTACTSSERVICE_H

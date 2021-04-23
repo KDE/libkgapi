@@ -7,8 +7,7 @@
  */
 
 
-#ifndef LIBKGAPI2_TASKMOVEJOB_H
-#define LIBKGAPI2_TASKMOVEJOB_H
+#pragma once
 
 #include "modifyjob.h"
 #include "kgapitasks_export.h"
@@ -145,4 +144,3 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_TASKMOVEJOB_H

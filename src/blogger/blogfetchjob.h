@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef BLOGFETCHJOB_H
-#define BLOGFETCHJOB_H
+#pragma once
 
 #include "fetchjob.h"
 #include "kgapiblogger_export.h"
@@ -45,4 +44,3 @@ class KGAPIBLOGGER_EXPORT BlogFetchJob : public KGAPI2::FetchJob
 } // namespace Blogger
 } // namespace KGAPI2
 
-#endif // BLOGFETCHJOB_H

@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_ACCOUNTINFOFETCHJOB_H
-#define LIBKGAPI2_ACCOUNTINFOFETCHJOB_H
+#pragma once
 
 #include "fetchjob.h"
 #include "kgapicore_export.h"
@@ -67,4 +66,3 @@ class KGAPICORE_EXPORT AccountInfoFetchJob : public KGAPI2::FetchJob
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_ACCOUNTINFOFETCHJOB_H

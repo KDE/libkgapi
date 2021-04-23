@@ -7,8 +7,7 @@
  */
 
 
-#ifndef LIBKGAPI2_TASKLIST_H
-#define LIBKGAPI2_TASKLIST_H
+#pragma once
 
 #include "object.h"
 #include "types.h"
@@ -103,4 +102,3 @@ class KGAPITASKS_EXPORT TaskList: public KGAPI2::Object
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_TASKLIST_H

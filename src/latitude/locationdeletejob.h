@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_LOCATIONDELETEJOB_H
-#define LIBKGAPI2_LOCATIONDELETEJOB_H
+#pragma once
 
 #include "deletejob.h"
 #include "kgapilatitude_export.h"
@@ -81,4 +80,3 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationDeleteJob : public KGAPI2::DeleteJ
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_LOCATIONDELETEJOB_H

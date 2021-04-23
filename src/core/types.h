@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef LIBKGAPI2_TYPES_H
-#define LIBKGAPI2_TYPES_H
+#pragma once
 
 #include "kgapicore_export.h"
 
@@ -214,4 +213,3 @@ enum ContentType {
 
 
 
-#endif // LIBKGAPI2_TYPES_H

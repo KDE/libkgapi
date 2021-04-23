@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef LIBKGAPI2_DRIVEPERMISSION_P_H
-#define LIBKGAPI2_DRIVEPERMISSION_P_H
+#pragma once
 
 #include "permission.h"
 
@@ -50,4 +49,3 @@ class Q_DECL_HIDDEN Permission::Private
 
 } // namespace KGAPI2
 
-#endif //LIBKGAPI2_DRIVEPERMISSION_P_H

@@ -7,8 +7,7 @@
  */
 
 
-#ifndef LIBKGAPI2_CONTACTSGROUP_H
-#define LIBKGAPI2_CONTACTSGROUP_H
+#pragma once
 
 #include "object.h"
 #include "types.h"
@@ -128,4 +127,3 @@ class KGAPICONTACTS_EXPORT ContactsGroup : public KGAPI2::Object
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_CONTACTSGROUP_H

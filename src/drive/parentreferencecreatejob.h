@@ -6,8 +6,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef KGAPI2_DRIVEPARENTREFERENCECREATEJOB_H
-#define KGAPI2_DRIVEPARENTREFERENCECREATEJOB_H
+#pragma once
 
 #include "createjob.h"
 #include "kgapidrive_export.h"
@@ -79,4 +78,3 @@ class KGAPIDRIVE_EXPORT ParentReferenceCreateJob : public KGAPI2::CreateJob
 
 } // namespace KGAPI2
 
-#endif // KGAPI2_DRIVEPARENTREFERENCECREATEJOB_H

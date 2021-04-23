@@ -5,8 +5,7 @@
 */
 
 
-#ifndef LIBKGAPI2_LATITUDESERVICE_H
-#define LIBKGAPI2_LATITUDESERVICE_H
+#pragma once
 
 #include "types.h"
 #include "latitude.h"
@@ -109,4 +108,3 @@ namespace LatitudeService
 
 } // namespace KGAPI2
 
-#endif // LIBKGAPI2_LATITUDESERVICE_H

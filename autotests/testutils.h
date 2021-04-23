@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#ifndef TESTUTILS_H_
-#define TESTUTILS_H_
+#pragma once
 
 #include "fakenetworkaccessmanager.h"
 
@@ -73,4 +72,3 @@ QStringList elementsToUids(const QList<T> &elems)
     return uids;
 }
 
-#endif
