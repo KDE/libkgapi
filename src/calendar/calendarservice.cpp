@@ -541,20 +541,21 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     const QStringList recrs = data.value(eventRecurrenceParam).toStringList();
     for (const QString & rec : recrs) {
         KCalendarCore::ICalFormat format;
-        if (rec.leftRef(5) == QLatin1String("RRULE")) {
+        const QStringView recView(rec);
+        if (recView.left(5) == QLatin1String("RRULE")) {
             auto recurrenceRule = std::make_unique<KCalendarCore::RecurrenceRule>();
             const auto ok = format.fromString(recurrenceRule.get(), rec.mid(6)); Q_UNUSED(ok)
             recurrenceRule->setRRule(rec);
             event->recurrence()->addRRule(recurrenceRule.release());
-        } else if (rec.leftRef(6) == QLatin1String("EXRULE")) {
+        } else if (recView.left(6) == QLatin1String("EXRULE")) {
             auto recurrenceRule = std::make_unique<KCalendarCore::RecurrenceRule>();
             const auto ok = format.fromString(recurrenceRule.get(), rec.mid(7)); Q_UNUSED(ok)
             recurrenceRule->setRRule(rec);
             event->recurrence()->addExRule(recurrenceRule.release());
-        } else if (rec.leftRef(6) == QLatin1String("EXDATE")) {
+        } else if (recView.left(6) == QLatin1String("EXDATE")) {
             KCalendarCore::DateList exdates = Private::parseRDate(rec);
             event->recurrence()->setExDates(exdates);
-        } else if (rec.leftRef(5) == QLatin1String("RDATE")) {
+        } else if (recView.left(5) == QLatin1String("RDATE")) {
             KCalendarCore::DateList rdates = Private::parseRDate(rec);
             event->recurrence()->setRDates(rdates);
         }
