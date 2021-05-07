@@ -94,7 +94,7 @@
       </layout>
      </item>
      <item>
-      <widget class="KLineEdit" name="locationString">
+      <widget class="QLineEdit" name="locationString">
        <property name="inputMask">
         <string/>
        </property>
@@ -106,10 +106,10 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="KLineEdit" name="locationCity"/>
+        <widget class="QLineEdit" name="locationCity"/>
        </item>
        <item>
-        <widget class="KLineEdit" name="locationStreet"/>
+        <widget class="QLineEdit" name="locationStreet"/>
        </item>
        <item>
         <widget class="QSpinBox" name="locationNumber"/>
@@ -335,7 +335,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <widget class="KLineEdit" name="markerLabel">
+        <widget class="QLineEdit" name="markerLabel">
          <property name="maximumSize">
           <size>
            <width>30</width>
@@ -388,7 +388,7 @@
       </layout>
      </item>
      <item>
-      <widget class="KLineEdit" name="markerLocation"/>
+      <widget class="QLineEdit" name="markerLocation"/>
      </item>
      <item>
       <widget class="QPushButton" name="addMarker">
@@ -432,11 +432,6 @@
    <class>KColorButton</class>
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
