@@ -8,7 +8,7 @@ include_directories(
 
 set(drives_example_SRCS main.cpp mainwindow.cpp)
 set(drives_example_HDRS mainwindow.h)
-qt5_wrap_ui(drives_example_SRCS ui/main.ui)
+qt_wrap_ui(drives_example_SRCS ui/main.ui)
 
 add_executable(drives-example
         ${drives_example_SRCS}

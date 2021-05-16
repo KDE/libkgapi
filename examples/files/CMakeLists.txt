@@ -8,7 +8,7 @@ include_directories(
 
 set(files_example_SRCS main.cpp mainwindow.cpp)
 set(files_example_HDRS mainwindow.h)
-qt5_wrap_ui(files_example_SRCS ui/main.ui)
+qt_wrap_ui(files_example_SRCS ui/main.ui)
 
 add_executable(files-example
         ${files_example_SRCS}

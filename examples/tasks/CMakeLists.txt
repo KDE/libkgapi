@@ -8,7 +8,7 @@ include_directories(
 
 set(tasks_example_SRCS main.cpp mainwindow.cpp)
 set(tasks_example_HDRS mainwindow.h)
-qt5_wrap_ui(tasks_example_SRCS ui/main.ui)
+qt_wrap_ui(tasks_example_SRCS ui/main.ui)
 
 add_executable(tasks-example
         ${tasks_example_SRCS}

@@ -8,7 +8,7 @@ include_directories(
 
 set(contacts_example_SRCS main.cpp mainwindow.cpp)
 set(contacts_example_HDRS mainwindow.h)
-qt5_wrap_ui(contacts_example_SRCS ui/main.ui)
+qt_wrap_ui(contacts_example_SRCS ui/main.ui)
 
 add_executable(contacts-example
         ${contacts_example_SRCS}

@@ -8,7 +8,7 @@ include_directories(
 
 set(permissions_example_SRCS main.cpp mainwindow.cpp)
 set(permissions_example_HDRS mainwindow.h)
-qt5_wrap_ui(permissions_example_SRCS ui/main.ui)
+qt_wrap_ui(permissions_example_SRCS ui/main.ui)
 
 add_executable(permissions-example
         ${permissions_example_SRCS}

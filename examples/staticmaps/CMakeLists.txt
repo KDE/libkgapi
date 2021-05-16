@@ -7,9 +7,9 @@ include_directories(
 
 set(staticmaps_example_SRCS main.cpp mainwindow.cpp)
 set(staticmaps_example_HDRS mainwindow.h)
-qt5_wrap_ui(staticmaps_example_SRCS ui/main.ui)
+qt_wrap_ui(staticmaps_example_SRCS ui/main.ui)
 
-qt5_wrap_cpp(staticmaps_example_HDRS_MOC ${staticmaps_example_HDRS})
+qt_wrap_cpp(staticmaps_example_HDRS_MOC ${staticmaps_example_HDRS})
 
 add_executable(staticmaps-example
         ${staticmaps_example_SRCS}
