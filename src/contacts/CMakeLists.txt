@@ -51,10 +51,10 @@ target_link_libraries(KPimGAPIContacts
 PUBLIC
     KPim::GAPICore
     KF5::Contacts
-    Qt5::Gui
+    Qt::Gui
 PRIVATE
-    Qt5::Xml
-    Qt5::Network
+    Qt::Xml
+    Qt::Network
 )
 
 set_target_properties(KPimGAPIContacts PROPERTIES
@@ -83,7 +83,7 @@ install(FILES
 
 ecm_generate_pri_file(BASE_NAME KGAPIContacts
     LIB_NAME KPimGAPIContacts
-    DEPS "KPim::GAPICore KF5::Contacts Qt5::Xml"
+    DEPS "KPim::GAPICore KF5::Contacts Qt::Xml"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 

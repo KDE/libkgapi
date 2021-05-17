@@ -19,8 +19,8 @@ add_executable(teamdrive-example
 target_compile_options(teamdrive-example PRIVATE -Wno-deprecated-declarations)
 
 target_link_libraries(teamdrive-example
-        Qt5::Widgets
-        Qt5::Core
+        Qt::Widgets
+        Qt::Core
         KF5::GAPICore
         KF5::GAPIDrive
 )
