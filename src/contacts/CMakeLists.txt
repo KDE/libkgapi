@@ -43,8 +43,6 @@ generate_export_header(KPimGAPIContacts BASE_NAME kgapicontacts)
 
 add_library(KPim::GAPIContacts ALIAS KPimGAPIContacts)
 
-# TODO: Backwards compatibility, remove in next major release
-add_library(KF5::GAPIContacts ALIAS KPimGAPIContacts)
 target_include_directories(KPimGAPIContacts INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
 target_link_libraries(KPimGAPIContacts

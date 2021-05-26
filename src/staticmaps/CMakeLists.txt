@@ -28,8 +28,6 @@ generate_export_header(KPimGAPIMaps BASE_NAME kgapimaps)
 
 add_library(KPim::GAPIMaps ALIAS KPimGAPIMaps)
 
-# TODO: Backwards compatibility, remove in next major release
-add_library(KF5::GAPIMaps ALIAS KPimGAPIMaps)
 target_include_directories(KPimGAPIMaps INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
 target_link_libraries(KPimGAPIMaps

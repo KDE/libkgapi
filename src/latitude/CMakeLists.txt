@@ -33,8 +33,6 @@ generate_export_header(KPimGAPILatitude BASE_NAME kgapilatitude)
 
 add_library(KPim::GAPILatitude ALIAS KPimGAPILatitude)
 
-# TODO: Backwards compatibility, remove in next major release
-add_library(KF5::GAPILatitude ALIAS KPimGAPILatitude)
 target_include_directories(KPimGAPILatitude INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
 target_link_libraries(KPimGAPILatitude

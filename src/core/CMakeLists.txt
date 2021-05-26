@@ -60,8 +60,6 @@ generate_export_header(KPimGAPICore BASE_NAME kgapicore)
 
 add_library(KPim::GAPICore ALIAS KPimGAPICore)
 
-# TODO: Backwards compatibility, remove in next major release
-add_library(KF5::GAPICore ALIAS KPimGAPICore)
 target_include_directories(KPimGAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi>")
 
 target_link_libraries(KPimGAPICore

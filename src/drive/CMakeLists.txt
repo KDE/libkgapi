@@ -131,8 +131,6 @@ add_library(KPimGAPIDrive
 generate_export_header(KPimGAPIDrive BASE_NAME kgapidrive)
 
 add_library(KPim::GAPIDrive ALIAS KPimGAPIDrive)
-# TODO: Backwards compatibility, remove in next major release
-add_library(KF5::GAPIDrive ALIAS KPimGAPIDrive)
 target_include_directories(KPimGAPIDrive INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
 target_link_libraries(KPimGAPIDrive

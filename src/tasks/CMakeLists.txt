@@ -43,8 +43,6 @@ generate_export_header(KPimGAPITasks BASE_NAME kgapitasks)
 
 add_library(KPim::GAPITasks ALIAS KPimGAPITasks)
 
-# TODO: Backwards compatibility, remove in next major release
-add_library(KF5::GAPITasks ALIAS KPimGAPITasks)
 target_include_directories(KPimGAPITasks INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
 target_link_libraries(KPimGAPITasks
