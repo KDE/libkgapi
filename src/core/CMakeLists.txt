@@ -1,6 +1,8 @@
 ecm_create_qm_loader(QM_LOADER libkgapi_qt)
+add_library(KPimGAPICore)
+add_library(KPim::GAPICore ALIAS KPimGAPICore)
 
-set(kgapicore_SRCS
+target_sources(KPimGAPICore PRIVATE
     accountinfo/accountinfo.cpp
     accountinfo/accountinfofetchjob.cpp
     private/fullauthenticationjob.cpp
@@ -49,16 +51,12 @@ ecm_generate_headers(kgapicore_accountinfo_CamelCase_HEADERS
     RELATIVE accountinfo
 )
 
-add_library(KPimGAPICore
-    ${kgapicore_SRCS}
-)
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPICore PROPERTIES UNITY_BUILD ON)
 endif()
 
 generate_export_header(KPimGAPICore BASE_NAME kgapicore)
 
-add_library(KPim::GAPICore ALIAS KPimGAPICore)
 
 target_include_directories(KPimGAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi>")
 

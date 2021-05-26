@@ -1,4 +1,8 @@
-set(kgapidrive_SRCS
+add_library(KPimGAPIDrive)
+add_library(KPim::GAPIDrive ALIAS KPimGAPIDrive)
+
+
+target_sources(KPimGAPIDrive PRIVATE
     about.cpp
     aboutfetchjob.cpp
     app.cpp
@@ -119,10 +123,6 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     PREFIX KGAPI/Drive
     REQUIRED_HEADERS kgapidrive_HEADERS
 )
-
-add_library(KPimGAPIDrive
-    ${kgapidrive_SRCS}
-)
 #Disable for the moment
 #if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
 #    set_target_properties(KPimGAPIDrive PROPERTIES UNITY_BUILD ON)
@@ -130,7 +130,6 @@ add_library(KPimGAPIDrive
 
 generate_export_header(KPimGAPIDrive BASE_NAME kgapidrive)
 
-add_library(KPim::GAPIDrive ALIAS KPimGAPIDrive)
 target_include_directories(KPimGAPIDrive INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
 target_link_libraries(KPimGAPIDrive

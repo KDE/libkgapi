@@ -1,4 +1,8 @@
-set(kgapicalendar_SRCS
+add_library(KPimGAPICalendar)
+add_library(KPim::GAPICalendar ALIAS KPimGAPICalendar)
+
+
+target_sources(KPimGAPICalendar PRIVATE
     calendar.cpp
     calendarcreatejob.cpp
     calendardeletejob.cpp
@@ -37,16 +41,11 @@ ecm_generate_headers(kgapicalendar_CamelCase_HEADERS
     REQUIRED_HEADERS kgapicalendar_HEADERS
 )
 
-add_library(KPimGAPICalendar
-    ${kgapicalendar_SRCS}
-)
-
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPICalendar PROPERTIES UNITY_BUILD ON)
 endif()
 generate_export_header(KPimGAPICalendar BASE_NAME kgapicalendar)
 
-add_library(KPim::GAPICalendar ALIAS KPimGAPICalendar)
 
 target_include_directories(KPimGAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 

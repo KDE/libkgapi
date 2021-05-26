@@ -1,4 +1,6 @@
-set(kgapimaps_SRCS
+add_library(KPimGAPIMaps)
+add_library(KPim::GAPIMaps ALIAS KPimGAPIMaps)
+target_sources(KPimGAPIMaps PRIVATE
     staticmapmarker.cpp
     staticmappath.cpp
     staticmaptilefetchjob.cpp
@@ -17,16 +19,11 @@ ecm_generate_headers(kgapimaps_CamelCase_HEADERS
     REQUIRED_HEADERS kgapimaps_HEADERS
 )
 
-add_library(KPimGAPIMaps
-    ${kgapimaps_SRCS}
-)
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPIMaps PROPERTIES UNITY_BUILD ON)
 endif()
 
 generate_export_header(KPimGAPIMaps BASE_NAME kgapimaps)
-
-add_library(KPim::GAPIMaps ALIAS KPimGAPIMaps)
 
 target_include_directories(KPimGAPIMaps INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 

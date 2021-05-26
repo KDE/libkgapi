@@ -1,4 +1,8 @@
-set(kgapicontacts_SRCS
+add_library(KPimGAPIContacts)
+add_library(KPim::GAPIContacts ALIAS KPimGAPIContacts)
+
+
+target_sources(KPimGAPIContacts PRIVATE
     contact.cpp
     contactcreatejob.cpp
     contactdeletejob.cpp
@@ -32,16 +36,12 @@ ecm_generate_headers(kgapicontacts_CamelCase_HEADERS
     REQUIRED_HEADERS kgapicontacts_HEADERS
 )
 
-add_library(KPimGAPIContacts
-    ${kgapicontacts_SRCS}
-)
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPIContacts PROPERTIES UNITY_BUILD ON)
 endif()
 
 generate_export_header(KPimGAPIContacts BASE_NAME kgapicontacts)
 
-add_library(KPim::GAPIContacts ALIAS KPimGAPIContacts)
 
 target_include_directories(KPimGAPIContacts INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 

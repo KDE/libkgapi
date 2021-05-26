@@ -1,4 +1,7 @@
-set(kgapilatitude_SRCS
+add_library(KPimGAPILatitude)
+add_library(KPim::GAPILatitude ALIAS KPimGAPILatitude)
+
+target_sources(KPimGAPILatitude PRIVATE
     latitudeservice.cpp
     latitude.h
     location.cpp
@@ -22,16 +25,12 @@ ecm_generate_headers(kgapilatitude_CamelCase_HEADERS
     REQUIRED_HEADERS kgapilatitude_HEADERS
 )
 
-add_library(KPimGAPILatitude
-    ${kgapilatitude_SRCS}
-)
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimGAPILatitude PROPERTIES UNITY_BUILD ON)
 endif()
 
 generate_export_header(KPimGAPILatitude BASE_NAME kgapilatitude)
 
-add_library(KPim::GAPILatitude ALIAS KPimGAPILatitude)
 
 target_include_directories(KPimGAPILatitude INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
 
