@@ -79,7 +79,7 @@ bool Calendar::operator==(const Calendar &other) const
         return false;
     }
 
-    for (const auto &reminder : qAsConst(d->reminders)) {
+    for (const auto &reminder : std::as_const(d->reminders)) {
         if (std::find_if(other.d->reminders.cbegin(), other.d->reminders.cend(),
                         [reminder](const ReminderPtr &otherReminder) {
                             return *reminder == *otherReminder;

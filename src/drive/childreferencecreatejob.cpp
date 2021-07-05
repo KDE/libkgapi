@@ -78,7 +78,7 @@ ChildReferenceCreateJob::ChildReferenceCreateJob(const QString &folderId,
     d(new Private(this))
 {
     d->folderId = folderId;
-    for (const QString & childId : qAsConst(childrenIds)) {
+    for (const QString & childId : std::as_const(childrenIds)) {
         d->references << ChildReferencePtr(new ChildReference(childId));
     }
 }

@@ -92,7 +92,7 @@ FileAbstractModifyJob::FileAbstractModifyJob(const FilesList &files,
     ModifyJob(account, parent),
     d(new Private(this))
 {
-    for (const FilePtr & file : qAsConst(files)) {
+    for (const FilePtr & file : std::as_const(files)) {
         d->filesIds << file->id();
     }
 }

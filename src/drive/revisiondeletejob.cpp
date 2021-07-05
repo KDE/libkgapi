@@ -64,7 +64,7 @@ RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
     d(new Private)
 {
     d->fileId = fileId;
-    for (const RevisionPtr &revision : qAsConst(revisions)) {
+    for (const RevisionPtr &revision : std::as_const(revisions)) {
         d->revisionsIds << revision->id();
     }
 }

@@ -107,7 +107,7 @@ public:
     }
 
     bool compareScopes(const QList<QUrl> &currentScopes, const QList<QUrl> &requestedScopes) const {
-        for (const auto &scope : qAsConst(requestedScopes)) {
+        for (const auto &scope : std::as_const(requestedScopes)) {
             if (!currentScopes.contains(scope)) {
                 return false;
             }

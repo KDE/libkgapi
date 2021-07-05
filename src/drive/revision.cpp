@@ -273,7 +273,7 @@ RevisionsList Revision::fromJSONFeed(const QByteArray &jsonData)
 
     RevisionsList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    for (const QVariant &item : qAsConst(items)) {
+    for (const QVariant &item : std::as_const(items)) {
         const RevisionPtr revision = Private::fromJSON(item.toMap());
 
         if (!revision.isNull()) {

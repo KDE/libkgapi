@@ -52,7 +52,7 @@ TeamdriveDeleteJob::TeamdriveDeleteJob(const TeamdrivesList &teamdrives,
     DeleteJob(account, parent),
     d(new Private)
 {
-    for (const TeamdrivePtr & teamdrive : qAsConst(teamdrives)) {
+    for (const TeamdrivePtr & teamdrive : std::as_const(teamdrives)) {
         d->teamdrivesIds << teamdrive->id();
     }
 }

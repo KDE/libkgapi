@@ -179,19 +179,19 @@ QString StaticMapPath::toString() const
 
     if (locationType() == String) {
 
-        for (const QString & addr : qAsConst(d->locationsString)) {
+        for (const QString & addr : std::as_const(d->locationsString)) {
             ret += addr + QLatin1Char('|');
         }
 
     } else if (locationType() == KABCAddress) {
 
-        for (const KContacts::Address & addr : qAsConst(d->locationsAddress)) {
+        for (const KContacts::Address & addr : std::as_const(d->locationsAddress)) {
             ret += addr.formattedAddress() + QLatin1Char('|');
         }
 
     } else if (locationType() == KABCGeo) {
 
-        for (const KContacts::Geo & addr : qAsConst(d->locationsGeo)) {
+        for (const KContacts::Geo & addr : std::as_const(d->locationsGeo)) {
             ret += QString::number(addr.latitude()) + QLatin1String(",") +
                   QString::number(addr.longitude()) + QLatin1Char('|');
         }

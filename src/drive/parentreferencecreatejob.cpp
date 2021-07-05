@@ -78,7 +78,7 @@ ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
     d(new Private(this))
 {
     d->fileId = fileId;
-    for (const QString & parentId : qAsConst(parentsIds)) {
+    for (const QString & parentId : std::as_const(parentsIds)) {
         d->references << ParentReferencePtr(new ParentReference(parentId));
     }
 }

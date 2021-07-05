@@ -55,7 +55,7 @@ FileDeleteJob::FileDeleteJob(const FilesList &files,
     DeleteJob(account, parent),
     d(new Private)
 {
-    for (const FilePtr & file : qAsConst(files)) {
+    for (const FilePtr & file : std::as_const(files)) {
         d->filesIDs << file->id();
     }
 }

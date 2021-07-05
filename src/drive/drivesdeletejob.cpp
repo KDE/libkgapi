@@ -52,7 +52,7 @@ DrivesDeleteJob::DrivesDeleteJob(const DrivesList &drives,
     DeleteJob(account, parent),
     d(new Private)
 {
-    for (const DrivesPtr & drives : qAsConst(drives)) {
+    for (const DrivesPtr & drives : std::as_const(drives)) {
         d->drivesIds << drives->id();
     }
 }

@@ -68,7 +68,7 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
     d->fileId = fileId;
-    for (const PermissionPtr & permission : qAsConst(permissions)) {
+    for (const PermissionPtr & permission : std::as_const(permissions)) {
         d->permissionsIds << permission->id();
     }
 }

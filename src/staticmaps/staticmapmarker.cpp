@@ -262,19 +262,19 @@ QString StaticMapMarker::toString() const
 
     if (d->locationType == String) {
 
-        for (const QString & addr : qAsConst(d->locationsString)) {
+        for (const QString & addr : std::as_const(d->locationsString)) {
             ret += addr + QLatin1Char('|');
         }
 
     } else if (d->locationType == KABCAddress) {
 
-        for (const KContacts::Address & addr : qAsConst(d->locationsAddress)) {
+        for (const KContacts::Address & addr : std::as_const(d->locationsAddress)) {
             ret += addr.formattedAddress() + QLatin1Char('|');
         }
 
     } else if (d->locationType == KABCGeo) {
 
-        for (const KContacts::Geo & addr : qAsConst(d->locationsGeo)) {
+        for (const KContacts::Geo & addr : std::as_const(d->locationsGeo)) {
             ret += QString::number(addr.latitude()) + QLatin1Char(',') +
                   QString::number(addr.longitude()) + QLatin1Char('|');
         }

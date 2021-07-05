@@ -153,13 +153,13 @@ bool StaticMapUrl::isValid() const
     bool maOrPa = true;
 
     if (d->markers.isEmpty()) {
-        for (const StaticMapPath & path : qAsConst(d->paths)) {
+        for (const StaticMapPath & path : std::as_const(d->paths)) {
             if (!path.isValid())
                 maOrPa = false;
         }
     } else {
 
-        for (const StaticMapMarker & marker : qAsConst(d->markers)) {
+        for (const StaticMapMarker & marker : std::as_const(d->markers)) {
             if (!marker.isValid())
                 maOrPa = false;
         }
@@ -433,13 +433,13 @@ QUrl StaticMapUrl::url() const
         query.addQueryItem(QStringLiteral("maptype"), maptype);
     }
 
-    for (const StaticMapMarker & marker : qAsConst(d->markers)) {
+    for (const StaticMapMarker & marker : std::as_const(d->markers)) {
 
         if (marker.isValid())
             query.addQueryItem(QStringLiteral("markers"), marker.toString());
     }
 
-    for (const StaticMapPath & path : qAsConst(d->paths)) {
+    for (const StaticMapPath & path : std::as_const(d->paths)) {
 
         if (path.isValid())
             query.addQueryItem(QStringLiteral("path"), path.toString());

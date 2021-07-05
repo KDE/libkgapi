@@ -41,7 +41,7 @@ TaskDeleteJob::TaskDeleteJob(const TasksList& tasks, const QString& tasklistId,
     d(new Private())
 {
     d->tasksIds.reserve(tasks.size());
-    for (const TaskPtr &task : qAsConst(tasks)) {
+    for (const TaskPtr &task : std::as_const(tasks)) {
         d->tasksIds << task->uid();
     }
     d->taskListId = tasklistId;
