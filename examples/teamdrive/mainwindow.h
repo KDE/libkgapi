@@ -31,7 +31,7 @@ class MainWindow : public QMainWindow
   private Q_SLOTS:
     /**
      * Retrieves tokens from Google that we will use to authenticate
-     * fursther requests
+     * further requests
      */
     void authenticate();
 
@@ -88,7 +88,7 @@ class MainWindow : public QMainWindow
 
     /**
      * A specific team drive in teamdrive list has been selected. Sends a request
-     * to Google to retrieve teh team drive file list.
+     * to Google to retrieve the team drive file list.
      */
     void teamdriveSelected();
 

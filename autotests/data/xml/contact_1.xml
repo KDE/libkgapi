@@ -33,7 +33,7 @@ COMPLETE COUNTRY</gd:formattedAddress>
   </gd:structuredPostalAddress>
   <gContact:relation rel="spouse">Some spouse2</gContact:relation>
   <gContact:relation rel="manager">some manager</gContact:relation>
-  <gContact:relation rel="assistant">some assistent</gContact:relation>
+  <gContact:relation rel="assistant">some assistant</gContact:relation>
   <gContact:website href="http://www.my-stupid.homepage" rel="home-page"/>
   <gContact:website href="http://www.my-stupid.blog" rel="blog"/>
   <gContact:groupMembershipInfo deleted="false" href="http://www.google.com/m8/feeds/groups/xyz%40no.where/base/6"/>

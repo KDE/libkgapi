@@ -64,7 +64,7 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
     /**
      * KGAPI2::Job::handleReply implementation
      *
-     * Ths implementation will automatically call start() again in order to
+     * This implementation will automatically call start() again in order to
      * process another item in queue. Programmer should call emitFinished()
      * from start() if there are no further items to delete.
      *

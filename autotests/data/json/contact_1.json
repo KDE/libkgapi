@@ -119,7 +119,7 @@
             },
             {
                 "rel": "assistant",
-                "$t": "some assistent"
+                "$t": "some assistant"
             }
         ],
         "gContact$website": [

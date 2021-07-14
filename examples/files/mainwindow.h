@@ -35,7 +35,7 @@ class MainWindow : public QMainWindow
   private Q_SLOTS:
     /**
      * Retrieves tokens from Google that we will use to authenticate
-     * fursther requests
+     * further requests
      */
     void authenticate();
 

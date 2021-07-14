@@ -326,7 +326,7 @@ class KGAPICORE_EXPORT Job : public QObject
     /**
      * @brief Called when a reply is received.
      *
-     * Sublcasses must reimplement this method to handle reply content.
+     * Subclasses must reimplement this method to handle reply content.
      *
      * @param reply A reply received from server
      * @param rawData Raw content of the reply. Don't use QNetworkReply::readAll,

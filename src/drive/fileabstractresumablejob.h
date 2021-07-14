@@ -114,7 +114,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      * The write operation splits written data in chunks that will be
      * subsequently uploaded in the session.
      *
-     * Writing an empty \p data wil signal the Job that it can complete as no
+     * Writing an empty \p data will signal the Job that it can complete as no
      * more data will be written.
      *
      * When more data is required the readyWrite() signal is emitted.
