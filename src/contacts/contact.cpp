@@ -191,8 +191,8 @@ QStringList Contact::groups() const
 
 void Contact::clearGroups()
 {
-    const QStringList groups = d->groups.keys();
-    for (const QString &group : groups) {
+    for (auto it = d->groups.cbegin(); it != d->groups.cend(); ++it) {
+        const QString &group = it.key();
         d->groups.insert(group, true);
     }
 }
