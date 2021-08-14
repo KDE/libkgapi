@@ -154,24 +154,24 @@ bool StaticMapUrl::isValid() const
 
     if (d->markers.isEmpty()) {
         for (const StaticMapPath & path : std::as_const(d->paths)) {
-            if (!path.isValid())
+            if (!path.isValid()) {
                 maOrPa = false;
+            }
         }
     } else {
 
         for (const StaticMapMarker & marker : std::as_const(d->markers)) {
-            if (!marker.isValid())
+            if (!marker.isValid()) {
                 maOrPa = false;
+            }
         }
 
     }
 
     if (maOrPa) {
-
-        if ((d->locationType == Undefined || d->zoom == -1) &&
-                (d->visibleLocationType == Undefined))
+        if ((d->locationType == Undefined || d->zoom == -1) && (d->visibleLocationType == Undefined)) {
             return false;
-
+        }
     }
 
     return !(d->size.isEmpty());
@@ -381,8 +381,9 @@ QUrl StaticMapUrl::url() const
         }
     }
 
-    if (d->zoom != -1)
+    if (d->zoom != -1) {
         query.addQueryItem(QStringLiteral("zoom"), QString::number(d->zoom));
+    }
 
     if (!d->size.isEmpty()) {
         QString size = QString::number(d->size.width()) + QLatin1Char('x') +
@@ -390,8 +391,9 @@ QUrl StaticMapUrl::url() const
         query.addQueryItem(QStringLiteral("size"), size);
     }
 
-    if (d->scale != Normal)
+    if (d->scale != Normal) {
         query.addQueryItem(QStringLiteral("scale"), QString::number(2));
+    }
     if (d->format != PNG) {
         QString format;
 
@@ -434,16 +436,15 @@ QUrl StaticMapUrl::url() const
     }
 
     for (const StaticMapMarker & marker : std::as_const(d->markers)) {
-
-        if (marker.isValid())
+        if (marker.isValid()) {
             query.addQueryItem(QStringLiteral("markers"), marker.toString());
+        }
     }
 
     for (const StaticMapPath & path : std::as_const(d->paths)) {
-
-        if (path.isValid())
+        if (path.isValid()) {
             query.addQueryItem(QStringLiteral("path"), path.toString());
-
+        }
     }
 
     if (d->visibleLocationType != Undefined) {
@@ -475,10 +476,11 @@ QUrl StaticMapUrl::url() const
         }
     }
 
-    if (d->sensor)
+    if (d->sensor) {
         query.addQueryItem(QStringLiteral("sensor"), QStringLiteral("true"));
-    else
+    } else {
         query.addQueryItem(QStringLiteral("sensor"), QStringLiteral("false"));
+    }
 
     url.setQuery(query);
     return url;

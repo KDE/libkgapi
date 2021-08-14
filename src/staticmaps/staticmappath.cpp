@@ -170,12 +170,15 @@ QString StaticMapPath::toString() const
 {
     QString ret;
 
-    if (d->color != Qt::blue)
+    if (d->color != Qt::blue) {
         ret += QLatin1String("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
-    if (d->weight != 5)
+    }
+    if (d->weight != 5) {
         ret += QLatin1String("weight:") + QString::number(d->weight) + QLatin1Char('|');
-    if (d->fillColor.isValid())
+    }
+    if (d->fillColor.isValid()) {
         ret += QLatin1String("fillcolor:") + d->fillColor.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
+    }
 
     if (locationType() == String) {
 

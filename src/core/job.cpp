@@ -152,8 +152,9 @@ void Job::Private::_k_replyReceived(QNetworkReply* reply)
          * as an error. */
         if (!reply->rawHeaderList().isEmpty()) {
             QString status = QLatin1String(reply->rawHeaderList().first());
-            if (status.startsWith(QLatin1String("HTTP/1.1 401")))
+            if (status.startsWith(QLatin1String("HTTP/1.1 401"))) {
                 replyCode = KGAPI2::Unauthorized;
+            }
         }
     }
 

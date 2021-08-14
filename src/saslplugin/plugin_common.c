@@ -115,10 +115,12 @@ static void sockaddr_unmapped(
 int _plug_ipfromstring(const sasl_utils_t *utils, const char *addr,
                        struct sockaddr *out, socklen_t outlen)
 {
-    int i, j;
+    int i;
+    int j;
     socklen_t len;
     struct sockaddr_storage ss;
-    struct addrinfo hints, *ai = NULL;
+    struct addrinfo hints;
+    struct addrinfo *ai = NULL;
     char hbuf[NI_MAXHOST];
 
     if (!utils || !addr || !out) {
@@ -144,11 +146,12 @@ int _plug_ipfromstring(const sasl_utils_t *utils, const char *addr,
         i++;
     }
     /* XXX/FIXME: Do we need this check? */
-    for (j = i; addr[j] != '\0'; j++)
+    for (j = i; addr[j] != '\0'; j++) {
         if (!isdigit((int)(addr[j]))) {
             PARAMERROR(utils);
             return SASL_BADPARAM;
         }
+    }
 
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = PF_UNSPEC;

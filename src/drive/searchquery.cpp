@@ -116,7 +116,8 @@ QString SearchQuery::serialize() const
             r += d->field % Private::compareOperatorToString(d->compareOp) % d->value;
         }
     } else {
-        QList<SearchQuery>::ConstIterator iter, end;
+        QList<SearchQuery>::ConstIterator iter;
+        QList<SearchQuery>::ConstIterator end;
         for (iter = d->subqueries.constBegin(), end = d->subqueries.constEnd(); iter != end; ++iter) {
             if (iter != d->subqueries.constBegin()) {
                 r += Private::logicOperatorToString(d->logicOp);

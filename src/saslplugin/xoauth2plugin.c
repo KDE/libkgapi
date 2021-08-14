@@ -68,7 +68,8 @@ static int xoauth2_client_mech_step(void *conn_context,
 {
     client_context_t *context = (client_context_t *) conn_context;
     const sasl_utils_t *utils = params->utils;
-    const char *authid = NULL, *token = NULL;
+    const char *authid = NULL;
+    const char *token = NULL;
     int auth_result = SASL_OK;
     int token_result = SASL_OK;
     int result;

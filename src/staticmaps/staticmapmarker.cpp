@@ -254,11 +254,13 @@ QString StaticMapMarker::toString() const
         break;
     }
 
-    if (d->color != Qt::red)
+    if (d->color != Qt::red) {
         ret += QLatin1String("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
+    }
 
-    if (d->label.isLetterOrNumber() && d->size > 1)
+    if (d->label.isLetterOrNumber() && d->size > 1) {
         ret += QLatin1String("label:") + d->label.toUpper() + QLatin1Char('|');
+    }
 
     if (d->locationType == String) {
 

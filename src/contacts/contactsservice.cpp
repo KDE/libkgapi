@@ -743,18 +743,24 @@ QByteArray contactToXML(const ContactPtr& contact)
         .append(Contact::addressTypeToScheme(address.type()).toUtf8())
         .append("'>");
 
-        if (!address.locality().isEmpty())
+        if (!address.locality().isEmpty()) {
             output.append("<gd:city>").append(address.locality().toHtmlEscaped().toUtf8()).append("</gd:city>");
-        if (!address.street().isEmpty())
+        }
+        if (!address.street().isEmpty()) {
             output.append("<gd:street>").append(address.street().toHtmlEscaped().toUtf8()).append("</gd:street>");
-        if (!address.region().isEmpty())
+        }
+        if (!address.region().isEmpty()) {
             output.append("<gd:region>").append(address.region().toHtmlEscaped().toUtf8()).append("</gd:region>");
-        if (!address.postalCode().isEmpty())
+        }
+        if (!address.postalCode().isEmpty()) {
             output.append("<gd:postcode>").append(address.postalCode().toHtmlEscaped().toUtf8()).append("</gd:postcode>");
-        if (!address.country().isEmpty())
+        }
+        if (!address.country().isEmpty()) {
             output.append("<gd:country>").append(address.country().toHtmlEscaped().toUtf8()).append("</gd:country>");
-        if (!address.formattedAddress().isEmpty())
+        }
+        if (!address.formattedAddress().isEmpty()) {
             output.append("<gd:formattedAddress>").append(address.formattedAddress().toHtmlEscaped().toUtf8()).append("</gd:formattedAddress>");
+        }
         output.append("</gd:structuredPostalAddress>");
     }
 
@@ -779,8 +785,9 @@ QByteArray contactToXML(const ContactPtr& contact)
     if ((!groups.isEmpty()) && !groups.at(0).isEmpty()) {
         for (const QString & group :groups) {
             bool removed = contact->groupIsDeleted(group);
-            if (!removed)
+            if (!removed) {
                 output.append(QStringLiteral("<gContact:groupMembershipInfo deleted=\"false\" href=\"%2\" />").arg(group).toUtf8());
+            }
         }
     }
     parsedCustoms << QStringLiteral("GCALENDAR-groupMembershipInfo");

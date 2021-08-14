@@ -40,7 +40,8 @@ LocationPtr JSONToLocation(const QByteArray & jsonData)
 
 QByteArray locationToJSON(const LocationPtr &location)
 {
-    QVariantMap map, output;
+    QVariantMap map;
+    QVariantMap output;
 
     map.insert(QStringLiteral("kind"), QStringLiteral("latitude#location"));
     map.insert(QStringLiteral("latitude"), QString::number(location->latitude()));

@@ -161,8 +161,9 @@ QDateTime Contact::updated() const
 
 void Contact::addGroup(const QString &group)
 {
-    if (d->groups.contains(group))
+    if (d->groups.contains(group)) {
         return;
+    }
 
     d->groups.insert(group, false);
 
@@ -276,22 +277,30 @@ Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)
 {
     QString protoName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toUpper();
 
-    if ((protoName == QLatin1String("JABBER")) || (protoName == QLatin1String("XMPP")))
+    if ((protoName == QLatin1String("JABBER")) || (protoName == QLatin1String("XMPP"))) {
         return Jabber;
-    if (protoName == QLatin1String("ICQ"))
+    }
+    if (protoName == QLatin1String("ICQ")) {
         return ICQ;
-    if (protoName == QLatin1String("GOOGLE_TALK") || protoName == QLatin1String("GOOGLETALK"))
+    }
+    if (protoName == QLatin1String("GOOGLE_TALK") || protoName == QLatin1String("GOOGLETALK")) {
         return GoogleTalk;
-    if (protoName == QLatin1String("QQ"))
+    }
+    if (protoName == QLatin1String("QQ")) {
         return QQ;
-    if (protoName == QLatin1String("SKYPE"))
+    }
+    if (protoName == QLatin1String("SKYPE")) {
         return Skype;
-    if (protoName == QLatin1String("YAHOO"))
+    }
+    if (protoName == QLatin1String("YAHOO")) {
         return Yahoo;
-    if (protoName == QLatin1String("MSN"))
+    }
+    if (protoName == QLatin1String("MSN")) {
         return MSN;
-    if (protoName == QLatin1String("AIM"))
+    }
+    if (protoName == QLatin1String("AIM")) {
         return AIM;
+    }
 
     return Other;
 }
@@ -300,8 +309,9 @@ QString Contact::addressTypeToScheme(const KContacts::Address::Type type, bool *
 {
     QString typeName;
 
-    if (primary)
+    if (primary) {
         *primary = (type & KContacts::Address::Pref);
+    }
 
     if (type & KContacts::Address::Work) {
         typeName = QStringLiteral("work");
@@ -336,34 +346,35 @@ QString Contact::phoneTypeToScheme(const KContacts::PhoneNumber::Type type)
 {
     QString typeName;
 
-    if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell))
+    if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell)) {
         typeName = QStringLiteral("work_mobile");
-    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax))
+    } else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax)) {
         typeName = QStringLiteral("work_fax");
-    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager))
+    } else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager)) {
         typeName = QStringLiteral("work_pager");
-    else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref))
+    } else if ((type & (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref)) == (KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref)) {
         typeName = QStringLiteral("company_main");
-    else if (type & KContacts::PhoneNumber::Work)
+    } else if (type & KContacts::PhoneNumber::Work) {
         typeName = QStringLiteral("work");
-    else if ((type & (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax))
+    } else if ((type & (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax)) == (KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax)) {
         typeName = QStringLiteral("home_fax");
-    else if (type & KContacts::PhoneNumber::Home)
+    } else if (type & KContacts::PhoneNumber::Home) {
         typeName = QStringLiteral("home");
-    else if (type & KContacts::PhoneNumber::Pref)
+    } else if (type & KContacts::PhoneNumber::Pref) {
         typeName = QStringLiteral("main");
-    else if (type & KContacts::PhoneNumber::Car)
+    } else if (type & KContacts::PhoneNumber::Car) {
         typeName = QStringLiteral("car");
-    else if (type & KContacts::PhoneNumber::Isdn)
+    } else if (type & KContacts::PhoneNumber::Isdn) {
         typeName = QStringLiteral("isdn");
-    else if (type & KContacts::PhoneNumber::Fax)
+    } else if (type & KContacts::PhoneNumber::Fax) {
         typeName = QStringLiteral("fax");
-    else if (type & KContacts::PhoneNumber::Cell)
+    } else if (type & KContacts::PhoneNumber::Cell) {
         typeName = QStringLiteral("mobile");
-    else if (type & KContacts::PhoneNumber::Pager)
+    } else if (type & KContacts::PhoneNumber::Pager) {
         typeName = QStringLiteral("pager");
-    else
+    } else {
         typeName = QStringLiteral("other");
+    }
 
     return SCHEME_URL + typeName;
 }
@@ -373,34 +384,35 @@ KContacts::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
     QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
     KContacts::PhoneNumber::Type type = {};
 
-    if (typeName == QLatin1String("car"))
+    if (typeName == QLatin1String("car")) {
         type |= KContacts::PhoneNumber::Car;
-    else if (typeName == QLatin1String("fax"))
+    } else if (typeName == QLatin1String("fax")) {
         type |= KContacts::PhoneNumber::Fax;
-    else if (typeName == QLatin1String("isdn"))
+    } else if (typeName == QLatin1String("isdn")) {
         type |= KContacts::PhoneNumber::Isdn;
-    else if (typeName == QLatin1String("mobile"))
+    } else if (typeName == QLatin1String("mobile")) {
         type |= KContacts::PhoneNumber::Cell;
-    else if (typeName == QLatin1String("pager"))
+    } else if (typeName == QLatin1String("pager")) {
         type |= KContacts::PhoneNumber::Pager;
-    else if (typeName == QLatin1String("main"))
+    } else if (typeName == QLatin1String("main")) {
         type |= KContacts::PhoneNumber::Pref;
-    else if (typeName == QLatin1String("home"))
+    } else if (typeName == QLatin1String("home")) {
         type |= KContacts::PhoneNumber::Home;
-    else if (typeName == QLatin1String("home_fax"))
+    } else if (typeName == QLatin1String("home_fax")) {
         type |= KContacts::PhoneNumber::Home | KContacts::PhoneNumber::Fax;
-    else if (typeName == QLatin1String("work"))
+    } else if (typeName == QLatin1String("work")) {
         type |= KContacts::PhoneNumber::Work;
-    else if (typeName == QLatin1String("work_fax"))
+    } else if (typeName == QLatin1String("work_fax")) {
         type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Fax;
-    else if (typeName == QLatin1String("work_mobile"))
+    } else if (typeName == QLatin1String("work_mobile")) {
         type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Cell;
-    else if (typeName == QLatin1String("work_pager"))
+    } else if (typeName == QLatin1String("work_pager")) {
         type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pager;
-    else if (typeName == QLatin1String("company_main"))
+    } else if (typeName == QLatin1String("company_main")) {
         type |= KContacts::PhoneNumber::Work | KContacts::PhoneNumber::Pref;
-    else
+    } else {
         type |= KContacts::PhoneNumber::Home;
+    }
 
     return type;
 }
