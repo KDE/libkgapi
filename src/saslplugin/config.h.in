@@ -1,0 +1,18 @@
+/* The resulting config.h should be similar to the generated config.h by the cyrus-sasl configure system
+ *   (cf. configure checks in https://github.com/cyrusimap/cyrus-sasl/tree/master/m4)
+ *
+ * Here we just define the necessary subset of defines/includes used in plugin_common.* files
+ */
+
+#pragma once
+
+#cmakedefine HAVE_UNISTD_H
+#cmakedefine HAVE_INTTYPES_H
+#cmakedefine HAVE_SOCKADDR_SA_LEN
+
+// Note: plugin_common.c also use the following defines, but even the cyrus-sasl configure system doesn't check or set them.
+// So let's leave them out here as well:
+//   s6_addr32 define
+//   IN6_IS_ADDR_V4MAPPED define
+
+#include <string.h>
