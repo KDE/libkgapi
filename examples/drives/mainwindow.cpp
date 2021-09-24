@@ -328,9 +328,9 @@ void MainWindow::slotDrivesFetchJobFinished(KGAPI2::Job *job)
     }
 
     /* Get all items we have received from Google */
-    KGAPI2::ObjectsList objects = fetchJob->items();
+    const KGAPI2::ObjectsList objects = fetchJob->items();
 
-    Q_FOREACH (const KGAPI2::ObjectPtr &object, objects) {
+    for (const KGAPI2::ObjectPtr &object : objects) {
         const KGAPI2::Drive::FilePtr file = object.dynamicCast<KGAPI2::Drive::File>();
 
         /* Convert the drives to QListWidget item */
