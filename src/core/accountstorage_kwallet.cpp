@@ -8,7 +8,7 @@
 #include "account.h"
 #include "../debug.h"
 
-#include <KWallet/KWallet>
+#include <KWallet>
 
 #include <QJsonDocument>
 #include <QJsonObject>
