@@ -43,7 +43,7 @@ class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
     /**
      * @brief Copy constructor
      */
-    Task(const KCalendarCore::Todo &other);
+    explicit Task(const KCalendarCore::Todo &other);
 
     /**
      * @brief Destructor

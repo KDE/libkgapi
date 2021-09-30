@@ -878,9 +878,9 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         }
 
         if (e.tagName() == QLatin1String("gd:name")) {
-            QDomNodeList l = e.childNodes();
-            for (int i = 0; i < l.length(); ++i) {
-                const QDomElement el = l.at(i).toElement();
+            const QDomNodeList l = e.childNodes();
+            for (int j = 0; j < l.length(); ++j) {
+                const QDomElement el = l.at(j).toElement();
 
                 if (el.tagName() == QLatin1String("gd:fullName")) {
                     contact->setFormattedName(el.text());

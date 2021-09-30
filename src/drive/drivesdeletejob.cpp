@@ -52,8 +52,8 @@ DrivesDeleteJob::DrivesDeleteJob(const DrivesList &drives,
     DeleteJob(account, parent),
     d(new Private)
 {
-    for (const DrivesPtr & drives : std::as_const(drives)) {
-        d->drivesIds << drives->id();
+    for (const DrivesPtr & drive : std::as_const(drives)) {
+        d->drivesIds << drive->id();
     }
 }
 

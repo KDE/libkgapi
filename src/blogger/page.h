@@ -38,7 +38,7 @@ class KGAPIBLOGGER_EXPORT Page : public KGAPI2::Object
     void setPublished(const QDateTime &published);
 
     QDateTime updated() const;
-    void setUpdated(QDateTime &updated);
+    void setUpdated(const QDateTime &updated);
 
     QUrl url() const;
     void setUrl(const QUrl &url);

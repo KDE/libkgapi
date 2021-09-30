@@ -51,7 +51,7 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
 
   public:
     TeamdriveFetchJob(const TeamdriveSearchQuery &query, const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveFetchJob(const AccountPtr &account, QObject *parent = nullptr);
+    explicit TeamdriveFetchJob(const AccountPtr &account, QObject *parent = nullptr);
     TeamdriveFetchJob(const QString &teamdriveId, const AccountPtr &account,
                             QObject *parent = nullptr);
     ~TeamdriveFetchJob() override;

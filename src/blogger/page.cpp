@@ -90,7 +90,7 @@ QDateTime Page::updated() const
     return d->updated;
 }
 
-void Page::setUpdated(QDateTime &updated)
+void Page::setUpdated(const QDateTime &updated)
 {
     d->updated = updated;
 }
