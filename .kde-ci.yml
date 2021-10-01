@@ -7,3 +7,4 @@ Dependencies:
     'frameworks/extra-cmake-modules': '@latest'
     'frameworks/kcontacts' : '@latest'
     'frameworks/kcalendarcore' : '@latest'
+    'frameworks/kwallet' : '@latest'
