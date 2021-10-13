@@ -439,7 +439,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
             } else {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("TYPE"), { rel } } });
+                locator.setParameters({ { QStringLiteral("type"), { rel } } });
                 contact->insertExtraUrl(locator);
             }
         }
@@ -450,7 +450,7 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     for (const QVariant & em : emails) {
         const QVariantMap email = em.toMap();
         const auto emailType = Contact::emailSchemeToProtocolName(email.value(QStringLiteral("rel")).toString());
-        const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { emailType } } });
+        const QMap<QString, QStringList> params({ { QStringLiteral("type"), { emailType } } });
         contact->insertEmail(email.value(QStringLiteral("address")).toString(),
                              email.value(QStringLiteral("primary")).toBool(), params);
     }
@@ -677,7 +677,7 @@ QByteArray contactToXML(const ContactPtr& contact)
     /* URLs */
     const auto extraUrls = contact->extraUrlList();
     for (const auto &extraUrl : extraUrls) {
-        const auto rels = extraUrl.parameters().value(QStringLiteral("TYPE"));
+        const auto rels = extraUrl.parameters().value(QStringLiteral("type"));
         auto rel = rels.isEmpty() ? "other" : rels.at(0).toLower().toUtf8();
         if (rel == "home") {
             rel = "home-page";
@@ -689,7 +689,7 @@ QByteArray contactToXML(const ContactPtr& contact)
     const auto preferredEmail = contact->preferredEmail();
     const auto emailList = contact->emailList();
     for(const auto &email : emailList) {
-        const auto rels = email.parameters().value(QStringLiteral("TYPE"), { QStringLiteral("home") });
+        const auto rels = email.parameters().value(QStringLiteral("type"), { QStringLiteral("home") });
         const auto rel = Private::addRelSchema(rels.isEmpty() ? "home" : rels.at(0).toLower().toUtf8());
         output.append("<gd:email rel='" + rel + "' address='").append(email.mail().toHtmlEscaped().toUtf8()).append("'");
         if (email.mail() == preferredEmail) {
@@ -1028,7 +1028,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
             if (rel == QLatin1String("home-page")) {
                 rel = QStringLiteral("HOME");
             }
-            url.setParameters({ { QStringLiteral("TYPE"), { rel } } });
+            url.setParameters({ { QStringLiteral("type"), { rel } } });
             url.setUrl(QUrl(e.attribute(QStringLiteral("href"), {})));
             contact->insertExtraUrl(url);
 
@@ -1038,7 +1038,7 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         /* Emails */
         if (e.tagName() == QLatin1String("gd:email")) {
             const auto emailType = Contact::emailSchemeToProtocolName(e.attribute(QStringLiteral("rel"), {}));
-            const QMap<QString, QStringList> params({ { QStringLiteral("TYPE"), { emailType } } });
+            const QMap<QString, QStringList> params({ { QStringLiteral("type"), { emailType } } });
             contact->insertEmail(e.attribute(QStringLiteral("address")),
                                  (e.attribute(QStringLiteral("primary")).toLower() == QLatin1String("true")), params);
             continue;
