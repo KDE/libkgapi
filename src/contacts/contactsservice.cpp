@@ -422,24 +422,24 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
             if (rel == QLatin1String("home-page")) {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("HOME") } } });
+                locator.setType(KContacts::ResourceLocatorUrl::Home);
                 contact->insertExtraUrl(locator);
             } else if (rel == QLatin1String("work")) {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("WORK") } } });
+                locator.setType(KContacts::ResourceLocatorUrl::Work);
                 contact->insertExtraUrl(locator);
             } else if (rel == QLatin1String("profile")) {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("TYPE"), { QStringLiteral("PROFILE") } } });
+                locator.setType(KContacts::ResourceLocatorUrl::Profile);
                 contact->insertExtraUrl(locator);
             } else if (rel == QLatin1String("blog")) {
                 contact->setBlogFeed(url);
             } else {
                 KContacts::ResourceLocatorUrl locator;
                 locator.setUrl(url);
-                locator.setParameters({ { QStringLiteral("type"), { rel } } });
+                locator.setType(KContacts::ResourceLocatorUrl::Other);
                 contact->insertExtraUrl(locator);
             }
         }
@@ -677,11 +677,18 @@ QByteArray contactToXML(const ContactPtr& contact)
     /* URLs */
     const auto extraUrls = contact->extraUrlList();
     for (const auto &extraUrl : extraUrls) {
-        const auto rels = extraUrl.parameters().value(QStringLiteral("type"));
-        auto rel = rels.isEmpty() ? "other" : rels.at(0).toLower().toUtf8();
-        if (rel == "home") {
+        const auto type = extraUrl.type();
+        QByteArray rel;
+        if (type & KContacts::ResourceLocatorUrl::Other || type & KContacts::ResourceLocatorUrl::Unknown) {
+            rel = "other";
+        } else if (type & KContacts::ResourceLocatorUrl::Home) {
             rel = "home-page";
+        } else if (type & KContacts::ResourceLocatorUrl::Work) {
+            rel = "work";
+        } else if (type & KContacts::ResourceLocatorUrl::Profile) {
+            rel = "profile";
         }
+
         output.append("<gContact:website rel=\"" + rel + "\" href=\"" + extraUrl.url().toString().toHtmlEscaped().toUtf8() + "\" />");
     }
 
@@ -689,9 +696,17 @@ QByteArray contactToXML(const ContactPtr& contact)
     const auto preferredEmail = contact->preferredEmail();
     const auto emailList = contact->emailList();
     for(const auto &email : emailList) {
-        const auto rels = email.parameters().value(QStringLiteral("type"), { QStringLiteral("home") });
-        const auto rel = Private::addRelSchema(rels.isEmpty() ? "home" : rels.at(0).toLower().toUtf8());
-        output.append("<gd:email rel='" + rel + "' address='").append(email.mail().toHtmlEscaped().toUtf8()).append("'");
+        const auto type = email.type();
+        QByteArray rel;
+        if (type & KContacts::Email::Home || type & KContacts::Email::Unknown) {
+            rel = Private::addRelSchema("home");
+        } else if (type & KContacts::Email::Work) {
+            rel = Private::addRelSchema("work");
+        } else if (type & KContacts::Email::Other) {
+            rel = Private::addRelSchema("other");
+        }
+
+        output.append("<gd:email rel='" + rel + "' address='" + email.mail().toHtmlEscaped().toUtf8() + "'");
         if (email.mail() == preferredEmail) {
             output.append(" primary=\"true\"");
         }
@@ -1024,11 +1039,17 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
             }
 
             KContacts::ResourceLocatorUrl url;
-            QString rel = e.attribute(QStringLiteral("rel")).toUpper();
+            QString rel = e.attribute(QStringLiteral("rel")).toLower();
             if (rel == QLatin1String("home-page")) {
-                rel = QStringLiteral("HOME");
+                url.setType(KContacts::ResourceLocatorUrl::Home);
+            } else if (rel == QLatin1String("work")) {
+                url.setType(KContacts::ResourceLocatorUrl::Work);
+            } else if (rel == QLatin1String("profile")) {
+                url.setType(KContacts::ResourceLocatorUrl::Profile);
+            } else {
+                url.setType(KContacts::ResourceLocatorUrl::Other);
             }
-            url.setParameters({ { QStringLiteral("type"), { rel } } });
+
             url.setUrl(QUrl(e.attribute(QStringLiteral("href"), {})));
             contact->insertExtraUrl(url);
 
