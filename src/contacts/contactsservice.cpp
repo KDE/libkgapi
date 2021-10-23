@@ -27,7 +27,7 @@ namespace ContactsService
 
 namespace Private
 {
-    QString stringFromXMLMap(const QVariantMap &map, const QString &key) {
+    static QString stringFromXMLMap(const QVariantMap &map, const QString &key) {
         const QVariantMap t = map.value(key).toMap();
         return t.value(QStringLiteral("$t")).toString();
     }
@@ -40,7 +40,7 @@ namespace Private
     static const QString ContactsGroupBasePath(QStringLiteral("/m8/feeds/groups"));
     static const QString PhotoBasePath(QStringLiteral("/m8/feeds/photos/media"));
 
-    QByteArray addRelSchema(const QByteArray &rel)
+    static QByteArray addRelSchema(const QByteArray &rel)
     {
         if (!rel.startsWith("http://schemas.google.com/g/2005#")) {
             return "http://schemas.google.com/g/2005#" + rel;
