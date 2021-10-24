@@ -430,3 +430,15 @@ QString Contact::emailSchemeToProtocolName(const QString &scheme)
     return type;
 }
 
+KContacts::Email::Type Contact::emailSchemeToProtocolType(const QString &scheme)
+{
+    QString type = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
+    if (type == QLatin1String("work")) {
+        return KContacts::Email::Work;
+    } else if (type == QLatin1String("home")) {
+        return KContacts::Email::Home;
+    } else if (type == QLatin1String("other")) {
+        return KContacts::Email::Other;
+    }
+    return KContacts::Email::Unknown;
+}

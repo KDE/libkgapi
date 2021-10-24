@@ -225,6 +225,7 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      * @brief Contacts Google scheme URL to email type.
      */
     static QString emailSchemeToProtocolName(const QString &scheme);
+    static KContacts::Email::Type emailSchemeToProtocolType(const QString &scheme);
 
   private:
     class Private;
