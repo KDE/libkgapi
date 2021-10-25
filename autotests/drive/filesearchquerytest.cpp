@@ -22,7 +22,7 @@ public:
     {
     }
 
-    ~FileSearchQueryTest()
+    ~FileSearchQueryTest() override
     {
     }
 

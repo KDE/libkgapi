@@ -22,7 +22,7 @@ class KGAPIBLOGGER_EXPORT Blog : public KGAPI2::Object
 {
   public:
     explicit Blog();
-    ~Blog();
+    ~Blog() override;
 
     QString id() const;
     QString name() const;

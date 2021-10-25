@@ -20,7 +20,7 @@ class TeamdriveSearchQueryTest: public QObject
 public:
     explicit TeamdriveSearchQueryTest() {}
 
-    ~TeamdriveSearchQueryTest() {}
+    ~TeamdriveSearchQueryTest() override {}
 
 private Q_SLOTS:
     void testTeamdriveSearchQuery_data()

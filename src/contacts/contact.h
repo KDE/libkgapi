@@ -63,7 +63,7 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
     /**
      * @brief Destructor
      */
-    ~Contact();
+    ~Contact() override;
 
     bool operator==(const Contact &other) const;
 

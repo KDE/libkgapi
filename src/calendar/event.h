@@ -47,7 +47,7 @@ class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
     /**
      * @brief Destructor
      */
-    ~Event();
+    ~Event() override;
 
     bool operator==(const Event &other) const;
 

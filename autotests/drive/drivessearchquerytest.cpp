@@ -20,7 +20,7 @@ class DrivesSearchQueryTest: public QObject
 public:
     explicit DrivesSearchQueryTest() {}
 
-    ~DrivesSearchQueryTest() {}
+    ~DrivesSearchQueryTest() override {}
 
 private Q_SLOTS:
     void testDrivesSearchQuery_data()

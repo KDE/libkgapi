@@ -310,7 +310,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 
     explicit File();
     explicit File(const File &other);
-    virtual ~File();
+    ~File() override;
     bool operator==(const File &other) const;
     bool operator!=(const File &other) const { return !operator==(other); }
 

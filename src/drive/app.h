@@ -59,7 +59,7 @@ class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
 
     explicit App();
     explicit App(const App &other);
-    virtual ~App();
+    ~App() override;
     bool operator==(const App &other) const;
     bool operator!=(const App &other) const { return !operator==(other); }
 
