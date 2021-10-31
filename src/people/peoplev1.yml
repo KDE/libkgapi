@@ -1,0 +1,23 @@
+name: PeopleV1
+namespace: People
+export_macro: KGAPIPEOPLE_EXPORT
+discovery_uri: https://people.googleapis.com/$discovery/rest?version=v1
+reference_base_uri: https://developers.google.com/people/api/rest/v1/people
+since: "5.19.0"
+kgapiobjects:
+    - Person
+excludeObjects:
+    # Request/Response types
+    - "*Request"
+    - "*Response"
+    - "ContactToCreate"
+    - "SearchResult"
+    - "Status"
+    - "Empty"
+    # Mapped to QDate
+    - "Date"
+
+renameObjects:
+    # Having a file called locale.h breaks build as it gets included instead of the
+    # system-wide locale.h
+    Locale: PersonLocale
