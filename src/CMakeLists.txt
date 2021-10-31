@@ -8,6 +8,7 @@ add_subdirectory(contacts)
 add_subdirectory(core)
 add_subdirectory(drive)
 add_subdirectory(latitude)
+add_subdirectory(people)
 add_subdirectory(staticmaps)
 add_subdirectory(tasks)
 
