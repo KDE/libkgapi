@@ -1,0 +1,35 @@
+{#
+SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+
+SPDX-License-Identifier: LGPL-2.1-only
+SPDX-License-Identifier: LGPL-3.0-only
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-LGPL
+#}
+
+{% macro render_includes(dependencies, builtin, qt, refs) %}
+{%- for dep in dependencies -%}
+{%- if (dep.is_builtin and builtin) or (dep.is_qt_type and qt) %}
+#include <{{ dep.include_name }}>
+{%- elif dep.is_ref and refs %}
+#include "{{ dep.name | lower }}.h"
+{%- endif %}
+{%- endfor -%}
+{% endmacro %}
+
+{% macro render_forward_declarations(dependencies) %}
+{%- for dep in dependencies %}
+{%- if dep.is_ref %}
+class {{ dep.full_name }};
+{%- endif %}
+{%- endfor -%}
+{% endmacro %}
+
+{% macro render_enums_declarations(enums) %}
+    {%- for enum_type in enums %}
+    enum class {{ enum_type.name }} {
+        {%- for value in enum_type.values %}
+        {{ value.name }}, ///< {{ value.description }}
+        {%- endfor %}
+    };
+    {%- endfor %}
+{% endmacro %}

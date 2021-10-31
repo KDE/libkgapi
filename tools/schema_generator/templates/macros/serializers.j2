@@ -1,0 +1,59 @@
+{#
+SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+
+SPDX-License-Identifier: LGPL-2.1-only
+SPDX-License-Identifier: LGPL-3.0-only
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-LGPL
+#}
+
+{% macro render_json_serializer(schema) %}
+QJsonValue {{ schema.name }}::toJSON() const {
+    QJsonObject obj;
+    {% for prop in schema.properties -%}
+    {%- if prop.type.is_builtin and not prop.type.is_array %}
+    {%- if prop.type.is_builtin and prop.type.orig_ref %}
+    {%- else %}
+    obj.insert(QStringView{u"{{ prop.orig_name }}"}, d->{{ prop.name }});
+    {%- endif %}
+    {%- elif prop.type.is_ref or prop.type.is_object %}
+    obj.insert(QStringView{u"{{ prop.orig_name }}"}, d->{{ prop.name }}.toJSON());
+    {%- elif prop.type.is_array %}
+    {
+        QJsonArray arr;
+        std::transform(d->{{ prop.name }}.cbegin(), d->{{ prop.name }}.cend(), std::back_inserter(arr),
+                       [](const auto &val) {
+                            {%- if prop.type.element_type.is_builtin %}
+                            return val;
+                            {%- elif prop.type.element_type.is_ref or prop.type.element_type.is_object %}
+                            return val.toJSON();
+                            {%- elif prop.type.element_type.is_enum %}
+                            switch (val) {
+                            {%- for enum_val in prop.type.element_type.values %}
+                            case {{ prop.type.element_type.name }}::{{ enum_val.name }}:
+                                return QStringLiteral("{{ enum_val.name }}");
+                            {%- endfor %}
+                            }
+                            {%- endif %}
+                        });
+        obj.insert(QStringView{u"{{ prop.orig_name }}"}, std::move(arr));
+    }
+    {%- elif prop.type.is_enum %}
+    switch (d->{{ prop.name }}) {
+    {%- for enum_val in prop.type.values %}
+    case {{ prop.type.name }}::{{ enum_val.name }}:
+        obj.insert(QStringView{u"{{ prop.orig_name }}"}, QStringLiteral(u"{{ enum_val.name }}"));
+        break;
+    {%- endfor %}
+    }
+    {%- endif %}
+    {%- endfor %}
+    return obj;
+}
+{% endmacro %}
+
+{% macro render_json_parser(schema, is_ptr) %}
+{{ schema.name }}{% if is_ptr %}Ptr{% endif %} {{ schema.name }}::fromJSON(const QJsonObject &obj) {
+    Q_UNUSED(obj);
+    return {{ schema.name }}{% if is_ptr %}Ptr{% endif %}();
+}
+{% endmacro %}

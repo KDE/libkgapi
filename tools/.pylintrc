@@ -1,0 +1,10 @@
+[MASTER]
+[MESSAGES CONTROL]
+disable=missing-module-docstring,
+        missing-function-docstring,
+        too-few-public-methods
+
+[STRING]
+check-quote-consistency=yes
+check-str-concat-over-line-jumps=yes
+

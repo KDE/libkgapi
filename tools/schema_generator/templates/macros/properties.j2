@@ -1,0 +1,105 @@
+{#
+SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+
+SPDX-License-Identifier: LGPL-2.1-only
+SPDX-License-Identifier: LGPL-3.0-only
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-LGPL
+#}
+
+{% macro render_accessors_declarations(properties) %}
+    {%- for prop in properties %}
+    /** {{ prop.description }} **/
+    {{ prop.type.full_name }} {{ prop.name }}() const;
+    {%- if not prop.read_only %}
+    /** Sets value of the {{ prop.name }} property. **/
+    void set{{ prop.capitalized_name }}(const {{ prop.type.full_name }} &value);
+    {%- if prop.type.is_array %}
+    /** Appends the given @c value to the list of {{ prop.name }}. **/
+    void add{{ prop.type.element_type.full_name }}(const {{ prop.type.element_type.full_name }} &value);
+    /** Removes the given @c value from the list of {{ prop.name }} if it exists. **/
+    void remove{{ prop.type.element_type.full_name }}(const {{ prop.type.element_type.full_name }} &value);
+    /** Clears the list of {{ prop.name }}. **/
+    void clear{{ prop.capitalized_name }}();
+    {% if prop.type.element_type.has_primary -%}
+    /** Returns the primary {{ prop.type.element_type.full_name }}.
+     *
+     * @returns an empty optional if the list is empty or there's no element marked as primary in the list.
+     **/
+    std::optional<{{ prop.type.element_type.full_name }}> primary{{ prop.type.element_type.full_name }}() const;
+    {%- endif %}
+    {%- endif %}
+    {%- endif %}
+    {% endfor -%}
+{% endmacro %}
+
+{% macro render_properties_definitions(properties) %}
+{% for prop in properties %}
+    {{ prop.type.full_name }} {{ prop.name }}{};
+{%- endfor %}
+{% endmacro %}
+
+{% macro render_accessor_definitions(schema) %}
+{%- for prop in schema.properties %}
+{# Getter #}
+{%- if prop.type.is_enum -%}
+{{ schema.name }}::
+{%- endif -%}
+{{ prop.type.full_name }} {{ schema.name }}::{{ prop.name }}() const {
+    return d->{{ prop.name }};
+}
+
+{%- if not prop.read_only %}
+{# Setter #}
+void {{ schema.name }}::set{{ prop.capitalized_name }}(const {{ prop.type.full_name }} &value) {
+    d->{{ prop.name }} = value;
+}
+
+{%- if prop.type.is_array %}
+{# Add value #}
+void {{ schema.name }}::add{{ prop.type.element_type.full_name }}(const {{ prop.type.element_type.full_name }} &value) {
+    d->{{ prop.name }}.push_back(value);
+}
+
+{# Remove value #}
+void {{ schema.name }}::remove{{ prop.type.element_type.full_name }}(const {{ prop.type.element_type.full_name }} &value) {
+    d->{{ prop.name }}.removeOne(value);
+}
+
+{# Clear #}
+void {{ schema.name }}::clear{{ prop.capitalized_name }}() {
+    d->{{ prop.name }}.clear();
+}
+
+{# Primary #}
+{%- if prop.type.element_type.has_primary %}
+std::optional<{{ prop.type.element_type.full_name }}> {{ schema.name }}::primary{{ prop.type.element_type.full_name }}() const {
+    const auto prop = std::find_if(d->{{ prop.name }}.cbegin(), d->{{ prop.name }}.cend(), [](const auto &prop) {
+        return prop.metadata.primary;
+    });
+    if (prop == d->{{ prop.name }}.cend()) {
+        return std::nullopt;
+    }
+
+    return *prop;
+}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+{%- endfor %}
+
+{% endmacro %}
+
+{% macro render_equality_operator(properties) %}
+    bool operator==(const Private &other) const {
+        return
+    {%- for prop in properties %}
+            {{ prop.name }} == other.{{ prop.name }}
+            {%- if not loop.last %} &&{% else %};{% endif %}
+    {%- endfor %}
+    }
+
+    bool operator!=(const Private &other) const {
+        return !(*this == other);
+    }
+{% endmacro %}
+
