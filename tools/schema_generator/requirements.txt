@@ -1,0 +1,7 @@
+black
+Jinja2
+mypy
+mypy-extensions
+pylint
+PyYAML
+requests
