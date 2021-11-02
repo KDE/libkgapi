@@ -58,7 +58,10 @@ endif()
 generate_export_header(KPimGAPICore BASE_NAME kgapicore)
 
 
-target_include_directories(KPimGAPICore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi>")
+target_include_directories(KPimGAPICore
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi>"
+    INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
+)
 
 target_link_libraries(KPimGAPICore
 PUBLIC

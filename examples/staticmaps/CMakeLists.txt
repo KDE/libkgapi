@@ -1,24 +1,14 @@
-kde_enable_exceptions()
+add_executable(staticmaps-example)
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR}
-)
-
-set(staticmaps_example_SRCS main.cpp mainwindow.cpp)
-set(staticmaps_example_HDRS mainwindow.h)
-qt_wrap_ui(staticmaps_example_SRCS ui/main.ui)
-
-qt_wrap_cpp(staticmaps_example_HDRS_MOC ${staticmaps_example_HDRS})
-
-add_executable(staticmaps-example
-        ${staticmaps_example_SRCS}
-        ${staticmaps_example_HDRS_MOC}
+target_sources(staticmaps-example PRIVATE
+    main.cpp
+    mainwindow.cpp
+    mainwindow.ui
 )
 
 target_link_libraries(staticmaps-example
+        Qt::Widgets
         KF5::Contacts
-        kgapi2
+        KPimGapiStaticMaps
 )
 
-add_dependencies(staticmaps-example kgapi2)

@@ -6,9 +6,9 @@
 
 
 #include "mainwindow.h"
-#include "ui_main.h"
+#include "ui_mainwindow.h"
 
-#include <libkgapi2/staticmaps/staticmapurl.h>
+#include "staticmaps/staticmapurl.h"
 
 using namespace KGAPI2;
 

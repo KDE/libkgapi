@@ -1,23 +1,14 @@
-kde_enable_exceptions()
+add_executable(drives-example)
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_BINARY_DIR}
-)
-
-set(drives_example_SRCS main.cpp mainwindow.cpp)
-set(drives_example_HDRS mainwindow.h)
-qt_wrap_ui(drives_example_SRCS ui/main.ui)
-
-add_executable(drives-example
-        ${drives_example_SRCS}
-        ${drives_example_HDRS_MOC}
+target_sources(drives-example PRIVATE
+    main.cpp
+    mainwindow.cpp
+    mainwindow.ui
 )
 
 target_link_libraries(drives-example
-        Qt::Widgets
         Qt::Core
-        KF5::GAPICore
-        KF5::GAPIDrive
+        Qt::Widgets
+        KPimGAPICore
+        KPimGAPIDrive
 )

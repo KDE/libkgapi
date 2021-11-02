@@ -5,6 +5,9 @@ set(KGAPI_LIB_VERSION ${PIM_VERSION})
 
 project(kgapi VERSION ${KGAPI_LIB_VERSION})
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 # ECM setup
 set(KF5_MIN_VERSION "5.87.0")
@@ -19,6 +22,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(GenerateExportHeader)
 include(ECMGenerateHeaders)
 include(ECMGeneratePriFile)
+include(ECMQtDeclareLoggingCategory)
 
 include(ECMPoQmTools)
 include(ECMSetupVersion)

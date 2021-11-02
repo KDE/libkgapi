@@ -6,20 +6,20 @@
 
 
 #include "mainwindow.h"
-#include "ui_main.h"
+#include "ui_mainwindow.h"
 
-#include <drive/drives.h>
-#include <drive/drivescreatejob.h>
-#include <drive/drivesdeletejob.h>
-#include <drive/drivesfetchjob.h>
-#include <drive/drivesmodifyjob.h>
-#include <drive/driveshidejob.h>
-#include <drive/drivessearchquery.h>
-#include <drive/file.h>
-#include <drive/filesearchquery.h>
-#include <drive/filefetchjob.h>
-#include <authjob.h>
-#include <account.h>
+#include "drive/drives.h"
+#include "drive/drivescreatejob.h"
+#include "drive/drivesdeletejob.h"
+#include "drive/drivesfetchjob.h"
+#include "drive/drivesmodifyjob.h"
+#include "drive/driveshidejob.h"
+#include "drive/drivessearchquery.h"
+#include "drive/file.h"
+#include "drive/filesearchquery.h"
+#include "drive/filefetchjob.h"
+#include "core/authjob.h"
+#include "core/account.h"
 
 #include <QListWidgetItem>
 #include <QUuid>

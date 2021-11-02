@@ -6,15 +6,15 @@
 
 
 #include "mainwindow.h"
-#include "ui_main.h"
+#include "ui_mainwindow.h"
 
-#include <tasks/tasklist.h>
-#include <tasks/tasklistcreatejob.h>
-#include <tasks/tasklistfetchjob.h>
-#include <tasks/taskfetchjob.h>
-#include <tasks/taskcreatejob.h>
-#include <authjob.h>
-#include <account.h>
+#include "tasks/tasklist.h"
+#include "tasks/tasklistcreatejob.h"
+#include "tasks/tasklistfetchjob.h"
+#include "tasks/taskfetchjob.h"
+#include "tasks/taskcreatejob.h"
+#include "core/authjob.h"
+#include "core/account.h"
 
 #include <QListWidgetItem>
 #include <QDebug>

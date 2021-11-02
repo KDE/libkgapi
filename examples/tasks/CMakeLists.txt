@@ -1,23 +1,14 @@
-kde_enable_exceptions()
+add_executable(tasks-example)
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_BINARY_DIR}
-)
-
-set(tasks_example_SRCS main.cpp mainwindow.cpp)
-set(tasks_example_HDRS mainwindow.h)
-qt_wrap_ui(tasks_example_SRCS ui/main.ui)
-
-add_executable(tasks-example
-        ${tasks_example_SRCS}
-        ${tasks_example_HDRS_MOC}
+target_sources(tasks-example PRIVATE
+    main.cpp
+    mainwindow.cpp
+    mainwindow.ui
 )
 
 target_link_libraries(tasks-example
         Qt::Widgets
         Qt::Core
-        KF5::GAPICore
-        KF5::GAPITasks
+        KPimGAPICore
+        KPimGAPITasks
 )

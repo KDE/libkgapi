@@ -7,12 +7,12 @@
 
 
 #include "mainwindow.h"
-#include "ui_main.h"
+#include "ui_mainwindow.h"
 
-#include <contacts/contact.h>
-#include <contacts/contactfetchjob.h>
-#include <authjob.h>
-#include <account.h>
+#include "contacts/contact.h"
+#include "contacts/contactfetchjob.h"
+#include "core/authjob.h"
+#include "core/account.h"
 
 #include <QListWidgetItem>
 

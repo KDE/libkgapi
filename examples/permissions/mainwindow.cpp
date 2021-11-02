@@ -6,11 +6,11 @@
 
 
 #include "mainwindow.h"
-#include "ui_main.h"
+#include "ui_mainwindow.h"
 
-#include <drive/permissionfetchjob.h>
-#include <authjob.h>
-#include <account.h>
+#include "drive/permissionfetchjob.h"
+#include "core/authjob.h"
+#include "core/account.h"
 
 #include <QListWidgetItem>
 

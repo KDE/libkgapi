@@ -43,7 +43,10 @@ endif()
 
 generate_export_header(KPimGAPITasks BASE_NAME kgapitasks)
 
-target_include_directories(KPimGAPITasks INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
+target_include_directories(KPimGAPITasks
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>"
+    INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
+)
 
 target_link_libraries(KPimGAPITasks
 PUBLIC

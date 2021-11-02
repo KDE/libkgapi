@@ -1,24 +1,14 @@
-kde_enable_exceptions()
+add_executable(contacts-example)
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_BINARY_DIR}
-)
-
-set(contacts_example_SRCS main.cpp mainwindow.cpp)
-set(contacts_example_HDRS mainwindow.h)
-qt_wrap_ui(contacts_example_SRCS ui/main.ui)
-
-add_executable(contacts-example
-        ${contacts_example_SRCS}
-        ${contacts_example_HDRS_MOC}
+target_sources(contacts-example PRIVATE
+    main.cpp
+    mainwindow.cpp
+    mainwindow.ui
 )
 
 target_link_libraries(contacts-example
         KF5::Contacts
         Qt::Widgets
-        Qt::Core
-        KF5::GAPICore
-        KF5::GAPIContacts
+        KPimGAPICore
+        KPimGAPIContacts
 )

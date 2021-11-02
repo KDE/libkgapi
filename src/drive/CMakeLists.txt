@@ -130,7 +130,10 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
 
 generate_export_header(KPimGAPIDrive BASE_NAME kgapidrive)
 
-target_include_directories(KPimGAPIDrive INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
+target_include_directories(KPimGAPIDrive
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>"
+    INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
+)
 
 target_link_libraries(KPimGAPIDrive
 PUBLIC

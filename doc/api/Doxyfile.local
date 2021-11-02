@@ -10,3 +10,5 @@ SORT_MEMBER_DOCS = YES
 PREDEFINED = LIBKGAPI_EXPORT="" \
     Q_SLOTS="slots" \
     Q_SIGNALS="signals"
+
+ALIASES = "accessors=\par Accessors:^^"
