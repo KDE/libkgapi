@@ -192,7 +192,7 @@ void FullAuthenticationJob::start()
         scopes << scope.toString();
     }
 
-    d->mServer = std::make_unique<QTcpServer>(this);
+    d->mServer = std::make_unique<QTcpServer>();
     if (!d->mServer->listen(QHostAddress::LocalHost, d->mServerPort)) {
         d->emitError(InvalidAccount, tr("Could not start OAuth HTTP server"));
         return;
@@ -206,7 +206,6 @@ void FullAuthenticationJob::start()
                 this, [this](QAbstractSocket::SocketError e) { d->socketError(e); });
         connect(d->mConnection, &QTcpSocket::readyRead, this, [this]() { d->socketReady(); });
         d->mServer->close();
-        d->mServer->deleteLater();
     });
 
     QUrl url(QStringLiteral("https://accounts.google.com/o/oauth2/auth"));
