@@ -8,13 +8,10 @@
 #pragma once
 
 #include <QMainWindow>
+#include "ui_mainwindow.h"
 
-#include <types.h>
-#include <drive/permission.h>
-
-namespace Ui {
-    class MainWindow;
-}
+#include "core/types.h"
+#include "drive/permission.h"
 
 namespace KGAPI2 {
   class Job;
@@ -27,7 +24,6 @@ class MainWindow : public QMainWindow
 
   public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
 
   private Q_SLOTS:
     /**
@@ -37,19 +33,9 @@ class MainWindow : public QMainWindow
     void authenticate();
 
     /**
-     * Authentication has finished
-     */
-    void slotAuthJobFinished(KGAPI2::Job *job);
-
-    /**
      * Retrieves list of all permissions for file id
      */
     void slotFetchPermissions();
-
-    /**
-     * Permissions listing was fetched.
-     */
-    void slotPermissionsFetchJobFinished(KGAPI2::Job *job);
 
     /**
      * A specific permission in permissions list has been selected. Sends a request
@@ -57,18 +43,13 @@ class MainWindow : public QMainWindow
      */
     void permissionSelected();
 
-    /**
-     * Permissions listing was fetched.
-     */
-    void slotPermissionFetchJobFinished(KGAPI2::Job *job);
-
   private:
-    Ui::MainWindow *m_ui;
+    Ui::MainWindow ui;
 
     KGAPI2::AccountPtr m_account;
 
-    QString roleToName(KGAPI2::Drive::Permission::Role role);
-    QString typeToName(KGAPI2::Drive::Permission::Type type);
-    QString permissionTypeToName(KGAPI2::Drive::Permission::PermissionDetails::PermissionType permissionType);
+    static QString roleToName(KGAPI2::Drive::Permission::Role role);
+    static QString typeToName(KGAPI2::Drive::Permission::Type type);
+    static QString permissionTypeToName(KGAPI2::Drive::Permission::PermissionDetails::PermissionType permissionType);
 };
 

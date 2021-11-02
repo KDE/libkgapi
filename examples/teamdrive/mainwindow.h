@@ -8,27 +8,22 @@
 #pragma once
 
 #include <QMainWindow>
+#include "ui_mainwindow.h"
 
-#include <types.h>
-
-namespace Ui {
-    class MainWindow;
-}
+#include "core/types.h"
 
 namespace KGAPI2 {
   class Job;
 }
 
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-  public:
+public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
 
-  private Q_SLOTS:
+private Q_SLOTS:
     /**
      * Retrieves tokens from Google that we will use to authenticate
      * further requests
@@ -36,39 +31,14 @@ class MainWindow : public QMainWindow
     void authenticate();
 
     /**
-     * Authentication has finished
-     */
-    void slotAuthJobFinished(KGAPI2::Job *job);
-
-    /**
      * Creates the Team Drive with name in newTeamdriveEdit
      */
     void createTeamdrive();
 
     /**
-     * Team Drive was created.
-     */
-    void slotTeamdriveCreateJobFinished(KGAPI2::Job *job);
-
-    /**
      * Rename the selected Team Drive with name in renameTeamdriveEdit
      */
     void renameSelectedTeamdrive();
-
-    /**
-     * Team Drive was modified.
-     */
-    void slotTeamdriveModifyJobFinished(KGAPI2::Job *job);
-
-    /**
-     * All Team Drives were fetched.
-     */
-    void slotFetchJobFinished(KGAPI2::Job *job);
-
-    /**
-     * Team Drive listing was fetched.
-     */
-    void slotTeamdriveFetchJobFinished(KGAPI2::Job *job);
 
     /**
      * Retrieves list of all teamdrive from user's Google teamdrive
@@ -82,11 +52,6 @@ class MainWindow : public QMainWindow
     void deleteSelectedTeamdrive();
 
     /**
-     * Team Drive was deleted.
-     */
-    void slotTeamdriveDeleteJobFinished(KGAPI2::Job *job);
-
-    /**
      * A specific team drive in teamdrive list has been selected. Sends a request
      * to Google to retrieve the team drive file list.
      */
@@ -98,13 +63,8 @@ class MainWindow : public QMainWindow
      */
     void teamdriveItemSelected();
 
-    /**
-     * Team Drive item detail was fetched.
-     */
-    void slotTeamdriveItemFetchJobFinished(KGAPI2::Job *job);
-
   private:
-    Ui::MainWindow *m_ui;
+    Ui::MainWindow ui;
 
     KGAPI2::AccountPtr m_account;
 

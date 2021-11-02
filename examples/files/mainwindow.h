@@ -11,18 +11,15 @@
 #include <QProgressBar>
 #include <QFile>
 
-#include <types.h>
+#include "ui_mainwindow.h"
 
-#include <drive/fileresumablecreatejob.h>
+#include "core/types.h"
 
-namespace Ui {
-    class MainWindow;
-}
+#include "drive/fileresumablecreatejob.h"
 
 namespace KGAPI2 {
   class Job;
 }
-
 
 class MainWindow : public QMainWindow
 {
@@ -30,7 +27,6 @@ class MainWindow : public QMainWindow
 
   public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
 
   private Q_SLOTS:
     /**
@@ -39,11 +35,6 @@ class MainWindow : public QMainWindow
      */
     void authenticate();
 
-    /**
-     * Authentication has finished
-     */
-    void slotAuthJobFinished(KGAPI2::Job *job);
-    
     /**
      * Browses files to select the one to upload
      */
@@ -70,14 +61,14 @@ class MainWindow : public QMainWindow
     void slotFileCreateJobProgress(KGAPI2::Job *job, int base, int total);
 
   private:
-    Ui::MainWindow *m_ui;
+    Ui::MainWindow ui;
 
     KGAPI2::AccountPtr m_account;
     
-    QFile *uploadingFile;
-    int bytesUploaded;
-    QProgressBar *fileUploadProgressBar;
-    QProgressBar *jobUploadProgressBar;
+    std::unique_ptr<QFile> m_uploadingFile;
+    int m_bytesUploaded = 0;
+    std::unique_ptr<QProgressBar> m_fileUploadProgressBar;
+    std::unique_ptr<QProgressBar> m_jobUploadProgressBar;
     
     void setInputsEnabled(bool enabled);
 

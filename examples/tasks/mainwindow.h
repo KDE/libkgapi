@@ -8,28 +8,23 @@
 #pragma once
 
 #include <QMainWindow>
+#include "ui_mainwindow.h"
 
-#include <types.h>
-#include <tasks/task.h>
-
-namespace Ui {
-    class MainWindow;
-}
+#include "core/types.h"
+#include "tasks/task.h"
 
 namespace KGAPI2 {
   class Job;
 }
 
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-  public:
+public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
 
-  private Q_SLOTS:
+private Q_SLOTS:
     /**
      * Retrieves tokens from Google that we will use to authenticate
      * further requests
@@ -37,19 +32,9 @@ class MainWindow : public QMainWindow
     void authenticate();
 
     /**
-     * Authentication has finished
-     */
-    void slotAuthJobFinished(KGAPI2::Job *job);
-
-    /**
      * Retrieves list of all task lists
      */
     void slotFetchTaskLists();
-
-    /**
-     * Task lists listing was fetched.
-     */
-    void slotTaskListsFetchJobFinished(KGAPI2::Job *job);
 
     /**
      * A specific task list has been selected. Sends a request
@@ -58,32 +43,12 @@ class MainWindow : public QMainWindow
     void taskListSelected();
 
     /**
-     * Tasks listing was fetched.
-     */
-    void slotTasksFetchJobFinished(KGAPI2::Job *job);
-
-    /**
      * Slot to create a new task list
      */
     void slotCreateTaskList();
 
-    /**
-     * Tasks List creation is finished
-     */
-    void slotCreateTaskListFinished(KGAPI2::Job *job);
-
-    /**
-     * Slot to create a new task
-     */
-    void slotCreateTask();
-
-    /**
-     * Tasks creation is finished
-     */
-    void slotCreateTaskFinished(KGAPI2::Job *job);
-
-  private:
-    Ui::MainWindow *m_ui;
+private:
+    Ui::MainWindow ui;
 
     KGAPI2::AccountPtr m_account;
 
