@@ -3,24 +3,46 @@ add_library(KPimGAPICore)
 add_library(KPim::GAPICore ALIAS KPimGAPICore)
 
 target_sources(KPimGAPICore PRIVATE
+    account.cpp
+    account.h
     accountinfo/accountinfo.cpp
     accountinfo/accountinfofetchjob.cpp
-    private/fullauthenticationjob.cpp
-    private/newtokensfetchjob.cpp
-    private/refreshtokensjob.cpp
-    account.cpp
+    accountinfo/accountinfofetchjob.h
+    accountinfo/accountinfo.h
     accountmanager.cpp
+    accountmanager.h
     accountstorage.cpp
     accountstorage_kwallet.cpp
+    accountstorage_kwallet_p.h
+    accountstorage_p.h
     authjob.cpp
+    authjob.h
     createjob.cpp
+    createjob.h
     deletejob.cpp
+    deletejob.h
     fetchjob.cpp
+    fetchjob.h
     job.cpp
-    networkaccessmanagerfactory.cpp
+    job.h
+    job_p.h
     modifyjob.cpp
+    modifyjob.h
+    networkaccessmanagerfactory.cpp
+    networkaccessmanagerfactory_p.h
     object.cpp
+    object.h
+    private/fullauthenticationjob.cpp
+    private/fullauthenticationjob_p.h
+    private/newtokensfetchjob.cpp
+    private/newtokensfetchjob_p.h
+    private/queuehelper_p.h
+    private/refreshtokensjob.cpp
+    private/refreshtokensjob_p.h
+    types.h
     utils.cpp
+    utils.h
+    utils_p.h
     ${QM_LOADER}
 
     ../debug.cpp

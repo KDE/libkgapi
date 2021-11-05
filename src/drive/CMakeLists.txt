@@ -5,60 +5,119 @@ add_library(KPim::GAPIDrive ALIAS KPimGAPIDrive)
 target_sources(KPimGAPIDrive PRIVATE
     about.cpp
     aboutfetchjob.cpp
+    aboutfetchjob.h
+    about.h
     app.cpp
     appfetchjob.cpp
+    appfetchjob.h
+    app.h
     change.cpp
     changefetchjob.cpp
+    changefetchjob.h
+    change.h
     childreference.cpp
     childreferencecreatejob.cpp
+    childreferencecreatejob.h
     childreferencedeletejob.cpp
+    childreferencedeletejob.h
     childreferencefetchjob.cpp
-    driveservice.cpp
-    searchquery.cpp
-    file.cpp
-    fileabstractdatajob.cpp
-    fileabstractmodifyjob.cpp
-    fileabstractuploadjob.cpp
-    fileabstractresumablejob.cpp
-    filecopyjob.cpp
-    filecreatejob.cpp
-    filedeletejob.cpp
-    filefetchcontentjob.cpp
-    filefetchjob.cpp
-    filemodifyjob.cpp
-    fileresumablecreatejob.cpp
-    fileresumablemodifyjob.cpp
-    filesearchquery.cpp
-    filetouchjob.cpp
-    filetrashjob.cpp
-    fileuntrashjob.cpp
-    parentreference.cpp
-    parentreferencecreatejob.cpp
-    parentreferencedeletejob.cpp
-    parentreferencefetchjob.cpp
-    permission.cpp
-    permissioncreatejob.cpp
-    permissiondeletejob.cpp
-    permissionfetchjob.cpp
-    permissionmodifyjob.cpp
-    revision.cpp
-    revisiondeletejob.cpp
-    revisionfetchjob.cpp
-    revisionmodifyjob.cpp
+    childreferencefetchjob.h
+    childreference.h
     drives.cpp
     drivescreatejob.cpp
+    drivescreatejob.h
     drivesdeletejob.cpp
+    drivesdeletejob.h
+    driveservice.cpp
+    driveservice.h
     drivesfetchjob.cpp
-    drivesmodifyjob.cpp
+    drivesfetchjob.h
+    drives.h
     driveshidejob.cpp
+    driveshidejob.h
+    drivesmodifyjob.cpp
+    drivesmodifyjob.h
     drivessearchquery.cpp
+    drivessearchquery.h
+    fileabstractdatajob.cpp
+    fileabstractdatajob.h
+    fileabstractmodifyjob.cpp
+    fileabstractmodifyjob.h
+    fileabstractresumablejob.cpp
+    fileabstractresumablejob.h
+    fileabstractuploadjob.cpp
+    fileabstractuploadjob.h
+    filecopyjob.cpp
+    filecopyjob.h
+    file.cpp
+    filecreatejob.cpp
+    filecreatejob.h
+    filedeletejob.cpp
+    filedeletejob.h
+    filefetchcontentjob.cpp
+    filefetchcontentjob.h
+    filefetchjob.cpp
+    filefetchjob.h
+    file.h
+    filemodifyjob.cpp
+    filemodifyjob.h
+    file_p.h
+    fileresumablecreatejob.cpp
+    fileresumablecreatejob.h
+    fileresumablemodifyjob.cpp
+    fileresumablemodifyjob.h
+    filesearchquery.cpp
+    filesearchquery.h
+    filetouchjob.cpp
+    filetouchjob.h
+    filetrashjob.cpp
+    filetrashjob.h
+    fileuntrashjob.cpp
+    fileuntrashjob.h
+    parentreference.cpp
+    parentreferencecreatejob.cpp
+    parentreferencecreatejob.h
+    parentreferencedeletejob.cpp
+    parentreferencedeletejob.h
+    parentreferencefetchjob.cpp
+    parentreferencefetchjob.h
+    parentreference.h
+    parentreference_p.h
+    permission.cpp
+    permissioncreatejob.cpp
+    permissioncreatejob.h
+    permissiondeletejob.cpp
+    permissiondeletejob.h
+    permissionfetchjob.cpp
+    permissionfetchjob.h
+    permission.h
+    permissionmodifyjob.cpp
+    permissionmodifyjob.h
+    permission_p.h
+    revision.cpp
+    revisiondeletejob.cpp
+    revisiondeletejob.h
+    revisionfetchjob.cpp
+    revisionfetchjob.h
+    revision.h
+    revisionmodifyjob.cpp
+    revisionmodifyjob.h
+    searchquery.cpp
+    searchquery.h
     teamdrive.cpp
     teamdrivecreatejob.cpp
+    teamdrivecreatejob.h
     teamdrivedeletejob.cpp
+    teamdrivedeletejob.h
     teamdrivefetchjob.cpp
+    teamdrivefetchjob.h
+    teamdrive.h
     teamdrivemodifyjob.cpp
+    teamdrivemodifyjob.h
     teamdrivesearchquery.cpp
+    teamdrivesearchquery.h
     user.cpp
+    user.h
 
     ../debug.cpp
 )

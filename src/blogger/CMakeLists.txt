@@ -4,24 +4,44 @@ add_library(KPim::GAPIBlogger ALIAS KPimGAPIBlogger)
 target_sources(KPimGAPIBlogger PRIVATE
     blog.cpp
     blogfetchjob.cpp
+    blogfetchjob.h
     bloggerservice.cpp
-    comment.cpp
+    bloggerservice.h
+    blog.h
     commentapprovejob.cpp
+    commentapprovejob.h
+    comment.cpp
     commentdeletecontentjob.cpp
+    commentdeletecontentjob.h
     commentdeletejob.cpp
+    commentdeletejob.h
     commentfetchjob.cpp
+    commentfetchjob.h
+    comment.h
     page.cpp
     pagecreatejob.cpp
+    pagecreatejob.h
     pagedeletejob.cpp
+    pagedeletejob.h
     pagefetchjob.cpp
+    pagefetchjob.h
+    page.h
     pagemodifyjob.cpp
+    pagemodifyjob.h
     post.cpp
     postcreatejob.cpp
+    postcreatejob.h
     postdeletejob.cpp
+    postdeletejob.h
     postfetchjob.cpp
+    postfetchjob.h
+    post.h
     postmodifyjob.cpp
+    postmodifyjob.h
     postpublishjob.cpp
+    postpublishjob.h
     postsearchjob.cpp
+    postsearchjob.h
 
     ../debug.cpp
 )

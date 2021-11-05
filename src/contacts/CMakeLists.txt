@@ -5,16 +5,28 @@ add_library(KPim::GAPIContacts ALIAS KPimGAPIContacts)
 target_sources(KPimGAPIContacts PRIVATE
     contact.cpp
     contactcreatejob.cpp
+    contactcreatejob.h
     contactdeletejob.cpp
+    contactdeletejob.h
     contactfetchjob.cpp
+    contactfetchjob.h
     contactfetchphotojob.cpp
+    contactfetchphotojob.h
+    contact.h
     contactmodifyjob.cpp
+    contactmodifyjob.h
     contactsgroup.cpp
     contactsgroupcreatejob.cpp
+    contactsgroupcreatejob.h
     contactsgroupdeletejob.cpp
+    contactsgroupdeletejob.h
     contactsgroupfetchjob.cpp
+    contactsgroupfetchjob.h
+    contactsgroup.h
     contactsgroupmodifyjob.cpp
+    contactsgroupmodifyjob.h
     contactsservice.cpp
+    contactsservice.h
 
     ../debug.cpp
 )

@@ -5,20 +5,35 @@ add_library(KPim::GAPICalendar ALIAS KPimGAPICalendar)
 target_sources(KPimGAPICalendar PRIVATE
     calendar.cpp
     calendarcreatejob.cpp
+    calendarcreatejob.h
     calendardeletejob.cpp
+    calendardeletejob.h
     calendarfetchjob.cpp
+    calendarfetchjob.h
+    calendar.h
     calendarmodifyjob.cpp
+    calendarmodifyjob.h
     calendarservice.cpp
+    calendarservice.h
+    enums.h
     event.cpp
     eventcreatejob.cpp
+    eventcreatejob.h
     eventdeletejob.cpp
+    eventdeletejob.h
     eventfetchjob.cpp
+    eventfetchjob.h
+    event.h
     eventmodifyjob.cpp
+    eventmodifyjob.h
     eventmovejob.cpp
-    reminder.cpp
+    eventmovejob.h
     freebusyqueryjob.cpp
+    freebusyqueryjob.h
+    reminder.cpp
+    reminder.h
+
     ../debug.cpp
-    enums.h
 )
 
 ecm_generate_headers(kgapicalendar_CamelCase_HEADERS

@@ -2,9 +2,13 @@ add_library(KPimGAPIMaps)
 add_library(KPim::GAPIMaps ALIAS KPimGAPIMaps)
 target_sources(KPimGAPIMaps PRIVATE
     staticmapmarker.cpp
+    staticmapmarker.h
     staticmappath.cpp
+    staticmappath.h
     staticmaptilefetchjob.cpp
+    staticmaptilefetchjob.h
     staticmapurl.cpp
+    staticmapurl.h
 
     ../debug.cpp
 )

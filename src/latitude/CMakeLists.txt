@@ -2,13 +2,19 @@ add_library(KPimGAPILatitude)
 add_library(KPim::GAPILatitude ALIAS KPimGAPILatitude)
 
 target_sources(KPimGAPILatitude PRIVATE
-    latitudeservice.cpp
     latitude.h
+    latitudeservice.cpp
+    latitudeservice.h
     location.cpp
     locationcreatejob.cpp
+    locationcreatejob.h
     locationdeletejob.cpp
+    locationdeletejob.h
     locationfetchhistoryjob.cpp
+    locationfetchhistoryjob.h
     locationfetchjob.cpp
+    locationfetchjob.h
+    location.h
 
     ../debug.cpp
 )

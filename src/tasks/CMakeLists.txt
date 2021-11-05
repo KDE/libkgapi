@@ -5,16 +5,28 @@ add_library(KPim::GAPITasks ALIAS KPimGAPITasks)
 target_sources(KPimGAPITasks PRIVATE
     task.cpp
     taskcreatejob.cpp
+    taskcreatejob.h
     taskdeletejob.cpp
+    taskdeletejob.h
     taskfetchjob.cpp
+    taskfetchjob.h
+    task.h
     tasklist.cpp
     tasklistcreatejob.cpp
+    tasklistcreatejob.h
     tasklistdeletejob.cpp
+    tasklistdeletejob.h
     tasklistfetchjob.cpp
+    tasklistfetchjob.h
+    tasklist.h
     tasklistmodifyjob.cpp
+    tasklistmodifyjob.h
     taskmodifyjob.cpp
+    taskmodifyjob.h
     taskmovejob.cpp
+    taskmovejob.h
     tasksservice.cpp
+    tasksservice.h
 
     ../debug.cpp
 )
