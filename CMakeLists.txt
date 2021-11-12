@@ -79,7 +79,6 @@ endif()
 
 ############## CMake Config Files ##############
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPimGAPI")
-set(KGAPI_KF5_COMPAT FALSE)
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/KPimGAPIConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfig.cmake"
