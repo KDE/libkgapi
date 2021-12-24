@@ -12,7 +12,7 @@
 #include "driveservice.h"
 #include "drives.h"
 #include "utils.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>

@@ -3,6 +3,7 @@ add_library(KPim::GAPIContacts ALIAS KPimGAPIContacts)
 
 
 target_sources(KPimGAPIContacts PRIVATE
+    ${libkgapi_debug_SRCS}
     contact.cpp
     contactcreatejob.cpp
     contactcreatejob.h
@@ -27,8 +28,6 @@ target_sources(KPimGAPIContacts PRIVATE
     contactsgroupmodifyjob.h
     contactsservice.cpp
     contactsservice.h
-
-    ../debug.cpp
 )
 
 ecm_generate_headers(kgapicontacts_CamelCase_HEADERS

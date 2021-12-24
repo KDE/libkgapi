@@ -2,6 +2,7 @@ add_library(KPimGAPILatitude)
 add_library(KPim::GAPILatitude ALIAS KPimGAPILatitude)
 
 target_sources(KPimGAPILatitude PRIVATE
+    ${libkgapi_debug_SRCS}
     latitude.h
     latitudeservice.cpp
     latitudeservice.h
@@ -15,8 +16,6 @@ target_sources(KPimGAPILatitude PRIVATE
     locationfetchjob.cpp
     locationfetchjob.h
     location.h
-
-    ../debug.cpp
 )
 
 ecm_generate_headers(kgapilatitude_CamelCase_HEADERS

@@ -9,7 +9,7 @@
 #include "drivesfetchjob.h"
 #include "account.h"
 #include "drives.h"
-#include "../debug.h"
+#include "debug.h"
 #include "driveservice.h"
 #include "utils.h"
 

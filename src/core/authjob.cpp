@@ -8,7 +8,7 @@
 
 #include "authjob.h"
 #include "account.h"
-#include "../debug.h"
+#include "debug.h"
 #include "job_p.h"
 #include "private/fullauthenticationjob_p.h"
 #include "private/refreshtokensjob_p.h"

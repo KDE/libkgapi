@@ -104,5 +104,10 @@ install(FILES
     COMPONENT Devel
 )
 
+ecm_qt_install_logging_categories(
+        EXPORT LIBKGAPI
+        FILE libkgapi.categories
+        DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
+        )
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

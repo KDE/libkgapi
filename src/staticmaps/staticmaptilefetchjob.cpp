@@ -8,7 +8,7 @@
 
 #include "staticmaptilefetchjob.h"
 #include "staticmapurl.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>

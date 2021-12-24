@@ -11,7 +11,7 @@
 #include "accountinfo/accountinfofetchjob.h"
 #include "accountinfo/accountinfo.h"
 #include "account.h"
-#include "../../debug.h"
+#include "debug.h"
 
 #include <QAbstractSocket>
 #include <QDateTime>

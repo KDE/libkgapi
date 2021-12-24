@@ -11,7 +11,7 @@
 #include "object.h"
 #include "account.h"
 #include "calendar.h"
-#include "../debug.h"
+#include "debug.h"
 #include "utils.h"
 #include "private/queuehelper_p.h"
 

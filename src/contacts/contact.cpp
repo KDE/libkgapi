@@ -8,7 +8,7 @@
 
 
 #include "contact.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <KContacts/Address>
 #include <KContacts/PhoneNumber>

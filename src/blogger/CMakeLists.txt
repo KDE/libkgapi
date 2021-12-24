@@ -2,6 +2,7 @@ add_library(KPimGAPIBlogger)
 add_library(KPim::GAPIBlogger ALIAS KPimGAPIBlogger)
 
 target_sources(KPimGAPIBlogger PRIVATE
+    ${libkgapi_debug_SRCS}
     blog.cpp
     blogfetchjob.cpp
     blogfetchjob.h
@@ -42,8 +43,6 @@ target_sources(KPimGAPIBlogger PRIVATE
     postpublishjob.h
     postsearchjob.cpp
     postsearchjob.h
-
-    ../debug.cpp
 )
 
 ecm_generate_headers(kgapiblogger_CamelCase_HEADERS

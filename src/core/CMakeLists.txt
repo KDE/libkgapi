@@ -3,6 +3,7 @@ add_library(KPimGAPICore)
 add_library(KPim::GAPICore ALIAS KPimGAPICore)
 
 target_sources(KPimGAPICore PRIVATE
+    ${libkgapi_debug_SRCS}
     account.cpp
     account.h
     accountinfo/accountinfo.cpp
@@ -44,8 +45,6 @@ target_sources(KPimGAPICore PRIVATE
     utils.h
     utils_p.h
     ${QM_LOADER}
-
-    ../debug.cpp
 )
 
 ecm_generate_headers(kgapicore_base_CamelCase_HEADERS

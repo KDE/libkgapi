@@ -7,7 +7,7 @@
 #include "accountmanager.h"
 #include "authjob.h"
 #include "accountstorage_p.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <QTimer>
 #include <QDateTime>

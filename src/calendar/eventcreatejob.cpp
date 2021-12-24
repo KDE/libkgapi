@@ -10,7 +10,7 @@
 #include "eventcreatejob.h"
 #include "calendarservice.h"
 #include "account.h"
-#include "../debug.h"
+#include "debug.h"
 #include "event.h"
 #include "utils.h"
 #include "private/queuehelper_p.h"

@@ -8,7 +8,7 @@
 #include "user.h"
 #include "utils.h"
 #include "utils_p.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <QJsonDocument>
 

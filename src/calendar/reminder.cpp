@@ -8,7 +8,7 @@
 
 
 #include "reminder.h"
-#include "../debug.h"
+#include "debug.h"
 
 using namespace KGAPI2;
 using namespace KCalendarCore;

@@ -9,7 +9,7 @@
 #pragma once
 
 #include "utils.h"
-#include "../debug.h"
+#include "debug.h"
 
 #define GAPI_COMPARE(propName) \
     if (d->propName != other.d->propName) { \

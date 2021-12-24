@@ -9,7 +9,7 @@
 #include "filefetchjob.h"
 #include "filesearchquery.h"
 #include "account.h"
-#include "../debug.h"
+#include "debug.h"
 #include "driveservice.h"
 #include "file.h"
 #include "utils.h"

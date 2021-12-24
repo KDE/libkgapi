@@ -6,7 +6,7 @@
 
 #include "accountstorage_kwallet_p.h"
 #include "account.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <KWallet>
 

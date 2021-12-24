@@ -9,7 +9,7 @@
 #include "refreshtokensjob_p.h"
 #include "account.h"
 #include "job_p.h"
-#include "../../debug.h"
+#include "debug.h"
 
 #include <QUrlQuery>
 #include <QUrl>

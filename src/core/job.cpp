@@ -10,7 +10,7 @@
 #include "job_p.h"
 #include "account.h"
 #include "networkaccessmanagerfactory_p.h"
-#include "../debug.h"
+#include "debug.h"
 #include "authjob.h"
 #include "utils.h"
 

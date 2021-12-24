@@ -7,7 +7,7 @@
  */
 
 #include "fileabstractdatajob.h"
-#include "../debug.h"
+#include "debug.h"
 #include "utils.h"
 
 #include <QUrlQuery>

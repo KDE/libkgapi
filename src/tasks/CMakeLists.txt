@@ -3,6 +3,7 @@ add_library(KPim::GAPITasks ALIAS KPimGAPITasks)
 
 
 target_sources(KPimGAPITasks PRIVATE
+    ${libkgapi_debug_SRCS}
     task.cpp
     taskcreatejob.cpp
     taskcreatejob.h
@@ -27,8 +28,6 @@ target_sources(KPimGAPITasks PRIVATE
     taskmovejob.h
     tasksservice.cpp
     tasksservice.h
-
-    ../debug.cpp
 )
 
 ecm_generate_headers(kgapitasks_CamelCase_HEADERS

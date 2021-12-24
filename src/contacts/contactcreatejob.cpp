@@ -10,7 +10,7 @@
 #include "contact.h"
 #include "contactsservice.h"
 #include "utils.h"
-#include "../debug.h"
+#include "debug.h"
 #include "account.h"
 #include "private/queuehelper_p.h"
 

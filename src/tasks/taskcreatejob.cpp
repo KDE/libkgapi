@@ -9,7 +9,7 @@
 #include "taskcreatejob.h"
 #include "tasksservice.h"
 #include "account.h"
-#include "../debug.h"
+#include "debug.h"
 #include "utils.h"
 #include "task.h"
 #include "private/queuehelper_p.h"

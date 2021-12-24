@@ -9,7 +9,7 @@
 #include "contactsgroupdeletejob.h"
 #include "contactsgroup.h"
 #include "contactsservice.h"
-#include "../debug.h"
+#include "debug.h"
 #include "utils.h"
 #include "account.h"
 #include "private/queuehelper_p.h"

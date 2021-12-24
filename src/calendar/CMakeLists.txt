@@ -3,6 +3,7 @@ add_library(KPim::GAPICalendar ALIAS KPimGAPICalendar)
 
 
 target_sources(KPimGAPICalendar PRIVATE
+    ${libkgapi_debug_SRCS}
     calendar.cpp
     calendarcreatejob.cpp
     calendarcreatejob.h
@@ -32,8 +33,6 @@ target_sources(KPimGAPICalendar PRIVATE
     freebusyqueryjob.h
     reminder.cpp
     reminder.h
-
-    ../debug.cpp
 )
 
 ecm_generate_headers(kgapicalendar_CamelCase_HEADERS

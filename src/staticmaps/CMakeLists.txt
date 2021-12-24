@@ -1,6 +1,7 @@
 add_library(KPimGAPIMaps)
 add_library(KPim::GAPIMaps ALIAS KPimGAPIMaps)
 target_sources(KPimGAPIMaps PRIVATE
+    ${libkgapi_debug_SRCS}
     staticmapmarker.cpp
     staticmapmarker.h
     staticmappath.cpp
@@ -9,8 +10,6 @@ target_sources(KPimGAPIMaps PRIVATE
     staticmaptilefetchjob.h
     staticmapurl.cpp
     staticmapurl.h
-
-    ../debug.cpp
 )
 
 ecm_generate_headers(kgapimaps_CamelCase_HEADERS

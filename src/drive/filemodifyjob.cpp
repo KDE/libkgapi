@@ -8,7 +8,7 @@
 
 #include "filemodifyjob.h"
 #include "file.h"
-#include "../debug.h"
+#include "debug.h"
 #include "driveservice.h"
 #include "utils.h"
 

@@ -9,7 +9,7 @@
 #include "contactfetchjob.h"
 #include "contact.h"
 #include "contactsservice.h"
-#include "../debug.h"
+#include "debug.h"
 #include "utils.h"
 #include "account.h"
 

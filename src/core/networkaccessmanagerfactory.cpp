@@ -7,7 +7,7 @@
  */
 
 #include "networkaccessmanagerfactory_p.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <QNetworkAccessManager>
 

@@ -6,7 +6,7 @@
  */
 
 #include "newtokensfetchjob_p.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>

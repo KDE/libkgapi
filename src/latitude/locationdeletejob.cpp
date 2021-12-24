@@ -9,7 +9,7 @@
 #include "locationdeletejob.h"
 #include "latitudeservice.h"
 #include "account.h"
-#include "../debug.h"
+#include "debug.h"
 #include "location.h"
 #include "utils.h"
 

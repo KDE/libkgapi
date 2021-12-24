@@ -11,7 +11,7 @@
 #include "event.h"
 #include "reminder.h"
 #include "utils.h"
-#include "../debug.h"
+#include "debug.h"
 
 #include <KCalendarCore/Alarm>
 #include <KCalendarCore/Event>

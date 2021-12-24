@@ -8,7 +8,7 @@
 
 
 #include "fileabstractresumablejob.h"
-#include "../debug.h"
+#include "debug.h"
 #include "utils.h"
 
 #include <QNetworkRequest>

@@ -7,7 +7,7 @@
  */
 
 #include "object.h"
-#include "../debug.h"
+#include "debug.h"
 
 using namespace KGAPI2;
 

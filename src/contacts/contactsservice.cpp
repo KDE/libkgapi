@@ -8,7 +8,7 @@
 #include "contact.h"
 #include "contactsgroup.h"
 #include "utils.h"
-#include "../debug.h"
+#include "debug.h"
 #include <kcontacts_version.h>
 
 #include <QDomDocument>

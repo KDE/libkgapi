@@ -3,6 +3,7 @@ add_library(KPim::GAPIDrive ALIAS KPimGAPIDrive)
 
 
 target_sources(KPimGAPIDrive PRIVATE
+    ${libkgapi_debug_SRCS}
     about.cpp
     aboutfetchjob.cpp
     aboutfetchjob.h
@@ -118,8 +119,6 @@ target_sources(KPimGAPIDrive PRIVATE
     teamdrivesearchquery.h
     user.cpp
     user.h
-
-    ../debug.cpp
 )
 
 ecm_generate_headers(kgapidrive_CamelCase_HEADERS
