@@ -9,6 +9,12 @@ set(kgapitest_SRCS
     fakenetworkaccessmanager.cpp
     fakenetworkaccessmanagerfactory.cpp
     testutils.cpp
+    fakeaccountstorage.h
+    fakeauthbrowser.h
+    fakenetworkreply.h
+    fakenetworkaccessmanager.h
+    fakenetworkaccessmanagerfactory.h
+    testutils.h
 )
 
 
