@@ -7,8 +7,8 @@ target_sources(tasks-example PRIVATE
 )
 
 target_link_libraries(tasks-example
-        Qt::Widgets
-        Qt::Core
+        Qt${QT_MAJOR_VERSION}::Widgets
+        Qt${QT_MAJOR_VERSION}::Core
         KPimGAPICore
         KPimGAPITasks
 )

@@ -64,7 +64,7 @@ PUBLIC
     KPim::GAPICore
     KF5::CalendarCore
 PRIVATE
-    Qt::Network
+    Qt${QT_MAJOR_VERSION}::Network
 )
 
 set_target_properties(KPimGAPITasks PROPERTIES

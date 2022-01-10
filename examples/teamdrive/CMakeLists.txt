@@ -10,8 +10,8 @@ target_sources(teamdrive-example PRIVATE
 target_compile_options(teamdrive-example PRIVATE -Wno-deprecated-declarations)
 
 target_link_libraries(teamdrive-example
-        Qt::Widgets
-        Qt::Core
+        Qt${QT_MAJOR_VERSION}::Widgets
+        Qt${QT_MAJOR_VERSION}::Core
         KPimGAPICore
         KPimGAPIDrive
 )

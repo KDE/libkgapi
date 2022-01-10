@@ -83,7 +83,7 @@ target_link_libraries(KPimGAPIBlogger
 PUBLIC
     KPim::GAPICore
 PRIVATE
-    Qt::Network
+    Qt${QT_MAJOR_VERSION}::Network
 )
 
 set_target_properties(KPimGAPIBlogger PROPERTIES

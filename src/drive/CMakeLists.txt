@@ -196,9 +196,9 @@ target_include_directories(KPimGAPIDrive
 target_link_libraries(KPimGAPIDrive
 PUBLIC
     KPim::GAPICore
-    Qt::Gui
+    Qt${QT_MAJOR_VERSION}::Gui
 PRIVATE
-    Qt::Network
+    Qt${QT_MAJOR_VERSION}::Network
 )
 
 set_target_properties(KPimGAPIDrive PROPERTIES

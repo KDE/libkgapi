@@ -7,8 +7,8 @@ target_sources(files-example PRIVATE
 )
 
 target_link_libraries(files-example
-        Qt::Widgets
-        Qt::Core
+        Qt${QT_MAJOR_VERSION}::Widgets
+        Qt${QT_MAJOR_VERSION}::Core
         KPimGAPICore
         KPimGAPIDrive
 )

@@ -7,7 +7,7 @@ target_sources(staticmaps-example PRIVATE
 )
 
 target_link_libraries(staticmaps-example
-        Qt::Widgets
+        Qt${QT_MAJOR_VERSION}::Widgets
         KF5::Contacts
         KPimGapiStaticMaps
 )

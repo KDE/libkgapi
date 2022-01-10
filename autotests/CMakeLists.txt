@@ -34,7 +34,7 @@ if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(kgapitest PROPERTIES UNITY_BUILD ON)
 endif()
 
-target_link_libraries(kgapitest Qt::Core Qt::Network Qt::Gui Qt::Test KPimGAPICore)
+target_link_libraries(kgapitest Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Network Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Test KPimGAPICore)
 
 
 
@@ -96,8 +96,8 @@ add_libkgapi2_test(tasks tasklistmodifyjobtest)
 
 add_libkgapi2_test(drive aboutfetchjobtest)
 add_libkgapi2_test(drive changefetchjobtest)
-add_libkgapi2_test(drive filecopyjobtest Qt::Gui)
-add_libkgapi2_test(drive filecreatejobtest Qt::Gui)
+add_libkgapi2_test(drive filecopyjobtest Qt${QT_MAJOR_VERSION}::Gui)
+add_libkgapi2_test(drive filecreatejobtest Qt${QT_MAJOR_VERSION}::Gui)
 add_libkgapi2_test(drive filesearchquerytest)
 add_libkgapi2_test(drive drivescreatejobtest)
 add_libkgapi2_test(drive drivesdeletejobtest)

@@ -67,9 +67,9 @@ target_link_libraries(KPimGAPICalendar
 PUBLIC
     KPim::GAPICore
     KF5::CalendarCore
-    Qt::Gui
+    Qt${QT_MAJOR_VERSION}::Gui
 PRIVATE
-    Qt::Network
+    Qt${QT_MAJOR_VERSION}::Network
 )
 
 set_target_properties(KPimGAPICalendar PROPERTIES
