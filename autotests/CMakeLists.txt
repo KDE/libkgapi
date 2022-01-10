@@ -1,6 +1,6 @@
 include(ECMAddTests)
 
-find_package(Qt5Test CONFIG REQUIRED)
+find_package(Qt${QT_MAJOR_VERSION}Test CONFIG REQUIRED)
 
 set(kgapitest_SRCS
     fakeaccountstorage.cpp

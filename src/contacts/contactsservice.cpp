@@ -9,7 +9,6 @@
 #include "contactsgroup.h"
 #include "utils.h"
 #include "debug.h"
-#include <kcontacts_version.h>
 
 #include <QDomDocument>
 #include <QDomElement>
@@ -451,16 +450,10 @@ ObjectPtr Private::JSONToContact(const QVariantMap& data)
     for (const QVariant & em : emails) {
         const QVariantMap email = em.toMap();
         const auto emailType = Contact::emailSchemeToProtocolName(email.value(QStringLiteral("rel")).toString());
-#if KContacts_VERSION < QT_VERSION_CHECK(5, 88, 0)
-        const QMap<QString, QStringList> params({ { QStringLiteral("type"), { emailType } } });
-        contact->insertEmail(email.value(QStringLiteral("address")).toString(),
-                             email.value(QStringLiteral("primary")).toBool(), params);
-#else
         KContacts::Email emailAddress(email.value(QStringLiteral("address")).toString());
         emailAddress.setType(Contact::emailSchemeToProtocolType(emailType));
         emailAddress.setPreferred(email.value(QStringLiteral("primary")).toBool());
         contact->addEmail(emailAddress);
-#endif
     }
 
     /* IMs */
@@ -1068,19 +1061,10 @@ ContactPtr XMLToContact(const QByteArray& xmlData)
         if (e.tagName() == QLatin1String("gd:email")) {
             const auto emailType = Contact::emailSchemeToProtocolName(e.attribute(QStringLiteral("rel"), {}));
 
-#if KContacts_VERSION < QT_VERSION_CHECK(5, 88, 0)
-            const QMap<QString, QStringList> params({ { QStringLiteral("type"), { emailType } } });
-            contact->insertEmail(e.attribute(QStringLiteral("address")),
-                                 (e.attribute(QStringLiteral("primary")).toLower() == QLatin1String("true")), params);
-#else
             KContacts::Email emailAddress(e.attribute(QStringLiteral("address")));
             emailAddress.setType(Contact::emailSchemeToProtocolType(emailType));
             emailAddress.setPreferred(e.attribute(QStringLiteral("primary")).toLower() == QLatin1String("true"));
             contact->addEmail(emailAddress);
-#endif
-
-
-
             continue;
         }
 

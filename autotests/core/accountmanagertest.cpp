@@ -78,7 +78,7 @@ private Q_SLOTS:
         TestableAccountManager accountManager;
         const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, { Account::contactsScopeUrl() });
 
-        QCOMPARE(promise->account(), {});
+        QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
         QCOMPARE(spy.count(), 1);
@@ -104,7 +104,7 @@ private Q_SLOTS:
         QVERIFY(insertedAccount);
 
         const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, { Account::contactsScopeUrl() });
-        QCOMPARE(promise->account(), {});
+        QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
         QCOMPARE(spy.count(), 1);
@@ -132,7 +132,7 @@ private Q_SLOTS:
                                      Account::accountInfoEmailScopeUrl() });
 
         const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, { Account::calendarScopeUrl() });
-        QCOMPARE(promise->account(), {});
+        QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
         QCOMPARE(spy.count(), 1);
@@ -186,7 +186,7 @@ private Q_SLOTS:
         TestableAccountManager accountManager;
 
         const auto promise = accountManager.findAccount(ApiKey1, Account1);
-        QCOMPARE(promise->account(), {});
+        QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
         QCOMPARE(spy.count(), 1);
@@ -200,7 +200,7 @@ private Q_SLOTS:
         const auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, { Account::calendarScopeUrl() });
 
         const auto promise = accountManager.findAccount(ApiKey1, Account1);
-        QCOMPARE(promise->account(), {});
+        QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
         QCOMPARE(spy.count(), 1);
@@ -223,7 +223,7 @@ private Q_SLOTS:
         insertedAccount->setRefreshToken(QStringLiteral("FakeRefreshToken"));
 
         const auto promise = accountManager.refreshTokens(ApiKey1, SecretKey1, Account1);
-        QCOMPARE(promise->account(), {});
+        QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
         QCOMPARE(spy.count(), 1);
