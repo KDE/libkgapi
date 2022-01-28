@@ -87,22 +87,22 @@ static int xoauth2_client_mech_step(void *conn_context,
 
     /* try to get the authid */
     if (oparams->authid == NULL) {
-        fprintf(stderr, "[SASL-XOAUTH2] - Requesting authID!");
+        fprintf(stderr, "[SASL-XOAUTH2] - Requesting authID!\n");
         auth_result = _plug_get_authid(utils, &authid, prompt_need);
         if ((auth_result != SASL_OK) && (auth_result != SASL_INTERACT)) {
-            fprintf(stderr, "[SASL-XOAUTH2] - _plug_get_authid FAILED\n!");
+            fprintf(stderr, "[SASL-XOAUTH2] - _plug_get_authid FAILED!\n");
             return auth_result;
         }
     }
 
     /* try to get oauth token */
     if (token == NULL) {
-        fprintf(stderr, "[SASL-XOAUTH2] - Requesting token\n!");
+        fprintf(stderr, "[SASL-XOAUTH2] - Requesting token!\n");
         /* We don't use _plug_get_password because we don't really care much about
            safety of the OAuth token */
         token_result = _plug_get_simple(utils, SASL_CB_PASS, 1, &token, prompt_need);
         if ((token_result != SASL_OK) && (token_result != SASL_INTERACT)) {
-            fprintf(stderr, "[SASL-XOAUTH2] - _plug_get_simple FAILED\n!");
+            fprintf(stderr, "[SASL-XOAUTH2] - _plug_get_simple FAILED!\n");
             return token_result;
         }
     }
@@ -116,7 +116,7 @@ static int xoauth2_client_mech_step(void *conn_context,
     /* if there are prompts not filled in */
     if ((auth_result == SASL_INTERACT) || (token_result == SASL_INTERACT)) {
         /* make the prompt list */
-        fprintf(stderr, "[SASL-XOAUTH2] - filling prompts\n!");
+        fprintf(stderr, "[SASL-XOAUTH2] - filling prompts!\n");
         result =
             _plug_make_prompts(utils, prompt_need,
                                NULL, NULL,
@@ -128,7 +128,7 @@ static int xoauth2_client_mech_step(void *conn_context,
                                NULL, NULL, NULL,
                                NULL, NULL, NULL);
         if (result != SASL_OK) {
-            fprintf(stderr, "[SASL-XOAUTH2] - filling prompts failed FAILED\n!");
+            fprintf(stderr, "[SASL-XOAUTH2] - filling prompts failed FAILED!\n");
             return result;
         }
 
@@ -144,7 +144,7 @@ static int xoauth2_client_mech_step(void *conn_context,
     result = params->canon_user(utils->conn, authid, 0,
                                 SASL_CU_AUTHID | SASL_CU_AUTHZID, oparams);
     if (result != SASL_OK) {
-        fprintf(stderr, "[SASL-XOAUTH2] - canon user FAILED\n!");
+        fprintf(stderr, "[SASL-XOAUTH2] - canon user FAILED!\n");
         return result;
     }
 
@@ -160,7 +160,7 @@ static int xoauth2_client_mech_step(void *conn_context,
     result = _plug_buf_alloc(params->utils, &(context->out_buf),
                              &(context->out_buf_len), *clientoutlen + 1);
     if (result != SASL_OK) {
-        fprintf(stderr, "[SASL-XOAUTH2] - _plug_buf_alloc FAILED\n!");
+        fprintf(stderr, "[SASL-XOAUTH2] - _plug_buf_alloc FAILED!\n");
         return result;
     }
 
