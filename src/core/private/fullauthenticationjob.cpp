@@ -63,7 +63,7 @@ public:
                            "Content-Type: text/html\n"
                            "\n"
                            "<!DOCTYPE><html>"
-                           "<head><title>" + title.toUtf8() + "</title></head>"
+                           "<head><meta charset=\"UTF-8\"><title>" + title.toUtf8() + "</title></head>"
                            "<body><h1>" + text.toUtf8() + "</h1></body>"
                            "</html>\n");
         mConnection->flush();
