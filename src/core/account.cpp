@@ -162,9 +162,9 @@ QUrl Account::calendarScopeUrl()
     return QUrl(QStringLiteral("https://www.googleapis.com/auth/calendar"));
 }
 
-QUrl Account::contactsScopeUrl()
+QUrl Account::peopleScopeUrl()
 {
-    return QUrl(QStringLiteral("https://www.google.com/m8/feeds/"));
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/contacts"));
 }
 
 QUrl Account::latitudeScopeUrl()

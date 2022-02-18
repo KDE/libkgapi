@@ -33,6 +33,7 @@ target_sources(KPimGAPIPeople PRIVATE
     person.cpp
     personlocale.cpp
     personmetadata.cpp
+    peopleservice.cpp
     phonenumber.cpp
     photo.cpp
     profilemetadata.cpp
@@ -83,6 +84,7 @@ ecm_generate_headers(
     Person
     PersonLocale
     PersonMetadata
+    PeopleService
     PhoneNumber
     Photo
     ProfileMetadata
@@ -97,11 +99,15 @@ ecm_generate_headers(
     Url
     UserDefined
     PREFIX KGAPI/People
+    REQUIRED_HEADERS kgapipeople_HEADERS
 )
 
 generate_export_header(KPimGAPIPeople BASE_NAME kgapipeople)
 
-target_include_directories(KPimGAPIPeople INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
+target_include_directories(KPimGAPIPeople
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>"
+    INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
+)
 
 target_link_libraries(KPimGAPIPeople
 PUBLIC
@@ -145,3 +151,4 @@ install(FILES
     "${PRI_FILENAME}"
     DESTINATION "${ECM_MKSPECS_INSTALL_DIR}"
 )
+#

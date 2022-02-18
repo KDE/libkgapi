@@ -171,9 +171,9 @@ public:
     static QUrl tasksScopeUrl();
 
     /**
-     * Returns scope URL for Google Contacts service.
+     * Returns scope URL for Google People service.
      */
-    static QUrl contactsScopeUrl();
+    static QUrl peopleScopeUrl();
 
     /**
      * Returns scope URL for Google Latitude service.

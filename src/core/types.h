@@ -55,13 +55,17 @@ class AccountInfo;
 using AccountInfoPtr = QSharedPointer<AccountInfo>;
 using AccountInfosList = QList<AccountInfoPtr>;
 
-class Contact;
-using ContactPtr = QSharedPointer<Contact>;
-using ContactsList = QList<ContactPtr>;
+namespace People {
 
-class ContactsGroup;
-using ContactsGroupPtr = QSharedPointer<ContactsGroup>;
-using ContactsGroupsList = QList<ContactsGroupPtr>;
+class Person;
+using PersonPtr = QSharedPointer<Person>;
+using PersonList = QList<PersonPtr>;
+
+class ContactGroup;
+using ContactGroupPtr = QSharedPointer<ContactGroup>;
+using ContactGroupList = QList<ContactGroupPtr>;
+
+}
 
 class Calendar;
 using CalendarPtr = QSharedPointer<Calendar>;

@@ -72,7 +72,7 @@ private Q_SLOTS:
              scenarioFromFile(QFINDTESTDATA("data/accountinfo_fetch_request.txt"), QFINDTESTDATA("data/accountinfo_fetch_response.txt"))});
 
         TestableAccountManager accountManager;
-        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, {Account::contactsScopeUrl()});
+        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, {Account::peopleScopeUrl()});
 
         QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
@@ -81,7 +81,7 @@ private Q_SLOTS:
         const auto account = promise->account();
         QVERIFY(account);
         QCOMPARE(account->accountName(), Account1);
-        const QList<QUrl> expectedScopes = {Account::contactsScopeUrl(), Account::accountInfoEmailScopeUrl()};
+        const QList<QUrl> expectedScopes = {Account::peopleScopeUrl(), Account::accountInfoEmailScopeUrl()};
         QCOMPARE(account->scopes(), expectedScopes);
         QVERIFY(!account->accessToken().isEmpty());
         QVERIFY(!account->refreshToken().isEmpty());
@@ -96,10 +96,10 @@ private Q_SLOTS:
     {
         TestableAccountManager accountManager;
 
-        const auto insertedAccount = AccountPtr::create(*accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::contactsScopeUrl()}));
+        const auto insertedAccount = AccountPtr::create(*accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::peopleScopeUrl()}));
         QVERIFY(insertedAccount);
 
-        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, {Account::contactsScopeUrl()});
+        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, {Account::peopleScopeUrl()});
         QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
@@ -117,10 +117,10 @@ private Q_SLOTS:
              scenarioFromFile(QFINDTESTDATA("data/accountinfo_fetch_request.txt"), QFINDTESTDATA("data/accountinfo_fetch_response.txt"))});
 
         TestableAccountManager accountManager;
-        const auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::contactsScopeUrl()});
+        const auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::peopleScopeUrl()});
         QVERIFY(insertedAccount);
         auto expectedAccount = AccountPtr::create(*insertedAccount);
-        expectedAccount->setScopes({Account::contactsScopeUrl(), Account::calendarScopeUrl(), Account::accountInfoEmailScopeUrl()});
+        expectedAccount->setScopes({Account::peopleScopeUrl(), Account::calendarScopeUrl(), Account::accountInfoEmailScopeUrl()});
 
         const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, {Account::calendarScopeUrl()});
         QCOMPARE(promise->account(), AccountPtr{});
@@ -147,9 +147,9 @@ private Q_SLOTS:
     void testRemoveAccountScopes()
     {
         TestableAccountManager accountManager;
-        accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::contactsScopeUrl(), Account::calendarScopeUrl()});
+        accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::peopleScopeUrl(), Account::calendarScopeUrl()});
 
-        accountManager.removeScopes(ApiKey1, Account1, {Account::contactsScopeUrl()});
+        accountManager.removeScopes(ApiKey1, Account1, {Account::peopleScopeUrl()});
 
         const auto storeAccount = accountManager.fakeStore()->mStore.value(ApiKey1 + Account1);
         QVERIFY(storeAccount);
@@ -163,9 +163,9 @@ private Q_SLOTS:
     void testRemoveAllScopes()
     {
         TestableAccountManager accountManager;
-        accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::contactsScopeUrl(), Account::calendarScopeUrl()});
+        accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::peopleScopeUrl(), Account::calendarScopeUrl()});
 
-        accountManager.removeScopes(ApiKey1, Account1, {Account::contactsScopeUrl(), Account::calendarScopeUrl()});
+        accountManager.removeScopes(ApiKey1, Account1, {Account::peopleScopeUrl(), Account::calendarScopeUrl()});
 
         QVERIFY(!accountManager.fakeStore()->mStore.contains(ApiKey1 + Account1));
     }

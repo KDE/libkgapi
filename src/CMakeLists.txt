@@ -4,7 +4,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/)
 
 add_subdirectory(blogger)
 add_subdirectory(calendar)
-add_subdirectory(contacts)
 add_subdirectory(core)
 add_subdirectory(drive)
 add_subdirectory(latitude)

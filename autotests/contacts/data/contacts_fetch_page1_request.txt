@@ -1,2 +1,0 @@
-GET https://www.google.com/m8/feeds/contacts/MockAccount/full?alt=json&showdeleted=true&prettyPrint=false
-Gdata-version: 3.0

@@ -1,3 +1,0 @@
-DELETE https://www.google.com/m8/feeds/groups/MockAccount/full/4ca7b44c093feab0
-GData-Version: 3.0
-If-Match: *
