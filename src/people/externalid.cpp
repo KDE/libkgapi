@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -100,8 +101,31 @@ void ExternalId::setMetadata(const FieldMetadata &value)
 
 ExternalId ExternalId::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return ExternalId();
+    ExternalId externalId;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        externalId.d->metadata = FieldMetadata::fromJSON(metadata);
+        externalId.d->value = obj.value(QStringLiteral("value")).toString();
+        externalId.d->type = obj.value(QStringLiteral("type")).toString();
+        externalId.d->formattedType = obj.value(QStringLiteral("formattedType")).toString();
+    }
+
+    return externalId;
+}
+
+QVector<ExternalId> ExternalId::fromJSONArray(const QJsonArray& data)
+{
+    QVector<ExternalId> externalIds;
+
+    for(const auto &externalId : data) {
+        if(externalId.isObject()) {
+            const auto objectifiedExternalId = externalId.toObject();
+            externalIds.append(fromJSON(objectifiedExternalId));
+        }
+    }
+
+    return externalIds;
 }
 
 QJsonValue ExternalId::toJSON() const

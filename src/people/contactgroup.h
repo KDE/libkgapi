@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -10,6 +11,8 @@
 
 #include <QSharedDataPointer>
 #include <kgapipeople_export.h>
+#include "object.h"
+#include "types.h"
 
 #include <QString>
 #include <QVector>
@@ -30,7 +33,7 @@ class GroupClientData;
  * @see https://developers.google.com/people/api/rest/v1/people#contactgroup
  * @since 5.19.0
  **/
-class KGAPIPEOPLE_EXPORT ContactGroup
+class KGAPIPEOPLE_EXPORT ContactGroup : public KGAPI2::Object
 {
 public:
     enum class GroupType {
@@ -41,17 +44,13 @@ public:
 
     /** Constructs a new ContactGroup **/
     explicit ContactGroup();
-    ContactGroup(const ContactGroup &);
-    ContactGroup(ContactGroup &&) noexcept;
-    ContactGroup &operator=(const ContactGroup &);
-    ContactGroup &operator=(ContactGroup &&) noexcept;
     /** Destructor. **/
     ~ContactGroup();
 
     bool operator==(const ContactGroup &) const;
     bool operator!=(const ContactGroup &) const;
 
-    static ContactGroup fromJSON(const QJsonObject &);
+    static ContactGroupPtr fromJSON(const QJsonObject &);
     QJsonValue toJSON() const;
 
     /** Output only. The name translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale for system groups names. Group

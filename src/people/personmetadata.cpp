@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -111,8 +112,27 @@ void PersonMetadata::clearSources()
 
 PersonMetadata PersonMetadata::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return PersonMetadata();
+    PersonMetadata personMetadata;
+
+    if(!obj.isEmpty()) {
+        for(const auto &jsonSource : obj.value(QStringLiteral("sources")).toArray()) {
+            personMetadata.d->sources.append(Source::fromJSON(jsonSource.toObject()));
+        }
+
+        for(const auto &jsonPrevResName : obj.value(QStringLiteral("previousResourceNames")).toArray()) {
+            personMetadata.d->previousResourceNames.append(jsonPrevResName.toString());
+        }
+
+        for(const auto &jsonLinkedPeopleResName : obj.value(QStringLiteral("linkedPeopleResourceNames")).toArray()) {
+            personMetadata.d->linkedPeopleResourceNames.append(jsonLinkedPeopleResName.toString());
+        }
+
+        personMetadata.d->deleted = obj.value(QStringLiteral("deleted")).toBool();
+
+        // Don't add objectType here, is deprecated
+    }
+
+    return personMetadata;
 }
 
 QJsonValue PersonMetadata::toJSON() const

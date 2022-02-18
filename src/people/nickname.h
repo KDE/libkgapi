@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -17,6 +18,7 @@
 
 class QJsonObject;
 class QJsonValue;
+class QJsonArray;
 
 namespace KGAPI2::People
 {
@@ -54,6 +56,7 @@ public:
     bool operator!=(const Nickname &) const;
 
     static Nickname fromJSON(const QJsonObject &);
+    static QVector<Nickname> fromJSONArray(const QJsonArray& data);
     QJsonValue toJSON() const;
 
     /** The nickname. **/

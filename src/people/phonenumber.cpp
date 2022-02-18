@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -106,8 +107,32 @@ void PhoneNumber::setMetadata(const FieldMetadata &value)
 
 PhoneNumber PhoneNumber::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return PhoneNumber();
+    PhoneNumber phoneNumber;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        phoneNumber.d->metadata = FieldMetadata::fromJSON(metadata);
+        phoneNumber.d->value = obj.value(QStringLiteral("value")).toString();
+        phoneNumber.d->canonicalForm = obj.value(QStringLiteral("canonicalForm")).toString();
+        phoneNumber.d->type = obj.value(QStringLiteral("type")).toString();
+        phoneNumber.d->formattedType = obj.value(QStringLiteral("formattedType")).toString();
+    }
+
+    return phoneNumber;
+}
+
+QVector<PhoneNumber> PhoneNumber::fromJSONArray(const QJsonArray& data)
+{
+    QVector<PhoneNumber> phoneNumbers;
+
+    for(const auto &phoneNumber : data) {
+        if(phoneNumber.isObject()) {
+            const auto objectifiedPhoneNumber = phoneNumber.toObject();
+            phoneNumbers.append(fromJSON(objectifiedPhoneNumber));
+        }
+    }
+
+    return phoneNumbers;
 }
 
 QJsonValue PhoneNumber::toJSON() const

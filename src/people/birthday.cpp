@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -95,9 +96,37 @@ void Birthday::setDate(const QDate &value)
 
 Birthday Birthday::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Birthday();
+    Birthday birthday;
+
+    if(!obj.isEmpty()) {
+        const auto jsonMetadata = obj.value(QStringLiteral("metadata")).toObject();
+        birthday.setMetadata(FieldMetadata::fromJSON(jsonMetadata));
+
+        const auto jsonDate = obj.value(QStringLiteral("date")).toObject();
+        const auto year = jsonDate.value(QStringLiteral("year")).toInt();
+        const auto month = jsonDate.value(QStringLiteral("month")).toInt();
+        const auto day = jsonDate.value(QStringLiteral("day")).toInt();
+        QDate date(year, month, day);
+        birthday.setDate(date);
+    }
+
+    return birthday;
 }
+
+QVector<Birthday> Birthday::fromJSONArray(const QJsonArray &data)
+{
+    QVector<Birthday> birthdays;
+
+    for(const auto &birthday : data) {
+        if(birthday.isObject()) {
+            const auto objectifiedBirthday = birthday.toObject();
+            birthdays.append(fromJSON(objectifiedBirthday));
+        }
+    }
+
+    return birthdays;
+}
+
 
 QJsonValue Birthday::toJSON() const
 {

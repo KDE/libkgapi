@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -100,8 +101,37 @@ QString Event::formattedType() const
 
 Event Event::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Event();
+    Event event;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        event.d->metadata = FieldMetadata::fromJSON(metadata);
+
+        const auto jsonDate = obj.value(QStringLiteral("date")).toObject();
+        const auto year = jsonDate.value(QStringLiteral("year")).toInt();
+        const auto month = jsonDate.value(QStringLiteral("month")).toInt();
+        const auto day = jsonDate.value(QStringLiteral("day")).toInt();
+        event.d->date = QDate(year, month, day);
+
+        event.d->type = obj.value(QStringLiteral("type")).toString();
+        event.d->formattedType = obj.value(QStringLiteral("formattedType")).toString();
+    }
+
+    return event;
+}
+
+QVector<Event> Event::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Event> events;
+
+    for(const auto &event : data) {
+        if(event.isObject()) {
+            const auto objectifiedEvent = event.toObject();
+            events.append(fromJSON(objectifiedEvent));
+        }
+    }
+
+    return events;
 }
 
 QJsonValue Event::toJSON() const

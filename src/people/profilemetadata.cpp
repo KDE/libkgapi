@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -73,8 +74,38 @@ ProfileMetadata::ProfileMetadata::ObjectType ProfileMetadata::objectType() const
 
 ProfileMetadata ProfileMetadata::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return ProfileMetadata();
+    ProfileMetadata profileMetadata;
+
+    if(!obj.isEmpty()) {
+        const auto objectTypeEnumString = obj.value(QStringLiteral("objectType"));
+        if(objectTypeEnumString == QStringLiteral("PERSON")) {
+            profileMetadata.d->objectType = ObjectType::PERSON;
+        } else if (objectTypeEnumString == QStringLiteral("PAGE")) {
+            profileMetadata.d->objectType = ObjectType::PAGE;
+        } else {
+            profileMetadata.d->objectType = ObjectType::OBJECT_TYPE_UNSPECIFIED;
+        }
+
+        if(obj.value(QStringLiteral("userTypes")).isArray()) {
+            const auto userTypesJsonArray = obj.value(QStringLiteral("userTypes")).toArray();
+
+            for(const auto userType : userTypesJsonArray) {
+                if(userType == obj.value(QStringLiteral("GOOGLE_USER"))) {
+                    profileMetadata.d->userTypes.append(UserTypes::GOOGLE_USER);
+                } else if(userType == obj.value(QStringLiteral("GPLUS_USER"))) {
+                    profileMetadata.d->userTypes.append(UserTypes::GPLUS_USER);
+                } else if(userType == obj.value(QStringLiteral("GOOGLE_APPS_USER"))) {
+                    profileMetadata.d->userTypes.append(UserTypes::GOOGLE_APPS_USER);
+                } else {
+                    profileMetadata.d->userTypes.append(UserTypes::USER_TYPE_UNKNOWN);
+                }
+            }
+        } else {
+            profileMetadata.d->userTypes.append(UserTypes::USER_TYPE_UNKNOWN);
+        }
+    }
+
+    return profileMetadata;
 }
 
 QJsonValue ProfileMetadata::toJSON() const
@@ -85,6 +116,7 @@ QJsonValue ProfileMetadata::toJSON() const
         QJsonArray arr;
         std::transform(d->userTypes.cbegin(), d->userTypes.cend(), std::back_inserter(arr), [](const auto &val) {
             switch (val) {
+            default:
             case UserTypes::USER_TYPE_UNKNOWN:
                 return QStringLiteral("USER_TYPE_UNKNOWN");
             case UserTypes::GOOGLE_USER:

@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -85,8 +86,29 @@ void FileAs::setValue(const QString &value)
 
 FileAs FileAs::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return FileAs();
+    FileAs fileAs;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        fileAs.setMetadata(FieldMetadata::fromJSON(metadata));
+        fileAs.setValue(obj.value(QStringLiteral("value")).toString());
+    }
+
+    return fileAs;
+}
+
+QVector<FileAs> FileAs::fromJSONArray(const QJsonArray& data)
+{
+    QVector<FileAs> fileAses;
+
+    for(const auto &fileAs : data) {
+        if(fileAs.isObject()) {
+            const auto objectifiedFileAs = fileAs.toObject();
+            fileAses.append(fromJSON(objectifiedFileAs));
+        }
+    }
+
+    return fileAses;
 }
 
 QJsonValue FileAs::toJSON() const

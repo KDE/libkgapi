@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -209,8 +210,42 @@ void Name::setMetadata(const FieldMetadata &value)
 
 Name Name::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Name();
+    Name name;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        name.d->metadata = FieldMetadata::fromJSON(metadata);
+        name.d->displayName = obj.value(QStringLiteral("displayName")).toString();
+        name.d->displayNameLastFirst = obj.value(QStringLiteral("displayNameLastFirst")).toString();
+        name.d->unstructuredName = obj.value(QStringLiteral("unstructuredName")).toString();
+        name.d->familyName = obj.value(QStringLiteral("familyName")).toString();
+        name.d->givenName = obj.value(QStringLiteral("givenName")).toString();
+        name.d->middleName = obj.value(QStringLiteral("middleName")).toString();
+        name.d->honorificPrefix = obj.value(QStringLiteral("honorificPrefix")).toString();
+        name.d->honorificSuffix = obj.value(QStringLiteral("honorificSuffix")).toString();
+        name.d->phoneticFullName = obj.value(QStringLiteral("phoneticFullName")).toString();
+        name.d->phoneticFamilyName = obj.value(QStringLiteral("phoneticFamilyName")).toString();
+        name.d->phoneticGivenName = obj.value(QStringLiteral("phoneticGivenName")).toString();
+        name.d->phoneticMiddleName = obj.value(QStringLiteral("phoneticMiddleName")).toString();
+        name.d->phoneticHonorificPrefix = obj.value(QStringLiteral("phoneticHonorificPrefix")).toString();
+        name.d->phoneticHonorificSuffix = obj.value(QStringLiteral("phoneticHonorificSuffix")).toString();
+    }
+
+    return name;
+}
+
+QVector<Name> Name::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Name> names;
+
+    for(const auto &name : data) {
+        if(name.isObject()) {
+            const auto objectifiedName = name.toObject();
+            names.append(fromJSON(objectifiedName));
+        }
+    }
+
+    return names;
 }
 
 QJsonValue Name::toJSON() const

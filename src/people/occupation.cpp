@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -85,8 +86,29 @@ void Occupation::setMetadata(const FieldMetadata &value)
 
 Occupation Occupation::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Occupation();
+    Occupation occupation;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        occupation.setMetadata(FieldMetadata::fromJSON(metadata));
+        occupation.setValue(obj.value(QStringLiteral("value")).toString());
+    }
+
+    return occupation;
+}
+
+QVector<Occupation> Occupation::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Occupation> occupations;
+
+    for(const auto &occupation : data) {
+        if(occupation.isObject()) {
+            const auto objectifiedOccupation = occupation.toObject();
+            occupations.append(fromJSON(objectifiedOccupation));
+        }
+    }
+
+    return occupations;
 }
 
 QJsonValue Occupation::toJSON() const

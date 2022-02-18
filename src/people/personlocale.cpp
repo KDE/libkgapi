@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -85,8 +86,29 @@ void PersonLocale::setValue(const QString &value)
 
 PersonLocale PersonLocale::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return PersonLocale();
+    PersonLocale locale;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        locale.setMetadata(FieldMetadata::fromJSON(metadata));
+        locale.setValue(obj.value(QStringLiteral("value")).toString());
+    }
+
+    return locale;
+}
+
+QVector<PersonLocale> PersonLocale::fromJSONArray(const QJsonArray& data)
+{
+    QVector<PersonLocale> locales;
+
+    for(const auto locale : data) {
+        if(locale.isObject()) {
+            const auto objectifiedLocale = locale.toObject();
+            locales.append(fromJSON(objectifiedLocale));
+        }
+    }
+
+    return locales;
 }
 
 QJsonValue PersonLocale::toJSON() const

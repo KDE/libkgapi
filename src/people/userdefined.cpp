@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -95,7 +96,15 @@ void UserDefined::setMetadata(const FieldMetadata &value)
 
 UserDefined UserDefined::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
+    UserDefined userDefined;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        userDefined.setMetadata(FieldMetadata::fromJSON(metadata));
+        userDefined.setKey(obj.value(QStringLiteral("key")).toString());
+        userDefined.setValue(obj.value(QStringLiteral("value")).toString());
+    }
+
     return UserDefined();
 }
 

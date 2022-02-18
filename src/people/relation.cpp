@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -100,8 +101,31 @@ void Relation::setMetadata(const FieldMetadata &value)
 
 Relation Relation::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Relation();
+    Relation relation;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        relation.d->metadata = FieldMetadata::fromJSON(metadata);
+        relation.d->person = obj.value(QStringLiteral("person")).toString();
+        relation.d->type = obj.value(QStringLiteral("type")).toString();
+        relation.d->formattedType = obj.value(QStringLiteral("formattedType")).toString();
+    }
+
+    return relation;
+}
+
+QVector<Relation> Relation::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Relation> relations;
+
+    for(const auto &relation : data) {
+        if(relation.isObject()) {
+            const auto objectifiedRelation = relation.toObject();
+            relations.append(fromJSON(objectifiedRelation));
+        }
+    }
+
+    return relations;
 }
 
 QJsonValue Relation::toJSON() const

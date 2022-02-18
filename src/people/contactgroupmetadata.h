@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -11,12 +12,9 @@
 #include <QSharedDataPointer>
 #include <kgapipeople_export.h>
 
-#include <QString>
-
-#include <optional>
-
 class QJsonObject;
 class QJsonValue;
+class QDateTime;
 
 namespace KGAPI2::People
 {
@@ -45,7 +43,7 @@ public:
     QJsonValue toJSON() const;
 
     /** Output only. The time the group was last updated. **/
-    QString updateTime() const;
+    QDateTime updateTime() const;
 
     /** Output only. True if the contact group resource has been deleted. Populated only for [`ListContactGroups`](/people/api/rest/v1/contactgroups/list)
      * requests that include a sync token. **/

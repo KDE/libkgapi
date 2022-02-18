@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -100,8 +101,30 @@ QString SipAddress::formattedType() const
 
 SipAddress SipAddress::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return SipAddress();
+    SipAddress sipAddress;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        sipAddress.d->metadata = FieldMetadata::fromJSON(metadata);
+        sipAddress.d->value = obj.value(QStringLiteral("value")).toString();
+        sipAddress.d->type = obj.value(QStringLiteral("type")).toString();
+        sipAddress.d->formattedType = obj.value(QStringLiteral("formattedType")).toString();
+    }
+    return sipAddress;
+}
+
+QVector<SipAddress> SipAddress::fromJSONArray(const QJsonArray& data)
+{
+    QVector<SipAddress> sipAddresses;
+
+    for(const auto sipAddress : data) {
+        if(sipAddress.isObject()) {
+            const auto objectifiedSipAddress = sipAddress.toObject();
+            sipAddresses.append(fromJSON(objectifiedSipAddress));
+        }
+    }
+
+    return sipAddresses;
 }
 
 QJsonValue SipAddress::toJSON() const

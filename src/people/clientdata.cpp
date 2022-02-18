@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -95,8 +96,30 @@ void ClientData::setValue(const QString &value)
 
 ClientData ClientData::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return ClientData();
+    ClientData clientData;
+
+    if (!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        clientData.setMetadata(FieldMetadata::fromJSON(metadata));
+        clientData.setKey(obj.value(QStringLiteral("key")).toString());
+        clientData.setValue(obj.value(QStringLiteral("value")).toString());
+    }
+
+    return clientData;
+}
+
+QVector<ClientData> ClientData::fromJSONArray(const QJsonArray& data)
+{
+    QVector<ClientData> clientData;
+
+    for(const auto &jsonClientData : data) {
+        if(jsonClientData.isObject()) {
+            const auto objectifiedClientData = jsonClientData.toObject();
+            clientData.append(fromJSON(objectifiedClientData));
+        }
+    }
+
+    return clientData;
 }
 
 QJsonValue ClientData::toJSON() const

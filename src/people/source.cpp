@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -105,8 +106,34 @@ void Source::setType(const Source::Type &value)
 
 Source Source::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Source();
+    Source source;
+
+    if(!obj.isEmpty()) {
+        const auto typeEnumString = obj.value(QStringLiteral("type"));
+
+        if(typeEnumString == QStringLiteral("ACCOUNT")) {
+            source.d->type = Type::ACCOUNT;
+        } else if(typeEnumString == QStringLiteral("PROFILE")) {
+            source.d->type = Type::PROFILE;
+        } else if(typeEnumString == QStringLiteral("DOMAIN_PROFILE")) {
+            source.d->type = Type::DOMAIN_PROFILE;
+        } else if(typeEnumString == QStringLiteral("CONTACT")) {
+            source.d->type = Type::CONTACT;
+        } else if(typeEnumString == QStringLiteral("OTHER_CONTACT")) {
+            source.d->type = Type::OTHER_CONTACT;
+        } else if(typeEnumString == QStringLiteral("DOMAIN_CONTACT")) {
+            source.d->type = Type::DOMAIN_CONTACT;
+        } else {
+            source.d->type = Type::SOURCE_TYPE_UNSPECIFIED;
+        }
+
+        source.d->id = obj.value(QStringLiteral("id")).toString();
+        source.d->etag = obj.value(QStringLiteral("etag")).toString();
+        source.d->updateTime = obj.value(QStringLiteral("id")).toString();
+        source.d->profileMetadata = ProfileMetadata::fromJSON(obj.value(QStringLiteral("profileMetadata")).toObject());
+    }
+
+    return source;
 }
 
 QJsonValue Source::toJSON() const

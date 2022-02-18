@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -12,6 +13,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QSharedData>
+#include <QDateTime>
 
 #include <algorithm>
 
@@ -37,7 +39,7 @@ public:
         return !(*this == other);
     }
 
-    QString updateTime{};
+    QDateTime updateTime{};
     bool deleted{};
 };
 
@@ -62,7 +64,7 @@ bool ContactGroupMetadata::operator!=(const ContactGroupMetadata &other) const
     return !(*this == other);
 }
 
-QString ContactGroupMetadata::updateTime() const
+QDateTime ContactGroupMetadata::updateTime() const
 {
     return d->updateTime;
 }
@@ -73,15 +75,21 @@ bool ContactGroupMetadata::deleted() const
 
 ContactGroupMetadata ContactGroupMetadata::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return ContactGroupMetadata();
+    ContactGroupMetadata contactGroupMetadata;
+
+    if (!obj.isEmpty()) {
+        contactGroupMetadata.d->updateTime = obj.value(QStringLiteral("updateTime")).toVariant().toDateTime();
+        contactGroupMetadata.d->deleted = obj.value(QStringLiteral("deleted")).toBool();
+    }
+
+    return contactGroupMetadata;
 }
 
 QJsonValue ContactGroupMetadata::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"updateTime"}, d->updateTime);
+    obj.insert(QStringView{u"updateTime"}, d->updateTime.toString(Qt::ISODate));
     obj.insert(QStringView{u"deleted"}, d->deleted);
     return obj;
 }

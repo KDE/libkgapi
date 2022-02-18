@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -15,6 +16,7 @@
 
 #include <optional>
 
+class QJsonArray;
 class QJsonObject;
 class QJsonValue;
 
@@ -43,6 +45,7 @@ public:
     bool operator!=(const GroupClientData &) const;
 
     static GroupClientData fromJSON(const QJsonObject &);
+    static QVector<GroupClientData> fromJSONArray(const QJsonArray &data);
     QJsonValue toJSON() const;
 
     /** The client specified key of the client data. **/

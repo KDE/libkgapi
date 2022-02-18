@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -19,6 +20,7 @@
 
 namespace KGAPI2::People
 {
+
 class Location::Private : public QSharedData
 {
 public:
@@ -146,8 +148,35 @@ void Location::setFloorSection(const QString &value)
 
 Location Location::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Location();
+    Location location;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        location.setMetadata(FieldMetadata::fromJSON(metadata));
+        location.setValue(obj.value(QStringLiteral("value")).toString());
+        location.setType(obj.value(QStringLiteral("type")).toString());
+        location.setCurrent(obj.value(QStringLiteral("current")).toBool());
+        location.setBuildingId(obj.value(QStringLiteral("buildingId")).toString());
+        location.setFloor(obj.value(QStringLiteral("floor")).toString());
+        location.setFloorSection(obj.value(QStringLiteral("floorSection")).toString());
+        location.setDeskCode(obj.value(QStringLiteral("deskCode")).toString());
+    }
+
+    return location;
+}
+
+QVector<Location> Location::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Location> locations;
+
+    for(const auto &location : data) {
+        if(location.isObject()) {
+            const auto objectifiedLocation = location.toObject();
+            locations.append(fromJSON(objectifiedLocation));
+        }
+    }
+
+    return locations;
 }
 
 QJsonValue Location::toJSON() const

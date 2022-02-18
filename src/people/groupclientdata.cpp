@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -83,8 +84,28 @@ void GroupClientData::setValue(const QString &value)
 
 GroupClientData GroupClientData::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return GroupClientData();
+    GroupClientData groupClientData;
+
+    if (!obj.isEmpty()) {
+        groupClientData.setKey(obj.value(QStringLiteral("key")).toString());
+        groupClientData.setValue(obj.value(QStringLiteral("value")).toString());
+    }
+
+    return groupClientData;
+}
+
+QVector<GroupClientData> GroupClientData::fromJSONArray(const QJsonArray& data)
+{
+    QVector<GroupClientData> returnGroupClientData;
+
+    for(const auto &groupClientData : data) {
+        if(groupClientData.isObject()) {
+            const auto objectifiedGroupClientData = groupClientData.toObject();
+            returnGroupClientData.append(fromJSON(objectifiedGroupClientData));
+        }
+    }
+
+    return returnGroupClientData;
 }
 
 QJsonValue GroupClientData::toJSON() const

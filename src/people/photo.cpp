@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -95,8 +96,30 @@ void Photo::setUrl(const QString &value)
 
 Photo Photo::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Photo();
+    Photo photo;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        photo.setMetadata(FieldMetadata::fromJSON(metadata));
+        photo.setUrl(obj.value(QStringLiteral("url")).toString());
+        photo.setIsDefault(obj.value(QStringLiteral("default")).toBool());
+    }
+
+    return photo;
+}
+
+QVector<Photo> Photo::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Photo> photos;
+
+    for(const auto &photo : data) {
+        if(photo.isObject()) {
+            const auto objectifiedPhoto = photo.toObject();
+            photos.append(fromJSON(objectifiedPhoto));
+        }
+    }
+
+    return photos;
 }
 
 QJsonValue Photo::toJSON() const

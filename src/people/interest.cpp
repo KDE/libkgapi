@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -85,8 +86,29 @@ void Interest::setMetadata(const FieldMetadata &value)
 
 Interest Interest::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Interest();
+    Interest interest;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        interest.setMetadata(FieldMetadata::fromJSON(metadata));
+        interest.setValue(obj.value(QStringLiteral("value")).toString());
+    }
+
+    return interest;
+}
+
+QVector<Interest> Interest::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Interest> interests;
+
+    for(const auto &interest : data) {
+        if(interest.isObject()) {
+            const auto objectifiedInterest = interest.toObject();
+            interests.append(fromJSON(objectifiedInterest));
+        }
+    }
+
+    return interests;
 }
 
 QJsonValue Interest::toJSON() const

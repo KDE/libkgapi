@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -223,8 +224,54 @@ void Organization::setFullTimeEquivalentMillipercent(const int &value)
 
 Organization Organization::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Organization();
+    Organization organization;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        organization.d->metadata = FieldMetadata::fromJSON(metadata);
+        organization.d->type = obj.value(QStringLiteral("type")).toString();
+        organization.d->formattedType = obj.value(QStringLiteral("formattedType")).toString();
+
+        const auto jsonStartDate = obj.value(QStringLiteral("startDate")).toObject();
+        const auto startYear = jsonStartDate.value(QStringLiteral("year")).toInt();
+        const auto startMonth = jsonStartDate.value(QStringLiteral("month")).toInt();
+        const auto startDay = jsonStartDate.value(QStringLiteral("day")).toInt();
+        organization.d->startDate = QDate(startYear, startMonth, startDay);
+
+        const auto jsonEndDate = obj.value(QStringLiteral("endDate")).toObject();
+        const auto endYear = jsonEndDate.value(QStringLiteral("year")).toInt();
+        const auto endMonth = jsonEndDate.value(QStringLiteral("month")).toInt();
+        const auto endDay = jsonEndDate.value(QStringLiteral("day")).toInt();
+        organization.d->endDate = QDate(endYear, endMonth, endDay);
+
+        organization.d->current = obj.value(QStringLiteral("current")).toBool();
+        organization.d->name = obj.value(QStringLiteral("name")).toString();
+        organization.d->phoneticName = obj.value(QStringLiteral("phoneticName")).toString();
+        organization.d->department = obj.value(QStringLiteral("department")).toString();
+        organization.d->title = obj.value(QStringLiteral("title")).toString();
+        organization.d->jobDescription = obj.value(QStringLiteral("jobDescription")).toString();
+        organization.d->symbol = obj.value(QStringLiteral("symbol")).toString();
+        organization.d->domain = obj.value(QStringLiteral("domain")).toString();
+        organization.d->location = obj.value(QStringLiteral("location")).toString();
+        organization.d->costCenter = obj.value(QStringLiteral("costCenter")).toString();
+        organization.d->fullTimeEquivalentMillipercent = obj.value(QStringLiteral("fullTimeEquivalentMillipercent")).toInt();
+    }
+
+    return organization;
+}
+
+QVector<Organization> Organization::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Organization> organizations;
+
+    for(const auto &organization : data) {
+        if(organization.isObject()) {
+            const auto objectifiedOrganization = organization.toObject();
+            organizations.append(fromJSON(objectifiedOrganization));
+        }
+    }
+
+    return organizations;
 }
 
 QJsonValue Organization::toJSON() const

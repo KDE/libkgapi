@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -95,8 +96,46 @@ void Nickname::setMetadata(const FieldMetadata &value)
 
 Nickname Nickname::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Nickname();
+    Nickname nickname;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        nickname.setMetadata(FieldMetadata::fromJSON(metadata));
+        nickname.setValue(obj.value(QStringLiteral("value")).toString());
+
+        const auto type = obj.value(QStringLiteral("type")).toString();
+        if(type == QStringLiteral("MAIDEN_NAME")) {
+            nickname.setType(Nickname::Type::MAIDEN_NAME);
+        } else if (type == QStringLiteral("INITIALS")) {
+            nickname.setType(Nickname::Type::INITIALS);
+        } else if (type == QStringLiteral("GPLUS")) {
+            nickname.setType(Nickname::Type::GPLUS);
+        } else if (type == QStringLiteral("OTHER_NAME")) {
+            nickname.setType(Nickname::Type::OTHER_NAME);
+        } else if (type == QStringLiteral("ALTERNATE_NAME")) {
+            nickname.setType(Nickname::Type::ALTERNATE_NAME);
+        } else if (type == QStringLiteral("SHORT_NAME")) {
+            nickname.setType(Nickname::Type::SHORT_NAME);
+        } else {
+            nickname.setType(Nickname::Type::DEFAULT);
+        }
+    }
+
+    return nickname;
+}
+
+QVector<Nickname> Nickname::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Nickname> nicknames;
+
+    for(const auto &nickname : data) {
+        if(nickname.isObject()) {
+            const auto objectifiedNickname = nickname.toObject();
+            nicknames.append(fromJSON(objectifiedNickname));
+        }
+    }
+
+    return nicknames;
 }
 
 QJsonValue Nickname::toJSON() const

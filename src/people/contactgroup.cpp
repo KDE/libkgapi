@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -10,6 +11,7 @@
 
 #include "contactgroupmetadata.h"
 #include "groupclientdata.h"
+#include "clientdata.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -58,10 +60,6 @@ ContactGroup::ContactGroup()
 {
 }
 
-ContactGroup::ContactGroup(const ContactGroup &) = default;
-ContactGroup::ContactGroup(ContactGroup &&) noexcept = default;
-ContactGroup &ContactGroup::operator=(const ContactGroup &) = default;
-ContactGroup &ContactGroup::operator=(ContactGroup &&) noexcept = default;
 ContactGroup::~ContactGroup() = default;
 
 bool ContactGroup::operator==(const ContactGroup &other) const
@@ -147,10 +145,38 @@ QVector<QString> ContactGroup::memberResourceNames() const
     return d->memberResourceNames;
 }
 
-ContactGroup ContactGroup::fromJSON(const QJsonObject &obj)
+ContactGroupPtr ContactGroup::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return ContactGroup();
+    auto contactGroup = new ContactGroup;
+
+    if (!obj.isEmpty()) {
+        contactGroup->d->resourceName = obj.value(QStringLiteral("resourceName")).toString();
+        contactGroup->d->etag = obj.value(QStringLiteral("etag")).toString();
+
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        contactGroup->d->metadata = ContactGroupMetadata::fromJSON(metadata);
+
+        const auto groupType = obj.value(QStringLiteral("groupType"));
+        contactGroup->d->groupType = ContactGroup::GroupType(groupType.toInt());
+
+        contactGroup->d->name = obj.value(QStringLiteral("name")).toString();
+        contactGroup->d->formattedName = obj.value(QStringLiteral("formattedName")).toString();
+
+        const auto memberResourceNames = obj.value(QStringLiteral("memberResourceNames")).toArray();
+        std::transform(memberResourceNames.cbegin(),
+                       memberResourceNames.cend(),
+                       std::back_inserter(contactGroup->d->memberResourceNames),
+                       [](const QJsonValue &jsonMemberResourceName) {
+                           return jsonMemberResourceName.toString();
+                       });
+
+        contactGroup->d->memberCount = obj.value(QStringLiteral("memberCount")).toInt();
+
+        const auto clientData = obj.value(QStringLiteral("clientData")).toArray();
+        contactGroup->d->clientData = GroupClientData::fromJSONArray(clientData);
+    }
+
+    return ContactGroupPtr(contactGroup);
 }
 
 QJsonValue ContactGroup::toJSON() const

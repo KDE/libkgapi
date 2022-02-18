@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -73,8 +74,13 @@ void DomainMembership::setInViewerDomain(const bool &value)
 
 DomainMembership DomainMembership::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return DomainMembership();
+    DomainMembership domainMembership;
+
+    if(!obj.isEmpty()) {
+        domainMembership.setInViewerDomain(obj.value(QStringLiteral("inViewerDomain")).toBool());
+    }
+
+    return domainMembership;
 }
 
 QJsonValue DomainMembership::toJSON() const

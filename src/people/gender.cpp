@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -100,8 +101,31 @@ void Gender::setAddressMeAs(const QString &value)
 
 Gender Gender::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Gender();
+    Gender gender;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        gender.d->metadata = FieldMetadata::fromJSON(metadata);
+        gender.d->value = obj.value(QStringLiteral("value")).toString();
+        gender.d->formattedValue = obj.value(QStringLiteral("formattedValue")).toString();
+        gender.d->addressMeAs = obj.value(QStringLiteral("addressMeAs")).toString();
+    }
+
+    return gender;
+}
+
+QVector<Gender> Gender::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Gender> genders;
+
+    for(const auto &gender : data) {
+        if(gender.isObject()) {
+            const auto objectifiedGender = gender.toObject();
+            genders.append(fromJSON(objectifiedGender));
+        }
+    }
+
+    return genders;
 }
 
 QJsonValue Gender::toJSON() const

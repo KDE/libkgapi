@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -85,8 +86,29 @@ void Skill::setValue(const QString &value)
 
 Skill Skill::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Skill();
+    Skill skill;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        skill.setMetadata(FieldMetadata::fromJSON(metadata));
+        skill.setValue(obj.value(QStringLiteral("value")).toString());
+    }
+
+    return skill;
+}
+
+QVector<Skill> Skill::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Skill> skills;
+
+    for(const auto &skill : data) {
+        if(skill.isObject()) {
+            const auto objectifiedSkill = skill.toObject();
+            skills.append(fromJSON(objectifiedSkill));
+        }
+    }
+
+    return skills;
 }
 
 QJsonValue Skill::toJSON() const

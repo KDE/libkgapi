@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -7,8 +8,6 @@
  */
 
 #include "fieldmetadata.h"
-
-#include "source.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -95,8 +94,16 @@ bool FieldMetadata::verified() const
 
 FieldMetadata FieldMetadata::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return FieldMetadata();
+    FieldMetadata fieldMetadata;
+
+    if(!obj.isEmpty()) {
+        fieldMetadata.d->primary = obj.value(QStringLiteral("primary")).toBool();
+        fieldMetadata.d->sourcePrimary = obj.value(QStringLiteral("sourcePrimary")).toBool();
+        fieldMetadata.d->verified = obj.value(QStringLiteral("verified")).toBool();
+        fieldMetadata.d->source = Source::fromJSON(obj.value(QStringLiteral("source")).toObject());
+    }
+
+    return fieldMetadata;
 }
 
 QJsonValue FieldMetadata::toJSON() const

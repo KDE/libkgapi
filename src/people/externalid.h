@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -17,6 +18,7 @@
 
 class QJsonObject;
 class QJsonValue;
+class QJsonArray;
 
 namespace KGAPI2::People
 {
@@ -43,7 +45,8 @@ public:
     bool operator==(const ExternalId &) const;
     bool operator!=(const ExternalId &) const;
 
-    static ExternalId fromJSON(const QJsonObject &);
+    static ExternalId fromJSON(const QJsonObject &obj);
+    static QVector<ExternalId> fromJSONArray(const QJsonArray &data);
     QJsonValue toJSON() const;
 
     /** The type of the external ID. The type can be custom or one of these predefined values: * `account` * `customer` * `loginId` * `network` * `organization`

@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -10,6 +11,7 @@
 
 #include <QSharedDataPointer>
 #include <kgapipeople_export.h>
+#include "source.h"
 
 #include <optional>
 
@@ -18,8 +20,6 @@ class QJsonValue;
 
 namespace KGAPI2::People
 {
-class Source;
-
 /**
  * Metadata about a field.
  *

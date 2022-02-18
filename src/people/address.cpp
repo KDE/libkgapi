@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -10,8 +11,6 @@
 
 #include "fieldmetadata.h"
 
-#include <QJsonArray>
-#include <QJsonObject>
 #include <QJsonValue>
 #include <QSharedData>
 
@@ -182,8 +181,37 @@ void Address::setCountry(const QString &value)
 
 Address Address::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Address();
+    Address address;
+
+    if(!obj.isEmpty()) {
+        address.setMetadata(FieldMetadata::fromJSON(obj.value(QStringLiteral("metadata")).toObject()));
+        address.setFormattedValue(obj.value(QStringLiteral("formattedValue")).toString());
+        address.setType(obj.value(QStringLiteral("type")).toString());
+        address.setPoBox(obj.value(QStringLiteral("poBox")).toString());
+        address.setStreetAddress(obj.value(QStringLiteral("streetAddress")).toString());
+        address.setExtendedAddress(obj.value(QStringLiteral("extendedAddress")).toString());
+        address.setCity(obj.value(QStringLiteral("city")).toString());
+        address.setRegion(obj.value(QStringLiteral("region")).toString());
+        address.setPostalCode(obj.value(QStringLiteral("postalCode")).toString());
+        address.setCountry(obj.value(QStringLiteral("country")).toString());
+        address.setCountryCode(obj.value(QStringLiteral("countryCode")).toString());
+    }
+
+    return address;
+}
+
+QVector<Address> Address::fromJSONArray(const QJsonArray& data)
+{
+    QVector<People::Address> addresses;
+
+    for(const auto &address : data) {
+        if(address.isObject()) {
+            const auto objectifiedAddress = address.toObject();
+            addresses.append(fromJSON(objectifiedAddress));
+        }
+    }
+
+    return addresses;
 }
 
 QJsonValue Address::toJSON() const

@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -10,8 +11,6 @@
 
 #include "fieldmetadata.h"
 
-#include <QJsonArray>
-#include <QJsonObject>
 #include <QJsonValue>
 #include <QSharedData>
 
@@ -85,8 +84,23 @@ void AgeRangeType::setMetadata(const FieldMetadata &value)
 
 AgeRangeType AgeRangeType::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return AgeRangeType();
+    AgeRangeType ageRangeType;
+
+    if(!obj.isEmpty()) {
+        const auto val = obj.value(QStringLiteral("ageRange")).toString();
+
+        if(val == QStringLiteral("LESS_THAN_EIGHTEEN")) {
+            ageRangeType.setAgeRange(AgeRange::LESS_THAN_EIGHTEEN);
+        } else if(val == QStringLiteral("EIGHTEEN_TO_TWENTY")) {
+            ageRangeType.setAgeRange(AgeRange::EIGHTEEN_TO_TWENTY);
+        } else if(val == QStringLiteral("TWENTY_ONE_OR_OLDER")) {
+            ageRangeType.setAgeRange(AgeRange::TWENTY_ONE_OR_OLDER);
+        } else {
+            ageRangeType.setAgeRange(AgeRange::AGE_RANGE_UNSPECIFIED);
+        }
+    }
+
+    return ageRangeType;
 }
 
 QJsonValue AgeRangeType::toJSON() const
@@ -109,6 +123,22 @@ QJsonValue AgeRangeType::toJSON() const
     }
     obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
+}
+
+QVector<AgeRangeType> AgeRangeType::fromJSONArray(const QJsonArray& data)
+{
+    QVector<People::AgeRangeType> ageRanges;
+
+    for(const auto &ageRangeObj : data) {
+        if(ageRangeObj.isObject()) {
+            const auto objectifiedAgeRange = ageRangeObj.toObject();
+            if(objectifiedAgeRange.contains(QStringLiteral("ageRange"))) {
+                ageRanges.append(fromJSON(objectifiedAgeRange));
+            }
+        }
+    }
+
+    return ageRanges;
 }
 
 } // namespace KGAPI2::People

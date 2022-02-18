@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -17,6 +18,7 @@
 
 class QJsonObject;
 class QJsonValue;
+class QJsonArray;
 
 namespace KGAPI2::People
 {
@@ -43,7 +45,8 @@ public:
     bool operator==(const EmailAddress &) const;
     bool operator!=(const EmailAddress &) const;
 
-    static EmailAddress fromJSON(const QJsonObject &);
+    static EmailAddress fromJSON(const QJsonObject &obj);
+    static QVector<EmailAddress> fromJSONArray(const QJsonArray &data);
     QJsonValue toJSON() const;
 
     /** The email address. **/

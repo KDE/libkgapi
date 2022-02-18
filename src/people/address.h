@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -9,6 +10,8 @@
 #pragma once
 
 #include <QSharedDataPointer>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <kgapipeople_export.h>
 
 #include <QString>
@@ -44,7 +47,8 @@ public:
     bool operator==(const Address &) const;
     bool operator!=(const Address &) const;
 
-    static Address fromJSON(const QJsonObject &);
+    static Address fromJSON(const QJsonObject &obj);
+    static QVector<Address> fromJSONArray(const QJsonArray &data);
     QJsonValue toJSON() const;
 
     /** Output only. The type of the address translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/

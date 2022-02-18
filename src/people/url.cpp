@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -100,8 +101,31 @@ QString Url::formattedType() const
 
 Url Url::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return Url();
+    Url url;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        url.d->metadata = FieldMetadata::fromJSON(metadata);
+        url.d->value = obj.value(QStringLiteral("value")).toString();
+        url.d->type = obj.value(QStringLiteral("type")).toString();
+        url.d->formattedType = obj.value(QStringLiteral("formattedType")).toString();
+    }
+
+    return url;
+}
+
+QVector<Url> Url::fromJSONArray(const QJsonArray& data)
+{
+    QVector<Url> urls;
+
+    for(const auto &url : data) {
+        if(url.isObject()) {
+            const auto objectifiedUrl = url.toObject();
+            urls.append(fromJSON(objectifiedUrl));
+        }
+    }
+
+    return urls;
 }
 
 QJsonValue Url::toJSON() const

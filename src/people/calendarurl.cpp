@@ -100,8 +100,31 @@ QString CalendarUrl::formattedType() const
 
 CalendarUrl CalendarUrl::fromJSON(const QJsonObject &obj)
 {
-    Q_UNUSED(obj);
-    return CalendarUrl();
+    CalendarUrl calendarUrl;
+
+    if(!obj.isEmpty()) {
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        calendarUrl.d->metadata = FieldMetadata::fromJSON(metadata);
+        calendarUrl.d->url = obj.value(QStringLiteral("url")).toString();
+        calendarUrl.d->type = obj.value(QStringLiteral("type")).toString();
+        calendarUrl.d->formattedType = obj.value(QStringLiteral("formattedType")).toString();
+    }
+
+    return calendarUrl;
+}
+
+QVector<CalendarUrl> CalendarUrl::fromJSONArray(const QJsonArray& data)
+{
+    QVector<CalendarUrl> calendarUrls;
+
+    for(const auto &calendarUrl : data) {
+        if(calendarUrl.isObject()) {
+            const auto objectifiedCalendarUrl = calendarUrl.toObject();
+            calendarUrls.append(fromJSON(objectifiedCalendarUrl));
+        }
+    }
+
+    return calendarUrls;
 }
 
 QJsonValue CalendarUrl::toJSON() const

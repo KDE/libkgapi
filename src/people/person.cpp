@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
+ * SPDX-FileCopyrightText: 2022 Claudio Cambra <claudio.cambra@kde.org>
  *
  * SPDX-License-Identifier: LGPL-2.1-only
  * SPDX-License-Identifier: LGPL-3.0-only
@@ -45,6 +46,8 @@
 #include "userdefined.h"
 
 #include <algorithm>
+#include <QJsonObject>
+#include <QJsonArray>
 
 namespace KGAPI2::People
 {
@@ -854,6 +857,113 @@ Person::Person::AgeRange Person::ageRange() const
 PersonMetadata Person::metadata() const
 {
     return d->metadata;
+}
+
+PersonPtr Person::fromJSON(const QJsonObject &obj)
+{
+    auto person = new Person;
+
+    if (!obj.isEmpty()) {
+        person->d->resourceName = obj.value(QStringLiteral("resourceName")).toString();
+        person->d->etag = obj.value(QStringLiteral("etag")).toString();
+
+        const auto metadata = obj.value(QStringLiteral("metadata")).toObject();
+        person->d->metadata = PersonMetadata::fromJSON(metadata);
+
+        const auto addresses = obj.value(QStringLiteral("addresses")).toArray();
+        person->d->addresses = Address::fromJSONArray(addresses);
+
+        const auto ageRanges = obj.value(QStringLiteral("ageRanges")).toArray();
+        person->d->ageRanges = AgeRangeType::fromJSONArray(ageRanges);
+
+        const auto biographies = obj.value(QStringLiteral("biographies")).toArray();
+        person->d->biographies = Biography::fromJSONArray(biographies);
+
+        const auto birthdays = obj.value(QStringLiteral("birthdays")).toArray();
+        person->d->birthdays = Birthday::fromJSONArray(birthdays);
+
+        // Bragging rights are deprecated and return nothing. Pass
+
+        const auto calendarUrls = obj.value(QStringLiteral("calendarUrls")).toArray();
+        person->d->calendarUrls = CalendarUrl::fromJSONArray(calendarUrls);
+
+        const auto clientData = obj.value(QStringLiteral("clientData")).toArray();
+        person->d->clientData = ClientData::fromJSONArray(clientData);
+
+        const auto coverPhotos = obj.value(QStringLiteral("coverPhotos")).toArray();
+        person->d->coverPhotos = CoverPhoto::fromJSONArray(coverPhotos);
+
+        const auto emailAddresses = obj.value(QStringLiteral("emailAddresses")).toArray();
+        person->d->emailAddresses = EmailAddress::fromJSONArray(emailAddresses);
+
+        const auto events = obj.value(QStringLiteral("events")).toArray();
+        person->d->events = Event::fromJSONArray(events);
+
+        const auto externalIds = obj.value(QStringLiteral("externalIds")).toArray();
+        person->d->externalIds = ExternalId::fromJSONArray(externalIds);
+
+        const auto fileAses = obj.value(QStringLiteral("fileAses")).toArray();
+        person->d->fileAses = FileAs::fromJSONArray(fileAses);
+
+        const auto genders = obj.value(QStringLiteral("genders")).toArray();
+        person->d->genders = Gender::fromJSONArray(genders);
+
+        const auto imClients = obj.value(QStringLiteral("imClients")).toArray();
+        person->d->imClients = ImClient::fromJSONArray(imClients);
+
+        const auto interests = obj.value(QStringLiteral("interests")).toArray();
+        person->d->interests = Interest::fromJSONArray(interests);
+
+        const auto locales = obj.value(QStringLiteral("locales")).toArray();
+        person->d->locales = PersonLocale::fromJSONArray(locales);
+
+        const auto locations = obj.value(QStringLiteral("locations")).toArray();
+        person->d->locations = Location::fromJSONArray(locations);
+
+        const auto memberships = obj.value(QStringLiteral("memberships")).toArray();
+        person->d->memberships = Membership::fromJSONArray(memberships);
+
+        const auto miscKeywords = obj.value(QStringLiteral("miscKeywords")).toArray();
+        person->d->miscKeywords = MiscKeyword::fromJSONArray(miscKeywords);
+
+        const auto names = obj.value(QStringLiteral("names")).toArray();
+        person->d->names = Name::fromJSONArray(names);
+
+        const auto nicknames = obj.value(QStringLiteral("nicknames")).toArray();
+        person->d->nicknames = Nickname::fromJSONArray(nicknames);
+
+        const auto occupations = obj.value(QStringLiteral("occupations")).toArray();
+        person->d->occupations = Occupation::fromJSONArray(occupations);
+
+        const auto organizations = obj.value(QStringLiteral("organizations")).toArray();
+        person->d->organizations = Organization::fromJSONArray(organizations);
+
+        const auto phoneNumbers = obj.value(QStringLiteral("phoneNumbers")).toArray();
+        person->d->phoneNumbers = PhoneNumber::fromJSONArray(phoneNumbers);
+
+        const auto photos = obj.value(QStringLiteral("photos")).toArray();
+        person->d->photos = Photo::fromJSONArray(photos);
+
+        const auto relations = obj.value(QStringLiteral("relations")).toArray();
+        person->d->relations = Relation::fromJSONArray(relations);
+
+        // relationshipInterest is deprecated, provides no data
+        // relationshipStatus is also deprecated
+        // residence is also deprecated
+
+        const auto sipAddresses = obj.value(QStringLiteral("sipAddresses")).toArray();
+        person->d->sipAddresses = SipAddress::fromJSONArray(sipAddresses);
+
+        const auto skills = obj.value(QStringLiteral("skills")).toArray();
+        person->d->skills = Skill::fromJSONArray(skills);
+
+        // tagline is deprecated, provides no data
+
+        const auto urls = obj.value(QStringLiteral("urls")).toArray();
+        person->d->urls = Url::fromJSONArray(urls);
+    }
+
+    return People::PersonPtr(person);
 }
 
 } // namespace KGAPI2::People
