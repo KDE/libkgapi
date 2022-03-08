@@ -366,7 +366,7 @@ QUrl StaticMapUrl::url() const
             query.addQueryItem(QStringLiteral("center"), param);
             break;
         case KABCAddress:
-            param = d->locationAddress.formattedAddress();
+            param = d->locationAddress.formatted(KContacts::AddressFormatStyle::Postal);
             param.replace(QLatin1String(", "), QLatin1String(","));
             param.replace(QLatin1String(". "), QLatin1String("."));
             param.replace(QLatin1Char(' '), QLatin1Char('+'));
@@ -461,7 +461,7 @@ QUrl StaticMapUrl::url() const
             query.addQueryItem(QStringLiteral("visible"), param);
             break;
         case KABCAddress:
-            param = d->visibleAddress.formattedAddress();
+            param = d->visibleAddress.formatted(KContacts::AddressFormatStyle::Postal);
             param.replace(QLatin1String(", "), QLatin1String(","));
             param.replace(QLatin1String(". "), QLatin1String("."));
             param.replace(QLatin1Char(' '), QLatin1Char('+'));

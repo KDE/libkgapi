@@ -189,7 +189,7 @@ QString StaticMapPath::toString() const
     } else if (locationType() == KABCAddress) {
 
         for (const KContacts::Address & addr : std::as_const(d->locationsAddress)) {
-            ret += addr.formattedAddress() + QLatin1Char('|');
+            ret += addr.formatted(KContacts::AddressFormatStyle::Postal) + QLatin1Char('|');
         }
 
     } else if (locationType() == KABCGeo) {

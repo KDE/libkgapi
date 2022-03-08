@@ -774,8 +774,8 @@ QByteArray contactToXML(const ContactPtr& contact)
         if (!address.country().isEmpty()) {
             output.append("<gd:country>").append(address.country().toHtmlEscaped().toUtf8()).append("</gd:country>");
         }
-        if (!address.formattedAddress().isEmpty()) {
-            output.append("<gd:formattedAddress>").append(address.formattedAddress().toHtmlEscaped().toUtf8()).append("</gd:formattedAddress>");
+        if (!address.formatted(KContacts::AddressFormatStyle::Postal).isEmpty()) {
+            output.append("<gd:formattedAddress>").append(address.formatted(KContacts::AddressFormatStyle::Postal).toHtmlEscaped().toUtf8()).append("</gd:formattedAddress>");
         }
         output.append("</gd:structuredPostalAddress>");
     }

@@ -271,7 +271,7 @@ QString StaticMapMarker::toString() const
     } else if (d->locationType == KABCAddress) {
 
         for (const KContacts::Address & addr : std::as_const(d->locationsAddress)) {
-            ret += addr.formattedAddress() + QLatin1Char('|');
+            ret += addr.formatted(KContacts::AddressFormatStyle::Postal) + QLatin1Char('|');
         }
 
     } else if (d->locationType == KABCGeo) {
