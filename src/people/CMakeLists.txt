@@ -31,6 +31,7 @@ target_sources(KPimGAPIPeople PRIVATE
     occupation.cpp
     organization.cpp
     person.cpp
+    personfetchjob.cpp
     personlocale.cpp
     personmetadata.cpp
     peopleservice.cpp
@@ -82,9 +83,9 @@ ecm_generate_headers(
     Occupation
     Organization
     Person
+    PersonFetchJob
     PersonLocale
     PersonMetadata
-    PeopleService
     PhoneNumber
     Photo
     ProfileMetadata
