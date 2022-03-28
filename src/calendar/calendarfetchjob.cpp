@@ -6,17 +6,15 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "calendarfetchjob.h"
-#include "calendarservice.h"
 #include "account.h"
 #include "calendar.h"
+#include "calendarservice.h"
 #include "debug.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
@@ -26,15 +24,15 @@ public:
     QString calendarId;
 };
 
-CalendarFetchJob::CalendarFetchJob(const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private())
+CalendarFetchJob::CalendarFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private())
 {
 }
 
-CalendarFetchJob::CalendarFetchJob(const QString& calendarId, const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private())
+CalendarFetchJob::CalendarFetchJob(const QString &calendarId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private())
 {
     d->calendarId = calendarId;
 }
@@ -53,7 +51,7 @@ void CalendarFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList CalendarFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList CalendarFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     FeedData feedData;
     feedData.requestUrl = reply->request().url();
@@ -63,7 +61,7 @@ ObjectsList CalendarFetchJob::handleReplyWithItems(const QNetworkReply *reply, c
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->calendarId.isEmpty()) {
-            items =  CalendarService::parseCalendarJSONFeed(rawData, feedData);
+            items = CalendarService::parseCalendarJSONFeed(rawData, feedData);
         } else {
             items << CalendarService::JSONToCalendar(rawData);
         }
@@ -81,5 +79,3 @@ ObjectsList CalendarFetchJob::handleReplyWithItems(const QNetworkReply *reply, c
 
     return items;
 }
-
-

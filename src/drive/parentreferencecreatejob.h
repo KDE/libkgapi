@@ -23,23 +23,11 @@ class KGAPIDRIVE_EXPORT ParentReferenceCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
-    explicit ParentReferenceCreateJob(const QString &fileId,
-                                      const QString &parentId,
-                                      const AccountPtr &account,
-                                      QObject *parent = nullptr);
-    explicit ParentReferenceCreateJob(const QString &fileId,
-                                      const QStringList &parentsIds,
-                                      const AccountPtr &account,
-                                      QObject *parent = nullptr);
-    explicit ParentReferenceCreateJob(const QString &fileId,
-                                      const ParentReferencePtr &reference,
-                                      const AccountPtr &account,
-                                      QObject *parent = nullptr);
-    explicit ParentReferenceCreateJob(const QString &fileId,
-                                      const ParentReferencesList &references,
-                                      const AccountPtr &account,
-                                      QObject *parent = nullptr);
+public:
+    explicit ParentReferenceCreateJob(const QString &fileId, const QString &parentId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ParentReferenceCreateJob(const QString &fileId, const QStringList &parentsIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ParentReferenceCreateJob(const QString &fileId, const ParentReferencePtr &reference, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ParentReferenceCreateJob(const QString &fileId, const ParentReferencesList &references, const AccountPtr &account, QObject *parent = nullptr);
     ~ParentReferenceCreateJob() override;
 
     /**
@@ -62,19 +50,16 @@ class KGAPIDRIVE_EXPORT ParentReferenceCreateJob : public KGAPI2::CreateJob
      */
     KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

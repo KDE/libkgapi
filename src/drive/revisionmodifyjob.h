@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapidrive_export.h"
+#include "modifyjob.h"
 
 namespace KGAPI2
 {
@@ -21,21 +21,16 @@ class KGAPIDRIVE_EXPORT RevisionModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
-  public:
-    explicit RevisionModifyJob(const QString &fileId,
-                               const RevisionPtr &revision,
-                               const AccountPtr &account, QObject *parent = nullptr);
-    explicit RevisionModifyJob(const QString &fileId,
-                               const RevisionsList &revisions,
-                               const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit RevisionModifyJob(const QString &fileId, const RevisionPtr &revision, const AccountPtr &account, QObject *parent = nullptr);
+    explicit RevisionModifyJob(const QString &fileId, const RevisionsList &revisions, const AccountPtr &account, QObject *parent = nullptr);
     ~RevisionModifyJob() override;
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -44,4 +39,3 @@ class KGAPIDRIVE_EXPORT RevisionModifyJob : public KGAPI2::ModifyJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

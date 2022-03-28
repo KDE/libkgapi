@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
 #include "fileabstractuploadjob.h"
@@ -32,9 +31,7 @@ class KGAPIDRIVE_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUpload
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool createNewRevision
-               READ createNewRevision
-               WRITE setCreateNewRevision)
+    Q_PROPERTY(bool createNewRevision READ createNewRevision WRITE setCreateNewRevision)
 
     /**
      * Whether to set the modified date with the supplied modified date.
@@ -43,9 +40,7 @@ class KGAPIDRIVE_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUpload
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool updateModifiedDate
-               READ updateModifiedDate
-               WRITE setUpdateModifiedDate)
+    Q_PROPERTY(bool updateModifiedDate READ updateModifiedDate WRITE setUpdateModifiedDate)
 
     /**
      * Whether to update the view date after successfully updating the file.
@@ -54,22 +49,14 @@ class KGAPIDRIVE_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUpload
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool updateViewedDate
-               READ updateViewedDate
-               WRITE setUpdateViewedDate)
+    Q_PROPERTY(bool updateViewedDate READ updateViewedDate WRITE setUpdateViewedDate)
 
-  public:
-    explicit FileModifyJob(const FilePtr &metadata,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileModifyJob(const QString &filePath, const QString &fileId,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileModifyJob(const QString &filePath,
-                           const FilePtr &metaData,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileModifyJob(const QMap < QString /* file path */, QString /* file ID */ > &files,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileModifyJob(const QMap < QString /* file path */, FilePtr /* metadata */ > &files,
-                           const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileModifyJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileModifyJob(const QString &filePath, const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileModifyJob(const QString &filePath, const FilePtr &metaData, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileModifyJob(const QMap<QString /* file path */, QString /* file ID */> &files, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileModifyJob(const QMap<QString /* file path */, FilePtr /* metadata */> &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileModifyJob() override;
 
     bool createNewRevision() const;
@@ -81,21 +68,16 @@ class KGAPIDRIVE_EXPORT FileModifyJob : public KGAPI2::Drive::FileAbstractUpload
     bool updateViewedDate() const;
     void setUpdateViewedDate(bool updateViewedDate);
 
-  protected:
-    QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
-                                    const QNetworkRequest &request,
-                                    const QByteArray &data) override;
-    QUrl createUrl(const QString &filePath,
-                           const FilePtr &metaData) override;
+protected:
+    QNetworkReply *dispatch(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data) override;
+    QUrl createUrl(const QString &filePath, const FilePtr &metaData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

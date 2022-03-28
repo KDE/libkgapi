@@ -4,7 +4,6 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -12,31 +11,29 @@
 
 using namespace KGAPI2;
 
-MainWindow::MainWindow(QWidget * parent) :
-    QMainWindow(parent),
-    m_ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
 
-    connect(m_ui->get, SIGNAL(clicked(bool)),
-            this, SLOT(getImage()));
-    connect(m_ui->addMarker, SIGNAL(clicked(bool)),
-            this, SLOT(addMarker()));
+    connect(m_ui->get, SIGNAL(clicked(bool)), this, SLOT(getImage()));
+    connect(m_ui->addMarker, SIGNAL(clicked(bool)), this, SLOT(addMarker()));
 }
 
 MainWindow::~MainWindow()
-{ }
+{
+}
 
 void MainWindow::addMarker()
 {
     StaticMapMarker marker;
 
     if (!m_ui->markerLocation->text().isEmpty()) {
-
         if (!m_ui->markerLabel->text().isEmpty())
             marker.setLabel(QChar(m_ui->markerLabel->text().at(0)));
 
-        marker.setSize((StaticMapMarker::MarkerSize) m_ui->markerSize->currentIndex());
+        marker.setSize((StaticMapMarker::MarkerSize)m_ui->markerSize->currentIndex());
         marker.setColor(m_ui->markerColor->color());
         marker.setLocation(m_ui->markerLocation->text());
 
@@ -51,18 +48,17 @@ void MainWindow::getImage()
     KContacts::Address addr;
 
     switch (m_ui->locationType->currentIndex()) {
-	case StaticMapUrl::String:
-	    map.setLocation(m_ui->locationString->text());
-	    break;
-	case StaticMapUrl::KABCAddress:
-	    addr.setLocality(m_ui->locationCity->text());
-	    addr.setStreet(m_ui->locationStreet->text());
-	    map.setLocation(addr);
-	    break;
-	case StaticMapUrl::KABCGeo:
-	    map.setLocation(KContacts::Geo(m_ui->locationLatitude->value(),
-				      m_ui->locationLongitude->value()));
-	    break;
+    case StaticMapUrl::String:
+        map.setLocation(m_ui->locationString->text());
+        break;
+    case StaticMapUrl::KABCAddress:
+        addr.setLocality(m_ui->locationCity->text());
+        addr.setStreet(m_ui->locationStreet->text());
+        map.setLocation(addr);
+        break;
+    case StaticMapUrl::KABCGeo:
+        map.setLocation(KContacts::Geo(m_ui->locationLatitude->value(), m_ui->locationLongitude->value()));
+        break;
     }
 
     map.setZoomLevel(m_ui->zoom->value());
@@ -74,13 +70,12 @@ void MainWindow::getImage()
     map.setMarkers(m_markers);
 
     StaticMapTileFetchJob *fetchJob = new StaticMapTileFetchJob(map.url(), this);
-    connect(fetchJob, SIGNAL(finished(KGAPI2::Job*)),
-            this, SLOT(slotTileFetched(KGAPI2::Job*)));
+    connect(fetchJob, SIGNAL(finished(KGAPI2::Job *)), this, SLOT(slotTileFetched(KGAPI2::Job *)));
 }
 
 void MainWindow::slotTileFetched(KGAPI2::Job *job)
 {
-    StaticMapTileFetchJob *fetchJob = qobject_cast<StaticMapTileFetchJob*>(job);
+    StaticMapTileFetchJob *fetchJob = qobject_cast<StaticMapTileFetchJob *>(job);
     Q_ASSERT(fetchJob);
     fetchJob->deleteLater();
 

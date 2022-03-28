@@ -6,40 +6,38 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "eventcreatejob.h"
-#include "calendarservice.h"
 #include "account.h"
+#include "calendarservice.h"
 #include "debug.h"
 #include "event.h"
-#include "utils.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN EventCreateJob::Private
 {
-  public:
+public:
     QueueHelper<EventPtr> events;
     QString calendarId;
     SendUpdatesPolicy updatesPolicy = SendUpdatesPolicy::All;
 };
 
-EventCreateJob::EventCreateJob(const EventPtr& event, const QString &calendarId, const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private)
+EventCreateJob::EventCreateJob(const EventPtr &event, const QString &calendarId, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private)
 {
     d->events << event;
     d->calendarId = calendarId;
 }
 
-EventCreateJob::EventCreateJob(const EventsList& events, const QString& calendarId, const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private)
+EventCreateJob::EventCreateJob(const EventsList &events, const QString &calendarId, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private)
 {
     d->events = events;
     d->calendarId = calendarId;
@@ -69,23 +67,23 @@ void EventCreateJob::start()
 
     const EventPtr event = d->events.current();
     QUrl requestUrl;
-        
-    // If the organizer is different from the account name, import a private copy of the event in the user's calendar, 
-    // or normally create it otherwise.  This prevents that Google Calendar creates a copy event when accepting invitations 
+
+    // If the organizer is different from the account name, import a private copy of the event in the user's calendar,
+    // or normally create it otherwise.  This prevents that Google Calendar creates a copy event when accepting invitations
     // to events created by others.
     if (!event->attendees().isEmpty() && !event->organizer().isEmpty() && event->organizer().email() != this->account()->accountName()) {
         requestUrl = CalendarService::importEventUrl(d->calendarId, d->updatesPolicy);
     } else {
         requestUrl = CalendarService::createEventUrl(d->calendarId, d->updatesPolicy);
     }
-    
+
     const auto request = CalendarService::prepareRequest(requestUrl);
     const QByteArray rawData = CalendarService::eventToJSON(event, CalendarService::EventSerializeFlag::NoID);
 
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-ObjectsList EventCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList EventCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -104,5 +102,3 @@ ObjectsList EventCreateJob::handleReplyWithItems(const QNetworkReply *reply, con
 
     return items;
 }
-
-

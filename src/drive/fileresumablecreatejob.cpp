@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "fileresumablecreatejob.h"
 #include "driveservice.h"
 
@@ -15,38 +14,29 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN FileResumableCreateJob::Private
 {
-
 };
 
-FileResumableCreateJob::FileResumableCreateJob(const AccountPtr &account,
-                             QObject *parent):
-    FileAbstractResumableJob(account, parent),
-    d(new Private)
+FileResumableCreateJob::FileResumableCreateJob(const AccountPtr &account, QObject *parent)
+    : FileAbstractResumableJob(account, parent)
+    , d(new Private)
 {
 }
 
-FileResumableCreateJob::FileResumableCreateJob(const FilePtr &metadata,
-                             const AccountPtr &account,
-                             QObject *parent):
-    FileAbstractResumableJob(metadata, account, parent),
-    d(new Private)
+FileResumableCreateJob::FileResumableCreateJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent)
+    : FileAbstractResumableJob(metadata, account, parent)
+    , d(new Private)
 {
 }
 
-FileResumableCreateJob::FileResumableCreateJob(QIODevice *device,
-                             const AccountPtr &account,
-                             QObject *parent):
-    FileAbstractResumableJob(device, account, parent),
-    d(new Private)
+FileResumableCreateJob::FileResumableCreateJob(QIODevice *device, const AccountPtr &account, QObject *parent)
+    : FileAbstractResumableJob(device, account, parent)
+    , d(new Private)
 {
 }
 
-FileResumableCreateJob::FileResumableCreateJob(QIODevice *device,
-                             const FilePtr &metadata,
-                             const AccountPtr &account,
-                             QObject *parent):
-    FileAbstractResumableJob(device, metadata, account, parent),
-    d(new Private)
+FileResumableCreateJob::FileResumableCreateJob(QIODevice *device, const FilePtr &metadata, const AccountPtr &account, QObject *parent)
+    : FileAbstractResumableJob(device, metadata, account, parent)
+    , d(new Private)
 {
 }
 

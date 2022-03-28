@@ -6,13 +6,13 @@
 
 #pragma once
 
-#include "types.h"
-#include "object.h"
 #include "kgapidrive_export.h"
+#include "object.h"
+#include "types.h"
 
+#include <QSharedPointer>
 #include <QString>
 #include <QStringList>
-#include <QSharedPointer>
 #include <QUrl>
 
 namespace KGAPI2
@@ -32,9 +32,8 @@ namespace Drive
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class KGAPIDRIVE_EXPORT About: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT About : public KGAPI2::Object
 {
-
 public:
     /**
      * @brief DriveAbout::Format holds the structure used for importFormats[]
@@ -42,11 +41,14 @@ public:
      */
     class Format
     {
-      public:
+    public:
         explicit Format(const Format &other);
         virtual ~Format();
         bool operator==(const Format &other) const;
-        bool operator!=(const Format &other) const { return !operator==(other); }
+        bool operator!=(const Format &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns the content type to convert from.
@@ -58,7 +60,7 @@ public:
          */
         QStringList targets() const;
 
-      private:
+    private:
         explicit Format();
 
         class Private;
@@ -76,19 +78,21 @@ public:
      */
     class AdditionalRoleInfo
     {
-      public:
-
+    public:
         /**
          * @brief DriveAbout::AdditionalRoleInfo::Role holds the structure used for
          *        additionalRoleInfo[].roleSets[] property.
          */
         class RoleSet
         {
-          public:
+        public:
             explicit RoleSet(const RoleSet &other);
             virtual ~RoleSet();
             bool operator==(const RoleSet &other) const;
-            bool operator!=(const RoleSet &other) const { return !operator==(other); }
+            bool operator!=(const RoleSet &other) const
+            {
+                return !operator==(other);
+            }
 
             /**
              * @brief Returns the primary permission role.
@@ -100,7 +104,7 @@ public:
              */
             QStringList additionalRoles() const;
 
-          private:
+        private:
             explicit RoleSet();
 
             class Private;
@@ -115,7 +119,10 @@ public:
         explicit AdditionalRoleInfo(const AdditionalRoleInfo &other);
         virtual ~AdditionalRoleInfo();
         bool operator==(const AdditionalRoleInfo &other) const;
-        bool operator!=(const AdditionalRoleInfo &other) const { return !operator==(other); }
+        bool operator!=(const AdditionalRoleInfo &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns the content type that this additional role info applies to.
@@ -127,7 +134,7 @@ public:
          */
         RoleSetsList roleSets() const;
 
-      private:
+    private:
         explicit AdditionalRoleInfo();
 
         class Private;
@@ -144,11 +151,14 @@ public:
      */
     class Feature
     {
-      public:
+    public:
         explicit Feature(const Feature &other);
         virtual ~Feature();
         bool operator==(const Feature &other) const;
-        bool operator!=(const Feature &other) const { return !operator==(other); }
+        bool operator!=(const Feature &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns the name of the feature.
@@ -160,7 +170,7 @@ public:
          */
         qreal featureRate() const;
 
-      private:
+    private:
         explicit Feature();
 
         class Private;
@@ -177,11 +187,14 @@ public:
      */
     class MaxUploadSize
     {
-      public:
+    public:
         explicit MaxUploadSize(const MaxUploadSize &other);
         virtual ~MaxUploadSize();
         bool operator==(const MaxUploadSize &other) const;
-        bool operator!=(const MaxUploadSize &other) const { return !operator==(other); }
+        bool operator!=(const MaxUploadSize &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns the file type.
@@ -193,8 +206,7 @@ public:
          */
         qlonglong size() const;
 
-
-      private:
+    private:
         explicit MaxUploadSize();
 
         class Private;
@@ -258,7 +270,10 @@ public:
     ~About() override;
 
     bool operator==(const About &other) const;
-    bool operator!=(const About &other) const { return !operator==(other); }
+    bool operator!=(const About &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Returns the link back to this item.
@@ -377,7 +392,7 @@ public:
      */
     static AboutPtr fromJSON(const QByteArray &jsonData);
 
-  private:
+private:
     About();
 
     class Private;
@@ -388,4 +403,3 @@ public:
 } /* namespace Drive */
 
 } /* namespace KGAPI2 */
-

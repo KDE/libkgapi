@@ -7,17 +7,18 @@
 #include <QObject>
 #include <QTest>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "drivesfetchjob.h"
-#include "drives.h"
 #include "account.h"
+#include "drives.h"
+#include "drivesfetchjob.h"
+#include "types.h"
 
-namespace {
-    static const QString MockValue = QStringLiteral("MockValue");
+namespace
+{
+static const QString MockValue = QStringLiteral("MockValue");
 }
 
 using namespace KGAPI2;
@@ -35,11 +36,10 @@ private Q_SLOTS:
 
     void testFetch()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/drives_fetch_request.txt"),
-                             QFINDTESTDATA("data/drives_fetch_response.txt"))
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/drives_fetch_request.txt"), QFINDTESTDATA("data/drives_fetch_response.txt"))
 
-        });
+            });
         const auto drive = drivesFromFile(QFINDTESTDATA("data/drives.json"));
 
         auto account = AccountPtr::create(MockValue, MockValue);
@@ -47,7 +47,7 @@ private Q_SLOTS:
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), 2);
-        const auto returnedDrives =  items.at(0).dynamicCast<Drive::Drives>();
+        const auto returnedDrives = items.at(0).dynamicCast<Drive::Drives>();
         QVERIFY(returnedDrives);
         QCOMPARE(*returnedDrives, *drive);
     }

@@ -14,7 +14,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN User::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -24,26 +24,26 @@ class Q_DECL_HIDDEN User::Private
     QString permissionId;
 };
 
-User::Private::Private():
-    isAuthenticatedUser(false)
+User::Private::Private()
+    : isAuthenticatedUser(false)
 {
 }
 
-User::Private::Private(const Private &other):
-    displayName(other.displayName),
-    pictureUrl(other.pictureUrl),
-    isAuthenticatedUser(other.isAuthenticatedUser),
-    permissionId(other.permissionId)
+User::Private::Private(const Private &other)
+    : displayName(other.displayName)
+    , pictureUrl(other.pictureUrl)
+    , isAuthenticatedUser(other.isAuthenticatedUser)
+    , permissionId(other.permissionId)
 {
 }
 
-User::User():
-    d(new Private)
+User::User()
+    : d(new Private)
 {
 }
 
-User::User(const User &other):
-    d(new Private(*(other.d)))
+User::User(const User &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -83,9 +83,7 @@ QString User::permissionId() const
 
 UserPtr User::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-        map[QStringLiteral("kind")].toString() != QLatin1String("drive#user"))
-    {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#user")) {
         return UserPtr();
     }
 

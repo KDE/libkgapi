@@ -4,20 +4,21 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#include "accountstorage_kwallet_p.h"
 #include "account.h"
+#include "accountstorage_kwallet_p.h"
 #include "debug.h"
 
 #include <KWallet>
 
+#include <QDateTime>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
-#include <QDateTime>
 
 using namespace KGAPI2;
 
-namespace {
+namespace
+{
 
 static const QString FolderName = QStringLiteral("LibKGAPI");
 static const QString AccountNameKey = QStringLiteral("name");
@@ -28,13 +29,10 @@ static const QString ExpiresKey = QStringLiteral("expires");
 
 }
 
-
 AccountStorage *KWalletStorageFactory::create() const
 {
     return new KWalletStorage();
 }
-
-
 
 KWalletStorage::KWalletStorage()
 {
@@ -45,7 +43,7 @@ KWalletStorage::~KWalletStorage()
     delete mWallet;
 }
 
-void KWalletStorage::open(const std::function<void (bool)> &callback)
+void KWalletStorage::open(const std::function<void(bool)> &callback)
 {
     const auto openedCallback = [=](bool opened) {
         mWalletOpening = false;
@@ -98,7 +96,9 @@ void KWalletStorage::open(const std::function<void (bool)> &callback)
         qCWarning(KGAPIDebug, "KWallet: failed to open wallet (maybe it's disabled?");
         callback(false);
     } else {
-        QObject::connect(mWallet, &KWallet::Wallet::walletOpened, [this]() { mWalletOpening = false; });
+        QObject::connect(mWallet, &KWallet::Wallet::walletOpened, [this]() {
+            mWalletOpening = false;
+        });
         QObject::connect(mWallet, &KWallet::Wallet::walletOpened, openedCallback);
     }
 }
@@ -177,12 +177,10 @@ AccountPtr KWalletStorage::parseAccount(const QString &str) const
     QJsonArray scopesArray = obj.value(ScopesKey).toArray();
     QList<QUrl> scopes;
     scopes.reserve(scopesArray.size());
-    std::transform(scopesArray.constBegin(), scopesArray.constEnd(), std::back_inserter(scopes),
-                    [](const QJsonValue &val) { return QUrl::fromEncoded(val.toString().toUtf8()); });
-    auto acc = AccountPtr::create(obj.value(AccountNameKey).toString(),
-                                    obj.value(AccessTokenKey).toString(),
-                                    obj.value(RefreshTokenKey).toString(),
-                                    scopes);
+    std::transform(scopesArray.constBegin(), scopesArray.constEnd(), std::back_inserter(scopes), [](const QJsonValue &val) {
+        return QUrl::fromEncoded(val.toString().toUtf8());
+    });
+    auto acc = AccountPtr::create(obj.value(AccountNameKey).toString(), obj.value(AccessTokenKey).toString(), obj.value(RefreshTokenKey).toString(), scopes);
     acc->setExpireDateTime(QDateTime::fromString(obj.value(ExpiresKey).toString(), Qt::ISODate));
     return acc;
 }
@@ -191,12 +189,13 @@ QString KWalletStorage::serializeAccount(const AccountPtr &account) const
 {
     QJsonArray scopesArray;
     const auto scopes = account->scopes();
-    std::transform(scopes.cbegin(), scopes.cend(), std::back_inserter(scopesArray),
-                    [](const QUrl &scope) { return scope.toString(QUrl::FullyEncoded); });
-    return QString::fromUtf8(
-        QJsonDocument({ { AccountNameKey, account->accountName() },
-                        { AccessTokenKey, account->accessToken() },
-                        { RefreshTokenKey, account->refreshToken() },
-                        { ExpiresKey, account->expireDateTime().toString(Qt::ISODate) },
-                        { ScopesKey, scopesArray } }).toJson(QJsonDocument::Compact));
+    std::transform(scopes.cbegin(), scopes.cend(), std::back_inserter(scopesArray), [](const QUrl &scope) {
+        return scope.toString(QUrl::FullyEncoded);
+    });
+    return QString::fromUtf8(QJsonDocument({{AccountNameKey, account->accountName()},
+                                            {AccessTokenKey, account->accessToken()},
+                                            {RefreshTokenKey, account->refreshToken()},
+                                            {ExpiresKey, account->expireDateTime().toString(Qt::ISODate)},
+                                            {ScopesKey, scopesArray}})
+                                 .toJson(QJsonDocument::Compact));
 }

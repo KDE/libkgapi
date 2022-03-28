@@ -21,19 +21,16 @@ class KGAPIDRIVE_EXPORT RevisionFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
-  public:
-    explicit RevisionFetchJob(const QString &fileId, const AccountPtr &account,
-                              QObject *parent = nullptr);
-    explicit RevisionFetchJob(const QString &fileId, const QString &revisionId,
-                              const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit RevisionFetchJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit RevisionFetchJob(const QString &fileId, const QString &revisionId, const AccountPtr &account, QObject *parent = nullptr);
     ~RevisionFetchJob() override;
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -42,4 +39,3 @@ class KGAPIDRIVE_EXPORT RevisionFetchJob : public KGAPI2::FetchJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

@@ -11,7 +11,8 @@
 #include "deletejob.h"
 #include "kgapilatitude_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to delete one or more location from user's account on
@@ -26,8 +27,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationDeleteJob : public KGAPI2::DeleteJ
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will delete user's current location from
      *        his/her Google Latitude account.
@@ -35,7 +35,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationDeleteJob : public KGAPI2::DeleteJ
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit LocationDeleteJob(const AccountPtr &account, QObject* parent);
+    explicit LocationDeleteJob(const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a job that will delete given @p location from user's
@@ -45,8 +45,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationDeleteJob : public KGAPI2::DeleteJ
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit LocationDeleteJob(const LocationPtr &location,
-                               const AccountPtr &account, QObject* parent);
+    explicit LocationDeleteJob(const LocationPtr &location, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a job that will delete given location with given
@@ -56,27 +55,23 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationDeleteJob : public KGAPI2::DeleteJ
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit LocationDeleteJob(qulonglong timestamp,
-                               const AccountPtr &account, QObject* parent);
+    explicit LocationDeleteJob(qulonglong timestamp, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Destructor
      */
     ~LocationDeleteJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
     void start() override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

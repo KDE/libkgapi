@@ -10,12 +10,11 @@
 
 using namespace KGAPI2;
 
-
 class Q_DECL_HIDDEN StaticMapUrl::Private
 {
 public:
     Private();
-    Private(const Private& other);
+    Private(const Private &other);
 
     void init(const Private &other);
 
@@ -41,23 +40,23 @@ public:
     qint32 zoom;
 };
 
-StaticMapUrl::Private::Private():
-    locationType(StaticMapUrl::Undefined),
-    format(StaticMapUrl::PNG),
-    maptype(StaticMapUrl::Roadmap),
-    scale(StaticMapUrl::Normal),
-    sensor(false),
-    visibleLocationType(StaticMapUrl::Undefined),
-    zoom(-1)
+StaticMapUrl::Private::Private()
+    : locationType(StaticMapUrl::Undefined)
+    , format(StaticMapUrl::PNG)
+    , maptype(StaticMapUrl::Roadmap)
+    , scale(StaticMapUrl::Normal)
+    , sensor(false)
+    , visibleLocationType(StaticMapUrl::Undefined)
+    , zoom(-1)
 {
 }
 
-StaticMapUrl::Private::Private(const Private & other)
+StaticMapUrl::Private::Private(const Private &other)
 {
     init(other);
 }
 
-void StaticMapUrl::Private::init(const StaticMapUrl::Private& other)
+void StaticMapUrl::Private::init(const StaticMapUrl::Private &other)
 {
     locationType = other.locationType;
     format = other.format;
@@ -77,13 +76,13 @@ void StaticMapUrl::Private::init(const StaticMapUrl::Private& other)
     zoom = other.zoom;
 }
 
-StaticMapUrl::StaticMapUrl():
-    d(new Private)
+StaticMapUrl::StaticMapUrl()
+    : d(new Private)
 {
 }
 
-StaticMapUrl::StaticMapUrl(const StaticMapUrl& other):
-    d(new Private(*(other.d)))
+StaticMapUrl::StaticMapUrl(const StaticMapUrl &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -92,8 +91,7 @@ StaticMapUrl::~StaticMapUrl()
     delete d;
 }
 
-
-StaticMapUrl& StaticMapUrl::operator=(const StaticMapUrl& other)
+StaticMapUrl &StaticMapUrl::operator=(const StaticMapUrl &other)
 {
     if (&other == this) {
         return *this;
@@ -103,9 +101,8 @@ StaticMapUrl& StaticMapUrl::operator=(const StaticMapUrl& other)
     return *this;
 }
 
-StaticMapUrl::StaticMapUrl(const QString &location, const QSize &size,
-                           quint32 zoom, bool sensor):
-    d(new Private)
+StaticMapUrl::StaticMapUrl(const QString &location, const QSize &size, quint32 zoom, bool sensor)
+    : d(new Private)
 {
     setLocation(location);
     setSize(size);
@@ -113,9 +110,8 @@ StaticMapUrl::StaticMapUrl(const QString &location, const QSize &size,
     setSensorUsed(sensor);
 }
 
-StaticMapUrl::StaticMapUrl(const KContacts::Address &address, const QSize &size,
-                           quint32 zoom, bool sensor):
-    d(new Private)
+StaticMapUrl::StaticMapUrl(const KContacts::Address &address, const QSize &size, quint32 zoom, bool sensor)
+    : d(new Private)
 {
     setLocation(address);
     setSize(size);
@@ -123,9 +119,8 @@ StaticMapUrl::StaticMapUrl(const KContacts::Address &address, const QSize &size,
     setSensorUsed(sensor);
 }
 
-StaticMapUrl::StaticMapUrl(const KContacts::Geo &geo, const QSize &size,
-                           quint32 zoom, bool sensor):
-    d(new Private)
+StaticMapUrl::StaticMapUrl(const KContacts::Geo &geo, const QSize &size, quint32 zoom, bool sensor)
+    : d(new Private)
 {
     setLocation(geo);
     setSize(size);
@@ -153,19 +148,17 @@ bool StaticMapUrl::isValid() const
     bool maOrPa = true;
 
     if (d->markers.isEmpty()) {
-        for (const StaticMapPath & path : std::as_const(d->paths)) {
+        for (const StaticMapPath &path : std::as_const(d->paths)) {
             if (!path.isValid()) {
                 maOrPa = false;
             }
         }
     } else {
-
-        for (const StaticMapMarker & marker : std::as_const(d->markers)) {
+        for (const StaticMapMarker &marker : std::as_const(d->markers)) {
             if (!marker.isValid()) {
                 maOrPa = false;
             }
         }
-
     }
 
     if (maOrPa) {
@@ -182,7 +175,7 @@ QString StaticMapUrl::locationString() const
     return d->locationString;
 }
 
-void StaticMapUrl::setLocation(const QString& location)
+void StaticMapUrl::setLocation(const QString &location)
 {
     d->locationString = location;
     d->locationType = String;
@@ -196,7 +189,7 @@ KContacts::Address StaticMapUrl::locationAddress() const
     return d->locationAddress;
 }
 
-void StaticMapUrl::setLocation(const KContacts::Address& address)
+void StaticMapUrl::setLocation(const KContacts::Address &address)
 {
     d->locationAddress = address;
     d->locationType = KABCAddress;
@@ -210,7 +203,7 @@ KContacts::Geo StaticMapUrl::locationGeo() const
     return d->locationGeo;
 }
 
-void StaticMapUrl::setLocation(const KContacts::Geo& geo)
+void StaticMapUrl::setLocation(const KContacts::Geo &geo)
 {
     d->locationGeo = geo;
     d->locationType = KABCGeo;
@@ -228,19 +221,19 @@ void StaticMapUrl::setMapType(const StaticMapUrl::MapType type)
     d->maptype = type;
 }
 
-QList< StaticMapMarker > StaticMapUrl::markers() const
+QList<StaticMapMarker> StaticMapUrl::markers() const
 {
     return d->markers;
 }
 
-void StaticMapUrl::setMarker(const StaticMapMarker& marker)
+void StaticMapUrl::setMarker(const StaticMapMarker &marker)
 {
     QList<StaticMapMarker> markers;
     markers << marker;
     d->markers = markers;
 }
 
-void StaticMapUrl::setMarkers(const QList< StaticMapMarker >& markers)
+void StaticMapUrl::setMarkers(const QList<StaticMapMarker> &markers)
 {
     d->markers = markers;
 }
@@ -250,14 +243,14 @@ QList<StaticMapPath> StaticMapUrl::paths() const
     return d->paths;
 }
 
-void StaticMapUrl::setPath(const StaticMapPath & path)
+void StaticMapUrl::setPath(const StaticMapPath &path)
 {
     QList<StaticMapPath> paths;
     paths << path;
     d->paths = paths;
 }
 
-void StaticMapUrl::setPaths(const QList< StaticMapPath >& paths)
+void StaticMapUrl::setPaths(const QList<StaticMapPath> &paths)
 {
     d->paths = paths;
 }
@@ -267,7 +260,7 @@ QSize StaticMapUrl::size() const
     return d->size;
 }
 
-void StaticMapUrl::setSize(const QSize& size)
+void StaticMapUrl::setSize(const QSize &size)
 {
     d->size = size;
 }
@@ -297,7 +290,7 @@ QString StaticMapUrl::visibleLocationString() const
     return d->visibleString;
 }
 
-void StaticMapUrl::setVisibleLocation(const QString & location)
+void StaticMapUrl::setVisibleLocation(const QString &location)
 {
     d->visibleString = location;
     d->visibleLocationType = String;
@@ -311,7 +304,7 @@ KContacts::Address StaticMapUrl::visibleLocationAddress() const
     return d->locationAddress;
 }
 
-void StaticMapUrl::setVisibleLocation(const KContacts::Address & address)
+void StaticMapUrl::setVisibleLocation(const KContacts::Address &address)
 {
     d->visibleAddress = address;
     d->visibleLocationType = KABCAddress;
@@ -325,7 +318,7 @@ KContacts::Geo StaticMapUrl::visibleLocationGeo() const
     return d->locationGeo;
 }
 
-void StaticMapUrl::setVisibleLocation(const KContacts::Geo & geo)
+void StaticMapUrl::setVisibleLocation(const KContacts::Geo &geo)
 {
     d->visibleGeo = geo;
     d->visibleLocationType = KABCGeo;
@@ -374,8 +367,7 @@ QUrl StaticMapUrl::url() const
             query.addQueryItem(QStringLiteral("center"), param);
             break;
         case KABCGeo:
-            param = QString::number(d->locationGeo.latitude()) + QLatin1Char(',') +
-                    QString::number(d->locationGeo.longitude());
+            param = QString::number(d->locationGeo.latitude()) + QLatin1Char(',') + QString::number(d->locationGeo.longitude());
             query.addQueryItem(QStringLiteral("center"), param);
             break;
         }
@@ -386,8 +378,7 @@ QUrl StaticMapUrl::url() const
     }
 
     if (!d->size.isEmpty()) {
-        QString size = QString::number(d->size.width()) + QLatin1Char('x') +
-                       QString::number(d->size.height());
+        QString size = QString::number(d->size.width()) + QLatin1Char('x') + QString::number(d->size.height());
         query.addQueryItem(QStringLiteral("size"), size);
     }
 
@@ -435,20 +426,19 @@ QUrl StaticMapUrl::url() const
         query.addQueryItem(QStringLiteral("maptype"), maptype);
     }
 
-    for (const StaticMapMarker & marker : std::as_const(d->markers)) {
+    for (const StaticMapMarker &marker : std::as_const(d->markers)) {
         if (marker.isValid()) {
             query.addQueryItem(QStringLiteral("markers"), marker.toString());
         }
     }
 
-    for (const StaticMapPath & path : std::as_const(d->paths)) {
+    for (const StaticMapPath &path : std::as_const(d->paths)) {
         if (path.isValid()) {
             query.addQueryItem(QStringLiteral("path"), path.toString());
         }
     }
 
     if (d->visibleLocationType != Undefined) {
-
         QString param;
 
         switch (d->visibleLocationType) {
@@ -469,8 +459,7 @@ QUrl StaticMapUrl::url() const
             query.addQueryItem(QStringLiteral("visible"), param);
             break;
         case KABCGeo:
-            param = QString::number(d->visibleGeo.latitude()) + QLatin1Char(',') +
-                    QString::number(d->visibleGeo.longitude());
+            param = QString::number(d->visibleGeo.latitude()) + QLatin1Char(',') + QString::number(d->visibleGeo.longitude());
             query.addQueryItem(QStringLiteral("visible"), param);
             break;
         }

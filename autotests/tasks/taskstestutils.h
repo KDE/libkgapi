@@ -10,5 +10,3 @@
 
 KGAPI2::TaskPtr taskFromFile(const QString &path);
 KGAPI2::TaskListPtr taskListFromFile(const QString &path);
-
-

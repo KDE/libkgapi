@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "fileresumablemodifyjob.h"
 #include "debug.h"
 #include "driveservice.h"
@@ -19,47 +18,37 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN FileResumableModifyJob::Private
 {
-  public:
-      QString fileId;
-      bool createNewRevision = true;
-      bool changeModifiedDate = false;
-      bool updateViewedDate = true;
+public:
+    QString fileId;
+    bool createNewRevision = true;
+    bool changeModifiedDate = false;
+    bool updateViewedDate = true;
 };
 
-FileResumableModifyJob::FileResumableModifyJob(const FilePtr &metadata,
-                             const AccountPtr &account,
-                             QObject *parent):
-    FileAbstractResumableJob(metadata, account, parent),
-    d(new Private)
+FileResumableModifyJob::FileResumableModifyJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent)
+    : FileAbstractResumableJob(metadata, account, parent)
+    , d(new Private)
 {
     d->fileId = metadata->id();
 }
 
-FileResumableModifyJob::FileResumableModifyJob(const QString &fileId,
-                             const AccountPtr &account,
-                             QObject *parent):
-    FileAbstractResumableJob(account, parent),
-    d(new Private)
+FileResumableModifyJob::FileResumableModifyJob(const QString &fileId, const AccountPtr &account, QObject *parent)
+    : FileAbstractResumableJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
 }
 
-FileResumableModifyJob::FileResumableModifyJob(QIODevice *device,
-                             const FilePtr &metadata,
-                             const AccountPtr &account,
-                             QObject *parent):
-    FileAbstractResumableJob(device, metadata, account, parent),
-    d(new Private)
+FileResumableModifyJob::FileResumableModifyJob(QIODevice *device, const FilePtr &metadata, const AccountPtr &account, QObject *parent)
+    : FileAbstractResumableJob(device, metadata, account, parent)
+    , d(new Private)
 {
     d->fileId = metadata->id();
 }
 
-FileResumableModifyJob::FileResumableModifyJob(QIODevice *device,
-                             const QString &fileId,
-                             const AccountPtr &account,
-                             QObject *parent):
-    FileAbstractResumableJob(device, account, parent),
-    d(new Private)
+FileResumableModifyJob::FileResumableModifyJob(QIODevice *device, const QString &fileId, const AccountPtr &account, QObject *parent)
+    : FileAbstractResumableJob(device, account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
 }
@@ -110,7 +99,6 @@ void FileResumableModifyJob::setUpdateViewedDate(bool updateViewedDate)
 
     d->updateViewedDate = updateViewedDate;
 }
-
 
 QUrl FileResumableModifyJob::createUrl()
 {

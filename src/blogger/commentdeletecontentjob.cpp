@@ -5,32 +5,28 @@
  */
 
 #include "commentdeletecontentjob.h"
-#include "comment.h"
-#include "bloggerservice.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "comment.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN CommentDeleteContentJob::Private
 {
-  public:
-    Private(const QString &blogId,
-            const QString &postId,
-            const QString &commentId);
+public:
+    Private(const QString &blogId, const QString &postId, const QString &commentId);
 
     const QString blogId;
     const QString postId;
     const QString commentId;
 };
 
-CommentDeleteContentJob::Private::Private(const QString &blogId_,
-                                          const QString &postId_,
-                                          const QString &commentId_)
+CommentDeleteContentJob::Private::Private(const QString &blogId_, const QString &postId_, const QString &commentId_)
     : blogId(blogId_)
     , postId(postId_)
     , commentId(commentId_)
@@ -47,14 +43,11 @@ CommentDeleteContentJob::CommentDeleteContentJob(const QString &blogId,
 {
 }
 
-CommentDeleteContentJob::CommentDeleteContentJob(const CommentPtr &comment,
-                                                 const AccountPtr &account,
-                                                 QObject *parent)
+CommentDeleteContentJob::CommentDeleteContentJob(const CommentPtr &comment, const AccountPtr &account, QObject *parent)
     : ModifyJob(account, parent)
     , d(new Private(comment->blogId(), comment->postId(), comment->id()))
 {
 }
-
 
 CommentDeleteContentJob::~CommentDeleteContentJob()
 {
@@ -83,5 +76,3 @@ ObjectsList CommentDeleteContentJob::handleReplyWithItems(const QNetworkReply *r
     emitFinished();
     return items;
 }
-
-

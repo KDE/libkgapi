@@ -13,16 +13,15 @@
 #include "driveservice.h"
 #include "utils.h"
 
-
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN AboutFetchJob::Private
 {
-  public:
+public:
     Private();
 
     bool includeSubscribed = true;
@@ -34,9 +33,9 @@ AboutFetchJob::Private::Private()
 {
 }
 
-AboutFetchJob::AboutFetchJob(const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+AboutFetchJob::AboutFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
 }
 
@@ -107,8 +106,7 @@ void AboutFetchJob::start()
     enqueueRequest(request);
 }
 
-KGAPI2::ObjectsList AboutFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                        const QByteArray &rawData)
+KGAPI2::ObjectsList AboutFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -125,5 +123,3 @@ KGAPI2::ObjectsList AboutFetchJob::handleReplyWithItems(const QNetworkReply *rep
     emitFinished();
     return items;
 }
-
-

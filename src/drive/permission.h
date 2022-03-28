@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "object.h"
-#include "types.h"
 #include "file.h"
 #include "kgapidrive_export.h"
+#include "object.h"
+#include "types.h"
 
 #include <QString>
 #include <QUrl>
@@ -30,11 +30,9 @@ namespace Drive
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT Permission : public KGAPI2::Object
 {
-
-  public:
-
+public:
     enum Role {
         UndefinedRole = -1,
         OwnerRole = 0,
@@ -45,13 +43,7 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
         FileOrganizerRole = 5,
     };
 
-    enum Type {
-        UndefinedType = -1,
-        TypeUser = 0,
-        TypeGroup = 1,
-        TypeDomain = 2,
-        TypeAnyone = 3
-    };
+    enum Type { UndefinedType = -1, TypeUser = 0, TypeGroup = 1, TypeDomain = 2, TypeAnyone = 3 };
 
     /**
      * @brief Details of whether the permissions on this shared drive item are
@@ -60,8 +52,7 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
      */
     class PermissionDetails
     {
-
-      public:
+    public:
         enum PermissionType {
             UndefinedType = -1,
             TypeFile = 0,
@@ -72,7 +63,10 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
         PermissionDetails(const PermissionDetails &other);
         ~PermissionDetails();
         bool operator==(const PermissionDetails &other) const;
-        bool operator!=(const PermissionDetails &other) const { return !operator==(other); }
+        bool operator!=(const PermissionDetails &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief The permission type for this user.
@@ -102,7 +96,7 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
          */
         bool inherited() const;
 
-      private:
+    private:
         class Private;
         QScopedPointer<Private> const d;
         friend class Private;
@@ -116,7 +110,10 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
     explicit Permission(const Permission &other);
     ~Permission() override;
     bool operator==(const Permission &other) const;
-    bool operator!=(const Permission &other) const { return !operator==(other); }
+    bool operator!=(const Permission &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Returns the id of the permission.
@@ -251,7 +248,7 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
     static PermissionsList fromJSONFeed(const QByteArray &jsonData);
     static QByteArray toJSON(const PermissionPtr &permission);
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -261,4 +258,3 @@ class KGAPIDRIVE_EXPORT Permission: public KGAPI2::Object
 } /* namespace Drive */
 
 } /* namespace KGAPI2 */
-

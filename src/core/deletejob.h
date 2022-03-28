@@ -11,7 +11,8 @@
 #include "job.h"
 #include "kgapicore_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @headerfile deletejob.h
@@ -24,14 +25,13 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * Constructor for jobs that don't require authentication
      *
      * @param parent
      */
-    explicit DeleteJob(QObject* parent = nullptr);
+    explicit DeleteJob(QObject *parent = nullptr);
 
     /**
      * @brief Constructor for jobs that require authentication
@@ -39,15 +39,14 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
      * @param account Account to use to authenticate the requests sent by this job
      * @param parent
      */
-    explicit DeleteJob(const KGAPI2::AccountPtr &account, QObject* parent = nullptr);
+    explicit DeleteJob(const KGAPI2::AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~DeleteJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI::Job::dispatchRequest implementation
      *
@@ -56,10 +55,7 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager* accessManager,
-                                 const QNetworkRequest& request,
-                                 const QByteArray& data,
-                                 const QString& contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * KGAPI2::Job::handleReply implementation
@@ -74,14 +70,12 @@ class KGAPICORE_EXPORT DeleteJob : public KGAPI2::Job
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

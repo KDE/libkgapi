@@ -19,18 +19,13 @@ namespace Drive
 
 class KGAPIDRIVE_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
 {
-
     Q_OBJECT
 
-  public:
-    explicit PermissionFetchJob(const QString &fileId, const AccountPtr &account,
-                                QObject *parent = nullptr);
-    explicit PermissionFetchJob(const FilePtr &file, const AccountPtr &account,
-                                QObject *parent = nullptr);
-    explicit PermissionFetchJob(const QString &fileId, const QString &permissionId,
-                                const AccountPtr &account, QObject *parent = nullptr);
-    explicit PermissionFetchJob(const FilePtr &file, const QString &permissionId,
-                                const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit PermissionFetchJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit PermissionFetchJob(const FilePtr &file, const AccountPtr &account, QObject *parent = nullptr);
+    explicit PermissionFetchJob(const QString &fileId, const QString &permissionId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit PermissionFetchJob(const FilePtr &file, const QString &permissionId, const AccountPtr &account, QObject *parent = nullptr);
     ~PermissionFetchJob() override;
 
     /**
@@ -69,12 +64,11 @@ class KGAPIDRIVE_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
      */
     void setUseDomainAdminAccess(bool useDomainAdminAccess);
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
@@ -83,4 +77,3 @@ class KGAPIDRIVE_EXPORT PermissionFetchJob : public KGAPI2::FetchJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

@@ -7,35 +7,34 @@
  */
 
 #include "contactsgroupmodifyjob.h"
+#include "account.h"
 #include "contactsgroup.h"
 #include "contactsservice.h"
 #include "debug.h"
-#include "utils.h"
-#include "account.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactsGroupModifyJob::Private
 {
-  public:
+public:
     QueueHelper<ContactsGroupPtr> groups;
 };
 
-ContactsGroupModifyJob::ContactsGroupModifyJob(const ContactsGroupsList& groups, const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private)
+ContactsGroupModifyJob::ContactsGroupModifyJob(const ContactsGroupsList &groups, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private)
 {
     d->groups = groups;
 }
 
-ContactsGroupModifyJob::ContactsGroupModifyJob(const ContactsGroupPtr& group, const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private)
+ContactsGroupModifyJob::ContactsGroupModifyJob(const ContactsGroupPtr &group, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private)
 {
     d->groups << group;
 }
@@ -44,7 +43,6 @@ ContactsGroupModifyJob::~ContactsGroupModifyJob()
 {
     delete d;
 }
-
 
 void ContactsGroupModifyJob::start()
 {
@@ -60,11 +58,12 @@ void ContactsGroupModifyJob::start()
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
 
     QByteArray rawData = ContactsService::contactsGroupToXML(group);
-    rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
-                     "xmlns:gd=\"http://schemas.google.com/g/2005\" "
-                     "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
-                    "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
-                     "term=\"http://schemas.google.com/g/2008#group\"/>");
+    rawData.prepend(
+        "<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
+        "xmlns:gd=\"http://schemas.google.com/g/2005\" "
+        "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
+        "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
+        "term=\"http://schemas.google.com/g/2008#group\"/>");
     rawData.append("</atom:entry>");
 
     QStringList headers;
@@ -77,7 +76,7 @@ void ContactsGroupModifyJob::start()
     enqueueRequest(request, rawData, QStringLiteral("application/atom+xml"));
 }
 
-ObjectsList ContactsGroupModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList ContactsGroupModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -100,5 +99,3 @@ ObjectsList ContactsGroupModifyJob::handleReplyWithItems(const QNetworkReply *re
 
     return items;
 }
-
-

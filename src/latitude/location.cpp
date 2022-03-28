@@ -4,14 +4,13 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #include "location.h"
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN Location::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -24,34 +23,39 @@ class Q_DECL_HIDDEN Location::Private
 };
 
 Location::Private::Private()
-{ }
+{
+}
 
-Location::Private::Private(const Private &other):
-    timestamp(other.timestamp),
-    accuracy(other.accuracy),
-    speed(other.speed),
-    heading(other.heading),
-    altitude(other.altitude),
-    altitudeAccuracy(other.altitudeAccuracy)
-{ }
+Location::Private::Private(const Private &other)
+    : timestamp(other.timestamp)
+    , accuracy(other.accuracy)
+    , speed(other.speed)
+    , heading(other.heading)
+    , altitude(other.altitude)
+    , altitudeAccuracy(other.altitudeAccuracy)
+{
+}
 
-Location::Location():
-    Object(),
-    KContacts::Geo(),
-    d(new Private)
-{ }
+Location::Location()
+    : Object()
+    , KContacts::Geo()
+    , d(new Private)
+{
+}
 
-Location::Location(const Location & other):
-    Object(other),
-    KContacts::Geo(other),
-    d(new Private(*(other.d)))
-{ }
+Location::Location(const Location &other)
+    : Object(other)
+    , KContacts::Geo(other)
+    , d(new Private(*(other.d)))
+{
+}
 
-Location::Location(float latitude, float longitude):
-    Object(),
-    Geo(latitude, longitude),
-    d(new Private)
-{ }
+Location::Location(float latitude, float longitude)
+    : Object()
+    , Geo(latitude, longitude)
+    , d(new Private)
+{
+}
 
 Location::~Location()
 {

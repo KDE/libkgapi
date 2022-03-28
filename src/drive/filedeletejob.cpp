@@ -18,44 +18,36 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN FileDeleteJob::Private
 {
-  public:
+public:
     QStringList filesIDs;
 };
 
-FileDeleteJob::FileDeleteJob(const QString &fileId,
-                             const AccountPtr &account,
-                             QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+FileDeleteJob::FileDeleteJob(const QString &fileId, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->filesIDs << fileId;
 }
 
-FileDeleteJob::FileDeleteJob(const QStringList &filesIds,
-                             const AccountPtr &account,
-                             QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+FileDeleteJob::FileDeleteJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->filesIDs << filesIds;
 }
 
-FileDeleteJob::FileDeleteJob(const FilePtr &file,
-                             const AccountPtr &account,
-                             QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+FileDeleteJob::FileDeleteJob(const FilePtr &file, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->filesIDs << file->id();
 }
 
-FileDeleteJob::FileDeleteJob(const FilesList &files,
-                             const AccountPtr &account,
-                             QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+FileDeleteJob::FileDeleteJob(const FilesList &files, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
-    for (const FilePtr & file : std::as_const(files)) {
+    for (const FilePtr &file : std::as_const(files)) {
         d->filesIDs << file->id();
     }
 }
@@ -78,5 +70,3 @@ void FileDeleteJob::start()
     QNetworkRequest request(url);
     enqueueRequest(request);
 }
-
-

@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "types.h"
-#include "object.h"
 #include "kgapidrive_export.h"
+#include "object.h"
+#include "types.h"
 
 #include <QSharedPointer>
 #include <QString>
@@ -21,33 +21,30 @@ namespace KGAPI2
 namespace Drive
 {
 
-class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT App : public KGAPI2::Object
 {
     class Private;
 
-  public:
-
+public:
     class Icon
     {
-      public:
-        enum Category {
-            UndefinedCategory,
-            ApplicationCategory,
-            DocumentCategory,
-            DocumentSharedCategory
-        };
+    public:
+        enum Category { UndefinedCategory, ApplicationCategory, DocumentCategory, DocumentSharedCategory };
 
         explicit Icon();
         explicit Icon(const Icon &other);
         virtual ~Icon();
         bool operator==(const Icon &other) const;
-        bool operator!=(const Icon &other) const { return !operator==(other); }
+        bool operator!=(const Icon &other) const
+        {
+            return !operator==(other);
+        }
 
         Category category() const;
         int size() const;
         QUrl iconUrl() const;
 
-      private:
+    private:
         class Private;
         Private *const d;
         friend class Private;
@@ -61,7 +58,10 @@ class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
     explicit App(const App &other);
     ~App() override;
     bool operator==(const App &other) const;
-    bool operator!=(const App &other) const { return !operator==(other); }
+    bool operator!=(const App &other) const
+    {
+        return !operator==(other);
+    }
 
     QString id() const;
     QString name() const;
@@ -81,7 +81,7 @@ class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
     static AppsList fromJSONFeed(const QByteArray &jsonData);
     static AppPtr fromJSON(const QByteArray &jsonData);
 
-  private:
+private:
     Private *const d;
     friend class Private;
 };
@@ -89,4 +89,3 @@ class KGAPIDRIVE_EXPORT App: public KGAPI2::Object
 } /* namespace Drive */
 
 } /* namespace KGAPI2 */
-

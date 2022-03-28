@@ -8,13 +8,13 @@
 #include <QTest>
 
 #include "fakenetworkaccessmanagerfactory.h"
-#include "testutils.h"
 #include "taskstestutils.h"
+#include "testutils.h"
 
-#include "types.h"
-#include "taskfetchjob.h"
-#include "task.h"
 #include "account.h"
+#include "task.h"
+#include "taskfetchjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -32,16 +32,10 @@ private Q_SLOTS:
 
     void testFetchAll()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/tasks_fetch_page1_request.txt"),
-                             QFINDTESTDATA("data/tasks_fetch_page1_response.txt")),
-            scenarioFromFile(QFINDTESTDATA("data/tasks_fetch_page2_request.txt"),
-                             QFINDTESTDATA("data/tasks_fetch_page2_response.txt"))
-        });
-        const TasksList tasks = {
-            taskFromFile(QFINDTESTDATA("data/task1.json")),
-            taskFromFile(QFINDTESTDATA("data/task2.json"))
-        };
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/tasks_fetch_page1_request.txt"), QFINDTESTDATA("data/tasks_fetch_page1_response.txt")),
+             scenarioFromFile(QFINDTESTDATA("data/tasks_fetch_page2_request.txt"), QFINDTESTDATA("data/tasks_fetch_page2_response.txt"))});
+        const TasksList tasks = {taskFromFile(QFINDTESTDATA("data/task1.json")), taskFromFile(QFINDTESTDATA("data/task2.json"))};
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         auto job = new TaskFetchJob(QStringLiteral("MockAccount"), account);
@@ -49,7 +43,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), tasks.count());
         for (int i = 0; i < tasks.count(); ++i) {
-            const auto returnedTask =  items.at(i).dynamicCast<Task>();
+            const auto returnedTask = items.at(i).dynamicCast<Task>();
             const auto expectedTask = tasks.at(i);
             QVERIFY(returnedTask);
             QCOMPARE(*returnedTask, *expectedTask);
@@ -58,11 +52,10 @@ private Q_SLOTS:
 
     void testFetchSingle()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/task1_fetch_request.txt"),
-                             QFINDTESTDATA("data/task1_fetch_response.txt"))
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/task1_fetch_request.txt"), QFINDTESTDATA("data/task1_fetch_response.txt"))
 
-        });
+            });
         const auto task = taskFromFile(QFINDTESTDATA("data/task1.json"));
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
@@ -70,7 +63,7 @@ private Q_SLOTS:
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), 1);
-        const auto returnedTask =  items.at(0).dynamicCast<Task>();
+        const auto returnedTask = items.at(0).dynamicCast<Task>();
         QVERIFY(returnedTask);
         QCOMPARE(*returnedTask, *task);
     }
@@ -79,6 +72,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TaskFetchJobTest)
 
 #include "taskfetchjobtest.moc"
-
-
-

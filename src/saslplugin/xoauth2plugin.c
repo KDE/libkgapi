@@ -5,7 +5,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 /**
  * This is a very simple and single-purpose implementation of XOAUTH2 protocol
  * for SASL used by KDE's KIMAP and IMAP resource in order to support OAuth
@@ -34,9 +33,7 @@ typedef struct client_context {
     unsigned out_buf_len;
 } client_context_t;
 
-static int xoauth2_client_mech_new(void *glob_context,
-                                   sasl_client_params_t *params,
-                                   void **conn_context)
+static int xoauth2_client_mech_new(void *glob_context, sasl_client_params_t *params, void **conn_context)
 {
     client_context_t *context;
 
@@ -66,7 +63,7 @@ static int xoauth2_client_mech_step(void *conn_context,
                                     unsigned *clientoutlen,
                                     sasl_out_params_t *oparams)
 {
-    client_context_t *context = (client_context_t *) conn_context;
+    client_context_t *context = (client_context_t *)conn_context;
     const sasl_utils_t *utils = params->utils;
     const char *authid = NULL;
     const char *token = NULL;
@@ -77,8 +74,8 @@ static int xoauth2_client_mech_step(void *conn_context,
     *clientoutlen = 0;
 
     /* Q_UNUSED */
-    (void) serverin;
-    (void) serverinlen;
+    (void)serverin;
+    (void)serverinlen;
 
     if (params->props.min_ssf > params->external_ssf) {
         SETERROR(params->utils, "SSF requested of XOAUTH2 plugin");
@@ -117,16 +114,20 @@ static int xoauth2_client_mech_step(void *conn_context,
     if ((auth_result == SASL_INTERACT) || (token_result == SASL_INTERACT)) {
         /* make the prompt list */
         fprintf(stderr, "[SASL-XOAUTH2] - filling prompts!\n");
-        result =
-            _plug_make_prompts(utils, prompt_need,
-                               NULL, NULL,
-                               auth_result == SASL_INTERACT ?
-                               "Please enter your authentication name" : NULL,
-                               NULL,
-                               token_result == SASL_INTERACT ?
-                               "Please enter OAuth token" : NULL, NULL,
-                               NULL, NULL, NULL,
-                               NULL, NULL, NULL);
+        result = _plug_make_prompts(utils,
+                                    prompt_need,
+                                    NULL,
+                                    NULL,
+                                    auth_result == SASL_INTERACT ? "Please enter your authentication name" : NULL,
+                                    NULL,
+                                    token_result == SASL_INTERACT ? "Please enter OAuth token" : NULL,
+                                    NULL,
+                                    NULL,
+                                    NULL,
+                                    NULL,
+                                    NULL,
+                                    NULL,
+                                    NULL);
         if (result != SASL_OK) {
             fprintf(stderr, "[SASL-XOAUTH2] - filling prompts failed FAILED!\n");
             return result;
@@ -141,24 +142,22 @@ static int xoauth2_client_mech_step(void *conn_context,
         return SASL_BADPARAM;
     }
 
-    result = params->canon_user(utils->conn, authid, 0,
-                                SASL_CU_AUTHID | SASL_CU_AUTHZID, oparams);
+    result = params->canon_user(utils->conn, authid, 0, SASL_CU_AUTHID | SASL_CU_AUTHZID, oparams);
     if (result != SASL_OK) {
         fprintf(stderr, "[SASL-XOAUTH2] - canon user FAILED!\n");
         return result;
     }
 
     /* https://developers.google.com/gmail/xoauth2_protocol#the_sasl_xoauth2_mechanism */
-    *clientoutlen = 5                                               /* user=*/
-                    + ((authid && *authid) ? strlen(authid) : 0)      /* %s */
-                    + 1                                               /* \001 */
-                    + 12                                              /* auth=Bearer{space} */
-                    + ((token && *token) ? strlen(token) : 0)         /* %s */
-                    + 2;                                              /* \001\001 */
+    *clientoutlen = 5 /* user=*/
+        + ((authid && *authid) ? strlen(authid) : 0) /* %s */
+        + 1 /* \001 */
+        + 12 /* auth=Bearer{space} */
+        + ((token && *token) ? strlen(token) : 0) /* %s */
+        + 2; /* \001\001 */
 
     /* remember the extra NUL on the end for stupid clients */
-    result = _plug_buf_alloc(params->utils, &(context->out_buf),
-                             &(context->out_buf_len), *clientoutlen + 1);
+    result = _plug_buf_alloc(params->utils, &(context->out_buf), &(context->out_buf_len), *clientoutlen + 1);
     if (result != SASL_OK) {
         fprintf(stderr, "[SASL-XOAUTH2] - _plug_buf_alloc FAILED!\n");
         return result;
@@ -181,10 +180,9 @@ static int xoauth2_client_mech_step(void *conn_context,
     return SASL_OK;
 }
 
-static void xoauth2_client_mech_dispose(void *conn_context,
-                                        const sasl_utils_t *utils)
+static void xoauth2_client_mech_dispose(void *conn_context, const sasl_utils_t *utils)
 {
-    client_context_t *context = (client_context_t *) conn_context;
+    client_context_t *context = (client_context_t *)conn_context;
     if (!context) {
         return;
     }
@@ -195,31 +193,23 @@ static void xoauth2_client_mech_dispose(void *conn_context,
     utils->free(context);
 }
 
-static sasl_client_plug_t xoauth2_client_plugins[] = {
-    {
-        "XOAUTH2",                      /* mech_name */
-        0,                              /* max_ssf */
-        SASL_SEC_NOANONYMOUS
-        | SASL_SEC_PASS_CREDENTIALS,    /* security_flags */
-        SASL_FEAT_WANT_CLIENT_FIRST
-        | SASL_FEAT_ALLOWS_PROXY,       /* features */
-        NULL,                           /* required_prompts */
-        NULL,                           /* glob_context */
-        &xoauth2_client_mech_new,       /* mech_new */
-        &xoauth2_client_mech_step,      /* mech_step */
-        &xoauth2_client_mech_dispose,   /* mech_dispose */
-        NULL,                           /* mech_free */
-        NULL,                           /* idle */
-        NULL,                           /* spare */
-        NULL                            /* spare */
-    }
-};
+static sasl_client_plug_t xoauth2_client_plugins[] = {{
+    "XOAUTH2", /* mech_name */
+    0, /* max_ssf */
+    SASL_SEC_NOANONYMOUS | SASL_SEC_PASS_CREDENTIALS, /* security_flags */
+    SASL_FEAT_WANT_CLIENT_FIRST | SASL_FEAT_ALLOWS_PROXY, /* features */
+    NULL, /* required_prompts */
+    NULL, /* glob_context */
+    &xoauth2_client_mech_new, /* mech_new */
+    &xoauth2_client_mech_step, /* mech_step */
+    &xoauth2_client_mech_dispose, /* mech_dispose */
+    NULL, /* mech_free */
+    NULL, /* idle */
+    NULL, /* spare */
+    NULL /* spare */
+}};
 
-int xoauth2_client_plug_init(sasl_utils_t *utils,
-                             int maxversion,
-                             int *out_version,
-                             sasl_client_plug_t **pluglist,
-                             int *plugcount)
+int xoauth2_client_plug_init(sasl_utils_t *utils, int maxversion, int *out_version, sasl_client_plug_t **pluglist, int *plugcount)
 {
     if (maxversion < SASL_CLIENT_PLUG_VERSION) {
         SETERROR(utils, "XOAUTH2 version mismatch");

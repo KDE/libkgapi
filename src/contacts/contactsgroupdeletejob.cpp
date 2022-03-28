@@ -7,12 +7,12 @@
  */
 
 #include "contactsgroupdeletejob.h"
+#include "account.h"
 #include "contactsgroup.h"
 #include "contactsservice.h"
 #include "debug.h"
-#include "utils.h"
-#include "account.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
 #include <QNetworkRequest>
 
@@ -20,22 +20,22 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactsGroupDeleteJob::Private
 {
-  public:
+public:
     Private(ContactsGroupDeleteJob *parent);
     QNetworkRequest createRequest(const QUrl &url) const;
 
     QueueHelper<QString> groupsIds;
 
-  private:
-    ContactsGroupDeleteJob * const q;
+private:
+    ContactsGroupDeleteJob *const q;
 };
 
-ContactsGroupDeleteJob::Private::Private(ContactsGroupDeleteJob* parent):
-    q(parent)
+ContactsGroupDeleteJob::Private::Private(ContactsGroupDeleteJob *parent)
+    : q(parent)
 {
 }
 
-QNetworkRequest ContactsGroupDeleteJob::Private::createRequest(const QUrl& url) const
+QNetworkRequest ContactsGroupDeleteJob::Private::createRequest(const QUrl &url) const
 {
     QNetworkRequest request(url);
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
@@ -50,34 +50,33 @@ QNetworkRequest ContactsGroupDeleteJob::Private::createRequest(const QUrl& url) 
     return request;
 }
 
-
-ContactsGroupDeleteJob::ContactsGroupDeleteJob(const ContactsGroupsList& groups, const AccountPtr& account, QObject* parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+ContactsGroupDeleteJob::ContactsGroupDeleteJob(const ContactsGroupsList &groups, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->groupsIds.reserve(groups.size());
-    for(const ContactsGroupPtr &group : groups) {
+    for (const ContactsGroupPtr &group : groups) {
         d->groupsIds << group->id();
     }
 }
 
-ContactsGroupDeleteJob::ContactsGroupDeleteJob(const ContactsGroupPtr& group, const AccountPtr& account, QObject* parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+ContactsGroupDeleteJob::ContactsGroupDeleteJob(const ContactsGroupPtr &group, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->groupsIds << group->id();
 }
 
-ContactsGroupDeleteJob::ContactsGroupDeleteJob(const QStringList &groupsIds, const AccountPtr &account, QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+ContactsGroupDeleteJob::ContactsGroupDeleteJob(const QStringList &groupsIds, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->groupsIds = groupsIds;
 }
 
-ContactsGroupDeleteJob::ContactsGroupDeleteJob(const QString &groupId, const AccountPtr &account, QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+ContactsGroupDeleteJob::ContactsGroupDeleteJob(const QString &groupId, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->groupsIds << groupId;
 }
@@ -101,12 +100,9 @@ void ContactsGroupDeleteJob::start()
     enqueueRequest(request);
 }
 
-void ContactsGroupDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray& rawData)
+void ContactsGroupDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     d->groupsIds.currentProcessed();
 
     KGAPI2::DeleteJob::handleReply(reply, rawData);
 }
-
-
-

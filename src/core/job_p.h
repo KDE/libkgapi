@@ -10,17 +10,17 @@
 
 #include "job.h"
 
-#include <QQueue>
-#include <QTimer>
 #include <QNetworkReply>
+#include <QQueue>
 #include <QScopedPointer>
+#include <QTimer>
 
 class QFile;
 
-namespace KGAPI2 {
-
-struct Request
+namespace KGAPI2
 {
+
+struct Request {
     QNetworkRequest request;
     QByteArray rawData;
     QString contentType;
@@ -45,7 +45,7 @@ private:
 
 class Q_DECL_HIDDEN Job::Private
 {
-  public:
+public:
     Private(Job *parent);
     void init();
 
@@ -71,9 +71,8 @@ class Q_DECL_HIDDEN Job::Private
 
     Request currentRequest;
 
-  private:
-    Job * const q;
+private:
+    Job *const q;
 };
 
 }
-

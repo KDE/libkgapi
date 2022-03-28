@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapiblogger_export.h"
+#include "modifyjob.h"
 
 namespace KGAPI2
 {
@@ -18,33 +18,26 @@ class KGAPIBLOGGER_EXPORT CommentApproveJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
-  public:
-    enum ApprovalAction {
-        Approve,
-        MarkAsSpam
-    };
+public:
+    enum ApprovalAction { Approve, MarkAsSpam };
     explicit CommentApproveJob(const QString &blogId,
                                const QString &postId,
                                const QString &commentId,
                                ApprovalAction action,
                                const AccountPtr &account,
                                QObject *parent = nullptr);
-    explicit CommentApproveJob(const CommentPtr &comment,
-                               ApprovalAction action,
-                               const AccountPtr &account,
-                               QObject *parent = nullptr);
+    explicit CommentApproveJob(const CommentPtr &comment, ApprovalAction action, const AccountPtr &account, QObject *parent = nullptr);
     ~CommentApproveJob() override;
 
-  protected:
+protected:
     void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 
 } // namespace Blogger
 } // namespace KGAPI2
-

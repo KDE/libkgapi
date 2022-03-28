@@ -16,31 +16,27 @@ class Q_DECL_HIDDEN FileTouchJob::Private
 {
 };
 
-FileTouchJob::FileTouchJob(const QString &fileId,
-                           const AccountPtr &account, QObject *parent):
-    FileAbstractModifyJob(fileId, account, parent),
-    d(new Private)
+FileTouchJob::FileTouchJob(const QString &fileId, const AccountPtr &account, QObject *parent)
+    : FileAbstractModifyJob(fileId, account, parent)
+    , d(new Private)
 {
 }
 
-FileTouchJob::FileTouchJob(const QStringList &filesIds,
-                           const AccountPtr &account, QObject *parent):
-    FileAbstractModifyJob(filesIds, account, parent),
-    d(new Private)
+FileTouchJob::FileTouchJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent)
+    : FileAbstractModifyJob(filesIds, account, parent)
+    , d(new Private)
 {
 }
 
-FileTouchJob::FileTouchJob(const FilePtr &file,
-                           const AccountPtr &account, QObject *parent):
-    FileAbstractModifyJob(file, account, parent),
-    d(new Private)
+FileTouchJob::FileTouchJob(const FilePtr &file, const AccountPtr &account, QObject *parent)
+    : FileAbstractModifyJob(file, account, parent)
+    , d(new Private)
 {
 }
 
-FileTouchJob::FileTouchJob(const FilesList &files,
-                           const AccountPtr &account, QObject *parent):
-    FileAbstractModifyJob(files, account, parent),
-    d(new Private)
+FileTouchJob::FileTouchJob(const FilesList &files, const AccountPtr &account, QObject *parent)
+    : FileAbstractModifyJob(files, account, parent)
+    , d(new Private)
 {
 }
 
@@ -53,5 +49,3 @@ QUrl FileTouchJob::url(const QString &fileId)
 {
     return DriveService::touchFileUrl(fileId);
 }
-
-

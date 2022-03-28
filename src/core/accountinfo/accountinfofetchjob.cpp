@@ -12,9 +12,8 @@
 #include "debug.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
@@ -22,9 +21,9 @@ class Q_DECL_HIDDEN AccountInfoFetchJob::Private
 {
 };
 
-AccountInfoFetchJob::AccountInfoFetchJob(const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private)
+AccountInfoFetchJob::AccountInfoFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
 }
 
@@ -48,7 +47,7 @@ void AccountInfoFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList AccountInfoFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList AccountInfoFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
 

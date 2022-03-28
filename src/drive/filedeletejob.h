@@ -23,21 +23,17 @@ class KGAPIDRIVE_EXPORT FileDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-    explicit FileDeleteJob(const QString &fileId,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileDeleteJob(const QStringList &filesIds,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileDeleteJob(const FilePtr &file,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileDeleteJob(const FilesList &files,
-                           const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileDeleteJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileDeleteJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileDeleteJob(const FilePtr &file, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileDeleteJob(const FilesList &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileDeleteJob() override;
 
-  protected:
+protected:
     void start() override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -46,4 +42,3 @@ class KGAPIDRIVE_EXPORT FileDeleteJob : public KGAPI2::DeleteJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

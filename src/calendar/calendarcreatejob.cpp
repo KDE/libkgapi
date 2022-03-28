@@ -7,40 +7,38 @@
  */
 
 #include "calendarcreatejob.h"
-#include "calendarservice.h"
-#include "object.h"
 #include "account.h"
 #include "calendar.h"
+#include "calendarservice.h"
 #include "debug.h"
-#include "utils.h"
+#include "object.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN CalendarCreateJob::Private
 {
-  public:
+public:
     QueueHelper<CalendarPtr> calendars;
 };
 
-CalendarCreateJob::CalendarCreateJob(const CalendarPtr& calendar, const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private)
+CalendarCreateJob::CalendarCreateJob(const CalendarPtr &calendar, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private)
 {
     d->calendars << calendar;
 }
 
-CalendarCreateJob::CalendarCreateJob(const CalendarsList& calendars, const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private)
+CalendarCreateJob::CalendarCreateJob(const CalendarsList &calendars, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private)
 {
     d->calendars = calendars;
 }
-
 
 CalendarCreateJob::~CalendarCreateJob() = default;
 
@@ -58,7 +56,7 @@ void CalendarCreateJob::start()
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-ObjectsList CalendarCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList CalendarCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -76,5 +74,3 @@ ObjectsList CalendarCreateJob::handleReplyWithItems(const QNetworkReply *reply, 
 
     return items;
 }
-
-

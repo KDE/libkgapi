@@ -14,26 +14,25 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN FileCopyJob::Private
 {
-  public:
+public:
     Private(FileCopyJob *parent);
     void processNext();
 
-    QMap<QString, FilePtr > files;
+    QMap<QString, FilePtr> files;
 
     QList<FilePtr> copies;
 
-  private:
+private:
     FileCopyJob *const q;
 };
 
-FileCopyJob::Private::Private(FileCopyJob *parent):
-    q(parent)
+FileCopyJob::Private::Private(FileCopyJob *parent)
+    : q(parent)
 {
 }
 
@@ -57,40 +56,30 @@ void FileCopyJob::Private::processNext()
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-FileCopyJob::FileCopyJob(const QString &sourceFileId,
-                         const FilePtr &destinationFile,
-                         const AccountPtr &account,
-                         QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileCopyJob::FileCopyJob(const QString &sourceFileId, const FilePtr &destinationFile, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->files.insert(sourceFileId, destinationFile);
 }
 
-FileCopyJob::FileCopyJob(const FilePtr &sourceFile,
-                         const FilePtr &destinationFile,
-                         const AccountPtr &account,
-                         QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileCopyJob::FileCopyJob(const FilePtr &sourceFile, const FilePtr &destinationFile, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->files.insert(sourceFile->id(), destinationFile);
 }
 
-FileCopyJob::FileCopyJob(const QMap< QString, FilePtr > &files,
-                         const AccountPtr &account,
-                         QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileCopyJob::FileCopyJob(const QMap<QString, FilePtr> &files, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->files = files;
 }
 
-FileCopyJob::FileCopyJob(const QMap< FilePtr, FilePtr > &files,
-                         const AccountPtr &account,
-                         QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileCopyJob::FileCopyJob(const QMap<FilePtr, FilePtr> &files, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     QMap<FilePtr, FilePtr>::ConstIterator iter = files.constBegin();
     QMap<FilePtr, FilePtr>::ConstIterator iterEnd = files.constEnd();
@@ -114,10 +103,7 @@ void FileCopyJob::start()
     d->processNext();
 }
 
-void FileCopyJob::dispatchRequest(QNetworkAccessManager *accessManager,
-                                  const QNetworkRequest &request,
-                                  const QByteArray &data,
-                                  const QString &contentType)
+void FileCopyJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType)
 {
     QNetworkRequest r = request;
     r.setHeader(QNetworkRequest::ContentTypeHeader, contentType);
@@ -125,9 +111,7 @@ void FileCopyJob::dispatchRequest(QNetworkAccessManager *accessManager,
     accessManager->post(r, data);
 }
 
-
-void FileCopyJob::handleReply(const QNetworkReply *reply,
-                              const QByteArray &rawData)
+void FileCopyJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -143,5 +127,3 @@ void FileCopyJob::handleReply(const QNetworkReply *reply,
     // Enqueue next item or finish
     d->processNext();
 }
-
-

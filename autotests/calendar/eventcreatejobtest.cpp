@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "calendartestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "calendartestutils.h"
 
-#include "types.h"
-#include "eventcreatejob.h"
-#include "event.h"
 #include "account.h"
+#include "event.h"
+#include "eventcreatejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -38,13 +38,9 @@ private Q_SLOTS:
 
         auto event1 = eventFromFile(QFINDTESTDATA("data/event1.json"));
         auto response1 = EventPtr::create(*event1);
-        QTest::newRow("simple event")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/event1_create_request.txt"),
-                                     QFINDTESTDATA("data/event1_create_response.txt"))
-                }
-            << EventsList{ event1 }
-            << EventsList{ response1 };
+        QTest::newRow("simple event") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/event1_create_request.txt"),
+                                                                                                    QFINDTESTDATA("data/event1_create_response.txt"))}
+                                      << EventsList{event1} << EventsList{response1};
 
         auto event2 = eventFromFile(QFINDTESTDATA("data/event2.json"));
         auto response2 = EventPtr::create(*event2);
@@ -78,7 +74,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), responses.count());
         for (int i = 0; i < responses.count(); ++i) {
-            const auto returnedEvent =  items.at(i).dynamicCast<Event>();
+            const auto returnedEvent = items.at(i).dynamicCast<Event>();
             QVERIFY(returnedEvent);
             QCOMPARE(*returnedEvent, *responses.at(i));
         }
@@ -88,6 +84,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(EventCreateJobTest)
 
 #include "eventcreatejobtest.moc"
-
-
-

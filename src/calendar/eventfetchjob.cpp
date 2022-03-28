@@ -7,21 +7,21 @@
  */
 
 #include "eventfetchjob.h"
-#include "calendarservice.h"
 #include "account.h"
+#include "calendarservice.h"
 #include "debug.h"
 #include "event.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN EventFetchJob::Private
 {
-  public:
+public:
     QString calendarId;
     QString eventId;
     QString filter;
@@ -32,16 +32,16 @@ class Q_DECL_HIDDEN EventFetchJob::Private
     quint64 timeMax = 0;
 };
 
-EventFetchJob::EventFetchJob(const QString& calendarId, const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private)
+EventFetchJob::EventFetchJob(const QString &calendarId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->calendarId = calendarId;
 }
 
-EventFetchJob::EventFetchJob(const QString& eventId, const QString& calendarId, const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private)
+EventFetchJob::EventFetchJob(const QString &eventId, const QString &calendarId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->calendarId = calendarId;
     d->eventId = eventId;
@@ -94,7 +94,7 @@ quint64 EventFetchJob::timeMax() const
     return d->timeMax;
 }
 
-void EventFetchJob::setSyncToken(const QString& syncToken)
+void EventFetchJob::setSyncToken(const QString &syncToken)
 {
     d->syncToken = syncToken;
 }
@@ -165,10 +165,9 @@ void EventFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
-    if (reply->error() == QNetworkReply::ContentGoneError
-        || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == Gone) {
+    if (reply->error() == QNetworkReply::ContentGoneError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == Gone) {
         // Full sync required by server, redo request with no updatedMin and no syncToken
         d->updatedTimestamp = 0;
         d->syncToken.clear();
@@ -187,7 +186,7 @@ ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, cons
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->eventId.isEmpty()) {
-            items =  CalendarService::parseEventJSONFeed(rawData, feedData);
+            items = CalendarService::parseEventJSONFeed(rawData, feedData);
         } else {
             items << CalendarService::JSONToEvent(rawData).dynamicCast<Object>();
         }
@@ -206,5 +205,3 @@ ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, cons
 
     return items;
 }
-
-

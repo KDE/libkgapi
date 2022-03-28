@@ -9,19 +9,18 @@
 #include "locationfetchhistoryjob.h"
 #include "account.h"
 #include "debug.h"
+#include "latitudeservice.h"
 #include "location.h"
 #include "utils.h"
-#include "latitudeservice.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN LocationFetchHistoryJob::Private
 {
-  public:
+public:
     Private(LocationFetchHistoryJob *parent);
     QNetworkRequest createRequest(const QUrl &url);
 
@@ -30,16 +29,16 @@ class Q_DECL_HIDDEN LocationFetchHistoryJob::Private
     qlonglong minTimestamp = 0;
     qlonglong maxTimestamp = 0;
 
-  private:
-    LocationFetchHistoryJob * const q;
+private:
+    LocationFetchHistoryJob *const q;
 };
 
-LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent):
-    q(parent)
+LocationFetchHistoryJob::Private::Private(LocationFetchHistoryJob *parent)
+    : q(parent)
 {
 }
 
-QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl& url)
+QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl &url)
 {
     QNetworkRequest request(url);
     request.setRawHeader("GData-Version", LatitudeService::APIVersion().toLatin1());
@@ -47,10 +46,9 @@ QNetworkRequest LocationFetchHistoryJob::Private::createRequest(const QUrl& url)
     return request;
 }
 
-
-LocationFetchHistoryJob::LocationFetchHistoryJob(const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+LocationFetchHistoryJob::LocationFetchHistoryJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
 }
 
@@ -119,7 +117,7 @@ void LocationFetchHistoryJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList LocationFetchHistoryJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     FeedData feedData;
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();

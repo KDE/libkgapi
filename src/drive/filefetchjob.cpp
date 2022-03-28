@@ -7,15 +7,15 @@
  */
 
 #include "filefetchjob.h"
-#include "filesearchquery.h"
 #include "account.h"
 #include "debug.h"
 #include "driveservice.h"
 #include "file.h"
+#include "filesearchquery.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
@@ -23,7 +23,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN FileFetchJob::Private
 {
-  public:
+public:
     Private(FileFetchJob *parent);
     void processNext();
 
@@ -37,12 +37,12 @@ class Q_DECL_HIDDEN FileFetchJob::Private
 
     QStringList fields;
 
-  private:
+private:
     FileFetchJob *const q;
 };
 
-FileFetchJob::Private::Private(FileFetchJob *parent):
-    q(parent)
+FileFetchJob::Private::Private(FileFetchJob *parent)
+    : q(parent)
 {
 }
 
@@ -68,14 +68,12 @@ void FileFetchJob::Private::processNext()
                 fields << File::Fields::Kind;
             }
             Job *baseJob = dynamic_cast<Job *>(q);
-            baseJob->setFields({
-                File::Fields::Etag,
-                File::Fields::Kind,
-                File::Fields::NextLink,
-                File::Fields::NextPageToken,
-                File::Fields::SelfLink,
-                Job::buildSubfields(File::Fields::Items, fields)
-            });
+            baseJob->setFields({File::Fields::Etag,
+                                File::Fields::Kind,
+                                File::Fields::NextLink,
+                                File::Fields::NextPageToken,
+                                File::Fields::SelfLink,
+                                Job::buildSubfields(File::Fields::Items, fields)});
         }
     } else {
         if (filesIDs.isEmpty()) {
@@ -104,38 +102,34 @@ void FileFetchJob::Private::processNext()
     q->enqueueRequest(request);
 }
 
-FileFetchJob::FileFetchJob(const QString &fileId,
-                           const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+FileFetchJob::FileFetchJob(const QString &fileId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->filesIDs << fileId;
 }
 
-FileFetchJob::FileFetchJob(const QStringList &filesIds,
-                           const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+FileFetchJob::FileFetchJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->filesIDs << filesIds;
 }
 
-FileFetchJob::FileFetchJob(const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+FileFetchJob::FileFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->isFeed = true;
 }
 
-FileFetchJob::FileFetchJob(const FileSearchQuery &query,
-                           const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+FileFetchJob::FileFetchJob(const FileSearchQuery &query, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->isFeed = true;
     d->searchQuery = query;
 }
-
 
 FileFetchJob::~FileFetchJob()
 {
@@ -197,37 +191,30 @@ void FileFetchJob::setSupportsAllDrives(bool supportsAllDrives)
     d->supportsAllDrives = supportsAllDrives;
 }
 
-const QStringList FileFetchJob::FieldShorthands::BasicFields = {
-    File::Fields::Id,
-    File::Fields::Title,
-    File::Fields::MimeType,
-    File::Fields::CreatedDate,
-    File::Fields::ModifiedDate,
-    File::Fields::FileSize,
-    File::Fields::DownloadUrl,
-    File::Fields::Permissions
-};
+const QStringList FileFetchJob::FieldShorthands::BasicFields = {File::Fields::Id,
+                                                                File::Fields::Title,
+                                                                File::Fields::MimeType,
+                                                                File::Fields::CreatedDate,
+                                                                File::Fields::ModifiedDate,
+                                                                File::Fields::FileSize,
+                                                                File::Fields::DownloadUrl,
+                                                                File::Fields::Permissions};
 
-const QStringList FileFetchJob::FieldShorthands::AccessFields = {
-    File::Fields::CreatedDate,
-    File::Fields::ModifiedDate,
-    File::Fields::ModifiedByMeDate,
-    File::Fields::LastModifiedByMeDate,
-    File::Fields::LastViewedByMeDate,
-    File::Fields::MarkedViewedByMeDate
-};
+const QStringList FileFetchJob::FieldShorthands::AccessFields = {File::Fields::CreatedDate,
+                                                                 File::Fields::ModifiedDate,
+                                                                 File::Fields::ModifiedByMeDate,
+                                                                 File::Fields::LastModifiedByMeDate,
+                                                                 File::Fields::LastViewedByMeDate,
+                                                                 File::Fields::MarkedViewedByMeDate};
 
-const QStringList FileFetchJob::FieldShorthands::SharingFields = {
-    File::Fields::SharedWithMeDate,
-    File::Fields::WritersCanShare,
-    File::Fields::Shared,
-    File::Fields::Owners,
-    File::Fields::SharingUser,
-    File::Fields::OwnerNames
-};
+const QStringList FileFetchJob::FieldShorthands::SharingFields = {File::Fields::SharedWithMeDate,
+                                                                  File::Fields::WritersCanShare,
+                                                                  File::Fields::Shared,
+                                                                  File::Fields::Owners,
+                                                                  File::Fields::SharingUser,
+                                                                  File::Fields::OwnerNames};
 
-ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                               const QByteArray &rawData)
+ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -258,5 +245,3 @@ ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
-
-

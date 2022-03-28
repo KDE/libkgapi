@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapidrive_export.h"
+#include "modifyjob.h"
 
 #include <QStringList>
 
@@ -23,15 +23,11 @@ class KGAPIDRIVE_EXPORT FileAbstractModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
-  public:
-    explicit FileAbstractModifyJob(const QString &fileId,
-                                   const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileAbstractModifyJob(const QStringList &filesIds,
-                                   const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileAbstractModifyJob(const FilePtr &file,
-                                   const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileAbstractModifyJob(const FilesList &files,
-                                   const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileAbstractModifyJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileAbstractModifyJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileAbstractModifyJob(const FilePtr &file, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileAbstractModifyJob(const FilesList &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileAbstractModifyJob() override;
 
     /**
@@ -54,21 +50,18 @@ class KGAPIDRIVE_EXPORT FileAbstractModifyJob : public KGAPI2::ModifyJob
      */
     KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
     virtual QUrl url(const QString &fileId) = 0;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

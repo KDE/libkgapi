@@ -21,13 +21,9 @@ class KGAPIDRIVE_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
-    explicit PermissionCreateJob(const QString &fileId,
-                                 const PermissionPtr &permission,
-                                 const AccountPtr &account, QObject *parent = nullptr);
-    explicit PermissionCreateJob(const QString &fileId,
-                                 const PermissionsList &permissions,
-                                 const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit PermissionCreateJob(const QString &fileId, const PermissionPtr &permission, const AccountPtr &account, QObject *parent = nullptr);
+    explicit PermissionCreateJob(const QString &fileId, const PermissionsList &permissions, const AccountPtr &account, QObject *parent = nullptr);
     ~PermissionCreateJob() override;
 
     /**
@@ -90,12 +86,11 @@ class KGAPIDRIVE_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
      */
     void setUseDomainAdminAccess(bool useDomainAdminAccess);
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
@@ -104,4 +99,3 @@ class KGAPIDRIVE_EXPORT PermissionCreateJob : public KGAPI2::CreateJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

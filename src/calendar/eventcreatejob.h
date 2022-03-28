@@ -14,10 +14,11 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
- * @brief A job to create one or more new events in given calendar 
+ * @brief A job to create one or more new events in given calendar
  *
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
@@ -26,11 +27,8 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-    Q_PROPERTY(KGAPI2::SendUpdatesPolicy sendUpdates
-               READ sendUpdates
-               WRITE setSendUpdates
-               NOTIFY sendUpdatesChanged)
-  public:
+    Q_PROPERTY(KGAPI2::SendUpdatesPolicy sendUpdates READ sendUpdates WRITE setSendUpdates NOTIFY sendUpdatesChanged)
+public:
     /**
      * @brief Constructs a job that will create given @p event in a calendar
      *        with given @p calendarID
@@ -40,8 +38,7 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit EventCreateJob(const EventPtr &event, const QString &calendarId,
-                            const AccountPtr &account, QObject* parent = nullptr);
+    explicit EventCreateJob(const EventPtr &event, const QString &calendarId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will create given @p events in a calendar
@@ -52,8 +49,7 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit EventCreateJob(const EventsList &events, const QString &calendarId,
-                            const AccountPtr &account, QObject* parent = nullptr);
+    explicit EventCreateJob(const EventsList &events, const QString &calendarId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -63,11 +59,10 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
     KGAPI2::SendUpdatesPolicy sendUpdates() const;
     void setSendUpdates(KGAPI2::SendUpdatesPolicy updatePolicy);
 
-  Q_SIGNALS:
+Q_SIGNALS:
     void sendUpdatesChanged(KGAPI2::SendUpdatesPolicy policy);
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -79,14 +74,12 @@ class KGAPICALENDAR_EXPORT EventCreateJob : public KGAPI2::CreateJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

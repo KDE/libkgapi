@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "calendartestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "calendartestutils.h"
 
-#include "types.h"
-#include "eventdeletejob.h"
-#include "event.h"
 #include "account.h"
+#include "event.h"
+#include "eventdeletejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -36,47 +36,27 @@ private Q_SLOTS:
         QTest::addColumn<EventsList>("events");
         QTest::addColumn<bool>("idOnly");
 
-        QTest::newRow("simple event")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
-                                     QFINDTESTDATA("data/event1_delete_response.txt"))
-                }
-            << EventsList{ eventFromFile(QFINDTESTDATA("data/event1.json")) }
-            << false;
+        QTest::newRow("simple event") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/event1_delete_response.txt"))}
+                                      << EventsList{eventFromFile(QFINDTESTDATA("data/event1.json"))} << false;
 
-        QTest::newRow("simple event (uid)")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
-                                     QFINDTESTDATA("data/event1_delete_response.txt"))
-                }
-            << EventsList{ eventFromFile(QFINDTESTDATA("data/event1.json")) }
-            << true;
+        QTest::newRow("simple event (uid)") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
+                                                                                                          QFINDTESTDATA("data/event1_delete_response.txt"))}
+                                            << EventsList{eventFromFile(QFINDTESTDATA("data/event1.json"))} << true;
 
-        QTest::newRow("batch delete")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
-                                     QFINDTESTDATA("data/event1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/event2_delete_request.txt"),
-                                     QFINDTESTDATA("data/event2_delete_response.txt"))
-                }
-            << EventsList{
-                    eventFromFile(QFINDTESTDATA("data/event1.json")),
-                    eventFromFile(QFINDTESTDATA("data/event2.json"))
-                }
-            << false;
+        QTest::newRow("batch delete") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/event1_delete_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/event2_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/event2_delete_response.txt"))}
+                                      << EventsList{eventFromFile(QFINDTESTDATA("data/event1.json")), eventFromFile(QFINDTESTDATA("data/event2.json"))}
+                                      << false;
 
-        QTest::newRow("batch delete (uid)")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
-                                     QFINDTESTDATA("data/event1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/event2_delete_request.txt"),
-                                     QFINDTESTDATA("data/event2_delete_response.txt"))
-                }
-            << EventsList{
-                    eventFromFile(QFINDTESTDATA("data/event1.json")),
-                    eventFromFile(QFINDTESTDATA("data/event2.json"))
-                }
-            << true;
+        QTest::newRow("batch delete (uid)") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/event1_delete_request.txt"),
+                                                                                                          QFINDTESTDATA("data/event1_delete_response.txt")),
+                                                                                         scenarioFromFile(QFINDTESTDATA("data/event2_delete_request.txt"),
+                                                                                                          QFINDTESTDATA("data/event2_delete_response.txt"))}
+                                            << EventsList{eventFromFile(QFINDTESTDATA("data/event1.json")), eventFromFile(QFINDTESTDATA("data/event2.json"))}
+                                            << true;
     }
 
     void testDelete()
@@ -109,6 +89,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(EventDeleteJobTest)
 
 #include "eventdeletejobtest.moc"
-
-
-

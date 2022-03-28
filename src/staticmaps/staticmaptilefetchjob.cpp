@@ -7,33 +7,32 @@
  */
 
 #include "staticmaptilefetchjob.h"
-#include "staticmapurl.h"
 #include "debug.h"
+#include "staticmapurl.h"
 
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN StaticMapTileFetchJob::Private
 {
-  public:
+public:
     QUrl url;
     QPixmap tilePixmap;
 };
 
-StaticMapTileFetchJob::StaticMapTileFetchJob(const StaticMapUrl& url,
-                                             QObject* parent):
-    Job(parent),
-    d(new Private)
+StaticMapTileFetchJob::StaticMapTileFetchJob(const StaticMapUrl &url, QObject *parent)
+    : Job(parent)
+    , d(new Private)
 {
     d->url = url.url();
 }
 
-StaticMapTileFetchJob::StaticMapTileFetchJob(const QUrl& url, QObject* parent):
-    Job(parent),
-    d(new Private)
+StaticMapTileFetchJob::StaticMapTileFetchJob(const QUrl &url, QObject *parent)
+    : Job(parent)
+    , d(new Private)
 {
     d->url = url;
 }
@@ -58,10 +57,10 @@ void StaticMapTileFetchJob::start()
     enqueueRequest(QNetworkRequest(d->url));
 }
 
-void StaticMapTileFetchJob::dispatchRequest(QNetworkAccessManager* accessManager,
-                                            const QNetworkRequest& request,
-                                            const QByteArray& data,
-                                            const QString& contentType)
+void StaticMapTileFetchJob::dispatchRequest(QNetworkAccessManager *accessManager,
+                                            const QNetworkRequest &request,
+                                            const QByteArray &data,
+                                            const QString &contentType)
 {
     Q_UNUSED(data)
     Q_UNUSED(contentType)
@@ -69,14 +68,10 @@ void StaticMapTileFetchJob::dispatchRequest(QNetworkAccessManager* accessManager
     accessManager->get(request);
 }
 
-void StaticMapTileFetchJob::handleReply(const QNetworkReply *reply,
-                                        const QByteArray& rawData)
+void StaticMapTileFetchJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     Q_UNUSED(reply)
 
     d->tilePixmap.loadFromData(rawData);
     emitFinished();
 }
-
-
-

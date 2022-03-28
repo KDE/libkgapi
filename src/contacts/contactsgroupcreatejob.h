@@ -11,10 +11,11 @@
 #include "createjob.h"
 #include "kgapicontacts_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
- * @brief A job to create one or more new groups (folders) in Google Contacts 
+ * @brief A job to create one or more new groups (folders) in Google Contacts
  *       addressbook
  *
  * @author Daniel Vrátil <dvratil@redhat.com>
@@ -24,8 +25,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will create given @p groups in user's
      *        addressbook
@@ -34,9 +34,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactsGroupCreateJob(const ContactsGroupsList &groups,
-                                    const AccountPtr &account,
-                                    QObject* parent = nullptr);
+    explicit ContactsGroupCreateJob(const ContactsGroupsList &groups, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will create given @p group in user's
@@ -46,17 +44,14 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactsGroupCreateJob(const ContactsGroupPtr &group,
-                                    const AccountPtr &account,
-                                    QObject* parent = nullptr);
+    explicit ContactsGroupCreateJob(const ContactsGroupPtr &group, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~ContactsGroupCreateJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -68,15 +63,12 @@ class KGAPICONTACTS_EXPORT ContactsGroupCreateJob : public KGAPI2::CreateJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

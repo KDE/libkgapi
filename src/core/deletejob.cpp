@@ -8,9 +8,9 @@
 
 #include "deletejob.h"
 
-#include <QUrlQuery>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
@@ -18,15 +18,15 @@ class Q_DECL_HIDDEN DeleteJob::Private
 {
 };
 
-DeleteJob::DeleteJob(QObject* parent):
-    Job(parent),
-    d(new Private)
+DeleteJob::DeleteJob(QObject *parent)
+    : Job(parent)
+    , d(new Private)
 {
 }
 
-DeleteJob::DeleteJob(const AccountPtr& account, QObject* parent):
-    Job(account, parent),
-    d(new Private)
+DeleteJob::DeleteJob(const AccountPtr &account, QObject *parent)
+    : Job(account, parent)
+    , d(new Private)
 {
 }
 
@@ -35,7 +35,7 @@ DeleteJob::~DeleteJob()
     delete d;
 }
 
-void DeleteJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request, const QByteArray& data, const QString& contentType)
+void DeleteJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType)
 {
     Q_UNUSED(data)
     Q_UNUSED(contentType)
@@ -55,8 +55,7 @@ void DeleteJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNet
     accessManager->deleteResource(r);
 }
 
-
-void DeleteJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
+void DeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     Q_UNUSED(reply)
     Q_UNUSED(rawData)

@@ -7,21 +7,20 @@
  */
 
 #include "locationfetchjob.h"
-#include "latitudeservice.h"
 #include "account.h"
 #include "debug.h"
+#include "latitudeservice.h"
 #include "location.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN LocationFetchJob::Private
 {
-  public:
+public:
     Private();
 
     qlonglong timestamp = -1;
@@ -32,15 +31,15 @@ LocationFetchJob::Private::Private()
 {
 }
 
-LocationFetchJob::LocationFetchJob(const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private)
+LocationFetchJob::LocationFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
 }
 
-LocationFetchJob::LocationFetchJob(qlonglong timestamp, const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private)
+LocationFetchJob::LocationFetchJob(qlonglong timestamp, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->timestamp = timestamp;
 }
@@ -77,7 +76,7 @@ void LocationFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList LocationFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList LocationFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);

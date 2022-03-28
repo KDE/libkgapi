@@ -6,12 +6,11 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "permissiondeletejob.h"
-#include "permission.h"
 #include "account.h"
-#include "utils.h"
 #include "driveservice.h"
+#include "permission.h"
+#include "utils.h"
 
 #include <QNetworkRequest>
 #include <QUrlQuery>
@@ -19,25 +18,23 @@
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-namespace {
-    static constexpr bool useDomainAdminAccessDefault = false;
+namespace
+{
+static constexpr bool useDomainAdminAccessDefault = false;
 }
 
 class Q_DECL_HIDDEN PermissionDeleteJob::Private
 {
-  public:
+public:
     QString fileId;
     QStringList permissionsIds;
     bool supportsAllDrives;
     bool useDomainAdminAccess;
 };
 
-PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
-                                         const PermissionPtr &permission,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+PermissionDeleteJob::PermissionDeleteJob(const QString &fileId, const PermissionPtr &permission, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
@@ -45,12 +42,9 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
     d->permissionsIds << permission->id();
 }
 
-PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
-                                         const QString &permissionId,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+PermissionDeleteJob::PermissionDeleteJob(const QString &fileId, const QString &permissionId, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
@@ -58,27 +52,21 @@ PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
     d->permissionsIds << permissionId;
 }
 
-PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
-                                         const PermissionsList &permissions,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+PermissionDeleteJob::PermissionDeleteJob(const QString &fileId, const PermissionsList &permissions, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
     d->fileId = fileId;
-    for (const PermissionPtr & permission : std::as_const(permissions)) {
+    for (const PermissionPtr &permission : std::as_const(permissions)) {
         d->permissionsIds << permission->id();
     }
 }
 
-PermissionDeleteJob::PermissionDeleteJob(const QString &fileId,
-                                         const QStringList &permissionsIds,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+PermissionDeleteJob::PermissionDeleteJob(const QString &fileId, const QStringList &permissionsIds, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
@@ -127,5 +115,3 @@ void PermissionDeleteJob::start()
 
     enqueueRequest(request);
 }
-
-

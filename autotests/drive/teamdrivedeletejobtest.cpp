@@ -10,10 +10,10 @@
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
 
-#include "types.h"
-#include "teamdrivedeletejob.h"
-#include "teamdrive.h"
 #include "account.h"
+#include "teamdrive.h"
+#include "teamdrivedeletejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -34,12 +34,9 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<QString>("teamdriveId");
 
-        QTest::newRow("metadata only")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/teamdrive_delete_request.txt"),
-                                     QFINDTESTDATA("data/generic_no_content_response.txt"))
-                }
-            << QStringLiteral("somelongid");
+        QTest::newRow("metadata only") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/teamdrive_delete_request.txt"),
+                                                                                                     QFINDTESTDATA("data/generic_no_content_response.txt"))}
+                                       << QStringLiteral("somelongid");
     }
 
     void testDelete()
@@ -59,8 +56,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TeamdriveDeleteJobTest)
 
 #include "teamdrivedeletejobtest.moc"
-
-
-
-
-

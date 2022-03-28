@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "types.h"
-#include "object.h"
 #include "kgapidrive_export.h"
+#include "object.h"
+#include "types.h"
 
 #include <QString>
 #include <QUrl>
@@ -29,14 +29,17 @@ namespace Drive
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class KGAPIDRIVE_EXPORT Change: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT Change : public KGAPI2::Object
 {
-  public:
+public:
     explicit Change();
-    explicit Change(const Change& other);
+    explicit Change(const Change &other);
     ~Change() override;
     bool operator==(const Change &other) const;
-    bool operator!=(const Change &other) const { return !operator==(other); }
+    bool operator!=(const Change &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Returns the id of the change.
@@ -68,9 +71,9 @@ class KGAPIDRIVE_EXPORT Change: public KGAPI2::Object
     static ChangePtr fromJSON(const QByteArray &jsonData);
     static ChangesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
     friend class File;
 };
@@ -78,4 +81,3 @@ class KGAPIDRIVE_EXPORT Change: public KGAPI2::Object
 } /* namespace Drive */
 
 } /* namespace KGAPI2 */
-

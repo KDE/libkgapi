@@ -8,13 +8,13 @@
 #include <QTest>
 
 #include "fakenetworkaccessmanagerfactory.h"
-#include "testutils.h"
 #include "taskstestutils.h"
+#include "testutils.h"
 
-#include "types.h"
-#include "tasklistdeletejob.h"
-#include "tasklist.h"
 #include "account.h"
+#include "tasklist.h"
+#include "tasklistdeletejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -36,49 +36,30 @@ private Q_SLOTS:
         QTest::addColumn<TaskListsList>("tasklists");
         QTest::addColumn<bool>("uidOnly");
 
-        QTest::newRow("simple tasklist")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist1_delete_request.txt"),
-                                     QFINDTESTDATA("data/tasklist1_delete_response.txt"))
-                }
-            << TaskListsList{ taskListFromFile(QFINDTESTDATA("data/tasklist1.json")) }
-            << false;
+        QTest::newRow("simple tasklist") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/tasklist1_delete_request.txt"),
+                                                                                                       QFINDTESTDATA("data/tasklist1_delete_response.txt"))}
+                                         << TaskListsList{taskListFromFile(QFINDTESTDATA("data/tasklist1.json"))} << false;
 
-        QTest::newRow("simple tasklist (uid)")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist1_delete_request.txt"),
-                                     QFINDTESTDATA("data/tasklist1_delete_response.txt"))
-                }
-            << TaskListsList{ taskListFromFile(QFINDTESTDATA("data/tasklist1.json")) }
-            << true;
+        QTest::newRow("simple tasklist (uid)") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(
+            QFINDTESTDATA("data/tasklist1_delete_request.txt"),
+            QFINDTESTDATA("data/tasklist1_delete_response.txt"))}
+                                               << TaskListsList{taskListFromFile(QFINDTESTDATA("data/tasklist1.json"))} << true;
 
-        QTest::newRow("batch delete")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist1_delete_request.txt"),
-                                     QFINDTESTDATA("data/tasklist1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist2_delete_request.txt"),
-                                     QFINDTESTDATA("data/tasklist2_delete_response.txt"))
-                }
-            << TaskListsList{
-                    taskListFromFile(QFINDTESTDATA("data/tasklist1.json")),
-                    taskListFromFile(QFINDTESTDATA("data/tasklist2.json"))
-                }
-            << false;
+        QTest::newRow("batch delete") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/tasklist1_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/tasklist1_delete_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/tasklist2_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/tasklist2_delete_response.txt"))}
+                                      << TaskListsList{taskListFromFile(QFINDTESTDATA("data/tasklist1.json")),
+                                                       taskListFromFile(QFINDTESTDATA("data/tasklist2.json"))}
+                                      << false;
 
-
-        QTest::newRow("batch delete (uid)")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist1_delete_request.txt"),
-                                     QFINDTESTDATA("data/tasklist1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist2_delete_request.txt"),
-                                     QFINDTESTDATA("data/tasklist2_delete_response.txt"))
-                }
-            << TaskListsList{
-                    taskListFromFile(QFINDTESTDATA("data/tasklist1.json")),
-                    taskListFromFile(QFINDTESTDATA("data/tasklist2.json"))
-                }
-            << true;
-
+        QTest::newRow("batch delete (uid)") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/tasklist1_delete_request.txt"),
+                                                                                                          QFINDTESTDATA("data/tasklist1_delete_response.txt")),
+                                                                                         scenarioFromFile(QFINDTESTDATA("data/tasklist2_delete_request.txt"),
+                                                                                                          QFINDTESTDATA("data/tasklist2_delete_response.txt"))}
+                                            << TaskListsList{taskListFromFile(QFINDTESTDATA("data/tasklist1.json")),
+                                                             taskListFromFile(QFINDTESTDATA("data/tasklist2.json"))}
+                                            << true;
     }
 
     void testDelete()
@@ -111,5 +92,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TaskListDeleteJobTest)
 
 #include "tasklistdeletejobtest.moc"
-
-

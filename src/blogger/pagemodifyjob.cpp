@@ -5,10 +5,10 @@
  */
 
 #include "pagemodifyjob.h"
-#include "page.h"
-#include "bloggerservice.h"
-#include "utils.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "page.h"
+#include "utils.h"
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -18,7 +18,7 @@ using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN PageModifyJob::Private
 {
-  public:
+public:
     Private(const PagePtr &page);
 
     const PagePtr page;
@@ -29,9 +29,7 @@ PageModifyJob::Private::Private(const PagePtr &page_)
 {
 }
 
-PageModifyJob::PageModifyJob(const PagePtr &page,
-                             const AccountPtr &account,
-                             QObject *parent)
+PageModifyJob::PageModifyJob(const PagePtr &page, const AccountPtr &account, QObject *parent)
     : ModifyJob(account, parent)
     , d(new Private(page))
 {
@@ -41,7 +39,6 @@ PageModifyJob::~PageModifyJob()
 {
     delete d;
 }
-
 
 void PageModifyJob::start()
 {
@@ -68,5 +65,3 @@ ObjectsList PageModifyJob::handleReplyWithItems(const QNetworkReply *reply, cons
     emitFinished();
     return items;
 }
-
-

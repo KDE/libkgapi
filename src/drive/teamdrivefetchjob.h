@@ -31,9 +31,7 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
      * This property does not have any effect when fetching a specific event and
      * can be modified only when the job is not running.
      */
-    Q_PROPERTY(int maxResults
-               READ maxResults
-               WRITE setMaxResults)
+    Q_PROPERTY(int maxResults READ maxResults WRITE setMaxResults)
 
     /**
      * Issue the request as a domain administrator; if set to true, then all
@@ -45,15 +43,12 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
      * This property does not have any effect when fetching a specific event and
      * can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool useDomainAdminAccess
-               READ useDomainAdminAccess
-               WRITE setUseDomainAdminAccess)
+    Q_PROPERTY(bool useDomainAdminAccess READ useDomainAdminAccess WRITE setUseDomainAdminAccess)
 
-  public:
+public:
     TeamdriveFetchJob(const TeamdriveSearchQuery &query, const AccountPtr &account, QObject *parent = nullptr);
     explicit TeamdriveFetchJob(const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveFetchJob(const QString &teamdriveId, const AccountPtr &account,
-                            QObject *parent = nullptr);
+    TeamdriveFetchJob(const QString &teamdriveId, const AccountPtr &account, QObject *parent = nullptr);
     ~TeamdriveFetchJob() override;
 
     int maxResults() const;
@@ -65,12 +60,11 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
     void setFields(const QStringList &fields);
     QStringList fields() const;
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
@@ -81,4 +75,3 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveFetchJob : public KGAPI2::FetchJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

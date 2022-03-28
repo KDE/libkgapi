@@ -21,14 +21,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "filecreatejob.h"
-#include "file.h"
 #include "account.h"
+#include "file.h"
+#include "filecreatejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -51,25 +51,16 @@ private Q_SLOTS:
         QTest::addColumn<QString>("uploadFilePath");
         QTest::addColumn<Drive::FilePtr>("expectedResult");
 
-        QTest::newRow("metadata only")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/file1_create_request.txt"),
-                                     QFINDTESTDATA("data/file1_create_response.txt"))
-                }
-            << fileFromFile(QFINDTESTDATA("data/file1.json"))
-            << QString()
-            << fileFromFile(QFINDTESTDATA("data/file1.json"));
+        QTest::newRow("metadata only") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/file1_create_request.txt"),
+                                                                                                     QFINDTESTDATA("data/file1_create_response.txt"))}
+                                       << fileFromFile(QFINDTESTDATA("data/file1.json")) << QString() << fileFromFile(QFINDTESTDATA("data/file1.json"));
 
         // NOTE: The scenarios are reversed due use of QMap, which orders the files
         // by ID
-        QTest::newRow("upload")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/file2_create_request.txt"),
-                                     QFINDTESTDATA("data/file2_create_response.txt"))
-                }
-            << fileFromFile(QFINDTESTDATA("data/file2.json"))
-            << QFINDTESTDATA("data/DSC_1287.JPG")
-            << fileFromFile(QFINDTESTDATA("data/file2.json"));
+        QTest::newRow("upload") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/file2_create_request.txt"),
+                                                                                              QFINDTESTDATA("data/file2_create_response.txt"))}
+                                << fileFromFile(QFINDTESTDATA("data/file2.json")) << QFINDTESTDATA("data/DSC_1287.JPG")
+                                << fileFromFile(QFINDTESTDATA("data/file2.json"));
     }
 
     void testCreate()
@@ -100,8 +91,3 @@ private Q_SLOTS:
 QTEST_MAIN(FileCreateJobTest)
 
 #include "filecreatejobtest.moc"
-
-
-
-
-

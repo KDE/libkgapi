@@ -8,9 +8,9 @@
 
 #pragma once
 
+#include "kgapicalendar_export.h"
 #include "object.h"
 #include "types.h"
-#include "kgapicalendar_export.h"
 
 #include <KCalendarCore/Alarm>
 #include <KCalendarCore/Incidence>
@@ -28,8 +28,7 @@ namespace KGAPI2
  */
 class KGAPICALENDAR_EXPORT Reminder
 {
-  public:
-
+public:
     /**
      * @brief Constructor
      */
@@ -41,8 +40,7 @@ class KGAPICALENDAR_EXPORT Reminder
      * @param type Type of the reminder (email, notification, etc.)
      * @param startOffset How long before the event should the reminder be shown
      */
-    explicit Reminder(const KCalendarCore::Alarm::Type &type,
-                      const KCalendarCore::Duration &startOffset = KCalendarCore::Duration(0));
+    explicit Reminder(const KCalendarCore::Alarm::Type &type, const KCalendarCore::Duration &startOffset = KCalendarCore::Duration(0));
 
     /**
      * @brief Copy constructor
@@ -86,10 +84,9 @@ class KGAPICALENDAR_EXPORT Reminder
      */
     KCalendarCore::Alarm *toAlarm(KCalendarCore::Incidence *incidence) const;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
 };
 
 } // namespace KGAPI2
-

@@ -11,40 +11,41 @@
 
 using namespace KGAPI2;
 
-namespace {
+namespace
+{
 static constexpr const char *EventIdProperty = "EventId";
 }
 
 class Q_DECL_HIDDEN Event::Private
 {
-  public:
+public:
     QString id;
     bool deleted = false;
     bool useDefaultReminders = false;
 };
 
-Event::Event():
-    Object(),
-    KCalendarCore::Event(),
-    d(new Private)
+Event::Event()
+    : Object()
+    , KCalendarCore::Event()
+    , d(new Private)
 {
 }
 
-Event::Event(const Event &other):
-    Object(other),
-    KCalendarCore::Event(other),
-    d(new Private(*(other.d)))
+Event::Event(const Event &other)
+    : Object(other)
+    , KCalendarCore::Event(other)
+    , d(new Private(*(other.d)))
 {
 }
 
-Event::Event(const KCalendarCore::Event &other):
-    Object(),
-    KCalendarCore::Event(other),
-    d(new Private)
+Event::Event(const KCalendarCore::Event &other)
+    : Object()
+    , KCalendarCore::Event(other)
+    , d(new Private)
 {
 }
 
-Event::~Event()= default;
+Event::~Event() = default;
 
 bool Event::operator==(const Event &other) const
 {
@@ -65,7 +66,6 @@ bool Event::operator==(const Event &other) const
 
     return true;
 }
-
 
 bool Event::deleted() const
 {

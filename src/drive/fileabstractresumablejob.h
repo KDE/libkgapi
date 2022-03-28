@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "file.h"
 #include "account.h"
+#include "file.h"
 #include "fileabstractdatajob.h"
 #include "kgapidrive_export.h"
 
@@ -42,8 +42,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will upload an Untitled file in the
      * users root folder.
@@ -51,8 +50,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit FileAbstractResumableJob(const AccountPtr &account,
-                                   QObject *parent = nullptr);
+    explicit FileAbstractResumableJob(const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will upload a file with its metadata.
@@ -61,9 +59,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit FileAbstractResumableJob(const FilePtr &metadata,
-                                   const AccountPtr &account,
-                                   QObject *parent = nullptr);
+    explicit FileAbstractResumableJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will upload an Untitled file in the
@@ -73,9 +69,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit FileAbstractResumableJob(QIODevice *device,
-                                   const AccountPtr &account,
-                                   QObject *parent = nullptr);
+    explicit FileAbstractResumableJob(QIODevice *device, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will upload a file with its metadata
@@ -86,10 +80,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit FileAbstractResumableJob(QIODevice *device,
-                                   const FilePtr &metadata,
-                                   const AccountPtr &account,
-                                   QObject *parent = nullptr);
+    explicit FileAbstractResumableJob(QIODevice *device, const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -125,8 +116,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      */
     void write(const QByteArray &data);
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -138,8 +128,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
     /**
      * @brief KGAPI2::Job::dispatchRequest implementation
@@ -149,10 +138,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager *accessManager,
-                                 const QNetworkRequest &request,
-                                 const QByteArray &data,
-                                 const QString &contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * @brief Emit readyWrite() signal
@@ -164,7 +150,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      */
     virtual QUrl createUrl() = 0;
 
-  Q_SIGNALS:
+Q_SIGNALS:
 
     /**
      * @brief Emitted when @p job requires more data to proceed. Bytes should
@@ -183,7 +169,7 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
      */
     void readyWrite(KGAPI2::Drive::FileAbstractResumableJob *job);
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
@@ -194,4 +180,3 @@ class KGAPIDRIVE_EXPORT FileAbstractResumableJob : public KGAPI2::Drive::FileAbs
 } // namespace Drive
 
 } // namespace KGAPI2
-

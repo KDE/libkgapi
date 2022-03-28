@@ -26,8 +26,7 @@ public:
 
 protected:
     void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
-    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request,
-                         const QByteArray &data, const QString &contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
     void start() override;
 
 private:
@@ -36,8 +35,4 @@ private:
     friend class Private;
 };
 
-
 } // namespace KGAPI2
-
-
-

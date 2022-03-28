@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapitasks_export.h"
+#include "modifyjob.h"
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job that can reparent tasks to become subtasks of another task
@@ -24,11 +24,9 @@ namespace KGAPI2 {
  */
 class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
 {
-
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will move given \p task in a tasklist
      *        with given @p taskListId to be a subtask of another task with
@@ -43,9 +41,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskMoveJob(const TaskPtr &task, const QString &taskListId, 
-                         const QString &newParentId, const AccountPtr &account,
-                         QObject* parent = nullptr);
+    explicit TaskMoveJob(const TaskPtr &task, const QString &taskListId, const QString &newParentId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will move given \p tasks in a tasklist
@@ -61,9 +57,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskMoveJob(const TasksList &tasks, const QString &taskListId,
-                         const QString &newParentId, const AccountPtr &account,
-                         QObject* parent = nullptr);
+    explicit TaskMoveJob(const TasksList &tasks, const QString &taskListId, const QString &newParentId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will move task with given \p taskId in a
@@ -79,9 +73,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskMoveJob(const QString &taskId, const QString &taskListId,
-                         const QString &newParentId, const AccountPtr &account,
-                         QObject* parent = nullptr);
+    explicit TaskMoveJob(const QString &taskId, const QString &taskListId, const QString &newParentId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will move tasks with given \p tasksIds in a
@@ -97,17 +89,18 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskMoveJob(const QStringList &tasksIds, const QString &taskListId,
-                         const QString &newParentId, const AccountPtr &account,
-                         QObject* parent = nullptr);
+    explicit TaskMoveJob(const QStringList &tasksIds,
+                         const QString &taskListId,
+                         const QString &newParentId,
+                         const AccountPtr &account,
+                         QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~TaskMoveJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -121,10 +114,7 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager *accessManager,
-                                 const QNetworkRequest &request,
-                                 const QByteArray &data,
-                                 const QString &contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
@@ -132,15 +122,12 @@ class KGAPITASKS_EXPORT TaskMoveJob : public KGAPI2::ModifyJob
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply,
-                             const QByteArray& rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

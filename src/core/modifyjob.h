@@ -11,7 +11,8 @@
 #include "job.h"
 #include "kgapicore_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @headerfile modifyjob.h
@@ -23,14 +24,13 @@ namespace KGAPI2 {
 class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
 {
     Q_OBJECT
-  public:
-
+public:
     /**
      * @brief Constructor for jobs that don't require authentication
      *
      * @param parent
      */
-    explicit ModifyJob(QObject* parent = nullptr);
+    explicit ModifyJob(QObject *parent = nullptr);
 
     /**
      * @brief Constructor for jobs that require authentication
@@ -38,7 +38,7 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
      * @param account Account to use to authenticate the requests sent by this job
      * @param parent
      */
-    explicit ModifyJob(const KGAPI2::AccountPtr& account, QObject* parent = nullptr);
+    explicit ModifyJob(const KGAPI2::AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * Destructor
@@ -50,7 +50,7 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
      */
     ObjectsList items() const;
 
-  protected:
+protected:
     /**
      * @brief A reply handler that returns items parsed from \@ rawData
      *
@@ -70,9 +70,7 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
      *
      * @return Items parsed from @p rawData
      */
-    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData);
-
+    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData);
 
     /**
      * KGAPI2::Job::dispatchRequest implementation
@@ -82,10 +80,7 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager* accessManager,
-                                 const QNetworkRequest& request,
-                                 const QByteArray& data,
-                                 const QString& contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * KGAPI2::Job::handleReply implementation
@@ -93,18 +88,17 @@ class KGAPICORE_EXPORT ModifyJob : public KGAPI2::Job
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
     /**
      * KGAPI2::Job::aboutToStart() implementation
      */
     void aboutToStart() override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 
 } // namespace KGAPI2
-

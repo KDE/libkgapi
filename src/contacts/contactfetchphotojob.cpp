@@ -12,8 +12,8 @@
 #include "contactsservice.h"
 #include "private/queuehelper_p.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 Q_DECLARE_METATYPE(KGAPI2::ContactPtr)
 
@@ -21,18 +21,18 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactFetchPhotoJob::Private
 {
-  public:
+public:
     Private(ContactFetchPhotoJob *parent);
     void processNextContact();
 
     QueueHelper<ContactPtr> contacts;
 
-  private:
-    ContactFetchPhotoJob * const q;
+private:
+    ContactFetchPhotoJob *const q;
 };
 
-ContactFetchPhotoJob::Private::Private(ContactFetchPhotoJob *parent):
-    q(parent)
+ContactFetchPhotoJob::Private::Private(ContactFetchPhotoJob *parent)
+    : q(parent)
 {
 }
 
@@ -50,17 +50,16 @@ void ContactFetchPhotoJob::Private::processNextContact()
     q->enqueueRequest(request);
 }
 
-
-ContactFetchPhotoJob::ContactFetchPhotoJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+ContactFetchPhotoJob::ContactFetchPhotoJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->contacts = contacts;
 }
 
-ContactFetchPhotoJob::ContactFetchPhotoJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+ContactFetchPhotoJob::ContactFetchPhotoJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->contacts << contact;
 }
@@ -77,8 +76,7 @@ void ContactFetchPhotoJob::start()
 
 void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
-    if (reply->error() == QNetworkReply::ContentNotFoundError
-        || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == NotFound) {
+    if (reply->error() == QNetworkReply::ContentNotFoundError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == NotFound) {
         d->contacts.currentProcessed();
         d->processNextContact();
         // If the last photo failed, make sure we don't fail the whole job!
@@ -96,5 +94,3 @@ void ContactFetchPhotoJob::handleReply(const QNetworkReply *reply, const QByteAr
     d->contacts.currentProcessed();
     d->processNextContact();
 }
-
-

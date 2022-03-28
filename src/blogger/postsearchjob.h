@@ -18,28 +18,22 @@ class KGAPIBLOGGER_EXPORT PostSearchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool fetchBodies
-               READ fetchBodies
-               WRITE setFetchBodies)
-  public:
-    explicit PostSearchJob(const QString &blogId,
-                           const QString &query,
-                           const AccountPtr &account = AccountPtr(),
-                           QObject *parent = nullptr);
+    Q_PROPERTY(bool fetchBodies READ fetchBodies WRITE setFetchBodies)
+public:
+    explicit PostSearchJob(const QString &blogId, const QString &query, const AccountPtr &account = AccountPtr(), QObject *parent = nullptr);
     ~PostSearchJob() override;
 
     bool fetchBodies() const;
     void setFetchBodies(bool fetchBodies);
 
-  protected:
+protected:
     void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 }
 }
-

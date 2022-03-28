@@ -4,17 +4,18 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#include "driveservice.h"
 #include "drives.h"
+#include "driveservice.h"
 #include "utils_p.h"
 
-#include <QVariant>
-#include <QUrlQuery>
 #include <QJsonDocument>
+#include <QUrlQuery>
+#include <QVariant>
 
-namespace {
-    static const QString ApiKind = QStringLiteral("drive#drive");
-    static const QString ApiKindList = QStringLiteral("drive#driveList");
+namespace
+{
+static const QString ApiKind = QStringLiteral("drive#drive");
+static const QString ApiKindList = QStringLiteral("drive#driveList");
 }
 
 using namespace KGAPI2;
@@ -24,7 +25,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN Drives::Restrictions::Private
 {
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
@@ -34,13 +35,13 @@ class Q_DECL_HIDDEN Drives::Restrictions::Private
     bool driveMembersOnly = false;
 };
 
-Drives::Restrictions::Restrictions():
-    d(new Private)
+Drives::Restrictions::Restrictions()
+    : d(new Private)
 {
 }
 
-Drives::Restrictions::Restrictions(const Drives::Restrictions &other):
-    d(new Private(*(other.d)))
+Drives::Restrictions::Restrictions(const Drives::Restrictions &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -99,7 +100,7 @@ void Drives::Restrictions::setDriveMembersOnly(bool driveMembersOnly) const
 
 class Q_DECL_HIDDEN Drives::Capabilities::Private
 {
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
@@ -123,13 +124,13 @@ class Q_DECL_HIDDEN Drives::Capabilities::Private
     bool canTrashChildren = false;
 };
 
-Drives::Capabilities::Capabilities():
-    d(new Private)
+Drives::Capabilities::Capabilities()
+    : d(new Private)
 {
 }
 
-Drives::Capabilities::Capabilities(const Drives::Capabilities &other):
-    d(new Private(*(other.d)))
+Drives::Capabilities::Capabilities(const Drives::Capabilities &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -252,7 +253,7 @@ bool Drives::Capabilities::canTrashChildren() const
 
 class Q_DECL_HIDDEN Drives::BackgroundImageFile::Private
 {
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
@@ -262,13 +263,13 @@ class Q_DECL_HIDDEN Drives::BackgroundImageFile::Private
     float width = 0.0f;
 };
 
-Drives::BackgroundImageFile::BackgroundImageFile():
-    d(new Private)
+Drives::BackgroundImageFile::BackgroundImageFile()
+    : d(new Private)
 {
 }
 
-Drives::BackgroundImageFile::BackgroundImageFile(const Drives::BackgroundImageFile &other):
-    d(new Private(*(other.d)))
+Drives::BackgroundImageFile::BackgroundImageFile(const Drives::BackgroundImageFile &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -327,9 +328,9 @@ void Drives::BackgroundImageFile::setWidth(const float width) const
 
 class Q_DECL_HIDDEN Drives::Private
 {
-  public:
+public:
     Private() = default;
-    Private(const Private& other) = default;
+    Private(const Private &other) = default;
 
     QString id;
     QString name;
@@ -347,9 +348,7 @@ class Q_DECL_HIDDEN Drives::Private
 
 DrivesPtr Drives::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(Drives::Fields::Kind) ||
-        map[Drives::Fields::Kind].toString() != ApiKind)
-    {
+    if (!map.contains(Drives::Fields::Kind) || map[Drives::Fields::Kind].toString() != ApiKind) {
         return DrivesPtr();
     }
 
@@ -390,7 +389,8 @@ DrivesPtr Drives::Private::fromJSON(const QVariantMap &map)
         const QVariantMap capabilitiesMap = map[Drives::Fields::Capabilities].toMap();
         auto capabilities = CapabilitiesPtr::create();
         capabilities->d->canAddChildren = capabilitiesMap[Drives::Capabilities::Fields::CanAddChildren].toBool();
-        capabilities->d->canChangeCopyRequiresWriterPermissionRestriction = capabilitiesMap[Drives::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction].toBool();
+        capabilities->d->canChangeCopyRequiresWriterPermissionRestriction =
+            capabilitiesMap[Drives::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction].toBool();
         capabilities->d->canChangeDomainUsersOnlyRestriction = capabilitiesMap[Drives::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction].toBool();
         capabilities->d->canChangeDriveBackground = capabilitiesMap[Drives::Capabilities::Fields::CanChangeDriveBackground].toBool();
         capabilities->d->canChangeDriveMembersOnlyRestriction = capabilitiesMap[Drives::Capabilities::Fields::CanChangeDriveMembersOnlyRestriction].toBool();
@@ -429,7 +429,8 @@ const QString Drives::Restrictions::Fields::DomainUsersOnly = QStringLiteral("do
 const QString Drives::Restrictions::Fields::DriveMembersOnly = QStringLiteral("driveMembersOnly");
 
 const QString Drives::Capabilities::Fields::CanAddChildren = QStringLiteral("canAddChildren");
-const QString Drives::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction = QStringLiteral("canChangeCopyRequiresWriterPermissionRestriction");
+const QString Drives::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction =
+    QStringLiteral("canChangeCopyRequiresWriterPermissionRestriction");
 const QString Drives::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction = QStringLiteral("canChangeDomainUsersOnlyRestriction");
 const QString Drives::Capabilities::Fields::CanChangeDriveBackground = QStringLiteral("canChangeDriveBackground");
 const QString Drives::Capabilities::Fields::CanChangeDriveMembersOnlyRestriction = QStringLiteral("canChangeDriveMembersOnlyRestriction");
@@ -468,15 +469,15 @@ const QString Drives::Fields::CreatedDate = QStringLiteral("createdDate");
 const QString Drives::Fields::Hidden = QStringLiteral("hidden");
 const QString Drives::Fields::Restrictions = QStringLiteral("restrictions");
 
-Drives::Drives():
-    KGAPI2::Object(),
-    d(new Private)
+Drives::Drives()
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
-Drives::Drives(const Drives& other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
+Drives::Drives(const Drives &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 
@@ -600,8 +601,7 @@ DrivesList Drives::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(Drives::Fields::Kind) ||
-            map[Drives::Fields::Kind].toString() != ApiKindList) {
+    if (!map.contains(Drives::Fields::Kind) || map[Drives::Fields::Kind].toString() != ApiKindList) {
         return DrivesList();
     }
 
@@ -614,7 +614,7 @@ DrivesList Drives::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 
     DrivesList list;
     const QVariantList items = map[Drives::Fields::Items].toList();
-    for (const QVariant & item : items) {
+    for (const QVariant &item : items) {
         const DrivesPtr drives = Private::fromJSON(item.toMap());
 
         if (!drives.isNull()) {
@@ -670,7 +670,8 @@ QByteArray Drives::toJSON(const DrivesPtr &drives)
     if (drives->capabilities()) {
         QVariantMap capabilitiesMap;
         capabilitiesMap[Drives::Capabilities::Fields::CanAddChildren] = drives->capabilities()->canAddChildren();
-        capabilitiesMap[Drives::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction] = drives->capabilities()->canChangeCopyRequiresWriterPermissionRestriction();
+        capabilitiesMap[Drives::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction] =
+            drives->capabilities()->canChangeCopyRequiresWriterPermissionRestriction();
         capabilitiesMap[Drives::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction] = drives->capabilities()->canChangeDomainUsersOnlyRestriction();
         capabilitiesMap[Drives::Capabilities::Fields::CanChangeDriveBackground] = drives->capabilities()->canChangeDriveBackground();
         capabilitiesMap[Drives::Capabilities::Fields::CanChangeDriveMembersOnlyRestriction] = drives->capabilities()->canChangeDriveMembersOnlyRestriction();

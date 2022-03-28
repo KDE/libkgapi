@@ -16,19 +16,19 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN CreateJob::Private
 {
-  public:
+public:
     ObjectsList items;
 };
 
-CreateJob::CreateJob(QObject* parent):
-    Job(parent),
-    d(new Private)
+CreateJob::CreateJob(QObject *parent)
+    : Job(parent)
+    , d(new Private)
 {
 }
 
-CreateJob::CreateJob(const AccountPtr& account, QObject* parent):
-    Job(account, parent),
-    d(new Private)
+CreateJob::CreateJob(const AccountPtr &account, QObject *parent)
+    : Job(account, parent)
+    , d(new Private)
 {
 }
 
@@ -42,10 +42,7 @@ ObjectsList CreateJob::items() const
     return d->items;
 }
 
-void CreateJob::dispatchRequest(QNetworkAccessManager* accessManager,
-                                const QNetworkRequest& request,
-                                const QByteArray& data,
-                                const QString& contentType)
+void CreateJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType)
 {
     QNetworkRequest r = request;
     if (!r.hasRawHeader("Content-Type")) {
@@ -67,8 +64,7 @@ void CreateJob::aboutToStart()
     Job::aboutToStart();
 }
 
-ObjectsList CreateJob::handleReplyWithItems(const QNetworkReply* reply,
-                                            const QByteArray& rawData)
+ObjectsList CreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     Q_UNUSED(reply)
     Q_UNUSED(rawData)

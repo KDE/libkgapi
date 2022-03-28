@@ -21,21 +21,17 @@ class KGAPIDRIVE_EXPORT FileTouchJob : public KGAPI2::Drive::FileAbstractModifyJ
 {
     Q_OBJECT
 
-  public:
-    explicit FileTouchJob(const QString &fileId, const AccountPtr &account,
-                          QObject *parent = nullptr);
-    explicit FileTouchJob(const QStringList &filesIds,
-                          const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileTouchJob(const FilePtr &file,
-                          const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileTouchJob(const FilesList &files,
-                          const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileTouchJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileTouchJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileTouchJob(const FilePtr &file, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileTouchJob(const FilesList &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileTouchJob() override;
 
-  protected:
+protected:
     QUrl url(const QString &fileId) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -44,4 +40,3 @@ class KGAPIDRIVE_EXPORT FileTouchJob : public KGAPI2::Drive::FileAbstractModifyJ
 } // namespace Drive
 
 } // namespace KGAPI2
-

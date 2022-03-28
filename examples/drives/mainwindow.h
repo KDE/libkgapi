@@ -4,16 +4,16 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #pragma once
 
-#include <QMainWindow>
 #include "ui_mainwindow.h"
+#include <QMainWindow>
 
 #include "core/types.h"
 
-namespace KGAPI2 {
-  class Job;
+namespace KGAPI2
+{
+class Job;
 }
 
 class MainWindow : public QMainWindow
@@ -81,6 +81,4 @@ private:
     Ui::MainWindow ui;
 
     KGAPI2::AccountPtr m_account;
-
 };
-

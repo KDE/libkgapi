@@ -8,24 +8,24 @@
 
 #include "calendarservice.h"
 #include "calendar.h"
+#include "debug.h"
 #include "event.h"
 #include "reminder.h"
 #include "utils.h"
-#include "debug.h"
 
 #include <KCalendarCore/Alarm>
-#include <KCalendarCore/Event>
 #include <KCalendarCore/Attendee>
+#include <KCalendarCore/Event>
+#include <KCalendarCore/ICalFormat>
 #include <KCalendarCore/Person>
 #include <KCalendarCore/Recurrence>
 #include <KCalendarCore/RecurrenceRule>
-#include <KCalendarCore/ICalFormat>
 
 #include <QJsonDocument>
-#include <QUrlQuery>
-#include <QTimeZone>
-#include <QVariant>
 #include <QNetworkRequest>
+#include <QTimeZone>
+#include <QUrlQuery>
+#include <QVariant>
 
 #include <map>
 #include <memory>
@@ -57,7 +57,7 @@ ObjectPtr JSONToEvent(const QVariantMap &data, const QString &timezone = QString
  * When the method fails to process the TZID, it returns the original \p tzid
  * in hope, that Google will cope with it.
  */
-QString checkAndConverCDOTZID(const QString &tzid, const EventPtr& event);
+QString checkAndConverCDOTZID(const QString &tzid, const EventPtr &event);
 
 static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
 static const QString CalendarListBasePath(QStringLiteral("/calendar/v3/users/me/calendarList"));
@@ -81,7 +81,7 @@ QUrl fetchCalendarsUrl()
     return url;
 }
 
-QUrl fetchCalendarUrl(const QString& calendarID)
+QUrl fetchCalendarUrl(const QString &calendarID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarListBasePath % QLatin1Char('/') % calendarID);
@@ -102,28 +102,29 @@ QUrl createCalendarUrl()
     return url;
 }
 
-QUrl removeCalendarUrl(const QString& calendarID)
+QUrl removeCalendarUrl(const QString &calendarID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID);
     return url;
 }
 
-QUrl fetchEventsUrl(const QString& calendarID)
+QUrl fetchEventsUrl(const QString &calendarID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
     return url;
 }
 
-QUrl fetchEventUrl(const QString& calendarID, const QString& eventID)
+QUrl fetchEventUrl(const QString &calendarID, const QString &eventID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
     return url;
 }
 
-namespace {
+namespace
+{
 
 QString sendUpdatesPolicyToString(SendUpdatesPolicy policy)
 {
@@ -142,7 +143,7 @@ static const QString sendUpatesQueryParam = QStringLiteral("sendUpdates");
 static const QString destinationQueryParam = QStringLiteral("destination");
 }
 
-QUrl updateEventUrl(const QString& calendarID, const QString& eventID, SendUpdatesPolicy updatePolicy)
+QUrl updateEventUrl(const QString &calendarID, const QString &eventID, SendUpdatesPolicy updatePolicy)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
@@ -152,7 +153,7 @@ QUrl updateEventUrl(const QString& calendarID, const QString& eventID, SendUpdat
     return url;
 }
 
-QUrl createEventUrl(const QString& calendarID, SendUpdatesPolicy updatePolicy)
+QUrl createEventUrl(const QString &calendarID, SendUpdatesPolicy updatePolicy)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events"));
@@ -162,7 +163,7 @@ QUrl createEventUrl(const QString& calendarID, SendUpdatesPolicy updatePolicy)
     return url;
 }
 
-QUrl importEventUrl(const QString& calendarID, SendUpdatesPolicy updatePolicy)
+QUrl importEventUrl(const QString &calendarID, SendUpdatesPolicy updatePolicy)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events") % QLatin1String("/import"));
@@ -172,14 +173,14 @@ QUrl importEventUrl(const QString& calendarID, SendUpdatesPolicy updatePolicy)
     return url;
 }
 
-QUrl removeEventUrl(const QString& calendarID, const QString& eventID)
+QUrl removeEventUrl(const QString &calendarID, const QString &eventID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1String("/events/") % eventID);
     return url;
 }
 
-QUrl moveEventUrl(const QString& sourceCalendar, const QString& destCalendar, const QString& eventID)
+QUrl moveEventUrl(const QString &sourceCalendar, const QString &destCalendar, const QString &eventID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % sourceCalendar % QLatin1String("/events/") % eventID % QLatin1String("/move"));
@@ -196,7 +197,8 @@ QUrl freeBusyQueryUrl()
     return url;
 }
 
-namespace {
+namespace
+{
 
 static const auto kindParam = QStringLiteral("kind");
 static const auto idParam = QStringLiteral("id");
@@ -254,7 +256,6 @@ static const auto dateParam = QStringLiteral("date");
 static const auto dateTimeParam = QStringLiteral("dateTime");
 static const auto timeZoneParam = QStringLiteral("timeZone");
 
-
 static const auto calendarListKind = QLatin1String("calendar#calendarList");
 static const auto calendarListEntryKind = QLatin1String("calendar#calendarListEntry");
 static const auto calendarKind = QLatin1String("calendar#calendar");
@@ -283,7 +284,7 @@ QString APIVersion()
     return QStringLiteral("3");
 }
 
-CalendarPtr JSONToCalendar(const QByteArray& jsonData)
+CalendarPtr JSONToCalendar(const QByteArray &jsonData)
 {
     const auto document = QJsonDocument::fromJson(jsonData);
     const auto calendar = document.toVariant().toMap();
@@ -295,7 +296,7 @@ CalendarPtr JSONToCalendar(const QByteArray& jsonData)
     return Private::JSONToCalendar(calendar).staticCast<Calendar>();
 }
 
-ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
+ObjectPtr Private::JSONToCalendar(const QVariantMap &data)
 {
     auto calendar = CalendarPtr::create();
 
@@ -309,8 +310,7 @@ ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
     calendar->setBackgroundColor(QColor(data.value(calendarBackgroundColorParam).toString()));
     calendar->setForegroundColor(QColor(data.value(calendarForegroundColorParam).toString()));
 
-    if ((data.value(calendarAccessRoleParam).toString() == writerAccessRole) ||
-            (data.value(calendarAccessRoleParam).toString() == ownerAccessRole)) {
+    if ((data.value(calendarAccessRoleParam).toString() == writerAccessRole) || (data.value(calendarAccessRoleParam).toString() == ownerAccessRole)) {
         calendar->setEditable(true);
     } else {
         calendar->setEditable(false);
@@ -337,7 +337,7 @@ ObjectPtr Private::JSONToCalendar(const QVariantMap& data)
     return calendar.dynamicCast<Object>();
 }
 
-QByteArray calendarToJSON(const CalendarPtr& calendar)
+QByteArray calendarToJSON(const CalendarPtr &calendar)
 {
     QVariantMap entry;
 
@@ -356,8 +356,7 @@ QByteArray calendarToJSON(const CalendarPtr& calendar)
     return document.toJson(QJsonDocument::Compact);
 }
 
-
-ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+ObjectsList parseCalendarJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
 {
     const auto document = QJsonDocument::fromJson(jsonFeed);
     const auto data = document.toVariant().toMap();
@@ -384,7 +383,7 @@ ObjectsList parseCalendarJSONFeed(const QByteArray& jsonFeed, FeedData& feedData
     return list;
 }
 
-EventPtr JSONToEvent(const QByteArray& jsonData)
+EventPtr JSONToEvent(const QByteArray &jsonData)
 {
     QJsonParseError error;
     QJsonDocument document = QJsonDocument::fromJson(jsonData, &error);
@@ -399,7 +398,8 @@ EventPtr JSONToEvent(const QByteArray& jsonData)
     return Private::JSONToEvent(data).staticCast<Event>();
 }
 
-namespace {
+namespace
+{
 
 struct ParsedDt {
     QDateTime dt;
@@ -455,7 +455,7 @@ void setEventCategories(EventPtr &event, const QVariantMap &properties)
 
 } // namespace
 
-ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
+ObjectPtr Private::JSONToEvent(const QVariantMap &data, const QString &timezone)
 {
     auto event = EventPtr::create();
 
@@ -501,9 +501,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     const auto attendees = data.value(eventAttendeesParam).toList();
     for (const auto &a : attendees) {
         const auto att = a.toMap();
-        KCalendarCore::Attendee attendee(
-                        att.value(attendeeDisplayNameParam).toString(),
-                        att.value(attendeeEmailParam).toString());
+        KCalendarCore::Attendee attendee(att.value(attendeeDisplayNameParam).toString(), att.value(attendeeEmailParam).toString());
         const auto responseStatus = att.value(attendeeResponseStatusParam).toString();
         if (responseStatus == acceptedStatus) {
             attendee.setStatus(KCalendarCore::Attendee::Accepted);
@@ -539,17 +537,19 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     }
 
     const QStringList recrs = data.value(eventRecurrenceParam).toStringList();
-    for (const QString & rec : recrs) {
+    for (const QString &rec : recrs) {
         KCalendarCore::ICalFormat format;
         const QStringView recView(rec);
         if (recView.left(5) == QLatin1String("RRULE")) {
             auto recurrenceRule = std::make_unique<KCalendarCore::RecurrenceRule>();
-            const auto ok = format.fromString(recurrenceRule.get(), rec.mid(6)); Q_UNUSED(ok)
+            const auto ok = format.fromString(recurrenceRule.get(), rec.mid(6));
+            Q_UNUSED(ok)
             recurrenceRule->setRRule(rec);
             event->recurrence()->addRRule(recurrenceRule.release());
         } else if (recView.left(6) == QLatin1String("EXRULE")) {
             auto recurrenceRule = std::make_unique<KCalendarCore::RecurrenceRule>();
-            const auto ok = format.fromString(recurrenceRule.get(), rec.mid(7)); Q_UNUSED(ok)
+            const auto ok = format.fromString(recurrenceRule.get(), rec.mid(7));
+            Q_UNUSED(ok)
             recurrenceRule->setRRule(rec);
             event->recurrence()->addExRule(recurrenceRule.release());
         } else if (recView.left(6) == QLatin1String("EXDATE")) {
@@ -571,7 +571,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     const auto overrides = reminders.value(reminderOverridesParam).toList();
     for (const auto &r : overrides) {
         const auto reminderOverride = r.toMap();
-        auto alarm = KCalendarCore::Alarm::Ptr::create(static_cast<KCalendarCore::Incidence*>(event.data()));
+        auto alarm = KCalendarCore::Alarm::Ptr::create(static_cast<KCalendarCore::Incidence *>(event.data()));
         alarm->setTime(event->dtStart());
 
         if (reminderOverride.value(reminderMethodParam).toString() == popupMethod) {
@@ -595,13 +595,10 @@ ObjectPtr Private::JSONToEvent(const QVariantMap& data, const QString &timezone)
     return event.dynamicCast<Object>();
 }
 
-namespace {
+namespace
+{
 
-enum class SerializeDtFlag {
-    AllDay =        1 << 0,
-    IsDtEnd =       1 << 1,
-    HasRecurrence = 1 << 2
-};
+enum class SerializeDtFlag { AllDay = 1 << 0, IsDtEnd = 1 << 1, HasRecurrence = 1 << 2 };
 using SerializeDtFlags = QFlags<SerializeDtFlag>;
 
 QVariantMap serializeDt(const EventPtr &event, const QDateTime &dt, SerializeDtFlags flags)
@@ -628,7 +625,7 @@ QVariantMap serializeDt(const EventPtr &event, const QDateTime &dt, SerializeDtF
 
 } // namespace
 
-QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
+QByteArray eventToJSON(const EventPtr &event, EventSerializeFlags flags)
 {
     QVariantMap data;
 
@@ -715,8 +712,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
     QVariantList atts;
     const auto attendees = event->attendees();
     for (const auto &attee : attendees) {
-        QVariantMap att{{attendeeDisplayNameParam, attee.name()},
-                        {attendeeEmailParam, attee.email()}};
+        QVariantMap att{{attendeeDisplayNameParam, attee.name()}, {attendeeEmailParam, attee.email()}};
 
         if (attee.status() == KCalendarCore::Attendee::Accepted) {
             att.insert(attendeeResponseStatusParam, acceptedStatus);
@@ -744,9 +740,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
          * any organizer. */
         const auto organizer = event->organizer();
         if (!organizer.isEmpty()) {
-            data.insert(eventOrganizerParam,
-                        QVariantMap{{organizerDisplayNameParam, organizer.fullName()},
-                                    {organizerEmailParam, organizer.email()}});
+            data.insert(eventOrganizerParam, QVariantMap{{organizerDisplayNameParam, organizer.fullName()}, {organizerEmailParam, organizer.email()}});
         }
     }
 
@@ -766,13 +760,10 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
         overrides.push_back(reminderOverride);
     }
 
-    data.insert(eventRemindersParam,
-                QVariantMap{{reminderUseDefaultParam, false},
-                            {reminderOverridesParam, overrides}});
+    data.insert(eventRemindersParam, QVariantMap{{reminderUseDefaultParam, false}, {reminderOverridesParam, overrides}});
 
     if (!event->categories().isEmpty()) {
-        data.insert(eventExtendedPropertiesParam,
-                    QVariantMap{{propertySharedParam, QVariantMap{{categoriesProperty, event->categoriesStr()}}}});
+        data.insert(eventExtendedPropertiesParam, QVariantMap{{propertySharedParam, QVariantMap{{categoriesProperty, event->categoriesStr()}}}});
     }
 
     /* TODO: Implement support for additional features:
@@ -783,7 +774,7 @@ QByteArray eventToJSON(const EventPtr& event, EventSerializeFlags flags)
     return document.toJson(QJsonDocument::Compact);
 }
 
-ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+ObjectsList parseEventJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
 {
     const auto document = QJsonDocument::fromJson(jsonFeed);
     const auto data = document.toVariant().toMap();
@@ -823,7 +814,7 @@ ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
 
 /******************************** PRIVATE ***************************************/
 
-KCalendarCore::DateList Private::parseRDate(const QString& rule)
+KCalendarCore::DateList Private::parseRDate(const QString &rule)
 {
     KCalendarCore::DateList list;
     QTimeZone tz;
@@ -878,7 +869,8 @@ KCalendarCore::DateList Private::parseRDate(const QString& rule)
     return list;
 }
 
-namespace {
+namespace
+{
 
 /* Based on "Time Zone to CdoTimeZoneId Map"
  * https://docs.microsoft.com/en-us/previous-versions/office/developer/exchange-server-2007/aa563018(v=exchg.80)
@@ -888,83 +880,83 @@ namespace {
  * in the specified region and used it's TZID.
  */
 static const std::map<int, QLatin1String> MSCDOTZIDTable = {
-    {0,  QLatin1String("UTC")},
-    {1,  QLatin1String("Europe/London")},             /* GMT Greenwich Mean Time; Dublin, Edinburgh, London */
+    {0, QLatin1String("UTC")},
+    {1, QLatin1String("Europe/London")}, /* GMT Greenwich Mean Time; Dublin, Edinburgh, London */
     /* Seriously? *sigh* Let's handle these two in checkAndConvertCDOTZID() */
     //{2, QLatin1String("Europe/Lisbon")},              /* GMT Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London */
     //{2, QLatin1String("Europe/Sarajevo")},            /* GMT+01:00 Sarajevo, Skopje, Sofija, Vilnius, Warsaw, Zagreb */
-    {3,  QLatin1String("Europe/Paris")},              /* GMT+01:00 Paris, Madrid, Brussels, Copenhagen */
-    {4,  QLatin1String("Europe/Berlin")},             /* GMT+01:00 Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna */
-    {5,  QLatin1String("Europe/Bucharest")},          /* GMT+02:00 Bucharest */
-    {6,  QLatin1String("Europe/Prague")},             /* GMT+01:00 Prague, Central Europe */
-    {7,  QLatin1String("Europe/Athens")},             /* GMT+02:00 Athens, Istanbul, Minsk */
-    {8,  QLatin1String("America/Brazil")},            /* GMT-03:00 Brasilia */
-    {9,  QLatin1String("America/Halifax")},           /* GMT-04:00 Atlantic time (Canada) */
-    {10, QLatin1String("America/New_York")},          /* GMT-05:00 Eastern Time (US & Canada) */
-    {11, QLatin1String("America/Chicago")},           /* GMT-06:00 Central Time (US & Canada) */
-    {12, QLatin1String("America/Denver")},            /* GMT-07:00 Mountain Time (US & Canada) */
-    {13, QLatin1String("America/Los_Angeles")},       /* GMT-08:00 Pacific Time (US & Canada); Tijuana */
-    {14, QLatin1String("America/Anchorage")},         /* GMT-09:00 Alaska */
-    {15, QLatin1String("Pacific/Honolulu")},          /* GMT-10:00 Hawaii */
-    {16, QLatin1String("Pacific/Apia")},              /* GMT-11:00 Midway Island, Samoa */
-    {17, QLatin1String("Pacific/Auckland")},          /* GMT+12:00 Auckland, Wellington */
-    {18, QLatin1String("Australia/Brisbane")},        /* GMT+10:00 Brisbane, East Australia */
-    {19, QLatin1String("Australia/Adelaide")},        /* GMT+09:30 Adelaide, Central Australia */
-    {20, QLatin1String("Asia/Tokyo")},                /* GMT+09:00 Osaka, Sapporo, Tokyo */
-    {21, QLatin1String("Asia/Singapore")},            /* GMT+08:00 Kuala Lumpur, Singapore */
-    {22, QLatin1String("Asia/Bangkok")},              /* GMT+07:00 Bangkok, Hanoi, Jakarta */
-    {23, QLatin1String("Asia/Calcutta")},             /* GMT+05:30 Kolkata, Chennai, Mumbai, New Delhi, India Standard Time */
-    {24, QLatin1String("Asia/Dubai")},                /* GMT+04:00 Abu Dhabi, Muscat */
-    {25, QLatin1String("Asia/Tehran")},               /* GMT+03:30 Tehran */
-    {26, QLatin1String("Asia/Baghdad")},              /* GMT+03:00 Baghdad */
-    {27, QLatin1String("Asia/Jerusalem")},            /* GMT+02:00 Israel, Jerusalem Standard Time */
-    {28, QLatin1String("America/St_Johns")},          /* GMT-03:30 Newfoundland */
-    {29, QLatin1String("Atlantic/Portugal")},         /* GMT-01:00 Azores */
-    {30, QLatin1String("America/Noronha")},           /* GMT-02:00 Mid-Atlantic */
-    {31, QLatin1String("Africa/Monrovia")},           /* GMT Casablanca, Monrovia */
+    {3, QLatin1String("Europe/Paris")}, /* GMT+01:00 Paris, Madrid, Brussels, Copenhagen */
+    {4, QLatin1String("Europe/Berlin")}, /* GMT+01:00 Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna */
+    {5, QLatin1String("Europe/Bucharest")}, /* GMT+02:00 Bucharest */
+    {6, QLatin1String("Europe/Prague")}, /* GMT+01:00 Prague, Central Europe */
+    {7, QLatin1String("Europe/Athens")}, /* GMT+02:00 Athens, Istanbul, Minsk */
+    {8, QLatin1String("America/Brazil")}, /* GMT-03:00 Brasilia */
+    {9, QLatin1String("America/Halifax")}, /* GMT-04:00 Atlantic time (Canada) */
+    {10, QLatin1String("America/New_York")}, /* GMT-05:00 Eastern Time (US & Canada) */
+    {11, QLatin1String("America/Chicago")}, /* GMT-06:00 Central Time (US & Canada) */
+    {12, QLatin1String("America/Denver")}, /* GMT-07:00 Mountain Time (US & Canada) */
+    {13, QLatin1String("America/Los_Angeles")}, /* GMT-08:00 Pacific Time (US & Canada); Tijuana */
+    {14, QLatin1String("America/Anchorage")}, /* GMT-09:00 Alaska */
+    {15, QLatin1String("Pacific/Honolulu")}, /* GMT-10:00 Hawaii */
+    {16, QLatin1String("Pacific/Apia")}, /* GMT-11:00 Midway Island, Samoa */
+    {17, QLatin1String("Pacific/Auckland")}, /* GMT+12:00 Auckland, Wellington */
+    {18, QLatin1String("Australia/Brisbane")}, /* GMT+10:00 Brisbane, East Australia */
+    {19, QLatin1String("Australia/Adelaide")}, /* GMT+09:30 Adelaide, Central Australia */
+    {20, QLatin1String("Asia/Tokyo")}, /* GMT+09:00 Osaka, Sapporo, Tokyo */
+    {21, QLatin1String("Asia/Singapore")}, /* GMT+08:00 Kuala Lumpur, Singapore */
+    {22, QLatin1String("Asia/Bangkok")}, /* GMT+07:00 Bangkok, Hanoi, Jakarta */
+    {23, QLatin1String("Asia/Calcutta")}, /* GMT+05:30 Kolkata, Chennai, Mumbai, New Delhi, India Standard Time */
+    {24, QLatin1String("Asia/Dubai")}, /* GMT+04:00 Abu Dhabi, Muscat */
+    {25, QLatin1String("Asia/Tehran")}, /* GMT+03:30 Tehran */
+    {26, QLatin1String("Asia/Baghdad")}, /* GMT+03:00 Baghdad */
+    {27, QLatin1String("Asia/Jerusalem")}, /* GMT+02:00 Israel, Jerusalem Standard Time */
+    {28, QLatin1String("America/St_Johns")}, /* GMT-03:30 Newfoundland */
+    {29, QLatin1String("Atlantic/Portugal")}, /* GMT-01:00 Azores */
+    {30, QLatin1String("America/Noronha")}, /* GMT-02:00 Mid-Atlantic */
+    {31, QLatin1String("Africa/Monrovia")}, /* GMT Casablanca, Monrovia */
     {32, QLatin1String("America/Argentina/Buenos_Aires")}, /* GMT-03:00 Buenos Aires, Georgetown */
-    {33, QLatin1String("America/La_Paz")},            /* GMT-04:00 Caracas, La Paz */
-    {34, QLatin1String("America/New_York")},          /* GMT-05:00 Indiana (East) */
-    {35, QLatin1String("America/Bogota")},            /* GMT-05:00 Bogota, Lima, Quito */
-    {36, QLatin1String("America/Winnipeg")},          /* GMT-06:00 Saskatchewan */
-    {37, QLatin1String("America/Mexico_City")},       /* GMT-06:00 Mexico City, Tegucigalpa */
-    {38, QLatin1String("America/Phoenix")},           /* GMT-07:00 Arizona */
-    {39, QLatin1String("Pacific/Kwajalein")},         /* GMT-12:00 Eniwetok, Kwajalein, Dateline Time */
-    {40, QLatin1String("Pacific/Fiji")},              /* GMT+12:00 Fušál, Kamchatka, Mashall Is. */
-    {41, QLatin1String("Pacific/Noumea")},            /* GMT+11:00 Magadan, Solomon Is., New Caledonia */
-    {42, QLatin1String("Australia/Hobart")},          /* GMT+10:00 Hobart, Tasmania */
-    {43, QLatin1String("Pacific/Guam")},              /* GMT+10:00 Guam, Port Moresby */
-    {44, QLatin1String("Australia/Darwin")},          /* GMT+09:30 Darwin */
-    {45, QLatin1String("Asia/Shanghai")},             /* GMT+08:00 Beijing, Chongqing, Hong Kong SAR, Urumqi */
-    {46, QLatin1String("Asia/Omsk")},                 /* GMT+06:00 Almaty, Novosibirsk, North Central Asia */
-    {47, QLatin1String("Asia/Karachi")},              /* GMT+05:00 Islamabad, Karachi, Tashkent */
-    {48, QLatin1String("Asia/Kabul")},                /* GMT+04:30 Kabul */
-    {49, QLatin1String("Africa/Cairo")},              /* GMT+02:00 Cairo */
-    {50, QLatin1String("Africa/Harare")},             /* GMT+02:00 Harare, Pretoria */
-    {51, QLatin1String("Europe/Moscow")},             /* GMT+03:00 Moscow, St. Petersburg, Volgograd */
-    {53, QLatin1String("Atlantic/Cape_Verde")},       /* GMT-01:00 Cape Verde Is. */
-    {54, QLatin1String("Asia/Tbilisi")},              /* GMT+04:00 Baku, Tbilisi, Yerevan */
-    {55, QLatin1String("America/Tegucigalpa")},       /* GMT-06:00 Central America */
-    {56, QLatin1String("Africa/Nairobi")},            /* GMT+03:00 East Africa, Nairobi */
-    {58, QLatin1String("Asia/Yekaterinburg")},        /* GMT+05:00 Ekaterinburg */
-    {59, QLatin1String("Europe/Helsinki")},           /* GMT+02:00 Helsinki, Riga, Tallinn */
-    {60, QLatin1String("America/Greenland")},         /* GMT-03:00 Greenland */
-    {61, QLatin1String("Asia/Rangoon")},              /* GMT+06:30 Yangon (Rangoon) */
-    {62, QLatin1String("Asia/Katmandu")},             /* GMT+05:45 Kathmandu, Nepal */
-    {63, QLatin1String("Asia/Irkutsk")},              /* GMT+08:00 Irkutsk, Ulaan Bataar */
-    {64, QLatin1String("Asia/Krasnoyarsk")},          /* GMT+07:00 Krasnoyarsk */
-    {65, QLatin1String("America/Santiago")},          /* GMT-04:00 Santiago */
-    {66, QLatin1String("Asia/Colombo")},              /* GMT+06:00 Sri Jayawardenepura, Sri Lanka */
-    {67, QLatin1String("Pacific/Tongatapu")},         /* GMT+13:00 Nuku'alofa, Tonga */
-    {68, QLatin1String("Asia/Vladivostok")},          /* GMT+10:00 Vladivostok */
-    {69, QLatin1String("Africa/Bangui")},             /* GMT+01:00 West Central Africa */
-    {70, QLatin1String("Asia/Yakutsk")},              /* GMT+09:00 Yakutsk */
-    {71, QLatin1String("Asia/Dhaka")},                /* GMT+06:00 Astana, Dhaka */
-    {72, QLatin1String("Asia/Seoul")},                /* GMT+09:00 Seoul, Korea Standard time */
-    {73, QLatin1String("Australia/Perth")},           /* GMT+08:00 Perth, Western Australia */
-    {74, QLatin1String("Asia/Kuwait")},               /* GMT+03:00 Arab, Kuwait, Riyadh */
-    {75, QLatin1String("Asia/Taipei")},               /* GMT+08:00 Taipei */
-    {76, QLatin1String("Australia/Sydney")}          /* GMT+10:00 Canberra, Melbourne, Sydney */
+    {33, QLatin1String("America/La_Paz")}, /* GMT-04:00 Caracas, La Paz */
+    {34, QLatin1String("America/New_York")}, /* GMT-05:00 Indiana (East) */
+    {35, QLatin1String("America/Bogota")}, /* GMT-05:00 Bogota, Lima, Quito */
+    {36, QLatin1String("America/Winnipeg")}, /* GMT-06:00 Saskatchewan */
+    {37, QLatin1String("America/Mexico_City")}, /* GMT-06:00 Mexico City, Tegucigalpa */
+    {38, QLatin1String("America/Phoenix")}, /* GMT-07:00 Arizona */
+    {39, QLatin1String("Pacific/Kwajalein")}, /* GMT-12:00 Eniwetok, Kwajalein, Dateline Time */
+    {40, QLatin1String("Pacific/Fiji")}, /* GMT+12:00 Fušál, Kamchatka, Mashall Is. */
+    {41, QLatin1String("Pacific/Noumea")}, /* GMT+11:00 Magadan, Solomon Is., New Caledonia */
+    {42, QLatin1String("Australia/Hobart")}, /* GMT+10:00 Hobart, Tasmania */
+    {43, QLatin1String("Pacific/Guam")}, /* GMT+10:00 Guam, Port Moresby */
+    {44, QLatin1String("Australia/Darwin")}, /* GMT+09:30 Darwin */
+    {45, QLatin1String("Asia/Shanghai")}, /* GMT+08:00 Beijing, Chongqing, Hong Kong SAR, Urumqi */
+    {46, QLatin1String("Asia/Omsk")}, /* GMT+06:00 Almaty, Novosibirsk, North Central Asia */
+    {47, QLatin1String("Asia/Karachi")}, /* GMT+05:00 Islamabad, Karachi, Tashkent */
+    {48, QLatin1String("Asia/Kabul")}, /* GMT+04:30 Kabul */
+    {49, QLatin1String("Africa/Cairo")}, /* GMT+02:00 Cairo */
+    {50, QLatin1String("Africa/Harare")}, /* GMT+02:00 Harare, Pretoria */
+    {51, QLatin1String("Europe/Moscow")}, /* GMT+03:00 Moscow, St. Petersburg, Volgograd */
+    {53, QLatin1String("Atlantic/Cape_Verde")}, /* GMT-01:00 Cape Verde Is. */
+    {54, QLatin1String("Asia/Tbilisi")}, /* GMT+04:00 Baku, Tbilisi, Yerevan */
+    {55, QLatin1String("America/Tegucigalpa")}, /* GMT-06:00 Central America */
+    {56, QLatin1String("Africa/Nairobi")}, /* GMT+03:00 East Africa, Nairobi */
+    {58, QLatin1String("Asia/Yekaterinburg")}, /* GMT+05:00 Ekaterinburg */
+    {59, QLatin1String("Europe/Helsinki")}, /* GMT+02:00 Helsinki, Riga, Tallinn */
+    {60, QLatin1String("America/Greenland")}, /* GMT-03:00 Greenland */
+    {61, QLatin1String("Asia/Rangoon")}, /* GMT+06:30 Yangon (Rangoon) */
+    {62, QLatin1String("Asia/Katmandu")}, /* GMT+05:45 Kathmandu, Nepal */
+    {63, QLatin1String("Asia/Irkutsk")}, /* GMT+08:00 Irkutsk, Ulaan Bataar */
+    {64, QLatin1String("Asia/Krasnoyarsk")}, /* GMT+07:00 Krasnoyarsk */
+    {65, QLatin1String("America/Santiago")}, /* GMT-04:00 Santiago */
+    {66, QLatin1String("Asia/Colombo")}, /* GMT+06:00 Sri Jayawardenepura, Sri Lanka */
+    {67, QLatin1String("Pacific/Tongatapu")}, /* GMT+13:00 Nuku'alofa, Tonga */
+    {68, QLatin1String("Asia/Vladivostok")}, /* GMT+10:00 Vladivostok */
+    {69, QLatin1String("Africa/Bangui")}, /* GMT+01:00 West Central Africa */
+    {70, QLatin1String("Asia/Yakutsk")}, /* GMT+09:00 Yakutsk */
+    {71, QLatin1String("Asia/Dhaka")}, /* GMT+06:00 Astana, Dhaka */
+    {72, QLatin1String("Asia/Seoul")}, /* GMT+09:00 Seoul, Korea Standard time */
+    {73, QLatin1String("Australia/Perth")}, /* GMT+08:00 Perth, Western Australia */
+    {74, QLatin1String("Asia/Kuwait")}, /* GMT+03:00 Arab, Kuwait, Riyadh */
+    {75, QLatin1String("Asia/Taipei")}, /* GMT+08:00 Taipei */
+    {76, QLatin1String("Australia/Sydney")} /* GMT+10:00 Canberra, Melbourne, Sydney */
 };
 
 /* Based on "Microsoft Time Zone Index Values"
@@ -980,104 +972,104 @@ static const std::map<int, QLatin1String> MSCDOTZIDTable = {
  * keys by using QString value, which is not possible with Qt containers.
  */
 static const std::map<QLatin1String, QLatin1String, std::less<>> MSSTTZTable = {
-    {QLatin1String("Dateline Standard Time"), QLatin1String("Pacific/Kwajalein")},    /* (GMT-12:00) International Date Line West */
-    {QLatin1String("Samoa Standard Time"), QLatin1String("Pacific/Apia")},            /* (GMT-11:00) Midway Island, Samoa */
-    {QLatin1String("Hawaiian Standard Time"), QLatin1String("Pacific/Honolulu")},     /* (GMT-10:00) Hawaii */
-    {QLatin1String("Alaskan Standard Time"), QLatin1String("America/Anchorage")},     /* (GMT-09:00) Alaska */
-    {QLatin1String("Pacific Standard Time"), QLatin1String("America/Los_Angeles")},   /* (GMT-08:00) Pacific Time (US and Canada); Tijuana */
-    {QLatin1String("Mountain Standard Time"), QLatin1String("America/Denver")},       /* (GMT-07:00) Mountain Time (US and Canada) */
-    {QLatin1String("Mexico Standard Time 2"), QLatin1String("America/Chihuahua")},    /* (GMT-07:00) Chihuahua, La Paz, Mazatlan */
+    {QLatin1String("Dateline Standard Time"), QLatin1String("Pacific/Kwajalein")}, /* (GMT-12:00) International Date Line West */
+    {QLatin1String("Samoa Standard Time"), QLatin1String("Pacific/Apia")}, /* (GMT-11:00) Midway Island, Samoa */
+    {QLatin1String("Hawaiian Standard Time"), QLatin1String("Pacific/Honolulu")}, /* (GMT-10:00) Hawaii */
+    {QLatin1String("Alaskan Standard Time"), QLatin1String("America/Anchorage")}, /* (GMT-09:00) Alaska */
+    {QLatin1String("Pacific Standard Time"), QLatin1String("America/Los_Angeles")}, /* (GMT-08:00) Pacific Time (US and Canada); Tijuana */
+    {QLatin1String("Mountain Standard Time"), QLatin1String("America/Denver")}, /* (GMT-07:00) Mountain Time (US and Canada) */
+    {QLatin1String("Mexico Standard Time 2"), QLatin1String("America/Chihuahua")}, /* (GMT-07:00) Chihuahua, La Paz, Mazatlan */
     {QLatin1String("U.S. Mountain Standard Time"), QLatin1String("America/Phoenix")}, /* (GMT-07:00) Arizona */
-    {QLatin1String("Central Standard Time"), QLatin1String("America/Chicago")},       /* (GMT-06:00) Central Time (US and Canada */
-    {QLatin1String("Canada Central Standard Time"), QLatin1String("America/Winnipeg")},       /* (GMT-06:00) Saskatchewan */
-    {QLatin1String("Mexico Standard Time"), QLatin1String("America/Mexico_City")},    /* (GMT-06:00) Guadalajara, Mexico City, Monterrey */
-    {QLatin1String("Central America Standard Time"), QLatin1String("America/Chicago")},       /* (GMT-06:00) Central America */
-    {QLatin1String("Eastern Standard Time"), QLatin1String("America/New_York")},      /* (GMT-05:00) Eastern Time (US and Canada) */
+    {QLatin1String("Central Standard Time"), QLatin1String("America/Chicago")}, /* (GMT-06:00) Central Time (US and Canada */
+    {QLatin1String("Canada Central Standard Time"), QLatin1String("America/Winnipeg")}, /* (GMT-06:00) Saskatchewan */
+    {QLatin1String("Mexico Standard Time"), QLatin1String("America/Mexico_City")}, /* (GMT-06:00) Guadalajara, Mexico City, Monterrey */
+    {QLatin1String("Central America Standard Time"), QLatin1String("America/Chicago")}, /* (GMT-06:00) Central America */
+    {QLatin1String("Eastern Standard Time"), QLatin1String("America/New_York")}, /* (GMT-05:00) Eastern Time (US and Canada) */
     {QLatin1String("U.S. Eastern Standard Time"), QLatin1String("America/New_York")}, /* (GMT-05:00) Indiana (East) */
-    {QLatin1String("S.A. Pacific Standard Time"), QLatin1String("America/Bogota")},   /* (GMT-05:00) Bogota, Lima, Quito */
-    {QLatin1String("Atlantic Standard Time"), QLatin1String("America/Halifax")},      /* (GMT-04:00) Atlantic Time (Canada) */
-    {QLatin1String("S.A. Western Standard Time"), QLatin1String("America/La_Paz")},   /* (GMT-04:00) Caracas, La Paz */
+    {QLatin1String("S.A. Pacific Standard Time"), QLatin1String("America/Bogota")}, /* (GMT-05:00) Bogota, Lima, Quito */
+    {QLatin1String("Atlantic Standard Time"), QLatin1String("America/Halifax")}, /* (GMT-04:00) Atlantic Time (Canada) */
+    {QLatin1String("S.A. Western Standard Time"), QLatin1String("America/La_Paz")}, /* (GMT-04:00) Caracas, La Paz */
     {QLatin1String("Pacific S.A. Standard Time"), QLatin1String("America/Santiago")}, /* (GMT-04:00) Santiago */
-    {QLatin1String("Newfoundland and Labrador Standard Time"), QLatin1String("America/St_Johns")},    /* (GMT-03:30) Newfoundland and Labrador */
-    {QLatin1String("E. South America Standard Time"), QLatin1String("America/Brazil")},       /* (GMT-03:00) Brasilia */
-    {QLatin1String("S.A. Eastern Standard Time"), QLatin1String("America/Argentina/Buenos_Aires")},   /* (GMT-03:00) Buenos Aires, Georgetown */
-    {QLatin1String("Greenland Standard Time"), QLatin1String("America/Greenland")},   /* (GMT-03:00) Greenland */
-    {QLatin1String("Mid-Atlantic Standard Time"), QLatin1String("America/Noronha")},  /* (GMT-02:00) Mid-Atlantic */
-    {QLatin1String("Azores Standard Time"), QLatin1String("Atlantic/Portugal")},      /* (GMT-01:00) Azores */
-    {QLatin1String("Cape Verde Standard Time"), QLatin1String("Atlantic/Cape_Verde")},        /* (GMT-01:00) Cape Verde Islands */
-    {QLatin1String("GMT Standard Time"), QLatin1String("Europe/London")},             /* (GMT) Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London */
-    {QLatin1String("Greenwich Standard Time"), QLatin1String("Africa/Casablanca")},   /* (GMT) Casablanca, Monrovia */
-    {QLatin1String("Central Europe Standard Time"), QLatin1String("Europe/Prague")},  /* (GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague */
-    {QLatin1String("Central European Standard Time"), QLatin1String("Europe/Sarajevo")},      /* (GMT+01:00) Sarajevo, Skopje, Warsaw, Zagreb */
-    {QLatin1String("Romance Standard Time"), QLatin1String("Europe/Brussels")},       /* (GMT+01:00) Brussels, Copenhagen, Madrid, Paris */
-    {QLatin1String("W. Europe Standard Time"), QLatin1String("Europe/Amsterdam")},    /* (GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna */
-    {QLatin1String("W. Central Africa Standard Time"), QLatin1String("Africa/Bangui")},       /* (GMT+01:00) West Central Africa */
-    {QLatin1String("E. Europe Standard Time"), QLatin1String("Europe/Bucharest")},    /* (GMT+02:00) Bucharest */
-    {QLatin1String("Egypt Standard Time"), QLatin1String("Africa/Cairo")},            /* (GMT+02:00) Cairo */
-    {QLatin1String("FLE Standard Time"), QLatin1String("Europe/Helsinki")},           /* (GMT+02:00) Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius */
-    {QLatin1String("GTB Standard Time"), QLatin1String("Europe/Athens")},             /* (GMT+02:00) Athens, Istanbul, Minsk */
-    {QLatin1String("Israel Standard Time"), QLatin1String("Europe/Athens")},          /* (GMT+02:00) Jerusalem */
-    {QLatin1String("South Africa Standard Time"), QLatin1String("Africa/Harare")},    /* (GMT+02:00) Harare, Pretoria */
-    {QLatin1String("Russian Standard Time"), QLatin1String("Europe/Moscow")},         /* (GMT+03:00) Moscow, St. Petersburg, Volgograd */
-    {QLatin1String("Arab Standard Time"), QLatin1String("Asia/Kuwait")},              /* (GMT+03:00) Kuwait, Riyadh */
-    {QLatin1String("E. Africa Standard Time"), QLatin1String("Africa/Nairobi")},      /* (GMT+03:00) Nairobi */
-    {QLatin1String("Arabic Standard Time"), QLatin1String("Asia/Baghdad")},           /* (GMT+03:00) Baghdad */
-    {QLatin1String("Iran Standard Time"), QLatin1String("Asia/Tehran")},              /* (GMT+03:30) Tehran */
-    {QLatin1String("Arabian Standard Time"), QLatin1String("Asia/Dubai")},            /* (GMT+04:00) Abu Dhabi, Muscat */
-    {QLatin1String("Caucasus Standard Time"), QLatin1String("Asia/Tbilisi")},         /* (GMT+04:00) Baku, Tbilisi, Yerevan */
-    {QLatin1String("Transitional Islamic State of Afghanistan Standard Time"), QLatin1String("Asia/Kabul")},  /* (GMT+04:30) Kabul */
-    {QLatin1String("Ekaterinburg Standard Time"), QLatin1String("Asia/Yekaterinburg")},       /* (GMT+05:00) Ekaterinburg */
-    {QLatin1String("West Asia Standard Time"), QLatin1String("Asia/Karachi")},        /* (GMT+05:00) Islamabad, Karachi, Tashkent */
-    {QLatin1String("India Standard Time"), QLatin1String("Asia/Calcutta")},           /* (GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi */
-    {QLatin1String("Nepal Standard Time"), QLatin1String("Asia/Calcutta")},           /* (GMT+05:45) Kathmandu */
-    {QLatin1String("Central Asia Standard Time"), QLatin1String("Asia/Dhaka")},       /* (GMT+06:00) Astana, Dhaka */
-    {QLatin1String("Sri Lanka Standard Time"), QLatin1String("Asia/Colombo")},        /* (GMT+06:00) Sri Jayawardenepura */
-    {QLatin1String("N. Central Asia Standard Time"), QLatin1String("Asia/Omsk")},     /* (GMT+06:00) Almaty, Novosibirsk */
-    {QLatin1String("Myanmar Standard Time"), QLatin1String("Asia/Rangoon")},          /* (GMT+06:30) Yangon Rangoon */
-    {QLatin1String("S.E. Asia Standard Time"), QLatin1String("Asia/Bangkok")},        /* (GMT+07:00) Bangkok, Hanoi, Jakarta */
-    {QLatin1String("North Asia Standard Time"), QLatin1String("Asia/Krasnoyarsk")},   /* (GMT+07:00) Krasnoyarsk */
-    {QLatin1String("China Standard Time"), QLatin1String("Asia/Shanghai")},           /* (GMT+08:00) Beijing, Chongqing, Hong Kong SAR, Urumqi */
-    {QLatin1String("Singapore Standard Time"), QLatin1String("Asia/Singapore")},      /* (GMT+08:00) Kuala Lumpur, Singapore */
-    {QLatin1String("Taipei Standard Time"), QLatin1String("Asia/Taipei")},            /* (GMT+08:00) Taipei */
-    {QLatin1String("W. Australia Standard Time"), QLatin1String("Australia/Perth")},  /* (GMT+08:00) Perth */
-    {QLatin1String("North Asia East Standard Time"), QLatin1String("Asia/Irkutsk")},  /* (GMT+08:00) Irkutsk, Ulaanbaatar */
-    {QLatin1String("Korea Standard Time"), QLatin1String("Asia/Seoul")},              /* (GMT+09:00) Seoul */
-    {QLatin1String("Tokyo Standard Time"), QLatin1String("Asia/Tokyo")},              /* (GMT+09:00) Osaka, Sapporo, Tokyo */
-    {QLatin1String("Yakutsk Standard Time"), QLatin1String("Asia/Yakutsk")},          /* (GMT+09:00) Yakutsk */
-    {QLatin1String("A.U.S. Central Standard Time"), QLatin1String("Australia/Darwin")},       /* (GMT+09:30) Darwin */
-    {QLatin1String("Cen. Australia Standard Time"), QLatin1String("Australia/Adelaide")},     /* (GMT+09:30) Adelaide */
-    {QLatin1String("A.U.S. Eastern Standard Time"), QLatin1String("Australia/Sydney")},       /* (GMT+10:00) Canberra, Melbourne, Sydney */
-    {QLatin1String("E. Australia Standard Time"), QLatin1String("Australia/Brisbane")},       /* (GMT+10:00) Brisbane */
-    {QLatin1String("Tasmania Standard Time"), QLatin1String("Australia/Hobart")},     /* (GMT+10:00) Hobart */
-    {QLatin1String("Vladivostok Standard Time"), QLatin1String("Asia/Vladivostok")},  /* (GMT+10:00) Vladivostok */
-    {QLatin1String("West Pacific Standard Time"), QLatin1String("Pacific/Guam")},     /* (GMT+10:00) Guam, Port Moresby */
-    {QLatin1String("Central Pacific Standard Time"), QLatin1String("Pacific/Noumea")},        /* (GMT+11:00) Magadan, Solomon Islands, New Caledonia */
-    {QLatin1String("Fiji Islands Standard Time"), QLatin1String("Pacific/Fiji")},     /* (GMT+12:00) Fiji Islands, Kamchatka, Marshall Islands */
-    {QLatin1String("New Zealand Standard Time"), QLatin1String("Pacific/Auckland")},  /* (GMT+12:00) Auckland, Wellington */
-    {QLatin1String("Tonga Standard Time"), QLatin1String("Pacific/Tongatapu")},       /* (GMT+13:00) Nuku'alofa */
-    {QLatin1String("Azerbaijan Standard Time"), QLatin1String("America/Argentina/Buenos_Aires")},     /* (GMT-03:00) Buenos Aires */
-    {QLatin1String("Middle East Standard Time"), QLatin1String("Asia/Beirut")},       /* (GMT+02:00) Beirut */
-    {QLatin1String("Jordan Standard Time"), QLatin1String("Asia/Amman")},             /* (GMT+02:00) Amman */
-    {QLatin1String("Central Standard Time (Mexico)"), QLatin1String("America/Mexico_City")},  /* (GMT-06:00) Guadalajara, Mexico City, Monterrey - New */
-    {QLatin1String("Mountain Standard Time (Mexico)"), QLatin1String("America/Ojinaga")},     /* (GMT-07:00) Chihuahua, La Paz, Mazatlan - New */
-    {QLatin1String("Pacific Standard Time (Mexico)"), QLatin1String("America/Tijuana")},      /* (GMT-08:00) Tijuana, Baja California */
-    {QLatin1String("Namibia Standard Time"), QLatin1String("Africa/Windhoek")},       /* (GMT+02:00) Windhoek */
-    {QLatin1String("Georgian Standard Time"), QLatin1String("Asia/Tbilisi")},         /* (GMT+03:00) Tbilisi */
-    {QLatin1String("Central Brazilian Standard Time"), QLatin1String("America/Manaus")},      /*(GMT-04:00) Manaus */
-    {QLatin1String("Montevideo Standard Time"), QLatin1String("America/Montevideo")},        /* (GMT-03:00) Montevideo */
-    {QLatin1String("Armenian Standard Time"), QLatin1String("Asia/Yerevan")},         /* (GMT+04:00) Yerevan */
-    {QLatin1String("Venezuela Standard Time"), QLatin1String("America/Caracas")},     /* (GMT-04:30) Caracas */
-    {QLatin1String("Argentina Standard Time"), QLatin1String("America/Argentina/Buenos_Aires")},      /* (GMT-03:00) Buenos Aires */
-    {QLatin1String("Morocco Standard Time"), QLatin1String("Africa/Casablanca")},     /* (GMT) Casablanca */
-    {QLatin1String("Pakistan Standard Time"), QLatin1String("Asia/Karachi")},         /* (GMT+05:00) Islamabad, Karachi */
-    {QLatin1String("Mauritius Standard Time"), QLatin1String("Indian/Mauritius")},    /* (GMT+04:00) Port Louis */
-    {QLatin1String("UTC"), QLatin1String("UTC")},                                     /* (GMT) Coordinated Universal Time */
-    {QLatin1String("Paraguay Standard Time"), QLatin1String("America/Asuncion")},     /* (GMT-04:00) Asuncion */
-    {QLatin1String("Kamchatka Standard Time"), QLatin1String("Asia/Kamchatka")},      /* (GMT+12:00) Petropavlovsk-Kamchatsky */
+    {QLatin1String("Newfoundland and Labrador Standard Time"), QLatin1String("America/St_Johns")}, /* (GMT-03:30) Newfoundland and Labrador */
+    {QLatin1String("E. South America Standard Time"), QLatin1String("America/Brazil")}, /* (GMT-03:00) Brasilia */
+    {QLatin1String("S.A. Eastern Standard Time"), QLatin1String("America/Argentina/Buenos_Aires")}, /* (GMT-03:00) Buenos Aires, Georgetown */
+    {QLatin1String("Greenland Standard Time"), QLatin1String("America/Greenland")}, /* (GMT-03:00) Greenland */
+    {QLatin1String("Mid-Atlantic Standard Time"), QLatin1String("America/Noronha")}, /* (GMT-02:00) Mid-Atlantic */
+    {QLatin1String("Azores Standard Time"), QLatin1String("Atlantic/Portugal")}, /* (GMT-01:00) Azores */
+    {QLatin1String("Cape Verde Standard Time"), QLatin1String("Atlantic/Cape_Verde")}, /* (GMT-01:00) Cape Verde Islands */
+    {QLatin1String("GMT Standard Time"), QLatin1String("Europe/London")}, /* (GMT) Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London */
+    {QLatin1String("Greenwich Standard Time"), QLatin1String("Africa/Casablanca")}, /* (GMT) Casablanca, Monrovia */
+    {QLatin1String("Central Europe Standard Time"), QLatin1String("Europe/Prague")}, /* (GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague */
+    {QLatin1String("Central European Standard Time"), QLatin1String("Europe/Sarajevo")}, /* (GMT+01:00) Sarajevo, Skopje, Warsaw, Zagreb */
+    {QLatin1String("Romance Standard Time"), QLatin1String("Europe/Brussels")}, /* (GMT+01:00) Brussels, Copenhagen, Madrid, Paris */
+    {QLatin1String("W. Europe Standard Time"), QLatin1String("Europe/Amsterdam")}, /* (GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna */
+    {QLatin1String("W. Central Africa Standard Time"), QLatin1String("Africa/Bangui")}, /* (GMT+01:00) West Central Africa */
+    {QLatin1String("E. Europe Standard Time"), QLatin1String("Europe/Bucharest")}, /* (GMT+02:00) Bucharest */
+    {QLatin1String("Egypt Standard Time"), QLatin1String("Africa/Cairo")}, /* (GMT+02:00) Cairo */
+    {QLatin1String("FLE Standard Time"), QLatin1String("Europe/Helsinki")}, /* (GMT+02:00) Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius */
+    {QLatin1String("GTB Standard Time"), QLatin1String("Europe/Athens")}, /* (GMT+02:00) Athens, Istanbul, Minsk */
+    {QLatin1String("Israel Standard Time"), QLatin1String("Europe/Athens")}, /* (GMT+02:00) Jerusalem */
+    {QLatin1String("South Africa Standard Time"), QLatin1String("Africa/Harare")}, /* (GMT+02:00) Harare, Pretoria */
+    {QLatin1String("Russian Standard Time"), QLatin1String("Europe/Moscow")}, /* (GMT+03:00) Moscow, St. Petersburg, Volgograd */
+    {QLatin1String("Arab Standard Time"), QLatin1String("Asia/Kuwait")}, /* (GMT+03:00) Kuwait, Riyadh */
+    {QLatin1String("E. Africa Standard Time"), QLatin1String("Africa/Nairobi")}, /* (GMT+03:00) Nairobi */
+    {QLatin1String("Arabic Standard Time"), QLatin1String("Asia/Baghdad")}, /* (GMT+03:00) Baghdad */
+    {QLatin1String("Iran Standard Time"), QLatin1String("Asia/Tehran")}, /* (GMT+03:30) Tehran */
+    {QLatin1String("Arabian Standard Time"), QLatin1String("Asia/Dubai")}, /* (GMT+04:00) Abu Dhabi, Muscat */
+    {QLatin1String("Caucasus Standard Time"), QLatin1String("Asia/Tbilisi")}, /* (GMT+04:00) Baku, Tbilisi, Yerevan */
+    {QLatin1String("Transitional Islamic State of Afghanistan Standard Time"), QLatin1String("Asia/Kabul")}, /* (GMT+04:30) Kabul */
+    {QLatin1String("Ekaterinburg Standard Time"), QLatin1String("Asia/Yekaterinburg")}, /* (GMT+05:00) Ekaterinburg */
+    {QLatin1String("West Asia Standard Time"), QLatin1String("Asia/Karachi")}, /* (GMT+05:00) Islamabad, Karachi, Tashkent */
+    {QLatin1String("India Standard Time"), QLatin1String("Asia/Calcutta")}, /* (GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi */
+    {QLatin1String("Nepal Standard Time"), QLatin1String("Asia/Calcutta")}, /* (GMT+05:45) Kathmandu */
+    {QLatin1String("Central Asia Standard Time"), QLatin1String("Asia/Dhaka")}, /* (GMT+06:00) Astana, Dhaka */
+    {QLatin1String("Sri Lanka Standard Time"), QLatin1String("Asia/Colombo")}, /* (GMT+06:00) Sri Jayawardenepura */
+    {QLatin1String("N. Central Asia Standard Time"), QLatin1String("Asia/Omsk")}, /* (GMT+06:00) Almaty, Novosibirsk */
+    {QLatin1String("Myanmar Standard Time"), QLatin1String("Asia/Rangoon")}, /* (GMT+06:30) Yangon Rangoon */
+    {QLatin1String("S.E. Asia Standard Time"), QLatin1String("Asia/Bangkok")}, /* (GMT+07:00) Bangkok, Hanoi, Jakarta */
+    {QLatin1String("North Asia Standard Time"), QLatin1String("Asia/Krasnoyarsk")}, /* (GMT+07:00) Krasnoyarsk */
+    {QLatin1String("China Standard Time"), QLatin1String("Asia/Shanghai")}, /* (GMT+08:00) Beijing, Chongqing, Hong Kong SAR, Urumqi */
+    {QLatin1String("Singapore Standard Time"), QLatin1String("Asia/Singapore")}, /* (GMT+08:00) Kuala Lumpur, Singapore */
+    {QLatin1String("Taipei Standard Time"), QLatin1String("Asia/Taipei")}, /* (GMT+08:00) Taipei */
+    {QLatin1String("W. Australia Standard Time"), QLatin1String("Australia/Perth")}, /* (GMT+08:00) Perth */
+    {QLatin1String("North Asia East Standard Time"), QLatin1String("Asia/Irkutsk")}, /* (GMT+08:00) Irkutsk, Ulaanbaatar */
+    {QLatin1String("Korea Standard Time"), QLatin1String("Asia/Seoul")}, /* (GMT+09:00) Seoul */
+    {QLatin1String("Tokyo Standard Time"), QLatin1String("Asia/Tokyo")}, /* (GMT+09:00) Osaka, Sapporo, Tokyo */
+    {QLatin1String("Yakutsk Standard Time"), QLatin1String("Asia/Yakutsk")}, /* (GMT+09:00) Yakutsk */
+    {QLatin1String("A.U.S. Central Standard Time"), QLatin1String("Australia/Darwin")}, /* (GMT+09:30) Darwin */
+    {QLatin1String("Cen. Australia Standard Time"), QLatin1String("Australia/Adelaide")}, /* (GMT+09:30) Adelaide */
+    {QLatin1String("A.U.S. Eastern Standard Time"), QLatin1String("Australia/Sydney")}, /* (GMT+10:00) Canberra, Melbourne, Sydney */
+    {QLatin1String("E. Australia Standard Time"), QLatin1String("Australia/Brisbane")}, /* (GMT+10:00) Brisbane */
+    {QLatin1String("Tasmania Standard Time"), QLatin1String("Australia/Hobart")}, /* (GMT+10:00) Hobart */
+    {QLatin1String("Vladivostok Standard Time"), QLatin1String("Asia/Vladivostok")}, /* (GMT+10:00) Vladivostok */
+    {QLatin1String("West Pacific Standard Time"), QLatin1String("Pacific/Guam")}, /* (GMT+10:00) Guam, Port Moresby */
+    {QLatin1String("Central Pacific Standard Time"), QLatin1String("Pacific/Noumea")}, /* (GMT+11:00) Magadan, Solomon Islands, New Caledonia */
+    {QLatin1String("Fiji Islands Standard Time"), QLatin1String("Pacific/Fiji")}, /* (GMT+12:00) Fiji Islands, Kamchatka, Marshall Islands */
+    {QLatin1String("New Zealand Standard Time"), QLatin1String("Pacific/Auckland")}, /* (GMT+12:00) Auckland, Wellington */
+    {QLatin1String("Tonga Standard Time"), QLatin1String("Pacific/Tongatapu")}, /* (GMT+13:00) Nuku'alofa */
+    {QLatin1String("Azerbaijan Standard Time"), QLatin1String("America/Argentina/Buenos_Aires")}, /* (GMT-03:00) Buenos Aires */
+    {QLatin1String("Middle East Standard Time"), QLatin1String("Asia/Beirut")}, /* (GMT+02:00) Beirut */
+    {QLatin1String("Jordan Standard Time"), QLatin1String("Asia/Amman")}, /* (GMT+02:00) Amman */
+    {QLatin1String("Central Standard Time (Mexico)"), QLatin1String("America/Mexico_City")}, /* (GMT-06:00) Guadalajara, Mexico City, Monterrey - New */
+    {QLatin1String("Mountain Standard Time (Mexico)"), QLatin1String("America/Ojinaga")}, /* (GMT-07:00) Chihuahua, La Paz, Mazatlan - New */
+    {QLatin1String("Pacific Standard Time (Mexico)"), QLatin1String("America/Tijuana")}, /* (GMT-08:00) Tijuana, Baja California */
+    {QLatin1String("Namibia Standard Time"), QLatin1String("Africa/Windhoek")}, /* (GMT+02:00) Windhoek */
+    {QLatin1String("Georgian Standard Time"), QLatin1String("Asia/Tbilisi")}, /* (GMT+03:00) Tbilisi */
+    {QLatin1String("Central Brazilian Standard Time"), QLatin1String("America/Manaus")}, /*(GMT-04:00) Manaus */
+    {QLatin1String("Montevideo Standard Time"), QLatin1String("America/Montevideo")}, /* (GMT-03:00) Montevideo */
+    {QLatin1String("Armenian Standard Time"), QLatin1String("Asia/Yerevan")}, /* (GMT+04:00) Yerevan */
+    {QLatin1String("Venezuela Standard Time"), QLatin1String("America/Caracas")}, /* (GMT-04:30) Caracas */
+    {QLatin1String("Argentina Standard Time"), QLatin1String("America/Argentina/Buenos_Aires")}, /* (GMT-03:00) Buenos Aires */
+    {QLatin1String("Morocco Standard Time"), QLatin1String("Africa/Casablanca")}, /* (GMT) Casablanca */
+    {QLatin1String("Pakistan Standard Time"), QLatin1String("Asia/Karachi")}, /* (GMT+05:00) Islamabad, Karachi */
+    {QLatin1String("Mauritius Standard Time"), QLatin1String("Indian/Mauritius")}, /* (GMT+04:00) Port Louis */
+    {QLatin1String("UTC"), QLatin1String("UTC")}, /* (GMT) Coordinated Universal Time */
+    {QLatin1String("Paraguay Standard Time"), QLatin1String("America/Asuncion")}, /* (GMT-04:00) Asuncion */
+    {QLatin1String("Kamchatka Standard Time"), QLatin1String("Asia/Kamchatka")}, /* (GMT+12:00) Petropavlovsk-Kamchatsky */
 };
 } // namespace
 
-QString Private::checkAndConverCDOTZID(const QString &tzid, const EventPtr& event)
+QString Private::checkAndConverCDOTZID(const QString &tzid, const EventPtr &event)
 {
     /* Try to match the @tzid to any valid timezone we know. */
     QTimeZone tz(tzid.toLatin1());
@@ -1108,27 +1100,17 @@ QString Private::checkAndConverCDOTZID(const QString &tzid, const EventPtr& even
 
     /* Wheeee, we have X-MICROSOFT-CDO-TZID, try to map it to Olson format */
     if (CDOId > -1) {
-
         /* *sigh* Some expert in MS assigned the same ID to two different timezones... */
         if (CDOId == 2) {
-
             /* GMT Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London */
-            if (tzid.contains(QLatin1String("Dublin")) ||
-                    tzid.contains(QLatin1String("Edinburgh")) ||
-                    tzid.contains(QLatin1String("Lisbon")) ||
-                    tzid.contains(QLatin1String("London")))
-            {
+            if (tzid.contains(QLatin1String("Dublin")) || tzid.contains(QLatin1String("Edinburgh")) || tzid.contains(QLatin1String("Lisbon"))
+                || tzid.contains(QLatin1String("London"))) {
                 return QStringLiteral("Europe/London");
             }
 
             /* GMT+01:00 Sarajevo, Skopje, Sofija, Vilnius, Warsaw, Zagreb */
-            else if (tzid.contains(QLatin1String("Sarajevo")) ||
-                     tzid.contains(QLatin1String("Skopje")) ||
-                     tzid.contains(QLatin1String("Sofija")) ||
-                     tzid.contains(QLatin1String("Vilnius")) ||
-                     tzid.contains(QLatin1String("Warsaw")) ||
-                     tzid.contains(QLatin1String("Zagreb")))
-            {
+            else if (tzid.contains(QLatin1String("Sarajevo")) || tzid.contains(QLatin1String("Skopje")) || tzid.contains(QLatin1String("Sofija"))
+                     || tzid.contains(QLatin1String("Vilnius")) || tzid.contains(QLatin1String("Warsaw")) || tzid.contains(QLatin1String("Zagreb"))) {
                 return QStringLiteral("Europe/Sarajevo");
             }
         }

@@ -17,19 +17,19 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN FetchJob::Private
 {
-  public:
+public:
     ObjectsList items;
 };
 
-FetchJob::FetchJob(QObject* parent):
-    Job(parent),
-    d(new Private)
+FetchJob::FetchJob(QObject *parent)
+    : Job(parent)
+    , d(new Private)
 {
 }
 
-FetchJob::FetchJob(const AccountPtr& account, QObject* parent):
-    Job(account, parent),
-    d(new Private)
+FetchJob::FetchJob(const AccountPtr &account, QObject *parent)
+    : Job(account, parent)
+    , d(new Private)
 {
 }
 
@@ -48,8 +48,7 @@ ObjectsList FetchJob::items() const
     return d->items;
 }
 
-void FetchJob::dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request,
-                               const QByteArray& data, const QString& contentType)
+void FetchJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType)
 {
     Q_UNUSED(data)
     Q_UNUSED(contentType)
@@ -69,7 +68,7 @@ void FetchJob::aboutToStart()
     Job::aboutToStart();
 }
 
-ObjectsList FetchJob::handleReplyWithItems(const QNetworkReply* reply, const QByteArray& rawData)
+ObjectsList FetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     Q_UNUSED(reply)
     Q_UNUSED(rawData)

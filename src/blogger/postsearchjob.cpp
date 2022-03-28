@@ -5,13 +5,13 @@
  */
 
 #include "postsearchjob.h"
-#include "post.h"
-#include "bloggerservice.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "post.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
@@ -19,22 +19,18 @@ using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN PostSearchJob::Private
 {
-  public:
-    Private(const QString &blogId,
-            const QString &query,
-            PostSearchJob *parent);
+public:
+    Private(const QString &blogId, const QString &query, PostSearchJob *parent);
 
     const QString blogId;
     const QString query;
     bool fetchBodies = true;
 
-  private:
+private:
     PostSearchJob *const q;
 };
 
-PostSearchJob::Private::Private(const QString &blogId_,
-                                const QString &query_,
-                                PostSearchJob *parent)
+PostSearchJob::Private::Private(const QString &blogId_, const QString &query_, PostSearchJob *parent)
     : blogId(blogId_)
     , query(query_)
     , fetchBodies(true)
@@ -42,10 +38,7 @@ PostSearchJob::Private::Private(const QString &blogId_,
 {
 }
 
-PostSearchJob::PostSearchJob(const QString &blogId,
-                             const QString &query,
-                             const AccountPtr &account,
-                             QObject *parent)
+PostSearchJob::PostSearchJob(const QString &blogId, const QString &query, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new Private(blogId, query, this))
 {
@@ -104,4 +97,3 @@ ObjectsList PostSearchJob::handleReplyWithItems(const QNetworkReply *reply, cons
 
     return items;
 }
-

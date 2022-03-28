@@ -8,36 +8,36 @@
 
 #include "drivescreatejob.h"
 #include "account.h"
-#include "driveservice.h"
 #include "drives.h"
+#include "driveservice.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
-
-namespace {
-    static const QString RequestIdParam = QStringLiteral("requestId");
+namespace
+{
+static const QString RequestIdParam = QStringLiteral("requestId");
 }
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN DrivesCreateJob::Private
 {
-  public:
+public:
     Private(DrivesCreateJob *parent);
     void processNext();
 
     DrivesList drives;
     QString requestId;
 
-  private:
+private:
     DrivesCreateJob *const q;
 };
 
-DrivesCreateJob::Private::Private(DrivesCreateJob *parent):
-    q(parent)
+DrivesCreateJob::Private::Private(DrivesCreateJob *parent)
+    : q(parent)
 {
 }
 
@@ -64,23 +64,17 @@ void DrivesCreateJob::Private::processNext()
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-DrivesCreateJob::DrivesCreateJob(const QString &requestId,
-                                         const DrivesPtr &drive,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+DrivesCreateJob::DrivesCreateJob(const QString &requestId, const DrivesPtr &drive, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->requestId = requestId;
     d->drives << drive;
 }
 
-DrivesCreateJob::DrivesCreateJob(const QString &requestId,
-                                         const DrivesList &drives,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+DrivesCreateJob::DrivesCreateJob(const QString &requestId, const DrivesList &drives, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->requestId = requestId;
     d->drives = drives;
@@ -98,8 +92,7 @@ void DrivesCreateJob::start()
     d->processNext();
 }
 
-ObjectsList DrivesCreateJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                      const QByteArray &rawData)
+ObjectsList DrivesCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -118,5 +111,3 @@ ObjectsList DrivesCreateJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
-
-

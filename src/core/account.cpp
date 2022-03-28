@@ -13,7 +13,7 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN Account::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -21,33 +21,32 @@ class Q_DECL_HIDDEN Account::Private
     QString accessToken;
     QString refreshToken;
     QDateTime expireDateTime;
-    QList< QUrl > scopes;
+    QList<QUrl> scopes;
 };
 
 Account::Private::Private()
     : expireDateTime(QDateTime())
-{ }
+{
+}
 
+Account::Private::Private(const Private &other)
+    : accName(other.accName)
+    , accessToken(other.accessToken)
+    , refreshToken(other.refreshToken)
+    , expireDateTime(other.expireDateTime)
+    , scopes(other.scopes)
+{
+}
 
-Account::Private::Private(const Private& other):
-    accName(other.accName),
-    accessToken(other.accessToken),
-    refreshToken(other.refreshToken),
-    expireDateTime(other.expireDateTime),
-    scopes(other.scopes)
-{ }
+Account::Account()
+    : d(new Private)
+    , m_scopesChanged(false)
+{
+}
 
-
-Account::Account():
-    d(new Private),
-    m_scopesChanged(false)
-{ }
-
-
-Account::Account(const QString &accName, const QString &accessToken,
-                 const QString &refreshToken, const QList< QUrl > &scopes):
-    d(new Private),
-    m_scopesChanged(false)
+Account::Account(const QString &accName, const QString &accessToken, const QString &refreshToken, const QList<QUrl> &scopes)
+    : d(new Private)
+    , m_scopesChanged(false)
 {
     d->accName = accName;
     d->accessToken = accessToken;
@@ -55,11 +54,11 @@ Account::Account(const QString &accName, const QString &accessToken,
     d->scopes = scopes;
 }
 
-Account::Account(const Account& other):
-    d(new Private(*(other.d))),
-    m_scopesChanged(other.m_scopesChanged)
-{ }
-
+Account::Account(const Account &other)
+    : d(new Private(*(other.d)))
+    , m_scopesChanged(other.m_scopesChanged)
+{
+}
 
 Account::~Account()
 {
@@ -86,7 +85,7 @@ QString Account::accountName() const
     return d->accName;
 }
 
-void Account::setAccountName(const QString& accountName)
+void Account::setAccountName(const QString &accountName)
 {
     d->accName = accountName;
 }
@@ -111,12 +110,12 @@ void Account::setRefreshToken(const QString &refreshToken)
     d->refreshToken = refreshToken;
 }
 
-QList< QUrl > Account::scopes() const
+QList<QUrl> Account::scopes() const
 {
     return d->scopes;
 }
 
-void Account::setScopes(const QList< QUrl > &scopes)
+void Account::setScopes(const QList<QUrl> &scopes)
 {
     d->scopes = scopes;
     m_scopesChanged = true;

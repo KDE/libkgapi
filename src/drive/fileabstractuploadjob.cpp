@@ -6,21 +6,20 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "fileabstractuploadjob.h"
 #include "account.h"
 #include "debug.h"
 #include "driveservice.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
-#include <QMimeType>
-#include <QMimeDatabase>
+#include <QCryptographicHash>
 #include <QFile>
 #include <QFileInfo>
-#include <QCryptographicHash>
+#include <QMimeDatabase>
+#include <QMimeType>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
@@ -28,12 +27,10 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 {
-  public:
+public:
     Private(FileAbstractUploadJob *parent);
     void processNext();
-    QByteArray buildMultipart(const QString &filePath,
-                              const FilePtr &metaData,
-                              QString &boundary);
+    QByteArray buildMultipart(const QString &filePath, const FilePtr &metaData, QString &boundary);
     QByteArray readFile(const QString &filePath, QString &contentType);
 
     void _k_uploadProgress(qint64 bytesSent, qint64 totalBytes);
@@ -45,17 +42,16 @@ class Q_DECL_HIDDEN FileAbstractUploadJob::Private
 
     File::SerializationOptions serializationOptions = File::NoOptions;
 
-  private:
+private:
     FileAbstractUploadJob *const q;
 };
 
-FileAbstractUploadJob::Private::Private(FileAbstractUploadJob *parent):
-    q(parent)
+FileAbstractUploadJob::Private::Private(FileAbstractUploadJob *parent)
+    : q(parent)
 {
 }
 
-QByteArray FileAbstractUploadJob::Private::readFile(const QString &filePath,
-                                                    QString &contentType)
+QByteArray FileAbstractUploadJob::Private::readFile(const QString &filePath, QString &contentType)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
@@ -78,9 +74,7 @@ QByteArray FileAbstractUploadJob::Private::readFile(const QString &filePath,
     return output;
 }
 
-QByteArray FileAbstractUploadJob::Private::buildMultipart(const QString &filePath,
-                                                          const FilePtr &metaData,
-                                                          QString &boundary)
+QByteArray FileAbstractUploadJob::Private::buildMultipart(const QString &filePath, const FilePtr &metaData, QString &boundary)
 {
     QString fileContentType = metaData->mimeType();
     QByteArray fileContent;
@@ -180,33 +174,28 @@ void FileAbstractUploadJob::Private::processNext()
     q->enqueueRequest(request, rawData, contentType);
 }
 
-void FileAbstractUploadJob::Private::_k_uploadProgress(qint64 bytesSent,
-        qint64 totalBytes)
+void FileAbstractUploadJob::Private::_k_uploadProgress(qint64 bytesSent, qint64 totalBytes)
 {
     // Each file consists of 100 units, so if we have two files, one already
     // uploaded and the other one uploaded from 50%, the values are (150, 200)
 
     int processedParts = (originalFilesCount - files.count() - 1) * 100;
-    int currentFileParts = 100.0 * ((qreal) bytesSent / (qreal) totalBytes);
+    int currentFileParts = 100.0 * ((qreal)bytesSent / (qreal)totalBytes);
 
     q->emitProgress(processedParts + currentFileParts, originalFilesCount * 100);
 }
 
-FileAbstractUploadJob::FileAbstractUploadJob(const FilePtr &metadata,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractUploadJob::FileAbstractUploadJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->files.insert(QStringLiteral("?=0"), metadata);
     d->originalFilesCount = 1;
 }
 
-FileAbstractUploadJob::FileAbstractUploadJob(const FilesList &metadata,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractUploadJob::FileAbstractUploadJob(const FilesList &metadata, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     int i = 0;
     for (const FilePtr &file : metadata) {
@@ -216,44 +205,35 @@ FileAbstractUploadJob::FileAbstractUploadJob(const FilesList &metadata,
     d->originalFilesCount = d->files.count();
 }
 
-FileAbstractUploadJob::FileAbstractUploadJob(const QString &filePath,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractUploadJob::FileAbstractUploadJob(const QString &filePath, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->files.insert(filePath, FilePtr());
     d->originalFilesCount = 1;
 }
 
-FileAbstractUploadJob::FileAbstractUploadJob(const QString &filePath,
-                                             const FilePtr &metaData,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractUploadJob::FileAbstractUploadJob(const QString &filePath, const FilePtr &metaData, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->files.insert(filePath, metaData);
     d->originalFilesCount = 1;
 }
 
-FileAbstractUploadJob::FileAbstractUploadJob(const QStringList &filePaths,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractUploadJob::FileAbstractUploadJob(const QStringList &filePaths, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
-    for (const QString & filePath : filePaths) {
+    for (const QString &filePath : filePaths) {
         d->files.insert(filePath, FilePtr());
     }
     d->originalFilesCount = d->files.count();
 }
 
-FileAbstractUploadJob::FileAbstractUploadJob(const QMap< QString, FilePtr > &files,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractUploadJob::FileAbstractUploadJob(const QMap<QString, FilePtr> &files, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->files = files;
     d->originalFilesCount = d->files.count();
@@ -283,12 +263,12 @@ void FileAbstractUploadJob::dispatchRequest(QNetworkAccessManager *accessManager
 
     QNetworkReply *reply = dispatch(accessManager, request, data);
 
-    connect(reply, &QNetworkReply::uploadProgress,
-            this, [this](qint64 bytesSent, qint64 totalBytes) {d->_k_uploadProgress(bytesSent, totalBytes); });
+    connect(reply, &QNetworkReply::uploadProgress, this, [this](qint64 bytesSent, qint64 totalBytes) {
+        d->_k_uploadProgress(bytesSent, totalBytes);
+    });
 }
 
-void FileAbstractUploadJob::handleReply(const QNetworkReply *reply,
-                                        const QByteArray &rawData)
+void FileAbstractUploadJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -318,6 +298,5 @@ File::SerializationOptions FileAbstractUploadJob::serializationOptions() const
 {
     return d->serializationOptions;
 }
-
 
 #include "moc_fileabstractuploadjob.cpp"

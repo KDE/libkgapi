@@ -6,11 +6,11 @@
 
 #include "fakeauthbrowser.h"
 
-#include <QObject>
 #include <QDesktopServices>
-#include <QTimer>
-#include <QTcpSocket>
 #include <QHostAddress>
+#include <QObject>
+#include <QTcpSocket>
+#include <QTimer>
 
 extern Q_DECL_IMPORT uint16_t kgapiTcpAuthServerPort; // defined in authjob.cpp
 

@@ -12,17 +12,16 @@
 #include "parentreference.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
-
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN ParentReferenceCreateJob::Private
 {
-  public:
+public:
     Private(ParentReferenceCreateJob *parent);
     void processNext();
     bool supportsAllDrives = true;
@@ -34,8 +33,8 @@ private:
     ParentReferenceCreateJob *const q;
 };
 
-ParentReferenceCreateJob::Private::Private(ParentReferenceCreateJob *parent):
-    q(parent)
+ParentReferenceCreateJob::Private::Private(ParentReferenceCreateJob *parent)
+    : q(parent)
 {
 }
 
@@ -59,47 +58,35 @@ void ParentReferenceCreateJob::Private::processNext()
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
-                                                   const QString &parentId,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId, const QString &parentId, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->references << ParentReferencePtr(new ParentReference(parentId));
 }
 
-ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
-                                                   const QStringList &parentsIds,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId, const QStringList &parentsIds, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
-    for (const QString & parentId : std::as_const(parentsIds)) {
+    for (const QString &parentId : std::as_const(parentsIds)) {
         d->references << ParentReferencePtr(new ParentReference(parentId));
     }
 }
 
-ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
-                                                   const ParentReferencePtr &reference,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId, const ParentReferencePtr &reference, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->references << reference;
 }
 
-ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId,
-                                                   const ParentReferencesList &references,
-                                                   const AccountPtr &account,
-                                                   QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+ParentReferenceCreateJob::ParentReferenceCreateJob(const QString &fileId, const ParentReferencesList &references, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->references << references;
@@ -125,8 +112,7 @@ void ParentReferenceCreateJob::start()
     d->processNext();
 }
 
-ObjectsList ParentReferenceCreateJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                           const QByteArray &rawData)
+ObjectsList ParentReferenceCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -144,5 +130,3 @@ ObjectsList ParentReferenceCreateJob::handleReplyWithItems(const QNetworkReply *
 
     return items;
 }
-
-

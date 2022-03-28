@@ -7,9 +7,9 @@
  */
 
 #include "locationdeletejob.h"
-#include "latitudeservice.h"
 #include "account.h"
 #include "debug.h"
+#include "latitudeservice.h"
 #include "location.h"
 #include "utils.h"
 
@@ -19,7 +19,7 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN LocationDeleteJob::Private
 {
-  public:
+public:
     Private();
 
     qulonglong locationId = 0;
@@ -30,25 +30,22 @@ LocationDeleteJob::Private::Private()
 {
 }
 
-LocationDeleteJob::LocationDeleteJob(const AccountPtr& account, QObject* parent):
-    DeleteJob(account, parent),
-    d(new Private)
+LocationDeleteJob::LocationDeleteJob(const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
 }
 
-LocationDeleteJob::LocationDeleteJob(const LocationPtr& location,
-                                     const AccountPtr& account, QObject* parent):
-    DeleteJob(account, parent),
-    d(new Private)
+LocationDeleteJob::LocationDeleteJob(const LocationPtr &location, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->locationId = location->timestamp();
 }
 
-LocationDeleteJob::LocationDeleteJob(qulonglong timestamp,
-                                     const AccountPtr &account,
-                                     QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+LocationDeleteJob::LocationDeleteJob(qulonglong timestamp, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->locationId = timestamp;
 }
@@ -85,5 +82,3 @@ void LocationDeleteJob::start()
     enqueueRequest(request);
     d->finished = true;
 }
-
-

@@ -11,7 +11,8 @@
 #include "deletejob.h"
 #include "kgapicontacts_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to delete one or more contact groups from addressbook in
@@ -31,8 +32,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a new job that will delete given @p groups from
      *        user's addressbook
@@ -41,8 +41,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactsGroupDeleteJob(const ContactsGroupsList &groups,
-                                    const AccountPtr &account, QObject* parent);
+    explicit ContactsGroupDeleteJob(const ContactsGroupsList &groups, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete given @p group from
@@ -52,8 +51,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactsGroupDeleteJob(const ContactsGroupPtr &group,
-                                    const AccountPtr &account, QObject* parent);
+    explicit ContactsGroupDeleteJob(const ContactsGroupPtr &group, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete groups with given
@@ -63,8 +61,7 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactsGroupDeleteJob(const QStringList &groupsIds,
-                                    const AccountPtr &account, QObject* parent);
+    explicit ContactsGroupDeleteJob(const QStringList &groupsIds, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete group with given @p groupsId
@@ -74,16 +71,14 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactsGroupDeleteJob(const QString &groupId,
-                                    const AccountPtr &account, QObject *parent);
+    explicit ContactsGroupDeleteJob(const QString &groupId, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Destructor
      */
     ~ContactsGroupDeleteJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -91,18 +86,16 @@ class KGAPICONTACTS_EXPORT ContactsGroupDeleteJob : public KGAPI2::DeleteJob
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
-     * 
+     *
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply* reply, const QByteArray& rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

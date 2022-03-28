@@ -6,34 +6,33 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 #include "tasklistfetchjob.h"
-#include "tasksservice.h"
 #include "account.h"
 #include "debug.h"
 #include "tasklist.h"
+#include "tasksservice.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN TaskListFetchJob::Private
 {
-  public:
+public:
     Private(TaskListFetchJob *parent);
     QNetworkRequest createRequest(const QUrl &url);
 
-  private:
-    TaskListFetchJob * const q;
+private:
+    TaskListFetchJob *const q;
 };
 
-TaskListFetchJob::Private::Private(TaskListFetchJob* parent):
-    q(parent)
+TaskListFetchJob::Private::Private(TaskListFetchJob *parent)
+    : q(parent)
 {
 }
 
-QNetworkRequest TaskListFetchJob::Private::createRequest(const QUrl& url)
+QNetworkRequest TaskListFetchJob::Private::createRequest(const QUrl &url)
 {
     QNetworkRequest request(url);
 
@@ -47,9 +46,9 @@ QNetworkRequest TaskListFetchJob::Private::createRequest(const QUrl& url)
     return request;
 }
 
-TaskListFetchJob::TaskListFetchJob(const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+TaskListFetchJob::TaskListFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
 }
 
@@ -62,15 +61,14 @@ void TaskListFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList TaskListFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                   const QByteArray& rawData)
+ObjectsList TaskListFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     FeedData feedData;
     ObjectsList items;
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
-        items =  TasksService::parseJSONFeed(rawData, feedData);
+        items = TasksService::parseJSONFeed(rawData, feedData);
     } else {
         setError(KGAPI2::InvalidResponse);
         setErrorString(tr("Invalid response content type"));
@@ -85,5 +83,3 @@ ObjectsList TaskListFetchJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
-
-

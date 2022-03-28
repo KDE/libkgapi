@@ -18,50 +18,38 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN RevisionDeleteJob::Private
 {
-  public:
+public:
     QString fileId;
     QStringList revisionsIds;
 };
 
-RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
-                                     const QString &revisionId,
-                                     const AccountPtr &account,
-                                     QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+RevisionDeleteJob::RevisionDeleteJob(const QString &fileId, const QString &revisionId, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
     d->revisionsIds << revisionId;
 }
 
-RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
-                                     const QStringList &revisionsIds,
-                                     const AccountPtr &account,
-                                     QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+RevisionDeleteJob::RevisionDeleteJob(const QString &fileId, const QStringList &revisionsIds, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
     d->revisionsIds << revisionsIds;
 }
 
-RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
-                                     const RevisionPtr &revision,
-                                     const AccountPtr &account,
-                                     QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+RevisionDeleteJob::RevisionDeleteJob(const QString &fileId, const RevisionPtr &revision, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
     d->revisionsIds << revision->id();
 }
 
-RevisionDeleteJob::RevisionDeleteJob(const QString &fileId,
-                                     const RevisionsList &revisions,
-                                     const AccountPtr &account,
-                                     QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+RevisionDeleteJob::RevisionDeleteJob(const QString &fileId, const RevisionsList &revisions, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
     for (const RevisionPtr &revision : std::as_const(revisions)) {
@@ -87,5 +75,3 @@ void RevisionDeleteJob::start()
     QNetworkRequest request(url);
     enqueueRequest(request);
 }
-
-

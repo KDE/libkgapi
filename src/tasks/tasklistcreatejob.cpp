@@ -7,36 +7,34 @@
  */
 
 #include "tasklistcreatejob.h"
-#include "tasksservice.h"
 #include "account.h"
 #include "debug.h"
-#include "tasklist.h"
-#include "utils.h"
 #include "private/queuehelper_p.h"
+#include "tasklist.h"
+#include "tasksservice.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN TaskListCreateJob::Private
 {
-  public:
+public:
     QueueHelper<TaskListPtr> taskLists;
 };
 
-TaskListCreateJob::TaskListCreateJob(const TaskListPtr& taskList, const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private)
+TaskListCreateJob::TaskListCreateJob(const TaskListPtr &taskList, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private)
 {
     d->taskLists << taskList;
 }
 
-TaskListCreateJob::TaskListCreateJob(const TaskListsList& taskLists,
-                                     const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private)
+TaskListCreateJob::TaskListCreateJob(const TaskListsList &taskLists, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private)
 {
     d->taskLists = taskLists;
 }
@@ -67,7 +65,7 @@ void TaskListCreateJob::start()
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-ObjectsList TaskListCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList TaskListCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -86,5 +84,3 @@ ObjectsList TaskListCreateJob::handleReplyWithItems(const QNetworkReply *reply, 
 
     return items;
 }
-
-

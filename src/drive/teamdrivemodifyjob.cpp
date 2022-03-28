@@ -6,34 +6,32 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "teamdrivemodifyjob.h"
 #include "account.h"
 #include "driveservice.h"
 #include "teamdrive.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN TeamdriveModifyJob::Private
 {
-  public:
+public:
     Private(TeamdriveModifyJob *parent);
     void processNext();
 
     TeamdrivesList teamdrives;
 
-  private:
+private:
     TeamdriveModifyJob *const q;
 };
 
-TeamdriveModifyJob::Private::Private(TeamdriveModifyJob *parent):
-    q(parent)
+TeamdriveModifyJob::Private::Private(TeamdriveModifyJob *parent)
+    : q(parent)
 {
 }
 
@@ -53,20 +51,16 @@ void TeamdriveModifyJob::Private::processNext()
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-TeamdriveModifyJob::TeamdriveModifyJob(const TeamdrivePtr &teamdrive,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+TeamdriveModifyJob::TeamdriveModifyJob(const TeamdrivePtr &teamdrive, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->teamdrives << teamdrive;
 }
 
-TeamdriveModifyJob::TeamdriveModifyJob(const TeamdrivesList &teamdrives,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+TeamdriveModifyJob::TeamdriveModifyJob(const TeamdrivesList &teamdrives, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->teamdrives << teamdrives;
 }
@@ -78,8 +72,7 @@ void TeamdriveModifyJob::start()
     d->processNext();
 }
 
-ObjectsList TeamdriveModifyJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                        const QByteArray &rawData)
+ObjectsList TeamdriveModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -98,5 +91,3 @@ ObjectsList TeamdriveModifyJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
-
-

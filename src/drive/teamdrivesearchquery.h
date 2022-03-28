@@ -10,8 +10,8 @@
 
 #include "searchquery.h"
 
-#include <QVariant>
 #include <QSharedDataPointer>
+#include <QVariant>
 
 namespace KGAPI2
 {
@@ -30,12 +30,7 @@ namespace Drive
 class KGAPIDRIVE_EXPORT TeamdriveSearchQuery : public SearchQuery
 {
 public:
-    enum Field {
-        Name,
-        CreatedTime,
-        MemberCount,
-        OrganizerCount
-    };
+    enum Field { Name, CreatedTime, MemberCount, OrganizerCount };
 
     using SearchQuery::SearchQuery;
 
@@ -48,4 +43,3 @@ private:
 };
 }
 }
-

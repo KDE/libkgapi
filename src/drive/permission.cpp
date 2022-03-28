@@ -15,7 +15,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN Permission::PermissionDetails::Private
 {
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
@@ -29,13 +29,13 @@ class Q_DECL_HIDDEN Permission::PermissionDetails::Private
     static QString permissionTypeToName(PermissionType permissionType);
 };
 
-Permission::PermissionDetails::PermissionDetails():
-    d(new Private)
+Permission::PermissionDetails::PermissionDetails()
+    : d(new Private)
 {
 }
 
-Permission::PermissionDetails::PermissionDetails(const Permission::PermissionDetails &other):
-    d(new Private(*(other.d)))
+Permission::PermissionDetails::PermissionDetails(const Permission::PermissionDetails &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -171,8 +171,7 @@ QString Permission::Private::typeToName(Permission::Type type)
 
 PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("drive#permission")) {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#permission")) {
         return PermissionPtr();
     }
 
@@ -185,7 +184,7 @@ PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
     permission->d->role = Private::roleFromName(map[QStringLiteral("role")].toString());
 
     const QStringList additionalRoles = map[QStringLiteral("additionalRoles")].toStringList();
-    for (const QString & additionalRole : additionalRoles) {
+    for (const QString &additionalRole : additionalRoles) {
         permission->d->additionalRoles << Private::roleFromName(additionalRole);
     }
 
@@ -204,7 +203,8 @@ PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
         for (const QVariant &variant : permissionDetailsList) {
             const QVariantMap permissionDetailsMap = variant.toMap();
             auto permissionDetails = PermissionDetailsPtr::create();
-            permissionDetails->d->permissionType = PermissionDetails::Private::permissionTypeFromName(permissionDetailsMap[QStringLiteral("permissionType")].toString());
+            permissionDetails->d->permissionType =
+                PermissionDetails::Private::permissionTypeFromName(permissionDetailsMap[QStringLiteral("permissionType")].toString());
             permissionDetails->d->role = Private::roleFromName(permissionDetailsMap[QStringLiteral("role")].toString());
             const QStringList permissionDetailsAdditionalRoles = permissionDetailsMap[QStringLiteral("additionalRoles")].toStringList();
             for (const QString &additionalRole : permissionDetailsAdditionalRoles) {
@@ -220,26 +220,26 @@ PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
     return permission;
 }
 
-
-Permission::Private::Private():
-    role(Permission::UndefinedRole),
-    type(Permission::UndefinedType),
-    withLink(false)
+Permission::Private::Private()
+    : role(Permission::UndefinedRole)
+    , type(Permission::UndefinedType)
+    , withLink(false)
 {
 }
 
 Permission::Private::Private(const Private &other) = default;
 
-Permission::Permission():
-    KGAPI2::Object(),
-    d(new Private)
+Permission::Permission()
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
-Permission::Permission(const Permission &other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
-{ }
+Permission::Permission(const Permission &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
+{
+}
 
 Permission::~Permission()
 {
@@ -394,14 +394,13 @@ PermissionsList Permission::fromJSONFeed(const QByteArray &jsonData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("drive#permissionList")) {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#permissionList")) {
         return PermissionsList();
     }
 
     PermissionsList permissions;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    for (const QVariant & item : items) {
+    for (const QVariant &item : items) {
         const PermissionPtr permission = Private::fromJSON(item.toMap());
         if (!permission.isNull()) {
             permissions << permission;

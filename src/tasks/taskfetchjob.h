@@ -13,7 +13,8 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to fetch all tasks from given tasklist in user's Google Tasks
@@ -129,8 +130,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
      */
     Q_PROPERTY(quint64 dueMin READ dueMin WRITE setDueMin)
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will fetch all tasks from a tasklist with
      *        given @p taskListId
@@ -142,8 +142,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskFetchJob(const QString &taskListId, const AccountPtr &account,
-                          QObject* parent = nullptr);
+    explicit TaskFetchJob(const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch a task with given @p taskId
@@ -158,8 +157,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskFetchJob(const QString &taskId, const QString &taskListId,
-                          const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskFetchJob(const QString &taskId, const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -253,8 +251,7 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
      */
     quint64 dueMin() const;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -266,15 +263,12 @@ class KGAPITASKS_EXPORT TaskFetchJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

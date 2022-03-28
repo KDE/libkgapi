@@ -10,8 +10,8 @@
 
 #include "kgapicore_export.h"
 
-#include <QSharedPointer>
 #include <QList>
+#include <QSharedPointer>
 #include <QUrl>
 
 namespace KGAPI2
@@ -20,28 +20,28 @@ namespace KGAPI2
 /**
  * @brief Structure to store additional information about a feed.
  */
-class KGAPICORE_EXPORT FeedData {
+class KGAPICORE_EXPORT FeedData
+{
+public:
+    explicit FeedData()
+        : startIndex(0)
+        , itemsPerPage(0)
+        , totalResults(0)
+    {
+    }
 
-  public:
-    explicit FeedData():
-        startIndex(0),
-        itemsPerPage(0),
-        totalResults(0)
-    { }
-
-    int startIndex;     /**< Index of first item on current feed page. */
-    int itemsPerPage;   /**< Number of items per feed page. This will be same 
-                             for all pages (except for the last one which can be
-                             shorter). */
-    int totalResults;   /**< Number of all items. */
-    QUrl nextPageUrl;   /**< Link to next page of feed.*/
-    QUrl requestUrl;    /**< Original URL of the request. This value is filled 
-                             by AccessManager when passing the structure to a
-                             service */
-    QString syncToken;  /**< Sync token that can be used for incremental
-                             updates by some of the services.*/
+    int startIndex; /**< Index of first item on current feed page. */
+    int itemsPerPage; /**< Number of items per feed page. This will be same
+                           for all pages (except for the last one which can be
+                           shorter). */
+    int totalResults; /**< Number of all items. */
+    QUrl nextPageUrl; /**< Link to next page of feed.*/
+    QUrl requestUrl; /**< Original URL of the request. This value is filled
+                          by AccessManager when passing the structure to a
+                          service */
+    QString syncToken; /**< Sync token that can be used for incremental
+                            updates by some of the services.*/
 };
-
 
 class Object;
 using ObjectPtr = QSharedPointer<Object>;
@@ -157,7 +157,7 @@ using PostsList = QList<PostPtr>;
 }
 
 template<class T>
-ObjectsList operator<<(ObjectsList &objectsList, const QList< QSharedPointer<T> > &list)
+ObjectsList operator<<(ObjectsList &objectsList, const QList<QSharedPointer<T>> &list)
 {
     for (const QSharedPointer<T> &item : list) {
         objectsList << item;
@@ -171,45 +171,38 @@ ObjectsList operator<<(ObjectsList &objectsList, const QList< QSharedPointer<T> 
  */
 enum Error {
     /* Internal LibKGAPI errors */
-    NoError = 0,             ///< LibKGAPI error - no error.
-    UnknownError = 1,        ///< LibKGAPI error - a general unidentified error.
-    AuthError = 2,           ///< LibKGAPI error - authentication process failed.
-    UnknownAccount = 3,      ///< LibKGAPI error - application requested unknown account.
-    UnknownService = 4,      ///< LibKGAPI error - application requested unknown service.
-    InvalidResponse = 5,     ///< LibKGAPI error - Google returned invalid response.
-    BackendNotReady = 6,     ///< @deprecated LibKGAPI error - backend is not ready (for example KWallet is not opened).
-    InvalidAccount = 7,      ///< LibKGAPI error - the KGAPI2::Account object is invalid.
-    NetworkError = 8,        ///< LibKGAPI error - standard network request returned a different code than 200.
-    AuthCancelled = 9,       ///< LibKGAPI error - when the authentication dialog is canceled.
+    NoError = 0, ///< LibKGAPI error - no error.
+    UnknownError = 1, ///< LibKGAPI error - a general unidentified error.
+    AuthError = 2, ///< LibKGAPI error - authentication process failed.
+    UnknownAccount = 3, ///< LibKGAPI error - application requested unknown account.
+    UnknownService = 4, ///< LibKGAPI error - application requested unknown service.
+    InvalidResponse = 5, ///< LibKGAPI error - Google returned invalid response.
+    BackendNotReady = 6, ///< @deprecated LibKGAPI error - backend is not ready (for example KWallet is not opened).
+    InvalidAccount = 7, ///< LibKGAPI error - the KGAPI2::Account object is invalid.
+    NetworkError = 8, ///< LibKGAPI error - standard network request returned a different code than 200.
+    AuthCancelled = 9, ///< LibKGAPI error - when the authentication dialog is canceled.
 
     /* Following error codes identify Google errors */
-    OK = 200,                ///< Request successfully executed.
-    Created = 201,           ///< Create request successfully executed.
-    NoContent = 204,         ///< Tasks API returns 204 when task is successfully removed.
-    ResumeIncomplete = 308,  ///< Drive Api returns 308 when accepting a partial file upload
-    TemporarilyMoved = 302,  ///< The object is located on a different URL provided in reply.
-    NotModified = 304,       ///< Request was successful, but no data were updated.
-    TemporarilyMovedUseSameMethod = 307,  ///< The object is located at a different URL provided in the reply. The same request method must be used.
-    BadRequest = 400,        ///< Invalid (malformed) request.
-    Unauthorized = 401,      ///< Invalid or expired token. See KGAPI2::Account::refreshTokens().
-    Forbidden = 403,         ///< The requested data is not accessible to this account.
-    NotFound = 404,          ///< Requested object was not found on the remote side.
-    Conflict = 409,          ///< Object on the remote site differs from the submitted one. @see KGAPI2::Object::setEtag.
-    Gone = 410,              ///< The requested data does not exist anymore on the remote site.
-    InternalError = 500,     ///< An unexpected error occurred on the Google service.
-    QuotaExceeded = 503      ///< User quota has been exceeded, the request should be sent again later.
+    OK = 200, ///< Request successfully executed.
+    Created = 201, ///< Create request successfully executed.
+    NoContent = 204, ///< Tasks API returns 204 when task is successfully removed.
+    ResumeIncomplete = 308, ///< Drive Api returns 308 when accepting a partial file upload
+    TemporarilyMoved = 302, ///< The object is located on a different URL provided in reply.
+    NotModified = 304, ///< Request was successful, but no data were updated.
+    TemporarilyMovedUseSameMethod = 307, ///< The object is located at a different URL provided in the reply. The same request method must be used.
+    BadRequest = 400, ///< Invalid (malformed) request.
+    Unauthorized = 401, ///< Invalid or expired token. See KGAPI2::Account::refreshTokens().
+    Forbidden = 403, ///< The requested data is not accessible to this account.
+    NotFound = 404, ///< Requested object was not found on the remote side.
+    Conflict = 409, ///< Object on the remote site differs from the submitted one. @see KGAPI2::Object::setEtag.
+    Gone = 410, ///< The requested data does not exist anymore on the remote site.
+    InternalError = 500, ///< An unexpected error occurred on the Google service.
+    QuotaExceeded = 503 ///< User quota has been exceeded, the request should be sent again later.
 };
 
 /**
  * @since 2.0
  */
-enum ContentType {
-    UnknownContentType = -1,
-    JSON,
-    XML
-};
+enum ContentType { UnknownContentType = -1, JSON, XML };
 
 } // namespace KGAPI2
-
-
-

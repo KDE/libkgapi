@@ -14,7 +14,7 @@ using namespace KGAPI2::Drive;
 
 Q_DECLARE_METATYPE(KGAPI2::Drive::FileSearchQuery)
 
-class FileSearchQueryTest: public QObject
+class FileSearchQueryTest : public QObject
 {
     Q_OBJECT
 public:
@@ -35,24 +35,21 @@ private Q_SLOTS:
         {
             FileSearchQuery query;
             query.addQuery(FileSearchQuery::Title, FileSearchQuery::Contains, QLatin1String("Some String"));
-            QTest::newRow("simple") << query
-                                    << "((title contains 'Some String'))";
+            QTest::newRow("simple") << query << "((title contains 'Some String'))";
         }
 
         {
             FileSearchQuery query;
             query.addQuery(FileSearchQuery::Title, FileSearchQuery::Equals, QLatin1String("Title"));
             query.addQuery(FileSearchQuery::MimeType, FileSearchQuery::Contains, QLatin1String("text/plain"));
-            QTest::newRow("A and B") << query
-                                     << "((title = 'Title') and (mimeType contains 'text/plain'))";
+            QTest::newRow("A and B") << query << "((title = 'Title') and (mimeType contains 'text/plain'))";
         }
 
         {
             FileSearchQuery query(FileSearchQuery::Or);
             query.addQuery(FileSearchQuery::Trashed, FileSearchQuery::Equals, true);
             query.addQuery(FileSearchQuery::Writers, FileSearchQuery::In, QLatin1String("user@gmail.com"));
-            QTest::newRow("A or B") << query
-                                    << "((trashed = true) or ('user@gmail.com' in writers))";
+            QTest::newRow("A or B") << query << "((trashed = true) or ('user@gmail.com' in writers))";
         }
 
         {
@@ -62,8 +59,7 @@ private Q_SLOTS:
             subquery.addQuery(FileSearchQuery::Title, FileSearchQuery::Equals, QLatin1String("Test"));
             subquery.addQuery(FileSearchQuery::Title, FileSearchQuery::NotEquals, QLatin1String("File"));
             query.addQuery(subquery);
-            QTest::newRow("A or (B and C)") << query
-                                            << "((modifiedDate = '2014-07-28T17:05:30') or ((title = 'Test') and (title != 'File')))";
+            QTest::newRow("A or (B and C)") << query << "((modifiedDate = '2014-07-28T17:05:30') or ((title = 'Test') and (title != 'File')))";
         }
     }
 

@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapiblogger_export.h"
+#include "modifyjob.h"
 
 namespace KGAPI2
 {
@@ -18,22 +18,18 @@ class KGAPIBLOGGER_EXPORT PostModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
-  public:
-    explicit PostModifyJob(const PostPtr &post,
-                           const AccountPtr &account,
-                           QObject *parent = nullptr);
+public:
+    explicit PostModifyJob(const PostPtr &post, const AccountPtr &account, QObject *parent = nullptr);
     ~PostModifyJob() override;
 
-  protected:
+protected:
     void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 }
 }
-

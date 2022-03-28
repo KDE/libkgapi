@@ -4,77 +4,65 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "core/account.h"
+#include "core/authjob.h"
+#include "drive/file.h"
+#include "drive/filefetchjob.h"
+#include "drive/filesearchquery.h"
 #include "drive/teamdrive.h"
 #include "drive/teamdrivecreatejob.h"
 #include "drive/teamdrivedeletejob.h"
 #include "drive/teamdrivefetchjob.h"
 #include "drive/teamdrivemodifyjob.h"
 #include "drive/teamdrivesearchquery.h"
-#include "drive/file.h"
-#include "drive/filesearchquery.h"
-#include "drive/filefetchjob.h"
-#include "core/authjob.h"
-#include "core/account.h"
 
 #include <QListWidgetItem>
 #include <QUuid>
 
-MainWindow::MainWindow(QWidget * parent):
-    QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
 {
     /* Initialize GUI */
     ui.setupUi(this);
     ui.errorLabel->setVisible(false);
-    connect(ui.authButton, &QAbstractButton::clicked,
-            this, &MainWindow::authenticate);
-    connect(ui.newTeamdriveButton, &QAbstractButton::clicked,
-            this, &MainWindow::createTeamdrive);
-    connect(ui.teamdriveListButton, &QAbstractButton::clicked,
-            this, &MainWindow::fetchTeamdriveList);
-    connect(ui.teamdriveSelectedDeleteButton, &QAbstractButton::clicked,
-            this, &MainWindow::deleteSelectedTeamdrive);
-    connect(ui.renameTeamdriveButton, &QAbstractButton::clicked,
-            this, &MainWindow::renameSelectedTeamdrive);
-    connect(ui.teamdriveList, &QListWidget::itemSelectionChanged,
-            this, &MainWindow::teamdriveSelected);
-    connect(ui.teamdrivePreviewList, &QListWidget::itemSelectionChanged,
-            this, &MainWindow::teamdriveItemSelected);
+    connect(ui.authButton, &QAbstractButton::clicked, this, &MainWindow::authenticate);
+    connect(ui.newTeamdriveButton, &QAbstractButton::clicked, this, &MainWindow::createTeamdrive);
+    connect(ui.teamdriveListButton, &QAbstractButton::clicked, this, &MainWindow::fetchTeamdriveList);
+    connect(ui.teamdriveSelectedDeleteButton, &QAbstractButton::clicked, this, &MainWindow::deleteSelectedTeamdrive);
+    connect(ui.renameTeamdriveButton, &QAbstractButton::clicked, this, &MainWindow::renameSelectedTeamdrive);
+    connect(ui.teamdriveList, &QListWidget::itemSelectionChanged, this, &MainWindow::teamdriveSelected);
+    connect(ui.teamdrivePreviewList, &QListWidget::itemSelectionChanged, this, &MainWindow::teamdriveItemSelected);
 }
 
 void MainWindow::authenticate()
 {
     auto account = KGAPI2::AccountPtr::create();
-    account->setScopes({ KGAPI2::Account::driveScopeUrl() });
+    account->setScopes({KGAPI2::Account::driveScopeUrl()});
 
     /* Create AuthJob to retrieve OAuth tokens for the account */
-    auto *authJob = new KGAPI2::AuthJob(
-        account,
-        QStringLiteral("554041944266.apps.googleusercontent.com"),
-        QStringLiteral("mdT1DjzohxN3npUUzkENT0gO"));
-    connect(authJob, &KGAPI2::Job::finished, this,
-            [this, authJob]() {
-                /* Always remember to delete the jobs, otherwise your application will
-                 * leak memory. */
-                authJob->deleteLater();
+    auto *authJob = new KGAPI2::AuthJob(account, QStringLiteral("554041944266.apps.googleusercontent.com"), QStringLiteral("mdT1DjzohxN3npUUzkENT0gO"));
+    connect(authJob, &KGAPI2::Job::finished, this, [this, authJob]() {
+        /* Always remember to delete the jobs, otherwise your application will
+         * leak memory. */
+        authJob->deleteLater();
 
-                if (authJob->error() != KGAPI2::NoError) {
-                    ui.errorLabel->setText(QStringLiteral("Error: %1").arg(authJob->errorString()));
-                    ui.errorLabel->setVisible(true);
-                    return;
-                }
+        if (authJob->error() != KGAPI2::NoError) {
+            ui.errorLabel->setText(QStringLiteral("Error: %1").arg(authJob->errorString()));
+            ui.errorLabel->setVisible(true);
+            return;
+        }
 
-                m_account = authJob->account();
+        m_account = authJob->account();
 
-                ui.authStatusLabel->setText(QStringLiteral("Authenticated"));
-                ui.teamdriveListButton->setEnabled(true);
-                ui.newTeamdriveEdit->setEnabled(true);
-                ui.newTeamdriveButton->setEnabled(true);
-                ui.authButton->setEnabled(false);
-            });
+        ui.authStatusLabel->setText(QStringLiteral("Authenticated"));
+        ui.teamdriveListButton->setEnabled(true);
+        ui.newTeamdriveEdit->setEnabled(true);
+        ui.newTeamdriveButton->setEnabled(true);
+        ui.authButton->setEnabled(false);
+    });
 }
 
 void MainWindow::createTeamdrive()
@@ -89,20 +77,19 @@ void MainWindow::createTeamdrive()
     teamdrive->setName(teamdriveName);
 
     auto *createJob = new KGAPI2::Drive::TeamdriveCreateJob(requestId, teamdrive, m_account, this);
-    connect(createJob, &KGAPI2::Job::finished, this,
-            [this, createJob]() {
-                createJob->deleteLater();
+    connect(createJob, &KGAPI2::Job::finished, this, [this, createJob]() {
+        createJob->deleteLater();
 
-                if (createJob->error() != KGAPI2::NoError) {
-                    ui.errorLabel->setText(QStringLiteral("Error: %1").arg(createJob->errorString()));
-                    ui.errorLabel->setVisible(true);
-                    ui.teamdriveListButton->setEnabled(true);
-                    return;
-                }
+        if (createJob->error() != KGAPI2::NoError) {
+            ui.errorLabel->setText(QStringLiteral("Error: %1").arg(createJob->errorString()));
+            ui.errorLabel->setVisible(true);
+            ui.teamdriveListButton->setEnabled(true);
+            return;
+        }
 
-                ui.newTeamdriveEdit->clear();
-                fetchTeamdriveList();
-            });
+        ui.newTeamdriveEdit->clear();
+        fetchTeamdriveList();
+    });
 }
 
 void MainWindow::renameSelectedTeamdrive()
@@ -118,19 +105,18 @@ void MainWindow::renameSelectedTeamdrive()
     teamdrive->setName(teamdriveName);
 
     auto *modifyJob = new KGAPI2::Drive::TeamdriveModifyJob(teamdrive, m_account, this);
-    connect(modifyJob, &KGAPI2::Job::finished, this,
-            [this, modifyJob]() {
-                modifyJob->deleteLater();
+    connect(modifyJob, &KGAPI2::Job::finished, this, [this, modifyJob]() {
+        modifyJob->deleteLater();
 
-                if (modifyJob->error() != KGAPI2::NoError) {
-                    ui.errorLabel->setText(QStringLiteral("Error: %1").arg(modifyJob->errorString()));
-                    ui.errorLabel->setVisible(true);
-                    ui.teamdriveListButton->setEnabled(true);
-                    return;
-                }
+        if (modifyJob->error() != KGAPI2::NoError) {
+            ui.errorLabel->setText(QStringLiteral("Error: %1").arg(modifyJob->errorString()));
+            ui.errorLabel->setVisible(true);
+            ui.teamdriveListButton->setEnabled(true);
+            return;
+        }
 
-                fetchTeamdriveList();
-            });
+        fetchTeamdriveList();
+    });
 }
 
 void MainWindow::fetchTeamdriveList()
@@ -143,54 +129,53 @@ void MainWindow::fetchTeamdriveList()
     }
 
     auto *fetchJob = new KGAPI2::Drive::TeamdriveFetchJob(m_account, this);
-    connect(fetchJob, &KGAPI2::Job::finished, this,
-            [this, fetchJob]() {
-                fetchJob->deleteLater();
+    connect(fetchJob, &KGAPI2::Job::finished, this, [this, fetchJob]() {
+        fetchJob->deleteLater();
 
-                if (fetchJob->error() != KGAPI2::NoError) {
-                    ui.errorLabel->setText(QStringLiteral("Error: %1").arg(fetchJob->errorString()));
-                    ui.errorLabel->setVisible(true);
-                    ui.teamdriveListButton->setEnabled(true);
-                    return;
-                }
+        if (fetchJob->error() != KGAPI2::NoError) {
+            ui.errorLabel->setText(QStringLiteral("Error: %1").arg(fetchJob->errorString()));
+            ui.errorLabel->setVisible(true);
+            ui.teamdriveListButton->setEnabled(true);
+            return;
+        }
 
-                /* Get all items the job has retrieved */
-                const auto objects = fetchJob->items();
-                ui.teamdriveList->clear();
-                for (const auto &object : objects) {
-                    const auto teamdrive = object.dynamicCast<KGAPI2::Drive::Teamdrive>();
+        /* Get all items the job has retrieved */
+        const auto objects = fetchJob->items();
+        ui.teamdriveList->clear();
+        for (const auto &object : objects) {
+            const auto teamdrive = object.dynamicCast<KGAPI2::Drive::Teamdrive>();
 
-                    /* Convert the teamdrive to QListWidget item */
-                    auto *item = new QListWidgetItem(ui.teamdriveList);
-                    item->setText(teamdrive->name());
-                    item->setData(Qt::UserRole, teamdrive->id());
+            /* Convert the teamdrive to QListWidget item */
+            auto *item = new QListWidgetItem(ui.teamdriveList);
+            item->setText(teamdrive->name());
+            item->setData(Qt::UserRole, teamdrive->id());
 
-                    ui.teamdriveList->addItem(item);
-                }
+            ui.teamdriveList->addItem(item);
+        }
 
-                ui.teamdriveListButton->setEnabled(true);
-            });
+        ui.teamdriveListButton->setEnabled(true);
+    });
 
     ui.teamdriveListButton->setEnabled(false);
 }
 
-void MainWindow::deleteSelectedTeamdrive() {
+void MainWindow::deleteSelectedTeamdrive()
+{
     const auto teamdrive_id = ui.teamdriveList->selectedItems().at(0)->data(Qt::UserRole).toString();
 
     auto *deleteJob = new KGAPI2::Drive::TeamdriveDeleteJob(teamdrive_id, m_account, this);
-    connect(deleteJob, &KGAPI2::Job::finished, this,
-            [this, deleteJob]() {
-                deleteJob->deleteLater();
+    connect(deleteJob, &KGAPI2::Job::finished, this, [this, deleteJob]() {
+        deleteJob->deleteLater();
 
-                if (deleteJob->error() != KGAPI2::NoError) {
-                    ui.errorLabel->setText(QStringLiteral("Error: %1").arg(deleteJob->errorString()));
-                    ui.errorLabel->setVisible(true);
-                    ui.teamdriveListButton->setEnabled(true);
-                    return;
-                }
+        if (deleteJob->error() != KGAPI2::NoError) {
+            ui.errorLabel->setText(QStringLiteral("Error: %1").arg(deleteJob->errorString()));
+            ui.errorLabel->setVisible(true);
+            ui.teamdriveListButton->setEnabled(true);
+            return;
+        }
 
-                fetchTeamdriveList();
-            });
+        fetchTeamdriveList();
+    });
 }
 
 void MainWindow::teamdriveSelected()
@@ -222,31 +207,30 @@ void MainWindow::teamdriveSelected()
         KGAPI2::Drive::File::Fields::Id,
         KGAPI2::Drive::File::Fields::Title,
     });
-    connect(fileFetchJob, &KGAPI2::Job::finished, this,
-            [this, fileFetchJob]() {
-                fileFetchJob->deleteLater();
+    connect(fileFetchJob, &KGAPI2::Job::finished, this, [this, fileFetchJob]() {
+        fileFetchJob->deleteLater();
 
-                if (fileFetchJob->error() != KGAPI2::NoError) {
-                    ui.errorLabel->setText(QStringLiteral("Error: %1").arg(fileFetchJob->errorString()));
-                    ui.errorLabel->setVisible(true);
-                    ui.teamdriveListButton->setEnabled(true);
-                    return;
-                }
+        if (fileFetchJob->error() != KGAPI2::NoError) {
+            ui.errorLabel->setText(QStringLiteral("Error: %1").arg(fileFetchJob->errorString()));
+            ui.errorLabel->setVisible(true);
+            ui.teamdriveListButton->setEnabled(true);
+            return;
+        }
 
-                /* Get all items we have received from Google */
-                const auto objects = fileFetchJob->items();
+        /* Get all items we have received from Google */
+        const auto objects = fileFetchJob->items();
 
-                for (const auto &object : objects) {
-                    const auto file = object.dynamicCast<KGAPI2::Drive::File>();
+        for (const auto &object : objects) {
+            const auto file = object.dynamicCast<KGAPI2::Drive::File>();
 
-                    /* Convert the teamdrive to QListWidget item */
-                    auto *item = new QListWidgetItem(ui.teamdrivePreviewList);
-                    item->setText(file->title());
-                    item->setData(Qt::UserRole, file->id());
+            /* Convert the teamdrive to QListWidget item */
+            auto *item = new QListWidgetItem(ui.teamdrivePreviewList);
+            item->setText(file->title());
+            item->setData(Qt::UserRole, file->id());
 
-                    ui.teamdrivePreviewList->addItem(item);
-                }
-            });
+            ui.teamdrivePreviewList->addItem(item);
+        }
+    });
 }
 
 void MainWindow::teamdriveItemSelected()
@@ -263,28 +247,26 @@ void MainWindow::teamdriveItemSelected()
         KGAPI2::Drive::File::Fields::Title,
         KGAPI2::Drive::File::Fields::FileSize,
     });
-    connect(fileFetchJob, &KGAPI2::Job::finished, this,
-            [this, fileFetchJob]() {
-                fileFetchJob->deleteLater();
+    connect(fileFetchJob, &KGAPI2::Job::finished, this, [this, fileFetchJob]() {
+        fileFetchJob->deleteLater();
 
-                if (fileFetchJob->error() != KGAPI2::NoError) {
-                    ui.errorLabel->setText(QStringLiteral("Error: %1").arg(fileFetchJob->errorString()));
-                    ui.errorLabel->setVisible(true);
-                    return;
-                }
+        if (fileFetchJob->error() != KGAPI2::NoError) {
+            ui.errorLabel->setText(QStringLiteral("Error: %1").arg(fileFetchJob->errorString()));
+            ui.errorLabel->setVisible(true);
+            return;
+        }
 
-                const auto objects = fileFetchJob->items();
-                if (objects.size() != 1) {
-                    return;
-                }
+        const auto objects = fileFetchJob->items();
+        if (objects.size() != 1) {
+            return;
+        }
 
-                const auto object = objects.at(0);
-                const auto file = object.dynamicCast<KGAPI2::Drive::File>();
-                QStringList msgBuilder;
-                msgBuilder << file->title();
-                msgBuilder << QString::number(file->fileSize()) + QStringLiteral(" bytes");
-                const auto msg = msgBuilder.join(QLatin1String(", "));
-                ui.statusbar->showMessage(msg);
-            });
+        const auto object = objects.at(0);
+        const auto file = object.dynamicCast<KGAPI2::Drive::File>();
+        QStringList msgBuilder;
+        msgBuilder << file->title();
+        msgBuilder << QString::number(file->fileSize()) + QStringLiteral(" bytes");
+        const auto msg = msgBuilder.join(QLatin1String(", "));
+        ui.statusbar->showMessage(msg);
+    });
 }
-

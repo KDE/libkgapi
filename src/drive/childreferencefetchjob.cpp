@@ -12,45 +12,39 @@
 #include "driveservice.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN ChildReferenceFetchJob::Private
 {
-  public:
+public:
     Private(ChildReferenceFetchJob *parent);
 
     QString folderId;
     QString childId;
 
-  private:
+private:
     ChildReferenceFetchJob *const q;
 };
 
-ChildReferenceFetchJob::Private::Private(ChildReferenceFetchJob *parent):
-    q(parent)
+ChildReferenceFetchJob::Private::Private(ChildReferenceFetchJob *parent)
+    : q(parent)
 {
 }
 
-ChildReferenceFetchJob::ChildReferenceFetchJob(const QString &folderId,
-                                               const AccountPtr &account,
-                                               QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+ChildReferenceFetchJob::ChildReferenceFetchJob(const QString &folderId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->folderId = folderId;
 }
 
-ChildReferenceFetchJob::ChildReferenceFetchJob(const QString &folderId,
-                                               const QString &childId,
-                                               const AccountPtr &account,
-                                               QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+ChildReferenceFetchJob::ChildReferenceFetchJob(const QString &folderId, const QString &childId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->folderId = folderId;
     d->childId = childId;
@@ -74,8 +68,7 @@ void ChildReferenceFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList ChildReferenceFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                         const QByteArray &rawData)
+ObjectsList ChildReferenceFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
     FeedData feedData;
@@ -95,7 +88,6 @@ ObjectsList ChildReferenceFetchJob::handleReplyWithItems(const QNetworkReply *re
         return items;
     }
 
-
     if (feedData.nextPageUrl.isValid()) {
         QNetworkRequest request(feedData.nextPageUrl);
         enqueueRequest(request);
@@ -103,5 +95,3 @@ ObjectsList ChildReferenceFetchJob::handleReplyWithItems(const QNetworkReply *re
 
     return items;
 }
-
-

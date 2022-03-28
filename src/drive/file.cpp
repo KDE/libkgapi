@@ -7,8 +7,8 @@
 
 #include "file.h"
 #include "file_p.h"
-#include "permission_p.h"
 #include "parentreference_p.h"
+#include "permission_p.h"
 #include "user.h"
 #include "utils_p.h"
 
@@ -21,7 +21,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN File::Labels::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -36,23 +36,24 @@ File::Labels::Private::Private()
 {
 }
 
-File::Labels::Private::Private(const Private &other):
-    starred(other.starred),
-    hidden(other.hidden),
-    trashed(other.trashed),
-    restricted(other.restricted),
-    viewed(other.viewed)
+File::Labels::Private::Private(const Private &other)
+    : starred(other.starred)
+    , hidden(other.hidden)
+    , trashed(other.trashed)
+    , restricted(other.restricted)
+    , viewed(other.viewed)
 {
 }
 
-File::Labels::Labels():
-    d(new Private)
+File::Labels::Labels()
+    : d(new Private)
 {
 }
 
-File::Labels::Labels(const Labels& other):
-    d(new Private(*(other.d)))
-{ }
+File::Labels::Labels(const Labels &other)
+    : d(new Private(*(other.d)))
+{
+}
 
 File::Labels::~Labels()
 {
@@ -123,7 +124,7 @@ void File::Labels::setViewed(bool viewed)
 
 class Q_DECL_HIDDEN File::IndexableText::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -134,18 +135,18 @@ File::IndexableText::Private::Private()
 {
 }
 
-File::IndexableText::Private::Private(const Private &other):
-    text(other.text)
+File::IndexableText::Private::Private(const Private &other)
+    : text(other.text)
 {
 }
 
-File::IndexableText::IndexableText():
-    d(new Private)
+File::IndexableText::IndexableText()
+    : d(new Private)
 {
 }
 
-File::IndexableText::IndexableText(const IndexableText& other):
-    d(new Private(*(other.d)))
+File::IndexableText::IndexableText(const IndexableText &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -174,7 +175,7 @@ void File::IndexableText::setText(const QString &text)
 
 class Q_DECL_HIDDEN File::ImageMediaMetadata::Location::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -183,27 +184,27 @@ class Q_DECL_HIDDEN File::ImageMediaMetadata::Location::Private
     qreal altitude;
 };
 
-File::ImageMediaMetadata::Location::Private::Private():
-    latitude(-1),
-    longitude(-1),
-    altitude(0)
+File::ImageMediaMetadata::Location::Private::Private()
+    : latitude(-1)
+    , longitude(-1)
+    , altitude(0)
 {
 }
 
-File::ImageMediaMetadata::Location::Private::Private(const Private &other):
-    latitude(other.latitude),
-    longitude(other.longitude),
-    altitude(other.altitude)
+File::ImageMediaMetadata::Location::Private::Private(const Private &other)
+    : latitude(other.latitude)
+    , longitude(other.longitude)
+    , altitude(other.altitude)
 {
 }
 
-File::ImageMediaMetadata::Location::Location():
-    d(new Private)
+File::ImageMediaMetadata::Location::Location()
+    : d(new Private)
 {
 }
 
-File::ImageMediaMetadata::Location::Location(const Location& other):
-    d(new Private(*(other.d)))
+File::ImageMediaMetadata::Location::Location(const Location &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -239,7 +240,7 @@ qreal File::ImageMediaMetadata::Location::altitude() const
 
 class Q_DECL_HIDDEN File::ImageMediaMetadata::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -266,48 +267,48 @@ class Q_DECL_HIDDEN File::ImageMediaMetadata::Private
     QString lens;
 };
 
-File::ImageMediaMetadata::Private::Private():
-    width(-1),
-    height(-1),
-    rotation(-1),
-    exposureTime(-1),
-    aperture(-1),
-    flashUsed(false),
-    focalLength(-1),
-    isoSpeed(-1),
-    exposureBias(-1),
-    maxApertureValue(-1),
-    subjectDistance(-1)
+File::ImageMediaMetadata::Private::Private()
+    : width(-1)
+    , height(-1)
+    , rotation(-1)
+    , exposureTime(-1)
+    , aperture(-1)
+    , flashUsed(false)
+    , focalLength(-1)
+    , isoSpeed(-1)
+    , exposureBias(-1)
+    , maxApertureValue(-1)
+    , subjectDistance(-1)
 {
 }
 
-File::ImageMediaMetadata::Private::Private(const Private &other):
-    width(other.width),
-    height(other.height),
-    rotation(other.rotation),
-    location(other.location),
-    date(other.date),
-    cameraMake(other.cameraMake),
-    cameraModel(other.cameraModel),
-    exposureTime(other.exposureTime),
-    aperture(other.aperture),
-    flashUsed(other.flashUsed),
-    focalLength(other.focalLength),
-    isoSpeed(other.isoSpeed),
-    meteringMode(other.meteringMode),
-    sensor(other.sensor),
-    exposureMode(other.exposureMode),
-    colorSpace(other.colorSpace),
-    whiteBalance(other.whiteBalance),
-    exposureBias(other.exposureBias),
-    maxApertureValue(other.maxApertureValue),
-    subjectDistance(other.subjectDistance),
-    lens(other.lens)
+File::ImageMediaMetadata::Private::Private(const Private &other)
+    : width(other.width)
+    , height(other.height)
+    , rotation(other.rotation)
+    , location(other.location)
+    , date(other.date)
+    , cameraMake(other.cameraMake)
+    , cameraModel(other.cameraModel)
+    , exposureTime(other.exposureTime)
+    , aperture(other.aperture)
+    , flashUsed(other.flashUsed)
+    , focalLength(other.focalLength)
+    , isoSpeed(other.isoSpeed)
+    , meteringMode(other.meteringMode)
+    , sensor(other.sensor)
+    , exposureMode(other.exposureMode)
+    , colorSpace(other.colorSpace)
+    , whiteBalance(other.whiteBalance)
+    , exposureBias(other.exposureBias)
+    , maxApertureValue(other.maxApertureValue)
+    , subjectDistance(other.subjectDistance)
+    , lens(other.lens)
 {
 }
 
-File::ImageMediaMetadata::ImageMediaMetadata(const QVariantMap &map):
-    d(new Private)
+File::ImageMediaMetadata::ImageMediaMetadata(const QVariantMap &map)
+    : d(new Private)
 {
     d->width = map[QStringLiteral("width")].toInt();
     d->height = map[QStringLiteral("height")].toInt();
@@ -337,8 +338,8 @@ File::ImageMediaMetadata::ImageMediaMetadata(const QVariantMap &map):
     location->d->altitude = locationData[QStringLiteral("altitude")].toReal();
 }
 
-File::ImageMediaMetadata::ImageMediaMetadata(const ImageMediaMetadata& other):
-    d(new Private(*(other.d)))
+File::ImageMediaMetadata::ImageMediaMetadata(const ImageMediaMetadata &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -478,12 +479,11 @@ QString File::ImageMediaMetadata::lens() const
     return d->lens;
 }
 
-
 ////// DriveFile::Thumbnail
 
 class Q_DECL_HIDDEN File::Thumbnail::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -495,22 +495,22 @@ File::Thumbnail::Private::Private()
 {
 }
 
-File::Thumbnail::Private::Private(const Private &other):
-    image(other.image),
-    mimeType(other.mimeType)
+File::Thumbnail::Private::Private(const Private &other)
+    : image(other.image)
+    , mimeType(other.mimeType)
 {
 }
 
-File::Thumbnail::Thumbnail(const QVariantMap &map):
-    d(new Private)
+File::Thumbnail::Thumbnail(const QVariantMap &map)
+    : d(new Private)
 {
     const QByteArray ba = QByteArray::fromBase64(map[QStringLiteral("image")].toByteArray());
     d->image = QImage::fromData(ba);
     d->mimeType = map[Fields::MimeType].toString();
 }
 
-File::Thumbnail::Thumbnail(const File::Thumbnail &other):
-    d(new Private(*(other.d)))
+File::Thumbnail::Thumbnail(const File::Thumbnail &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -538,56 +538,56 @@ QString File::Thumbnail::mimeType() const
 
 ////// DriveFile
 
-File::Private::Private():
-    fileSize(-1),
-    version(-1),
-    quotaBytesUsed(-1),
-    editable(false),
-    writersCanShare(false),
-    explicitlyTrashed(false),
-    shared(false)
+File::Private::Private()
+    : fileSize(-1)
+    , version(-1)
+    , quotaBytesUsed(-1)
+    , editable(false)
+    , writersCanShare(false)
+    , explicitlyTrashed(false)
+    , shared(false)
 {
 }
 
-File::Private::Private(const Private& other):
-    id(other.id),
-    selfLink(other.selfLink),
-    title(other.title),
-    mimeType(other.mimeType),
-    description(other.description),
-    labels(other.labels),
-    createdDate(other.createdDate),
-    modifiedDate(other.modifiedDate),
-    modifiedByMeDate(other.modifiedByMeDate),
-    downloadUrl(other.downloadUrl),
-    indexableText(other.indexableText),
-    userPermission(other.userPermission),
-    fileExtension(other.fileExtension),
-    md5Checksum(other.md5Checksum),
-    fileSize(other.fileSize),
-    alternateLink(other.alternateLink),
-    embedLink(other.embedLink),
-    version(other.version),
-    sharedWithMeDate(other.sharedWithMeDate),
-    parents(other.parents),
-    exportLinks(other.exportLinks),
-    originalFileName(other.originalFileName),
-    quotaBytesUsed(other.quotaBytesUsed),
-    ownerNames(other.ownerNames),
-    lastModifyingUserName(other.lastModifyingUserName),
-    editable(other.editable),
-    writersCanShare(other.writersCanShare),
-    thumbnailLink(other.thumbnailLink),
-    lastViewedByMeDate(other.lastViewedByMeDate),
-    webContentLink(other.webContentLink),
-    explicitlyTrashed(other.explicitlyTrashed),
-    imageMediaMetadata(other.imageMediaMetadata),
-    thumbnail(other.thumbnail),
-    webViewLink(other.webViewLink),
-    iconLink(other.iconLink),
-    shared(other.shared),
-    owners(other.owners),
-    lastModifyingUser(other.lastModifyingUser)
+File::Private::Private(const Private &other)
+    : id(other.id)
+    , selfLink(other.selfLink)
+    , title(other.title)
+    , mimeType(other.mimeType)
+    , description(other.description)
+    , labels(other.labels)
+    , createdDate(other.createdDate)
+    , modifiedDate(other.modifiedDate)
+    , modifiedByMeDate(other.modifiedByMeDate)
+    , downloadUrl(other.downloadUrl)
+    , indexableText(other.indexableText)
+    , userPermission(other.userPermission)
+    , fileExtension(other.fileExtension)
+    , md5Checksum(other.md5Checksum)
+    , fileSize(other.fileSize)
+    , alternateLink(other.alternateLink)
+    , embedLink(other.embedLink)
+    , version(other.version)
+    , sharedWithMeDate(other.sharedWithMeDate)
+    , parents(other.parents)
+    , exportLinks(other.exportLinks)
+    , originalFileName(other.originalFileName)
+    , quotaBytesUsed(other.quotaBytesUsed)
+    , ownerNames(other.ownerNames)
+    , lastModifyingUserName(other.lastModifyingUserName)
+    , editable(other.editable)
+    , writersCanShare(other.writersCanShare)
+    , thumbnailLink(other.thumbnailLink)
+    , lastViewedByMeDate(other.lastViewedByMeDate)
+    , webContentLink(other.webContentLink)
+    , explicitlyTrashed(other.explicitlyTrashed)
+    , imageMediaMetadata(other.imageMediaMetadata)
+    , thumbnail(other.thumbnail)
+    , webViewLink(other.webViewLink)
+    , iconLink(other.iconLink)
+    , shared(other.shared)
+    , owners(other.owners)
+    , lastModifyingUser(other.lastModifyingUser)
 {
 }
 
@@ -639,9 +639,7 @@ bool File::operator==(const File &other) const
 
 FilePtr File::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(File::Fields::Kind) ||
-        map[File::Fields::Kind].toString() != QLatin1String("drive#file"))
-    {
+    if (!map.contains(File::Fields::Kind) || map[File::Fields::Kind].toString() != QLatin1String("drive#file")) {
         return FilePtr();
     }
 
@@ -653,7 +651,7 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->mimeType = map[Fields::MimeType].toString();
     file->d->description = map[Fields::Description].toString();
 
-    const QVariantMap labelsData =  map[Fields::Labels].toMap();
+    const QVariantMap labelsData = map[Fields::Labels].toMap();
     File::LabelsPtr labels(new File::Labels());
     labels->d->starred = labelsData[QStringLiteral("starred")].toBool();
     labels->d->hidden = labelsData[QStringLiteral("hidden")].toBool();
@@ -685,14 +683,13 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->sharedWithMeDate = QDateTime::fromString(map[Fields::SharedWithMeDate].toString(), Qt::ISODate);
 
     const QVariantList parents = map[Fields::Parents].toList();
-    for (const QVariant &parent : parents)
-    {
+    for (const QVariant &parent : parents) {
         file->d->parents << ParentReference::Private::fromJSON(parent.toMap());
     }
 
     const QVariantMap exportLinksData = map[Fields::ExportLinks].toMap();
     QVariantMap::ConstIterator iter = exportLinksData.constBegin();
-    for ( ; iter != exportLinksData.constEnd(); ++iter) {
+    for (; iter != exportLinksData.constEnd(); ++iter) {
         file->d->exportLinks.insert(iter.key(), iter.value().toUrl());
     }
 
@@ -708,8 +705,7 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     file->d->explicitlyTrashed = map[Fields::ExplicitlyTrashed].toBool();
 
     const QVariantMap imageMetaData = map[Fields::ImageMediaMetadata].toMap();
-    file->d->imageMediaMetadata =
-        File::ImageMediaMetadataPtr(new File::ImageMediaMetadata(imageMetaData));
+    file->d->imageMediaMetadata = File::ImageMediaMetadataPtr(new File::ImageMediaMetadata(imageMetaData));
 
     const QVariantMap thumbnailData = map[Fields::Thumbnail].toMap();
     File::ThumbnailPtr thumbnail(new File::Thumbnail(thumbnailData));
@@ -730,16 +726,17 @@ FilePtr File::Private::fromJSON(const QVariantMap &map)
     return file;
 }
 
-File::File():
-    KGAPI2::Object(),
-    d(new Private)
+File::File()
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
-File::File(const File& other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
-{ }
+File::File(const File &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
+{
+}
 
 File::~File()
 {
@@ -766,7 +763,7 @@ QString File::title() const
     return d->title;
 }
 
-void File::setTitle(const QString& title)
+void File::setTitle(const QString &title)
 {
     d->title = title;
 }
@@ -776,7 +773,7 @@ QString File::mimeType() const
     return d->mimeType;
 }
 
-void File::setMimeType(const QString& mimeType)
+void File::setMimeType(const QString &mimeType)
 {
     d->mimeType = mimeType;
 }
@@ -786,7 +783,7 @@ QString File::description() const
     return d->description;
 }
 
-void File::setDescription(const QString& description)
+void File::setDescription(const QString &description)
 {
     d->description = description;
 }
@@ -811,7 +808,7 @@ QDateTime File::modifiedDate() const
     return d->modifiedDate;
 }
 
-void File::setModifiedDate(const QDateTime& modifiedDate)
+void File::setModifiedDate(const QDateTime &modifiedDate)
 {
     d->modifiedDate = modifiedDate;
 }
@@ -826,7 +823,7 @@ QUrl File::downloadUrl() const
     return d->downloadUrl;
 }
 
-File::IndexableTextPtr& File::indexableText()
+File::IndexableTextPtr &File::indexableText()
 {
     return d->indexableText;
 }
@@ -881,7 +878,7 @@ void File::setParents(const ParentReferencesList &parents)
     d->parents = parents;
 }
 
-QMap< QString, QUrl > File::exportLinks() const
+QMap<QString, QUrl> File::exportLinks() const
 {
     return d->exportLinks;
 }
@@ -926,7 +923,7 @@ QDateTime File::lastViewedByMeDate() const
     return d->lastViewedByMeDate;
 }
 
-void File::setLastViewedByMeDate(const QDateTime& lastViewedByMeDate)
+void File::setLastViewedByMeDate(const QDateTime &lastViewedByMeDate)
 {
     d->lastViewedByMeDate = lastViewedByMeDate;
 }
@@ -1051,7 +1048,6 @@ FilePtr File::fromJSON(const QVariantMap &jsonData)
     return Private::fromJSON(jsonData);
 }
 
-
 FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
@@ -1060,9 +1056,7 @@ FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
     }
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(File::Fields::Kind) ||
-        map[Fields::Kind].toString() != QLatin1String("drive#fileList"))
-    {
+    if (!map.contains(File::Fields::Kind) || map[Fields::Kind].toString() != QLatin1String("drive#fileList")) {
         return FilesList();
     }
 
@@ -1171,7 +1165,6 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
     if (!file->d->sharedWithMeDate.isNull()) {
         map[Fields::SharedWithMeDate] = file->d->sharedWithMeDate.toString(Qt::ISODate);
     }
-
 
     if (!file->d->originalFileName.isEmpty()) {
         map[QStringLiteral("originalFileName")] = file->d->originalFileName;

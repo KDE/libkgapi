@@ -27,4 +27,3 @@ public:
 private:
     QList<FakeNetworkAccessManager::Scenario> mScenarios;
 };
-

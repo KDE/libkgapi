@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include <QNetworkAccessManager>
-#include <QList>
-#include <QUrl>
 #include <QByteArray>
+#include <QList>
+#include <QNetworkAccessManager>
+#include <QUrl>
 #include <QVector>
 
 class FakeNetworkAccessManager : public QNetworkAccessManager
@@ -20,9 +20,14 @@ public:
     {
     public:
         Scenario()
-        {}
+        {
+        }
 
-        Scenario(const QUrl &requestUrl, QNetworkAccessManager::Operation method, const QByteArray &requestData, int responseCode, const QByteArray &responseData,
+        Scenario(const QUrl &requestUrl,
+                 QNetworkAccessManager::Operation method,
+                 const QByteArray &requestData,
+                 int responseCode,
+                 const QByteArray &responseData,
                  bool needsAuth = true)
             : requestUrl(requestUrl)
             , requestMethod(method)
@@ -30,7 +35,8 @@ public:
             , responseCode(responseCode)
             , responseData(responseData)
             , needsAuth(needsAuth)
-        {}
+        {
+        }
 
         QUrl requestUrl;
         QNetworkAccessManager::Operation requestMethod;
@@ -50,5 +56,3 @@ protected:
 private:
     QList<Scenario> mScenarios;
 };
-
-

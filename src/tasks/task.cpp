@@ -11,36 +11,33 @@
 
 using namespace KGAPI2;
 
-
 class Q_DECL_HIDDEN Task::Private
 {
-
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
     bool deleted = false;
 };
 
-
-Task::Task():
-    Object(),
-    KCalendarCore::Todo(),
-    d(new Private)
+Task::Task()
+    : Object()
+    , KCalendarCore::Todo()
+    , d(new Private)
 {
 }
 
-Task::Task(const Task& other):
-    Object(other),
-    KCalendarCore::Todo(other),
-    d(new Private(*(other.d.get())))
+Task::Task(const Task &other)
+    : Object(other)
+    , KCalendarCore::Todo(other)
+    , d(new Private(*(other.d.get())))
 {
 }
 
-Task::Task(const KCalendarCore::Todo &other):
-    Object(),
-    KCalendarCore::Todo(other),
-    d(new Private)
+Task::Task(const KCalendarCore::Todo &other)
+    : Object()
+    , KCalendarCore::Todo(other)
+    , d(new Private)
 {
 }
 
@@ -63,7 +60,6 @@ bool Task::operator==(const Task &other) const
 
     return true;
 }
-
 
 void Task::setDeleted(const bool deleted)
 {

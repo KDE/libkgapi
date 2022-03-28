@@ -7,13 +7,13 @@
 #include <QObject>
 #include <QTest>
 
+#include "calendartestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "calendartestutils.h"
 
-#include "types.h"
-#include "freebusyqueryjob.h"
 #include "account.h"
+#include "freebusyqueryjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -75,6 +75,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(FreeBusyQueryJobTest)
 
 #include "freebusyqueryjobtest.moc"
-
-
-

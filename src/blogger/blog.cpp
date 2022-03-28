@@ -12,7 +12,7 @@ using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN Blog::Private
 {
-  public:
+public:
     Private();
 
     static BlogPtr fromJSON(const QVariant &json);
@@ -36,8 +36,8 @@ Blog::Private::Private()
 }
 
 Blog::Blog()
-  : Object()
-  , d(new Private)
+    : Object()
+    , d(new Private)
 {
 }
 
@@ -106,7 +106,6 @@ QVariant Blog::customMetaData() const
     return d->customMetaData;
 }
 
-
 BlogPtr Blog::Private::fromJSON(const QVariant &json)
 {
     BlogPtr blog(new Blog);
@@ -129,7 +128,6 @@ BlogPtr Blog::Private::fromJSON(const QVariant &json)
 
     return blog;
 }
-
 
 BlogPtr Blog::fromJSON(const QByteArray &rawData)
 {

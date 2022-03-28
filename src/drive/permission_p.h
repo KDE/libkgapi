@@ -16,7 +16,7 @@ namespace Drive
 
 class Q_DECL_HIDDEN Permission::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -48,4 +48,3 @@ class Q_DECL_HIDDEN Permission::Private
 } // namespace Drive
 
 } // namespace KGAPI2
-

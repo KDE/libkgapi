@@ -6,39 +6,35 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "tasklistmodifyjob.h"
-#include "tasksservice.h"
 #include "account.h"
 #include "debug.h"
-#include "tasklist.h"
-#include "utils.h"
 #include "private/queuehelper_p.h"
+#include "tasklist.h"
+#include "tasksservice.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN TaskListModifyJob::Private
 {
-  public:
+public:
     QueueHelper<TaskListPtr> taskLists;
 };
 
-TaskListModifyJob::TaskListModifyJob(const TaskListPtr& taskList,
-                                     const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private)
+TaskListModifyJob::TaskListModifyJob(const TaskListPtr &taskList, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private)
 {
     d->taskLists << taskList;
 }
 
-TaskListModifyJob::TaskListModifyJob(const TaskListsList& taskLists,
-                                     const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private)
+TaskListModifyJob::TaskListModifyJob(const TaskListsList &taskLists, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private)
 {
     d->taskLists = taskLists;
 }
@@ -69,7 +65,7 @@ void TaskListModifyJob::start()
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-ObjectsList TaskListModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList TaskListModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -88,5 +84,3 @@ ObjectsList TaskListModifyJob::handleReplyWithItems(const QNetworkReply *reply, 
 
     return items;
 }
-
-

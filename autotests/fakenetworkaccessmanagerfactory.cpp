@@ -11,9 +11,9 @@ void FakeNetworkAccessManagerFactory::setScenarios(const QList<FakeNetworkAccess
     mScenarios = scenarios;
 }
 
-FakeNetworkAccessManagerFactory * FakeNetworkAccessManagerFactory::get()
+FakeNetworkAccessManagerFactory *FakeNetworkAccessManagerFactory::get()
 {
-    return dynamic_cast<FakeNetworkAccessManagerFactory*>(instance());
+    return dynamic_cast<FakeNetworkAccessManagerFactory *>(instance());
 }
 
 bool FakeNetworkAccessManagerFactory::hasScenario() const

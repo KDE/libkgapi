@@ -7,36 +7,35 @@
  */
 
 #include "contactsgroupfetchjob.h"
+#include "account.h"
 #include "contactsgroup.h"
 #include "contactsservice.h"
 #include "debug.h"
 #include "utils.h"
-#include "account.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactsGroupFetchJob::Private
 {
-  public:
+public:
     Private(ContactsGroupFetchJob *parent);
     QNetworkRequest createRequest(const QUrl &url);
 
     QString groupId;
 
-  private:
-    ContactsGroupFetchJob * const q;
+private:
+    ContactsGroupFetchJob *const q;
 };
 
-ContactsGroupFetchJob::Private::Private(ContactsGroupFetchJob* parent):
-    q(parent)
+ContactsGroupFetchJob::Private::Private(ContactsGroupFetchJob *parent)
+    : q(parent)
 {
 }
 
-QNetworkRequest ContactsGroupFetchJob::Private::createRequest(const QUrl& url)
+QNetworkRequest ContactsGroupFetchJob::Private::createRequest(const QUrl &url)
 {
     QNetworkRequest request(url);
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
@@ -51,16 +50,15 @@ QNetworkRequest ContactsGroupFetchJob::Private::createRequest(const QUrl& url)
     return request;
 }
 
-
-ContactsGroupFetchJob::ContactsGroupFetchJob(const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+ContactsGroupFetchJob::ContactsGroupFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
 }
 
-ContactsGroupFetchJob::ContactsGroupFetchJob(const QString& groupId, const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+ContactsGroupFetchJob::ContactsGroupFetchJob(const QString &groupId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->groupId = groupId;
 }
@@ -82,7 +80,7 @@ void ContactsGroupFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList ContactsGroupFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList ContactsGroupFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     FeedData feedData;
     ObjectsList items;
@@ -90,7 +88,7 @@ ObjectsList ContactsGroupFetchJob::handleReplyWithItems(const QNetworkReply *rep
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->groupId.isEmpty()) {
-            items =  ContactsService::parseJSONFeed(rawData, feedData);
+            items = ContactsService::parseJSONFeed(rawData, feedData);
         } else {
             items << ContactsService::JSONToContactsGroup(rawData);
         }
@@ -110,5 +108,3 @@ ObjectsList ContactsGroupFetchJob::handleReplyWithItems(const QNetworkReply *rep
 
     return items;
 }
-
-

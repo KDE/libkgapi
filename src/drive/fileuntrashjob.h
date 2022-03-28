@@ -24,25 +24,18 @@ class KGAPIDRIVE_EXPORT FileUntrashJob : public KGAPI2::Drive::FileAbstractModif
 {
     Q_OBJECT
 
-  public:
-    explicit FileUntrashJob(const QString &fileId,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileUntrashJob(const QStringList &filesIds,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileUntrashJob(const FilePtr &file,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileUntrashJob(const FilesList &files,
-                            const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileUntrashJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileUntrashJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileUntrashJob(const FilePtr &file, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileUntrashJob(const FilesList &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileUntrashJob() override;
 
-  protected:
+protected:
     QUrl url(const QString &fileId) override;
-    void dispatchRequest(QNetworkAccessManager *accessManager,
-                                 const QNetworkRequest &request,
-                                 const QByteArray &data,
-                                 const QString &contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -51,4 +44,3 @@ class KGAPIDRIVE_EXPORT FileUntrashJob : public KGAPI2::Drive::FileAbstractModif
 } // namespace Drive
 
 } // namespace KGAPI2
-

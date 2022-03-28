@@ -9,22 +9,20 @@
 
 #include <QEventLoop>
 #include <QFile>
+#include <QJsonDocument>
 #include <QProcess>
 #include <QTemporaryFile>
-#include <QJsonDocument>
 
 #include <iostream>
 
-bool execJob(KGAPI2::Job* job)
+bool execJob(KGAPI2::Job *job)
 {
     QEventLoop loop;
     QObject::connect(job, &KGAPI2::Job::finished, &loop, &QEventLoop::quit);
     return loop.exec() == 0;
 }
 
-FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &requestFile,
-                                                    const QString &responseFile,
-                                                    bool needsAuth)
+FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &requestFile, const QString &responseFile, bool needsAuth)
 {
     QFile request(requestFile);
     VERIFY_RET(request.open(QIODevice::ReadOnly), {});
@@ -79,7 +77,7 @@ QByteArray reformatXML(const QByteArray &xml)
 {
 #ifdef Q_OS_UNIX
     QProcess lint;
-    lint.start(QStringLiteral("xmllint"), { QStringLiteral("--format"), QStringLiteral("-") });
+    lint.start(QStringLiteral("xmllint"), {QStringLiteral("--format"), QStringLiteral("-")});
     lint.waitForStarted();
     if (lint.state() != QProcess::Running) { // missing xmllint?
         return xml;
@@ -120,8 +118,7 @@ QByteArray diffData(const QByteArray &actual, const QByteArray &expected)
     tmpExpected.close();
 
     QProcess diff;
-    diff.start(QStringLiteral("diff"), { QStringLiteral("-a"), QStringLiteral("-u"),
-                tmpActual.fileName(), tmpExpected.fileName() });
+    diff.start(QStringLiteral("diff"), {QStringLiteral("-a"), QStringLiteral("-u"), tmpActual.fileName(), tmpExpected.fileName()});
     diff.waitForStarted();
     if (diff.state() != QProcess::Running) {
         return "======== ACTUAL ========\n\n" + actual + "\n\n"

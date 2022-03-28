@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
 #include "deletejob.h"
@@ -20,23 +19,15 @@ namespace KGAPI2
 namespace Drive
 {
 
-class KGAPIDRIVE_EXPORT PermissionDeleteJob :  public KGAPI2::DeleteJob
+class KGAPIDRIVE_EXPORT PermissionDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-    explicit PermissionDeleteJob(const QString &fileId,
-                                 const PermissionPtr &permission,
-                                 const AccountPtr &account, QObject *parent = nullptr);
-    explicit PermissionDeleteJob(const QString &fileId,
-                                 const QString &permissionId,
-                                 const AccountPtr &account, QObject *parent = nullptr);
-    explicit PermissionDeleteJob(const QString &fileId,
-                                 const PermissionsList &permissions,
-                                 const AccountPtr &account, QObject *parent = nullptr);
-    explicit PermissionDeleteJob(const QString &fileId,
-                                 const QStringList &permissionsIds,
-                                 const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit PermissionDeleteJob(const QString &fileId, const PermissionPtr &permission, const AccountPtr &account, QObject *parent = nullptr);
+    explicit PermissionDeleteJob(const QString &fileId, const QString &permissionId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit PermissionDeleteJob(const QString &fileId, const PermissionsList &permissions, const AccountPtr &account, QObject *parent = nullptr);
+    explicit PermissionDeleteJob(const QString &fileId, const QStringList &permissionsIds, const AccountPtr &account, QObject *parent = nullptr);
     ~PermissionDeleteJob() override;
 
     /**
@@ -75,10 +66,10 @@ class KGAPIDRIVE_EXPORT PermissionDeleteJob :  public KGAPI2::DeleteJob
      */
     void setUseDomainAdminAccess(bool useDomainAdminAccess);
 
-  protected:
+protected:
     void start() override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
@@ -87,4 +78,3 @@ class KGAPIDRIVE_EXPORT PermissionDeleteJob :  public KGAPI2::DeleteJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

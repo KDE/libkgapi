@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#include "driveservice.h"
 #include "about.h"
 #include "change.h"
+#include "drives.h"
+#include "driveservice.h"
 #include "file.h"
 #include "teamdrive.h"
-#include "drives.h"
 #include "testutils.h"
 
 #include <QFile>

@@ -4,7 +4,6 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #pragma once
 
 #include "kgapimaps_export.h"
@@ -18,7 +17,7 @@ namespace KGAPI2
 {
 
 /**
- * @brief Represents path with defined locations, weight, color and color for 
+ * @brief Represents path with defined locations, weight, color and color for
  *        filled area
  *
  * @author Jan Grulich <grulja@gmail.com>
@@ -26,8 +25,7 @@ namespace KGAPI2
  */
 class KGAPIMAPS_EXPORT StaticMapPath
 {
-  public:
-
+public:
     enum LocationType {
         Undefined = -1,
         String,
@@ -48,8 +46,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
      * @param color The color of the path
      * @param fillColor The color of filled area
      */
-    explicit StaticMapPath(const QStringList & locations, const quint8 weight = 5,
-                           const QColor & color = Qt::blue, const QColor & fillColor = QColor());
+    explicit StaticMapPath(const QStringList &locations, const quint8 weight = 5, const QColor &color = Qt::blue, const QColor &fillColor = QColor());
 
     /**
      * @brief Constructs a new path
@@ -59,8 +56,10 @@ class KGAPIMAPS_EXPORT StaticMapPath
      * @param color Color of the path
      * @param fillColor The color of filled area
      */
-    explicit StaticMapPath(const KContacts::Address::List &locations, const quint8 weight = 5,
-                           const QColor & color = Qt::blue, const QColor & fillColor = QColor());
+    explicit StaticMapPath(const KContacts::Address::List &locations,
+                           const quint8 weight = 5,
+                           const QColor &color = Qt::blue,
+                           const QColor &fillColor = QColor());
 
     /**
      * @brief Constructs a new path
@@ -70,8 +69,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
      * @param color The color of the path
      * @param fillColor The color of filled area
      */
-    explicit StaticMapPath(const QList<KContacts::Geo> & locations, const quint8 weight = 5,
-                           const QColor & color = Qt::blue, const QColor & fillColor = QColor());
+    explicit StaticMapPath(const QList<KContacts::Geo> &locations, const quint8 weight = 5, const QColor &color = Qt::blue, const QColor &fillColor = QColor());
 
     /**
      * @brief Copy constructor
@@ -98,7 +96,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
      *
      * @param color Color for path
      */
-    void setColor(const QColor & color);
+    void setColor(const QColor &color);
 
     /**
      * @brief Returns the color of filled area
@@ -110,7 +108,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
      *
      * @param color The color for filled area
      */
-    void setFillColor(const QColor & color);
+    void setFillColor(const QColor &color);
 
     /**
      * @brief Returns whether the path is valid.
@@ -131,7 +129,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
      *
      * @param locations Locations for path in QString
      */
-    void setLocations(const QStringList & locations);
+    void setLocations(const QStringList &locations);
 
     /**
      * @brief  Returns locations in KContacts::Address
@@ -145,7 +143,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
      *
      * @param locations Locations for path in KContacts::Address
      */
-    void setLocations(const KContacts::Address::List & locations);
+    void setLocations(const KContacts::Address::List &locations);
 
     /**
      * @brief Returns locations in KContacts::Geo
@@ -159,7 +157,7 @@ class KGAPIMAPS_EXPORT StaticMapPath
      *
      * @param locations Locations for path in KContacts::Geo
      */
-    void setLocations(const QList<KContacts::Geo> & locations);
+    void setLocations(const QList<KContacts::Geo> &locations);
 
     /**
      * @brief Returns all locations and path preferences in format to URL query.
@@ -181,13 +179,12 @@ class KGAPIMAPS_EXPORT StaticMapPath
     /**
      * @brief Assignment operator
      */
-    StaticMapPath& operator=(const StaticMapPath &other);
+    StaticMapPath &operator=(const StaticMapPath &other);
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 
 } // namespace KGAPI2
-

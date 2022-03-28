@@ -4,29 +4,30 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #include "latitudeservice.h"
 #include "location.h"
 
-#include <QVariantMap>
-#include <QVariant>
 #include <QJsonDocument>
 #include <QUrlQuery>
+#include <QVariant>
+#include <QVariantMap>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
-namespace LatitudeService {
+namespace LatitudeService
+{
 
 namespace Private
 {
-    LocationPtr parseLocation(const QVariantMap &map);
+LocationPtr parseLocation(const QVariantMap &map);
 
-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
-    static const QString LocationBasePath(QStringLiteral("/latitude/v1/location"));
-    static const QString CurrentLocationBasePath(QStringLiteral("/latitude/v1/currentLocation"));
+static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+static const QString LocationBasePath(QStringLiteral("/latitude/v1/location"));
+static const QString CurrentLocationBasePath(QStringLiteral("/latitude/v1/currentLocation"));
 }
 
-LocationPtr JSONToLocation(const QByteArray & jsonData)
+LocationPtr JSONToLocation(const QByteArray &jsonData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     if (document.isNull()) {
@@ -72,7 +73,7 @@ QByteArray locationToJSON(const LocationPtr &location)
     return document.toJson(QJsonDocument::Compact);
 }
 
-ObjectsList parseLocationJSONFeed(const QByteArray & jsonFeed, FeedData & feedData)
+ObjectsList parseLocationJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
 {
     Q_UNUSED(feedData)
 
@@ -123,7 +124,6 @@ LocationPtr Private::parseLocation(const QVariantMap &map)
     return location;
 }
 
-
 QString APIVersion()
 {
     return QStringLiteral("1");
@@ -158,8 +158,7 @@ QUrl insertCurrentLocationUrl()
     return url;
 }
 
-QUrl locationHistoryUrl(const Latitude::Granularity granularity, const int maxResults,
-                        const qlonglong maxTime, const qlonglong minTime)
+QUrl locationHistoryUrl(const Latitude::Granularity granularity, const int maxResults, const qlonglong maxTime, const qlonglong minTime)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::LocationBasePath);
@@ -191,12 +190,12 @@ QUrl retrieveLocationUrl(const qlonglong id, const Latitude::Granularity granula
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::LocationBasePath % QLatin1Char('/') % QString::number(id));
     QUrlQuery query(url);
-     if (granularity == Latitude::City) {
+    if (granularity == Latitude::City) {
         query.addQueryItem(QStringLiteral("granularity"), QStringLiteral("city"));
-     } else if (granularity == Latitude::Best) {
+    } else if (granularity == Latitude::Best) {
         query.addQueryItem(QStringLiteral("granularity"), QStringLiteral("best"));
-     }
-     url.setQuery(query);
+    }
+    url.setQuery(query);
 
     return url;
 }

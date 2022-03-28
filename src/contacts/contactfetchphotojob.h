@@ -23,8 +23,7 @@ namespace KGAPI2
 class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
-  public:
-
+public:
     /**
      * @brief Constructs a job that will fetch photos for given @p contacts
      *
@@ -32,8 +31,7 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the requests
      * @param parent
      */
-    explicit ContactFetchPhotoJob(const ContactsList &contacts,
-                                  const AccountPtr &account, QObject *parent = nullptr);
+    explicit ContactFetchPhotoJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch photos for given @p contact
@@ -42,15 +40,14 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactFetchPhotoJob(const ContactPtr &contact,
-                                  const AccountPtr &account, QObject *parent = nullptr);
+    explicit ContactFetchPhotoJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~ContactFetchPhotoJob() override;
 
-  Q_SIGNALS:
+Q_SIGNALS:
 
     /**
      * @brief A signal that is emitted every time a photo is retrieved.
@@ -63,8 +60,7 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
      */
     void photoFetched(KGAPI2::Job *job, const KGAPI2::ContactPtr &contact);
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -76,15 +72,12 @@ class KGAPICONTACTS_EXPORT ContactFetchPhotoJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

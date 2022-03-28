@@ -5,8 +5,8 @@
  */
 
 #include "fakenetworkaccessmanager.h"
-#include "fakenetworkreply.h"
 #include "fakenetworkaccessmanagerfactory.h"
+#include "fakenetworkreply.h"
 #include "testutils.h"
 
 #include <QNetworkRequest>
@@ -18,26 +18,20 @@ FakeNetworkAccessManager::FakeNetworkAccessManager(QObject *parent)
 {
 }
 
-QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &originalReq,
-                                                       QIODevice* outgoingData)
+QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &originalReq, QIODevice *outgoingData)
 {
-    auto namFactory = dynamic_cast<FakeNetworkAccessManagerFactory*>(KGAPI2::NetworkAccessManagerFactory::instance());
-    VERIFY2_RET(namFactory, "NAMFactory is nto a FakeNetworkAccessManagerFactory!",
-                new FakeNetworkReply(op, originalReq));
-    VERIFY2_RET(namFactory->hasScenario(), "No scenario for request!",
-                new FakeNetworkReply(op, originalReq));
+    auto namFactory = dynamic_cast<FakeNetworkAccessManagerFactory *>(KGAPI2::NetworkAccessManagerFactory::instance());
+    VERIFY2_RET(namFactory, "NAMFactory is nto a FakeNetworkAccessManagerFactory!", new FakeNetworkReply(op, originalReq));
+    VERIFY2_RET(namFactory->hasScenario(), "No scenario for request!", new FakeNetworkReply(op, originalReq));
 
     const auto scenario = namFactory->nextScenario();
     if (scenario.needsAuth) {
-        VERIFY2_RET(originalReq.hasRawHeader("Authorization"), "Missing Auth token header!",
-                    new FakeNetworkReply(op, originalReq));
+        VERIFY2_RET(originalReq.hasRawHeader("Authorization"), "Missing Auth token header!", new FakeNetworkReply(op, originalReq));
     }
 
-    COMPARE_RET(scenario.requestUrl, originalReq.url(),
-                new FakeNetworkReply(op, originalReq));
+    COMPARE_RET(scenario.requestUrl, originalReq.url(), new FakeNetworkReply(op, originalReq));
     if (op != QNetworkAccessManager::CustomOperation) {
-        COMPARE_RET(scenario.requestMethod, op,
-                    new FakeNetworkReply(op, originalReq));
+        COMPARE_RET(scenario.requestMethod, op, new FakeNetworkReply(op, originalReq));
     } else {
         const auto verb = originalReq.attribute(QNetworkRequest::CustomVerbAttribute).toByteArray();
         COMPARE_RET(verb, QByteArray("PUT"), new FakeNetworkReply(op, originalReq));
@@ -46,8 +40,7 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
         VERIFY2_RET(originalReq.hasRawHeader(requestHeader.first),
                     qPrintable(QStringLiteral("Missing header '%1'").arg(QString::fromUtf8(requestHeader.first))),
                     new FakeNetworkReply(op, originalReq));
-        COMPARE_RET(originalReq.rawHeader(requestHeader.first), requestHeader.second,
-                    new FakeNetworkReply(op, originalReq));
+        COMPARE_RET(originalReq.rawHeader(requestHeader.first), requestHeader.second, new FakeNetworkReply(op, originalReq));
     }
 
     if (outgoingData) {
@@ -73,5 +66,3 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
 
     return new FakeNetworkReply(scenario);
 }
-
-

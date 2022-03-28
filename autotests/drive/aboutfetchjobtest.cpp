@@ -3,23 +3,24 @@
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
-#include <cstring>
 #include <QObject>
 #include <QTest>
+#include <cstring>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "aboutfetchjob.h"
 #include "about.h"
+#include "aboutfetchjob.h"
 #include "account.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
-namespace {
-    static const char *LimitedFieldTag = "limited fields";
+namespace
+{
+static const char *LimitedFieldTag = "limited fields";
 }
 
 Q_DECLARE_METATYPE(QList<FakeNetworkAccessManager::Scenario>)
@@ -39,19 +40,14 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<KGAPI2::Drive::AboutPtr>("about");
 
-        QTest::newRow("")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/about_fetch_request.txt"),
-                                     QFINDTESTDATA("data/about_fetch_response.txt"))
-                }
-            << aboutFromFile(QFINDTESTDATA("data/about.json"));
+        QTest::newRow("") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/about_fetch_request.txt"),
+                                                                                        QFINDTESTDATA("data/about_fetch_response.txt"))}
+                          << aboutFromFile(QFINDTESTDATA("data/about.json"));
 
-        QTest::newRow(LimitedFieldTag)
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/about_fetch_limited_fields_request.txt"),
-                                     QFINDTESTDATA("data/about_fetch_limited_fields_response.txt"))
-                }
-            << aboutFromFile(QFINDTESTDATA("data/about_limited_fields.json"));
+        QTest::newRow(LimitedFieldTag) << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(
+            QFINDTESTDATA("data/about_fetch_limited_fields_request.txt"),
+            QFINDTESTDATA("data/about_fetch_limited_fields_response.txt"))}
+                                       << aboutFromFile(QFINDTESTDATA("data/about_limited_fields.json"));
     }
 
     void testFetch()
@@ -65,13 +61,13 @@ private Q_SLOTS:
         auto job = new Drive::AboutFetchJob(account, nullptr);
 
         if (strcmp(LimitedFieldTag, QTest::currentDataTag()) == 0) {
-            job->setFields({ Drive::About::Fields::Kind, Drive::About::Fields::PermissionId});
+            job->setFields({Drive::About::Fields::Kind, Drive::About::Fields::PermissionId});
         }
 
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), 1);
-        const auto returnedAbout =  items.at(0).dynamicCast<Drive::About>();
+        const auto returnedAbout = items.at(0).dynamicCast<Drive::About>();
         QVERIFY(returnedAbout);
         QCOMPARE(*returnedAbout, *about);
     }
@@ -80,6 +76,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(AboutFetchJobTest)
 
 #include "aboutfetchjobtest.moc"
-
-
-

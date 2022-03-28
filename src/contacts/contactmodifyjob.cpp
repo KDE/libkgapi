@@ -7,22 +7,22 @@
  */
 
 #include "contactmodifyjob.h"
-#include "contactsservice.h"
-#include "contact.h"
-#include "debug.h"
-#include "utils.h"
 #include "account.h"
+#include "contact.h"
+#include "contactsservice.h"
+#include "debug.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
-#include <QUrlQuery>
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactModifyJob::Private
 {
-  public:
+public:
     Private(ContactModifyJob *parent);
     void processNextContact();
     void updatePhoto(const ContactPtr &contact);
@@ -30,12 +30,13 @@ class Q_DECL_HIDDEN ContactModifyJob::Private
     QueueHelper<ContactPtr> contacts;
     ContactPtr lastContact;
     QPair<QByteArray, QString> pendingPhoto;
-  private:
+
+private:
     ContactModifyJob *const q;
 };
 
-ContactModifyJob::Private::Private(ContactModifyJob *parent):
-    q(parent)
+ContactModifyJob::Private::Private(ContactModifyJob *parent)
+    : q(parent)
 {
 }
 
@@ -54,11 +55,12 @@ void ContactModifyJob::Private::processNextContact()
     QNetworkRequest request(url);
 
     QByteArray rawData = ContactsService::contactToXML(contact);
-    rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
-                     "xmlns:gd=\"http://schemas.google.com/g/2005\" "
-                     "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
-                    "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
-                     "term=\"http://schemas.google.com/contact/2008#contact\"/>");
+    rawData.prepend(
+        "<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
+        "xmlns:gd=\"http://schemas.google.com/g/2005\" "
+        "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
+        "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
+        "term=\"http://schemas.google.com/contact/2008#contact\"/>");
     rawData.append("</atom:entry>");
 
     QStringList headers;
@@ -85,17 +87,16 @@ void ContactModifyJob::Private::updatePhoto(const ContactPtr &contact)
     }
 }
 
-
-ContactModifyJob::ContactModifyJob(const ContactsList& contacts, const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+ContactModifyJob::ContactModifyJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->contacts = contacts;
 }
 
-ContactModifyJob::ContactModifyJob(const ContactPtr& contact, const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+ContactModifyJob::ContactModifyJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->contacts << contact;
 }
@@ -133,7 +134,7 @@ void ContactModifyJob::dispatchRequest(QNetworkAccessManager *accessManager, con
     }
 }
 
-ObjectsList ContactModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList ContactModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
     if (!reply->url().path().contains(QLatin1String("/photos/media/"))) {
@@ -168,5 +169,3 @@ ObjectsList ContactModifyJob::handleReplyWithItems(const QNetworkReply *reply, c
 
     return items;
 }
-
-

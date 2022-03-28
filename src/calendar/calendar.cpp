@@ -7,14 +7,14 @@
  */
 
 #include "calendar.h"
-#include "reminder.h"
 #include "debug.h"
+#include "reminder.h"
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN Calendar::Private
 {
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
@@ -30,15 +30,15 @@ class Q_DECL_HIDDEN Calendar::Private
     RemindersList reminders;
 };
 
-Calendar::Calendar() :
-    Object(),
-    d(new Private)
+Calendar::Calendar()
+    : Object()
+    , d(new Private)
 {
 }
 
-Calendar::Calendar(const Calendar &other) :
-    Object(other),
-    d(new Private(*(other.d.get())))
+Calendar::Calendar(const Calendar &other)
+    : Object(other)
+    , d(new Private(*(other.d.get())))
 {
 }
 
@@ -80,10 +80,12 @@ bool Calendar::operator==(const Calendar &other) const
     }
 
     for (const auto &reminder : std::as_const(d->reminders)) {
-        if (std::find_if(other.d->reminders.cbegin(), other.d->reminders.cend(),
-                        [reminder](const ReminderPtr &otherReminder) {
-                            return *reminder == *otherReminder;
-                        }) == other.d->reminders.cend()) {
+        if (std::find_if(other.d->reminders.cbegin(),
+                         other.d->reminders.cend(),
+                         [reminder](const ReminderPtr &otherReminder) {
+                             return *reminder == *otherReminder;
+                         })
+            == other.d->reminders.cend()) {
             qCDebug(KGAPIDebug) << "Reminders don't match";
             return false;
         }
@@ -91,7 +93,6 @@ bool Calendar::operator==(const Calendar &other) const
 
     return true;
 }
-
 
 void Calendar::setUid(const QString &uid)
 {

@@ -7,16 +7,15 @@
 #include "app.h"
 #include "utils_p.h"
 
-#include <QVariantMap>
 #include <QJsonDocument>
-
+#include <QVariantMap>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN App::Icon::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -31,10 +30,10 @@ App::Icon::Private::Private()
 {
 }
 
-App::Icon::Private::Private(const Private &other):
-    category(other.category),
-    size(other.size),
-    iconUrl(other.iconUrl)
+App::Icon::Private::Private(const Private &other)
+    : category(other.category)
+    , size(other.size)
+    , iconUrl(other.iconUrl)
 {
 }
 
@@ -51,14 +50,13 @@ App::Icon::Category App::Icon::Private::categoryFromName(const QString &category
     }
 }
 
-
-App::Icon::Icon():
-    d(new Private)
+App::Icon::Icon()
+    : d(new Private)
 {
 }
 
-App::Icon::Icon(const App::Icon &other):
-    d(new Private(*(other.d)))
+App::Icon::Icon(const App::Icon &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -90,12 +88,11 @@ QUrl App::Icon::iconUrl() const
     return d->iconUrl;
 }
 
-
 ///// DriveApp
 
 class Q_DECL_HIDDEN App::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -117,37 +114,36 @@ class Q_DECL_HIDDEN App::Private
     static AppPtr fromJSON(const QVariantMap &map);
 };
 
-App::Private::Private():
-    supportsCreate(false),
-    supportsImport(false),
-    installed(false),
-    authorized(false),
-    useByDefault(false)
+App::Private::Private()
+    : supportsCreate(false)
+    , supportsImport(false)
+    , installed(false)
+    , authorized(false)
+    , useByDefault(false)
 {
 }
 
-App::Private::Private(const App::Private &other):
-    id(other.id),
-    name(other.name),
-    objectType(other.objectType),
-    supportsCreate(other.supportsCreate),
-    supportsImport(other.supportsImport),
-    installed(other.installed),
-    authorized(other.authorized),
-    useByDefault(other.useByDefault),
-    productUrl(other.productUrl),
-    primaryMimeTypes(other.primaryMimeTypes),
-    secondaryMimeTypes(other.secondaryMimeTypes),
-    primaryFileExtensions(other.primaryFileExtensions),
-    secondaryFileExtensions(other.secondaryFileExtensions),
-    icons(other.icons)
+App::Private::Private(const App::Private &other)
+    : id(other.id)
+    , name(other.name)
+    , objectType(other.objectType)
+    , supportsCreate(other.supportsCreate)
+    , supportsImport(other.supportsImport)
+    , installed(other.installed)
+    , authorized(other.authorized)
+    , useByDefault(other.useByDefault)
+    , productUrl(other.productUrl)
+    , primaryMimeTypes(other.primaryMimeTypes)
+    , secondaryMimeTypes(other.secondaryMimeTypes)
+    , primaryFileExtensions(other.primaryFileExtensions)
+    , secondaryFileExtensions(other.secondaryFileExtensions)
+    , icons(other.icons)
 {
 }
 
 AppPtr App::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("drive#app")) {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#app")) {
         return AppPtr();
     }
 
@@ -168,7 +164,7 @@ AppPtr App::Private::fromJSON(const QVariantMap &map)
     app->d->secondaryFileExtensions = map[QStringLiteral("secondaryFileExtensions")].toStringList();
 
     const QVariantList icons = map[QStringLiteral("icons")].toList();
-    for (const QVariant & i : icons) {
+    for (const QVariant &i : icons) {
         const QVariantMap &iconData = i.toMap();
 
         IconPtr icon(new Icon());
@@ -182,15 +178,15 @@ AppPtr App::Private::fromJSON(const QVariantMap &map)
     return app;
 }
 
-App::App():
-    KGAPI2::Object(),
-    d(new Private)
+App::App()
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
-App::App(const App &other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
+App::App(const App &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 
@@ -287,7 +283,6 @@ QStringList App::secondaryFileExtensions() const
     return d->secondaryFileExtensions;
 }
 
-
 App::IconsList App::icons() const
 {
     return d->icons;
@@ -311,14 +306,13 @@ AppsList App::fromJSONFeed(const QByteArray &jsonData)
     }
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("drive#appList")) {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#appList")) {
         return AppsList();
     }
 
     AppsList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    for (const QVariant & item : items) {
+    for (const QVariant &item : items) {
         const AppPtr app = Private::fromJSON(item.toMap());
 
         if (!app.isNull()) {

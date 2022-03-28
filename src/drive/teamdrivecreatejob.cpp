@@ -12,32 +12,32 @@
 #include "teamdrive.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
-
-namespace {
-    static const QString RequestIdParam = QStringLiteral("requestId");
+namespace
+{
+static const QString RequestIdParam = QStringLiteral("requestId");
 }
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN TeamdriveCreateJob::Private
 {
-  public:
+public:
     Private(TeamdriveCreateJob *parent);
     void processNext();
 
     TeamdrivesList teamdrives;
     QString requestId;
 
-  private:
+private:
     TeamdriveCreateJob *const q;
 };
 
-TeamdriveCreateJob::Private::Private(TeamdriveCreateJob *parent):
-    q(parent)
+TeamdriveCreateJob::Private::Private(TeamdriveCreateJob *parent)
+    : q(parent)
 {
 }
 
@@ -64,23 +64,17 @@ void TeamdriveCreateJob::Private::processNext()
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-TeamdriveCreateJob::TeamdriveCreateJob(const QString &requestId,
-                                         const TeamdrivePtr &teamdrive,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+TeamdriveCreateJob::TeamdriveCreateJob(const QString &requestId, const TeamdrivePtr &teamdrive, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->requestId = requestId;
     d->teamdrives << teamdrive;
 }
 
-TeamdriveCreateJob::TeamdriveCreateJob(const QString &requestId,
-                                         const TeamdrivesList &teamdrives,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+TeamdriveCreateJob::TeamdriveCreateJob(const QString &requestId, const TeamdrivesList &teamdrives, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->requestId = requestId;
     d->teamdrives = teamdrives;
@@ -98,8 +92,7 @@ void TeamdriveCreateJob::start()
     d->processNext();
 }
 
-ObjectsList TeamdriveCreateJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                      const QByteArray &rawData)
+ObjectsList TeamdriveCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -118,5 +111,3 @@ ObjectsList TeamdriveCreateJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
-
-

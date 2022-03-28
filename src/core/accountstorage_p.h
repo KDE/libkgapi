@@ -6,12 +6,13 @@
 
 #pragma once
 
-#include "types.h"
 #include "kgapicore_export.h"
+#include "types.h"
 
 #include <functional>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 class AccountStorage;
 // Exported for tests, otherwise a private class
@@ -35,7 +36,7 @@ private:
 class AccountStorage
 {
 public:
-    virtual ~AccountStorage() {};
+    virtual ~AccountStorage(){};
     virtual void open(const std::function<void(bool)> &callback) = 0;
     virtual bool opened() const = 0;
 
@@ -45,4 +46,3 @@ public:
 };
 
 }
-

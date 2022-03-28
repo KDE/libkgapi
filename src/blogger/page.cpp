@@ -6,15 +6,15 @@
 
 #include "page.h"
 
-#include <QVariant>
 #include <QJsonDocument>
+#include <QVariant>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN Page::Private
 {
-  public:
+public:
     Private();
     ~Private();
 

@@ -18,53 +18,41 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN ChildReferenceDeleteJob::Private
 {
-  public:
+public:
     QString folderId;
     QStringList childrenIds;
 };
 
-ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
-                                                 const QString &childId,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId, const QString &childId, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->folderId = folderId;
     d->childrenIds << childId;
 }
 
-ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
-                                                 const QStringList &childrenIds,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId, const QStringList &childrenIds, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->folderId = folderId;
     d->childrenIds << childrenIds;
 }
 
-ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
-                                                 const ChildReferencePtr &reference,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId, const ChildReferencePtr &reference, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->folderId = folderId;
     d->childrenIds << reference->id();
 }
 
-ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId,
-                                                 const ChildReferencesList &references,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private)
+ChildReferenceDeleteJob::ChildReferenceDeleteJob(const QString &folderId, const ChildReferencesList &references, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private)
 {
     d->folderId = folderId;
-    for (const ChildReferencePtr & reference : references) {
+    for (const ChildReferencePtr &reference : references) {
         d->childrenIds << reference->id();
     }
 }
@@ -88,5 +76,3 @@ void ChildReferenceDeleteJob::start()
 
     enqueueRequest(request);
 }
-
-

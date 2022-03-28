@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "object.h"
 #include "kgapiblogger_export.h"
+#include "object.h"
 
 #include <QDateTime>
 
@@ -18,13 +18,8 @@ namespace Blogger
 
 class KGAPIBLOGGER_EXPORT Page : public KGAPI2::Object
 {
-  public:
-    enum Status {
-        UnknownStatus,
-        Draft,
-        Live,
-        Imported
-    };
+public:
+    enum Status { UnknownStatus, Draft, Live, Imported };
     explicit Page();
     ~Page() override;
 
@@ -61,13 +56,12 @@ class KGAPIBLOGGER_EXPORT Page : public KGAPI2::Object
     static ObjectsList fromJSONFeed(const QByteArray &rawData);
     static QByteArray toJSON(const PagePtr &page);
 
-  private:
+private:
     Q_DISABLE_COPY(Page)
 
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 }
 }
-

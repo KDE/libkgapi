@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "object.h"
 #include "kgapiblogger_export.h"
+#include "object.h"
 
-#include <QVariant>
 #include <QStringList>
+#include <QVariant>
 
 #include <QDateTime>
 
@@ -21,7 +21,7 @@ namespace Blogger
 
 class KGAPIBLOGGER_EXPORT Post : public KGAPI2::Object
 {
-  public:
+public:
     Post();
     ~Post() override;
 
@@ -77,14 +77,13 @@ class KGAPIBLOGGER_EXPORT Post : public KGAPI2::Object
     static ObjectsList fromJSONFeed(const QByteArray &json, FeedData &feedData);
     static QByteArray toJSON(const PostPtr &post);
 
-  private:
+private:
     Q_DISABLE_COPY(Post)
 
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 
 } // namespace Blogger
 } // namespace KGAPI2
-

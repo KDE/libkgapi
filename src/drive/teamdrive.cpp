@@ -4,17 +4,18 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#include "driveservice.h"
 #include "teamdrive.h"
+#include "driveservice.h"
 #include "utils_p.h"
 
-#include <QVariant>
-#include <QUrlQuery>
 #include <QJsonDocument>
+#include <QUrlQuery>
+#include <QVariant>
 
-namespace {
-    static const QString ApiKind = QStringLiteral("drive#teamDrive");
-    static const QString ApiKindList = QStringLiteral("drive#teamDriveList");
+namespace
+{
+static const QString ApiKind = QStringLiteral("drive#teamDrive");
+static const QString ApiKindList = QStringLiteral("drive#teamDriveList");
 }
 
 using namespace KGAPI2;
@@ -24,7 +25,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN Teamdrive::Restrictions::Private
 {
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
@@ -34,13 +35,13 @@ class Q_DECL_HIDDEN Teamdrive::Restrictions::Private
     bool teamMembersOnly = false;
 };
 
-Teamdrive::Restrictions::Restrictions():
-    d(new Private)
+Teamdrive::Restrictions::Restrictions()
+    : d(new Private)
 {
 }
 
-Teamdrive::Restrictions::Restrictions(const Teamdrive::Restrictions &other):
-    d(new Private(*(other.d)))
+Teamdrive::Restrictions::Restrictions(const Teamdrive::Restrictions &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -99,7 +100,7 @@ void Teamdrive::Restrictions::setTeamMembersOnly(bool teamMembersOnly) const
 
 class Q_DECL_HIDDEN Teamdrive::Capabilities::Private
 {
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
@@ -123,13 +124,13 @@ class Q_DECL_HIDDEN Teamdrive::Capabilities::Private
     bool canTrashChildren = false;
 };
 
-Teamdrive::Capabilities::Capabilities():
-    d(new Private)
+Teamdrive::Capabilities::Capabilities()
+    : d(new Private)
 {
 }
 
-Teamdrive::Capabilities::Capabilities(const Teamdrive::Capabilities &other):
-    d(new Private(*(other.d)))
+Teamdrive::Capabilities::Capabilities(const Teamdrive::Capabilities &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -252,7 +253,7 @@ bool Teamdrive::Capabilities::canTrashChildren() const
 
 class Q_DECL_HIDDEN Teamdrive::BackgroundImageFile::Private
 {
-  public:
+public:
     Private() = default;
     Private(const Private &other) = default;
 
@@ -262,13 +263,13 @@ class Q_DECL_HIDDEN Teamdrive::BackgroundImageFile::Private
     float width = 0.0f;
 };
 
-Teamdrive::BackgroundImageFile::BackgroundImageFile():
-    d(new Private)
+Teamdrive::BackgroundImageFile::BackgroundImageFile()
+    : d(new Private)
 {
 }
 
-Teamdrive::BackgroundImageFile::BackgroundImageFile(const Teamdrive::BackgroundImageFile &other):
-    d(new Private(*(other.d)))
+Teamdrive::BackgroundImageFile::BackgroundImageFile(const Teamdrive::BackgroundImageFile &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -327,9 +328,9 @@ void Teamdrive::BackgroundImageFile::setWidth(const float width) const
 
 class Q_DECL_HIDDEN Teamdrive::Private
 {
-  public:
+public:
     Private() = default;
-    Private(const Private& other) = default;
+    Private(const Private &other) = default;
 
     QString id;
     QString name;
@@ -346,9 +347,7 @@ class Q_DECL_HIDDEN Teamdrive::Private
 
 TeamdrivePtr Teamdrive::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(Teamdrive::Fields::Kind) ||
-        map[Teamdrive::Fields::Kind].toString() != ApiKind)
-    {
+    if (!map.contains(Teamdrive::Fields::Kind) || map[Teamdrive::Fields::Kind].toString() != ApiKind) {
         return TeamdrivePtr();
     }
 
@@ -386,7 +385,8 @@ TeamdrivePtr Teamdrive::Private::fromJSON(const QVariantMap &map)
         const QVariantMap capabilitiesMap = map[Teamdrive::Fields::Capabilities].toMap();
         auto capabilities = CapabilitiesPtr::create();
         capabilities->d->canAddChildren = capabilitiesMap[Teamdrive::Capabilities::Fields::CanAddChildren].toBool();
-        capabilities->d->canChangeCopyRequiresWriterPermissionRestriction = capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction].toBool();
+        capabilities->d->canChangeCopyRequiresWriterPermissionRestriction =
+            capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction].toBool();
         capabilities->d->canChangeDomainUsersOnlyRestriction = capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction].toBool();
         capabilities->d->canChangeTeamDriveBackground = capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamDriveBackground].toBool();
         capabilities->d->canChangeTeamMembersOnlyRestriction = capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamMembersOnlyRestriction].toBool();
@@ -425,7 +425,8 @@ const QString Teamdrive::Restrictions::Fields::DomainUsersOnly = QStringLiteral(
 const QString Teamdrive::Restrictions::Fields::TeamMembersOnly = QStringLiteral("teamMembersOnly");
 
 const QString Teamdrive::Capabilities::Fields::CanAddChildren = QStringLiteral("canAddChildren");
-const QString Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction = QStringLiteral("canChangeCopyRequiresWriterPermissionRestriction");
+const QString Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction =
+    QStringLiteral("canChangeCopyRequiresWriterPermissionRestriction");
 const QString Teamdrive::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction = QStringLiteral("canChangeDomainUsersOnlyRestriction");
 const QString Teamdrive::Capabilities::Fields::CanChangeTeamDriveBackground = QStringLiteral("canChangeTeamDriveBackground");
 const QString Teamdrive::Capabilities::Fields::CanChangeTeamMembersOnlyRestriction = QStringLiteral("canChangeTeamMembersOnlyRestriction");
@@ -463,15 +464,15 @@ const QString Teamdrive::Fields::Capabilities = QStringLiteral("capabilities");
 const QString Teamdrive::Fields::CreatedDate = QStringLiteral("createdDate");
 const QString Teamdrive::Fields::Restrictions = QStringLiteral("restrictions");
 
-Teamdrive::Teamdrive():
-    KGAPI2::Object(),
-    d(new Private)
+Teamdrive::Teamdrive()
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
-Teamdrive::Teamdrive(const Teamdrive& other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
+Teamdrive::Teamdrive(const Teamdrive &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 
@@ -589,8 +590,7 @@ TeamdrivesList Teamdrive::fromJSONFeed(const QByteArray &jsonData, FeedData &fee
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(Teamdrive::Fields::Kind) ||
-            map[Teamdrive::Fields::Kind].toString() != ApiKindList) {
+    if (!map.contains(Teamdrive::Fields::Kind) || map[Teamdrive::Fields::Kind].toString() != ApiKindList) {
         return TeamdrivesList();
     }
 
@@ -603,7 +603,7 @@ TeamdrivesList Teamdrive::fromJSONFeed(const QByteArray &jsonData, FeedData &fee
 
     TeamdrivesList list;
     const QVariantList items = map[Teamdrive::Fields::Items].toList();
-    for (const QVariant & item : items) {
+    for (const QVariant &item : items) {
         const TeamdrivePtr teamdrive = Private::fromJSON(item.toMap());
 
         if (!teamdrive.isNull()) {
@@ -658,10 +658,13 @@ QByteArray Teamdrive::toJSON(const TeamdrivePtr &teamdrive)
     if (teamdrive->capabilities()) {
         QVariantMap capabilitiesMap;
         capabilitiesMap[Teamdrive::Capabilities::Fields::CanAddChildren] = teamdrive->capabilities()->canAddChildren();
-        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction] = teamdrive->capabilities()->canChangeCopyRequiresWriterPermissionRestriction();
-        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction] = teamdrive->capabilities()->canChangeDomainUsersOnlyRestriction();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeCopyRequiresWriterPermissionRestriction] =
+            teamdrive->capabilities()->canChangeCopyRequiresWriterPermissionRestriction();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeDomainUsersOnlyRestriction] =
+            teamdrive->capabilities()->canChangeDomainUsersOnlyRestriction();
         capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamDriveBackground] = teamdrive->capabilities()->canChangeTeamDriveBackground();
-        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamMembersOnlyRestriction] = teamdrive->capabilities()->canChangeTeamMembersOnlyRestriction();
+        capabilitiesMap[Teamdrive::Capabilities::Fields::CanChangeTeamMembersOnlyRestriction] =
+            teamdrive->capabilities()->canChangeTeamMembersOnlyRestriction();
         capabilitiesMap[Teamdrive::Capabilities::Fields::CanComment] = teamdrive->capabilities()->canComment();
         capabilitiesMap[Teamdrive::Capabilities::Fields::CanCopy] = teamdrive->capabilities()->canCopy();
         capabilitiesMap[Teamdrive::Capabilities::Fields::CanDeleteChildren] = teamdrive->capabilities()->canDeleteChildren();

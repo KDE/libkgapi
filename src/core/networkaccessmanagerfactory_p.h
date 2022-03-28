@@ -15,7 +15,8 @@ class QObject;
 
 #include <memory>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 // Export for use in unit-tests, header not installed though
 class KGAPICORE_EXPORT NetworkAccessManagerFactory
@@ -35,4 +36,3 @@ protected:
 };
 
 }
-

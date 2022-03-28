@@ -9,8 +9,8 @@
 
 #include "kgapidrive_export.h"
 
-#include <QVariant>
 #include <QSharedDataPointer>
+#include <QVariant>
 
 namespace KGAPI2
 {
@@ -23,22 +23,9 @@ namespace Drive
 class KGAPIDRIVE_EXPORT SearchQuery
 {
 public:
-    enum CompareOperator {
-        Contains,
-        Equals,
-        NotEquals,
-        Less,
-        LessOrEqual,
-        Greater,
-        GreaterOrEqual,
-        In,
-        Has
-    };
+    enum CompareOperator { Contains, Equals, NotEquals, Less, LessOrEqual, Greater, GreaterOrEqual, In, Has };
 
-    enum LogicOperator {
-        And,
-        Or
-    };
+    enum LogicOperator { And, Or };
 
     SearchQuery(LogicOperator op = And);
     SearchQuery(const SearchQuery &other);
@@ -53,10 +40,9 @@ public:
 
     QString serialize() const;
 
-  private:
+private:
     class Private;
     QSharedDataPointer<Private> d;
 };
 }
 }
-

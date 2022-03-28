@@ -7,21 +7,20 @@
  */
 
 #include "locationcreatejob.h"
-#include "latitudeservice.h"
 #include "account.h"
 #include "debug.h"
+#include "latitudeservice.h"
 #include "location.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN LocationCreateJob::Private
 {
-  public:
+public:
     Private();
 
     LocationPtr location;
@@ -32,9 +31,9 @@ LocationCreateJob::Private::Private()
 {
 }
 
-LocationCreateJob::LocationCreateJob(const LocationPtr& location, bool isCurrent, const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private)
+LocationCreateJob::LocationCreateJob(const LocationPtr &location, bool isCurrent, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private)
 {
     d->location = location;
     d->isCurrent = isCurrent;
@@ -69,7 +68,7 @@ void LocationCreateJob::start()
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -84,5 +83,3 @@ ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, 
 
     return items;
 }
-
-

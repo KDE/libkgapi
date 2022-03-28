@@ -9,10 +9,11 @@
 #pragma once
 
 #include "fetchjob.h"
-#include "latitude.h"
 #include "kgapilatitude_export.h"
+#include "latitude.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to fetch current or a specific locations from user's account on
@@ -37,8 +38,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchJob : public KGAPI2::FetchJob
      */
     Q_PROPERTY(Latitude::Granularity granularity READ granularity WRITE setGranularity)
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will fetch users current locations from
      *        Google Latitude service
@@ -46,7 +46,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the requests
      * @param parent
      */
-    explicit LocationFetchJob(const AccountPtr &account, QObject* parent = nullptr);
+    explicit LocationFetchJob(const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch specific past user's location from
@@ -56,7 +56,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the requests
      * @param parent
      */
-    explicit LocationFetchJob(qlonglong timestamp, const AccountPtr &account, QObject* parent = nullptr);
+    explicit LocationFetchJob(qlonglong timestamp, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -75,8 +75,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchJob : public KGAPI2::FetchJob
      */
     Latitude::Granularity granularity() const;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -88,15 +87,12 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

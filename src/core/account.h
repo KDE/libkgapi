@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include <QString>
-#include <QUrl>
 #include <QMetaType>
 #include <QSharedPointer>
+#include <QString>
+#include <QUrl>
 
 #include "kgapicore_export.h"
 #include "types.h"
@@ -38,8 +38,7 @@ namespace KGAPI2
  */
 class KGAPICORE_EXPORT Account
 {
-
-  public:
+public:
     /**
      * @brief Constructs an invalid account.
      */
@@ -53,9 +52,10 @@ class KGAPICORE_EXPORT Account
      * @param refreshToken Refresh token
      * @param scopes List of scopes
      */
-    explicit Account(const QString &account, const QString &accessToken = QString(),
+    explicit Account(const QString &account,
+                     const QString &accessToken = QString(),
                      const QString &refreshToken = QString(),
-                     const QList< QUrl > &scopes = QList< QUrl >());
+                     const QList<QUrl> &scopes = QList<QUrl>());
 
     /**
      * @brief Copy constructor
@@ -66,7 +66,6 @@ class KGAPICORE_EXPORT Account
      * @brief Destructor
      */
     virtual ~Account();
-
 
     bool operator==(const Account &other) const;
 
@@ -109,7 +108,7 @@ class KGAPICORE_EXPORT Account
     /**
      * @return Returns list of scopes the account is authenticated against.
      */
-    QList< QUrl > scopes() const;
+    QList<QUrl> scopes() const;
 
     /**
      * \brief Sets new scopes.
@@ -118,10 +117,10 @@ class KGAPICORE_EXPORT Account
      * This means that when this Account is used next time, AuthJob will be
      * automatically started and user will be prompted with a dialog to grant
      * access to all scopes.
-     * 
+     *
      * @param scopes
      */
-    void setScopes(const QList< QUrl > &scopes);
+    void setScopes(const QList<QUrl> &scopes);
 
     /**
      * Adds a single scope to account scopes.
@@ -195,9 +194,10 @@ class KGAPICORE_EXPORT Account
      * Returns scope URL for Drive service.
      */
     static QUrl driveScopeUrl();
+
 private:
     class Private;
-    Private * const d;
+    Private *const d;
 
     /**
      * @internal
@@ -211,13 +211,11 @@ private:
      * re-authentication it sets this attribute to \p false and next time it
      * will just refresh existing tokens until the scopes are changed again.
      */
-    bool m_scopesChanged; //krazy:exclude=dpointer
+    bool m_scopesChanged; // krazy:exclude=dpointer
 
     friend class AuthJob;
-
 };
 
 } // namespace KGAPI2
 
 Q_DECLARE_METATYPE(KGAPI2::AccountPtr)
-

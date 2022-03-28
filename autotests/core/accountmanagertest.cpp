@@ -4,26 +4,25 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#include <QObject>
-#include <QTest>
-#include <QSignalSpy>
 #include <QList>
+#include <QObject>
+#include <QSignalSpy>
+#include <QTest>
 
-#include "fakeaccountstorage.h"
-#include "fakeauthbrowser.h"
-#include "fakenetworkaccessmanagerfactory.h"
-#include "fakenetworkaccessmanager.h"
-#include "fakenetworkreply.h"
+#include "account.h"
 #include "accountmanager.h"
 #include "accountstorage_p.h"
-#include "account.h"
+#include "fakeaccountstorage.h"
+#include "fakeauthbrowser.h"
+#include "fakenetworkaccessmanager.h"
+#include "fakenetworkaccessmanagerfactory.h"
+#include "fakenetworkreply.h"
 #include "testutils.h"
 
 using namespace KGAPI2;
 
-
-
-namespace {
+namespace
+{
 
 const static auto ApiKey1 = QStringLiteral("Key1");
 const static auto SecretKey1 = QStringLiteral("Secret1");
@@ -69,14 +68,11 @@ private Q_SLOTS:
     {
         FakeAuthBrowser authBrowser;
         FakeNetworkAccessManagerFactory::get()->setScenarios(
-            { scenarioFromFile(QFINDTESTDATA("data/accountmanager_part1_request.txt"),
-                               QFINDTESTDATA("data/accountmanager_part1_response.txt"),
-                               false),
-              scenarioFromFile(QFINDTESTDATA("data/accountinfo_fetch_request.txt"),
-                               QFINDTESTDATA("data/accountinfo_fetch_response.txt")) });
+            {scenarioFromFile(QFINDTESTDATA("data/accountmanager_part1_request.txt"), QFINDTESTDATA("data/accountmanager_part1_response.txt"), false),
+             scenarioFromFile(QFINDTESTDATA("data/accountinfo_fetch_request.txt"), QFINDTESTDATA("data/accountinfo_fetch_response.txt"))});
 
         TestableAccountManager accountManager;
-        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, { Account::contactsScopeUrl() });
+        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, {Account::contactsScopeUrl()});
 
         QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
@@ -85,7 +81,7 @@ private Q_SLOTS:
         const auto account = promise->account();
         QVERIFY(account);
         QCOMPARE(account->accountName(), Account1);
-        const QList<QUrl> expectedScopes = { Account::contactsScopeUrl(), Account::accountInfoEmailScopeUrl() };
+        const QList<QUrl> expectedScopes = {Account::contactsScopeUrl(), Account::accountInfoEmailScopeUrl()};
         QCOMPARE(account->scopes(), expectedScopes);
         QVERIFY(!account->accessToken().isEmpty());
         QVERIFY(!account->refreshToken().isEmpty());
@@ -100,10 +96,10 @@ private Q_SLOTS:
     {
         TestableAccountManager accountManager;
 
-        const auto insertedAccount = AccountPtr::create(*accountManager.fakeStore()->generateAccount(ApiKey1, Account1, { Account::contactsScopeUrl() }));
+        const auto insertedAccount = AccountPtr::create(*accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::contactsScopeUrl()}));
         QVERIFY(insertedAccount);
 
-        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, { Account::contactsScopeUrl() });
+        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, {Account::contactsScopeUrl()});
         QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
@@ -117,21 +113,16 @@ private Q_SLOTS:
     {
         FakeAuthBrowser authBrowser;
         FakeNetworkAccessManagerFactory::get()->setScenarios(
-            { scenarioFromFile(QFINDTESTDATA("data/accountmanager_part1_request.txt"),
-                               QFINDTESTDATA("data/accountmanager_part1_response.txt"),
-                               false),
-              scenarioFromFile(QFINDTESTDATA("data/accountinfo_fetch_request.txt"),
-                               QFINDTESTDATA("data/accountinfo_fetch_response.txt")) });
+            {scenarioFromFile(QFINDTESTDATA("data/accountmanager_part1_request.txt"), QFINDTESTDATA("data/accountmanager_part1_response.txt"), false),
+             scenarioFromFile(QFINDTESTDATA("data/accountinfo_fetch_request.txt"), QFINDTESTDATA("data/accountinfo_fetch_response.txt"))});
 
         TestableAccountManager accountManager;
-        const auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, { Account::contactsScopeUrl() });
+        const auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::contactsScopeUrl()});
         QVERIFY(insertedAccount);
         auto expectedAccount = AccountPtr::create(*insertedAccount);
-        expectedAccount->setScopes({ Account::contactsScopeUrl(),
-                                     Account::calendarScopeUrl(),
-                                     Account::accountInfoEmailScopeUrl() });
+        expectedAccount->setScopes({Account::contactsScopeUrl(), Account::calendarScopeUrl(), Account::accountInfoEmailScopeUrl()});
 
-        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, { Account::calendarScopeUrl() });
+        const auto promise = accountManager.getAccount(ApiKey1, SecretKey1, Account1, {Account::calendarScopeUrl()});
         QCOMPARE(promise->account(), AccountPtr{});
         QSignalSpy spy(promise, &AccountPromise::finished);
         QVERIFY(spy.wait());
@@ -156,10 +147,9 @@ private Q_SLOTS:
     void testRemoveAccountScopes()
     {
         TestableAccountManager accountManager;
-        accountManager.fakeStore()->generateAccount(ApiKey1, Account1,
-                { Account::contactsScopeUrl(), Account::calendarScopeUrl() });
+        accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::contactsScopeUrl(), Account::calendarScopeUrl()});
 
-        accountManager.removeScopes(ApiKey1, Account1, { Account::contactsScopeUrl() });
+        accountManager.removeScopes(ApiKey1, Account1, {Account::contactsScopeUrl()});
 
         const auto storeAccount = accountManager.fakeStore()->mStore.value(ApiKey1 + Account1);
         QVERIFY(storeAccount);
@@ -167,16 +157,15 @@ private Q_SLOTS:
         QVERIFY(storeAccount->accessToken().isEmpty());
         QVERIFY(storeAccount->refreshToken().isEmpty());
         QVERIFY(storeAccount->expireDateTime().isNull());
-        QCOMPARE(storeAccount->scopes(), QList<QUrl>{ Account::calendarScopeUrl() });
+        QCOMPARE(storeAccount->scopes(), QList<QUrl>{Account::calendarScopeUrl()});
     }
 
     void testRemoveAllScopes()
     {
         TestableAccountManager accountManager;
-        accountManager.fakeStore()->generateAccount(ApiKey1, Account1,
-                { Account::contactsScopeUrl(), Account::calendarScopeUrl() });
+        accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::contactsScopeUrl(), Account::calendarScopeUrl()});
 
-        accountManager.removeScopes(ApiKey1, Account1, { Account::contactsScopeUrl(), Account::calendarScopeUrl() });
+        accountManager.removeScopes(ApiKey1, Account1, {Account::contactsScopeUrl(), Account::calendarScopeUrl()});
 
         QVERIFY(!accountManager.fakeStore()->mStore.contains(ApiKey1 + Account1));
     }
@@ -197,7 +186,7 @@ private Q_SLOTS:
     {
         TestableAccountManager accountManager;
 
-        const auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, { Account::calendarScopeUrl() });
+        const auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::calendarScopeUrl()});
 
         const auto promise = accountManager.findAccount(ApiKey1, Account1);
         QCOMPARE(promise->account(), AccountPtr{});
@@ -212,14 +201,11 @@ private Q_SLOTS:
     {
         FakeAuthBrowser authBrowser;
         FakeNetworkAccessManagerFactory::get()->setScenarios(
-            { scenarioFromFile(QFINDTESTDATA("data/accountmanager_refresh_request.txt"),
-                               QFINDTESTDATA("data/accountmanager_refresh_response.txt"),
-                               false)
-            });
+            {scenarioFromFile(QFINDTESTDATA("data/accountmanager_refresh_request.txt"), QFINDTESTDATA("data/accountmanager_refresh_response.txt"), false)});
 
         TestableAccountManager accountManager;
 
-        auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, { Account::calendarScopeUrl() });
+        auto insertedAccount = accountManager.fakeStore()->generateAccount(ApiKey1, Account1, {Account::calendarScopeUrl()});
         insertedAccount->setRefreshToken(QStringLiteral("FakeRefreshToken"));
 
         const auto promise = accountManager.refreshTokens(ApiKey1, SecretKey1, Account1);

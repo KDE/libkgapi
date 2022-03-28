@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "reminder.h"
 #include "debug.h"
 
@@ -20,20 +19,20 @@ public:
     Duration offset;
 };
 
-Reminder::Reminder():
-    d(new Private)
+Reminder::Reminder()
+    : d(new Private)
 {
 }
 
-Reminder::Reminder(const Alarm::Type &type, const Duration& startOffset):
-    d(new Private)
+Reminder::Reminder(const Alarm::Type &type, const Duration &startOffset)
+    : d(new Private)
 {
     d->type = type;
     d->offset = startOffset;
 }
 
-Reminder::Reminder(const Reminder& other):
-    d(new Private(*(other.d)))
+Reminder::Reminder(const Reminder &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -80,4 +79,3 @@ Alarm *Reminder::toAlarm(Incidence *incidence) const
     alarm->setStartOffset(d->offset);
     return alarm;
 }
-

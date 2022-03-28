@@ -7,8 +7,8 @@
 #include "fakeaccountstorage.h"
 #include "account.h"
 
-#include <QUuid>
 #include <QDateTime>
+#include <QUuid>
 
 using namespace KGAPI2;
 
@@ -16,7 +16,7 @@ FakeAccountStorage::FakeAccountStorage()
 {
 }
 
-void FakeAccountStorage::open(const std::function<void (bool)> &callback)
+void FakeAccountStorage::open(const std::function<void(bool)> &callback)
 {
     callback(true);
 }
@@ -50,7 +50,6 @@ AccountPtr FakeAccountStorage::generateAccount(const QString &apiKey, const QStr
     return acc;
 }
 
-
 FakeAccountStorageFactory::FakeAccountStorageFactory()
 {
     mStore = new FakeAccountStorage();
@@ -72,4 +71,3 @@ FakeAccountStorage *FakeAccountStorageFactory::fakeStore() const
 {
     return mStore;
 }
-

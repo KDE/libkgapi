@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "contactstestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "contactstestutils.h"
 
-#include "types.h"
-#include "contactsgroupfetchjob.h"
-#include "contactsgroup.h"
 #include "account.h"
+#include "contactsgroup.h"
+#include "contactsgroupfetchjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -32,16 +32,11 @@ private Q_SLOTS:
 
     void testFetchAll()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/contacts_groups_fetch_page1_request.txt"),
-                             QFINDTESTDATA("data/contacts_groups_fetch_page1_response.txt")),
-            scenarioFromFile(QFINDTESTDATA("data/contacts_groups_fetch_page2_request.txt"),
-                             QFINDTESTDATA("data/contacts_groups_fetch_page2_response.txt"))
-        });
-        const ContactsGroupsList groups = {
-            contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")),
-            contactsGroupFromFile(QFINDTESTDATA("data/contacts_group2.xml"))
-        };
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/contacts_groups_fetch_page1_request.txt"), QFINDTESTDATA("data/contacts_groups_fetch_page1_response.txt")),
+             scenarioFromFile(QFINDTESTDATA("data/contacts_groups_fetch_page2_request.txt"), QFINDTESTDATA("data/contacts_groups_fetch_page2_response.txt"))});
+        const ContactsGroupsList groups = {contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")),
+                                           contactsGroupFromFile(QFINDTESTDATA("data/contacts_group2.xml"))};
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         auto job = new ContactsGroupFetchJob(account);
@@ -49,7 +44,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), groups.count());
         for (int i = 0; i < groups.count(); ++i) {
-            const auto returnedGroup =  items.at(i).dynamicCast<ContactsGroup>();
+            const auto returnedGroup = items.at(i).dynamicCast<ContactsGroup>();
             QVERIFY(returnedGroup);
             QCOMPARE(*returnedGroup, *groups.at(i));
         }
@@ -57,10 +52,8 @@ private Q_SLOTS:
 
     void testFetchSingle_data()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/contacts_group2_fetch_request.txt"),
-                             QFINDTESTDATA("data/contacts_group1_fetch_response.txt"))
-        });
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/contacts_group2_fetch_request.txt"), QFINDTESTDATA("data/contacts_group1_fetch_response.txt"))});
         const auto group = contactsGroupFromFile(QFINDTESTDATA("data/contacts_group2.xml"));
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
@@ -68,7 +61,7 @@ private Q_SLOTS:
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), 1);
-        const auto returnedGroup =  items.at(0).dynamicCast<ContactsGroup>();
+        const auto returnedGroup = items.at(0).dynamicCast<ContactsGroup>();
         QVERIFY(returnedGroup);
         QCOMPARE(*returnedGroup, *group);
     }

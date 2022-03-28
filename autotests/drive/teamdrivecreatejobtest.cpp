@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "teamdrivecreatejob.h"
-#include "teamdrive.h"
 #include "account.h"
+#include "teamdrive.h"
+#include "teamdrivecreatejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -37,14 +37,10 @@ private Q_SLOTS:
         QTest::addColumn<QString>("requestId");
         QTest::addColumn<Drive::TeamdrivePtr>("expectedResult");
 
-        QTest::newRow("metadata only")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/teamdrive_create_request.txt"),
-                                     QFINDTESTDATA("data/teamdrive_create_response.txt"))
-                }
-            << teamdriveFromFile(QFINDTESTDATA("data/teamdrive.json"))
-            << QStringLiteral("MockRequestId")
-            << teamdriveFromFile(QFINDTESTDATA("data/teamdrive.json"));
+        QTest::newRow("metadata only") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/teamdrive_create_request.txt"),
+                                                                                                     QFINDTESTDATA("data/teamdrive_create_response.txt"))}
+                                       << teamdriveFromFile(QFINDTESTDATA("data/teamdrive.json")) << QStringLiteral("MockRequestId")
+                                       << teamdriveFromFile(QFINDTESTDATA("data/teamdrive.json"));
     }
 
     void testCreate()
@@ -71,8 +67,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TeamdriveCreateJobTest)
 
 #include "teamdrivecreatejobtest.moc"
-
-
-
-
-

@@ -7,21 +7,21 @@
  */
 
 #include "contactcreatejob.h"
+#include "account.h"
 #include "contact.h"
 #include "contactsservice.h"
-#include "utils.h"
 #include "debug.h"
-#include "account.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactCreateJob::Private
 {
-  public:
+public:
     Private(ContactCreateJob *parent);
     void processNextContact();
     void setPhoto(const KContacts::Picture &photo, const QString &uid);
@@ -29,12 +29,13 @@ class Q_DECL_HIDDEN ContactCreateJob::Private
     QueueHelper<ContactPtr> contacts;
     ContactPtr lastContact;
     QPair<QByteArray, QString> pendingPhoto;
-  private:
-    ContactCreateJob * const q;
+
+private:
+    ContactCreateJob *const q;
 };
 
-ContactCreateJob::Private::Private(ContactCreateJob *parent):
-    q(parent)
+ContactCreateJob::Private::Private(ContactCreateJob *parent)
+    : q(parent)
 {
 }
 
@@ -53,11 +54,12 @@ void ContactCreateJob::Private::processNextContact()
     request.setRawHeader("GData-Version", ContactsService::APIVersion().toLatin1());
 
     QByteArray rawData = ContactsService::contactToXML(contact);
-    rawData.prepend("<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
-                     "xmlns:gd=\"http://schemas.google.com/g/2005\" "
-                     "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
-                    "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
-                     "term=\"http://schemas.google.com/contact/2008#contact\"/>");
+    rawData.prepend(
+        "<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" "
+        "xmlns:gd=\"http://schemas.google.com/g/2005\" "
+        "xmlns:gContact=\"http://schemas.google.com/contact/2008\">"
+        "<atom:category scheme=\"http://schemas.google.com/g/2005#kind\" "
+        "term=\"http://schemas.google.com/contact/2008#contact\"/>");
     rawData.append("</atom:entry>");
 
     QStringList headers;
@@ -80,16 +82,16 @@ void ContactCreateJob::Private::setPhoto(const KContacts::Picture &photo, const 
     q->enqueueRequest(photoRequest, pendingPhoto.first, QStringLiteral("modifyImage"));
 }
 
-ContactCreateJob::ContactCreateJob(const ContactsList& contacts, const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+ContactCreateJob::ContactCreateJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->contacts = contacts;
 }
 
-ContactCreateJob::ContactCreateJob(const ContactPtr& contact, const AccountPtr& account, QObject* parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+ContactCreateJob::ContactCreateJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->contacts << contact;
 }
@@ -116,7 +118,7 @@ void ContactCreateJob::dispatchRequest(QNetworkAccessManager *accessManager, con
     }
 }
 
-ObjectsList ContactCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList ContactCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
     if (!reply->url().path().contains(QLatin1String("/photos/media/"))) {
@@ -155,5 +157,3 @@ ObjectsList ContactCreateJob::handleReplyWithItems(const QNetworkReply *reply, c
     }
     return items;
 }
-
-

@@ -6,12 +6,11 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
+#include "kgapicontacts_export.h"
 #include "object.h"
 #include "types.h"
-#include "kgapicontacts_export.h"
 
 #include <QDateTime>
 
@@ -32,8 +31,7 @@ namespace KGAPI2
  */
 class KGAPICONTACTS_EXPORT ContactsGroup : public KGAPI2::Object
 {
-  public:
-
+public:
     /**
      * @brief Constructor
      */
@@ -119,11 +117,9 @@ class KGAPICONTACTS_EXPORT ContactsGroup : public KGAPI2::Object
      */
     bool isSystemGroup() const;
 
-  private:
+private:
     class Private;
-    Private * const d;
-
+    Private *const d;
 };
 
 } // namespace KGAPI2
-

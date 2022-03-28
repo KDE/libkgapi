@@ -21,13 +21,9 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
-    TeamdriveCreateJob(const QString &requestId,
-                            const TeamdrivePtr &teamdrive,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    TeamdriveCreateJob(const QString &requestId,
-                            const TeamdrivesList &teamdrives,
-                            const AccountPtr &account, QObject *parent = nullptr);
+public:
+    TeamdriveCreateJob(const QString &requestId, const TeamdrivePtr &teamdrive, const AccountPtr &account, QObject *parent = nullptr);
+    TeamdriveCreateJob(const QString &requestId, const TeamdrivesList &teamdrives, const AccountPtr &account, QObject *parent = nullptr);
     ~TeamdriveCreateJob() override;
 
     /**
@@ -35,12 +31,11 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveCreateJob : public KGAPI2::CreateJob
      */
     QString requestId() const;
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
@@ -49,4 +44,3 @@ class KGAPIDRIVE_DEPRECATED_EXPORT TeamdriveCreateJob : public KGAPI2::CreateJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

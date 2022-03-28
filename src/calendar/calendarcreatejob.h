@@ -13,7 +13,8 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to create one or more new calendars in user's Google Calendar
@@ -26,8 +27,7 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will create given @p calendar in user's
      *        Google Calendar account
@@ -36,8 +36,7 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarCreateJob(const CalendarPtr &calendar,
-                               const AccountPtr &account, QObject* parent = nullptr);
+    explicit CalendarCreateJob(const CalendarPtr &calendar, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will create given @p calendars in user's
@@ -47,16 +46,14 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarCreateJob(const CalendarsList &calendars,
-                               const AccountPtr &account, QObject* parent = nullptr);
+    explicit CalendarCreateJob(const CalendarsList &calendars, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~CalendarCreateJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -68,15 +65,12 @@ class KGAPICALENDAR_EXPORT CalendarCreateJob : public KGAPI2::CreateJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

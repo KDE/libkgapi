@@ -8,10 +8,11 @@
 
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapicontacts_export.h"
+#include "modifyjob.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to modify contacts user's addressbook on Google Contacts
@@ -19,12 +20,11 @@ namespace KGAPI2 {
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-class KGAPICONTACTS_EXPORT ContactModifyJob : public  KGAPI2::ModifyJob
+class KGAPICONTACTS_EXPORT ContactModifyJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will write changes in given @p contacts to
      *        corresponding contacts in user's addressbook
@@ -33,8 +33,7 @@ class KGAPICONTACTS_EXPORT ContactModifyJob : public  KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactModifyJob(const ContactsList& contacts,
-                              const AccountPtr &account, QObject* parent = nullptr);
+    explicit ContactModifyJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will write changes in given @p contact to
@@ -44,16 +43,14 @@ class KGAPICONTACTS_EXPORT ContactModifyJob : public  KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactModifyJob(const ContactPtr &contact,
-                              const AccountPtr &account, QObject* parent = nullptr);
+    explicit ContactModifyJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~ContactModifyJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -67,23 +64,17 @@ class KGAPICONTACTS_EXPORT ContactModifyJob : public  KGAPI2::ModifyJob
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager *accessManager,
-                                 const QNetworkRequest &request,
-                                 const QByteArray &data,
-                                 const QString &contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

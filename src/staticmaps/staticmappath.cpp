@@ -8,10 +8,9 @@
 
 using namespace KGAPI2;
 
-
 class Q_DECL_HIDDEN StaticMapPath::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -28,12 +27,11 @@ class Q_DECL_HIDDEN StaticMapPath::Private
     QList<KContacts::Geo> locationsGeo;
 };
 
-
 StaticMapPath::Private::Private()
 {
 }
 
-StaticMapPath::Private::Private(const Private & other)
+StaticMapPath::Private::Private(const Private &other)
 {
     init(other);
 }
@@ -49,19 +47,18 @@ void StaticMapPath::Private::init(const Private &other)
     locationsGeo = other.locationsGeo;
 }
 
-StaticMapPath::StaticMapPath():
-    d(new Private)
+StaticMapPath::StaticMapPath()
+    : d(new Private)
 {
 }
 
-StaticMapPath::StaticMapPath(const StaticMapPath& other):
-    d(new Private(*(other.d)))
+StaticMapPath::StaticMapPath(const StaticMapPath &other)
+    : d(new Private(*(other.d)))
 {
 }
 
-StaticMapPath::StaticMapPath(const QStringList & locations, const quint8 weight,
-                             const QColor & color, const QColor & fillColor):
-    d(new Private)
+StaticMapPath::StaticMapPath(const QStringList &locations, const quint8 weight, const QColor &color, const QColor &fillColor)
+    : d(new Private)
 {
     d->locationType = String;
     d->locationsString = locations;
@@ -70,9 +67,8 @@ StaticMapPath::StaticMapPath(const QStringList & locations, const quint8 weight,
     d->fillColor = fillColor;
 }
 
-StaticMapPath::StaticMapPath(const KContacts::Address::List& locations, const quint8 weight,
-                             const QColor & color, const QColor & fillColor):
-    d(new Private)
+StaticMapPath::StaticMapPath(const KContacts::Address::List &locations, const quint8 weight, const QColor &color, const QColor &fillColor)
+    : d(new Private)
 {
     d->locationType = KABCAddress;
     d->locationsAddress = locations;
@@ -81,9 +77,8 @@ StaticMapPath::StaticMapPath(const KContacts::Address::List& locations, const qu
     d->fillColor = fillColor;
 }
 
-StaticMapPath::StaticMapPath(const QList< KContacts::Geo >& locations, const quint8 weight,
-                             const QColor & color, const QColor & fillColor):
-    d(new Private)
+StaticMapPath::StaticMapPath(const QList<KContacts::Geo> &locations, const quint8 weight, const QColor &color, const QColor &fillColor)
+    : d(new Private)
 {
     d->locationType = KABCGeo;
     d->locationsGeo = locations;
@@ -107,7 +102,7 @@ QColor StaticMapPath::color() const
     return d->color;
 }
 
-void StaticMapPath::setColor(const QColor & color)
+void StaticMapPath::setColor(const QColor &color)
 {
     d->color = color;
 }
@@ -122,7 +117,7 @@ QColor StaticMapPath::fillColor() const
     return d->fillColor;
 }
 
-void StaticMapPath::setFillColor(const QColor & color)
+void StaticMapPath::setFillColor(const QColor &color)
 {
     d->fillColor = color;
 }
@@ -132,7 +127,7 @@ QStringList StaticMapPath::locationsString() const
     return d->locationsString;
 }
 
-void StaticMapPath::setLocations(const QStringList & locations)
+void StaticMapPath::setLocations(const QStringList &locations)
 {
     d->locationType = String;
     d->locationsString = locations;
@@ -153,12 +148,12 @@ void StaticMapPath::setLocations(const KContacts::Address::List &locations)
     d->locationsGeo.clear();
 }
 
-QList< KContacts::Geo > StaticMapPath::locationsGeo() const
+QList<KContacts::Geo> StaticMapPath::locationsGeo() const
 {
     return d->locationsGeo;
 }
 
-void StaticMapPath::setLocations(const QList< KContacts::Geo >& locations)
+void StaticMapPath::setLocations(const QList<KContacts::Geo> &locations)
 {
     d->locationType = KABCGeo;
     d->locationsGeo = locations;
@@ -181,24 +176,19 @@ QString StaticMapPath::toString() const
     }
 
     if (locationType() == String) {
-
-        for (const QString & addr : std::as_const(d->locationsString)) {
+        for (const QString &addr : std::as_const(d->locationsString)) {
             ret += addr + QLatin1Char('|');
         }
 
     } else if (locationType() == KABCAddress) {
-
-        for (const KContacts::Address & addr : std::as_const(d->locationsAddress)) {
+        for (const KContacts::Address &addr : std::as_const(d->locationsAddress)) {
             ret += addr.formatted(KContacts::AddressFormatStyle::Postal) + QLatin1Char('|');
         }
 
     } else if (locationType() == KABCGeo) {
-
-        for (const KContacts::Geo & addr : std::as_const(d->locationsGeo)) {
-            ret += QString::number(addr.latitude()) + QLatin1String(",") +
-                  QString::number(addr.longitude()) + QLatin1Char('|');
+        for (const KContacts::Geo &addr : std::as_const(d->locationsGeo)) {
+            ret += QString::number(addr.latitude()) + QLatin1String(",") + QString::number(addr.longitude()) + QLatin1Char('|');
         }
-
     }
 
     ret.replace(QLatin1String(", "), QLatin1String(","));
@@ -220,7 +210,7 @@ void StaticMapPath::setWeight(const quint8 weight)
     d->weight = weight;
 }
 
-StaticMapPath& StaticMapPath::operator=(const StaticMapPath& other)
+StaticMapPath &StaticMapPath::operator=(const StaticMapPath &other)
 {
     if (&other == this) {
         return *this;
@@ -229,4 +219,3 @@ StaticMapPath& StaticMapPath::operator=(const StaticMapPath& other)
     d->init(*(other.d));
     return *this;
 }
-

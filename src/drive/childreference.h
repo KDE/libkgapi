@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "types.h"
-#include "object.h"
 #include "kgapidrive_export.h"
+#include "object.h"
+#include "types.h"
 
 #include <QString>
 #include <QUrl>
@@ -29,15 +29,17 @@ namespace Drive
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class KGAPIDRIVE_EXPORT ChildReference: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT ChildReference : public KGAPI2::Object
 {
-
-  public:
+public:
     explicit ChildReference(const QString &id);
     explicit ChildReference(const ChildReference &other);
     ~ChildReference() override;
     bool operator==(const ChildReference &other) const;
-    bool operator!=(const ChildReference &other) const { return !operator==(other); }
+    bool operator!=(const ChildReference &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Returns the id of the child.
@@ -55,17 +57,15 @@ class KGAPIDRIVE_EXPORT ChildReference: public KGAPI2::Object
     QUrl childLink() const;
 
     static ChildReferencePtr fromJSON(const QByteArray &jsonData);
-    static ChildReferencesList fromJSONFeed(const QByteArray &jsonData,
-                                            FeedData &feedData);
+    static ChildReferencesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
     static QByteArray toJSON(const ChildReferencePtr &reference);
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 
 } /* namespace Drive */
 
 } /* namespace KGAPI2 */
-

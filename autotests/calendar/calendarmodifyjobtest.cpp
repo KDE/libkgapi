@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "calendartestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "calendartestutils.h"
 
-#include "types.h"
-#include "calendarmodifyjob.h"
-#include "calendar.h"
 #include "account.h"
+#include "calendar.h"
+#include "calendarmodifyjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -43,14 +43,9 @@ private Q_SLOTS:
         response1->setDetails(calendar1->details());
         response1->setTimezone(calendar1->timezone());
         response1->setEtag(calendar1->etag());
-        QTest::newRow("change calendar")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/calendar1_modify_request.txt"),
-                                     QFINDTESTDATA("data/calendar1_modify_response.txt")),
-                }
-            << CalendarsList{ calendar1 }
-            << CalendarsList{ response1 };
-
+        QTest::newRow("change calendar") << QList<FakeNetworkAccessManager::Scenario>{
+            scenarioFromFile(QFINDTESTDATA("data/calendar1_modify_request.txt"), QFINDTESTDATA("data/calendar1_modify_response.txt")),
+        } << CalendarsList{calendar1} << CalendarsList{response1};
 
         auto calendar2 = calendarFromFile(QFINDTESTDATA("data/calendar2.json"));
         auto response2 = CalendarPtr::create();
@@ -84,7 +79,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), responses.count());
         for (int i = 0; i < responses.count(); ++i) {
-            const auto returnedCalendar =  items.at(i).dynamicCast<Calendar>();
+            const auto returnedCalendar = items.at(i).dynamicCast<Calendar>();
             QVERIFY(returnedCalendar);
             QCOMPARE(*returnedCalendar, *responses.at(i));
         }
@@ -94,4 +89,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(CalendarModifyJobTest)
 
 #include "calendarmodifyjobtest.moc"
-

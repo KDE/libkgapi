@@ -5,13 +5,13 @@
  */
 
 #include "commentfetchjob.h"
-#include "comment.h"
-#include "bloggerservice.h"
-#include "utils.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "comment.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
@@ -19,11 +19,8 @@ using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN CommentFetchJob::Private
 {
-  public:
-    Private(const QString &blogId,
-            const QString &postId,
-            const QString &commentId,
-            CommentFetchJob *parent);
+public:
+    Private(const QString &blogId, const QString &postId, const QString &commentId, CommentFetchJob *parent);
     ~Private();
 
     const QString blogId;
@@ -34,14 +31,11 @@ class Q_DECL_HIDDEN CommentFetchJob::Private
     QDateTime endDate;
     bool fetchBodies;
 
-  private:
+private:
     CommentFetchJob *const q;
 };
 
-CommentFetchJob::Private::Private(const QString &blogId_,
-                                  const QString &postId_,
-                                  const QString &commentId_,
-                                  CommentFetchJob *parent)
+CommentFetchJob::Private::Private(const QString &blogId_, const QString &postId_, const QString &commentId_, CommentFetchJob *parent)
     : blogId(blogId_)
     , postId(postId_)
     , commentId(commentId_)
@@ -55,31 +49,19 @@ CommentFetchJob::Private::~Private()
 {
 }
 
-
-CommentFetchJob::CommentFetchJob(const QString &blogId,
-                                 const AccountPtr &account,
-                                 QObject *parent)
+CommentFetchJob::CommentFetchJob(const QString &blogId, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new Private(blogId, QString(), QString(), this))
 {
-
 }
 
-CommentFetchJob::CommentFetchJob(const QString &blogId,
-                                 const QString &postId,
-                                 const AccountPtr &account,
-                                 QObject *parent)
+CommentFetchJob::CommentFetchJob(const QString &blogId, const QString &postId, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new Private(blogId, postId, QString(), this))
 {
-
 }
 
-CommentFetchJob::CommentFetchJob(const QString &blogId,
-                                 const QString &postId,
-                                 const QString &commentId,
-                                 const AccountPtr &account,
-                                 QObject *parent)
+CommentFetchJob::CommentFetchJob(const QString &blogId, const QString &postId, const QString &commentId, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new Private(blogId, postId, commentId, this))
 {
@@ -104,7 +86,6 @@ QDateTime CommentFetchJob::startDate() const
 {
     return d->startDate;
 }
-
 
 void CommentFetchJob::setStartDate(const QDateTime &startDate)
 {
@@ -165,7 +146,7 @@ ObjectsList CommentFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->commentId.isEmpty()) {
-            items =  Comment::fromJSONFeed(rawData, feedData);
+            items = Comment::fromJSONFeed(rawData, feedData);
         } else {
             items << Comment::fromJSON(rawData);
         }
@@ -185,5 +166,3 @@ ObjectsList CommentFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
 
     return items;
 }
-
-

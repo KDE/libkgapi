@@ -7,15 +7,15 @@
 #include "childreference.h"
 #include "utils_p.h"
 
-#include <QVariantMap>
 #include <QJsonDocument>
+#include <QVariantMap>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN ChildReference::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -30,17 +30,16 @@ ChildReference::Private::Private()
 {
 }
 
-ChildReference::Private::Private(const Private &other):
-    id(other.id),
-    selfLink(other.selfLink),
-    childLink(other.childLink)
+ChildReference::Private::Private(const Private &other)
+    : id(other.id)
+    , selfLink(other.selfLink)
+    , childLink(other.childLink)
 {
 }
 
 ChildReferencePtr ChildReference::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("drive#childReference")) {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#childReference")) {
         return ChildReferencePtr();
     }
 
@@ -51,16 +50,16 @@ ChildReferencePtr ChildReference::Private::fromJSON(const QVariantMap &map)
     return reference;
 }
 
-ChildReference::ChildReference(const QString &id):
-    KGAPI2::Object(),
-    d(new Private)
+ChildReference::ChildReference(const QString &id)
+    : KGAPI2::Object()
+    , d(new Private)
 {
     d->id = id;
 }
 
-ChildReference::ChildReference(const ChildReference &other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
+ChildReference::ChildReference(const ChildReference &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 
@@ -106,8 +105,7 @@ ChildReferencePtr ChildReference::fromJSON(const QByteArray &jsonData)
     return Private::fromJSON(data.toMap());
 }
 
-ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
-                                                 FeedData &feedData)
+ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     if (document.isNull()) {
@@ -116,14 +114,13 @@ ChildReferencesList ChildReference::fromJSONFeed(const QByteArray &jsonData,
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("drive#childList")) {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#childList")) {
         return ChildReferencesList();
     }
 
     ChildReferencesList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    for (const QVariant & item : items) {
+    for (const QVariant &item : items) {
         ChildReferencePtr reference = Private::fromJSON(item.toMap());
 
         if (!reference.isNull()) {

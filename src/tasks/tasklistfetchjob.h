@@ -13,7 +13,8 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to fetch all tasklists from user's Google Tasks account.
@@ -23,11 +24,9 @@ namespace KGAPI2 {
  */
 class KGAPITASKS_EXPORT TaskListFetchJob : public KGAPI2::FetchJob
 {
-
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will fetch all tasklists from user's
      *        Google Tasks account
@@ -35,15 +34,14 @@ class KGAPITASKS_EXPORT TaskListFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskListFetchJob(const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskListFetchJob(const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~TaskListFetchJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -55,15 +53,12 @@ class KGAPITASKS_EXPORT TaskListFetchJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

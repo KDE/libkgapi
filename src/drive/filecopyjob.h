@@ -23,41 +23,27 @@ class KGAPIDRIVE_EXPORT FileCopyJob : public KGAPI2::Drive::FileAbstractDataJob
 {
     Q_OBJECT
 
-  public:
-    explicit FileCopyJob(const QString &sourceFileId,
-                         const FilePtr &destinationFile,
-                         const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileCopyJob(const FilePtr &sourceFile,
-                         const FilePtr &destinationFile,
-                         const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileCopyJob(const QMap < QString /* source file id */,
-                         FilePtr /* destination file */ > &files,
-                         const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileCopyJob(const QMap < FilePtr /* source file */,
-                         FilePtr /* destination file */ > &files,
-                         const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileCopyJob(const QString &sourceFileId, const FilePtr &destinationFile, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileCopyJob(const FilePtr &sourceFile, const FilePtr &destinationFile, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileCopyJob(const QMap<QString /* source file id */, FilePtr /* destination file */> &files, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileCopyJob(const QMap<FilePtr /* source file */, FilePtr /* destination file */> &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileCopyJob() override;
 
     FilesList files() const;
 
-  protected:
-    void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData) override;
+protected:
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-    void dispatchRequest(QNetworkAccessManager *accessManager,
-                                 const QNetworkRequest &request,
-                                 const QByteArray &data,
-                                 const QString &contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
     void start() override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

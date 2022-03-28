@@ -6,9 +6,8 @@
 
 #pragma once
 
-#include "types.h"
 #include "contact.h"
+#include "types.h"
 
 KGAPI2::ContactPtr contactFromFile(const QString &path);
 KGAPI2::ContactsGroupPtr contactsGroupFromFile(const QString &path);
-

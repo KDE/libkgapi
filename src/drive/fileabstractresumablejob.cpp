@@ -6,26 +6,26 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "fileabstractresumablejob.h"
 #include "debug.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
-#include <QNetworkReply>
 #include <QMimeDatabase>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-namespace {
-    static const int ChunkSize = 262144;
+namespace
+{
+static const int ChunkSize = 262144;
 }
 
 class Q_DECL_HIDDEN FileAbstractResumableJob::Private
 {
-  public:
+public:
     Private(FileAbstractResumableJob *parent);
     void startUploadSession();
     void uploadChunk(bool lastChunk);
@@ -43,21 +43,16 @@ class Q_DECL_HIDDEN FileAbstractResumableJob::Private
     int uploadedSize = 0;
     int totalUploadSize = 0;
 
-    enum SessionState {
-        ReadyStart,
-        Started,
-        ClientEnough,
-        Completed
-    };
+    enum SessionState { ReadyStart, Started, ClientEnough, Completed };
 
     SessionState sessionState = ReadyStart;
 
-  private:
+private:
     FileAbstractResumableJob *const q;
 };
 
-FileAbstractResumableJob::Private::Private(FileAbstractResumableJob *parent):
-    q(parent)
+FileAbstractResumableJob::Private::Private(FileAbstractResumableJob *parent)
+    : q(parent)
 {
 }
 
@@ -86,7 +81,7 @@ void FileAbstractResumableJob::Private::startUploadSession()
             qCDebug(KGAPIDebug) << "Metadata mimeType was missing, determined" << contentType;
         }
         qCDebug(KGAPIDebug) << "Metadata has mimeType" << metaData->mimeType();
-        
+
         rawData = File::toJSON(metaData);
     }
 
@@ -136,35 +131,35 @@ void FileAbstractResumableJob::Private::processNext()
     qCDebug(KGAPIDebug) << "Processing next";
 
     switch (sessionState) {
-        case ReadyStart:
-            startUploadSession();
-            return;
-        case Started: {
-            if (chunks.isEmpty() || chunks.first().size() < ChunkSize) {
-                qCDebug(KGAPIDebug) << "Chunks empty or not big enough to process, asking for more";
+    case ReadyStart:
+        startUploadSession();
+        return;
+    case Started: {
+        if (chunks.isEmpty() || chunks.first().size() < ChunkSize) {
+            qCDebug(KGAPIDebug) << "Chunks empty or not big enough to process, asking for more";
 
-                if (device) {
-                    readFromDevice();
-                } else {
-                    // Warning: an endless loop could be started here if the signal receiver isn't using
-                    // a direct connection.
-                    q->emitReadyWrite();
-                }
-                processNext();
-                return;
+            if (device) {
+                readFromDevice();
+            } else {
+                // Warning: an endless loop could be started here if the signal receiver isn't using
+                // a direct connection.
+                q->emitReadyWrite();
             }
-            uploadChunk(false);
+            processNext();
             return;
         }
-        case ClientEnough: {
-            uploadChunk(true);
-            sessionState = Completed;
-            return;
-        }
-        case Completed:
-            qCDebug(KGAPIDebug) << "Nothing left to process, done";
-            q->emitFinished();
-            return;
+        uploadChunk(false);
+        return;
+    }
+    case ClientEnough: {
+        uploadChunk(true);
+        sessionState = Completed;
+        return;
+    }
+    case Completed:
+        qCDebug(KGAPIDebug) << "Nothing left to process, done";
+        q->emitFinished();
+        return;
     }
 }
 
@@ -185,46 +180,36 @@ bool FileAbstractResumableJob::Private::isTotalSizeKnown() const
     return totalUploadSize != 0;
 }
 
-void FileAbstractResumableJob::Private::_k_uploadProgress(qint64 bytesSent,
-        qint64 totalBytes)
+void FileAbstractResumableJob::Private::_k_uploadProgress(qint64 bytesSent, qint64 totalBytes)
 {
     // uploadedSize corresponds to total bytes enqueued (including current chunk upload)
     qint64 totalUploaded = uploadedSize - totalBytes + bytesSent;
     q->emitProgress(totalUploaded, totalUploadSize);
 }
 
-
-FileAbstractResumableJob::FileAbstractResumableJob(const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractResumableJob::FileAbstractResumableJob(const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
 }
 
-FileAbstractResumableJob::FileAbstractResumableJob(const FilePtr &metadata,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractResumableJob::FileAbstractResumableJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->metaData = metadata;
 }
 
-FileAbstractResumableJob::FileAbstractResumableJob(QIODevice *device,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractResumableJob::FileAbstractResumableJob(QIODevice *device, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->device = device;
 }
 
-FileAbstractResumableJob::FileAbstractResumableJob(QIODevice *device,
-                                             const FilePtr &metadata,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    FileAbstractDataJob(account, parent),
-    d(new Private(this))
+FileAbstractResumableJob::FileAbstractResumableJob(QIODevice *device, const FilePtr &metadata, const AccountPtr &account, QObject *parent)
+    : FileAbstractDataJob(account, parent)
+    , d(new Private(this))
 {
     d->device = device;
     d->metaData = metadata;
@@ -270,7 +255,7 @@ void FileAbstractResumableJob::write(const QByteArray &data)
 
     int dataSize = data.size();
     QList<QByteArray> chunks;
-    while(pos < dataSize) {
+    while (pos < dataSize) {
         QByteArray chunk = data.mid(pos, ChunkSize);
         chunks << chunk;
         pos += chunk.size();
@@ -294,9 +279,9 @@ void FileAbstractResumableJob::start()
 }
 
 void FileAbstractResumableJob::dispatchRequest(QNetworkAccessManager *accessManager,
-                                            const QNetworkRequest &request,
-                                            const QByteArray &data,
-                                            const QString &contentType)
+                                               const QNetworkRequest &request,
+                                               const QByteArray &data,
+                                               const QString &contentType)
 {
     Q_UNUSED(contentType)
 
@@ -308,85 +293,84 @@ void FileAbstractResumableJob::dispatchRequest(QNetworkAccessManager *accessMana
     }
 
     if (d->isTotalSizeKnown()) {
-        connect(reply, &QNetworkReply::uploadProgress,
-                this, [this](qint64 bytesSent, qint64 totalBytes) {d->_k_uploadProgress(bytesSent, totalBytes); });
+        connect(reply, &QNetworkReply::uploadProgress, this, [this](qint64 bytesSent, qint64 totalBytes) {
+            d->_k_uploadProgress(bytesSent, totalBytes);
+        });
     }
 }
 
-void FileAbstractResumableJob::handleReply(const QNetworkReply *reply,
-                                        const QByteArray &rawData)
+void FileAbstractResumableJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     Q_UNUSED(rawData)
 
     int replyCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
     switch (d->sessionState) {
-        case Private::ReadyStart: {
-            if (replyCode != KGAPI2::OK) {
-                qCWarning(KGAPIDebug) << "Failed opening upload session" << replyCode;
-                setError(KGAPI2::UnknownError);
-                setErrorString(tr("Failed opening upload session"));
-                emitFinished();
-                return;
-            }
-
-            const QString uploadLocation = reply->header(QNetworkRequest::LocationHeader).toString();
-            qCDebug(KGAPIDebug) << "Got upload session location" << uploadLocation;
-            d->sessionPath = uploadLocation;
-            d->sessionState = Private::Started;
-            break;
+    case Private::ReadyStart: {
+        if (replyCode != KGAPI2::OK) {
+            qCWarning(KGAPIDebug) << "Failed opening upload session" << replyCode;
+            setError(KGAPI2::UnknownError);
+            setErrorString(tr("Failed opening upload session"));
+            emitFinished();
+            return;
         }
-        case Private::Started: {
-            // If during upload total size is declared via Content-Range header, Google will
-            // respond with 200 on the last chunk upload. The job is complete in that case.
-            if (d->isTotalSizeKnown() && replyCode == KGAPI2::OK) {
-                d->sessionState = Private::Completed;
-                const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-                ContentType ct = Utils::stringToContentType(contentType);
-                if (ct == KGAPI2::JSON) {
-                    d->metaData = File::fromJSON(rawData);
-                }
-                return;
-            }
 
-            // Google will continue answering ResumeIncomplete until the total upload size is declared
-            // in the Content-Range header or until last upload range not total upload size.
-            if (replyCode != KGAPI2::ResumeIncomplete) {
-                qCWarning(KGAPIDebug) << "Failed uploading chunk" << replyCode;
-                setError(KGAPI2::UnknownError);
-                setErrorString(tr("Failed uploading chunk"));
-                emitFinished();
-                return;
-            }
-
-            // Server could send us a new upload session location any time, use it if present
-            const QString newUploadLocation = reply->header(QNetworkRequest::LocationHeader).toString();
-            if (!newUploadLocation.isEmpty()) {
-                qCDebug(KGAPIDebug) << "Got new location" << newUploadLocation;
-                d->sessionPath = newUploadLocation;
-            }
-
-            const QString readRange = QString::fromUtf8(reply->rawHeader(QStringLiteral("Range").toUtf8()));
-            qCDebug(KGAPIDebug) << "Server confirms range" << readRange;
-            break;
-        }
-        case Private::ClientEnough:
-        case Private::Completed:
-            if (replyCode != KGAPI2::OK) {
-                qCWarning(KGAPIDebug) << "Failed completing upload session" << replyCode;
-                setError(KGAPI2::UnknownError);
-                setErrorString(tr("Failed completing upload session"));
-                emitFinished();
-                return;
-            }
+        const QString uploadLocation = reply->header(QNetworkRequest::LocationHeader).toString();
+        qCDebug(KGAPIDebug) << "Got upload session location" << uploadLocation;
+        d->sessionPath = uploadLocation;
+        d->sessionState = Private::Started;
+        break;
+    }
+    case Private::Started: {
+        // If during upload total size is declared via Content-Range header, Google will
+        // respond with 200 on the last chunk upload. The job is complete in that case.
+        if (d->isTotalSizeKnown() && replyCode == KGAPI2::OK) {
+            d->sessionState = Private::Completed;
             const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
             ContentType ct = Utils::stringToContentType(contentType);
             if (ct == KGAPI2::JSON) {
                 d->metaData = File::fromJSON(rawData);
             }
-            break;
-    }
+            return;
+        }
 
+        // Google will continue answering ResumeIncomplete until the total upload size is declared
+        // in the Content-Range header or until last upload range not total upload size.
+        if (replyCode != KGAPI2::ResumeIncomplete) {
+            qCWarning(KGAPIDebug) << "Failed uploading chunk" << replyCode;
+            setError(KGAPI2::UnknownError);
+            setErrorString(tr("Failed uploading chunk"));
+            emitFinished();
+            return;
+        }
+
+        // Server could send us a new upload session location any time, use it if present
+        const QString newUploadLocation = reply->header(QNetworkRequest::LocationHeader).toString();
+        if (!newUploadLocation.isEmpty()) {
+            qCDebug(KGAPIDebug) << "Got new location" << newUploadLocation;
+            d->sessionPath = newUploadLocation;
+        }
+
+        const QString readRange = QString::fromUtf8(reply->rawHeader(QStringLiteral("Range").toUtf8()));
+        qCDebug(KGAPIDebug) << "Server confirms range" << readRange;
+        break;
+    }
+    case Private::ClientEnough:
+    case Private::Completed:
+        if (replyCode != KGAPI2::OK) {
+            qCWarning(KGAPIDebug) << "Failed completing upload session" << replyCode;
+            setError(KGAPI2::UnknownError);
+            setErrorString(tr("Failed completing upload session"));
+            emitFinished();
+            return;
+        }
+        const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+        ContentType ct = Utils::stringToContentType(contentType);
+        if (ct == KGAPI2::JSON) {
+            d->metaData = File::fromJSON(rawData);
+        }
+        break;
+    }
 
     d->processNext();
 }

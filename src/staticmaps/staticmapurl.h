@@ -6,12 +6,12 @@
 
 #pragma once
 
+#include "kgapimaps_export.h"
 #include "staticmapmarker.h"
 #include "staticmappath.h"
-#include "kgapimaps_export.h"
 
-#include <QUrl>
 #include <QSize>
+#include <QUrl>
 
 #include <KContacts/Address>
 #include <KContacts/Geo>
@@ -28,34 +28,14 @@ namespace KGAPI2
  */
 class KGAPIMAPS_EXPORT StaticMapUrl
 {
-  public:
+public:
+    enum LocationType { Undefined = -1, String, KABCAddress, KABCGeo };
 
-    enum LocationType {
-        Undefined = -1,
-        String,
-        KABCAddress,
-        KABCGeo
-    };
+    enum ImageFormat { PNG, PNG32, GIF, JPG, JPGBaseline };
 
-    enum ImageFormat {
-        PNG,
-        PNG32,
-        GIF,
-        JPG,
-        JPGBaseline
-    };
+    enum MapType { Roadmap, Satellite, Terrain, Hybrid };
 
-    enum MapType {
-        Roadmap,
-        Satellite,
-        Terrain,
-        Hybrid
-    };
-
-    enum Scale {
-        Normal = 1,
-        TwiceBigger = 2
-    };
+    enum Scale { Normal = 1, TwiceBigger = 2 };
 
     /**
      * @brief Constructs an empty StaticMapUrl
@@ -71,8 +51,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      * @param sensor Sensor specifies whether the application requesting the
      *               static map is using a sensor to determine the user's location.
      */
-    StaticMapUrl(const QString &location, const QSize &size, quint32 zoom,
-                 bool sensor);
+    StaticMapUrl(const QString &location, const QSize &size, quint32 zoom, bool sensor);
 
     /**
      * @brief Constructs a new StaticMapUrl
@@ -83,8 +62,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      * @param sensor Sensor specifies whether the application requesting the
      *               static map is using a sensor to determine the user's location.
      */
-    StaticMapUrl(const KContacts::Address &address, const QSize &size, quint32 zoom,
-                 bool sensor);
+    StaticMapUrl(const KContacts::Address &address, const QSize &size, quint32 zoom, bool sensor);
 
     /**
      * @brief Constructs a new StaticMapUrl
@@ -95,8 +73,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      * @param sensor Sensor specifies whether the application requesting the static map is
      * using a sensor to determine the user's location.
      */
-    StaticMapUrl(const KContacts::Geo &geo, const QSize &size, quint32 zoom,
-                 bool sensor);
+    StaticMapUrl(const KContacts::Geo &geo, const QSize &size, quint32 zoom, bool sensor);
 
     /**
      * @brief Copy constructor
@@ -158,7 +135,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      * @param address Location (required when no markers are present) of center
      *                of the map in KContacts::Address
      */
-    void setLocation(const KContacts::Address & address);
+    void setLocation(const KContacts::Address &address);
 
     /**
      * @brief Returns map center in KContacts::Geo
@@ -173,7 +150,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      * @param geo Location (required when no markers are present) of center
      *            of the map in KContacts::Geo
      */
-    void setLocation(const KContacts::Geo & geo);
+    void setLocation(const KContacts::Geo &geo);
 
     /**
      * @brief Returns type of map
@@ -199,14 +176,14 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      *
      * @param marker
      */
-    void setMarker(const StaticMapMarker & marker);
+    void setMarker(const StaticMapMarker &marker);
 
     /**
      * @brief Adds markers to map
      *
      * @param markers
      */
-    void setMarkers(const QList<StaticMapMarker> & markers);
+    void setMarkers(const QList<StaticMapMarker> &markers);
 
     /**
      * @brief  Returns list paths
@@ -220,14 +197,14 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      *
      * @param path
      */
-    void setPath(const StaticMapPath & path);
+    void setPath(const StaticMapPath &path);
 
     /**
      * @brief Adds paths to map
      *
      * @param paths
      */
-    void setPaths(const QList<StaticMapPath> & paths);
+    void setPaths(const QList<StaticMapPath> &paths);
 
     /**
      * @brief Returns size of map tile
@@ -283,9 +260,9 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      * no markers or other indicators will be displayed. Use this parameter to
      * ensure that certain features or map location are shown on the static map.
      *
-     * @param location 
+     * @param location
      */
-    void setVisibleLocation(const QString & location);
+    void setVisibleLocation(const QString &location);
 
     /**
      * @brief Returns visible area in KContacts::Address
@@ -305,7 +282,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      *
      * @param address
      */
-    void setVisibleLocation(const KContacts::Address & address);
+    void setVisibleLocation(const KContacts::Address &address);
 
     /**
      * @brief Returns visible area in KContacts::Geo
@@ -325,7 +302,7 @@ class KGAPIMAPS_EXPORT StaticMapUrl
      *
      * @param geo
      */
-    void setVisibleLocation(const KContacts::Geo & geo);
+    void setVisibleLocation(const KContacts::Geo &geo);
 
     /**
      * @brief Returns type of visible location
@@ -355,14 +332,12 @@ class KGAPIMAPS_EXPORT StaticMapUrl
     /**
      * @brief Assignment operator
      */
-    StaticMapUrl& operator=(const StaticMapUrl &other);
+    StaticMapUrl &operator=(const StaticMapUrl &other);
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

@@ -6,16 +6,16 @@
 
 #pragma once
 
-#include <QObject>
 #include <QList>
+#include <QObject>
 
 #include "account.h"
 #include "kgapicore_export.h"
 
-
 class QUrl;
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 class AccountManager;
 /**
@@ -84,10 +84,7 @@ public:
      *
      * @see refreshTokens, hasAccount
      */
-    AccountPromise *getAccount(const QString &apiKey, const QString &apiSecret,
-                               const QString &accountName,
-                               const QList<QUrl> &scopes);
-
+    AccountPromise *getAccount(const QString &apiKey, const QString &apiSecret, const QString &accountName, const QList<QUrl> &scopes);
 
     /**
      * @brief Asynchronously refreshes tokens in given Account
@@ -100,8 +97,7 @@ public:
      *
      * @see getAccount
      */
-    AccountPromise *refreshTokens(const QString &apiKey, const QString &apiSecret,
-                                  const QString &accountName);
+    AccountPromise *refreshTokens(const QString &apiKey, const QString &apiSecret, const QString &accountName);
 
     /**
      * @brief Asynchronously checks whether the specified account exists.
@@ -113,9 +109,7 @@ public:
      * The AccountPromise will have the discovered account set if it is found,
      * otherwise it's set to null.
      */
-    AccountPromise *findAccount(const QString &aipKey, const QString &accountName,
-                                const QList<QUrl> &scopes = {});
-
+    AccountPromise *findAccount(const QString &aipKey, const QString &accountName, const QList<QUrl> &scopes = {});
 
     /**
      * @brief Asynchronously remove given scopes from authenticated account.
@@ -124,8 +118,7 @@ public:
      * next time the account is requested with any of the removed scopes the user
      * will be presented with a prompt to confirm access again.
      */
-    void removeScopes(const QString &apiKey, const QString &accountName,
-                      const QList<QUrl> &removeScopes);
+    void removeScopes(const QString &apiKey, const QString &accountName, const QList<QUrl> &removeScopes);
 
 protected:
     explicit AccountManager(QObject *parent = nullptr);
@@ -137,4 +130,3 @@ protected:
 };
 
 }
-

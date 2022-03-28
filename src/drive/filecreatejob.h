@@ -21,38 +21,26 @@ class KGAPIDRIVE_EXPORT FileCreateJob : public KGAPI2::Drive::FileAbstractUpload
 {
     Q_OBJECT
 
-  public:
-    explicit FileCreateJob(const FilePtr &metadata, const AccountPtr &account,
-                           QObject *parent = nullptr);
-    explicit FileCreateJob(const FilesList &metadata, const AccountPtr &account,
-                           QObject *parent = nullptr);
-    explicit FileCreateJob(const QString &filePath,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileCreateJob(const QString &filePath,
-                           const FilePtr &metaData,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileCreateJob(const QStringList &filePaths,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileCreateJob(const QMap < QString /* filepath */, FilePtr /* metadata */ > &files,
-                           const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileCreateJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileCreateJob(const FilesList &metadata, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileCreateJob(const QString &filePath, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileCreateJob(const QString &filePath, const FilePtr &metaData, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileCreateJob(const QStringList &filePaths, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileCreateJob(const QMap<QString /* filepath */, FilePtr /* metadata */> &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileCreateJob() override;
 
-  protected:
-    QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
-                                    const QNetworkRequest &request,
-                                    const QByteArray &data) override;
+protected:
+    QNetworkReply *dispatch(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data) override;
 
-    QUrl createUrl(const QString &filePath,
-                           const FilePtr &metaData) override;
+    QUrl createUrl(const QString &filePath, const FilePtr &metaData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

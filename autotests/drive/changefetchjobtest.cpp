@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "changefetchjob.h"
-#include "change.h"
 #include "account.h"
+#include "change.h"
+#include "changefetchjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -32,16 +32,10 @@ private Q_SLOTS:
 
     void testFetchAll()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/changes_fetch_page1_request.txt"),
-                             QFINDTESTDATA("data/changes_fetch_page1_response.txt")),
-            scenarioFromFile(QFINDTESTDATA("data/changes_fetch_page2_request.txt"),
-                             QFINDTESTDATA("data/changes_fetch_page2_response.txt"))
-        });
-        const Drive::ChangesList changes = {
-            changeFromFile(QFINDTESTDATA("data/change1.json")),
-            changeFromFile(QFINDTESTDATA("data/change2.json"))
-        };
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/changes_fetch_page1_request.txt"), QFINDTESTDATA("data/changes_fetch_page1_response.txt")),
+             scenarioFromFile(QFINDTESTDATA("data/changes_fetch_page2_request.txt"), QFINDTESTDATA("data/changes_fetch_page2_response.txt"))});
+        const Drive::ChangesList changes = {changeFromFile(QFINDTESTDATA("data/change1.json")), changeFromFile(QFINDTESTDATA("data/change2.json"))};
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         auto job = new Drive::ChangeFetchJob(account);
@@ -49,7 +43,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), changes.count());
         for (int i = 0; i < changes.count(); ++i) {
-            const auto returnedChange =  items.at(i).dynamicCast<Drive::Change>();
+            const auto returnedChange = items.at(i).dynamicCast<Drive::Change>();
             const auto expectedChange = changes.at(i);
             QVERIFY(returnedChange);
             QCOMPARE(*returnedChange, *expectedChange);
@@ -58,11 +52,10 @@ private Q_SLOTS:
 
     void testFetchSingle()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/change1_fetch_request.txt"),
-                             QFINDTESTDATA("data/change1_fetch_response.txt"))
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/change1_fetch_request.txt"), QFINDTESTDATA("data/change1_fetch_response.txt"))
 
-        });
+            });
         const auto change = changeFromFile(QFINDTESTDATA("data/change1.json"));
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
@@ -70,7 +63,7 @@ private Q_SLOTS:
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), 1);
-        const auto returnedChange =  items.at(0).dynamicCast<Drive::Change>();
+        const auto returnedChange = items.at(0).dynamicCast<Drive::Change>();
         QVERIFY(returnedChange);
         QCOMPARE(*returnedChange, *change);
     }
@@ -79,8 +72,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(ChangeFetchJobTest)
 
 #include "changefetchjobtest.moc"
-
-
-
-
-

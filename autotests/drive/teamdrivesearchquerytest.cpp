@@ -14,13 +14,17 @@ using namespace KGAPI2::Drive;
 
 Q_DECLARE_METATYPE(KGAPI2::Drive::TeamdriveSearchQuery)
 
-class TeamdriveSearchQueryTest: public QObject
+class TeamdriveSearchQueryTest : public QObject
 {
     Q_OBJECT
 public:
-    explicit TeamdriveSearchQueryTest() {}
+    explicit TeamdriveSearchQueryTest()
+    {
+    }
 
-    ~TeamdriveSearchQueryTest() override {}
+    ~TeamdriveSearchQueryTest() override
+    {
+    }
 
 private Q_SLOTS:
     void testTeamdriveSearchQuery_data()
@@ -31,31 +35,27 @@ private Q_SLOTS:
         {
             TeamdriveSearchQuery query;
             query.addQuery(TeamdriveSearchQuery::CreatedTime, TeamdriveSearchQuery::Equals, QDateTime(QDate(2019, 3, 5), QTime(6, 36, 0), Qt::UTC));
-            QTest::newRow("serialize time") << query
-                                    << "((createdTime = '2019-03-05T06:36:00'))";
+            QTest::newRow("serialize time") << query << "((createdTime = '2019-03-05T06:36:00'))";
         }
 
         {
             TeamdriveSearchQuery query;
             query.addQuery(TeamdriveSearchQuery::Name, TeamdriveSearchQuery::Contains, QLatin1String("Some String"));
-            QTest::newRow("contains") << query
-                                    << "((name contains 'Some String'))";
+            QTest::newRow("contains") << query << "((name contains 'Some String'))";
         }
 
         {
             TeamdriveSearchQuery query;
             query.addQuery(TeamdriveSearchQuery::Name, TeamdriveSearchQuery::Contains, QLatin1String("Name"));
             query.addQuery(TeamdriveSearchQuery::MemberCount, TeamdriveSearchQuery::Equals, 5);
-            QTest::newRow("A and B") << query
-                                     << "((name contains 'Name') and (memberCount = 5))";
+            QTest::newRow("A and B") << query << "((name contains 'Name') and (memberCount = 5))";
         }
 
         {
             TeamdriveSearchQuery query(TeamdriveSearchQuery::Or);
             query.addQuery(TeamdriveSearchQuery::Name, TeamdriveSearchQuery::Contains, QLatin1String("Name"));
             query.addQuery(TeamdriveSearchQuery::OrganizerCount, TeamdriveSearchQuery::Equals, 5);
-            QTest::newRow("A or B") << query
-                                    << "((name contains 'Name') or (organizerCount = 5))";
+            QTest::newRow("A or B") << query << "((name contains 'Name') or (organizerCount = 5))";
         }
 
         {
@@ -65,8 +65,7 @@ private Q_SLOTS:
             subquery.addQuery(TeamdriveSearchQuery::Name, TeamdriveSearchQuery::Equals, QLatin1String("Test"));
             subquery.addQuery(TeamdriveSearchQuery::MemberCount, TeamdriveSearchQuery::LessOrEqual, 10);
             query.addQuery(subquery);
-            QTest::newRow("A or (B and C)") << query
-                                            << "((createdTime = '2019-03-05T06:36:00') or ((name = 'Test') and (memberCount <= 10)))";
+            QTest::newRow("A or (B and C)") << query << "((createdTime = '2019-03-05T06:36:00') or ((name = 'Test') and (memberCount <= 10)))";
         }
     }
 

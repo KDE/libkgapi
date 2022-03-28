@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapicalendar_export.h"
+#include "modifyjob.h"
 
 #include <QScopedPointer>
 
@@ -26,8 +26,7 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will move given \p event from a calendar
      *        with \p sourceCalendarId to calendar with \p destinationCalendarId
@@ -38,9 +37,11 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit EventMoveJob(const EventPtr &event, const QString &sourceCalendarId,
+    explicit EventMoveJob(const EventPtr &event,
+                          const QString &sourceCalendarId,
                           const QString &destinationCalendarId,
-                          const AccountPtr &account, QObject *parent = nullptr);
+                          const AccountPtr &account,
+                          QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will move given \p events from a calendar
@@ -52,12 +53,14 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit EventMoveJob(const EventsList &events, const QString &sourceCalendarId,
+    explicit EventMoveJob(const EventsList &events,
+                          const QString &sourceCalendarId,
                           const QString &destinationCalendarId,
-                          const AccountPtr &account, QObject *parent = nullptr);
+                          const AccountPtr &account,
+                          QObject *parent = nullptr);
 
     /**
-     * @brief Constructs a job that will move event with given \p eventId from a 
+     * @brief Constructs a job that will move event with given \p eventId from a
      *        calendar with \p sourceCalendarId to calendar
      *        with \p destinationCalendarId
      *
@@ -67,9 +70,11 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit EventMoveJob(const QString &eventId, const QString &sourceCalendarId,
+    explicit EventMoveJob(const QString &eventId,
+                          const QString &sourceCalendarId,
                           const QString &destinationCalendarId,
-                          const AccountPtr &account, QObject *parent = nullptr);
+                          const AccountPtr &account,
+                          QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will move events with given \p eventsIds
@@ -85,15 +90,15 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
     explicit EventMoveJob(const QStringList &eventsIds,
                           const QString &sourceCalendarId,
                           const QString &destinationCalendarId,
-                          const AccountPtr &account, QObject *parent = nullptr);
+                          const AccountPtr &account,
+                          QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~EventMoveJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -107,10 +112,7 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager *accessManager,
-                                 const QNetworkRequest &request,
-                                 const QByteArray &data,
-                                 const QString &contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * @brief KGAPI2::Job::handleReplyWithItems implementation
@@ -118,15 +120,12 @@ class KGAPICALENDAR_EXPORT EventMoveJob : public KGAPI2::ModifyJob
      * @param reply
      * @param rawData
      */
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

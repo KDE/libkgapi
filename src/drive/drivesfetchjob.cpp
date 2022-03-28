@@ -8,8 +8,8 @@
 
 #include "drivesfetchjob.h"
 #include "account.h"
-#include "drives.h"
 #include "debug.h"
+#include "drives.h"
 #include "driveservice.h"
 #include "utils.h"
 
@@ -17,16 +17,17 @@
 #include <QNetworkRequest>
 #include <QUrlQuery>
 
-namespace {
-    static const QString MaxResultsAttr = QStringLiteral("maxResults");
-    static const QString UseDomainAdminAccessAttr = QStringLiteral("useDomainAdminAccess");
+namespace
+{
+static const QString MaxResultsAttr = QStringLiteral("maxResults");
+static const QString UseDomainAdminAccessAttr = QStringLiteral("useDomainAdminAccess");
 }
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN DrivesFetchJob::Private
 {
-  public:
+public:
     Private(DrivesFetchJob *parent);
 
     DrivesSearchQuery searchQuery;
@@ -37,35 +38,32 @@ class Q_DECL_HIDDEN DrivesFetchJob::Private
 
     QStringList fields;
 
-  private:
+private:
     DrivesFetchJob *const q;
 };
 
-DrivesFetchJob::Private::Private(DrivesFetchJob *parent):
-    q(parent)
+DrivesFetchJob::Private::Private(DrivesFetchJob *parent)
+    : q(parent)
 {
 }
 
-DrivesFetchJob::DrivesFetchJob(const QString &drivesId,
-                               const AccountPtr &account,
-                               QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+DrivesFetchJob::DrivesFetchJob(const QString &drivesId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->drivesId = drivesId;
 }
 
-DrivesFetchJob::DrivesFetchJob(const DrivesSearchQuery &query,
-                           const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+DrivesFetchJob::DrivesFetchJob(const DrivesSearchQuery &query, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->searchQuery = query;
 }
 
-DrivesFetchJob::DrivesFetchJob(const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+DrivesFetchJob::DrivesFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
 }
 
@@ -137,9 +135,7 @@ void DrivesFetchJob::start()
     enqueueRequest(request);
 }
 
-
-ObjectsList DrivesFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-        const QByteArray &rawData)
+ObjectsList DrivesFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     FeedData feedData;
     feedData.requestUrl = reply->url();
@@ -171,8 +167,8 @@ ObjectsList DrivesFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     return items;
 }
 
-
-void DrivesFetchJob::applyRequestParameters(QUrl &url) {
+void DrivesFetchJob::applyRequestParameters(QUrl &url)
+{
     QUrlQuery query(url);
     if (d->maxResults != 0) {
         query.addQueryItem(MaxResultsAttr, QString::number(d->maxResults));
@@ -189,11 +185,7 @@ void DrivesFetchJob::applyRequestParameters(QUrl &url) {
             d->fields << Drives::Fields::Kind;
         }
         QString itemFields = Job::buildSubfields(Drives::Fields::Items, d->fields);
-        Job::setFields({
-            Drives::Fields::Kind,
-            Drives::Fields::NextPageToken,
-            itemFields
-        });
+        Job::setFields({Drives::Fields::Kind, Drives::Fields::NextPageToken, itemFields});
     }
     url.setQuery(query);
 }

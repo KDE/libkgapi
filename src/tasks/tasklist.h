@@ -6,12 +6,11 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
+#include "kgapitasks_export.h"
 #include "object.h"
 #include "types.h"
-#include "kgapitasks_export.h"
 
 #include <QScopedPointer>
 
@@ -24,10 +23,9 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since: 0.3
  */
-class KGAPITASKS_EXPORT TaskList: public KGAPI2::Object
+class KGAPITASKS_EXPORT TaskList : public KGAPI2::Object
 {
-  public:
-
+public:
     /**
      * @brief Constructor
      */
@@ -36,7 +34,7 @@ class KGAPITASKS_EXPORT TaskList: public KGAPI2::Object
     /**
      * @brief Copy constructor
      */
-    TaskList (const TaskList& other);
+    TaskList(const TaskList &other);
 
     /**
      * @brief Destructor
@@ -93,12 +91,10 @@ class KGAPITASKS_EXPORT TaskList: public KGAPI2::Object
      */
     QString updated() const;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

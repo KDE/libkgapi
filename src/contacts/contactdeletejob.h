@@ -11,7 +11,8 @@
 #include "deletejob.h"
 #include "kgapicontacts_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to delete one or more contacts from addressbook in
@@ -26,8 +27,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a new job that will delete given @p contact from
      *        user's addressbook
@@ -36,8 +36,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactDeleteJob(const ContactPtr &contact,
-                              const AccountPtr &account, QObject* parent);
+    explicit ContactDeleteJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete given @p contacts from
@@ -47,8 +46,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactDeleteJob(const ContactsList &contacts,
-                              const AccountPtr &account, QObject* parent);
+    explicit ContactDeleteJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete contact with given
@@ -58,8 +56,7 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactDeleteJob(const QString &contactId,
-                              const AccountPtr &account, QObject* parent);
+    explicit ContactDeleteJob(const QString &contactId, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete contacts with given
@@ -69,16 +66,14 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactDeleteJob(const QStringList &contactIds,
-                              const AccountPtr &account, QObject* parent);
+    explicit ContactDeleteJob(const QStringList &contactIds, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Destructor
      */
     ~ContactDeleteJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI::Job::start implementation
      */
@@ -90,15 +85,12 @@ class KGAPICONTACTS_EXPORT ContactDeleteJob : public KGAPI2::DeleteJob
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

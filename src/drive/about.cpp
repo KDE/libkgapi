@@ -5,10 +5,10 @@
 */
 
 #include "about.h"
+#include "debug.h"
 #include "user.h"
 #include "utils.h"
 #include "utils_p.h"
-#include "debug.h"
 
 #include <QJsonDocument>
 
@@ -19,7 +19,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN About::Format::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -31,19 +31,19 @@ About::Format::Private::Private()
 {
 }
 
-About::Format::Private::Private(const Private &other):
-    source(other.source),
-    targets(other.targets)
+About::Format::Private::Private(const Private &other)
+    : source(other.source)
+    , targets(other.targets)
 {
 }
 
-About::Format::Format():
-    d(new Private)
+About::Format::Format()
+    : d(new Private)
 {
 }
 
-About::Format::Format(const About::Format &other):
-    d(new Private(*(other.d)))
+About::Format::Format(const About::Format &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -73,7 +73,7 @@ QStringList About::Format::targets() const
 
 class Q_DECL_HIDDEN About::AdditionalRoleInfo::RoleSet::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -85,19 +85,19 @@ About::AdditionalRoleInfo::RoleSet::Private::Private()
 {
 }
 
-About::AdditionalRoleInfo::RoleSet::Private::Private(const Private &other):
-    primaryRole(other.primaryRole),
-    additionalRoles(other.additionalRoles)
+About::AdditionalRoleInfo::RoleSet::Private::Private(const Private &other)
+    : primaryRole(other.primaryRole)
+    , additionalRoles(other.additionalRoles)
 {
 }
 
-About::AdditionalRoleInfo::RoleSet::RoleSet():
-    d(new Private)
+About::AdditionalRoleInfo::RoleSet::RoleSet()
+    : d(new Private)
 {
 }
 
-About::AdditionalRoleInfo::RoleSet::RoleSet(const About::AdditionalRoleInfo::RoleSet &other):
-    d(new Private(*(other.d)))
+About::AdditionalRoleInfo::RoleSet::RoleSet(const About::AdditionalRoleInfo::RoleSet &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -127,7 +127,7 @@ QStringList About::AdditionalRoleInfo::RoleSet::additionalRoles() const
 
 class Q_DECL_HIDDEN About::AdditionalRoleInfo::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -139,19 +139,19 @@ About::AdditionalRoleInfo::Private::Private()
 {
 }
 
-About::AdditionalRoleInfo::Private::Private(const Private &other):
-    type(other.type),
-    roleSets(other.roleSets)
+About::AdditionalRoleInfo::Private::Private(const Private &other)
+    : type(other.type)
+    , roleSets(other.roleSets)
 {
 }
 
-About::AdditionalRoleInfo::AdditionalRoleInfo():
-    d(new Private)
+About::AdditionalRoleInfo::AdditionalRoleInfo()
+    : d(new Private)
 {
 }
 
-About::AdditionalRoleInfo::AdditionalRoleInfo(const About::AdditionalRoleInfo &other):
-    d(new Private(*(other.d)))
+About::AdditionalRoleInfo::AdditionalRoleInfo(const About::AdditionalRoleInfo &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -181,7 +181,7 @@ About::AdditionalRoleInfo::RoleSetsList About::AdditionalRoleInfo::roleSets() co
 
 class Q_DECL_HIDDEN About::Feature::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -189,24 +189,24 @@ class Q_DECL_HIDDEN About::Feature::Private
     qreal featureRate;
 };
 
-About::Feature::Private::Private():
-    featureRate(-1)
+About::Feature::Private::Private()
+    : featureRate(-1)
 {
 }
 
-About::Feature::Private::Private(const Private &other):
-    featureName(other.featureName),
-    featureRate(other.featureRate)
+About::Feature::Private::Private(const Private &other)
+    : featureName(other.featureName)
+    , featureRate(other.featureRate)
 {
 }
 
-About::Feature::Feature():
-    d(new Private)
+About::Feature::Feature()
+    : d(new Private)
 {
 }
 
-About::Feature::Feature(const About::Feature &other):
-    d(new Private(*(other.d)))
+About::Feature::Feature(const About::Feature &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -236,7 +236,7 @@ qreal About::Feature::featureRate() const
 
 class Q_DECL_HIDDEN About::MaxUploadSize::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -244,25 +244,26 @@ class Q_DECL_HIDDEN About::MaxUploadSize::Private
     qlonglong size;
 };
 
-About::MaxUploadSize::Private::Private():
-    size(-1)
+About::MaxUploadSize::Private::Private()
+    : size(-1)
 {
 }
 
-About::MaxUploadSize::Private::Private(const Private &other):
-    type(other.type),
-    size(other.size)
+About::MaxUploadSize::Private::Private(const Private &other)
+    : type(other.type)
+    , size(other.size)
 {
 }
 
-About::MaxUploadSize::MaxUploadSize():
-    d(new Private)
+About::MaxUploadSize::MaxUploadSize()
+    : d(new Private)
 {
 }
 
-About::MaxUploadSize::MaxUploadSize(const About::MaxUploadSize &other):
-    d(new Private(*(other.d)))
-{ }
+About::MaxUploadSize::MaxUploadSize(const About::MaxUploadSize &other)
+    : d(new Private(*(other.d)))
+{
+}
 
 About::MaxUploadSize::~MaxUploadSize()
 {
@@ -290,7 +291,7 @@ qlonglong About::MaxUploadSize::size() const
 
 class Q_DECL_HIDDEN About::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -315,38 +316,38 @@ class Q_DECL_HIDDEN About::Private
     UserPtr user;
 };
 
-About::Private::Private():
-    quotaBytesTotal(-1),
-    quotaBytesUsed(-1),
-    quotaBytesUsedInTrash(-1),
-    quotaBytesUsedAggregate(-1),
-    largestChangeId(-1),
-    remainingChangeIds(-1),
-    isCurrentAppInstalled(false),
-    canCreateDrives(false)
+About::Private::Private()
+    : quotaBytesTotal(-1)
+    , quotaBytesUsed(-1)
+    , quotaBytesUsedInTrash(-1)
+    , quotaBytesUsedAggregate(-1)
+    , largestChangeId(-1)
+    , remainingChangeIds(-1)
+    , isCurrentAppInstalled(false)
+    , canCreateDrives(false)
 {
 }
 
-About::Private::Private(const About::Private &other):
-    selfLink(other.selfLink),
-    name(other.name),
-    quotaBytesTotal(other.quotaBytesTotal),
-    quotaBytesUsed(other.quotaBytesUsed),
-    quotaBytesUsedInTrash(other.quotaBytesUsedInTrash),
-    quotaBytesUsedAggregate(other.quotaBytesUsedAggregate),
-    largestChangeId(other.largestChangeId),
-    remainingChangeIds(other.remainingChangeIds),
-    rootFolderId(other.rootFolderId),
-    domainSharingPolicy(other.domainSharingPolicy),
-    importFormats(other.importFormats),
-    exportFormats(other.exportFormats),
-    additionalRoleInfo(other.additionalRoleInfo),
-    features(other.features),
-    maxUploadSizes(other.maxUploadSizes),
-    permissionId(other.permissionId),
-    isCurrentAppInstalled(other.isCurrentAppInstalled),
-    canCreateDrives(other.canCreateDrives),
-    user(other.user)
+About::Private::Private(const About::Private &other)
+    : selfLink(other.selfLink)
+    , name(other.name)
+    , quotaBytesTotal(other.quotaBytesTotal)
+    , quotaBytesUsed(other.quotaBytesUsed)
+    , quotaBytesUsedInTrash(other.quotaBytesUsedInTrash)
+    , quotaBytesUsedAggregate(other.quotaBytesUsedAggregate)
+    , largestChangeId(other.largestChangeId)
+    , remainingChangeIds(other.remainingChangeIds)
+    , rootFolderId(other.rootFolderId)
+    , domainSharingPolicy(other.domainSharingPolicy)
+    , importFormats(other.importFormats)
+    , exportFormats(other.exportFormats)
+    , additionalRoleInfo(other.additionalRoleInfo)
+    , features(other.features)
+    , maxUploadSizes(other.maxUploadSizes)
+    , permissionId(other.permissionId)
+    , isCurrentAppInstalled(other.isCurrentAppInstalled)
+    , canCreateDrives(other.canCreateDrives)
+    , user(other.user)
 {
 }
 
@@ -396,15 +397,15 @@ const QString About::Fields::Type = QStringLiteral("type");
 const QString About::Fields::Url = QStringLiteral("url");
 const QString About::Fields::User = QStringLiteral("user");
 
-About::About():
-    KGAPI2::Object(),
-    d(new Private)
+About::About()
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
-About::About(const About &other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
+About::About(const About &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 
@@ -547,9 +548,7 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     }
     const QVariantMap map = document.toVariant().toMap();
 
-    if (!map.contains(QLatin1String("kind")) ||
-        map[QStringLiteral("kind")].toString() != QLatin1String("drive#about")) {
-
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#about")) {
         return AboutPtr();
     }
 
@@ -570,7 +569,7 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     about->d->canCreateDrives = map.value(QStringLiteral("canCreateDrives")).toBool();
 
     const QVariantList importFormats = map.value(QStringLiteral("importFormats")).toList();
-    for  (const QVariant &v : importFormats) {
+    for (const QVariant &v : importFormats) {
         const QVariantMap importFormat = v.toMap();
         FormatPtr format(new Format());
         format->d->source = importFormat.value(QStringLiteral("source")).toString();

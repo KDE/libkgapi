@@ -5,12 +5,12 @@
  */
 
 #include "pagefetchjob.h"
+#include "account.h"
 #include "bloggerservice.h"
 #include "utils.h"
-#include "account.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
@@ -18,9 +18,8 @@ using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN PageFetchJob::Private
 {
-  public:
-    Private(const QString &blogId,
-            const QString &pageId);
+public:
+    Private(const QString &blogId, const QString &pageId);
 
     const QString blogId;
     const QString pageId;
@@ -29,25 +28,19 @@ class Q_DECL_HIDDEN PageFetchJob::Private
     StatusFilters statusFilter = All;
 };
 
-PageFetchJob::Private::Private(const QString &blogId_,
-                               const QString &pageId_)
+PageFetchJob::Private::Private(const QString &blogId_, const QString &pageId_)
     : blogId(blogId_)
     , pageId(pageId_)
 {
 }
 
-PageFetchJob::PageFetchJob(const QString &blogId,
-                           const AccountPtr &account,
-                           QObject *parent)
+PageFetchJob::PageFetchJob(const QString &blogId, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new Private(blogId, QString()))
 {
 }
 
-PageFetchJob::PageFetchJob(const QString &blogId,
-                           const QString &pageId,
-                           const AccountPtr &account,
-                           QObject *parent)
+PageFetchJob::PageFetchJob(const QString &blogId, const QString &pageId, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new Private(blogId, pageId))
 {
@@ -108,7 +101,7 @@ ObjectsList PageFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->pageId.isEmpty()) {
-            items =  Page::fromJSONFeed(rawData);
+            items = Page::fromJSONFeed(rawData);
         } else {
             items << Page::fromJSON(rawData);
         }
@@ -122,5 +115,3 @@ ObjectsList PageFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     emitFinished();
     return items;
 }
-
-

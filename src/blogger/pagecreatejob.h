@@ -18,21 +18,17 @@ class KGAPIBLOGGER_EXPORT PageCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
-    explicit PageCreateJob(const PagePtr &page,
-                           const AccountPtr &account,
-                           QObject *parent = nullptr);
+public:
+    explicit PageCreateJob(const PagePtr &page, const AccountPtr &account, QObject *parent = nullptr);
     ~PageCreateJob() override;
 
-  protected:
+protected:
     void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
-
+    Private *const d;
 };
 }
 }
-

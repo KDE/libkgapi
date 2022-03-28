@@ -6,16 +6,16 @@
 
 #include "comment.h"
 
-#include <QVariant>
 #include <QJsonDocument>
 #include <QUrlQuery>
+#include <QVariant>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN Comment::Private
 {
-  public:
+public:
     Private();
 
     static CommentPtr fromJSON(const QVariant &json);

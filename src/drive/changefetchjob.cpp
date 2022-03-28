@@ -22,7 +22,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN ChangeFetchJob::Private
 {
-  public:
+public:
     Private(ChangeFetchJob *parent);
 
     QString changeId;
@@ -34,27 +34,25 @@ class Q_DECL_HIDDEN ChangeFetchJob::Private
     bool includeItemsFromAllDrives = true;
     bool supportsAllDrives = true;
 
-  private:
+private:
     ChangeFetchJob *const q;
 };
 
-ChangeFetchJob::Private::Private(ChangeFetchJob *parent):
-    q(parent)
+ChangeFetchJob::Private::Private(ChangeFetchJob *parent)
+    : q(parent)
 {
 }
 
-ChangeFetchJob::ChangeFetchJob(const QString &changeId,
-                               const AccountPtr &account,
-                               QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+ChangeFetchJob::ChangeFetchJob(const QString &changeId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
     d->changeId = changeId;
 }
 
-ChangeFetchJob::ChangeFetchJob(const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private(this))
+ChangeFetchJob::ChangeFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private(this))
 {
 }
 
@@ -170,9 +168,7 @@ void ChangeFetchJob::start()
     enqueueRequest(request);
 }
 
-
-ObjectsList ChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-        const QByteArray &rawData)
+ObjectsList ChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     FeedData feedData;
     feedData.requestUrl = reply->url();
@@ -201,5 +197,3 @@ ObjectsList ChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
-
-

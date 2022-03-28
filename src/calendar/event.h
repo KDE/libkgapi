@@ -8,9 +8,9 @@
 
 #pragma once
 
+#include "kgapicalendar_export.h"
 #include "object.h"
 #include "types.h"
-#include "kgapicalendar_export.h"
 
 #include <KCalendarCore/Event>
 
@@ -25,10 +25,9 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.1
  */
-class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
-                                  public KCalendarCore::Event
+class KGAPICALENDAR_EXPORT Event : public KGAPI2::Object, public KCalendarCore::Event
 {
-  public:
+public:
     /**
      * @brief Constructor
      */
@@ -37,7 +36,7 @@ class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
     /**
      * @brief Copy constructor
      */
-    Event(const Event& other);
+    Event(const Event &other);
 
     /**
      * @brief Copy constructor
@@ -87,11 +86,9 @@ class KGAPICALENDAR_EXPORT Event: public KGAPI2::Object,
      */
     void setId(const QString &id);
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
-
 };
 
 } // namespace KGAPI
-

@@ -9,10 +9,11 @@
 #pragma once
 
 #include "fetchjob.h"
-#include "latitude.h"
 #include "kgapilatitude_export.h"
+#include "latitude.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to fetch all past locations from user's account on Google Latitude
@@ -70,8 +71,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchHistoryJob : public KGAPI2::F
      */
     Q_PROPERTY(qlonglong maxTimestamp READ maxTimestamp WRITE setMaxTimestamp)
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will fetch all past user's locations from
      *        Google Latitude service
@@ -79,7 +79,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchHistoryJob : public KGAPI2::F
      * @param account Account to authenticate the requests
      * @param parent
      */
-    explicit LocationFetchHistoryJob(const AccountPtr &account, QObject* parent = nullptr);
+    explicit LocationFetchHistoryJob(const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -134,8 +134,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchHistoryJob : public KGAPI2::F
      */
     void setMaxTimestamp(qlonglong maxTimestamp);
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -147,15 +146,12 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationFetchHistoryJob : public KGAPI2::F
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

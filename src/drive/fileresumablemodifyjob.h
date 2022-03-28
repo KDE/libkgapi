@@ -20,7 +20,7 @@ namespace Drive
 class KGAPIDRIVE_EXPORT FileResumableModifyJob : public KGAPI2::Drive::FileAbstractResumableJob
 {
     Q_OBJECT
-    
+
     /**
      * Whether a blob upload should create a new revision. If set to false,
      * the blob data in the current head revision is replaced. If true, a new
@@ -31,9 +31,7 @@ class KGAPIDRIVE_EXPORT FileResumableModifyJob : public KGAPI2::Drive::FileAbstr
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool createNewRevision
-               READ createNewRevision
-               WRITE setCreateNewRevision)
+    Q_PROPERTY(bool createNewRevision READ createNewRevision WRITE setCreateNewRevision)
 
     /**
      * Whether to set the modified date with the supplied modified date.
@@ -42,9 +40,7 @@ class KGAPIDRIVE_EXPORT FileResumableModifyJob : public KGAPI2::Drive::FileAbstr
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool updateModifiedDate
-               READ updateModifiedDate
-               WRITE setUpdateModifiedDate)
+    Q_PROPERTY(bool updateModifiedDate READ updateModifiedDate WRITE setUpdateModifiedDate)
 
     /**
      * Whether to update the view date after successfully updating the file.
@@ -53,20 +49,14 @@ class KGAPIDRIVE_EXPORT FileResumableModifyJob : public KGAPI2::Drive::FileAbstr
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool updateViewedDate
-               READ updateViewedDate
-               WRITE setUpdateViewedDate)
+    Q_PROPERTY(bool updateViewedDate READ updateViewedDate WRITE setUpdateViewedDate)
 
-  public:
-    explicit FileResumableModifyJob(const FilePtr &metadata, const AccountPtr &account,
-                           QObject *parent = nullptr);
-    
-    explicit FileResumableModifyJob(const QString &fileId, const AccountPtr &account,
-                           QObject *parent = nullptr);
-    explicit FileResumableModifyJob(QIODevice *device, const FilePtr &metadata,
-                           const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileResumableModifyJob(QIODevice *device, const QString &fileId,
-                           const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileResumableModifyJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
+
+    explicit FileResumableModifyJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileResumableModifyJob(QIODevice *device, const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileResumableModifyJob(QIODevice *device, const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
     ~FileResumableModifyJob() override;
 
     bool createNewRevision() const;
@@ -77,18 +67,16 @@ class KGAPIDRIVE_EXPORT FileResumableModifyJob : public KGAPI2::Drive::FileAbstr
 
     bool updateViewedDate() const;
     void setUpdateViewedDate(bool updateViewedDate);
-    
-  protected:
+
+protected:
     QUrl createUrl() override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

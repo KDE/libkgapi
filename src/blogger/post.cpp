@@ -14,7 +14,7 @@ using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN Post::Private
 {
-  public:
+public:
     Private();
 
     static PostPtr fromJSON(const QVariant &json);
@@ -31,7 +31,7 @@ class Q_DECL_HIDDEN Post::Private
     QString authorName;
     QUrl authorUrl;
     QUrl authorImageUrl;
-    uint commentsCount =0;
+    uint commentsCount = 0;
     QStringList labels;
     QVariant customMetaData;
     QString location;
@@ -45,9 +45,8 @@ Post::Private::Private()
 {
 }
 
-
 Post::Post()
-  : d(new Private)
+    : d(new Private)
 {
 }
 
@@ -215,7 +214,6 @@ QString Post::status() const
 {
     return d->status;
 }
-
 
 PostPtr Post::Private::fromJSON(const QVariant &json)
 {

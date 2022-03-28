@@ -12,7 +12,8 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to delete one or more calendars from user's Google Calendar
@@ -28,8 +29,7 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a new job that will delete given @p calendar from user's
      *        Google Calendar account
@@ -38,8 +38,7 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarDeleteJob(const CalendarPtr &calendar,
-                               const AccountPtr &account, QObject* parent);
+    explicit CalendarDeleteJob(const CalendarPtr &calendar, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete given @p calendars from user's
@@ -49,19 +48,17 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarDeleteJob(const CalendarsList &calendars,
-                               const AccountPtr &account, QObject* parent);
+    explicit CalendarDeleteJob(const CalendarsList &calendars, const AccountPtr &account, QObject *parent);
 
     /**
-     * @brief Constructs a new job that will delete calendar with given 
+     * @brief Constructs a new job that will delete calendar with given
      *        @p calendarId from user's Google Calendar account
      *
      * @param calendarId ID of calendar to delete
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarDeleteJob(const QString &calendarId,
-                               const AccountPtr &account, QObject *parent);
+    explicit CalendarDeleteJob(const QString &calendarId, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete calendars with given
@@ -71,16 +68,14 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit CalendarDeleteJob(const QStringList &calendarsIds,
-                               const AccountPtr &account, QObject *parent);
+    explicit CalendarDeleteJob(const QStringList &calendarsIds, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Destructor
      */
     ~CalendarDeleteJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -92,13 +87,12 @@ class KGAPICALENDAR_EXPORT CalendarDeleteJob : public KGAPI2::DeleteJob
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply* reply, const QByteArray& rawData) override;
-  private:
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
+
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

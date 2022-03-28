@@ -11,8 +11,8 @@
 
 #include "searchquery.h"
 
-#include <QVariant>
 #include <QSharedDataPointer>
+#include <QVariant>
 
 namespace KGAPI2
 {
@@ -58,4 +58,3 @@ private:
 };
 }
 }
-

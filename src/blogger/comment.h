@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "object.h"
 #include "kgapiblogger_export.h"
+#include "object.h"
 
 #include <QDateTime>
 
@@ -18,7 +18,7 @@ namespace Blogger
 
 class KGAPIBLOGGER_EXPORT Comment : public KGAPI2::Object
 {
-  public:
+public:
     explicit Comment();
     ~Comment() override;
 
@@ -61,13 +61,12 @@ class KGAPIBLOGGER_EXPORT Comment : public KGAPI2::Object
     static CommentPtr fromJSON(const QByteArray &rawData);
     static ObjectsList fromJSONFeed(const QByteArray &rawData, FeedData &feedData);
 
-  private:
+private:
     Q_DISABLE_COPY(Comment)
 
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 }
 }
-

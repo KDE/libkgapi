@@ -7,39 +7,36 @@
  */
 
 #include "taskmodifyjob.h"
-#include "tasksservice.h"
 #include "account.h"
 #include "debug.h"
-#include "task.h"
-#include "utils.h"
 #include "private/queuehelper_p.h"
+#include "task.h"
+#include "tasksservice.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN TaskModifyJob::Private
 {
-  public:
+public:
     QueueHelper<TaskPtr> tasks;
     QString taskListId;
 };
 
-TaskModifyJob::TaskModifyJob(const TaskPtr& task, const QString& taskListId,
-                             const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private)
+TaskModifyJob::TaskModifyJob(const TaskPtr &task, const QString &taskListId, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private)
 {
     d->tasks << task;
     d->taskListId = taskListId;
 }
 
-TaskModifyJob::TaskModifyJob(const TasksList& tasks, const QString& taskListId,
-                             const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private)
+TaskModifyJob::TaskModifyJob(const TasksList &tasks, const QString &taskListId, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private)
 {
     d->tasks = tasks;
     d->taskListId = taskListId;
@@ -70,7 +67,7 @@ void TaskModifyJob::start()
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-ObjectsList TaskModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList TaskModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -89,5 +86,3 @@ ObjectsList TaskModifyJob::handleReplyWithItems(const QNetworkReply *reply, cons
 
     return items;
 }
-
-

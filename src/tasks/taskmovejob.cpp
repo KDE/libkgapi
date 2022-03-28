@@ -7,21 +7,21 @@
  */
 
 #include "taskmovejob.h"
-#include "tasksservice.h"
 #include "account.h"
 #include "debug.h"
-#include "task.h"
-#include "utils.h"
 #include "private/queuehelper_p.h"
+#include "task.h"
+#include "tasksservice.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN TaskMoveJob::Private
 {
-  public:
+public:
     Private(TaskMoveJob *parent);
     void processNextTask();
 
@@ -29,12 +29,12 @@ class Q_DECL_HIDDEN TaskMoveJob::Private
     QString taskListId;
     QString newParentId;
 
-  private:
-    TaskMoveJob * const q;
+private:
+    TaskMoveJob *const q;
 };
 
-TaskMoveJob::Private::Private(TaskMoveJob *parent):
-    q(parent)
+TaskMoveJob::Private::Private(TaskMoveJob *parent)
+    : q(parent)
 {
 }
 
@@ -59,22 +59,18 @@ void TaskMoveJob::Private::processNextTask()
     q->enqueueRequest(request);
 }
 
-TaskMoveJob::TaskMoveJob(const TaskPtr& task, const QString& taskListId,
-                         const QString& newParentId, const AccountPtr& account,
-                         QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+TaskMoveJob::TaskMoveJob(const TaskPtr &task, const QString &taskListId, const QString &newParentId, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->tasksIds << task->uid();
     d->taskListId = taskListId;
     d->newParentId = newParentId;
 }
 
-TaskMoveJob::TaskMoveJob(const TasksList& tasks, const QString& taskListId,
-                         const QString& newParentId, const AccountPtr& account,
-                         QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+TaskMoveJob::TaskMoveJob(const TasksList &tasks, const QString &taskListId, const QString &newParentId, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->tasksIds.reserve(tasks.size());
     for (const TaskPtr &task : tasks) {
@@ -84,22 +80,18 @@ TaskMoveJob::TaskMoveJob(const TasksList& tasks, const QString& taskListId,
     d->newParentId = newParentId;
 }
 
-TaskMoveJob::TaskMoveJob(const QString &taskId, const QString &taskListId,
-                         const QString &newParentId, const AccountPtr &account,
-                         QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+TaskMoveJob::TaskMoveJob(const QString &taskId, const QString &taskListId, const QString &newParentId, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->tasksIds << taskId;
     d->taskListId = taskListId;
     d->newParentId = newParentId;
 }
 
-TaskMoveJob::TaskMoveJob(const QStringList &tasksIds, const QString &taskListId,
-                         const QString &newParentId, const AccountPtr &account,
-                         QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+TaskMoveJob::TaskMoveJob(const QStringList &tasksIds, const QString &taskListId, const QString &newParentId, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->tasksIds = tasksIds;
     d->taskListId = taskListId;
@@ -121,7 +113,7 @@ void TaskMoveJob::dispatchRequest(QNetworkAccessManager *accessManager, const QN
     accessManager->post(request, QByteArray());
 }
 
-void TaskMoveJob::handleReply(const QNetworkReply *reply, const QByteArray& rawData)
+void TaskMoveJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     Q_UNUSED(reply)
     Q_UNUSED(rawData)
@@ -129,5 +121,3 @@ void TaskMoveJob::handleReply(const QNetworkReply *reply, const QByteArray& rawD
     d->tasksIds.currentProcessed();
     d->processNextTask();
 }
-
-

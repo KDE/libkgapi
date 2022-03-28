@@ -10,15 +10,13 @@
 
 #include <QDateTime>
 
-KGAPI2::ContentType Utils::stringToContentType(const QString& contentType)
+KGAPI2::ContentType Utils::stringToContentType(const QString &contentType)
 {
-    if (contentType.contains(QLatin1String("application/json")) ||
-        contentType.contains(QLatin1String("text/plain")) ||
-        contentType.contains(QLatin1String("text/javascript"))) {
-            return KGAPI2::JSON;
-     } else if (contentType.contains(QLatin1String("application/atom+xml")) ||
-                contentType.contains(QLatin1String("text/xml"))) {
-            return KGAPI2::XML;
+    if (contentType.contains(QLatin1String("application/json")) || contentType.contains(QLatin1String("text/plain"))
+        || contentType.contains(QLatin1String("text/javascript"))) {
+        return KGAPI2::JSON;
+    } else if (contentType.contains(QLatin1String("application/atom+xml")) || contentType.contains(QLatin1String("text/xml"))) {
+        return KGAPI2::XML;
     }
 
     return KGAPI2::UnknownContentType;
@@ -39,7 +37,7 @@ QDateTime Utils::rfc3339DateFromString(const QString &string)
     return QDateTime::fromString(string, Qt::ISODate);
 }
 
-QString Utils::rfc3339DateToString(const QDateTime& dt)
+QString Utils::rfc3339DateToString(const QDateTime &dt)
 {
     return dt.toUTC().toString(Qt::ISODate);
 }

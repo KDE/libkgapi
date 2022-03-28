@@ -23,21 +23,17 @@ class KGAPIDRIVE_EXPORT RevisionDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-    explicit RevisionDeleteJob(const QString &fileId, const QString &revisionId,
-                               const AccountPtr &account, QObject *parent = nullptr);
-    explicit RevisionDeleteJob(const QString &fileId, const QStringList &revisionsIds,
-                               const AccountPtr &account, QObject *parent = nullptr);
-    explicit RevisionDeleteJob(const QString &fileId, const RevisionPtr &revision,
-                               const AccountPtr &account, QObject *parent = nullptr);
-    explicit RevisionDeleteJob(const QString &fileId, const RevisionsList &revisions,
-                               const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit RevisionDeleteJob(const QString &fileId, const QString &revisionId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit RevisionDeleteJob(const QString &fileId, const QStringList &revisionsIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit RevisionDeleteJob(const QString &fileId, const RevisionPtr &revision, const AccountPtr &account, QObject *parent = nullptr);
+    explicit RevisionDeleteJob(const QString &fileId, const RevisionsList &revisions, const AccountPtr &account, QObject *parent = nullptr);
     ~RevisionDeleteJob() override;
 
-  protected:
+protected:
     void start() override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -46,4 +42,3 @@ class KGAPIDRIVE_EXPORT RevisionDeleteJob : public KGAPI2::DeleteJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

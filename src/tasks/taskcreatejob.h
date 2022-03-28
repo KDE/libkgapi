@@ -13,7 +13,8 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to create one or more new tasks in Google Tasks
@@ -48,8 +49,7 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
      */
     Q_PROPERTY(QString previous READ previous WRITE setPrevious)
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will create given @p task in a tasklist
      *        with id @p taskListId
@@ -59,8 +59,7 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskCreateJob(const TaskPtr& task, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskCreateJob(const TaskPtr &task, const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will create given @p tasks in a tasklist
@@ -71,8 +70,7 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskCreateJob(const TasksList& tasks, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskCreateJob(const TasksList &tasks, const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -105,15 +103,14 @@ class KGAPITASKS_EXPORT TaskCreateJob : public KGAPI2::CreateJob
      */
     QString previous() const;
 
-  protected:
+protected:
     void start() override;
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
 };
 
 } // namespace KGAPI2
-

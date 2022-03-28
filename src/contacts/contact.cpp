@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "contact.h"
 #include "debug.h"
 
@@ -20,43 +19,45 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN Contact::Private
 {
-
-  public:
-    Private() { }
+public:
+    Private()
+    {
+    }
     Private(const Private &other);
-    ~Private() { }
+    ~Private()
+    {
+    }
 
     bool deleted = false;
     QUrl photoUrl;
 
     /* group URI, isDeleted */
-    QMap< QString, bool > groups;
+    QMap<QString, bool> groups;
 
     QDateTime updated;
     QDateTime created;
 };
 
-
-Contact::Private::Private(const Private &other):
-    deleted(other.deleted),
-    photoUrl(other.photoUrl),
-    groups(other.groups),
-    updated(other.updated),
-    created(other.created)
+Contact::Private::Private(const Private &other)
+    : deleted(other.deleted)
+    , photoUrl(other.photoUrl)
+    , groups(other.groups)
+    , updated(other.updated)
+    , created(other.created)
 {
 }
 
-Contact::Contact():
-    Object(),
-    KContacts::Addressee(),
-    d(new Private)
+Contact::Contact()
+    : Object()
+    , KContacts::Addressee()
+    , d(new Private)
 {
 }
 
-Contact::Contact(const Contact &other):
-    Object(other),
-    KContacts::Addressee(other),
-    d(new Private(*(other.d)))
+Contact::Contact(const Contact &other)
+    : Object(other)
+    , KContacts::Addressee(other)
+    , d(new Private(*(other.d)))
 {
     const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
     for (const QString &group : groups) {
@@ -64,10 +65,10 @@ Contact::Contact(const Contact &other):
     }
 }
 
-Contact::Contact(const KContacts::Addressee& other):
-    Object(),
-    KContacts::Addressee(other),
-    d(new Private)
+Contact::Contact(const KContacts::Addressee &other)
+    : Object()
+    , KContacts::Addressee(other)
+    , d(new Private)
 {
     const QStringList groups = custom(QStringLiteral("GCALENDAR"), QStringLiteral("groupMembershipInfo")).split(QLatin1Char(','), Qt::SkipEmptyParts);
     for (const QString &group : groups) {
@@ -113,7 +114,6 @@ bool Contact::operator==(const Contact &other) const
     return true;
 }
 
-
 void Contact::setDeleted(const bool deleted)
 {
     d->deleted = deleted;
@@ -124,12 +124,12 @@ bool Contact::deleted() const
     return d->deleted;
 }
 
-void Contact::setPhotoUrl(const QString& photoUrl)
+void Contact::setPhotoUrl(const QString &photoUrl)
 {
     d->photoUrl = QUrl(photoUrl);
 }
 
-void Contact::setPhotoUrl(const QUrl& photoUrl)
+void Contact::setPhotoUrl(const QUrl &photoUrl)
 {
     d->photoUrl = photoUrl;
 }
@@ -149,7 +149,7 @@ QDateTime Contact::created() const
     return d->created;
 }
 
-void Contact::setUpdated(const QDateTime& updated)
+void Contact::setUpdated(const QDateTime &updated)
 {
     d->updated = updated;
 }
@@ -198,14 +198,14 @@ void Contact::clearGroups()
     }
 }
 
-void Contact::removeGroup(const QString& group)
+void Contact::removeGroup(const QString &group)
 {
     if (d->groups.contains(group)) {
         d->groups.insert(group, true);
     }
 }
 
-bool Contact::groupIsDeleted(const QString& group) const
+bool Contact::groupIsDeleted(const QString &group) const
 {
     if (d->groups.contains(group)) {
         return d->groups.value(group);
@@ -213,7 +213,6 @@ bool Contact::groupIsDeleted(const QString& group) const
 
     return false;
 }
-
 
 QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
 {
@@ -241,7 +240,7 @@ QString Contact::IMProtocolToScheme(const Contact::IMProtocol protocol)
     return QStringLiteral("Other");
 }
 
-QString Contact::IMSchemeToProtocolName(const QString& scheme)
+QString Contact::IMSchemeToProtocolName(const QString &scheme)
 {
     QString newScheme = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toLower();
     if (newScheme == QLatin1String("google_talk")) {
@@ -250,19 +249,13 @@ QString Contact::IMSchemeToProtocolName(const QString& scheme)
     return newScheme;
 }
 
-QString Contact::IMProtocolNameToScheme(const QString& protocolName)
+QString Contact::IMProtocolNameToScheme(const QString &protocolName)
 {
-    QString proto {protocolName.toUpper()};
+    QString proto{protocolName.toUpper()};
     if (proto == QLatin1String("XMPP")) {
         return SCHEME_URL + QLatin1String("JABBER");
-    } else if ((proto == QLatin1String("ICQ")) ||
-               (proto == QLatin1String("GOOGLE_TALK")) ||
-               (proto == QLatin1String("QQ")) ||
-               (proto == QLatin1String("SKYPE")) ||
-               (proto == QLatin1String("YAHOO")) ||
-               (proto == QLatin1String("MSN")) ||
-               (proto == QLatin1String("AIM")))
-    {
+    } else if ((proto == QLatin1String("ICQ")) || (proto == QLatin1String("GOOGLE_TALK")) || (proto == QLatin1String("QQ")) || (proto == QLatin1String("SKYPE"))
+               || (proto == QLatin1String("YAHOO")) || (proto == QLatin1String("MSN")) || (proto == QLatin1String("AIM"))) {
         return SCHEME_URL + proto;
     } else if (proto == QLatin1String("GOOGLETALK")) {
         return SCHEME_URL + QStringLiteral("GOOGLE_TALK");
@@ -273,7 +266,7 @@ QString Contact::IMProtocolNameToScheme(const QString& protocolName)
     return protocolName;
 }
 
-Contact::IMProtocol Contact::IMSchemeToProtocol(const QString& scheme)
+Contact::IMProtocol Contact::IMSchemeToProtocol(const QString &scheme)
 {
     QString protoName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1).toUpper();
 
@@ -324,7 +317,7 @@ QString Contact::addressTypeToScheme(const KContacts::Address::Type type, bool *
     return SCHEME_URL + typeName;
 }
 
-KContacts::Address::Type Contact::addressSchemeToType(const QString& scheme, const bool primary)
+KContacts::Address::Type Contact::addressSchemeToType(const QString &scheme, const bool primary)
 {
     QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
     KContacts::Address::Type type;
@@ -379,7 +372,7 @@ QString Contact::phoneTypeToScheme(const KContacts::PhoneNumber::Type type)
     return SCHEME_URL + typeName;
 }
 
-KContacts::PhoneNumber::Type Contact::phoneSchemeToType(const QString& scheme)
+KContacts::PhoneNumber::Type Contact::phoneSchemeToType(const QString &scheme)
 {
     QString typeName = scheme.mid(scheme.lastIndexOf(QLatin1Char('#')) + 1);
     KContacts::PhoneNumber::Type type = {};

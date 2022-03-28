@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
 #include "deletejob.h"
@@ -14,7 +13,8 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to delete one or more tasks from tasklist in
@@ -29,8 +29,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a new job that will delete given @p task from a
      *        tasklist with given @p taskListId
@@ -40,8 +39,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskDeleteJob(const TaskPtr &task, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskDeleteJob(const TaskPtr &task, const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a new job that will delete given @p tasks from a
@@ -52,8 +50,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskDeleteJob(const TasksList &tasks, const QString &tasklistId,
-                           const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskDeleteJob(const TasksList &tasks, const QString &tasklistId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a new job that will delete task with given @p taskId
@@ -64,8 +61,7 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskDeleteJob(const QString &taskId, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskDeleteJob(const QString &taskId, const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a new job that will delete tasks with given @p tasksIds
@@ -76,16 +72,14 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskDeleteJob(const QStringList &tasksIds, const QString &taskListId,
-                           const AccountPtr &account, QObject *parent = nullptr);
+    explicit TaskDeleteJob(const QStringList &tasksIds, const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~TaskDeleteJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -97,13 +91,12 @@ class KGAPITASKS_EXPORT TaskDeleteJob : public KGAPI2::DeleteJob
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply* reply, const QByteArray& rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
 };
 
 } // namespace KGAPI2
-

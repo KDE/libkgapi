@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "filecopyjob.h"
-#include "file.h"
 #include "account.h"
+#include "file.h"
+#include "filecopyjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -37,30 +37,23 @@ private Q_SLOTS:
         QTest::addColumn<Drive::FilesList>("destinationFiles");
         QTest::addColumn<Drive::FilesList>("expectedCopies");
 
-        QTest::newRow("simple file")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/file1_copy_request.txt"),
-                                     QFINDTESTDATA("data/file1_copy_response.txt"))
-                }
-            << Drive::FilesList{ fileFromFile(QFINDTESTDATA("data/file1.json")) }
-            << Drive::FilesList{ fileFromFile(QFINDTESTDATA("data/file1_copy.json")) }
-            << Drive::FilesList{ fileFromFile(QFINDTESTDATA("data/file1_copy.json")) };
+        QTest::newRow("simple file") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/file1_copy_request.txt"),
+                                                                                                   QFINDTESTDATA("data/file1_copy_response.txt"))}
+                                     << Drive::FilesList{fileFromFile(QFINDTESTDATA("data/file1.json"))}
+                                     << Drive::FilesList{fileFromFile(QFINDTESTDATA("data/file1_copy.json"))}
+                                     << Drive::FilesList{fileFromFile(QFINDTESTDATA("data/file1_copy.json"))};
 
         // NOTE: The scenarios are reversed due use of QMap, which orders the files
         // by ID
-        QTest::newRow("batch copy")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/file2_copy_request.txt"),
-                                     QFINDTESTDATA("data/file2_copy_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/file1_copy_request.txt"),
-                                     QFINDTESTDATA("data/file1_copy_response.txt"))
-                }
-            << Drive::FilesList{ fileFromFile(QFINDTESTDATA("data/file1.json")),
-                                 fileFromFile(QFINDTESTDATA("data/file2.json")) }
-            << Drive::FilesList{ fileFromFile(QFINDTESTDATA("data/file1_copy.json")),
-                                 fileFromFile(QFINDTESTDATA("data/file2_copy.json")) }
-            << Drive::FilesList{ fileFromFile(QFINDTESTDATA("data/file2_copy.json")),
-                                 fileFromFile(QFINDTESTDATA("data/file1_copy.json")) };
+        QTest::newRow("batch copy") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/file2_copy_request.txt"),
+                                                                                                  QFINDTESTDATA("data/file2_copy_response.txt")),
+                                                                                 scenarioFromFile(QFINDTESTDATA("data/file1_copy_request.txt"),
+                                                                                                  QFINDTESTDATA("data/file1_copy_response.txt"))}
+                                    << Drive::FilesList{fileFromFile(QFINDTESTDATA("data/file1.json")), fileFromFile(QFINDTESTDATA("data/file2.json"))}
+                                    << Drive::FilesList{fileFromFile(QFINDTESTDATA("data/file1_copy.json")),
+                                                        fileFromFile(QFINDTESTDATA("data/file2_copy.json"))}
+                                    << Drive::FilesList{fileFromFile(QFINDTESTDATA("data/file2_copy.json")),
+                                                        fileFromFile(QFINDTESTDATA("data/file1_copy.json"))};
     }
 
     void testCopy()
@@ -96,7 +89,3 @@ private Q_SLOTS:
 QTEST_MAIN(FileCopyJobTest)
 
 #include "filecopyjobtest.moc"
-
-
-
-

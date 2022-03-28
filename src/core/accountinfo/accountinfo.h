@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "object.h"
 #include "kgapicore_export.h"
+#include "object.h"
 
 namespace KGAPI2
 {
@@ -30,7 +30,7 @@ namespace KGAPI2
  */
 class KGAPICORE_EXPORT AccountInfo : public KGAPI2::Object
 {
-  public:
+public:
     /**
      * @brief Constructor
      */
@@ -47,7 +47,10 @@ class KGAPICORE_EXPORT AccountInfo : public KGAPI2::Object
     ~AccountInfo() override;
 
     bool operator==(const AccountInfo &other) const;
-    bool operator!=(const AccountInfo &other) const { return !operator==(other); }
+    bool operator!=(const AccountInfo &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Sets an account ID.
@@ -201,12 +204,11 @@ class KGAPICORE_EXPORT AccountInfo : public KGAPI2::Object
      * @param jsonData JSON data to parse
      */
     static AccountInfoPtr fromJSON(const QByteArray &jsonData);
-  private:
-    class Private;
-    Private * const d;
-    friend class Private;
 
+private:
+    class Private;
+    Private *const d;
+    friend class Private;
 };
 
 } // namespace KGAPI2
-

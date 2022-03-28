@@ -8,9 +8,9 @@
 
 #pragma once
 
+#include "kgapitasks_export.h"
 #include "object.h"
 #include "types.h"
-#include "kgapitasks_export.h"
 
 #include <QScopedPointer>
 
@@ -25,11 +25,9 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.3
  */
-class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
-                              public KCalendarCore::Todo
+class KGAPITASKS_EXPORT Task : public KGAPI2::Object, public KCalendarCore::Todo
 {
-  public:
-
+public:
     /**
      * @brief Constructor
      */
@@ -38,7 +36,7 @@ class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
     /**
      * @brief Copy constructor
      */
-    Task(const Task& other);
+    Task(const Task &other);
 
     /**
      * @brief Copy constructor
@@ -64,12 +62,10 @@ class KGAPITASKS_EXPORT Task: public KGAPI2::Object,
      */
     bool deleted() const;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2/
-

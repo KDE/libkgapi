@@ -8,11 +8,11 @@
 
 #pragma once
 
-#include <QString>
 #include <QSharedPointer>
+#include <QString>
 
-#include "types.h"
 #include "kgapicore_export.h"
+#include "types.h"
 
 namespace KGAPI2
 {
@@ -29,7 +29,7 @@ namespace KGAPI2
  */
 class KGAPICORE_EXPORT Object
 {
-  public:
+public:
     /**
      * @brief Constructor
      */
@@ -64,12 +64,10 @@ class KGAPICORE_EXPORT Object
      */
     QString etag() const;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

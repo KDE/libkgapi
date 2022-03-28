@@ -13,7 +13,8 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to delete one or more tasklists from user's Google Calendar
@@ -27,11 +28,9 @@ namespace KGAPI2 {
  */
 class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
 {
-
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a new job that will delete given @p taskList from user's
      *        Google Tasks account
@@ -40,8 +39,7 @@ class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskListDeleteJob(const TaskListPtr &taskList,
-                               const AccountPtr &account, QObject* parent);
+    explicit TaskListDeleteJob(const TaskListPtr &taskList, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete given @p taskLists from user's
@@ -51,8 +49,7 @@ class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskListDeleteJob(const TaskListsList &taskLists,
-                               const AccountPtr &account, QObject* parent);
+    explicit TaskListDeleteJob(const TaskListsList &taskLists, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Constructs a new job that will delete tasklist with given
@@ -62,27 +59,24 @@ class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskListDeleteJob(const QString &taskListId,
-                               const AccountPtr &account, QObject *parent);
+    explicit TaskListDeleteJob(const QString &taskListId, const AccountPtr &account, QObject *parent);
 
     /**
-     * @brief Constructs a new job that will delete tasklists with given 
+     * @brief Constructs a new job that will delete tasklists with given
      *        @p taskListsIds from user's Google Tasks account
      *
      * @param taskListsIds IDs of tasklists to delete
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskListDeleteJob(const QStringList &taskListsIds,
-                               const AccountPtr &account, QObject *parent);
+    explicit TaskListDeleteJob(const QStringList &taskListsIds, const AccountPtr &account, QObject *parent);
 
     /**
      * @brief Destructor
      */
     ~TaskListDeleteJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start
      */
@@ -94,14 +88,12 @@ class KGAPITASKS_EXPORT TaskListDeleteJob : public KGAPI2::DeleteJob
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply* reply, const QByteArray& rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

@@ -19,28 +19,20 @@ class KGAPIBLOGGER_EXPORT BlogFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
-  public:
-    enum FetchBy {
-        FetchByBlogId,
-        FetchByBlogUrl,
-        FetchByUserId
-    };
-    explicit BlogFetchJob(const QString &id,
-                          FetchBy fetchBy,
-                          const AccountPtr &account = AccountPtr(),
-                          QObject *parent = nullptr);
+public:
+    enum FetchBy { FetchByBlogId, FetchByBlogUrl, FetchByUserId };
+    explicit BlogFetchJob(const QString &id, FetchBy fetchBy, const AccountPtr &account = AccountPtr(), QObject *parent = nullptr);
     ~BlogFetchJob() override;
 
-  protected:
+protected:
     void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 
 } // namespace Blogger
 } // namespace KGAPI2
-

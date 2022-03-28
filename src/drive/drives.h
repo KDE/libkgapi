@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "types.h"
-#include "object.h"
 #include "kgapidrive_export.h"
+#include "object.h"
+#include "types.h"
 
 #include <QString>
 
@@ -29,11 +29,9 @@ namespace Drive
  * @since 5.11.41
  * @author David Barchiesi <david@barchie.si>
  */
-class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT Drives : public KGAPI2::Object
 {
-
-  public:
-
+public:
     /**
      * @brief Drives::Restrictions holds the structure used for
      * a set of restrictions that apply to this shared drive
@@ -41,8 +39,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
      */
     class Restrictions
     {
-
-      public:
+    public:
         struct Fields {
             static const QString AdminManagedRestrictions;
             static const QString CopyRequiresWriterPermission;
@@ -54,7 +51,10 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
         Restrictions(const Restrictions &other);
         ~Restrictions();
         bool operator==(const Restrictions &other) const;
-        bool operator!=(const Restrictions &other) const { return !operator==(other); }
+        bool operator!=(const Restrictions &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns whether administrative privileges on this shared
@@ -120,7 +120,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
          */
         void setDriveMembersOnly(bool driveMembersOnly) const;
 
-      private:
+    private:
         class Private;
         QScopedPointer<Private> const d;
         friend class Private;
@@ -135,8 +135,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
      */
     class Capabilities
     {
-
-      public:
+    public:
         struct Fields {
             static const QString CanAddChildren;
             static const QString CanChangeCopyRequiresWriterPermissionRestriction;
@@ -162,7 +161,10 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
         Capabilities(const Capabilities &other);
         ~Capabilities();
         bool operator==(const Capabilities &other) const;
-        bool operator!=(const Capabilities &other) const { return !operator==(other); }
+        bool operator!=(const Capabilities &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns whether the current user can add children to folders
@@ -272,7 +274,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
          */
         bool canTrashChildren() const;
 
-      private:
+    private:
         class Private;
         QScopedPointer<Private> const d;
         friend class Private;
@@ -287,8 +289,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
      */
     class BackgroundImageFile
     {
-
-      public:
+    public:
         struct Fields {
             static const QString Id;
             static const QString XCoordinate;
@@ -300,7 +301,10 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
         BackgroundImageFile(const BackgroundImageFile &other);
         ~BackgroundImageFile();
         bool operator==(const BackgroundImageFile &other) const;
-        bool operator!=(const BackgroundImageFile &other) const { return !operator==(other); }
+        bool operator!=(const BackgroundImageFile &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns the ID of an image file in Google Drive
@@ -380,7 +384,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
          */
         void setWidth(float width) const;
 
-      private:
+    private:
         class Private;
         QScopedPointer<Private> const d;
         friend class Private;
@@ -411,7 +415,10 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
     Drives(const Drives &other);
     ~Drives() override;
     bool operator==(const Drives &other) const;
-    bool operator!=(const Drives &other) const { return !operator==(other); }
+    bool operator!=(const Drives &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Returns the ID of this shared drive which
@@ -514,7 +521,7 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
     static DrivesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
     static QByteArray toJSON(const DrivesPtr &drives);
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
@@ -523,4 +530,3 @@ class KGAPIDRIVE_EXPORT Drives: public KGAPI2::Object
 } /* namespace Drive */
 
 } /* namespace KGAPI2 */
-

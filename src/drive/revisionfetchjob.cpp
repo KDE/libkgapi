@@ -14,32 +14,26 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN RevisionFetchJob::Private
 {
-  public:
+public:
     QString fileId;
     QString revisionId;
 };
 
-RevisionFetchJob::RevisionFetchJob(const QString &fileId,
-                                   const AccountPtr &account,
-                                   QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+RevisionFetchJob::RevisionFetchJob(const QString &fileId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
 }
 
-RevisionFetchJob::RevisionFetchJob(const QString &fileId,
-                                   const QString &revisionId,
-                                   const AccountPtr &account,
-                                   QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+RevisionFetchJob::RevisionFetchJob(const QString &fileId, const QString &revisionId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
     d->revisionId = revisionId;
@@ -63,8 +57,7 @@ void RevisionFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList RevisionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-        const QByteArray &rawData)
+ObjectsList RevisionFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -84,5 +77,3 @@ ObjectsList RevisionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     emitFinished();
     return items;
 }
-
-

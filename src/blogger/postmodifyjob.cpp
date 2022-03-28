@@ -5,20 +5,20 @@
  */
 
 #include "postmodifyjob.h"
-#include "post.h"
-#include "bloggerservice.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "post.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN PostModifyJob::Private
 {
-  public:
+public:
     Private(const PostPtr &post);
 
     const PostPtr post;
@@ -29,9 +29,7 @@ PostModifyJob::Private::Private(const PostPtr &post_)
 {
 }
 
-PostModifyJob::PostModifyJob(const PostPtr &post,
-                             const AccountPtr &account,
-                             QObject *parent)
+PostModifyJob::PostModifyJob(const PostPtr &post, const AccountPtr &account, QObject *parent)
     : ModifyJob(account, parent)
     , d(new Private(post))
 {

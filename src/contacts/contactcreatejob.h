@@ -11,7 +11,8 @@
 #include "createjob.h"
 #include "kgapicontacts_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to create one or more new contacts in Google Contacts addressbook
@@ -22,8 +23,7 @@ namespace KGAPI2 {
 class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
-  public:
-
+public:
     /**
      * @brief Constructs a job that will create given @p contact in user's
      *        addressbook
@@ -32,7 +32,7 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactCreateJob(const ContactPtr &contact, const AccountPtr &account, QObject* parent = nullptr);
+    explicit ContactCreateJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will create given @p contacts in user's
@@ -42,15 +42,14 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactCreateJob(const ContactsList &contacts, const AccountPtr &account, QObject* parent = nullptr);
+    explicit ContactCreateJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~ContactCreateJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -64,10 +63,7 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager *accessManager,
-                                 const QNetworkRequest &request,
-                                 const QByteArray &data,
-                                 const QString &contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * @brief KGAPI2::Job::handleReply implementation
@@ -75,15 +71,12 @@ class KGAPICONTACTS_EXPORT ContactCreateJob : public KGAPI2::CreateJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

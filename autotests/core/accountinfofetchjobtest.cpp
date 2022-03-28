@@ -10,10 +10,10 @@
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
 
-#include "types.h"
-#include "accountinfo/accountinfofetchjob.h"
-#include "accountinfo/accountinfo.h"
 #include "account.h"
+#include "accountinfo/accountinfo.h"
+#include "accountinfo/accountinfofetchjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -36,8 +36,7 @@ private Q_SLOTS:
         QVERIFY(accountInfo);
 
         FakeNetworkAccessManagerFactory::get()->setScenarios(
-            { scenarioFromFile(QFINDTESTDATA("data/accountinfo_fetch_request.txt"),
-                               QFINDTESTDATA("data/accountinfo_fetch_response.txt")) });
+            {scenarioFromFile(QFINDTESTDATA("data/accountinfo_fetch_request.txt"), QFINDTESTDATA("data/accountinfo_fetch_response.txt"))});
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         auto job = new AccountInfoFetchJob(account);
@@ -51,6 +50,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(AccountInfoFetchJobTest)
 
 #include "accountinfofetchjobtest.moc"
-
-
-

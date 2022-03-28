@@ -23,36 +23,22 @@ class KGAPIDRIVE_EXPORT ChildReferenceDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-    explicit ChildReferenceDeleteJob(const QString &folderId,
-                                     const QString &childId,
-                                     const AccountPtr &account,
-                                     QObject *parent = nullptr);
-    explicit ChildReferenceDeleteJob(const QString &folderId,
-                                     const QStringList &childrenIds,
-                                     const AccountPtr &account,
-                                     QObject *parent = nullptr);
-    explicit ChildReferenceDeleteJob(const QString &folderId,
-                                     const ChildReferencePtr &reference,
-                                     const AccountPtr &account,
-                                     QObject *parent = nullptr);
-    explicit ChildReferenceDeleteJob(const QString &folderId,
-                                     const ChildReferencesList &references,
-                                     const AccountPtr &account,
-                                     QObject *parent = nullptr);
+public:
+    explicit ChildReferenceDeleteJob(const QString &folderId, const QString &childId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ChildReferenceDeleteJob(const QString &folderId, const QStringList &childrenIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ChildReferenceDeleteJob(const QString &folderId, const ChildReferencePtr &reference, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ChildReferenceDeleteJob(const QString &folderId, const ChildReferencesList &references, const AccountPtr &account, QObject *parent = nullptr);
     ~ChildReferenceDeleteJob() override;
 
-  protected:
+protected:
     void start() override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

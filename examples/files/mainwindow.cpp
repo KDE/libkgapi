@@ -4,19 +4,18 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "drive/file.h"
-#include "core/authjob.h"
 #include "core/account.h"
+#include "core/authjob.h"
+#include "drive/file.h"
 
-#include <QFileDialog>
 #include <QDebug>
+#include <QFileDialog>
 
-MainWindow::MainWindow(QWidget * parent):
-    QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
 {
     /* Initialize GUI */
     ui.setupUi(this);
@@ -32,27 +31,23 @@ void MainWindow::authenticate()
     account->setScopes({KGAPI2::Account::driveScopeUrl()});
 
     /* Create AuthJob to retrieve OAuth tokens for the account */
-    auto *authJob = new KGAPI2::AuthJob(
-        account,
-        QStringLiteral("554041944266.apps.googleusercontent.com"),
-        QStringLiteral("mdT1DjzohxN3npUUzkENT0gO"));
-    connect(authJob, &KGAPI2::Job::finished, this,
-            [this, authJob]() {
-                /* Always remember to delete the jobs, otherwise your application will
-                 * leak memory. */
-                authJob->deleteLater();
+    auto *authJob = new KGAPI2::AuthJob(account, QStringLiteral("554041944266.apps.googleusercontent.com"), QStringLiteral("mdT1DjzohxN3npUUzkENT0gO"));
+    connect(authJob, &KGAPI2::Job::finished, this, [this, authJob]() {
+        /* Always remember to delete the jobs, otherwise your application will
+         * leak memory. */
+        authJob->deleteLater();
 
-                if (authJob->error() != KGAPI2::NoError) {
-                    ui.statusbar->showMessage(QStringLiteral("Error: %1").arg(authJob->errorString()));
-                    return;
-                }
+        if (authJob->error() != KGAPI2::NoError) {
+            ui.statusbar->showMessage(QStringLiteral("Error: %1").arg(authJob->errorString()));
+            return;
+        }
 
-                m_account = authJob->account();
+        m_account = authJob->account();
 
-                ui.authStatusLabel->setText(QStringLiteral("Authenticated"));
-                ui.authButton->setEnabled(false);
-                setInputsEnabled(true);
-            });
+        ui.authStatusLabel->setText(QStringLiteral("Authenticated"));
+        ui.authButton->setEnabled(false);
+        setInputsEnabled(true);
+    });
 }
 
 void MainWindow::browseFiles()
@@ -67,30 +62,27 @@ void MainWindow::uploadFile()
         ui.statusbar->showMessage(QStringLiteral("Error: must specify source file."));
         return;
     }
-    
+
     m_uploadingFile = std::make_unique<QFile>(ui.sourceLineEdit->text());
     if (!m_uploadingFile->open(QIODevice::ReadOnly)) {
         ui.statusbar->showMessage(QStringLiteral("Error: source file not valid."));
         return;
     }
-    
+
     auto uploadFile = KGAPI2::Drive::FilePtr::create();
     QFileInfo fileInfo(m_uploadingFile->fileName());
     uploadFile->setTitle(fileInfo.fileName());
-    
+
     KGAPI2::Drive::FileResumableCreateJob *fileCreateJob = nullptr;
     if (ui.writeOnSignalRadioButton->isChecked()) {
         fileCreateJob = new KGAPI2::Drive::FileResumableCreateJob(uploadFile, m_account, this);
-        connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::readyWrite,
-                this, &MainWindow::slotFileCreateJobReadyWrite);
+        connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::readyWrite, this, &MainWindow::slotFileCreateJobReadyWrite);
     } else {
         fileCreateJob = new KGAPI2::Drive::FileResumableCreateJob(m_uploadingFile.get(), uploadFile, m_account, this);
     }
     fileCreateJob->setUploadSize(m_uploadingFile->size());
-    connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::finished,
-            this, &MainWindow::slotFileCreateJobFinished);
-    connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::progress,
-            this, &MainWindow::slotFileCreateJobProgress);
+    connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::finished, this, &MainWindow::slotFileCreateJobFinished);
+    connect(fileCreateJob, &KGAPI2::Drive::FileResumableCreateJob::progress, this, &MainWindow::slotFileCreateJobProgress);
 
     ui.statusbar->clearMessage();
     m_bytesUploaded = 0;
@@ -112,7 +104,7 @@ void MainWindow::slotFileCreateJobFinished(KGAPI2::Job *job)
 {
     qDebug() << "Completed job" << job << "error code:" << job->error() << "- message:" << job->errorString();
 
-    auto fileCreateJob = qobject_cast<KGAPI2::Drive::FileResumableCreateJob*>(job);
+    auto fileCreateJob = qobject_cast<KGAPI2::Drive::FileResumableCreateJob *>(job);
     Q_ASSERT(fileCreateJob);
     fileCreateJob->deleteLater();
 
@@ -120,7 +112,11 @@ void MainWindow::slotFileCreateJobFinished(KGAPI2::Job *job)
         ui.statusbar->showMessage(QStringLiteral("Error: %1").arg(fileCreateJob->errorString()));
     } else {
         auto file = fileCreateJob->metadata();
-        ui.statusbar->showMessage(QStringLiteral("Upload complete, id %1, size %2 (uploaded %3), mimeType %4").arg(file->id()).arg(file->fileSize()).arg(m_bytesUploaded).arg(file->mimeType()));
+        ui.statusbar->showMessage(QStringLiteral("Upload complete, id %1, size %2 (uploaded %3), mimeType %4")
+                                      .arg(file->id())
+                                      .arg(file->fileSize())
+                                      .arg(m_bytesUploaded)
+                                      .arg(file->mimeType()));
     }
 
     m_fileUploadProgressBar.reset();
@@ -128,7 +124,6 @@ void MainWindow::slotFileCreateJobFinished(KGAPI2::Job *job)
 
     setInputsEnabled(true);
 }
-
 
 void MainWindow::slotFileCreateJobReadyWrite(KGAPI2::Drive::FileAbstractResumableJob *job)
 {

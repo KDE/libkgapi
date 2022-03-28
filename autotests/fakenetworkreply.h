@@ -6,10 +6,10 @@
 
 #pragma once
 
+#include <QBuffer>
+#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QNetworkAccessManager>
-#include <QBuffer>
 
 #include "fakenetworkaccessmanager.h"
 
@@ -18,8 +18,7 @@ class FakeNetworkReply : public QNetworkReply
     Q_OBJECT
 public:
     FakeNetworkReply(const FakeNetworkAccessManager::Scenario &scenario);
-    explicit FakeNetworkReply(QNetworkAccessManager::Operation operation,
-                              const QNetworkRequest &originalRequest);
+    explicit FakeNetworkReply(QNetworkAccessManager::Operation operation, const QNetworkRequest &originalRequest);
 
     void abort() override;
 
@@ -37,5 +36,3 @@ protected:
 private:
     QBuffer mBuffer;
 };
-
-

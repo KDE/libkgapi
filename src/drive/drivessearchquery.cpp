@@ -7,12 +7,11 @@
 #include "drivessearchquery.h"
 #include "utils.h"
 
-#include <QString>
 #include <QDateTime>
+#include <QString>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
-
 
 QString DrivesSearchQuery::fieldToString(Field field)
 {

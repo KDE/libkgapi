@@ -15,7 +15,7 @@ class FakeAccountStorage : public KGAPI2::AccountStorage
 public:
     explicit FakeAccountStorage();
 
-    void open(const std::function<void (bool)> &callback) override;
+    void open(const std::function<void(bool)> &callback) override;
     bool opened() const override;
 
     KGAPI2::AccountPtr getAccount(const QString &apiKey, const QString &accountName) override;
@@ -27,7 +27,6 @@ public:
 public:
     QMap<QString, KGAPI2::AccountPtr> mStore;
 };
-
 
 class FakeAccountStorageFactory : public KGAPI2::AccountStorageFactory
 {
@@ -41,4 +40,3 @@ public:
 private:
     FakeAccountStorage *mStore;
 };
-

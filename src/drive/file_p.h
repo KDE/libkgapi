@@ -18,7 +18,7 @@ namespace Drive
 
 class Q_DECL_HIDDEN File::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -42,7 +42,7 @@ class Q_DECL_HIDDEN File::Private
     qlonglong version;
     QDateTime sharedWithMeDate;
     ParentReferencesList parents;
-    QMap<QString,QUrl> exportLinks;
+    QMap<QString, QUrl> exportLinks;
     QString originalFileName;
     qlonglong quotaBytesUsed;
     QList<QString> ownerNames;
@@ -62,10 +62,8 @@ class Q_DECL_HIDDEN File::Private
     UserPtr lastModifyingUser;
 
     static FilePtr fromJSON(const QVariantMap &map);
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

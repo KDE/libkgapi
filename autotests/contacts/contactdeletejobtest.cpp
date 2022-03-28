@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "contactstestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "contactstestutils.h"
 
-#include "types.h"
-#include "contactdeletejob.h"
-#include "contact.h"
 #include "account.h"
+#include "contact.h"
+#include "contactdeletejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -36,49 +36,28 @@ private Q_SLOTS:
         QTest::addColumn<ContactsList>("contacts");
         QTest::addColumn<bool>("uidOnly");
 
-        QTest::newRow("simple contact")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact1_delete_response.txt"))
-                }
-            << ContactsList{ contactFromFile(QFINDTESTDATA("data/contact1.xml")) }
-            << false;
+        QTest::newRow("simple contact") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
+                                                                                                      QFINDTESTDATA("data/contact1_delete_response.txt"))}
+                                        << ContactsList{contactFromFile(QFINDTESTDATA("data/contact1.xml"))} << false;
 
-        QTest::newRow("simple contact (uid)")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact1_delete_response.txt"))
-                }
-            << ContactsList{ contactFromFile(QFINDTESTDATA("data/contact1.xml")) }
-            << true;
+        QTest::newRow("simple contact (uid)") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
+                                                                                                            QFINDTESTDATA("data/contact1_delete_response.txt"))}
+                                              << ContactsList{contactFromFile(QFINDTESTDATA("data/contact1.xml"))} << true;
 
-        QTest::newRow("batch delete")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contact2_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact2_delete_response.txt"))
-                }
-            << ContactsList{
-                    contactFromFile(QFINDTESTDATA("data/contact1.xml")),
-                    contactFromFile(QFINDTESTDATA("data/contact2.xml"))
-                }
-            << false;
+        QTest::newRow("batch delete") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contact1_delete_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/contact2_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contact2_delete_response.txt"))}
+                                      << ContactsList{contactFromFile(QFINDTESTDATA("data/contact1.xml")), contactFromFile(QFINDTESTDATA("data/contact2.xml"))}
+                                      << false;
 
-
-        QTest::newRow("batch delete (uid)")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contact2_delete_request.txt"),
-                                     QFINDTESTDATA("data/contact2_delete_response.txt"))
-                }
-            << ContactsList{
-                    contactFromFile(QFINDTESTDATA("data/contact1.xml")),
-                    contactFromFile(QFINDTESTDATA("data/contact2.xml"))
-                }
-            << true;
-
+        QTest::newRow("batch delete (uid)") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contact1_delete_request.txt"),
+                                                                                                          QFINDTESTDATA("data/contact1_delete_response.txt")),
+                                                                                         scenarioFromFile(QFINDTESTDATA("data/contact2_delete_request.txt"),
+                                                                                                          QFINDTESTDATA("data/contact2_delete_response.txt"))}
+                                            << ContactsList{contactFromFile(QFINDTESTDATA("data/contact1.xml")),
+                                                            contactFromFile(QFINDTESTDATA("data/contact2.xml"))}
+                                            << true;
     }
 
     void testDelete()
@@ -111,4 +90,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(ContactDeleteJobTest)
 
 #include "contactdeletejobtest.moc"
-

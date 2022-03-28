@@ -36,9 +36,7 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool includeSubscribed
-               READ includeSubscribed
-               WRITE setIncludeSubscribed)
+    Q_PROPERTY(bool includeSubscribed READ includeSubscribed WRITE setIncludeSubscribed)
 
     /**
      * @brief Maximum number of remaining change IDs to count.
@@ -47,9 +45,7 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(qlonglong maxChangeIdCount
-               READ maxChangeIdCount
-               WRITE setMaxChangeIdCount)
+    Q_PROPERTY(qlonglong maxChangeIdCount READ maxChangeIdCount WRITE setMaxChangeIdCount)
 
     /**
      * @brief Change ID to start counting from when calculating number of
@@ -59,11 +55,9 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(qlonglong startChangeId
-               READ startChangeId
-               WRITE setStartChangeId)
+    Q_PROPERTY(qlonglong startChangeId READ startChangeId WRITE setStartChangeId)
 
-  public:
+public:
     /**
      * @brief Constructs a new fetch job.
      *
@@ -127,7 +121,7 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      */
     AboutPtr aboutData() const;
 
-  protected:
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -139,17 +133,14 @@ class KGAPIDRIVE_EXPORT AboutFetchJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

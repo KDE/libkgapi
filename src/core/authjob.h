@@ -13,7 +13,8 @@
 
 class QWidget;
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @headerfile authjob.h
@@ -33,7 +34,7 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
 {
     Q_OBJECT
 
-  public:
+public:
     /**
      * @brief Creates a new authentication job
      *
@@ -45,8 +46,7 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
      * @param secretKey Application secret API key
      * @param parent
      */
-    explicit AuthJob(const AccountPtr &account, const QString &apiKey,
-                     const QString &secretKey, QObject* parent = nullptr);
+    explicit AuthJob(const AccountPtr &account, const QString &apiKey, const QString &secretKey, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -63,10 +63,10 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
     AccountPtr account() const;
 
     /**
-      * Sets the username that will be used when authenticate is called
-      *
-      * @param username username to use
-      */
+     * Sets the username that will be used when authenticate is called
+     *
+     * @param username username to use
+     */
     void setUsername(const QString &username);
 
     /**
@@ -78,7 +78,7 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
     QT_DEPRECATED_X("It's no longer possible to prefill password")
     void setPassword(const QString &password);
 
-  protected:
+protected:
     /**
      * @brief KGAPI2::Job::handleReply implementation
      *
@@ -95,21 +95,17 @@ class KGAPICORE_EXPORT AuthJob : public KGAPI2::Job
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager* accessManager,
-                                 const QNetworkRequest& request,
-                                 const QByteArray& data,
-                                 const QString& contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * @brief KGAPI2::Job::start implementation
      */
     void start() override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
 };
 
 } // namespace KGAPI2
-

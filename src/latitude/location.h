@@ -4,12 +4,11 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #pragma once
 
+#include "kgapilatitude_export.h"
 #include "object.h"
 #include "types.h"
-#include "kgapilatitude_export.h"
 
 #include <KContacts/Geo>
 
@@ -25,11 +24,9 @@ namespace KGAPI2
  * @author Jan Grulich <grulja@gmail.com>
  * @since 0.4
  */
-class KGAPILATITUDE_DEPRECATED_EXPORT Location : public KGAPI2::Object,
-                                      public KContacts::Geo
+class KGAPILATITUDE_DEPRECATED_EXPORT Location : public KGAPI2::Object, public KContacts::Geo
 {
-  public:
-
+public:
     /**
      * @brief Constructor
      */
@@ -127,12 +124,10 @@ class KGAPILATITUDE_DEPRECATED_EXPORT Location : public KGAPI2::Object,
      */
     void setAltitudeAccuracy(qint32 altitudeAccuracy);
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

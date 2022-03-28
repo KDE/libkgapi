@@ -20,48 +20,49 @@ namespace KGAPI2
 namespace TasksService
 {
 
-    namespace {
-        /* Google accepts only UTC time strictly in this format :( */
-        static const auto DatetimeFormat = QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ");
+namespace
+{
+/* Google accepts only UTC time strictly in this format :( */
+static const auto DatetimeFormat = QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ");
 
-        static const auto TasksUrlPart = QLatin1String("/tasks");
+static const auto TasksUrlPart = QLatin1String("/tasks");
 
-        static const auto PageTokenParam = QStringLiteral("pageToken");
-        static const auto MaxResultsParam = QStringLiteral("maxResults");
-        static const auto MaxResultsParamValueDefault = QStringLiteral("20");
+static const auto PageTokenParam = QStringLiteral("pageToken");
+static const auto MaxResultsParam = QStringLiteral("maxResults");
+static const auto MaxResultsParamValueDefault = QStringLiteral("20");
 
-        static const auto KindAttr = QStringLiteral("kind");
-        static const auto IdAttr = QStringLiteral("id");
-        static const auto EtagAttr = QStringLiteral("etag");
-        static const auto TitleAttr = QStringLiteral("title");
-        static const auto NotesAttr = QStringLiteral("notes");
-        static const auto ItemsAttr = QStringLiteral("items");
-        static const auto NextPageTokenAttr = QStringLiteral("nextPageToken");
-        static const auto ParentAttr = QStringLiteral("parent");
-        static const auto SelfLinkAttr = QStringLiteral("selfLink");
-        static const auto UpdatedAttr = QStringLiteral("updated");
-        static const auto StatusAttr = QStringLiteral("status");
-        static const auto DueAttr = QStringLiteral("due");
-        static const auto DeletedAttr = QStringLiteral("deleted");
+static const auto KindAttr = QStringLiteral("kind");
+static const auto IdAttr = QStringLiteral("id");
+static const auto EtagAttr = QStringLiteral("etag");
+static const auto TitleAttr = QStringLiteral("title");
+static const auto NotesAttr = QStringLiteral("notes");
+static const auto ItemsAttr = QStringLiteral("items");
+static const auto NextPageTokenAttr = QStringLiteral("nextPageToken");
+static const auto ParentAttr = QStringLiteral("parent");
+static const auto SelfLinkAttr = QStringLiteral("selfLink");
+static const auto UpdatedAttr = QStringLiteral("updated");
+static const auto StatusAttr = QStringLiteral("status");
+static const auto DueAttr = QStringLiteral("due");
+static const auto DeletedAttr = QStringLiteral("deleted");
 
-        static const auto CompletedAttrVal = QLatin1String("completed");
-        static const auto NeedsActionAttrVal = QLatin1String("needsAction");
-    }
+static const auto CompletedAttrVal = QLatin1String("completed");
+static const auto NeedsActionAttrVal = QLatin1String("needsAction");
+}
 
 namespace Private
 {
-    ObjectsList parseTaskListJSONFeed(const QVariantList &items);
-    ObjectsList parseTasksJSONFeed(const QVariantList &items);
+ObjectsList parseTaskListJSONFeed(const QVariantList &items);
+ObjectsList parseTasksJSONFeed(const QVariantList &items);
 
-    ObjectPtr JSONToTaskList(const QVariantMap &jsonData);
-    ObjectPtr JSONToTask(const QVariantMap &jsonData);
+ObjectPtr JSONToTaskList(const QVariantMap &jsonData);
+ObjectPtr JSONToTask(const QVariantMap &jsonData);
 
-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
-    static const QString TasksBasePath(QStringLiteral("/tasks/v1/lists"));
-    static const QString TasksListsBasePath(QStringLiteral("/tasks/v1/users/@me/lists"));
+static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+static const QString TasksBasePath(QStringLiteral("/tasks/v1/lists"));
+static const QString TasksListsBasePath(QStringLiteral("/tasks/v1/users/@me/lists"));
 }
 
-ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
+ObjectsList parseJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonFeed);
     if (document.isNull()) {
@@ -104,42 +105,42 @@ ObjectsList parseJSONFeed(const QByteArray& jsonFeed, FeedData& feedData)
     return list;
 }
 
-QUrl fetchAllTasksUrl(const QString& tasklistID)
+QUrl fetchAllTasksUrl(const QString &tasklistID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart);
     return url;
 }
 
-QUrl fetchTaskUrl(const QString& tasklistID, const QString& taskID)
+QUrl fetchTaskUrl(const QString &tasklistID, const QString &taskID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID);
     return url;
 }
 
-QUrl createTaskUrl(const QString& tasklistID)
+QUrl createTaskUrl(const QString &tasklistID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart);
     return url;
 }
 
-QUrl updateTaskUrl(const QString& tasklistID, const QString& taskID)
+QUrl updateTaskUrl(const QString &tasklistID, const QString &taskID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID);
     return url;
 }
 
-QUrl removeTaskUrl(const QString& tasklistID, const QString& taskID)
+QUrl removeTaskUrl(const QString &tasklistID, const QString &taskID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID);
     return url;
 }
 
-QUrl moveTaskUrl(const QString& tasklistID, const QString& taskID, const QString& newParent)
+QUrl moveTaskUrl(const QString &tasklistID, const QString &taskID, const QString &newParent)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID % QLatin1String("/move"));
@@ -166,14 +167,14 @@ QUrl createTaskListUrl()
     return url;
 }
 
-QUrl updateTaskListUrl(const QString& tasklistID)
+QUrl updateTaskListUrl(const QString &tasklistID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksListsBasePath % QLatin1Char('/') % tasklistID);
     return url;
 }
 
-QUrl removeTaskListUrl(const QString& tasklistID)
+QUrl removeTaskListUrl(const QString &tasklistID)
 {
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::TasksListsBasePath % QLatin1Char('/') % tasklistID);
@@ -195,7 +196,7 @@ ObjectPtr Private::JSONToTaskList(const QVariantMap &jsonData)
     return taskList.dynamicCast<Object>();
 }
 
-TaskListPtr JSONToTaskList(const QByteArray& jsonData)
+TaskListPtr JSONToTaskList(const QByteArray &jsonData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     const QVariantMap data = document.toVariant().toMap();
@@ -242,7 +243,7 @@ ObjectPtr Private::JSONToTask(const QVariantMap &jsonData)
     return task.dynamicCast<Object>();
 }
 
-TaskPtr JSONToTask(const QByteArray& jsonData)
+TaskPtr JSONToTask(const QByteArray &jsonData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     const QVariantMap data = document.toVariant().toMap();

@@ -8,8 +8,8 @@
 #pragma once
 
 #include "fetchjob.h"
-#include "page.h"
 #include "kgapiblogger_export.h"
+#include "page.h"
 
 namespace KGAPI2
 {
@@ -20,7 +20,7 @@ class KGAPIBLOGGER_EXPORT PageFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
-  public:
+public:
     enum StatusFilter {
         Draft = 1,
         Live = 2,
@@ -30,13 +30,8 @@ class KGAPIBLOGGER_EXPORT PageFetchJob : public KGAPI2::FetchJob
     };
     Q_DECLARE_FLAGS(StatusFilters, StatusFilter)
 
-    explicit PageFetchJob(const QString &blogId,
-                          const AccountPtr &account = AccountPtr(),
-                          QObject *parent = nullptr);
-    explicit PageFetchJob(const QString &blogId,
-                          const QString &pageId,
-                          const AccountPtr &account = AccountPtr(),
-                          QObject *parent = nullptr);
+    explicit PageFetchJob(const QString &blogId, const AccountPtr &account = AccountPtr(), QObject *parent = nullptr);
+    explicit PageFetchJob(const QString &blogId, const QString &pageId, const AccountPtr &account = AccountPtr(), QObject *parent = nullptr);
     ~PageFetchJob() override;
 
     bool fetchContent() const;
@@ -45,16 +40,14 @@ class KGAPIBLOGGER_EXPORT PageFetchJob : public KGAPI2::FetchJob
     StatusFilters statusFilter() const;
     void setStatusFilter(StatusFilters status);
 
-  protected:
+protected:
     void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 }
 }
-

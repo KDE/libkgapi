@@ -21,21 +21,16 @@ class KGAPIDRIVE_EXPORT DrivesHideJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
-    DrivesHideJob(const DrivesPtr &drives,
-                            bool hide,
-                            const AccountPtr &account, QObject *parent = nullptr);
-    DrivesHideJob(const DrivesList &drives,
-                            bool hide,
-                            const AccountPtr &account, QObject *parent = nullptr);
+public:
+    DrivesHideJob(const DrivesPtr &drives, bool hide, const AccountPtr &account, QObject *parent = nullptr);
+    DrivesHideJob(const DrivesList &drives, bool hide, const AccountPtr &account, QObject *parent = nullptr);
     ~DrivesHideJob() override;
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
@@ -44,4 +39,3 @@ class KGAPIDRIVE_EXPORT DrivesHideJob : public KGAPI2::CreateJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

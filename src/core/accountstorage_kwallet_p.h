@@ -8,11 +8,13 @@
 
 #include "accountstorage_p.h"
 
-namespace KWallet {
+namespace KWallet
+{
 class Wallet;
 }
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 class KWalletStorageFactory : public AccountStorageFactory
 {
@@ -20,14 +22,13 @@ public:
     AccountStorage *create() const override;
 };
 
-
 class KWalletStorage : public AccountStorage
 {
 public:
     explicit KWalletStorage();
     ~KWalletStorage() override;
 
-    void open(const std::function<void (bool)> &callback) override;
+    void open(const std::function<void(bool)> &callback) override;
     bool opened() const override;
 
     AccountPtr getAccount(const QString &apiKey, const QString &accountName) override;
@@ -43,4 +44,3 @@ private:
 };
 
 }
-

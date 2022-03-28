@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapitasks_export.h"
+#include "modifyjob.h"
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to modify tasks in a tasklist in user's Google Tasks account.
@@ -24,11 +24,9 @@ namespace KGAPI2 {
  */
 class KGAPITASKS_EXPORT TaskModifyJob : public KGAPI2::ModifyJob
 {
-
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will write changes in given @p task to
      *        corresponding task in a tasklist with given @p taskListId
@@ -38,8 +36,7 @@ class KGAPITASKS_EXPORT TaskModifyJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskModifyJob(const TaskPtr &task, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskModifyJob(const TaskPtr &task, const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will write changes in given @p tasks to
@@ -50,16 +47,14 @@ class KGAPITASKS_EXPORT TaskModifyJob : public KGAPI2::ModifyJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit TaskModifyJob(const TasksList &tasks, const QString &taskListId,
-                           const AccountPtr &account, QObject* parent = nullptr);
+    explicit TaskModifyJob(const TasksList &tasks, const QString &taskListId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~TaskModifyJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -71,15 +66,12 @@ class KGAPITASKS_EXPORT TaskModifyJob : public KGAPI2::ModifyJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

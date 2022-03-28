@@ -8,13 +8,13 @@
 #include <QTest>
 
 #include "fakenetworkaccessmanagerfactory.h"
-#include "testutils.h"
 #include "taskstestutils.h"
+#include "testutils.h"
 
-#include "types.h"
-#include "taskcreatejob.h"
-#include "task.h"
 #include "account.h"
+#include "task.h"
+#include "taskcreatejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -38,26 +38,18 @@ private Q_SLOTS:
 
         auto task1 = taskFromFile(QFINDTESTDATA("data/task1.json"));
         task1->setUid({});
-        QTest::newRow("simple task")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/task1_create_request.txt"),
-                                     QFINDTESTDATA("data/task1_create_response.txt"))
-                }
-            << TasksList{ task1 }
-            << TasksList{ taskFromFile(QFINDTESTDATA("data/task1.json")) };
+        QTest::newRow("simple task") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/task1_create_request.txt"),
+                                                                                                   QFINDTESTDATA("data/task1_create_response.txt"))}
+                                     << TasksList{task1} << TasksList{taskFromFile(QFINDTESTDATA("data/task1.json"))};
 
         auto task2 = taskFromFile(QFINDTESTDATA("data/task2.json"));
         task2->setUid({});
-        QTest::newRow("batch create")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/task1_create_request.txt"),
-                                     QFINDTESTDATA("data/task1_create_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/task2_create_request.txt"),
-                                     QFINDTESTDATA("data/task2_create_response.txt"))
-                }
-            << TasksList{ task1, task2 }
-            << TasksList{ taskFromFile(QFINDTESTDATA("data/task1.json")),
-                          taskFromFile(QFINDTESTDATA("data/task2.json")) };
+        QTest::newRow("batch create") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/task1_create_request.txt"),
+                                                                                                    QFINDTESTDATA("data/task1_create_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/task2_create_request.txt"),
+                                                                                                    QFINDTESTDATA("data/task2_create_response.txt"))}
+                                      << TasksList{task1, task2}
+                                      << TasksList{taskFromFile(QFINDTESTDATA("data/task1.json")), taskFromFile(QFINDTESTDATA("data/task2.json"))};
     }
 
     void testCreate()
@@ -79,7 +71,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), expected.count());
         for (int i = 0; i < expected.count(); ++i) {
-            const auto returnedTask =  items.at(i).dynamicCast<Task>();
+            const auto returnedTask = items.at(i).dynamicCast<Task>();
             QVERIFY(returnedTask);
             QCOMPARE(*returnedTask, *expected.at(i));
         }
@@ -89,5 +81,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TaskCreateJobTest)
 
 #include "taskcreatejobtest.moc"
-
-

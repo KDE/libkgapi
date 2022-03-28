@@ -16,12 +16,12 @@ namespace KGAPI2
 
 namespace Private
 {
-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
-    static const QString AppsBasePath(QStringLiteral("/drive/v2/about"));
-    static const QString FilesBasePath(QStringLiteral("/drive/v2/files"));
-    static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
-    static const QString DrivesBasePath(QStringLiteral("/drive/v2/drives"));
-    static const QString TeamdriveBasePath(QStringLiteral("/drive/v2/teamdrives"));
+static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+static const QString AppsBasePath(QStringLiteral("/drive/v2/about"));
+static const QString FilesBasePath(QStringLiteral("/drive/v2/files"));
+static const QString ChangeBasePath(QStringLiteral("/drive/v2/changes"));
+static const QString DrivesBasePath(QStringLiteral("/drive/v2/drives"));
+static const QString TeamdriveBasePath(QStringLiteral("/drive/v2/teamdrives"));
 }
 
 namespace DriveService
@@ -312,4 +312,3 @@ QUrl fetchTeamdrivesUrl()
 } // namespace DriveService
 
 } // namespace KGAPI2
-

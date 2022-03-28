@@ -6,11 +6,10 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
-#include "modifyjob.h"
 #include "kgapidrive_export.h"
+#include "modifyjob.h"
 
 namespace KGAPI2
 {
@@ -32,26 +31,21 @@ class KGAPIDRIVE_EXPORT DrivesModifyJob : public KGAPI2::ModifyJob
      * This property does not have any effect when fetching a specific event and
      * can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool useDomainAdminAccess
-               READ useDomainAdminAccess
-               WRITE setUseDomainAdminAccess)
+    Q_PROPERTY(bool useDomainAdminAccess READ useDomainAdminAccess WRITE setUseDomainAdminAccess)
 
-  public:
-    explicit DrivesModifyJob(const DrivesPtr &drives,
-                                 const AccountPtr &account, QObject *parent = nullptr);
-    explicit DrivesModifyJob(const DrivesList &drives,
-                                 const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit DrivesModifyJob(const DrivesPtr &drives, const AccountPtr &account, QObject *parent = nullptr);
+    explicit DrivesModifyJob(const DrivesList &drives, const AccountPtr &account, QObject *parent = nullptr);
     ~DrivesModifyJob() override;
 
     void setUseDomainAdminAccess(bool useDomainAdminAccess);
     bool useDomainAdminAccess() const;
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
@@ -60,4 +54,3 @@ class KGAPIDRIVE_EXPORT DrivesModifyJob : public KGAPI2::ModifyJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

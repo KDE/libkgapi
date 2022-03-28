@@ -22,13 +22,13 @@
 #include <QTest>
 
 #include "fakenetworkaccessmanagerfactory.h"
-#include "testutils.h"
 #include "taskstestutils.h"
+#include "testutils.h"
 
-#include "types.h"
-#include "taskmovejob.h"
-#include "task.h"
 #include "account.h"
+#include "task.h"
+#include "taskmovejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -66,18 +66,11 @@ private Q_SLOTS:
             << TasksList{ taskFromFile(QFINDTESTDATA("data/task2.json")) }
             << QStringLiteral("newMockParent");
 
-        QTest::newRow("batch move")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/task1_move_request.txt"),
-                                     QFINDTESTDATA("data/task1_move_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/task2_move_request.txt"),
-                                     QFINDTESTDATA("data/task2_move_response.txt"))
-                }
-            << TasksList{
-                    taskFromFile(QFINDTESTDATA("data/task1.json")),
-                    taskFromFile(QFINDTESTDATA("data/task2.json"))
-                }
-            << QString();
+        QTest::newRow("batch move") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/task1_move_request.txt"),
+                                                                                                  QFINDTESTDATA("data/task1_move_response.txt")),
+                                                                                 scenarioFromFile(QFINDTESTDATA("data/task2_move_request.txt"),
+                                                                                                  QFINDTESTDATA("data/task2_move_response.txt"))}
+                                    << TasksList{taskFromFile(QFINDTESTDATA("data/task1.json")), taskFromFile(QFINDTESTDATA("data/task2.json"))} << QString();
     }
 
     void testMove()
@@ -102,6 +95,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TaskMoveJobTest)
 
 #include "taskmovejobtest.moc"
-
-
-

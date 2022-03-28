@@ -5,46 +5,38 @@
  */
 
 #include "postdeletejob.h"
-#include "post.h"
-#include "bloggerservice.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "post.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN PostDeleteJob::Private
 {
-  public:
-    Private(const QString &blogId,
-            const QString &postId);
+public:
+    Private(const QString &blogId, const QString &postId);
 
     const QString blogId;
     const QString postId;
 };
 
-PostDeleteJob::Private::Private(const QString &blogId_,
-                                const QString &postId_)
+PostDeleteJob::Private::Private(const QString &blogId_, const QString &postId_)
     : blogId(blogId_)
     , postId(postId_)
 {
 }
 
-PostDeleteJob::PostDeleteJob(const QString &blogId,
-                             const QString &postId,
-                             const AccountPtr &account,
-                             QObject *parent)
+PostDeleteJob::PostDeleteJob(const QString &blogId, const QString &postId, const AccountPtr &account, QObject *parent)
     : DeleteJob(account, parent)
     , d(new Private(blogId, postId))
 {
 }
 
-
-PostDeleteJob::PostDeleteJob(const PostPtr &post,
-                             const AccountPtr &account,
-                             QObject *parent)
+PostDeleteJob::PostDeleteJob(const PostPtr &post, const AccountPtr &account, QObject *parent)
     : DeleteJob(account, parent)
     , d(new Private(post->blogId(), post->id()))
 {

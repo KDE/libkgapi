@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "contactstestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "contactstestutils.h"
 
-#include "types.h"
-#include "contactsgroupcreatejob.h"
-#include "contactsgroup.h"
 #include "account.h"
+#include "contactsgroup.h"
+#include "contactsgroupcreatejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -35,26 +35,17 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<ContactsGroupsList>("groups");
 
-        QTest::newRow("simple group")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group1_create_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group1_create_response.txt"))
-                }
-            << ContactsGroupsList{ contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")) };
+        QTest::newRow("simple group") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contacts_group1_create_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contacts_group1_create_response.txt"))}
+                                      << ContactsGroupsList{contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml"))};
 
         auto contactsGroup2 = contactsGroupFromFile(QFINDTESTDATA("data/contacts_group2.xml"));
         contactsGroup2->setIsSystemGroup(false); // you can't create a system group
-        QTest::newRow("batch create")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group1_create_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group1_create_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group2_create_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group2_create_response.txt"))
-                }
-            << ContactsGroupsList{
-                    contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")),
-                    contactsGroup2
-                };
+        QTest::newRow("batch create") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contacts_group1_create_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contacts_group1_create_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/contacts_group2_create_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contacts_group2_create_response.txt"))}
+                                      << ContactsGroupsList{contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")), contactsGroup2};
     }
 
     void testCreate()
@@ -75,7 +66,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), groups.count());
         for (int i = 0; i < groups.count(); ++i) {
-            const auto returnedGroup =  items.at(i).dynamicCast<ContactsGroup>();
+            const auto returnedGroup = items.at(i).dynamicCast<ContactsGroup>();
             QVERIFY(returnedGroup);
             QCOMPARE(*returnedGroup, *groups.at(i));
         }

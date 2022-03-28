@@ -7,8 +7,8 @@
  */
 #pragma once
 
-#include "types.h"
 #include "kgapidrive_export.h"
+#include "types.h"
 
 #include <QString>
 #include <QUrl>
@@ -25,11 +25,14 @@ namespace Drive
  */
 class KGAPIDRIVE_EXPORT User
 {
-  public:
+public:
     explicit User(const User &other);
     virtual ~User();
     bool operator==(const User &other) const;
-    bool operator!=(const User &other) const { return !operator==(other); }
+    bool operator!=(const User &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Returns a plain text displayable name for this user.
@@ -54,7 +57,7 @@ class KGAPIDRIVE_EXPORT User
 
     static UserPtr fromJSON(const QVariantMap &jsonMap);
 
-  private:
+private:
     explicit User();
 
     class Private;
@@ -65,4 +68,3 @@ class KGAPIDRIVE_EXPORT User
 } // namespace Drive
 
 } // namespace KGAPI2
-

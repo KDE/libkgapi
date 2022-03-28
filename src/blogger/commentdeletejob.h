@@ -18,26 +18,19 @@ class KGAPIBLOGGER_EXPORT CommentDeleteJob : public KGAPI2::DeleteJob
 {
     Q_OBJECT
 
-  public:
-    explicit CommentDeleteJob(const QString &blogId,
-                              const QString &postId,
-                              const QString &commentId,
-                              const AccountPtr &account,
-                              QObject *parent = nullptr);
-    explicit CommentDeleteJob(const CommentPtr &comment,
-                              const AccountPtr &account,
-                              QObject *parent = nullptr);
+public:
+    explicit CommentDeleteJob(const QString &blogId, const QString &postId, const QString &commentId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit CommentDeleteJob(const CommentPtr &comment, const AccountPtr &account, QObject *parent = nullptr);
     ~CommentDeleteJob() override;
 
-  protected:
+protected:
     void start() override;
     void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 }
 }
-

@@ -13,10 +13,11 @@
 
 #include <QScopedPointer>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
- * @brief A job to fetch all events from given calendar in user's Google 
+ * @brief A job to fetch all events from given calendar in user's Google
  *        Calendar account.
  *
  * @author Daniel Vrátil <dvratil@redhat.com>
@@ -109,8 +110,7 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      */
     Q_PROPERTY(QString syncToken READ syncToken WRITE setSyncToken)
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will fetch all events from a calendar with
      *        given @p calendarId
@@ -122,12 +122,10 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit EventFetchJob(const QString &calendarId, const AccountPtr &account,
-                           QObject* parent = nullptr);
-
+    explicit EventFetchJob(const QString &calendarId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
-     * @brief Constructs a job that will fetch an event with given @p eventId 
+     * @brief Constructs a job that will fetch an event with given @p eventId
      *        from a calendar with given @p calendarId
      *
      * Note that none of the filter, fetchOnlyUpdated, timeMax or timeMin properties
@@ -138,8 +136,7 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit EventFetchJob(const QString &eventId, const QString &calendarId,
-                           const AccountPtr &account, QObject* parent = nullptr);
+    explicit EventFetchJob(const QString &eventId, const QString &calendarId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -214,15 +211,14 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      *
      * @param syncToken
      */
-    void setSyncToken(const QString& syncToken);
+    void setSyncToken(const QString &syncToken);
 
     /**
      * @brief Token for next incremental update
      */
     QString syncToken();
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -234,15 +230,12 @@ class KGAPICALENDAR_EXPORT EventFetchJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

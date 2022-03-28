@@ -10,8 +10,8 @@
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
 
-#include "fetchjob.h"
 #include "account.h"
+#include "fetchjob.h"
 
 Q_DECLARE_METATYPE(QList<FakeNetworkAccessManager::Scenario>)
 
@@ -58,7 +58,6 @@ private:
     QByteArray mResponse;
 };
 
-
 class FetchJobTest : public QObject
 {
     Q_OBJECT
@@ -72,22 +71,32 @@ private Q_SLOTS:
     {
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
 
-        QTest::newRow("success") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
-              {}, 200, "Test Response", false }
-        };
+        QTest::newRow("success") << Scenarios{{QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")),
+                                               QNetworkAccessManager::GetOperation,
+                                               {},
+                                               200,
+                                               "Test Response",
+                                               false}};
 
-        QTest::newRow("not found") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/does/not/exist?prettyPrint=false")), QNetworkAccessManager::GetOperation,
-              {}, KGAPI2::NotFound, {}, false }
-        };
+        QTest::newRow("not found") << Scenarios{{QUrl(QStringLiteral("https://example.test/does/not/exist?prettyPrint=false")),
+                                                 QNetworkAccessManager::GetOperation,
+                                                 {},
+                                                 KGAPI2::NotFound,
+                                                 {},
+                                                 false}};
 
-        QTest::newRow("redirect") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
-              {}, KGAPI2::TemporarilyMoved, "https://example.test/moved/data", false },
-            { QUrl(QStringLiteral("https://example.test/moved/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
-              {}, KGAPI2::OK, "Here's your data", false }
-        };
+        QTest::newRow("redirect") << Scenarios{{QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")),
+                                                QNetworkAccessManager::GetOperation,
+                                                {},
+                                                KGAPI2::TemporarilyMoved,
+                                                "https://example.test/moved/data",
+                                                false},
+                                               {QUrl(QStringLiteral("https://example.test/moved/data?prettyPrint=false")),
+                                                QNetworkAccessManager::GetOperation,
+                                                {},
+                                                KGAPI2::OK,
+                                                "Here's your data",
+                                                false}};
     }
 
     void testUnauthenticatedFetch()
@@ -109,14 +118,10 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
 
         QTest::newRow("success") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
-              {}, 200, "Response" }
-        };
+            {QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation, {}, 200, "Response"}};
 
         QTest::newRow("token expired") << Scenarios{
-            { QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation,
-              {}, KGAPI2::Unauthorized, {} }
-        };
+            {QUrl(QStringLiteral("https://example.test/request/data?prettyPrint=false")), QNetworkAccessManager::GetOperation, {}, KGAPI2::Unauthorized, {}}};
     }
 
     void testAuthenticatedFetch()

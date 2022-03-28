@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "contactstestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "contactstestutils.h"
 
-#include "types.h"
-#include "contactsgroupdeletejob.h"
-#include "contactsgroup.h"
 #include "account.h"
+#include "contactsgroup.h"
+#include "contactsgroupdeletejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -36,46 +36,30 @@ private Q_SLOTS:
         QTest::addColumn<ContactsGroupsList>("groups");
         QTest::addColumn<bool>("idsOnly");
 
-        QTest::newRow("simple group")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group1_delete_response.txt"))
-                }
-            << ContactsGroupsList{ contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")) }
-            << false;
+        QTest::newRow("simple group") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contacts_group1_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contacts_group1_delete_response.txt"))}
+                                      << ContactsGroupsList{contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml"))} << false;
 
-        QTest::newRow("simple group (ids)")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group1_delete_response.txt"))
-                }
-            << ContactsGroupsList{ contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")) }
-            << true;
+        QTest::newRow("simple group (ids)") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(
+            QFINDTESTDATA("data/contacts_group1_delete_request.txt"),
+            QFINDTESTDATA("data/contacts_group1_delete_response.txt"))}
+                                            << ContactsGroupsList{contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml"))} << true;
 
-          QTest::newRow("batch delete")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group2_delete_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group2_delete_response.txt"))
-                }
-            << ContactsGroupsList{
-                    contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")),
-                    contactsGroupFromFile(QFINDTESTDATA("data/contacts_group2.xml"))
-                }
-            << false;
+        QTest::newRow("batch delete") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contacts_group1_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contacts_group1_delete_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/contacts_group2_delete_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contacts_group2_delete_response.txt"))}
+                                      << ContactsGroupsList{contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")),
+                                                            contactsGroupFromFile(QFINDTESTDATA("data/contacts_group2.xml"))}
+                                      << false;
 
-          QTest::newRow("batch delete (ids)")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group1_delete_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group1_delete_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contacts_group2_delete_request.txt"),
-                                     QFINDTESTDATA("data/contacts_group2_delete_response.txt"))
-                }
-            << ContactsGroupsList{
-                    contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")),
-                    contactsGroupFromFile(QFINDTESTDATA("data/contacts_group2.xml"))
-                }
+        QTest::newRow("batch delete (ids)")
+            << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contacts_group1_delete_request.txt"),
+                                                                          QFINDTESTDATA("data/contacts_group1_delete_response.txt")),
+                                                         scenarioFromFile(QFINDTESTDATA("data/contacts_group2_delete_request.txt"),
+                                                                          QFINDTESTDATA("data/contacts_group2_delete_response.txt"))}
+            << ContactsGroupsList{contactsGroupFromFile(QFINDTESTDATA("data/contacts_group1.xml")),
+                                  contactsGroupFromFile(QFINDTESTDATA("data/contacts_group2.xml"))}
             << true;
     }
 
@@ -109,4 +93,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(ContactsGroupDeleteJobTest)
 
 #include "contactsgroupdeletejobtest.moc"
-

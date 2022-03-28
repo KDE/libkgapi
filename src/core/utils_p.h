@@ -8,27 +8,25 @@
 
 #pragma once
 
-#include "utils.h"
 #include "debug.h"
+#include "utils.h"
 
-#define GAPI_COMPARE(propName) \
-    if (d->propName != other.d->propName) { \
-        qCDebug(KGAPIDebug) << #propName "s don't match"; \
-        return false; \
+#define GAPI_COMPARE(propName)                                                                                                                                 \
+    if (d->propName != other.d->propName) {                                                                                                                    \
+        qCDebug(KGAPIDebug) << #propName "s don't match";                                                                                                      \
+        return false;                                                                                                                                          \
     }
 
-#define GAPI_COMPARE_CONTAINERS(propName) \
-    if (!Utils::compareSharedPtrContainers(d->propName, other.d->propName)) { \
-        qCDebug(KGAPIDebug) << #propName "s don't match"; \
-        return false; \
+#define GAPI_COMPARE_CONTAINERS(propName)                                                                                                                      \
+    if (!Utils::compareSharedPtrContainers(d->propName, other.d->propName)) {                                                                                  \
+        qCDebug(KGAPIDebug) << #propName "s don't match";                                                                                                      \
+        return false;                                                                                                                                          \
     }
 
-#define GAPI_COMPARE_SHAREDPTRS(propName) \
-    if (d->propName || other.d->propName) { \
-        if (((bool)d->propName != (bool)other.d->propName) || (*d->propName != *other.d->propName)) { \
-            qCDebug(KGAPIDebug) << #propName "s don't match"; \
-            return false; \
-        } \
+#define GAPI_COMPARE_SHAREDPTRS(propName)                                                                                                                      \
+    if (d->propName || other.d->propName) {                                                                                                                    \
+        if (((bool)d->propName != (bool)other.d->propName) || (*d->propName != *other.d->propName)) {                                                          \
+            qCDebug(KGAPIDebug) << #propName "s don't match";                                                                                                  \
+            return false;                                                                                                                                      \
+        }                                                                                                                                                      \
     }
-
-

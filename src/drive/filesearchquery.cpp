@@ -8,12 +8,11 @@
 #include "filesearchquery.h"
 #include "utils.h"
 
-#include <QString>
 #include <QDateTime>
+#include <QString>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
-
 
 QString FileSearchQuery::fieldToString(Field field)
 {

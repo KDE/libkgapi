@@ -6,17 +6,17 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#include "refreshtokensjob_p.h"
 #include "account.h"
-#include "job_p.h"
 #include "debug.h"
+#include "job_p.h"
+#include "refreshtokensjob_p.h"
 
-#include <QUrlQuery>
-#include <QUrl>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkCookieJar>
 #include <QJsonDocument>
+#include <QNetworkAccessManager>
+#include <QNetworkCookieJar>
+#include <QNetworkRequest>
+#include <QUrl>
+#include <QUrlQuery>
 
 using namespace KGAPI2;
 
@@ -31,7 +31,8 @@ public:
         , mApiKey(apiKey)
         , mSecretKey(secretKey)
         , q(qq)
-    {}
+    {
+    }
 
     void emitError(Error error, const QString &text)
     {
@@ -46,7 +47,7 @@ public:
     QString mSecretKey;
 
 private:
-    RefreshTokensJob * const q;
+    RefreshTokensJob *const q;
 };
 
 }
@@ -108,13 +109,10 @@ void RefreshTokensJob::handleReply(const QNetworkReply *reply, const QByteArray 
     emitFinished();
 }
 
-
-void RefreshTokensJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request,
-                                       const QByteArray &data, const QString &contentType)
+void RefreshTokensJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType)
 {
     Q_UNUSED(contentType)
 
     accessManager->setCookieJar(new QNetworkCookieJar);
     accessManager->post(request, data);
 }
-

@@ -7,17 +7,18 @@
 #include <QObject>
 #include <QTest>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "teamdrivefetchjob.h"
-#include "teamdrive.h"
 #include "account.h"
+#include "teamdrive.h"
+#include "teamdrivefetchjob.h"
+#include "types.h"
 
-namespace {
-    static const QString MockValue = QStringLiteral("MockValue");
+namespace
+{
+static const QString MockValue = QStringLiteral("MockValue");
 }
 
 using namespace KGAPI2;
@@ -35,11 +36,10 @@ private Q_SLOTS:
 
     void testFetch()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/teamdrive_fetch_request.txt"),
-                             QFINDTESTDATA("data/teamdrive_fetch_response.txt"))
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/teamdrive_fetch_request.txt"), QFINDTESTDATA("data/teamdrive_fetch_response.txt"))
 
-        });
+            });
         const auto teamdrive = teamdriveFromFile(QFINDTESTDATA("data/teamdrive.json"));
 
         auto account = AccountPtr::create(MockValue, MockValue);
@@ -47,7 +47,7 @@ private Q_SLOTS:
         QVERIFY(execJob(job));
         const auto items = job->items();
         QCOMPARE(items.count(), 2);
-        const auto returnedTeamdrive =  items.at(0).dynamicCast<Drive::Teamdrive>();
+        const auto returnedTeamdrive = items.at(0).dynamicCast<Drive::Teamdrive>();
         QVERIFY(returnedTeamdrive);
         QCOMPARE(*returnedTeamdrive, *teamdrive);
     }
@@ -56,6 +56,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TeamdriveFetchJobTest)
 
 #include "teamdrivefetchjobtest.moc"
-
-
-

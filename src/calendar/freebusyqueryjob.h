@@ -9,11 +9,12 @@
 #include "fetchjob.h"
 #include "kgapicalendar_export.h"
 
-#include <QVector>
 #include <QDateTime>
 #include <QScopedPointer>
+#include <QVector>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 class KGAPICALENDAR_EXPORT FreeBusyQueryJob : public KGAPI2::FetchJob
 {
@@ -22,8 +23,10 @@ public:
     struct BusyRange {
         BusyRange() = default;
         BusyRange(const QDateTime &busyStart, const QDateTime &busyEnd)
-            : busyStart(busyStart), busyEnd(busyEnd)
-        {}
+            : busyStart(busyStart)
+            , busyEnd(busyEnd)
+        {
+        }
 
         bool operator==(const BusyRange &other) const
         {
@@ -35,11 +38,7 @@ public:
     };
     using BusyRangeList = QVector<BusyRange>;
 
-    explicit FreeBusyQueryJob(const QString &id,
-                              const QDateTime &timeMin,
-                              const QDateTime &timeMax,
-                              const AccountPtr &account,
-                              QObject* parent = nullptr);
+    explicit FreeBusyQueryJob(const QString &id, const QDateTime &timeMin, const QDateTime &timeMax, const AccountPtr &account, QObject *parent = nullptr);
     ~FreeBusyQueryJob() override;
 
     QString id() const;
@@ -57,8 +56,6 @@ private:
     class Private;
     QScopedPointer<Private> const d;
     friend class Private;
-
 };
 
 }
-

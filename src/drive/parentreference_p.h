@@ -20,7 +20,7 @@ namespace Drive
 
 class Q_DECL_HIDDEN ParentReference::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -36,4 +36,3 @@ class Q_DECL_HIDDEN ParentReference::Private
 } // namespace Drive
 
 } // namespace KGAPI2
-

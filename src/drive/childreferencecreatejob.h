@@ -23,23 +23,11 @@ class KGAPIDRIVE_EXPORT ChildReferenceCreateJob : public KGAPI2::CreateJob
 {
     Q_OBJECT
 
-  public:
-    explicit ChildReferenceCreateJob(const QString &folderId,
-                                     const QString &childId,
-                                     const AccountPtr &account,
-                                     QObject *parent = nullptr);
-    explicit ChildReferenceCreateJob(const QString &folderId,
-                                     const QStringList &childrenIds,
-                                     const AccountPtr &account,
-                                     QObject *parent = nullptr);
-    explicit ChildReferenceCreateJob(const QString &folderId,
-                                     const ChildReferencePtr &reference,
-                                     const AccountPtr &account,
-                                     QObject *parent = nullptr);
-    explicit ChildReferenceCreateJob(const QString &folderId,
-                                     const ChildReferencesList &references,
-                                     const AccountPtr &account,
-                                     QObject *parent = nullptr);
+public:
+    explicit ChildReferenceCreateJob(const QString &folderId, const QString &childId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ChildReferenceCreateJob(const QString &folderId, const QStringList &childrenIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ChildReferenceCreateJob(const QString &folderId, const ChildReferencePtr &reference, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ChildReferenceCreateJob(const QString &folderId, const ChildReferencesList &references, const AccountPtr &account, QObject *parent = nullptr);
     ~ChildReferenceCreateJob() override;
 
     /**
@@ -62,12 +50,11 @@ class KGAPIDRIVE_EXPORT ChildReferenceCreateJob : public KGAPI2::CreateJob
      */
     KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
 
-  protected:
+protected:
     void start() override;
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray &rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -76,4 +63,3 @@ class KGAPIDRIVE_EXPORT ChildReferenceCreateJob : public KGAPI2::CreateJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

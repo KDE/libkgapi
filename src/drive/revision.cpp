@@ -15,9 +15,9 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN Revision::Private
 {
-  public:
+public:
     Private();
-    Private(const Private& other);
+    Private(const Private &other);
 
     QString id;
     QUrl selfLink;
@@ -39,40 +39,38 @@ class Q_DECL_HIDDEN Revision::Private
     static RevisionPtr fromJSON(const QVariantMap &map);
 };
 
-Revision::Private::Private():
-    pinned(false),
-    published(false),
-    publishAuto(false),
-    publishedOutsideDomain(false),
-    fileSize(-1)
+Revision::Private::Private()
+    : pinned(false)
+    , published(false)
+    , publishAuto(false)
+    , publishedOutsideDomain(false)
+    , fileSize(-1)
 {
 }
 
-Revision::Private::Private(const Private& other):
-    id(other.id),
-    selfLink(other.selfLink),
-    mimeType(other.mimeType),
-    modifiedDate(other.modifiedDate),
-    pinned(other.pinned),
-    published(other.published),
-    publishedLink(other.publishedLink),
-    publishAuto(other.publishAuto),
-    publishedOutsideDomain(other.publishedOutsideDomain),
-    downloadUrl(other.downloadUrl),
-    exportLinks(other.exportLinks),
-    lastModifyingUserName(other.lastModifyingUserName),
-    lastModifyingUser(other.lastModifyingUser),
-    originalFilename(other.originalFilename),
-    md5Checksum(other.md5Checksum),
-    fileSize(other.fileSize)
+Revision::Private::Private(const Private &other)
+    : id(other.id)
+    , selfLink(other.selfLink)
+    , mimeType(other.mimeType)
+    , modifiedDate(other.modifiedDate)
+    , pinned(other.pinned)
+    , published(other.published)
+    , publishedLink(other.publishedLink)
+    , publishAuto(other.publishAuto)
+    , publishedOutsideDomain(other.publishedOutsideDomain)
+    , downloadUrl(other.downloadUrl)
+    , exportLinks(other.exportLinks)
+    , lastModifyingUserName(other.lastModifyingUserName)
+    , lastModifyingUser(other.lastModifyingUser)
+    , originalFilename(other.originalFilename)
+    , md5Checksum(other.md5Checksum)
+    , fileSize(other.fileSize)
 {
 }
 
 RevisionPtr Revision::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-        map[QStringLiteral("kind")].toString() != QLatin1String("drive#revision"))
-    {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#revision")) {
         return RevisionPtr();
     }
 
@@ -96,22 +94,22 @@ RevisionPtr Revision::Private::fromJSON(const QVariantMap &map)
 
     const QVariantMap exportLinks = map[QStringLiteral("exportLinks")].toMap();
     QVariantMap::ConstIterator iter = exportLinks.constBegin();
-    for ( ; iter != exportLinks.constEnd(); ++iter) {
+    for (; iter != exportLinks.constEnd(); ++iter) {
         revision->d->exportLinks.insert(iter.key(), iter.value().toUrl());
     }
 
     return revision;
 }
 
-Revision::Revision():
-    KGAPI2::Object(),
-    d(new Private)
+Revision::Revision()
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
-Revision::Revision(const Revision& other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
+Revision::Revision(const Revision &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 
@@ -214,7 +212,7 @@ QUrl Revision::downloadUrl() const
     return d->downloadUrl;
 }
 
-QMap< QString, QUrl > Revision::exportLinks() const
+QMap<QString, QUrl> Revision::exportLinks() const
 {
     return d->exportLinks;
 }
@@ -265,9 +263,7 @@ RevisionsList Revision::fromJSONFeed(const QByteArray &jsonData)
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
 
-    if (!map.contains(QLatin1String("kind")) ||
-        map[QStringLiteral("kind")].toString() != QLatin1String("drive#revisionList"))
-    {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#revisionList")) {
         return RevisionsList();
     }
 

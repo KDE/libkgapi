@@ -21,28 +21,22 @@ class KGAPIDRIVE_EXPORT FileResumableCreateJob : public KGAPI2::Drive::FileAbstr
 {
     Q_OBJECT
 
-  public:
-    explicit FileResumableCreateJob(const AccountPtr &account,
-                           QObject *parent = nullptr);
-    explicit FileResumableCreateJob(const FilePtr &metadata, const AccountPtr &account,
-                           QObject *parent = nullptr);
-    explicit FileResumableCreateJob(QIODevice *device, const AccountPtr &account,
-                           QObject *parent = nullptr);
-    explicit FileResumableCreateJob(QIODevice *device, const FilePtr &metadata,
-                           const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileResumableCreateJob(const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileResumableCreateJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileResumableCreateJob(QIODevice *device, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileResumableCreateJob(QIODevice *device, const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
     ~FileResumableCreateJob() override;
 
-  protected:
+protected:
     QUrl createUrl() override;
 
-  private:
+private:
     class Private;
     QScopedPointer<Private> d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

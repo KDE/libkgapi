@@ -8,13 +8,13 @@
 #include <QTest>
 
 #include "fakenetworkaccessmanagerfactory.h"
-#include "testutils.h"
 #include "taskstestutils.h"
+#include "testutils.h"
 
-#include "types.h"
-#include "tasklistfetchjob.h"
-#include "tasklist.h"
 #include "account.h"
+#include "tasklist.h"
+#include "tasklistfetchjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -32,16 +32,10 @@ private Q_SLOTS:
 
     void testFetchAll()
     {
-        FakeNetworkAccessManagerFactory::get()->setScenarios({
-            scenarioFromFile(QFINDTESTDATA("data/tasklists_fetch_page1_request.txt"),
-                             QFINDTESTDATA("data/tasklists_fetch_page1_response.txt")),
-            scenarioFromFile(QFINDTESTDATA("data/tasklists_fetch_page2_request.txt"),
-                             QFINDTESTDATA("data/tasklists_fetch_page2_response.txt"))
-        });
-        const TaskListsList taskLists = {
-            taskListFromFile(QFINDTESTDATA("data/tasklist1.json")),
-            taskListFromFile(QFINDTESTDATA("data/tasklist2.json"))
-        };
+        FakeNetworkAccessManagerFactory::get()->setScenarios(
+            {scenarioFromFile(QFINDTESTDATA("data/tasklists_fetch_page1_request.txt"), QFINDTESTDATA("data/tasklists_fetch_page1_response.txt")),
+             scenarioFromFile(QFINDTESTDATA("data/tasklists_fetch_page2_request.txt"), QFINDTESTDATA("data/tasklists_fetch_page2_response.txt"))});
+        const TaskListsList taskLists = {taskListFromFile(QFINDTESTDATA("data/tasklist1.json")), taskListFromFile(QFINDTESTDATA("data/tasklist2.json"))};
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         auto job = new TaskListFetchJob(account);
@@ -49,7 +43,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), taskLists.count());
         for (int i = 0; i < taskLists.count(); ++i) {
-            const auto returnedGroup =  items.at(i).dynamicCast<TaskList>();
+            const auto returnedGroup = items.at(i).dynamicCast<TaskList>();
             QVERIFY(returnedGroup);
             QCOMPARE(*returnedGroup, *taskLists.at(i));
         }
@@ -59,4 +53,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TaskListFetchJobTest)
 
 #include "tasklistfetchjobtest.moc"
-

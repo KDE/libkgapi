@@ -16,13 +16,12 @@
 #include <QNetworkRequest>
 #include <QUrlQuery>
 
-
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN FileAbstractModifyJob::Private
 {
-  public:
+public:
     Private(FileAbstractModifyJob *parent);
     void processNext();
 
@@ -30,12 +29,12 @@ class Q_DECL_HIDDEN FileAbstractModifyJob::Private
 
     bool supportsAllDrives = true;
 
-  private:
+private:
     FileAbstractModifyJob *const q;
 };
 
-FileAbstractModifyJob::Private::Private(FileAbstractModifyJob *parent):
-    q(parent)
+FileAbstractModifyJob::Private::Private(FileAbstractModifyJob *parent)
+    : q(parent)
 {
 }
 
@@ -59,40 +58,32 @@ void FileAbstractModifyJob::Private::processNext()
     q->enqueueRequest(request);
 }
 
-FileAbstractModifyJob::FileAbstractModifyJob(const QString &fileId,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+FileAbstractModifyJob::FileAbstractModifyJob(const QString &fileId, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->filesIds << fileId;
 }
 
-FileAbstractModifyJob::FileAbstractModifyJob(const QStringList &filesIds,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+FileAbstractModifyJob::FileAbstractModifyJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->filesIds << filesIds;
 }
 
-FileAbstractModifyJob::FileAbstractModifyJob(const FilePtr &file,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+FileAbstractModifyJob::FileAbstractModifyJob(const FilePtr &file, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->filesIds << file->id();
 }
 
-FileAbstractModifyJob::FileAbstractModifyJob(const FilesList &files,
-                                             const AccountPtr &account,
-                                             QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+FileAbstractModifyJob::FileAbstractModifyJob(const FilesList &files, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
-    for (const FilePtr & file : std::as_const(files)) {
+    for (const FilePtr &file : std::as_const(files)) {
         d->filesIds << file->id();
     }
 }
@@ -117,8 +108,7 @@ void FileAbstractModifyJob::setSupportsAllDrives(bool supportsAllDrives)
     d->supportsAllDrives = supportsAllDrives;
 }
 
-ObjectsList FileAbstractModifyJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                        const QByteArray &rawData)
+ObjectsList FileAbstractModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);

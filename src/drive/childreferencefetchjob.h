@@ -21,29 +21,21 @@ class KGAPIDRIVE_EXPORT ChildReferenceFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
-  public:
-    explicit ChildReferenceFetchJob(const QString &folderId,
-                                    const AccountPtr &account,
-                                    QObject *parent = nullptr);
-    explicit ChildReferenceFetchJob(const QString &folderId,
-                                    const QString &childId,
-                                    const AccountPtr &account,
-                                    QObject *parent = nullptr);
+public:
+    explicit ChildReferenceFetchJob(const QString &folderId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit ChildReferenceFetchJob(const QString &folderId, const QString &childId, const AccountPtr &account, QObject *parent = nullptr);
     ~ChildReferenceFetchJob() override;
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

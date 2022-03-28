@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "types.h"
-#include "object.h"
 #include "file.h"
 #include "kgapidrive_export.h"
+#include "object.h"
+#include "types.h"
 
 #include <QString>
 #include <QUrl>
@@ -30,15 +30,17 @@ namespace Drive
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class KGAPIDRIVE_EXPORT ParentReference: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT ParentReference : public KGAPI2::Object
 {
-
-  public:
+public:
     explicit ParentReference(const QString &id);
     explicit ParentReference(const ParentReference &other);
     ~ParentReference() override;
     bool operator==(const ParentReference &other) const;
-    bool operator!=(const ParentReference &other) const { return !operator==(other); }
+    bool operator!=(const ParentReference &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Returns the id of the parent.
@@ -64,7 +66,7 @@ class KGAPIDRIVE_EXPORT ParentReference: public KGAPI2::Object
     static ParentReferencesList fromJSONFeed(const QByteArray &jsonData);
     static QByteArray toJSON(const ParentReferencePtr &reference);
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -75,4 +77,3 @@ class KGAPIDRIVE_EXPORT ParentReference: public KGAPI2::Object
 } /* namespace Drive */
 
 } /* namespace KGAPI2 */
-

@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
+#include "account.h"
+#include "accountinfo/accountinfo.h"
+#include "accountinfo/accountinfofetchjob.h"
+#include "debug.h"
 #include "fullauthenticationjob_p.h"
 #include "newtokensfetchjob_p.h"
-#include "accountinfo/accountinfofetchjob.h"
-#include "accountinfo/accountinfo.h"
-#include "account.h"
-#include "debug.h"
 
 #include <QAbstractSocket>
 #include <QDateTime>
@@ -35,7 +35,8 @@ public:
         , mApiKey(apiKey)
         , mSecretKey(secretKey)
         , q(qq)
-    {}
+    {
+    }
 
     void emitError(Error error, const QString &text)
     {
@@ -77,7 +78,7 @@ public:
             return;
         }
 
-        //qCDebug(KGAPIDebug) << "Receiving data on socket: " << data;
+        // qCDebug(KGAPIDebug) << "Receiving data on socket: " << data;
         const QUrl url(QString::fromLatin1(line.at(1)));
         const QUrlQuery query(url);
         const QString code = query.queryItemValue(QStringLiteral("code"));
@@ -94,12 +95,14 @@ public:
         }
 
         auto fetch = new KGAPI2::NewTokensFetchJob(code, mApiKey, mSecretKey, mServerPort);
-        q->connect(fetch, &Job::finished, q, [this](Job *job) { tokensReceived(job); });
+        q->connect(fetch, &Job::finished, q, [this](Job *job) {
+            tokensReceived(job);
+        });
     }
 
     void tokensReceived(Job *job)
     {
-        auto *tokensFetchJob = qobject_cast<NewTokensFetchJob*>(job);
+        auto *tokensFetchJob = qobject_cast<NewTokensFetchJob *>(job);
         if (tokensFetchJob->error()) {
             qCDebug(KGAPIDebug) << "Error when retrieving tokens:" << job->errorString();
             emitError(static_cast<Error>(job->error()), job->errorString());
@@ -112,7 +115,9 @@ public:
         tokensFetchJob->deleteLater();
 
         auto *fetchJob = new KGAPI2::AccountInfoFetchJob(mAccount, q);
-        q->connect(fetchJob, &Job::finished, q, [this](Job *job) { accountInfoReceived(job); });
+        q->connect(fetchJob, &Job::finished, q, [this](Job *job) {
+            accountInfoReceived(job);
+        });
         qCDebug(KGAPIDebug) << "Requesting AccountInfo";
     }
 
@@ -124,7 +129,7 @@ public:
             return;
         }
 
-        const auto objects = qobject_cast<AccountInfoFetchJob*>(job)->items();
+        const auto objects = qobject_cast<AccountInfoFetchJob *>(job)->items();
         Q_ASSERT(!objects.isEmpty());
 
         const auto accountInfo = objects.first().staticCast<AccountInfo>();
@@ -146,7 +151,7 @@ public:
     uint16_t mServerPort = 0;
 
 private:
-    FullAuthenticationJob * const q;
+    FullAuthenticationJob *const q;
 };
 
 } // namespace KGAPI2
@@ -188,7 +193,7 @@ void FullAuthenticationJob::start()
     QStringList scopes;
     scopes.reserve(d->mAccount->scopes().size());
     const auto scopesList = d->mAccount->scopes();
-    for (const QUrl & scope : scopesList) {
+    for (const QUrl &scope : scopesList) {
         scopes << scope.toString();
     }
 
@@ -198,13 +203,21 @@ void FullAuthenticationJob::start()
         return;
     }
     d->mServerPort = d->mServer->serverPort();
-    connect(d->mServer.get(), &QTcpServer::acceptError, this, [this](QAbstractSocket::SocketError e) { d->socketError(e); });
+    connect(d->mServer.get(), &QTcpServer::acceptError, this, [this](QAbstractSocket::SocketError e) {
+        d->socketError(e);
+    });
     connect(d->mServer.get(), &QTcpServer::newConnection, this, [this]() {
         d->mConnection = d->mServer->nextPendingConnection();
         d->mConnection->setParent(this);
-        connect(d->mConnection, static_cast<void (QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::errorOccurred),
-                this, [this](QAbstractSocket::SocketError e) { d->socketError(e); });
-        connect(d->mConnection, &QTcpSocket::readyRead, this, [this]() { d->socketReady(); });
+        connect(d->mConnection,
+                static_cast<void (QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::errorOccurred),
+                this,
+                [this](QAbstractSocket::SocketError e) {
+                    d->socketError(e);
+                });
+        connect(d->mConnection, &QTcpSocket::readyRead, this, [this]() {
+            d->socketReady();
+        });
         d->mServer->close();
     });
 
@@ -222,17 +235,17 @@ void FullAuthenticationJob::start()
     QDesktopServices::openUrl(url);
 }
 
-
 void FullAuthenticationJob::handleReply(const QNetworkReply * /*reply*/, const QByteArray & /*rawData*/)
 {
     // This is never supposed to be called.
     Q_UNREACHABLE();
 }
 
-void FullAuthenticationJob::dispatchRequest(QNetworkAccessManager * /*accessManager*/, const QNetworkRequest &/*request*/,
-                                            const QByteArray &/*data*/, const QString &/*contentType*/)
+void FullAuthenticationJob::dispatchRequest(QNetworkAccessManager * /*accessManager*/,
+                                            const QNetworkRequest & /*request*/,
+                                            const QByteArray & /*data*/,
+                                            const QString & /*contentType*/)
 {
     // This is never supposed to be called.
     Q_UNREACHABLE();
 }
-

@@ -5,20 +5,20 @@
  */
 
 #include "pagecreatejob.h"
-#include "page.h"
-#include "bloggerservice.h"
-#include "utils.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "page.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN PageCreateJob::Private
 {
-  public:
+public:
     Private(const PagePtr &page);
 
     const PagePtr page;
@@ -29,9 +29,7 @@ PageCreateJob::Private::Private(const PagePtr &page_)
 {
 }
 
-PageCreateJob::PageCreateJob(const PagePtr &page,
-                             const AccountPtr &account,
-                             QObject *parent)
+PageCreateJob::PageCreateJob(const PagePtr &page, const AccountPtr &account, QObject *parent)
     : CreateJob(account, parent)
     , d(new Private(page))
 {
@@ -68,6 +66,3 @@ ObjectsList PageCreateJob::handleReplyWithItems(const QNetworkReply *reply, cons
     emitFinished();
     return items;
 }
-
-
-

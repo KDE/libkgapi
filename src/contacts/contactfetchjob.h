@@ -11,7 +11,8 @@
 #include "fetchjob.h"
 #include "kgapicontacts_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to fetch contacts from user's addressbook on Google Contacts
@@ -54,7 +55,6 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      */
     Q_PROPERTY(quint64 fetchOnlyUpdated READ fetchOnlyUpdated WRITE setFetchOnlyUpdated)
 
-
     /**
      * @brief A filter to fetch only contacts matching thefulltext search
      *
@@ -67,8 +67,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      */
     Q_PROPERTY(QString filter READ filter WRITE setFilter)
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will fetch all contacts from user's
      *        addressbook
@@ -79,7 +78,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit ContactFetchJob(const AccountPtr &account, QObject* parent = nullptr);
+    explicit ContactFetchJob(const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Constructs a job that will fetch a contact with given @p contactId
@@ -91,7 +90,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      * @param account Account to authenticate the request
      * @param parent
      */
-    ContactFetchJob(const QString &contactId, const AccountPtr &account, QObject* parent = nullptr);
+    ContactFetchJob(const QString &contactId, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -137,8 +136,7 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      */
     QString filter() const;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -150,15 +148,12 @@ class KGAPICONTACTS_EXPORT ContactFetchJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray &rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

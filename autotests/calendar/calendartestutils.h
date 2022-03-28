@@ -6,11 +6,9 @@
 
 #pragma once
 
-#include "types.h"
 #include "calendar.h"
 #include "event.h"
+#include "types.h"
 
 KGAPI2::CalendarPtr calendarFromFile(const QString &path);
 KGAPI2::EventPtr eventFromFile(const QString &path);
-
-

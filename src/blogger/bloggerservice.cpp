@@ -19,41 +19,33 @@ namespace BloggerService
 {
 namespace Private
 {
-    static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
+static const QUrl GoogleApisUrl(QStringLiteral("https://www.googleapis.com"));
 
-    auto commentBasePath(const QString &blogId,
-                         const QString &postId = QString(),
-                         const QString &commentId = QString()) -> QString
-    {
-        const auto post = !postId.isEmpty() ? (QLatin1String("/posts/") % postId) : QString();
-        const auto comment = !commentId.isEmpty() ? (QLatin1Char('/') % commentId) : QString();
-        const QString path = QLatin1String("blogger/v3/blogs/") % blogId
-                            % post % QLatin1String("/comments") % comment;
-        return path;
-    }
+auto commentBasePath(const QString &blogId, const QString &postId = QString(), const QString &commentId = QString()) -> QString
+{
+    const auto post = !postId.isEmpty() ? (QLatin1String("/posts/") % postId) : QString();
+    const auto comment = !commentId.isEmpty() ? (QLatin1Char('/') % commentId) : QString();
+    const QString path = QLatin1String("blogger/v3/blogs/") % blogId % post % QLatin1String("/comments") % comment;
+    return path;
+}
 
-    auto pageBasePath(const QString &blogId,
-                      const QString &pageId = QString()) -> QString
-    {
-        const auto page = !pageId.isEmpty() ? (QLatin1Char('/') % pageId) : QString();
-        const QString path = QLatin1String("blogger/v3/blogs/") % blogId
-                            % QLatin1String("/pages") % page;
-        return path;
-    }
+auto pageBasePath(const QString &blogId, const QString &pageId = QString()) -> QString
+{
+    const auto page = !pageId.isEmpty() ? (QLatin1Char('/') % pageId) : QString();
+    const QString path = QLatin1String("blogger/v3/blogs/") % blogId % QLatin1String("/pages") % page;
+    return path;
+}
 
-    auto postBasePath(const QString &blogId,
-                      const QString &postId = QString()) -> QString
-    {
-        const auto post = !postId.isEmpty() ? (QLatin1Char('/') % postId) : QString();
-        const QString path = QLatin1String("blogger/v3/blogs/") % blogId
-                            % QLatin1String("/posts") % post;
-        return path;
-    }
+auto postBasePath(const QString &blogId, const QString &postId = QString()) -> QString
+{
+    const auto post = !postId.isEmpty() ? (QLatin1Char('/') % postId) : QString();
+    const QString path = QLatin1String("blogger/v3/blogs/") % blogId % QLatin1String("/posts") % post;
+    return path;
+}
 
 } // namespace Private
 } // namespace BloggerService
 } // namespace KGAPI2
-
 
 using namespace KGAPI2;
 using namespace KGAPI2::BloggerService::Private;
@@ -77,44 +69,32 @@ QUrl BloggerService::fetchBlogsByUserIdUrl(const QString &userId)
     return GoogleApisUrl % QStringLiteral("/blogger/v3/users/") % userId % QStringLiteral("/blogs");
 }
 
-
-QUrl BloggerService::fetchCommentsUrl(const QString &blogId,
-                                      const QString &postId,
-                                      const QString &commentId)
+QUrl BloggerService::fetchCommentsUrl(const QString &blogId, const QString &postId, const QString &commentId)
 {
     return GoogleApisUrl % commentBasePath(blogId, postId, commentId);
 }
 
-QUrl BloggerService::approveCommentUrl(const QString &blogId,
-                                       const QString &postId,
-                                       const QString &commentId)
+QUrl BloggerService::approveCommentUrl(const QString &blogId, const QString &postId, const QString &commentId)
 {
     return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QStringLiteral("/approve");
 }
 
-QUrl BloggerService::markCommentAsSpamUrl(const QString &blogId,
-                                          const QString &postId,
-                                          const QString &commentId)
+QUrl BloggerService::markCommentAsSpamUrl(const QString &blogId, const QString &postId, const QString &commentId)
 {
     return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QStringLiteral("/spam");
 }
 
-QUrl BloggerService::deleteCommentUrl(const QString &blogId,
-                                      const QString &postId,
-                                      const QString &commentId)
+QUrl BloggerService::deleteCommentUrl(const QString &blogId, const QString &postId, const QString &commentId)
 {
     return GoogleApisUrl % commentBasePath(blogId, postId, commentId);
 }
 
-QUrl BloggerService::deleteCommentContentUrl(const QString &blogId,
-                                             const QString &postId,
-                                             const QString &commentId)
+QUrl BloggerService::deleteCommentContentUrl(const QString &blogId, const QString &postId, const QString &commentId)
 {
     return GoogleApisUrl % commentBasePath(blogId, postId, commentId) % QStringLiteral("/removecontent");
 }
 
-QUrl BloggerService::fetchPageUrl(const QString &blogId,
-                                  const QString &pageId)
+QUrl BloggerService::fetchPageUrl(const QString &blogId, const QString &pageId)
 {
     return GoogleApisUrl % pageBasePath(blogId, pageId);
 }

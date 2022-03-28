@@ -5,15 +5,15 @@
  */
 
 #include "freebusyqueryjob.h"
+#include "account.h"
 #include "calendarservice.h"
 #include "utils.h"
-#include "account.h"
 
-#include <QVariantMap>
-#include <QNetworkRequest>
+#include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QJsonDocument>
+#include <QNetworkRequest>
+#include <QVariantMap>
 
 using namespace KGAPI2;
 
@@ -24,7 +24,8 @@ public:
         : id(id)
         , timeMin(timeMin)
         , timeMax(timeMax)
-    {}
+    {
+    }
 
     const QString id;
     const QDateTime timeMin;
@@ -32,9 +33,7 @@ public:
     FreeBusyQueryJob::BusyRangeList busy;
 };
 
-
-FreeBusyQueryJob::FreeBusyQueryJob(const QString &id, const QDateTime &timeMin, const QDateTime &timeMax,
-                                   const AccountPtr &account, QObject *parent)
+FreeBusyQueryJob::FreeBusyQueryJob(const QString &id, const QDateTime &timeMin, const QDateTime &timeMax, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new FreeBusyQueryJob::Private(id, timeMin, timeMax))
 {
@@ -64,14 +63,9 @@ QDateTime FreeBusyQueryJob::timeMax() const
 
 void FreeBusyQueryJob::start()
 {
-    QVariantMap requestData({
-        { QStringLiteral("timeMin"), Utils::rfc3339DateToString(d->timeMin) },
-        { QStringLiteral("timeMax"), Utils::rfc3339DateToString(d->timeMax) },
-        { QStringLiteral("items"),
-            QVariantList({
-                QVariantMap({ { QStringLiteral("id"), d->id } })
-            })
-        }});
+    QVariantMap requestData({{QStringLiteral("timeMin"), Utils::rfc3339DateToString(d->timeMin)},
+                             {QStringLiteral("timeMax"), Utils::rfc3339DateToString(d->timeMax)},
+                             {QStringLiteral("items"), QVariantList({QVariantMap({{QStringLiteral("id"), d->id}})})}});
     QJsonDocument document = QJsonDocument::fromVariant(requestData);
     const QByteArray json = document.toJson(QJsonDocument::Compact);
 
@@ -79,10 +73,7 @@ void FreeBusyQueryJob::start()
     enqueueRequest(request, json, QStringLiteral("application/json"));
 }
 
-void FreeBusyQueryJob::dispatchRequest(QNetworkAccessManager *accessManager,
-                                       const QNetworkRequest &request,
-                                       const QByteArray &data,
-                                       const QString &contentType)
+void FreeBusyQueryJob::dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType)
 {
     QNetworkRequest r = request;
     if (!r.hasRawHeader("Content-Type")) {
@@ -108,10 +99,8 @@ void FreeBusyQueryJob::handleReply(const QNetworkReply *reply, const QByteArray 
             const QVariantList busyList = cal[QStringLiteral("busy")].toList();
             for (const QVariant &busyV : busyList) {
                 const QVariantMap busy = busyV.toMap();
-                d->busy << BusyRange{
-                    Utils::rfc3339DateFromString(busy[QStringLiteral("start")].toString()),
-                    Utils::rfc3339DateFromString(busy[QStringLiteral("end")].toString())
-                };
+                d->busy << BusyRange{Utils::rfc3339DateFromString(busy[QStringLiteral("start")].toString()),
+                                     Utils::rfc3339DateFromString(busy[QStringLiteral("end")].toString())};
             }
         }
     } else {

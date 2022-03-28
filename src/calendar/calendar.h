@@ -8,9 +8,9 @@
 
 #pragma once
 
+#include "kgapicalendar_export.h"
 #include "object.h"
 #include "types.h"
-#include "kgapicalendar_export.h"
 
 #include <QColor>
 #include <QScopedPointer>
@@ -24,10 +24,9 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.1
  */
-class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
+class KGAPICALENDAR_EXPORT Calendar : public KGAPI2::Object
 {
-
-  public:
+public:
     /**
      * @brief Constructor
      */
@@ -168,11 +167,9 @@ class KGAPICALENDAR_EXPORT Calendar: public KGAPI2::Object
      */
     void setForegroundColor(const QColor &color);
 
-  protected:
+protected:
     class Private;
     QScopedPointer<Private> const d;
-
 };
 
 } // namespace KGAPI2
-

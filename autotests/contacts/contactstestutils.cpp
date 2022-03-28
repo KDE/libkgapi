@@ -20,7 +20,7 @@ KGAPI2::ContactPtr contactFromFile(const QString &path)
     return contact;
 }
 
-KGAPI2::ContactsGroupPtr contactsGroupFromFile(const QString& path)
+KGAPI2::ContactsGroupPtr contactsGroupFromFile(const QString &path)
 {
     QFile f(path);
     VERIFY_RET(f.open(QIODevice::ReadOnly), {});

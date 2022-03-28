@@ -46,8 +46,7 @@ FakeNetworkReply::FakeNetworkReply(QNetworkAccessManager::Operation method, cons
 
     open(QIODevice::ReadOnly);
     setFinished(true);
-    QMetaObject::invokeMethod(this, "error", Qt::QueuedConnection,
-                              Q_ARG(QNetworkReply::NetworkError, QNetworkReply::UnknownServerError));
+    QMetaObject::invokeMethod(this, "error", Qt::QueuedConnection, Q_ARG(QNetworkReply::NetworkError, QNetworkReply::UnknownServerError));
     QMetaObject::invokeMethod(this, "finished", Qt::QueuedConnection);
 }
 
@@ -86,12 +85,12 @@ qint64 FakeNetworkReply::size() const
     return mBuffer.size();
 }
 
-qint64 FakeNetworkReply::readData(char* data, qint64 maxLen)
+qint64 FakeNetworkReply::readData(char *data, qint64 maxLen)
 {
     return mBuffer.read(data, maxLen);
 }
 
-qint64 FakeNetworkReply::writeData(const char* data, qint64 len)
+qint64 FakeNetworkReply::writeData(const char *data, qint64 len)
 {
     return mBuffer.write(data, len);
 }

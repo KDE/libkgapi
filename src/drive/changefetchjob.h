@@ -29,9 +29,7 @@ class KGAPIDRIVE_EXPORT ChangeFetchJob : public KGAPI2::FetchJob
      * This property does not have any effect when fetching a specific change and
      * can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool includeDeleted
-               READ includeDeleted
-               WRITE setIncludeDeleted)
+    Q_PROPERTY(bool includeDeleted READ includeDeleted WRITE setIncludeDeleted)
 
     /**
      * Whether to include shared files and public files the user has opened.
@@ -43,9 +41,7 @@ class KGAPIDRIVE_EXPORT ChangeFetchJob : public KGAPI2::FetchJob
      * This property does not have any effect when fetching a specific event and
      * can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool includeSubscribed
-               READ includeSubscribed
-               WRITE setIncludeSubscribed)
+    Q_PROPERTY(bool includeSubscribed READ includeSubscribed WRITE setIncludeSubscribed)
 
     /**
      * Maximum number of changes to return.
@@ -55,9 +51,7 @@ class KGAPIDRIVE_EXPORT ChangeFetchJob : public KGAPI2::FetchJob
      * This property does not have any effect when fetching a specific event and
      * can be modified only when the job is not running.
      */
-    Q_PROPERTY(int maxResults
-               READ maxResults
-               WRITE setMaxResults)
+    Q_PROPERTY(int maxResults READ maxResults WRITE setMaxResults)
 
     /**
      * Change ID to start listing changes from.
@@ -67,14 +61,11 @@ class KGAPIDRIVE_EXPORT ChangeFetchJob : public KGAPI2::FetchJob
      * This property does not have any effect when fetching a specific event and
      * can be modified only when the job is not running.
      */
-    Q_PROPERTY(qlonglong startChangeId
-               READ startChangeId
-               WRITE setStartChangeId)
+    Q_PROPERTY(qlonglong startChangeId READ startChangeId WRITE setStartChangeId)
 
-  public:
+public:
     explicit ChangeFetchJob(const AccountPtr &account, QObject *parent = nullptr);
-    explicit ChangeFetchJob(const QString &changeId, const AccountPtr &account,
-                            QObject *parent = nullptr);
+    explicit ChangeFetchJob(const QString &changeId, const AccountPtr &account, QObject *parent = nullptr);
     ~ChangeFetchJob() override;
 
     bool includeSubscribed() const;
@@ -125,19 +116,16 @@ class KGAPIDRIVE_EXPORT ChangeFetchJob : public KGAPI2::FetchJob
      */
     KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

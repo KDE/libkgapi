@@ -11,7 +11,8 @@
 #include "job.h"
 #include "kgapicore_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @headerfile fetchjob.h
@@ -24,14 +25,13 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructor for jobs that don't require authentication
      *
      * @param parent
      */
-    explicit FetchJob(QObject* parent = nullptr);
+    explicit FetchJob(QObject *parent = nullptr);
 
     /**
      * @brief Constructor for jobs that require authentication
@@ -39,7 +39,7 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
      * @param account Account to use to authenticate the requests sent by this job
      * @param parent
      */
-    explicit FetchJob(const KGAPI2::AccountPtr &account, QObject* parent = nullptr);
+    explicit FetchJob(const KGAPI2::AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -57,8 +57,7 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
      */
     virtual ObjectsList items() const;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI::Job::dispatchRequest implementation
      *
@@ -67,8 +66,7 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request,
-                                 const QByteArray& data, const QString& contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * @brief KGAPI::Job::handleReply implementation
@@ -76,7 +74,7 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
     /**
      * @brief KGAPI::Job::aboutToStart implementation
@@ -102,14 +100,11 @@ class KGAPICORE_EXPORT FetchJob : public KGAPI2::Job
      *
      * @return Items parsed from @p rawData
      */
-    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray &rawData);
+    virtual ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData);
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 } // namespace KGAPI2
-

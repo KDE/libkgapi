@@ -31,23 +31,18 @@ class KGAPIDRIVE_EXPORT FileFetchJob : public KGAPI2::FetchJob
      *
      * This property can be modified only when the job is not running.
      */
-    Q_PROPERTY(bool updateViewedDate
-               READ updateViewedDate
-               WRITE setUpdateViewedDate)
+    Q_PROPERTY(bool updateViewedDate READ updateViewedDate WRITE setUpdateViewedDate)
 
-  public:
+public:
     struct FieldShorthands {
         static const QStringList BasicFields;
         static const QStringList AccessFields;
         static const QStringList SharingFields;
     };
 
-    explicit FileFetchJob(const QString &fileId,
-                          const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileFetchJob(const QStringList &filesIds,
-                          const AccountPtr &account, QObject *parent = nullptr);
-    explicit FileFetchJob(const FileSearchQuery &query,
-                          const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileFetchJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileFetchJob(const QStringList &filesIds, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileFetchJob(const FileSearchQuery &query, const AccountPtr &account, QObject *parent = nullptr);
     explicit FileFetchJob(const AccountPtr &account, QObject *parent = nullptr);
     ~FileFetchJob() override;
 
@@ -93,19 +88,16 @@ class KGAPIDRIVE_EXPORT FileFetchJob : public KGAPI2::FetchJob
      */
     KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-            const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

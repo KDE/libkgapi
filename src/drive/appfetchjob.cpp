@@ -6,36 +6,33 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "appfetchjob.h"
 #include "account.h"
 #include "app.h"
 #include "driveservice.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN AppFetchJob::Private
 {
-  public:
+public:
     QString appId;
 };
 
-AppFetchJob::AppFetchJob(const AccountPtr &account, QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+AppFetchJob::AppFetchJob(const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
 }
 
-AppFetchJob::AppFetchJob(const QString &appId, const AccountPtr &account,
-                         QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+AppFetchJob::AppFetchJob(const QString &appId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->appId = appId;
 }
@@ -58,8 +55,7 @@ void AppFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList AppFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                              const QByteArray &rawData)
+ObjectsList AppFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -79,5 +75,3 @@ ObjectsList AppFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     emitFinished();
     return items;
 }
-
-

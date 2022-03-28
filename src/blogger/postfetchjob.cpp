@@ -5,13 +5,13 @@
  */
 
 #include "postfetchjob.h"
-#include "post.h"
-#include "bloggerservice.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "post.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
@@ -19,10 +19,8 @@ using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN PostFetchJob::Private
 {
-  public:
-    Private(const QString &blogId,
-            const QString &postId,
-            PostFetchJob *parent);
+public:
+    Private(const QString &blogId, const QString &postId, PostFetchJob *parent);
 
     QString blogId;
     QString postId;
@@ -35,31 +33,24 @@ class Q_DECL_HIDDEN PostFetchJob::Private
     QDateTime endDate;
     StatusFilters statusFilter = All;
 
-  private:
+private:
     PostFetchJob *const q;
 };
 
-PostFetchJob::Private::Private(const QString &blogId_,
-                               const QString &postId_,
-                               PostFetchJob *parent)
+PostFetchJob::Private::Private(const QString &blogId_, const QString &postId_, PostFetchJob *parent)
     : blogId(blogId_)
     , postId(postId_)
     , q(parent)
 {
 }
 
-PostFetchJob::PostFetchJob(const QString &blogId,
-                           const AccountPtr &account,
-                           QObject *parent)
+PostFetchJob::PostFetchJob(const QString &blogId, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new Private(blogId, QString(), this))
 {
 }
 
-PostFetchJob::PostFetchJob(const QString &blogId,
-                           const QString &postId,
-                           const AccountPtr &account,
-                           QObject *parent)
+PostFetchJob::PostFetchJob(const QString &blogId, const QString &postId, const AccountPtr &account, QObject *parent)
     : FetchJob(account, parent)
     , d(new Private(blogId, postId, this))
 {
@@ -207,4 +198,3 @@ ObjectsList PostFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
 
     return items;
 }
-

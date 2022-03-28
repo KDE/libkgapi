@@ -19,7 +19,8 @@
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 2.0
  */
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 class StaticMapUrl;
 
@@ -27,8 +28,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will fetch a map tile described by given
      *        @p url.
@@ -36,7 +36,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
      * @param url
      * @param parent
      */
-    explicit StaticMapTileFetchJob(const StaticMapUrl &url, QObject* parent = nullptr);
+    explicit StaticMapTileFetchJob(const StaticMapUrl &url, QObject *parent = nullptr);
 
     /**
      * @overload StaticMapTileFetchJob(StaticMapUrl,QObject*)
@@ -44,7 +44,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
      * @param url
      * @param parent
      */
-    explicit StaticMapTileFetchJob(const QUrl &url, QObject* parent = nullptr);
+    explicit StaticMapTileFetchJob(const QUrl &url, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
@@ -58,8 +58,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
      */
     QPixmap tilePixmap() const;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -73,10 +72,7 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
      * @param data
      * @param contentType
      */
-    void dispatchRequest(QNetworkAccessManager* accessManager,
-                                 const QNetworkRequest& request,
-                                 const QByteArray& data,
-                                 const QString& contentType) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
     /**
      * @brief KGAPI2::Job::handleReply
@@ -84,15 +80,12 @@ class KGAPIMAPS_EXPORT StaticMapTileFetchJob : public KGAPI2::Job
      * @param reply
      * @param rawData
      */
-    void handleReply(const QNetworkReply *reply,
-                             const QByteArray& rawData) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

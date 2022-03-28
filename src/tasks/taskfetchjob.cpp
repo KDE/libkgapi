@@ -7,35 +7,35 @@
  */
 
 #include "taskfetchjob.h"
-#include "tasksservice.h"
 #include "account.h"
 #include "debug.h"
 #include "task.h"
+#include "tasksservice.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
-
 
 using namespace KGAPI2;
 
-namespace {
-    static const auto ShowDeletedParam = QStringLiteral("showDeleted");
-    static const auto ShowCompletedParam = QStringLiteral("showCompleted");
-    static const auto UpdatedMinParam = QStringLiteral("updatedMin");
-    static const auto CompletedMinParam = QStringLiteral("completedMin");
-    static const auto CompletedMaxParam = QStringLiteral("completedMax");
-    static const auto DueMinParam = QStringLiteral("dueMin");
-    static const auto DueMaxParam = QStringLiteral("dueMax");
+namespace
+{
+static const auto ShowDeletedParam = QStringLiteral("showDeleted");
+static const auto ShowCompletedParam = QStringLiteral("showCompleted");
+static const auto UpdatedMinParam = QStringLiteral("updatedMin");
+static const auto CompletedMinParam = QStringLiteral("completedMin");
+static const auto CompletedMaxParam = QStringLiteral("completedMax");
+static const auto DueMinParam = QStringLiteral("dueMin");
+static const auto DueMaxParam = QStringLiteral("dueMax");
 
-    static constexpr bool FetchDeletedDefault = false;
-    static constexpr bool FetchCompletedDefault = false;
+static constexpr bool FetchDeletedDefault = false;
+static constexpr bool FetchCompletedDefault = false;
 }
 
 class Q_DECL_HIDDEN TaskFetchJob::Private
 {
-  public:
+public:
     QString taskId;
     QString taskListId;
     bool fetchDeleted = true;
@@ -47,17 +47,16 @@ class Q_DECL_HIDDEN TaskFetchJob::Private
     quint64 dueMax;
 };
 
-TaskFetchJob::TaskFetchJob(const QString& taskListId, const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private())
+TaskFetchJob::TaskFetchJob(const QString &taskListId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private())
 {
     d->taskListId = taskListId;
 }
 
-TaskFetchJob::TaskFetchJob(const QString& taskId, const QString& taskListId,
-                           const AccountPtr& account, QObject* parent):
-    FetchJob(account, parent),
-    d(new Private())
+TaskFetchJob::TaskFetchJob(const QString &taskId, const QString &taskListId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private())
 {
     d->taskId = taskId;
     d->taskListId = taskListId;
@@ -199,7 +198,7 @@ void TaskFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList TaskFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList TaskFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     FeedData feedData;
     feedData.requestUrl = reply->url();
@@ -209,7 +208,7 @@ ObjectsList TaskFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     ContentType ct = Utils::stringToContentType(contentType);
     if (ct == KGAPI2::JSON) {
         if (d->taskId.isEmpty()) {
-            items =  TasksService::parseJSONFeed(rawData, feedData);
+            items = TasksService::parseJSONFeed(rawData, feedData);
         } else {
             items << TasksService::JSONToTask(rawData);
         }
@@ -227,5 +226,3 @@ ObjectsList TaskFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
 
     return items;
 }
-
-

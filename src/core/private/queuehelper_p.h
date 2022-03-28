@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #pragma once
 
 #include <QQueue>
@@ -14,17 +13,30 @@
 template<typename T>
 class QueueHelper
 {
-  public:
-    explicit QueueHelper() {}
-    virtual ~QueueHelper() {}
+public:
+    explicit QueueHelper()
+    {
+    }
+    virtual ~QueueHelper()
+    {
+    }
 
-    bool atEnd() const { return (m_iter == m_items.constEnd()); }
+    bool atEnd() const
+    {
+        return (m_iter == m_items.constEnd());
+    }
 
-    void currentProcessed() { ++m_iter; }
+    void currentProcessed()
+    {
+        ++m_iter;
+    }
 
-    T current() { return *m_iter; }
+    T current()
+    {
+        return *m_iter;
+    }
 
-    QueueHelper& operator<<(const T &item)
+    QueueHelper &operator<<(const T &item)
     {
         m_items << item;
         if (m_items.count() == 1) {
@@ -33,7 +45,7 @@ class QueueHelper
         return *this;
     }
 
-    QueueHelper& operator<<(const QList<T> &list)
+    QueueHelper &operator<<(const QList<T> &list)
     {
         if (m_items.count() == 0) {
             m_items << list;
@@ -45,9 +57,12 @@ class QueueHelper
         return *this;
     }
 
-    void reserve(int n) { m_items.reserve(n); }
+    void reserve(int n)
+    {
+        m_items.reserve(n);
+    }
 
-    QueueHelper& operator=(const QList<T> &list )
+    QueueHelper &operator=(const QList<T> &list)
     {
         m_items.clear();
         m_items << list;
@@ -55,10 +70,8 @@ class QueueHelper
         return *this;
     }
 
-  private:
+private:
     QQueue<T> m_items;
 
-    typename
-    QList<T>::ConstIterator m_iter;
+    typename QList<T>::ConstIterator m_iter;
 };
-

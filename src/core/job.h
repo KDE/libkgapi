@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "types.h"
 #include "kgapicore_export.h"
+#include "types.h"
 
 #include <QObject>
 
@@ -17,7 +17,8 @@ class QNetworkAccessManager;
 class QNetworkReply;
 class QNetworkRequest;
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @headerfile job.h
@@ -64,14 +65,13 @@ class KGAPICORE_EXPORT Job : public QObject
      * @see Job::isRunning, Job::finished
      */
     Q_PROPERTY(bool isRunning READ isRunning NOTIFY finished)
-  public:
-
+public:
     /**
      * @brief Constructor for jobs that don't require authentication
      *
      * @param parent
      */
-    explicit Job(QObject* parent = nullptr);
+    explicit Job(QObject *parent = nullptr);
 
     /**
      * @brief Constructor for jobs that require authentication
@@ -80,7 +80,7 @@ class KGAPICORE_EXPORT Job : public QObject
      * @param parent
      * @see Job::Account, Job::setAccount
      */
-    explicit Job(const AccountPtr &account, QObject* parent = nullptr);
+    explicit Job(const AccountPtr &account, QObject *parent = nullptr);
 
     struct KGAPICORE_EXPORT StandardParams {
         static const QString PrettyPrint;
@@ -218,7 +218,7 @@ class KGAPICORE_EXPORT Job : public QObject
      */
     void restart();
 
-  Q_SIGNALS:
+Q_SIGNALS:
 
     /**
      * @brief Emitted when @p job has finished
@@ -246,8 +246,7 @@ class KGAPICORE_EXPORT Job : public QObject
      */
     void progress(KGAPI2::Job *job, int processed, int total);
 
-  protected:
-
+protected:
     /**
      * @brief Set job error to @p error
      *
@@ -256,7 +255,7 @@ class KGAPICORE_EXPORT Job : public QObject
      */
     void setError(KGAPI2::Error error);
 
-   /**
+    /**
      * @brief Set job error description to @p errorString
      *
      * @param errorString Error description to set
@@ -320,8 +319,7 @@ class KGAPICORE_EXPORT Job : public QObject
      * @param data Data to sent in the body of the request
      * @param contentType Content-Type of @p data
      */
-    virtual void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request,
-                                 const QByteArray &data, const QString &contentType) = 0;
+    virtual void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) = 0;
 
     /**
      * @brief Called when a reply is received.
@@ -346,16 +344,14 @@ class KGAPICORE_EXPORT Job : public QObject
      * @param data Data to be send in body of the request
      * @param contentType Content type of @p data
      */
-    virtual void enqueueRequest(const QNetworkRequest &request, const QByteArray &data = QByteArray(),
-                              const QString &contentType = QString());
+    virtual void enqueueRequest(const QNetworkRequest &request, const QByteArray &data = QByteArray(), const QString &contentType = QString());
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 
     friend class AuthJob;
 };
 
 } // namespace KGAPI2
-

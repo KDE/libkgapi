@@ -7,60 +7,54 @@
  */
 
 #include "permissionfetchjob.h"
-#include "driveservice.h"
 #include "account.h"
+#include "driveservice.h"
 #include "file.h"
 #include "permission.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-namespace {
-    static constexpr bool useDomainAdminAccessDefault = false;
+namespace
+{
+static constexpr bool useDomainAdminAccessDefault = false;
 }
 
 class Q_DECL_HIDDEN PermissionFetchJob::Private
 {
-  public:
+public:
     QString fileId;
     QString permissionId;
     bool supportsAllDrives;
     bool useDomainAdminAccess;
 };
 
-PermissionFetchJob::PermissionFetchJob(const QString &fileId,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+PermissionFetchJob::PermissionFetchJob(const QString &fileId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
     d->fileId = fileId;
 }
 
-PermissionFetchJob::PermissionFetchJob(const FilePtr &file,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+PermissionFetchJob::PermissionFetchJob(const FilePtr &file, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
     d->fileId = file->id();
 }
 
-PermissionFetchJob::PermissionFetchJob(const QString &fileId,
-                                       const QString &permissionId,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+PermissionFetchJob::PermissionFetchJob(const QString &fileId, const QString &permissionId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
@@ -68,12 +62,9 @@ PermissionFetchJob::PermissionFetchJob(const QString &fileId,
     d->permissionId = permissionId;
 }
 
-PermissionFetchJob::PermissionFetchJob(const FilePtr &file,
-                                       const QString &permissionId,
-                                       const AccountPtr &account,
-                                       QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+PermissionFetchJob::PermissionFetchJob(const FilePtr &file, const QString &permissionId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->supportsAllDrives = true;
     d->useDomainAdminAccess = useDomainAdminAccessDefault;
@@ -122,8 +113,7 @@ void PermissionFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList PermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-        const QByteArray &rawData)
+ObjectsList PermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -143,5 +133,3 @@ ObjectsList PermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     emitFinished();
     return items;
 }
-
-

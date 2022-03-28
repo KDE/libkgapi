@@ -5,17 +5,17 @@
  */
 
 #include <QObject>
-#include <QTest>
 #include <QSignalSpy>
+#include <QTest>
 
+#include "contactstestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "contactstestutils.h"
 
-#include "types.h"
-#include "contactfetchphotojob.h"
-#include "contact.h"
 #include "account.h"
+#include "contact.h"
+#include "contactfetchphotojob.h"
+#include "types.h"
 
 #include <iostream>
 
@@ -41,23 +41,19 @@ private Q_SLOTS:
 
         auto contact2 = contactFromFile(QFINDTESTDATA("data/contact2.xml"));
         KContacts::Picture picture;
-        picture.setRawData(QByteArray::fromBase64("iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="), QStringLiteral("png"));
+        picture.setRawData(
+            QByteArray::fromBase64("iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="),
+            QStringLiteral("png"));
         contact2->setPhoto(picture);
         QTest::addRow("fetch all")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                scenarioFromFile(QFINDTESTDATA("data/contact1_fetch_photo_request.txt"),
-                                 QFINDTESTDATA("data/contact1_fetch_photo_response.txt")),
-                scenarioFromFile(QFINDTESTDATA("data/contact2_fetch_photo_request.txt"),
-                                 QFINDTESTDATA("data/contact2_fetch_photo_response.txt"))
-               }
-            << ContactsList{
-                contactFromFile(QFINDTESTDATA("data/contact1.xml")),
-                contactFromFile(QFINDTESTDATA("data/contact2.xml"))
-               }
-            << QVector<QByteArray>{
-                {},
-                QByteArray::fromBase64("iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==")
-               };
+            << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contact1_fetch_photo_request.txt"),
+                                                                          QFINDTESTDATA("data/contact1_fetch_photo_response.txt")),
+                                                         scenarioFromFile(QFINDTESTDATA("data/contact2_fetch_photo_request.txt"),
+                                                                          QFINDTESTDATA("data/contact2_fetch_photo_response.txt"))}
+            << ContactsList{contactFromFile(QFINDTESTDATA("data/contact1.xml")), contactFromFile(QFINDTESTDATA("data/contact2.xml"))}
+            << QVector<QByteArray>{{},
+                                   QByteArray::fromBase64(
+                                       "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==")};
     }
 
     void testFetch()
@@ -89,5 +85,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(ContactFetchPhotoJobTest)
 
 #include "contactfetchphotojobtest.moc"
-
-

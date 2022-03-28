@@ -7,11 +7,11 @@
  */
 
 #include "tasklistdeletejob.h"
-#include "tasksservice.h"
 #include "account.h"
 #include "debug.h"
-#include "tasklist.h"
 #include "private/queuehelper_p.h"
+#include "tasklist.h"
+#include "tasksservice.h"
 
 #include <QNetworkRequest>
 
@@ -19,24 +19,24 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN TaskListDeleteJob::Private
 {
-  public:
+public:
     Private(TaskListDeleteJob *parent);
     void processNextTaskList();
 
     QueueHelper<QString> taskListsIds;
 
-  private:
-    TaskListDeleteJob * const q;
+private:
+    TaskListDeleteJob *const q;
 };
 
-TaskListDeleteJob::Private::Private(TaskListDeleteJob *parent):
-    q(parent)
+TaskListDeleteJob::Private::Private(TaskListDeleteJob *parent)
+    : q(parent)
 {
 }
 
 void TaskListDeleteJob::Private::processNextTaskList()
 {
-   if (taskListsIds.atEnd()) {
+    if (taskListsIds.atEnd()) {
         q->emitFinished();
         return;
     }
@@ -55,18 +55,16 @@ void TaskListDeleteJob::Private::processNextTaskList()
     q->enqueueRequest(request);
 }
 
-TaskListDeleteJob::TaskListDeleteJob(const TaskListPtr& taskList,
-                                     const AccountPtr& account, QObject* parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+TaskListDeleteJob::TaskListDeleteJob(const TaskListPtr &taskList, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->taskListsIds << taskList->uid();
 }
 
-TaskListDeleteJob::TaskListDeleteJob(const TaskListsList& taskLists,
-                                     const AccountPtr& account, QObject* parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+TaskListDeleteJob::TaskListDeleteJob(const TaskListsList &taskLists, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->taskListsIds.reserve(taskLists.size());
     for (const TaskListPtr &taskList : taskLists) {
@@ -74,18 +72,16 @@ TaskListDeleteJob::TaskListDeleteJob(const TaskListsList& taskLists,
     }
 }
 
-TaskListDeleteJob::TaskListDeleteJob(const QStringList &taskListsIds,
-                                     const AccountPtr &account, QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+TaskListDeleteJob::TaskListDeleteJob(const QStringList &taskListsIds, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->taskListsIds = taskListsIds;
 }
 
-TaskListDeleteJob::TaskListDeleteJob(const QString &taskListsId,
-                                     const AccountPtr &account, QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+TaskListDeleteJob::TaskListDeleteJob(const QString &taskListsId, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->taskListsIds << taskListsId;
 }
@@ -97,12 +93,9 @@ void TaskListDeleteJob::start()
     d->processNextTaskList();
 }
 
-void TaskListDeleteJob::handleReply(const QNetworkReply* reply, const QByteArray& rawData)
+void TaskListDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &rawData)
 {
     d->taskListsIds.currentProcessed();
 
     KGAPI2::DeleteJob::handleReply(reply, rawData);
 }
-
-
-

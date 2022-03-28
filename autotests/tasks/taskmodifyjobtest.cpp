@@ -8,13 +8,13 @@
 #include <QTest>
 
 #include "fakenetworkaccessmanagerfactory.h"
-#include "testutils.h"
 #include "taskstestutils.h"
+#include "testutils.h"
 
-#include "types.h"
-#include "taskmodifyjob.h"
-#include "task.h"
 #include "account.h"
+#include "task.h"
+#include "taskmodifyjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -35,24 +35,15 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<TasksList>("tasks");
 
-        QTest::newRow("change task")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/task1_modify_request.txt"),
-                                     QFINDTESTDATA("data/task1_modify_response.txt")),
-                }
-            << TasksList{ taskFromFile(QFINDTESTDATA("data/task1.json")) };
+        QTest::newRow("change task") << QList<FakeNetworkAccessManager::Scenario>{
+            scenarioFromFile(QFINDTESTDATA("data/task1_modify_request.txt"), QFINDTESTDATA("data/task1_modify_response.txt")),
+        } << TasksList{taskFromFile(QFINDTESTDATA("data/task1.json"))};
 
-        QTest::newRow("batch modify")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/task1_modify_request.txt"),
-                                     QFINDTESTDATA("data/task1_modify_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/task2_modify_request.txt"),
-                                     QFINDTESTDATA("data/task2_modify_response.txt"))
-                }
-            << TasksList{
-                    taskFromFile(QFINDTESTDATA("data/task1.json")),
-                    taskFromFile(QFINDTESTDATA("data/task2.json"))
-                };
+        QTest::newRow("batch modify") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/task1_modify_request.txt"),
+                                                                                                    QFINDTESTDATA("data/task1_modify_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/task2_modify_request.txt"),
+                                                                                                    QFINDTESTDATA("data/task2_modify_response.txt"))}
+                                      << TasksList{taskFromFile(QFINDTESTDATA("data/task1.json")), taskFromFile(QFINDTESTDATA("data/task2.json"))};
     }
 
     void testModify()
@@ -73,7 +64,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), tasks.count());
         for (int i = 0; i < tasks.count(); ++i) {
-            const auto returnedTask =  items.at(i).dynamicCast<Task>();
+            const auto returnedTask = items.at(i).dynamicCast<Task>();
             QVERIFY(returnedTask);
             QCOMPARE(*returnedTask, *tasks.at(i));
         }
@@ -83,5 +74,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TaskModifyJobTest)
 
 #include "taskmodifyjobtest.moc"
-
-

@@ -11,7 +11,8 @@
 #include "fetchjob.h"
 #include "kgapicore_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to fetch AccountInfo
@@ -26,23 +27,21 @@ class KGAPICORE_EXPORT AccountInfoFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a new AccountInfoFetchJob
      *
      * @param account Account for which to retrieve the info
      * @param parent
      */
-    explicit AccountInfoFetchJob(const AccountPtr &account, QObject* parent = nullptr);
+    explicit AccountInfoFetchJob(const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~AccountInfoFetchJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -54,15 +53,12 @@ class KGAPICORE_EXPORT AccountInfoFetchJob : public KGAPI2::FetchJob
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray &rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

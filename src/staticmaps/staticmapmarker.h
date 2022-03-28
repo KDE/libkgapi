@@ -4,7 +4,6 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #pragma once
 
 #include "kgapimaps_export.h"
@@ -25,22 +24,10 @@ namespace KGAPI2
  */
 class KGAPIMAPS_EXPORT StaticMapMarker
 {
+public:
+    enum MarkerSize { Tiny, Small, Middle, Normal };
 
-  public:
-
-    enum MarkerSize {
-        Tiny,
-        Small,
-        Middle,
-        Normal
-    };
-
-    enum LocationType {
-        Undefined = -1,
-        String,
-        KABCAddress,
-        KABCGeo
-    };
+    enum LocationType { Undefined = -1, String, KABCAddress, KABCGeo };
 
     /**
      * @brief Constructs an empty marker
@@ -56,8 +43,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const QString & address, const QChar & label = QChar(),
-                             const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const QString &address, const QChar &label = QChar(), const MarkerSize size = Normal, const QColor &color = Qt::red);
 
     /**
      * @brief Constructs a new marker
@@ -68,8 +54,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const KContacts::Address & address, QChar label = QChar(),
-                             const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const KContacts::Address &address, QChar label = QChar(), const MarkerSize size = Normal, const QColor &color = Qt::red);
 
     /**
      * @brief Constructs a new marker
@@ -80,8 +65,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const KContacts::Geo & address, QChar label = QChar(),
-                             const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const KContacts::Geo &address, QChar label = QChar(), const MarkerSize size = Normal, const QColor &color = Qt::red);
 
     /**
      * @brief Constructs a new marker
@@ -92,8 +76,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const QStringList & locations, QChar label = QChar(),
-                             const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const QStringList &locations, QChar label = QChar(), const MarkerSize size = Normal, const QColor &color = Qt::red);
 
     /**
      * @brief Constructs a new marker
@@ -104,8 +87,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const KContacts::Address::List &locations, QChar label = QChar(),
-                             const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const KContacts::Address::List &locations, QChar label = QChar(), const MarkerSize size = Normal, const QColor &color = Qt::red);
 
     /**
      * @brief Constructs a new marker
@@ -116,13 +98,12 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      * @param size Specifies the size of marker
      * @param color Color of marker
      */
-    explicit StaticMapMarker(const QList<KContacts::Geo> & locations, QChar label = QChar(),
-                             const MarkerSize size = Normal, const QColor & color = Qt::red);
+    explicit StaticMapMarker(const QList<KContacts::Geo> &locations, QChar label = QChar(), const MarkerSize size = Normal, const QColor &color = Qt::red);
 
     /**
      * @brief Copy constructor
      */
-    StaticMapMarker(const StaticMapMarker & other);
+    StaticMapMarker(const StaticMapMarker &other);
 
     /**
      * @brief Destructor
@@ -144,7 +125,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      *
      * @param color Color for marker
      */
-    void setColor(const QColor & color);
+    void setColor(const QColor &color);
 
     /**
      * @brief Returns if marker is valid. It means that marker needs defined location
@@ -174,14 +155,14 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      *
      * @param location Location for marker in QString
      */
-    void setLocation(const QString & location);
+    void setLocation(const QString &location);
 
     /**
      * @brief Sets locations for marker
      *
      * @param locations Locations for marker in QString
      */
-    void setLocations(const QStringList & locations);
+    void setLocations(const QStringList &locations);
 
     /**
      * @brief Returns locations in KContacts::Address
@@ -193,7 +174,7 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      *
      * @param location Location for marker in KContacts::Address
      */
-    void setLocation(const KContacts::Address & location);
+    void setLocation(const KContacts::Address &location);
 
     /**
      * @brief Sets locations for marker
@@ -212,14 +193,14 @@ class KGAPIMAPS_EXPORT StaticMapMarker
      *
      * @param location Location for marker in KContacts::Geo
      */
-    void setLocation(const KContacts::Geo & location);
+    void setLocation(const KContacts::Geo &location);
 
     /**
      * @brief Sets locations for marker
      *
      * @param locations Locations for marker in KContacts::Geo
      */
-    void setLocations(const QList<KContacts::Geo> & locations);
+    void setLocations(const QList<KContacts::Geo> &locations);
 
     /**
      * @brief Returns all locations and markers preferences in format to URL query.
@@ -241,15 +222,12 @@ class KGAPIMAPS_EXPORT StaticMapMarker
     /**
      * @brief Assignment operator
      */
-    StaticMapMarker& operator=(const StaticMapMarker &other);
+    StaticMapMarker &operator=(const StaticMapMarker &other);
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-
-

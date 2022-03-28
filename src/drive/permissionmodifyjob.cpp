@@ -6,30 +6,29 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-
 #include "permissionmodifyjob.h"
 #include "account.h"
 #include "driveservice.h"
 #include "permission.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
-
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-namespace {
-    static constexpr bool removeExpirationDefault = false;
-    static constexpr bool transferOwnershipDefault = false;
-    static constexpr bool useDomainAdminAccessDefault = false;
+namespace
+{
+static constexpr bool removeExpirationDefault = false;
+static constexpr bool transferOwnershipDefault = false;
+static constexpr bool useDomainAdminAccessDefault = false;
 }
 
 class Q_DECL_HIDDEN PermissionModifyJob::Private
 {
-  public:
+public:
     Private(PermissionModifyJob *parent);
     void processNext();
 
@@ -40,16 +39,16 @@ class Q_DECL_HIDDEN PermissionModifyJob::Private
     bool transferOwnership;
     bool useDomainAdminAccess;
 
-  private:
+private:
     PermissionModifyJob *const q;
 };
 
-PermissionModifyJob::Private::Private(PermissionModifyJob *parent):
-    supportsAllDrives(true),
-    removeExpiration(removeExpirationDefault),
-    transferOwnership(transferOwnershipDefault),
-    useDomainAdminAccess(useDomainAdminAccessDefault),
-    q(parent)
+PermissionModifyJob::Private::Private(PermissionModifyJob *parent)
+    : supportsAllDrives(true)
+    , removeExpiration(removeExpirationDefault)
+    , transferOwnership(transferOwnershipDefault)
+    , useDomainAdminAccess(useDomainAdminAccessDefault)
+    , q(parent)
 {
 }
 
@@ -85,23 +84,17 @@ void PermissionModifyJob::Private::processNext()
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-PermissionModifyJob::PermissionModifyJob(const QString &fileId,
-                                         const PermissionPtr &permission,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+PermissionModifyJob::PermissionModifyJob(const QString &fileId, const PermissionPtr &permission, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->permissions << permission;
 }
 
-PermissionModifyJob::PermissionModifyJob(const QString &fileId,
-                                         const PermissionsList &permissions,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+PermissionModifyJob::PermissionModifyJob(const QString &fileId, const PermissionsList &permissions, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->permissions << permissions;
@@ -154,8 +147,7 @@ void PermissionModifyJob::start()
     d->processNext();
 }
 
-ObjectsList PermissionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
-        const QByteArray &rawData)
+ObjectsList PermissionModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -173,5 +165,3 @@ ObjectsList PermissionModifyJob::handleReplyWithItems(const QNetworkReply *reply
 
     return items;
 }
-
-

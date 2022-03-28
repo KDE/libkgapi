@@ -11,10 +11,9 @@
 
 using namespace KGAPI2;
 
-
 class Q_DECL_HIDDEN ContactsGroup::Private
 {
-  public:
+public:
     Private();
 
     ~Private();
@@ -24,7 +23,6 @@ class Q_DECL_HIDDEN ContactsGroup::Private
     QString content;
     QDateTime updated;
     bool isSystemGroup = false;
-
 };
 
 ContactsGroup::Private::Private()
@@ -35,15 +33,15 @@ ContactsGroup::Private::~Private()
 {
 }
 
-ContactsGroup::ContactsGroup():
-    Object(),
-    d(new Private)
+ContactsGroup::ContactsGroup()
+    : Object()
+    , d(new Private)
 {
 }
 
-ContactsGroup::ContactsGroup(const ContactsGroup &other):
-    Object(other),
-    d(new Private(*(other.d)))
+ContactsGroup::ContactsGroup(const ContactsGroup &other)
+    : Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 

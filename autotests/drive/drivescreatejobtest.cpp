@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "drivescreatejob.h"
-#include "drives.h"
 #include "account.h"
+#include "drives.h"
+#include "drivescreatejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -37,14 +37,10 @@ private Q_SLOTS:
         QTest::addColumn<QString>("requestId");
         QTest::addColumn<Drive::DrivesPtr>("expectedResult");
 
-        QTest::newRow("metadata only")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/drives_create_request.txt"),
-                                     QFINDTESTDATA("data/drives_create_response.txt"))
-                }
-            << drivesFromFile(QFINDTESTDATA("data/drives.json"))
-            << QStringLiteral("MockRequestId")
-            << drivesFromFile(QFINDTESTDATA("data/drives.json"));
+        QTest::newRow("metadata only") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/drives_create_request.txt"),
+                                                                                                     QFINDTESTDATA("data/drives_create_response.txt"))}
+                                       << drivesFromFile(QFINDTESTDATA("data/drives.json")) << QStringLiteral("MockRequestId")
+                                       << drivesFromFile(QFINDTESTDATA("data/drives.json"));
     }
 
     void testCreate()
@@ -71,8 +67,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(DrivesCreateJobTest)
 
 #include "drivescreatejobtest.moc"
-
-
-
-
-

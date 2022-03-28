@@ -7,12 +7,12 @@
  */
 
 #include "contactdeletejob.h"
+#include "account.h"
 #include "contact.h"
 #include "contactsservice.h"
 #include "debug.h"
-#include "utils.h"
-#include "account.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
 #include <QNetworkRequest>
 
@@ -20,18 +20,18 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN ContactDeleteJob::Private
 {
-  public:
+public:
     Private(ContactDeleteJob *parent);
     void processNextContact();
 
     QueueHelper<QString> contactIds;
 
-  private:
-    ContactDeleteJob * const q;
+private:
+    ContactDeleteJob *const q;
 };
 
-ContactDeleteJob::Private::Private(ContactDeleteJob* parent):
-    q(parent)
+ContactDeleteJob::Private::Private(ContactDeleteJob *parent)
+    : q(parent)
 {
 }
 
@@ -57,33 +57,33 @@ void ContactDeleteJob::Private::processNextContact()
     q->enqueueRequest(request);
 }
 
-ContactDeleteJob::ContactDeleteJob(const ContactsList& contacts, const AccountPtr& account, QObject* parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+ContactDeleteJob::ContactDeleteJob(const ContactsList &contacts, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->contactIds.reserve(contacts.size());
     for (const ContactPtr &contact : contacts) {
-        d->contactIds <<  contact->uid();
+        d->contactIds << contact->uid();
     }
 }
 
-ContactDeleteJob::ContactDeleteJob(const ContactPtr& contact, const AccountPtr& account, QObject* parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+ContactDeleteJob::ContactDeleteJob(const ContactPtr &contact, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->contactIds << contact->uid();
 }
 
-ContactDeleteJob::ContactDeleteJob(const QStringList &contactIds, const AccountPtr &account, QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+ContactDeleteJob::ContactDeleteJob(const QStringList &contactIds, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->contactIds = contactIds;
 }
 
-ContactDeleteJob::ContactDeleteJob(const QString &contactId, const AccountPtr &account, QObject *parent):
-    DeleteJob(account, parent),
-    d(new Private(this))
+ContactDeleteJob::ContactDeleteJob(const QString &contactId, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(new Private(this))
 {
     d->contactIds << contactId;
 }
@@ -106,6 +106,3 @@ void ContactDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray 
     d->contactIds.currentProcessed();
     d->processNextContact();
 }
-
-
-

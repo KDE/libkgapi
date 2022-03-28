@@ -8,13 +8,13 @@
 #include <QTest>
 
 #include "fakenetworkaccessmanagerfactory.h"
-#include "testutils.h"
 #include "taskstestutils.h"
+#include "testutils.h"
 
-#include "types.h"
-#include "tasklistmodifyjob.h"
-#include "tasklist.h"
 #include "account.h"
+#include "tasklist.h"
+#include "tasklistmodifyjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -35,24 +35,16 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<TaskListsList>("tasklists");
 
-        QTest::newRow("change tasklist")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist1_modify_request.txt"),
-                                     QFINDTESTDATA("data/tasklist1_modify_response.txt"))
-                }
-            << TaskListsList{ taskListFromFile(QFINDTESTDATA("data/tasklist1.json")) };
+        QTest::newRow("change tasklist") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/tasklist1_modify_request.txt"),
+                                                                                                       QFINDTESTDATA("data/tasklist1_modify_response.txt"))}
+                                         << TaskListsList{taskListFromFile(QFINDTESTDATA("data/tasklist1.json"))};
 
-        QTest::newRow("batch modify")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist1_modify_request.txt"),
-                                     QFINDTESTDATA("data/tasklist1_modify_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/tasklist2_modify_request.txt"),
-                                     QFINDTESTDATA("data/tasklist2_modify_response.txt"))
-                }
-            << TaskListsList{
-                    taskListFromFile(QFINDTESTDATA("data/tasklist1.json")),
-                    taskListFromFile(QFINDTESTDATA("data/tasklist2.json"))
-                };
+        QTest::newRow("batch modify") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/tasklist1_modify_request.txt"),
+                                                                                                    QFINDTESTDATA("data/tasklist1_modify_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/tasklist2_modify_request.txt"),
+                                                                                                    QFINDTESTDATA("data/tasklist2_modify_response.txt"))}
+                                      << TaskListsList{taskListFromFile(QFINDTESTDATA("data/tasklist1.json")),
+                                                       taskListFromFile(QFINDTESTDATA("data/tasklist2.json"))};
     }
 
     void testModify()
@@ -76,5 +68,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(TaskListModifyJobTest)
 
 #include "tasklistmodifyjobtest.moc"
-
-

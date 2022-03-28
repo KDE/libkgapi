@@ -20,18 +20,16 @@ namespace Drive
 class KGAPIDRIVE_EXPORT AppFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
-  public:
+public:
     explicit AppFetchJob(const AccountPtr &account, QObject *parent = nullptr);
-    explicit AppFetchJob(const QString &appId, const AccountPtr &account,
-                         QObject *parent = nullptr);
+    explicit AppFetchJob(const QString &appId, const AccountPtr &account, QObject *parent = nullptr);
     ~AppFetchJob() override;
 
-  protected:
+protected:
     void start() override;
-    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                                     const QByteArray &rawData) override;
+    KGAPI2::ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
@@ -40,4 +38,3 @@ class KGAPIDRIVE_EXPORT AppFetchJob : public KGAPI2::FetchJob
 } // namespace Drive
 
 } // namespace KGAPI2
-

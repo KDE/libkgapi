@@ -15,7 +15,6 @@
 
 using namespace KGAPI2;
 
-
 class Q_DECL_HIDDEN AccountInfo::Private
 {
 public:
@@ -45,19 +44,19 @@ AccountInfo::Private::Private()
 {
 }
 
-AccountInfo::Private::Private(const Private &other):
-    id(other.id),
-    email(other.email),
-    name(other.name),
-    givenName(other.givenName),
-    familyName(other.familyName),
-    birthday(other.birthday),
-    gender(other.gender),
-    link(other.link),
-    locale(other.locale),
-    timezone(other.timezone),
-    verifiedEmail(other.verifiedEmail),
-    pictureUrl(other.pictureUrl)
+AccountInfo::Private::Private(const Private &other)
+    : id(other.id)
+    , email(other.email)
+    , name(other.name)
+    , givenName(other.givenName)
+    , familyName(other.familyName)
+    , birthday(other.birthday)
+    , gender(other.gender)
+    , link(other.link)
+    , locale(other.locale)
+    , timezone(other.timezone)
+    , verifiedEmail(other.verifiedEmail)
+    , pictureUrl(other.pictureUrl)
 {
 }
 
@@ -65,15 +64,15 @@ AccountInfo::Private::~Private()
 {
 }
 
-AccountInfo::AccountInfo():
-    Object(),
-    d(new Private)
+AccountInfo::AccountInfo()
+    : Object()
+    , d(new Private)
 {
 }
 
-AccountInfo::AccountInfo(const AccountInfo &other):
-    Object(other),
-    d(new Private(*(other.d)))
+AccountInfo::AccountInfo(const AccountInfo &other)
+    : Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 
@@ -222,7 +221,7 @@ QString AccountInfo::photoUrl() const
     return d->pictureUrl;
 }
 
-AccountInfoPtr AccountInfo::fromJSON(const QByteArray& jsonData)
+AccountInfoPtr AccountInfo::fromJSON(const QByteArray &jsonData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     if (document.isNull()) {

@@ -6,15 +6,15 @@
 
 #pragma once
 
+#include "change.h"
 #include "object.h"
 #include "types.h"
-#include "change.h"
 
+#include <QImage>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QVariantMap>
-#include <QImage>
 
 #include <QDateTime>
 
@@ -33,23 +33,26 @@ namespace Drive
  * @author Andrius da Costa Ribas <andriusmao@gmail.com>
  * @author Daniel Vrátil <dvratil@redhat.com>
  */
-class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
+class KGAPIDRIVE_EXPORT File : public KGAPI2::Object
 {
-  private:
+private:
     class Private;
 
-  public:
+public:
     /**
      * @brief DriveFile::Labels holds the structure used for labels property.
      */
     class Labels
     {
-      public:
+    public:
         explicit Labels();
         explicit Labels(const Labels &other);
         virtual ~Labels();
         bool operator==(const Labels &other) const;
-        bool operator!=(const Labels &other) const { return !operator==(other); }
+        bool operator!=(const Labels &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns whether this file is starred by the user.
@@ -116,7 +119,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
          */
         void setViewed(bool viewed);
 
-      private:
+    private:
         class Private;
         Private *const d;
         friend class Private;
@@ -131,11 +134,14 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
      */
     class IndexableText
     {
-      public:
+    public:
         explicit IndexableText(const IndexableText &other);
         virtual ~IndexableText();
         bool operator==(const IndexableText &other) const;
-        bool operator!=(const IndexableText &other) const { return !operator==(other); }
+        bool operator!=(const IndexableText &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns the text to be indexed for this file.
@@ -149,7 +155,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
          */
         void setText(const QString &text);
 
-      private:
+    private:
         explicit IndexableText();
 
         class Private;
@@ -166,18 +172,21 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
      */
     class ImageMediaMetadata
     {
-      public:
+    public:
         /**
          * @brief DriveFile::ImageMediaMetadata::Location holds the structure used
          *        for imageMediaMetadata.location property.
          */
         class Location
         {
-          public:
+        public:
             explicit Location(const Location &other);
             virtual ~Location();
             bool operator==(const Location &other) const;
-            bool operator!=(const Location &other) const { return !operator==(other); }
+            bool operator!=(const Location &other) const
+            {
+                return !operator==(other);
+            }
 
             /**
              * @brief Returns the latitude stored in the image.
@@ -194,7 +203,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
              */
             qreal altitude() const;
 
-          private:
+        private:
             explicit Location();
 
             class Private;
@@ -208,7 +217,10 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
         explicit ImageMediaMetadata(const ImageMediaMetadata &other);
         virtual ~ImageMediaMetadata();
         bool operator==(const ImageMediaMetadata &other) const;
-        bool operator!=(const ImageMediaMetadata &other) const { return !operator==(other); }
+        bool operator!=(const ImageMediaMetadata &other) const
+        {
+            return !operator==(other);
+        }
 
         /**
          * @brief Returns the width of the image in pixels.
@@ -238,7 +250,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 
         float exposureTime() const;
 
-        float aperture()  const;
+        float aperture() const;
 
         bool flashUsed() const;
 
@@ -264,7 +276,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 
         QString lens() const;
 
-      private:
+    private:
         explicit ImageMediaMetadata(const QVariantMap &jsonMap);
 
         class Private;
@@ -277,21 +289,24 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
 
     class Thumbnail
     {
-      public:
+    public:
         explicit Thumbnail(const Thumbnail &other);
         virtual ~Thumbnail();
         bool operator==(const Thumbnail &other) const;
-        bool operator!=(const Thumbnail &other) const { return !operator==(other); }
+        bool operator!=(const Thumbnail &other) const
+        {
+            return !operator==(other);
+        }
 
         QImage image() const;
 
         QString mimeType() const;
 
-      private:
+    private:
         explicit Thumbnail(const QVariantMap &jsonMap);
 
         class Private;
-        Private * const d;
+        Private *const d;
         friend class Private;
         friend class File::Private;
     };
@@ -303,8 +318,8 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
      * @since 5.3.1
      */
     enum SerializationOption {
-        NoOptions = 0,             ///< No option set.
-        ExcludeCreationDate = 1    ///< Exclude 'createdDate' entry. This is necessary when renaming URLs.
+        NoOptions = 0, ///< No option set.
+        ExcludeCreationDate = 1 ///< Exclude 'createdDate' entry. This is necessary when renaming URLs.
     };
     Q_DECLARE_FLAGS(SerializationOptions, SerializationOption)
 
@@ -312,7 +327,10 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     explicit File(const File &other);
     ~File() override;
     bool operator==(const File &other) const;
-    bool operator!=(const File &other) const { return !operator==(other); }
+    bool operator!=(const File &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
      * @brief Returns mimetype of folders
@@ -420,7 +438,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
      *
      * This property can only be written, and is not returned by files.get
      */
-    File::IndexableTextPtr& indexableText();
+    File::IndexableTextPtr &indexableText();
 
     /**
      * @brief Returns the permissions for the authenticated user on this file.
@@ -495,7 +513,7 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
      *
      * This is a map from the export format to URL.
      */
-    QMap < QString /* format */, QUrl /* url */ > exportLinks() const;
+    QMap<QString /* format */, QUrl /* url */> exportLinks() const;
 
     /**
      * @brief Returns the original filename if the file was uploaded manually,
@@ -647,13 +665,13 @@ class KGAPIDRIVE_EXPORT File: public KGAPI2::Object
     };
 
     static FilePtr fromJSON(const QByteArray &jsonData);
-    static FilesList fromJSONFeed(const  QByteArray &jsonData, FeedData &feedData);
+    static FilesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);
     static QByteArray toJSON(const FilePtr &file, SerializationOptions options = NoOptions);
 
     static FilePtr fromJSON(const QVariantMap &jsonData);
 
 private:
-    Private * const d;
+    Private *const d;
     friend class Private;
     friend class Change::Private;
     friend class ParentReference;
@@ -665,4 +683,3 @@ private:
 } /* namespace KGAPI2 */
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KGAPI2::Drive::File::SerializationOptions)
-

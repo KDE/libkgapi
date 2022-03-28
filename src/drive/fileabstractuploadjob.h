@@ -12,8 +12,8 @@
 #include "fileabstractdatajob.h"
 #include "kgapidrive_export.h"
 
-#include <QStringList>
 #include <QMap>
+#include <QStringList>
 
 namespace KGAPI2
 {
@@ -25,56 +25,35 @@ class KGAPIDRIVE_EXPORT FileAbstractUploadJob : public KGAPI2::Drive::FileAbstra
 {
     Q_OBJECT
 
-  public:
-    explicit FileAbstractUploadJob(const FilePtr &metadata,
-                                   const AccountPtr &account,
-                                   QObject *parent = nullptr);
-    explicit FileAbstractUploadJob(const FilesList &metadata,
-                                   const AccountPtr &account,
-                                   QObject *parent = nullptr);
-    explicit FileAbstractUploadJob(const QString &filePath,
-                                   const AccountPtr &account,
-                                   QObject *parent = nullptr);
-    explicit FileAbstractUploadJob(const QString &filePath,
-                                   const FilePtr &metaData,
-                                   const AccountPtr &account,
-                                   QObject *parent = nullptr);
-    explicit FileAbstractUploadJob(const QStringList &filePaths,
-                                   const AccountPtr &account,
-                                   QObject *parent = nullptr);
-    explicit FileAbstractUploadJob(const QMap < QString /* file path */,
-                                   FilePtr /* metadata */ > &files,
-                                   const AccountPtr &account, QObject *parent = nullptr);
+public:
+    explicit FileAbstractUploadJob(const FilePtr &metadata, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileAbstractUploadJob(const FilesList &metadata, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileAbstractUploadJob(const QString &filePath, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileAbstractUploadJob(const QString &filePath, const FilePtr &metaData, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileAbstractUploadJob(const QStringList &filePaths, const AccountPtr &account, QObject *parent = nullptr);
+    explicit FileAbstractUploadJob(const QMap<QString /* file path */, FilePtr /* metadata */> &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileAbstractUploadJob() override;
 
-    QMap < QString /* file path */, FilePtr /* metadata */ > files() const;
+    QMap<QString /* file path */, FilePtr /* metadata */> files() const;
 
-  protected:
+protected:
     void start() override;
-    void dispatchRequest(QNetworkAccessManager *accessManager,
-                                 const QNetworkRequest &request,
-                                 const QByteArray &data,
-                                 const QString &contentType) override;
-    void handleReply(const QNetworkReply *reply,
-                             const QByteArray &rawData) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
 
     virtual QUrl createUrl(const QString &filePath, const FilePtr &metaData) = 0;
-    virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager,
-                                    const QNetworkRequest &request,
-                                    const QByteArray &data) = 0;
+    virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data) = 0;
     void setSerializationOptions(File::SerializationOptions options);
     File::SerializationOptions serializationOptions() const;
 
-  private:
+private:
     class Private;
     Private *const d;
     friend class Private;
 
     Q_PRIVATE_SLOT(d, void _k_uploadProgress(qint64 uploadedBytes, qint64 totalBytes))
-
 };
 
 } // namespace Drive
 
 } // namespace KGAPI2
-

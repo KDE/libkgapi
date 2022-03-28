@@ -17,7 +17,7 @@ using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN FileAbstractDataJob::Private
 {
-  public:
+public:
     Private();
 
     bool convert = false;
@@ -36,10 +36,9 @@ FileAbstractDataJob::Private::Private()
 {
 }
 
-FileAbstractDataJob::FileAbstractDataJob(const AccountPtr &account,
-                                         QObject *parent):
-    Job(account, parent),
-    d(new Private)
+FileAbstractDataJob::FileAbstractDataJob(const AccountPtr &account, QObject *parent)
+    : Job(account, parent)
+    , d(new Private)
 {
 }
 
@@ -62,7 +61,6 @@ void FileAbstractDataJob::setConvert(bool convert)
 
     d->convert = convert;
 }
-
 
 bool FileAbstractDataJob::enforceSingleParent() const
 {
@@ -93,7 +91,6 @@ void FileAbstractDataJob::setIncludePermissionsForView(const QString &includePer
 
     d->includePermissionsForView = includePermissionsForView;
 }
-
 
 bool FileAbstractDataJob::ocr() const
 {
@@ -154,7 +151,6 @@ QString FileAbstractDataJob::timedTextLanguage() const
 {
     return d->timedTextLanguage;
 }
-
 
 void FileAbstractDataJob::setTimedTextLanguage(const QString &timedTextLanguage)
 {
@@ -228,7 +224,7 @@ QUrl FileAbstractDataJob::updateUrl(QUrl &url)
     if (!d->timedTextTrackName.isEmpty()) {
         query.addQueryItem(QStringLiteral("timedTextTrackName"), d->timedTextTrackName);
     }
-    
+
     query.removeQueryItem(QStringLiteral("useContentAsIndexableText"));
     query.addQueryItem(QStringLiteral("useContentAsIndexableText"), Utils::bool2Str(d->useContentAsIndexableText));
 
@@ -238,6 +234,5 @@ QUrl FileAbstractDataJob::updateUrl(QUrl &url)
     url.setQuery(query);
     return url;
 }
-
 
 #include "moc_fileabstractdatajob.cpp"

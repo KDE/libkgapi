@@ -28,9 +28,10 @@ public:
 };
 
 StaticMapMarker::Private::Private()
-{ }
+{
+}
 
-StaticMapMarker::Private::Private(const Private & other)
+StaticMapMarker::Private::Private(const Private &other)
 {
     init(other);
 }
@@ -46,13 +47,13 @@ void StaticMapMarker::Private::init(const Private &other)
     locationsGeo = other.locationsGeo;
 }
 
-StaticMapMarker::StaticMapMarker():
-    d(new Private)
+StaticMapMarker::StaticMapMarker()
+    : d(new Private)
 {
 }
 
-StaticMapMarker::StaticMapMarker (const QString& address, const QChar& label, const MarkerSize size, const QColor& color):
-    d(new Private)
+StaticMapMarker::StaticMapMarker(const QString &address, const QChar &label, const MarkerSize size, const QColor &color)
+    : d(new Private)
 {
     QStringList list;
     list << address;
@@ -63,8 +64,8 @@ StaticMapMarker::StaticMapMarker (const QString& address, const QChar& label, co
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker (const KContacts::Address& address, QChar label, const MarkerSize size, const QColor& color):
-    d(new Private)
+StaticMapMarker::StaticMapMarker(const KContacts::Address &address, QChar label, const MarkerSize size, const QColor &color)
+    : d(new Private)
 {
     KContacts::Address::List list;
     list << address;
@@ -75,8 +76,8 @@ StaticMapMarker::StaticMapMarker (const KContacts::Address& address, QChar label
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker (const KContacts::Geo& address, QChar label, const MarkerSize size, const QColor& color):
-    d(new Private)
+StaticMapMarker::StaticMapMarker(const KContacts::Geo &address, QChar label, const MarkerSize size, const QColor &color)
+    : d(new Private)
 {
     QList<KContacts::Geo> list;
     list << address;
@@ -87,9 +88,8 @@ StaticMapMarker::StaticMapMarker (const KContacts::Geo& address, QChar label, co
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const QStringList & locations, QChar label,
-                                 const MarkerSize size, const QColor& color):
-    d(new Private)
+StaticMapMarker::StaticMapMarker(const QStringList &locations, QChar label, const MarkerSize size, const QColor &color)
+    : d(new Private)
 {
     d->locationType = String;
     d->locationsString = locations;
@@ -98,9 +98,8 @@ StaticMapMarker::StaticMapMarker(const QStringList & locations, QChar label,
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const KContacts::Address::List & locations, QChar label,
-                                 const MarkerSize size, const QColor& color):
-    d(new Private)
+StaticMapMarker::StaticMapMarker(const KContacts::Address::List &locations, QChar label, const MarkerSize size, const QColor &color)
+    : d(new Private)
 {
     d->locationType = KABCAddress;
     d->locationsAddress = locations;
@@ -109,9 +108,8 @@ StaticMapMarker::StaticMapMarker(const KContacts::Address::List & locations, QCh
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const QList< KContacts::Geo >& locations, QChar label,
-                                 const MarkerSize size, const QColor& color):
-    d(new Private)
+StaticMapMarker::StaticMapMarker(const QList<KContacts::Geo> &locations, QChar label, const MarkerSize size, const QColor &color)
+    : d(new Private)
 {
     d->locationType = KABCGeo;
     d->locationsGeo = locations;
@@ -120,8 +118,8 @@ StaticMapMarker::StaticMapMarker(const QList< KContacts::Geo >& locations, QChar
     d->color = color;
 }
 
-StaticMapMarker::StaticMapMarker(const StaticMapMarker& other):
-    d(new Private(*(other.d)))
+StaticMapMarker::StaticMapMarker(const StaticMapMarker &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -140,7 +138,7 @@ QColor StaticMapMarker::color() const
     return d->color;
 }
 
-void StaticMapMarker::setColor(const QColor& color)
+void StaticMapMarker::setColor(const QColor &color)
 {
     d->color = color;
 }
@@ -165,7 +163,7 @@ QStringList StaticMapMarker::locationsString() const
     return d->locationsString;
 }
 
-void StaticMapMarker::setLocation(const QString& location)
+void StaticMapMarker::setLocation(const QString &location)
 {
     d->locationType = String;
     d->locationsString.clear();
@@ -174,7 +172,7 @@ void StaticMapMarker::setLocation(const QString& location)
     d->locationsGeo.clear();
 }
 
-void StaticMapMarker::setLocations(const QStringList& locations)
+void StaticMapMarker::setLocations(const QStringList &locations)
 {
     d->locationType = KABCAddress;
     d->locationsString = locations;
@@ -187,7 +185,7 @@ KContacts::Address::List StaticMapMarker::locationsAddress() const
     return d->locationsAddress;
 }
 
-void StaticMapMarker::setLocation(const KContacts::Address& location)
+void StaticMapMarker::setLocation(const KContacts::Address &location)
 {
     d->locationType = KABCAddress;
     d->locationsAddress.clear();
@@ -204,12 +202,12 @@ void StaticMapMarker::setLocations(const KContacts::Address::List &locations)
     d->locationsGeo.clear();
 }
 
-QList< KContacts::Geo > StaticMapMarker::locationsGeo() const
+QList<KContacts::Geo> StaticMapMarker::locationsGeo() const
 {
     return d->locationsGeo;
 }
 
-void StaticMapMarker::setLocation(const KContacts::Geo& location)
+void StaticMapMarker::setLocation(const KContacts::Geo &location)
 {
     d->locationType = KABCGeo;
     d->locationsGeo.clear();
@@ -218,7 +216,7 @@ void StaticMapMarker::setLocation(const KContacts::Geo& location)
     d->locationsAddress.clear();
 }
 
-void StaticMapMarker::setLocations(const QList< KContacts::Geo >& locations)
+void StaticMapMarker::setLocations(const QList<KContacts::Geo> &locations)
 {
     d->locationType = KABCGeo;
     d->locationsGeo = locations;
@@ -263,24 +261,19 @@ QString StaticMapMarker::toString() const
     }
 
     if (d->locationType == String) {
-
-        for (const QString & addr : std::as_const(d->locationsString)) {
+        for (const QString &addr : std::as_const(d->locationsString)) {
             ret += addr + QLatin1Char('|');
         }
 
     } else if (d->locationType == KABCAddress) {
-
-        for (const KContacts::Address & addr : std::as_const(d->locationsAddress)) {
+        for (const KContacts::Address &addr : std::as_const(d->locationsAddress)) {
             ret += addr.formatted(KContacts::AddressFormatStyle::Postal) + QLatin1Char('|');
         }
 
     } else if (d->locationType == KABCGeo) {
-
-        for (const KContacts::Geo & addr : std::as_const(d->locationsGeo)) {
-            ret += QString::number(addr.latitude()) + QLatin1Char(',') +
-                  QString::number(addr.longitude()) + QLatin1Char('|');
+        for (const KContacts::Geo &addr : std::as_const(d->locationsGeo)) {
+            ret += QString::number(addr.latitude()) + QLatin1Char(',') + QString::number(addr.longitude()) + QLatin1Char('|');
         }
-
     }
 
     ret.replace(QLatin1String(", "), QLatin1String(","));
@@ -290,10 +283,9 @@ QString StaticMapMarker::toString() const
     ret.remove(ret.lastIndexOf(QLatin1Char('|')), 1);
 
     return ret;
-
 }
 
-StaticMapMarker& StaticMapMarker::operator=(const StaticMapMarker& other)
+StaticMapMarker &StaticMapMarker::operator=(const StaticMapMarker &other)
 {
     if (&other == this) {
         return *this;

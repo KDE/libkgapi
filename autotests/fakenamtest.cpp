@@ -5,11 +5,11 @@
  */
 
 #include <QObject>
-#include <QTest>
 #include <QSignalSpy>
+#include <QTest>
 
-#include "fakenetworkaccessmanagerfactory.h"
 #include "fakenetworkaccessmanager.h"
+#include "fakenetworkaccessmanagerfactory.h"
 #include "fakenetworkreply.h"
 
 class FakeNAMTest : public QObject
@@ -40,11 +40,14 @@ private Q_SLOTS:
 
     void testGetRequest()
     {
-        FakeNetworkAccessManager::Scenario scenario(
-            QUrl(QStringLiteral("https://example.test/request")), QNetworkAccessManager::GetOperation,
-            {}, 200, "Hello World!", false);
+        FakeNetworkAccessManager::Scenario scenario(QUrl(QStringLiteral("https://example.test/request")),
+                                                    QNetworkAccessManager::GetOperation,
+                                                    {},
+                                                    200,
+                                                    "Hello World!",
+                                                    false);
         auto namf = FakeNetworkAccessManagerFactory::get();
-        namf->setScenarios({ scenario });
+        namf->setScenarios({scenario});
         QScopedPointer<QNetworkAccessManager> nam(namf->networkAccessManager());
 
         QNetworkRequest request(scenario.requestUrl);
@@ -55,11 +58,14 @@ private Q_SLOTS:
 
     void testPostRequest()
     {
-        FakeNetworkAccessManager::Scenario scenario(
-            QUrl(QStringLiteral("https://example.test/upload")), QNetworkAccessManager::PostOperation,
-            "Uploading new data", 200, "Data stored", false);
+        FakeNetworkAccessManager::Scenario scenario(QUrl(QStringLiteral("https://example.test/upload")),
+                                                    QNetworkAccessManager::PostOperation,
+                                                    "Uploading new data",
+                                                    200,
+                                                    "Data stored",
+                                                    false);
         auto namf = FakeNetworkAccessManagerFactory::get();
-        namf->setScenarios({ scenario });
+        namf->setScenarios({scenario});
         QScopedPointer<QNetworkAccessManager> nam(namf->networkAccessManager());
 
         QNetworkRequest request(scenario.requestUrl);
@@ -70,11 +76,14 @@ private Q_SLOTS:
 
     void testPutRequest()
     {
-        FakeNetworkAccessManager::Scenario scenario(
-            QUrl(QStringLiteral("https://example.test/create")), QNetworkAccessManager::PutOperation,
-            "New data to store", 201, "New data stored", false);
+        FakeNetworkAccessManager::Scenario scenario(QUrl(QStringLiteral("https://example.test/create")),
+                                                    QNetworkAccessManager::PutOperation,
+                                                    "New data to store",
+                                                    201,
+                                                    "New data stored",
+                                                    false);
         auto namf = FakeNetworkAccessManagerFactory::get();
-        namf->setScenarios({ scenario });
+        namf->setScenarios({scenario});
         QScopedPointer<QNetworkAccessManager> nam(namf->networkAccessManager());
 
         QNetworkRequest request(scenario.requestUrl);
@@ -83,14 +92,16 @@ private Q_SLOTS:
         QVERIFY(!namf->hasScenario());
     }
 
-
     void testDeleteRequest()
     {
-        FakeNetworkAccessManager::Scenario scenario(
-            QUrl(QStringLiteral("https://example.test/delete")), QNetworkAccessManager::DeleteOperation,
-            {}, 204, {}, false);
+        FakeNetworkAccessManager::Scenario scenario(QUrl(QStringLiteral("https://example.test/delete")),
+                                                    QNetworkAccessManager::DeleteOperation,
+                                                    {},
+                                                    204,
+                                                    {},
+                                                    false);
         auto namf = FakeNetworkAccessManagerFactory::get();
-        namf->setScenarios({ scenario });
+        namf->setScenarios({scenario});
         QScopedPointer<QNetworkAccessManager> nam(namf->networkAccessManager());
 
         QNetworkRequest request(scenario.requestUrl);

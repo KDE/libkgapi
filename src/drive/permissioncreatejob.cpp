@@ -12,22 +12,22 @@
 #include "permission.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrlQuery>
-
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
-namespace {
-    static constexpr bool sendNotificationEmailsDefault = true;
-    static constexpr bool useDomainAdminAccessDefault = false;
+namespace
+{
+static constexpr bool sendNotificationEmailsDefault = true;
+static constexpr bool useDomainAdminAccessDefault = false;
 }
 
 class Q_DECL_HIDDEN PermissionCreateJob::Private
 {
-  public:
+public:
     Private(PermissionCreateJob *parent);
     void processNext();
 
@@ -38,14 +38,14 @@ class Q_DECL_HIDDEN PermissionCreateJob::Private
     bool supportsAllDrives = true;
     bool useDomainAdminAccess;
 
-  private:
+private:
     PermissionCreateJob *const q;
 };
 
-PermissionCreateJob::Private::Private(PermissionCreateJob *parent):
-    sendNotificationEmails(sendNotificationEmailsDefault),
-    useDomainAdminAccess(useDomainAdminAccessDefault),
-    q(parent)
+PermissionCreateJob::Private::Private(PermissionCreateJob *parent)
+    : sendNotificationEmails(sendNotificationEmailsDefault)
+    , useDomainAdminAccess(useDomainAdminAccessDefault)
+    , q(parent)
 {
 }
 
@@ -82,23 +82,17 @@ void PermissionCreateJob::Private::processNext()
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-PermissionCreateJob::PermissionCreateJob(const QString &fileId,
-                                         const PermissionPtr &permission,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+PermissionCreateJob::PermissionCreateJob(const QString &fileId, const PermissionPtr &permission, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->permissions << permission;
 }
 
-PermissionCreateJob::PermissionCreateJob(const QString &fileId,
-                                         const PermissionsList &permissions,
-                                         const AccountPtr &account,
-                                         QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+PermissionCreateJob::PermissionCreateJob(const QString &fileId, const PermissionsList &permissions, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->permissions = permissions;
@@ -151,8 +145,7 @@ void PermissionCreateJob::start()
     d->processNext();
 }
 
-ObjectsList PermissionCreateJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                      const QByteArray &rawData)
+ObjectsList PermissionCreateJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -170,5 +163,3 @@ ObjectsList PermissionCreateJob::handleReplyWithItems(const QNetworkReply *reply
 
     return items;
 }
-
-

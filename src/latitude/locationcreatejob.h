@@ -11,7 +11,8 @@
 #include "createjob.h"
 #include "kgapilatitude_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @brief A job to stores one or more Locations in Google Latitude service
@@ -23,8 +24,7 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationCreateJob : public KGAPI2::CreateJ
 {
     Q_OBJECT
 
-  public:
-
+public:
     /**
      * @brief Constructs a job that will store given @p location in user's
      *        Google Latitude account
@@ -34,16 +34,14 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationCreateJob : public KGAPI2::CreateJ
      * @param account Account to authenticate the request
      * @param parent
      */
-    explicit LocationCreateJob(const LocationPtr &location, bool isCurrent,
-                               const AccountPtr &account, QObject* parent = nullptr);
+    explicit LocationCreateJob(const LocationPtr &location, bool isCurrent, const AccountPtr &account, QObject *parent = nullptr);
 
     /**
      * @brief Destructor
      */
     ~LocationCreateJob() override;
 
-  protected:
-
+protected:
     /**
      * @brief KGAPI2::Job::start implementation
      */
@@ -55,15 +53,12 @@ class KGAPILATITUDE_DEPRECATED_EXPORT LocationCreateJob : public KGAPI2::CreateJ
      * @param reply
      * @param rawData
      */
-    ObjectsList handleReplyWithItems(const QNetworkReply *reply,
-                                             const QByteArray& rawData) override;
+    ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
-
 };
 
 } // namespace KGAPI2
-

@@ -13,6 +13,3 @@ KGAPI2::Drive::ChangePtr changeFromFile(const QString &path);
 KGAPI2::Drive::FilePtr fileFromFile(const QString &path);
 KGAPI2::Drive::DrivesPtr drivesFromFile(const QString &path);
 KGAPI2::Drive::TeamdrivePtr teamdriveFromFile(const QString &path);
-
-
-

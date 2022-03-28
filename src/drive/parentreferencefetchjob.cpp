@@ -12,35 +12,29 @@
 #include "parentreference.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN ParentReferenceFetchJob::Private
 {
-  public:
+public:
     QString fileId;
     QString referenceId;
 };
 
-ParentReferenceFetchJob::ParentReferenceFetchJob(const QString &fileId,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
-                                                 FetchJob(account, parent),
-    d(new Private)
+ParentReferenceFetchJob::ParentReferenceFetchJob(const QString &fileId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
 }
 
-ParentReferenceFetchJob::ParentReferenceFetchJob(const QString &fileId,
-                                                 const QString &referenceId,
-                                                 const AccountPtr &account,
-                                                 QObject *parent):
-    FetchJob(account, parent),
-    d(new Private)
+ParentReferenceFetchJob::ParentReferenceFetchJob(const QString &fileId, const QString &referenceId, const AccountPtr &account, QObject *parent)
+    : FetchJob(account, parent)
+    , d(new Private)
 {
     d->fileId = fileId;
     d->referenceId = referenceId;
@@ -64,8 +58,7 @@ void ParentReferenceFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList ParentReferenceFetchJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                          const QByteArray &rawData)
+ObjectsList ParentReferenceFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     ObjectsList items;
 
@@ -85,5 +78,3 @@ ObjectsList ParentReferenceFetchJob::handleReplyWithItems(const QNetworkReply *r
     emitFinished();
     return items;
 }
-
-

@@ -7,35 +7,34 @@
  */
 
 #include "calendarmodifyjob.h"
-#include "calendarservice.h"
 #include "account.h"
 #include "calendar.h"
+#include "calendarservice.h"
 #include "debug.h"
-#include "utils.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
-
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN CalendarModifyJob::Private
 {
-  public:
+public:
     QueueHelper<CalendarPtr> calendars;
 };
 
-CalendarModifyJob::CalendarModifyJob(const CalendarPtr& calendar, const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private)
+CalendarModifyJob::CalendarModifyJob(const CalendarPtr &calendar, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private)
 {
     d->calendars << calendar;
 }
 
-CalendarModifyJob::CalendarModifyJob(const CalendarsList& calendars, const AccountPtr& account, QObject* parent):
-    ModifyJob(account, parent),
-    d(new Private)
+CalendarModifyJob::CalendarModifyJob(const CalendarsList &calendars, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private)
 {
     d->calendars = calendars;
 }
@@ -56,7 +55,7 @@ void CalendarModifyJob::start()
     enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-ObjectsList CalendarModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray& rawData)
+ObjectsList CalendarModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -75,5 +74,3 @@ ObjectsList CalendarModifyJob::handleReplyWithItems(const QNetworkReply *reply, 
 
     return items;
 }
-
-

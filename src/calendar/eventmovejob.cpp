@@ -11,12 +11,11 @@
 #include "calendarservice.h"
 #include "debug.h"
 #include "event.h"
-#include "utils.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 
@@ -28,22 +27,26 @@ public:
     QString destination;
 };
 
-EventMoveJob::EventMoveJob(const EventPtr &event, const QString &sourceCalendarId,
-                           const QString &destinationCalendarId, const AccountPtr &account,
-                           QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private())
+EventMoveJob::EventMoveJob(const EventPtr &event,
+                           const QString &sourceCalendarId,
+                           const QString &destinationCalendarId,
+                           const AccountPtr &account,
+                           QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private())
 {
     d->eventsIds << event->id();
     d->source = sourceCalendarId;
     d->destination = destinationCalendarId;
 }
 
-EventMoveJob::EventMoveJob(const EventsList &events, const QString &sourceCalendarId,
-                           const QString &destinationCalendarId, const AccountPtr &account,
-                           QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private())
+EventMoveJob::EventMoveJob(const EventsList &events,
+                           const QString &sourceCalendarId,
+                           const QString &destinationCalendarId,
+                           const AccountPtr &account,
+                           QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private())
 {
     for (const EventPtr &event : events) {
         d->eventsIds << event->id();
@@ -52,22 +55,26 @@ EventMoveJob::EventMoveJob(const EventsList &events, const QString &sourceCalend
     d->destination = destinationCalendarId;
 }
 
-EventMoveJob::EventMoveJob(const QString &eventId, const QString &sourceCalendarId,
-                           const QString &destinationCalendarId, const AccountPtr &account,
-                           QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private())
+EventMoveJob::EventMoveJob(const QString &eventId,
+                           const QString &sourceCalendarId,
+                           const QString &destinationCalendarId,
+                           const AccountPtr &account,
+                           QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private())
 {
     d->eventsIds << eventId;
     d->source = sourceCalendarId;
     d->destination = destinationCalendarId;
 }
 
-EventMoveJob::EventMoveJob(const QStringList &eventsIds, const QString &sourceCalendarId,
-                           const QString &destinationCalendarId, const AccountPtr &account,
-                           QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private())
+EventMoveJob::EventMoveJob(const QStringList &eventsIds,
+                           const QString &sourceCalendarId,
+                           const QString &destinationCalendarId,
+                           const AccountPtr &account,
+                           QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private())
 {
     d->eventsIds = eventsIds;
     d->source = sourceCalendarId;
@@ -116,6 +123,3 @@ KGAPI2::ObjectsList EventMoveJob::handleReplyWithItems(const QNetworkReply *repl
 
     return items;
 }
-
-
-

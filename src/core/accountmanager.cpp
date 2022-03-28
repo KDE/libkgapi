@@ -5,16 +5,17 @@
 */
 
 #include "accountmanager.h"
-#include "authjob.h"
 #include "accountstorage_p.h"
+#include "authjob.h"
 #include "debug.h"
 
-#include <QTimer>
 #include <QDateTime>
+#include <QTimer>
 
 #include <functional>
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 AccountManager *AccountManager::sInstance = nullptr;
 
@@ -24,7 +25,8 @@ public:
     Private(AccountPromise *q)
         : q(q)
 
-    {}
+    {
+    }
 
     void setError(const QString &error)
     {
@@ -48,9 +50,9 @@ public:
         return mRunning;
     }
 
-
     QString error;
     AccountPtr account;
+
 private:
     void emitFinished()
     {
@@ -61,7 +63,7 @@ private:
     }
 
     bool mRunning = false;
-    AccountPromise * const q;
+    AccountPromise *const q;
 };
 
 class AccountManager::Private
@@ -69,10 +71,10 @@ class AccountManager::Private
 public:
     Private(AccountManager *q)
         : q(q)
-    {}
+    {
+    }
 
-    void updateAccount(AccountPromise *promise, const QString &apiKey, const QString &apiSecret,
-                       const AccountPtr &account, const QList<QUrl> &requestedScopes)
+    void updateAccount(AccountPromise *promise, const QString &apiKey, const QString &apiSecret, const AccountPtr &account, const QList<QUrl> &requestedScopes)
     {
         if (!requestedScopes.isEmpty()) {
             auto currentScopes = account->scopes();
@@ -87,26 +89,25 @@ public:
         }
         auto *job = new AuthJob(account, apiKey, apiSecret);
         job->setUsername(account->accountName());
-        connect(job, &AuthJob::finished,
-                [=]() {
-                    if (job->error() != KGAPI2::NoError) {
-                        promise->d->setError(tr("Failed to authenticate additional scopes"));
-                        return;
-                    }
+        connect(job, &AuthJob::finished, [=]() {
+            if (job->error() != KGAPI2::NoError) {
+                promise->d->setError(tr("Failed to authenticate additional scopes"));
+                return;
+            }
 
-                    mStore->storeAccount(apiKey, job->account());
-                    promise->d->setAccount(job->account());
-                });
+            mStore->storeAccount(apiKey, job->account());
+            promise->d->setAccount(job->account());
+        });
     }
 
-    void createAccount(AccountPromise *promise, const QString &apiKey, const QString &apiSecret,
-                       const QString &accountName, const QList<QUrl> &scopes)
+    void createAccount(AccountPromise *promise, const QString &apiKey, const QString &apiSecret, const QString &accountName, const QList<QUrl> &scopes)
     {
         const auto account = AccountPtr::create(accountName, QString{}, QString{}, scopes);
         updateAccount(promise, apiKey, apiSecret, account, {});
     }
 
-    bool compareScopes(const QList<QUrl> &currentScopes, const QList<QUrl> &requestedScopes) const {
+    bool compareScopes(const QList<QUrl> &currentScopes, const QList<QUrl> &requestedScopes) const
+    {
         for (const auto &scope : std::as_const(requestedScopes)) {
             if (!currentScopes.contains(scope)) {
                 return false;
@@ -133,27 +134,26 @@ public:
         auto promise = mPendingPromises.value(key, nullptr);
         if (!promise) {
             promise = new AccountPromise(q);
-            QObject::connect(promise, &QObject::destroyed,
-                             q, [key, this]() {
-                                 mPendingPromises.remove(key);
-                             });
+            QObject::connect(promise, &QObject::destroyed, q, [key, this]() {
+                mPendingPromises.remove(key);
+            });
             mPendingPromises.insert(key, promise);
         }
         return promise;
     }
+
 public:
     AccountStorage *mStore = nullptr;
 
 private:
-    QHash<QString, AccountPromise*> mPendingPromises;
+    QHash<QString, AccountPromise *> mPendingPromises;
 
-    AccountManager * const q;
+    AccountManager *const q;
 };
 
 }
 
 using namespace KGAPI2;
-
 
 AccountPromise::AccountPromise(QObject *parent)
     : QObject(parent)
@@ -180,7 +180,6 @@ QString AccountPromise::errorText() const
     return d->error;
 }
 
-
 AccountManager::AccountManager(QObject *parent)
     : QObject(parent)
     , d(new Private(this))
@@ -199,9 +198,7 @@ AccountManager *AccountManager::instance()
     return sInstance;
 }
 
-AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString &apiSecret,
-                                           const QString &accountName,
-                                           const QList<QUrl> &scopes)
+AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString &apiSecret, const QString &accountName, const QList<QUrl> &scopes)
 {
     auto promise = d->createPromise(apiKey, accountName);
     if (!promise->d->isRunning()) {
@@ -242,8 +239,7 @@ AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString 
     return promise;
 }
 
-AccountPromise *AccountManager::refreshTokens(const QString &apiKey, const QString &apiSecret,
-                                              const QString &accountName)
+AccountPromise *AccountManager::refreshTokens(const QString &apiKey, const QString &apiSecret, const QString &accountName)
 {
     auto promise = d->createPromise(apiKey, accountName);
     if (!promise->d->isRunning()) {
@@ -267,9 +263,7 @@ AccountPromise *AccountManager::refreshTokens(const QString &apiKey, const QStri
     return promise;
 }
 
-
-AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString &accountName,
-                                            const QList<QUrl> &scopes)
+AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString &accountName, const QList<QUrl> &scopes)
 {
     auto promise = d->createPromise(apiKey, accountName);
     if (!promise->d->isRunning()) {
@@ -298,8 +292,7 @@ AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString
     return promise;
 }
 
-void AccountManager::removeScopes(const QString &apiKey, const QString &accountName,
-                                  const QList<QUrl> &removedScopes)
+void AccountManager::removeScopes(const QString &apiKey, const QString &accountName, const QList<QUrl> &removedScopes)
 {
     d->ensureStore([=](bool storeOpened) {
         if (!storeOpened) {

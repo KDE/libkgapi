@@ -8,15 +8,15 @@
 #include "file_p.h"
 #include "utils_p.h"
 
-#include <QVariantMap>
 #include <QJsonDocument>
+#include <QVariantMap>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN Change::Private
 {
-  public:
+public:
     Private();
     Private(const Private &other);
 
@@ -26,26 +26,25 @@ class Q_DECL_HIDDEN Change::Private
     bool deleted = false;
     FilePtr file;
 
-    static ChangePtr fromJSON(const  QVariantMap &map);
+    static ChangePtr fromJSON(const QVariantMap &map);
 };
 
 Change::Private::Private()
 {
 }
 
-Change::Private::Private(const Private &other):
-    id(other.id),
-    fileId(other.fileId),
-    selfLink(other.selfLink),
-    deleted(other.deleted),
-    file(other.file)
+Change::Private::Private(const Private &other)
+    : id(other.id)
+    , fileId(other.fileId)
+    , selfLink(other.selfLink)
+    , deleted(other.deleted)
+    , file(other.file)
 {
 }
 
 ChangePtr Change::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("drive#change")) {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#change")) {
         return ChangePtr();
     }
 
@@ -59,15 +58,15 @@ ChangePtr Change::Private::fromJSON(const QVariantMap &map)
     return change;
 }
 
-Change::Change():
-    KGAPI2::Object(),
-    d(new Private)
+Change::Change()
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
-Change::Change(const Change &other):
-    KGAPI2::Object(other),
-    d(new Private(*(other.d)))
+Change::Change(const Change &other)
+    : KGAPI2::Object(other)
+    , d(new Private(*(other.d)))
 {
 }
 
@@ -135,8 +134,7 @@ ChangesList Change::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1String("kind")) ||
-            map[QStringLiteral("kind")].toString() != QLatin1String("drive#changeList")) {
+    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#changeList")) {
         return ChangesList();
     }
 
@@ -146,7 +144,7 @@ ChangesList Change::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 
     ChangesList list;
     const QVariantList items = map[QStringLiteral("items")].toList();
-    for (const QVariant & item : items) {
+    for (const QVariant &item : items) {
         const ChangePtr change = Private::fromJSON(item.toMap());
 
         if (!change.isNull()) {

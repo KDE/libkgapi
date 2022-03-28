@@ -19,5 +19,3 @@ private:
     QScopedPointer<Private> const d;
     friend class Private;
 };
-
-

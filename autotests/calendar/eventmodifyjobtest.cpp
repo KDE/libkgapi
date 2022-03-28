@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "calendartestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "calendartestutils.h"
 
-#include "types.h"
-#include "eventmodifyjob.h"
-#include "event.h"
 #include "account.h"
+#include "event.h"
+#include "eventmodifyjob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -37,23 +37,15 @@ private Q_SLOTS:
 
         auto event1 = eventFromFile(QFINDTESTDATA("data/event1.json"));
         auto response1 = EventPtr::create();
-        QTest::newRow("change event")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/event1_modify_request.txt"),
-                                     QFINDTESTDATA("data/event1_modify_response.txt")),
-                }
-            << EventsList{ event1 };
-
+        QTest::newRow("change event") << QList<FakeNetworkAccessManager::Scenario>{
+            scenarioFromFile(QFINDTESTDATA("data/event1_modify_request.txt"), QFINDTESTDATA("data/event1_modify_response.txt")),
+        } << EventsList{event1};
 
         auto event2 = eventFromFile(QFINDTESTDATA("data/event2.json"));
-        QTest::newRow("batch modify")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/event1_modify_request.txt"),
-                                     QFINDTESTDATA("data/event1_modify_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/event2_modify_request.txt"),
-                                     QFINDTESTDATA("data/event2_modify_response.txt")),
-                }
-            << EventsList{ event1, event2 };
+        QTest::newRow("batch modify") << QList<FakeNetworkAccessManager::Scenario>{
+            scenarioFromFile(QFINDTESTDATA("data/event1_modify_request.txt"), QFINDTESTDATA("data/event1_modify_response.txt")),
+            scenarioFromFile(QFINDTESTDATA("data/event2_modify_request.txt"), QFINDTESTDATA("data/event2_modify_response.txt")),
+        } << EventsList{event1, event2};
     }
 
     void testModify()
@@ -74,7 +66,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), events.count());
         for (int i = 0; i < events.count(); ++i) {
-            const auto returnedEvent =  items.at(i).dynamicCast<Event>();
+            const auto returnedEvent = items.at(i).dynamicCast<Event>();
             QVERIFY(returnedEvent);
             QCOMPARE(*returnedEvent, *events.at(i));
         }
@@ -84,5 +76,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(EventModifyJobTest)
 
 #include "eventmodifyjobtest.moc"
-
-

@@ -11,7 +11,8 @@
 #include "job.h"
 #include "kgapicore_export.h"
 
-namespace KGAPI2 {
+namespace KGAPI2
+{
 
 /**
  * @internal
@@ -22,24 +23,23 @@ class KGAPICORE_EXPORT NewTokensFetchJob : public KGAPI2::Job
 {
     Q_OBJECT
 
-  public:
-    explicit NewTokensFetchJob(const QString &tmpToken, const QString &apiKey, const QString &secretKey, int localPort, QObject* parent = nullptr);
+public:
+    explicit NewTokensFetchJob(const QString &tmpToken, const QString &apiKey, const QString &secretKey, int localPort, QObject *parent = nullptr);
     ~NewTokensFetchJob() override;
 
     QString accessToken() const;
     QString refreshToken() const;
     qulonglong expiresIn() const;
 
-  protected:
+protected:
     void start() override;
-    void handleReply(const QNetworkReply *reply, const QByteArray& rawData) override;
-    void dispatchRequest(QNetworkAccessManager* accessManager, const QNetworkRequest& request, const QByteArray& data, const QString& contentType) override;
+    void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;
+    void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
-  private:
+private:
     class Private;
-    Private * const d;
+    Private *const d;
     friend class Private;
 };
 
 } // namespace KGAPI2
-

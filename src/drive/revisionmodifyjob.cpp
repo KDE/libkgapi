@@ -15,25 +15,24 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN RevisionModifyJob::Private
 {
-  public:
+public:
     Private(RevisionModifyJob *parent);
     void processNext();
 
     QString fileId;
     RevisionsList revisions;
 
-  private:
+private:
     RevisionModifyJob *const q;
 };
 
-RevisionModifyJob::Private::Private(RevisionModifyJob *parent):
-    q(parent)
+RevisionModifyJob::Private::Private(RevisionModifyJob *parent)
+    : q(parent)
 {
 }
 
@@ -53,22 +52,17 @@ void RevisionModifyJob::Private::processNext()
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
 
-RevisionModifyJob::RevisionModifyJob(const QString &fileId,
-                                     const RevisionPtr &revision,
-                                     const AccountPtr &account,
-                                     QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+RevisionModifyJob::RevisionModifyJob(const QString &fileId, const RevisionPtr &revision, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->revisions << revision;
 }
 
-RevisionModifyJob::RevisionModifyJob(const QString &fileId,
-                                     const RevisionsList &revisions,
-                                     const AccountPtr &account, QObject *parent):
-    ModifyJob(account, parent),
-    d(new Private(this))
+RevisionModifyJob::RevisionModifyJob(const QString &fileId, const RevisionsList &revisions, const AccountPtr &account, QObject *parent)
+    : ModifyJob(account, parent)
+    , d(new Private(this))
 {
     d->fileId = fileId;
     d->revisions << revisions;
@@ -84,8 +78,7 @@ void RevisionModifyJob::start()
     d->processNext();
 }
 
-ObjectsList RevisionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
-                                                    const QByteArray &rawData)
+ObjectsList RevisionModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -103,6 +96,3 @@ ObjectsList RevisionModifyJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
-
-
-

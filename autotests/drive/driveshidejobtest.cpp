@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "drivetestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "drivetestutils.h"
 
-#include "types.h"
-#include "driveshidejob.h"
-#include "drives.h"
 #include "account.h"
+#include "drives.h"
+#include "driveshidejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -36,13 +36,9 @@ private Q_SLOTS:
         QTest::addColumn<Drive::DrivesPtr>("sourceDrive");
         QTest::addColumn<Drive::DrivesPtr>("expectedResult");
 
-        QTest::newRow("metadata only")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/drives_hide_request.txt"),
-                                     QFINDTESTDATA("data/drives_hide_response.txt"))
-                }
-            << drivesFromFile(QFINDTESTDATA("data/drives.json"))
-            << drivesFromFile(QFINDTESTDATA("data/drives.json"));
+        QTest::newRow("metadata only") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/drives_hide_request.txt"),
+                                                                                                     QFINDTESTDATA("data/drives_hide_response.txt"))}
+                                       << drivesFromFile(QFINDTESTDATA("data/drives.json")) << drivesFromFile(QFINDTESTDATA("data/drives.json"));
     }
 
     void testHide()
@@ -67,8 +63,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(DrivesHideJobTest)
 
 #include "driveshidejobtest.moc"
-
-
-
-
-

@@ -8,33 +8,32 @@
 
 #include "driveshidejob.h"
 #include "account.h"
-#include "driveservice.h"
 #include "drives.h"
+#include "driveservice.h"
 #include "utils.h"
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-
+#include <QNetworkRequest>
 
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
 
 class Q_DECL_HIDDEN DrivesHideJob::Private
 {
-    public:
-        Private(DrivesHideJob *parent);
-        void processNext();
+public:
+    Private(DrivesHideJob *parent);
+    void processNext();
 
-        bool hide = false;
+    bool hide = false;
 
-        DrivesList drives;
+    DrivesList drives;
 
-    private:
-        DrivesHideJob *const q;
+private:
+    DrivesHideJob *const q;
 };
 
-DrivesHideJob::Private::Private(DrivesHideJob *parent):
-    q(parent)
+DrivesHideJob::Private::Private(DrivesHideJob *parent)
+    : q(parent)
 {
 }
 
@@ -55,23 +54,17 @@ void DrivesHideJob::Private::processNext()
     q->enqueueRequest(request, nullptr, QStringLiteral("application/json"));
 }
 
-DrivesHideJob::DrivesHideJob(const DrivesPtr &drive,
-        bool hide,
-        const AccountPtr &account,
-        QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+DrivesHideJob::DrivesHideJob(const DrivesPtr &drive, bool hide, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->drives << drive;
     d->hide = hide;
 }
 
-DrivesHideJob::DrivesHideJob(const DrivesList &drives,
-        bool hide,
-        const AccountPtr &account,
-        QObject *parent):
-    CreateJob(account, parent),
-    d(new Private(this))
+DrivesHideJob::DrivesHideJob(const DrivesList &drives, bool hide, const AccountPtr &account, QObject *parent)
+    : CreateJob(account, parent)
+    , d(new Private(this))
 {
     d->drives = drives;
     d->hide = hide;
@@ -84,8 +77,7 @@ void DrivesHideJob::start()
     d->processNext();
 }
 
-ObjectsList DrivesHideJob::handleReplyWithItems(const QNetworkReply *reply,
-        const QByteArray &rawData)
+ObjectsList DrivesHideJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
     const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
@@ -104,5 +96,3 @@ ObjectsList DrivesHideJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
-
-

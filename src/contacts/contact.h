@@ -8,9 +8,9 @@
 
 #pragma once
 
+#include "kgapicontacts_export.h"
 #include "object.h"
 #include "types.h"
-#include "kgapicontacts_export.h"
 
 #include <KContacts/Addressee>
 #include <QDateTime>
@@ -24,25 +24,13 @@ namespace KGAPI2
  * @author Daniel Vrátil <dvratil@redhat.com>
  * @since 0.1
  */
-class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
-                                 public KContacts::Addressee
+class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object, public KContacts::Addressee
 {
-  public:
-
+public:
     /**
      * @brief Instant Messaging Protocols
      */
-    enum IMProtocol {
-        Jabber,
-        ICQ,
-        GoogleTalk,
-        QQ,
-        Skype,
-        Yahoo,
-        MSN,
-        AIM,
-        Other
-    };
+    enum IMProtocol { Jabber, ICQ, GoogleTalk, QQ, Skype, Yahoo, MSN, AIM, Other };
 
     /**
      * @brief Constructor
@@ -59,7 +47,6 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
      */
     Contact(const Contact &other);
 
-
     /**
      * @brief Destructor
      */
@@ -68,9 +55,9 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
     bool operator==(const Contact &other) const;
 
     /**
-    * @brief Marks contact as deleted
-    *
-    * @param deleted
+     * @brief Marks contact as deleted
+     *
+     * @param deleted
      */
     void setDeleted(bool deleted);
 
@@ -227,11 +214,9 @@ class KGAPICONTACTS_EXPORT Contact : public KGAPI2::Object,
     static QString emailSchemeToProtocolName(const QString &scheme);
     static KContacts::Email::Type emailSchemeToProtocolType(const QString &scheme);
 
-  private:
+private:
     class Private;
-    Private * const d;
-
+    Private *const d;
 };
 
 } // namespace KGAPI2
-

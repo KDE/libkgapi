@@ -5,9 +5,9 @@
  */
 
 #include "postcreatejob.h"
-#include "post.h"
-#include "bloggerservice.h"
 #include "account.h"
+#include "bloggerservice.h"
+#include "post.h"
 #include "utils.h"
 
 #include <QNetworkReply>
@@ -19,25 +19,20 @@ using namespace KGAPI2::Blogger;
 
 class Q_DECL_HIDDEN PostCreateJob::Private
 {
-  public:
-    Private(const PostPtr &post,
-            bool isDraft);
+public:
+    Private(const PostPtr &post, bool isDraft);
 
     const PostPtr post;
     const bool isDraft;
 };
 
-PostCreateJob::Private::Private(const PostPtr &post_,
-                                bool isDraft_)
+PostCreateJob::Private::Private(const PostPtr &post_, bool isDraft_)
     : post(post_)
     , isDraft(isDraft_)
 {
 }
 
-PostCreateJob::PostCreateJob(const PostPtr &post,
-                             bool isDraft,
-                             const AccountPtr &account,
-                             QObject *parent)
+PostCreateJob::PostCreateJob(const PostPtr &post, bool isDraft, const AccountPtr &account, QObject *parent)
     : CreateJob(account, parent)
     , d(new Private(post, isDraft))
 {
@@ -47,7 +42,6 @@ PostCreateJob::~PostCreateJob()
 {
     delete d;
 }
-
 
 void PostCreateJob::start()
 {

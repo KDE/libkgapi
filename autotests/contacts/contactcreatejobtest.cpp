@@ -7,14 +7,14 @@
 #include <QObject>
 #include <QTest>
 
+#include "contactstestutils.h"
 #include "fakenetworkaccessmanagerfactory.h"
 #include "testutils.h"
-#include "contactstestutils.h"
 
-#include "types.h"
-#include "contactcreatejob.h"
-#include "contact.h"
 #include "account.h"
+#include "contact.h"
+#include "contactcreatejob.h"
+#include "types.h"
 
 using namespace KGAPI2;
 
@@ -35,40 +35,30 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<ContactsList>("contacts");
 
-        QTest::newRow("simple contact")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_create_request.txt"),
-                                     QFINDTESTDATA("data/contact1_create_response.txt"))
-                }
-            << ContactsList{ contactFromFile(QFINDTESTDATA("data/contact1.xml")) };
+        QTest::newRow("simple contact") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contact1_create_request.txt"),
+                                                                                                      QFINDTESTDATA("data/contact1_create_response.txt"))}
+                                        << ContactsList{contactFromFile(QFINDTESTDATA("data/contact1.xml"))};
 
         auto contact2 = contactFromFile(QFINDTESTDATA("data/contact2.xml"));
         KContacts::Picture picture;
-        picture.setRawData(QByteArray::fromBase64("iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="), QStringLiteral("png"));
+        picture.setRawData(
+            QByteArray::fromBase64("iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="),
+            QStringLiteral("png"));
         contact2->setPhotoUrl(QStringLiteral("https://www.google.com/m8/feeds/photos/media/MockAccount/2d71e4bb897f47a8"));
         contact2->setPhoto(picture);
-        QTest::newRow("with photo")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact2_create_request.txt"),
-                                     QFINDTESTDATA("data/contact2_create_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contact2_create_photo_request.txt"),
-                                     QFINDTESTDATA("data/contact2_create_photo_response.txt"))
-                }
-            << ContactsList{ contact2 };
+        QTest::newRow("with photo") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contact2_create_request.txt"),
+                                                                                                  QFINDTESTDATA("data/contact2_create_response.txt")),
+                                                                                 scenarioFromFile(QFINDTESTDATA("data/contact2_create_photo_request.txt"),
+                                                                                                  QFINDTESTDATA("data/contact2_create_photo_response.txt"))}
+                                    << ContactsList{contact2};
 
-        QTest::newRow("batch create")
-            << QList<FakeNetworkAccessManager::Scenario>{
-                    scenarioFromFile(QFINDTESTDATA("data/contact1_create_request.txt"),
-                                     QFINDTESTDATA("data/contact1_create_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contact2_create_request.txt"),
-                                     QFINDTESTDATA("data/contact2_create_response.txt")),
-                    scenarioFromFile(QFINDTESTDATA("data/contact2_create_photo_request.txt"),
-                                     QFINDTESTDATA("data/contact2_create_photo_response.txt"))
-                }
-            << ContactsList{
-                    contactFromFile(QFINDTESTDATA("data/contact1.xml")),
-                    contact2
-                };
+        QTest::newRow("batch create") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/contact1_create_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contact1_create_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/contact2_create_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contact2_create_response.txt")),
+                                                                                   scenarioFromFile(QFINDTESTDATA("data/contact2_create_photo_request.txt"),
+                                                                                                    QFINDTESTDATA("data/contact2_create_photo_response.txt"))}
+                                      << ContactsList{contactFromFile(QFINDTESTDATA("data/contact1.xml")), contact2};
     }
 
     void testCreate()
@@ -84,7 +74,7 @@ private Q_SLOTS:
         const auto items = job->items();
         QCOMPARE(items.count(), contacts.count());
         for (int i = 0; i < contacts.count(); ++i) {
-            const auto returnedContact =  items.at(i).dynamicCast<Contact>();
+            const auto returnedContact = items.at(i).dynamicCast<Contact>();
             QVERIFY(returnedContact);
             QCOMPARE(*returnedContact, *contacts.at(i));
         }
@@ -94,4 +84,3 @@ private Q_SLOTS:
 QTEST_GUILESS_MAIN(ContactCreateJobTest)
 
 #include "contactcreatejobtest.moc"
-

@@ -13,9 +13,9 @@ using namespace KGAPI2;
 
 class Q_DECL_HIDDEN Object::Private
 {
-  public:
+public:
     Private();
-    Private(const Private& other);
+    Private(const Private &other);
 
     QString etag;
 };
@@ -24,18 +24,18 @@ Object::Private::Private()
 {
 }
 
-Object::Private::Private(const Private& other):
-    etag(other.etag)
+Object::Private::Private(const Private &other)
+    : etag(other.etag)
 {
 }
 
-Object::Object():
-    d(new Private())
+Object::Object()
+    : d(new Private())
 {
 }
 
-Object::Object(const Object& other):
-    d(new Private(*(other.d)))
+Object::Object(const Object &other)
+    : d(new Private(*(other.d)))
 {
 }
 
@@ -53,8 +53,7 @@ bool Object::operator==(const Object &other) const
     return true;
 }
 
-
-void Object::setEtag(const QString& etag)
+void Object::setEtag(const QString &etag)
 {
     d->etag = etag;
 }
