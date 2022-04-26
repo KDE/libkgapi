@@ -8,3 +8,5 @@ Dependencies:
     'frameworks/kcontacts' : '@latest'
     'frameworks/kcalendarcore' : '@latest'
     'frameworks/kwallet' : '@latest'
+Options:
+  require-passing-tests-on: [ 'Linux', 'FreeBSD' ]      
