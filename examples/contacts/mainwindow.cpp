@@ -6,7 +6,6 @@
 */
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 #include "contacts/contact.h"
 #include "contacts/contactfetchjob.h"
