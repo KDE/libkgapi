@@ -102,7 +102,7 @@ public:
 
     void tokensReceived(Job *job)
     {
-        auto *tokensFetchJob = qobject_cast<NewTokensFetchJob *>(job);
+        auto tokensFetchJob = qobject_cast<NewTokensFetchJob *>(job);
         if (tokensFetchJob->error()) {
             qCDebug(KGAPIDebug) << "Error when retrieving tokens:" << job->errorString();
             emitError(static_cast<Error>(job->error()), job->errorString());
@@ -114,7 +114,7 @@ public:
         mAccount->setExpireDateTime(QDateTime::currentDateTime().addSecs(tokensFetchJob->expiresIn()));
         tokensFetchJob->deleteLater();
 
-        auto *fetchJob = new KGAPI2::AccountInfoFetchJob(mAccount, q);
+        auto fetchJob = new KGAPI2::AccountInfoFetchJob(mAccount, q);
         q->connect(fetchJob, &Job::finished, q, [this](Job *job) {
             accountInfoReceived(job);
         });

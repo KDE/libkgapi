@@ -93,7 +93,7 @@ void AuthJob::start()
     if (d->account->refreshToken().isEmpty() || (d->account->m_scopesChanged == true)) {
         d->account->addScope(Account::accountInfoEmailScopeUrl());
 
-        auto *job = new FullAuthenticationJob(d->account, d->apiKey, d->secretKey, this);
+        auto job = new FullAuthenticationJob(d->account, d->apiKey, d->secretKey, this);
         job->setUsername(d->username);
         job->setServerPort(kgapiTcpAuthServerPort);
         connect(job, &Job::finished, this, [this](Job *job) {
@@ -107,7 +107,7 @@ void AuthJob::start()
             return;
         }
 
-        auto *job = new RefreshTokensJob(d->account, d->apiKey, d->secretKey, this);
+        auto job = new RefreshTokensJob(d->account, d->apiKey, d->secretKey, this);
         connect(job, &Job::finished, this, [this](Job *job) {
             d->jobFinished<RefreshTokensJob>(job);
         });

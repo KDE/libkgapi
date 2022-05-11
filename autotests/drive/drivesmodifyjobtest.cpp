@@ -52,7 +52,7 @@ private Q_SLOTS:
         sourceDrives->setName(QStringLiteral("Renamed Drive"));
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        auto *job = new Drive::DrivesModifyJob(sourceDrives, account);
+        auto job = new Drive::DrivesModifyJob(sourceDrives, account);
 
         QVERIFY(execJob(job));
 

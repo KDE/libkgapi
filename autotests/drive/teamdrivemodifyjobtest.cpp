@@ -52,7 +52,7 @@ private Q_SLOTS:
         sourceTeamdrive->setName(QStringLiteral("Renamed Team Drive"));
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
-        auto *job = new Drive::TeamdriveModifyJob(sourceTeamdrive, account);
+        auto job = new Drive::TeamdriveModifyJob(sourceTeamdrive, account);
 
         QVERIFY(execJob(job));
 

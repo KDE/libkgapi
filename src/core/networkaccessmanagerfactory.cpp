@@ -20,7 +20,7 @@ class QtNetworkAccessManagerFactory : public NetworkAccessManagerFactory
 public:
     QNetworkAccessManager *networkAccessManager(QObject *parent) const override
     {
-        auto *nam = new QNetworkAccessManager(parent);
+        auto nam = new QNetworkAccessManager(parent);
         nam->setStrictTransportSecurityEnabled(true);
         nam->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
         return nam;
