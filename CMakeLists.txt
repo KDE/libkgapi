@@ -116,4 +116,6 @@ ecm_qt_install_logging_categories(
         DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
         )
 
+ecm_install_po_files_as_qm(poqm)
+
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
