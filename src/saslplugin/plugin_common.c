@@ -55,7 +55,7 @@
 #include <sys/utsname.h>
 #endif /* WIN32 */
 #endif /* macintosh */
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #include <fcntl.h>
@@ -67,7 +67,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-#ifdef HAVE_INTTYPES_H
+#if HAVE_INTTYPES_H
 #include <inttypes.h>
 #endif
 
@@ -106,7 +106,7 @@ static void sockaddr_unmapped(
     sin4->sin_addr.s_addr = addr;
     sin4->sin_port = port;
     sin4->sin_family = AF_INET;
-#ifdef HAVE_SOCKADDR_SA_LEN
+#if HAVE_SOCKADDR_SA_LEN
     sin4->sin_len = sizeof(struct sockaddr_in);
 #endif
     *len = sizeof(struct sockaddr_in);

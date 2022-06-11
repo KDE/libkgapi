@@ -6,9 +6,9 @@
 
 #pragma once
 
-#cmakedefine HAVE_UNISTD_H
-#cmakedefine HAVE_INTTYPES_H
-#cmakedefine HAVE_SOCKADDR_SA_LEN
+#cmakedefine01 HAVE_UNISTD_H
+#cmakedefine01 HAVE_INTTYPES_H
+#cmakedefine01 HAVE_SOCKADDR_SA_LEN
 
 // Note: plugin_common.c also use the following defines, but even the cyrus-sasl configure system doesn't check or set them.
 // So let's leave them out here as well:
