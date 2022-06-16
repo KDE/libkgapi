@@ -43,18 +43,18 @@
  */
 
 #include <config.h>
-#ifndef macintosh
 #ifdef WIN32
 #include <versionhelpers.h>
 #include <winsock2.h>
 #else
+#ifndef macintosh
 #include <arpa/inet.h>
 #include <netdb.h>
+#endif /* macintosh */
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/utsname.h>
-#endif /* WIN32 */
-#endif /* macintosh */
+#endif /* WIN32 */ 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif

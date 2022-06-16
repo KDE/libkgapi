@@ -48,16 +48,16 @@
 
 #include <config.h>
 
-#ifndef macintosh
 #ifdef WIN32
 #include <winsock2.h>
 #else
+#ifndef macintosh
 #include <arpa/inet.h>
+#endif /* macintosh */
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #endif /* WIN32 */
-#endif /* macintosh */
 
 #include <sasl/sasl.h>
 #include <sasl/saslplug.h>
