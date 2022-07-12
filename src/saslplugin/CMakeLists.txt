@@ -2,7 +2,7 @@ include(CheckIncludeFile)
 include(CheckStructHasMember)
 
 if (NOT CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
-   add_definitions(-D_POSIX_SOURCE)
+    add_definitions(-D_GNU_SOURCE)
 endif()
 
 if (WIN32)
