@@ -12,11 +12,6 @@
 
 #include "core/types.h"
 
-namespace KGAPI2
-{
-class Job;
-}
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
