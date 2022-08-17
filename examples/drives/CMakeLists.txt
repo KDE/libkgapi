@@ -7,8 +7,8 @@ target_sources(drives-example PRIVATE
 )
 
 target_link_libraries(drives-example
-        Qt${QT_MAJOR_VERSION}::Core
-        Qt${QT_MAJOR_VERSION}::Widgets
+        Qt::Core
+        Qt::Widgets
         KPimGAPICore
         KPimGAPIDrive
 )

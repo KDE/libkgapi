@@ -86,9 +86,9 @@ target_include_directories(KPimGAPICore
 
 target_link_libraries(KPimGAPICore
 PUBLIC
-    Qt${QT_MAJOR_VERSION}::Core
+    Qt::Core
 PRIVATE
-    Qt${QT_MAJOR_VERSION}::Network
+    Qt::Network
     KF5::Wallet
 )
 
