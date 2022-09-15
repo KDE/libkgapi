@@ -277,6 +277,8 @@ static const auto opaqueTransparency = QLatin1String("opaque");
 static const auto declinedStatus = QLatin1String("declined");
 static const auto categoriesProperty = QLatin1String("categories");
 
+static const auto hangoutLinkParam = QStringLiteral("hangoutLink");
+
 }
 
 QString APIVersion()
@@ -460,6 +462,7 @@ ObjectPtr Private::JSONToEvent(const QVariantMap &data, const QString &timezone)
     auto event = EventPtr::create();
 
     event->setId(data.value(idParam).toString());
+    event->setHangoutLink(data.value(hangoutLinkParam).toString());
     event->setUid(data.value(eventiCalUIDParam).toString());
     event->setEtag(data.value(etagParam).toString());
 

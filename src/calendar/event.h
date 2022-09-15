@@ -86,6 +86,16 @@ public:
      */
     void setId(const QString &id);
 
+    /**
+     * @brief Returns the hangout link for Google Meet.
+     */
+    QString hangoutLink() const;
+
+    /**
+     * @brief Sets the hangout link for Google Meet.
+     */
+    void setHangoutLink(const QString &id);
+
 private:
     class Private;
     QScopedPointer<Private> const d;

@@ -14,6 +14,7 @@ using namespace KGAPI2;
 namespace
 {
 static constexpr const char *EventIdProperty = "EventId";
+static constexpr const char *EventHangoutLinkProperty = "EventHangoutLink";
 }
 
 class Q_DECL_HIDDEN Event::Private
@@ -101,4 +102,14 @@ QString Event::id() const
 void Event::setId(const QString &id)
 {
     setCustomProperty("LIBKGAPI", EventIdProperty, id);
+}
+
+QString Event::hangoutLink() const
+{
+    return customProperty("LIBKGAPI", EventHangoutLinkProperty);
+}
+
+void Event::setHangoutLink(const QString &hangoutLink)
+{
+    setCustomProperty("LIBKGAPI", EventHangoutLinkProperty, hangoutLink);
 }
