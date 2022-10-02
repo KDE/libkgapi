@@ -1,0 +1,909 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2014, 2015, 2017, 2018, 2019, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-23 01:46+0000\n"
+"PO-Revision-Date: 2020-12-06 09:07+0100\n"
+"Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
+"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 20.08.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Qt-Contexts: true\n"
+
+#: src/blogger/blogfetchjob.cpp:82
+msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/commentapprovejob.cpp:79
+msgctxt "KGAPI2::Blogger::CommentApproveJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/commentdeletecontentjob.cpp:70
+msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/commentfetchjob.cpp:155
+msgctxt "KGAPI2::Blogger::CommentFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/pagecreatejob.cpp:60
+msgctxt "KGAPI2::Blogger::PageCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/pagefetchjob.cpp:110
+msgctxt "KGAPI2::Blogger::PageFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/pagemodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PageModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/postcreatejob.cpp:68
+msgctxt "KGAPI2::Blogger::PostCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/postfetchjob.cpp:187
+msgctxt "KGAPI2::Blogger::PostFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/postmodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PostModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/postpublishjob.cpp:106
+msgctxt "KGAPI2::Blogger::PostPublishJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/blogger/postsearchjob.cpp:86
+msgctxt "KGAPI2::Blogger::PostSearchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/calendar/calendarcreatejob.cpp:66
+msgctxt "KGAPI2::CalendarCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/calendar/calendarfetchjob.cpp:70
+msgctxt "KGAPI2::CalendarFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/calendar/calendarmodifyjob.cpp:65
+msgctxt "KGAPI2::CalendarModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/calendar/eventcreatejob.cpp:93
+msgctxt "KGAPI2::EventCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/calendar/eventfetchjob.cpp:196
+msgctxt "KGAPI2::EventFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/calendar/eventmodifyjob.cpp:82
+msgctxt "KGAPI2::EventModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/calendar/eventmovejob.cpp:114
+msgctxt "KGAPI2::EventMoveJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/calendar/freebusyqueryjob.cpp:97
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "FreeBusy information is not available"
+msgstr "Informacja wolny/zajęty jest niedostępna"
+
+#: src/calendar/freebusyqueryjob.cpp:108
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/contacts/contactcreatejob.cpp:135
+msgctxt "KGAPI2::ContactCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/contacts/contactmodifyjob.cpp:151
+msgctxt "KGAPI2::ContactModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/contacts/contactsgroupcreatejob.cpp:91
+msgctxt "KGAPI2::ContactsGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/contacts/contactsgroupfetchjob.cpp:97
+msgctxt "KGAPI2::ContactsGroupFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/contacts/contactsgroupmodifyjob.cpp:92
+msgctxt "KGAPI2::ContactsGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/core/accountinfo/accountinfofetchjob.cpp:60
+msgctxt "KGAPI2::AccountInfoFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/core/accountmanager.cpp:94
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to authenticate additional scopes"
+msgstr "Nie udało się uwierzytelnić dodatkowych zakresów"
+
+#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
+#: src/core/accountmanager.cpp:273
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to open account store"
+msgstr "Nie udało się otworzyć przechowalni konta"
+
+#: src/core/authjob.cpp:105
+msgctxt "KGAPI2::AuthJob|"
+msgid "Account name is empty"
+msgstr "Nazwa konta jest pusta"
+
+#: src/core/job.cpp:189
+msgctxt "KGAPI2::Job|"
+msgid "Bad request."
+msgstr "Złe żądanie."
+
+#: src/core/job.cpp:196
+msgctxt "KGAPI2::Job|"
+msgid "Invalid authentication."
+msgstr "Nieprawidłowe uwierzytelnienie"
+
+#: src/core/job.cpp:204
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource is forbidden.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Żądany zasób jest zabroniony.\n"
+"\n"
+"Google dał odpowiedź '%1'"
+
+#: src/core/job.cpp:213
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Żądany zasób nie istnieje.\n"
+"\n"
+"Google dał odpowiedź '%1'"
+
+#: src/core/job.cpp:228
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Conflict. Remote resource is newer than local.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Sprzeczność. Zdalny zasób jest nowszy niż lokalny.\n"
+"\n"
+"Google dał odpowiedź '%1'"
+
+#: src/core/job.cpp:237
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist anymore.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Żądany zasób już nie istnieje.\n"
+"\n"
+"Google dał odpowiedź '%1'"
+
+#: src/core/job.cpp:251
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Internal server error. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Wewnętrzny błąd serwera. Spróbuj ponownie później.\n"
+"\n"
+"Google dał odpowiedź '%1'"
+
+#: src/core/job.cpp:268
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Maximum quota exceeded. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Przekroczono liczbę użytkowników. Spróbuj ponownie później.\n"
+"\n"
+"Google dał odpowiedź '%1'"
+
+#: src/core/job.cpp:289
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Unknown error.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Nieznany błąd.\n"
+"\n"
+"Google dał odpowiedź '%1'"
+
+#: src/core/private/fullauthenticationjob.cpp:54
+#, qt-format
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Error receiving response: %1"
+msgstr "Błąd odbierania odpowiedzi: %1"
+
+#: src/core/private/fullauthenticationjob.cpp:61
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Authentication successful"
+msgstr "Uwierzytelnianie powiodło się"
+
+#: src/core/private/fullauthenticationjob.cpp:62
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "You can close this tab and return to the application now."
+msgstr "Teraz możesz zamknąć tę kartę i powrócić do programu."
+
+#: src/core/private/fullauthenticationjob.cpp:77
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Token response invalid"
+msgstr "Nieprawidłowa odpowiedź tokena"
+
+#: src/core/private/fullauthenticationjob.cpp:92
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not extract token from HTTP answer"
+msgstr "Nie można wydobyć tokena z odpowiedzi HTTP"
+
+#: src/core/private/fullauthenticationjob.cpp:185
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Invalid account"
+msgstr "Nieprawidłowe konto"
+
+#: src/core/private/fullauthenticationjob.cpp:189
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "No scopes to authenticate for"
+msgstr "Nie ma zakresów do uwierzytelnienia"
+
+#: src/core/private/fullauthenticationjob.cpp:202
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not start OAuth HTTP server"
+msgstr "Nie można uruchomić serwera HTTP OAuth"
+
+#: src/core/private/newtokensfetchjob.cpp:115
+msgctxt "KGAPI2::NewTokensFetchJob|"
+msgid "Failed to parse server response."
+msgstr "Nie udało się przetworzyć odpowiedzi serwera."
+
+#: src/core/private/refreshtokensjob.cpp:92
+msgctxt "KGAPI2::RefreshTokensJob|"
+msgid "Failed to parse newly fetched tokens"
+msgstr "Nie udało się  przetworzyć nowo pobranych tokenów"
+
+#: src/drive/aboutfetchjob.cpp:120
+msgctxt "KGAPI2::Drive::AboutFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/appfetchjob.cpp:72
+msgctxt "KGAPI2::Drive::AppFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/changefetchjob.cpp:188
+msgctxt "KGAPI2::Drive::ChangeFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/childreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/childreferencefetchjob.cpp:86
+msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/drivescreatejob.cpp:104
+msgctxt "KGAPI2::Drive::DrivesCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/drivesfetchjob.cpp:155
+msgctxt "KGAPI2::Drive::DrivesFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/driveshidejob.cpp:89
+msgctxt "KGAPI2::Drive::DrivesHideJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/drivesmodifyjob.cpp:113
+msgctxt "KGAPI2::Drive::DrivesModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/fileabstractmodifyjob.cpp:120
+msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/fileabstractresumablejob.cpp:313
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed opening upload session"
+msgstr "Nie udało się otworzyć sesji wysyłania"
+
+#: src/drive/fileabstractresumablejob.cpp:342
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed uploading chunk"
+msgstr "Nie udało się wysłać kawałka"
+
+#: src/drive/fileabstractresumablejob.cpp:363
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed completing upload session"
+msgstr "Nie udało się ukończenie sesji wysyłania"
+
+#: src/drive/fileabstractuploadjob.cpp:284
+msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/filecopyjob.cpp:122
+msgctxt "KGAPI2::Drive::FileCopyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/filefetchjob.cpp:241
+msgctxt "KGAPI2::Drive::FileFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/parentreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/parentreferencefetchjob.cpp:75
+msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/permissioncreatejob.cpp:157
+msgctxt "KGAPI2::Drive::PermissionCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/permissionfetchjob.cpp:130
+msgctxt "KGAPI2::Drive::PermissionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/permissionmodifyjob.cpp:159
+msgctxt "KGAPI2::Drive::PermissionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/revisionfetchjob.cpp:74
+msgctxt "KGAPI2::Drive::RevisionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/revisionmodifyjob.cpp:90
+msgctxt "KGAPI2::Drive::RevisionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/teamdrivecreatejob.cpp:104
+msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/teamdrivefetchjob.cpp:156
+msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/drive/teamdrivemodifyjob.cpp:84
+msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/latitude/locationcreatejob.cpp:80
+msgctxt "KGAPI2::LocationCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/latitude/locationfetchhistoryjob.cpp:130
+msgctxt "KGAPI2::LocationFetchHistoryJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/latitude/locationfetchjob.cpp:88
+msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/tasks/taskcreatejob.cpp:118
+msgctxt "KGAPI2::TaskCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/tasks/taskfetchjob.cpp:217
+msgctxt "KGAPI2::TaskFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/tasks/tasklistcreatejob.cpp:75
+msgctxt "KGAPI2::TaskListCreateJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/tasks/tasklistfetchjob.cpp:74
+msgctxt "KGAPI2::TaskListFetchJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/tasks/tasklistmodifyjob.cpp:75
+msgctxt "KGAPI2::TaskListModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#: src/tasks/taskmodifyjob.cpp:77
+msgctxt "KGAPI2::TaskModifyJob|"
+msgid "Invalid response content type"
+msgstr "Nieznany rodzaj treści odpowiedzi"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Authorizing token. This should take just a moment..."
+#~ msgstr "Uwierzytelnianie tokena. Może to zająć chwilę..."
+
+#~ msgctxt "QObject|"
+#~ msgid "Google Calendar"
+#~ msgstr "Kalendarz Google"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Parsing token page failed."
+#~ msgstr "Nieudane przetworzenie strony tokenów"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Failed to obtain token."
+#~ msgstr "Nieudane pobranie tokena."
+
+#~ msgid "No valid reply received"
+#~ msgstr "Nie otrzymano prawidłowej odpowiedzi"
+
+#~ msgid "Invalid request, service %1 is not registered."
+#~ msgstr "Nieznane żądanie, usługa %1 nie jest zarejestrowana."
+
+#~ msgid "An unknown error has occurred."
+#~ msgstr "Wystąpił nieznany błąd."
+
+#~ msgid "Unknown account '%1'"
+#~ msgstr "Nieznane konto '%1'"
+
+#~ msgid "Unknown service '%1'"
+#~ msgstr "Nieznana usługa '%1'"
+
+#~ msgid "KWallet is not opened."
+#~ msgstr "KWallet nie jest otwarty."
+
+#~ msgid ""
+#~ "Authentization failed:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Nieudane uwierzytelnienie:\n"
+#~ "%1"
+
+#~ msgid "Authenticate"
+#~ msgstr "Uwierzytelnij"
+
+#, fuzzy
+#~| msgid "Google Contacts"
+#~ msgid "Get contact list"
+#~ msgstr "Kontakty Google"
+
+#, fuzzy
+#~| msgid "Google Contacts"
+#~ msgid "Contact list"
+#~ msgstr "Kontakty Google"
+
+#, fuzzy
+#~| msgid "Contact fetched"
+#~ msgid "Contact info"
+#~ msgstr "Pobrano kontakt"
+
+#, fuzzy
+#~| msgid "Failed to fetch tokens"
+#~ msgid "Failed to fetch calendars: %1"
+#~ msgstr "Nieudane pobieranie tokenów"
+
+#, fuzzy
+#~| msgid "Failed to fetch event"
+#~ msgid "Failed to fetch event: %1"
+#~ msgstr "Nieudane pobieranie zdarzenia"
+
+#, fuzzy
+#~| msgid "Failed to fetch event"
+#~ msgid "Failed to fetch events: %1"
+#~ msgstr "Nieudane pobieranie zdarzenia"
+
+#, fuzzy
+#~| msgid "Failed to create an event"
+#~ msgid "Failed to create a new event: %1"
+#~ msgstr "Nieudane utworzenie zdarzenia"
+
+#, fuzzy
+#~| msgid "Failed to update an event"
+#~ msgid "Failed to update an event: %1"
+#~ msgstr "Nieudane uaktualnienie zdarzenia"
+
+#, fuzzy
+#~| msgid "Failed to update event"
+#~ msgid "Failed to delete event: %1"
+#~ msgstr "Nieudane uaktualnienie zdarzenia"
+
+#, fuzzy
+#~| msgid "Failed to remove event"
+#~ msgid "Failed to move event: %1"
+#~ msgstr "Nieudane usunięcie zdarzenia"
+
+#, fuzzy
+#~| msgid "Failed to fetch tokens"
+#~ msgid "Failed to fetch task lists"
+#~ msgstr "Nieudane pobieranie tokenów"
+
+#, fuzzy
+#~| msgid "Failed to fetch tokens"
+#~ msgid "Failed to fetch task: %1"
+#~ msgstr "Nieudane pobieranie tokenów"
+
+#, fuzzy
+#~| msgid "Failed to fetch tokens"
+#~ msgid "Failed to fetch tasks: %1"
+#~ msgstr "Nieudane pobieranie tokenów"
+
+#, fuzzy
+#~| msgid "Failed to create a task"
+#~ msgid "Failed to create a task: %1"
+#~ msgstr "Nieudane utworzenie zadania"
+
+#, fuzzy
+#~| msgid "Failed to update contact"
+#~ msgid "Failed to update task: %1"
+#~ msgstr "Nieudane uaktualnienie kontaktu"
+
+#, fuzzy
+#~| msgid "Failed to create a task"
+#~ msgid "Failed to delete task (1): %1"
+#~ msgstr "Nieudane utworzenie zadania"
+
+#, fuzzy
+#~| msgid "Failed to create a task"
+#~ msgid "Failed to delete task (2): %1"
+#~ msgstr "Nieudane utworzenie zadania"
+
+#, fuzzy
+#~| msgid "Failed to create a task"
+#~ msgid "Failed to delete task (5): %1"
+#~ msgstr "Nieudane utworzenie zadania"
+
+#, fuzzy
+#~| msgid "Revoke Access"
+#~ msgid "Revoke Access?"
+#~ msgstr "Cofnij dostęp"
+
+#, fuzzy
+#~| msgid "Calendar"
+#~ msgid "Remove Calendar?"
+#~ msgstr "Kalendarz"
+
+#, fuzzy
+#~| msgid "Removing task"
+#~ msgid "Remove tasklist?"
+#~ msgstr "Usuwanie zadania"
+
+#~ msgid "Aborted"
+#~ msgstr "Przerwano"
+
+#~ msgid "Invalid Payload"
+#~ msgstr "Nieprawidłowa ładowność"
+
+#, fuzzy
+#~| msgid "Invalid Payload"
+#~ msgid "Invalid payload"
+#~ msgstr "Nieprawidłowa ładowność"
+
+#~ msgid "Failed to retrieve contacts"
+#~ msgstr "Nieudane pobieranie kontaktów"
+
+#~ msgid "Failed to fetch contact"
+#~ msgstr "Nieudane pobieranie kontaktu"
+
+#~ msgid "Failed to update contact"
+#~ msgstr "Nieudane uaktualnienie kontaktu"
+
+#~ msgid "Failed to remove contact"
+#~ msgstr "Nieudane usunięcie kontaktu"
+
+#, fuzzy
+#~| msgid "Calendar"
+#~ msgid "Calendar Editor"
+#~ msgstr "Kalendarz"
+
+#~ msgid "Calendar Resource Settings"
+#~ msgstr "Ustawienia zasobu kalendarza"
+
+#, fuzzy
+#~| msgid "Removing event"
+#~ msgid "Remove"
+#~ msgstr "Usuwanie zdarzenia"
+
+#, fuzzy
+#~| msgid "Calendar"
+#~ msgid "Calendars"
+#~ msgstr "Kalendarz"
+
+#, fuzzy
+#~| msgid "Task list"
+#~ msgid "Tasks Lists"
+#~ msgstr "Lista zadań"
+
+#, fuzzy
+#~| msgid "Task list"
+#~ msgid "Tasklist Editor"
+#~ msgstr "Lista zadań"
+
+#, fuzzy
+#~| msgid "Calendar Resource Settings"
+#~ msgid "Contacts Resource Settings"
+#~ msgstr "Ustawienia zasobu kalendarza"
+
+#~ msgid "Failed to refresh the list of calendars."
+#~ msgstr "Nieudane odświeżenie listy kalendarzy."
+
+#~ msgid "Failed to refresh the list of calendars"
+#~ msgstr "Nieudane odświeżenie listy kalendarzy"
+
+#~ msgid "Preparing to synchronize calendar"
+#~ msgstr "Przygotowanie do synchronizacji kalendarza"
+
+#~ msgid "Fetching event"
+#~ msgstr "Pobieranie zdarzenia"
+
+#~ msgid "Failed to fetch initial data."
+#~ msgstr "Nieudane pobieranie wstępnych danych."
+
+#~ msgid "Retrieving list of events"
+#~ msgstr "Pobieranie listy zdarzeń"
+
+#~ msgid "Creating event..."
+#~ msgstr "Tworzenie zdarzenia..."
+
+#~ msgid "Updating event..."
+#~ msgstr "Uaktualnianie zdarzenia..."
+
+#~ msgid "Event fetched"
+#~ msgstr "Pobrano zdarzenie"
+
+#~ msgid "Event created"
+#~ msgstr "Utworzono zdarzenie"
+
+#~ msgid "Event changed"
+#~ msgstr "Zmieniono zdarzenie"
+
+#~ msgid "Event removed"
+#~ msgstr "Usunięto zdarzenie"
+
+#~ msgid "Preparing synchronization of contacts"
+#~ msgstr "Przygotowanie synchronizacji kontaktów"
+
+#~ msgid "Retrieving list of contacts"
+#~ msgstr "Pobieranie listy kontaktów"
+
+#~ msgid "Creating contact..."
+#~ msgstr "Tworzenie kontaktu..."
+
+#~ msgid "Updating contact..."
+#~ msgstr "Uaktualnianie kontaktu..."
+
+#~ msgid "Removing contact"
+#~ msgstr "Usuwanie kontaktu"
+
+#~ msgid "Contact created"
+#~ msgstr "Utworzono kontakt"
+
+#~ msgid "Contact changed"
+#~ msgstr "Zmieniono kontakt"
+
+#~ msgid "Contact removed"
+#~ msgstr "Usunięto kontakt"
+
+#~ msgid "Unknown error"
+#~ msgstr "Nieznany błąd"
+
+#~ msgid "Failed to refresh the list of task lists."
+#~ msgstr "Nieudane odświeżenie listy zadań."
+
+#~ msgid "Preparing to synchronize tasks"
+#~ msgstr "Przygotowanie do synchronizacji zadań"
+
+#~ msgid "Fetching task"
+#~ msgstr "Pobieranie zadania"
+
+#~ msgid "Google Tasks - %1"
+#~ msgstr "Zadania Google - %1"
+
+#~ msgid "Creating task..."
+#~ msgstr "Tworzenie zadania..."
+
+#~ msgid "Updating task..."
+#~ msgstr "Uaktualnianie zadania..."
+
+#~ msgid "Task updated"
+#~ msgstr "Uaktualniono zadanie"
+
+#~ msgid "Failed to retrieve tasks"
+#~ msgstr "Nieudane pobieranie zadań"
+
+#~ msgid "Collections synchronized"
+#~ msgstr "Zsynchronizowano kolekcje "
+
+#~ msgid "Task fetched"
+#~ msgstr "Pobrano zadanie"
+
+#~ msgid "Task created"
+#~ msgstr "Utworzono zadanie"
+
+#~ msgid "Failed to remove task"
+#~ msgstr "Nieudane usunięcie zadania"
+
+#~ msgid "Task removed"
+#~ msgstr "Usunięto zadanie"
+
+#~ msgid ""
+#~ "<html><body><p>In order to access Google services you need to "
+#~ "authenticate. Click the <i>Authenticate</i> button and follow "
+#~ "instructions in the dialog.</p></body></html>"
+#~ msgstr ""
+#~ "<html><body><p>Aby uzyskać dostęp do usług Google musisz się "
+#~ "uwierzytelnić. Kliknij przycisk <i>Uwierzytelnij</i> i wypełniaj "
+#~ "instrukcję pokazywane w oknie dialogowym.</p></body></html>"
+
+#~ msgid "Revoke Authentication"
+#~ msgstr "Cofnij uwierzytelnienie"
+
+#~ msgid ""
+#~ "If you want this application to forget your authentication, click the "
+#~ "button."
+#~ msgstr ""
+#~ "Jeżeli chcesz, aby ten program zapomniał twoje uwierzytelnienie, kliknij "
+#~ "ten przycisk."
+
+#~ msgid "Select the calendar you want to connect to:"
+#~ msgstr "Wybierz kalendarz, do którego chcesz się połączyć:"
+
+#~ msgid "Refresh List"
+#~ msgstr "Odśwież listę"
+
+#~ msgid "Automatically refresh calendar"
+#~ msgstr "Automatycznie odśwież kalendarz"
+
+#~ msgid " minutes"
+#~ msgstr " minuty"
+
+#~ msgid "Refresh calendar every"
+#~ msgstr "Odśwież kalendarz co każde"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">In order to access "
+#~ "Google Contacts service you need to authenticate. Click the <span style="
+#~ "\" font-style:italic;\">Authenticate</span> button and follow "
+#~ "instructions in the dialog.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Aby uzyskać dostęp do "
+#~ "usług Google musisz się uwierzytelnić. Kliknij przycisk <span style=\" "
+#~ "font-style:italic;\">Uwierzytelnij</span> i wypełniaj instrukcję "
+#~ "pokazywane w oknie dialogowym.</p></body></html>"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Use the <span style=\" "
+#~ "font-style:italic;\">Revoke Access</span> button to make Akonadi forget "
+#~ "any authentication with Google Contacts service.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Użyj przycisku <span "
+#~ "style=\" font-style:italic;\">Cofnij dostęp</span>, aby sprawić, że "
+#~ "Akonadi zapomni o uwierzytelnienie jakiejkolwiek usługi Kontaktów Google."
+#~ "</p></body></html>"
+
+#~ msgid "Addressbook"
+#~ msgstr "Książka adresowa"
+
+#~ msgid "Automatically refresh address book"
+#~ msgstr "Automatycznie odśwież książkę adresową"
+
+#~ msgid " minute(s)"
+#~ msgstr " minuta(y)"
+
+#~ msgid "Refresh address book every"
+#~ msgstr "Odśwież książkę adresową co każde"
+
+#~ msgid "Select the task list you want to connect to:"
+#~ msgstr "Wybierz listę zadań, do której chcesz się podłączyć:"
+
+#~ msgid "Refresh task list every"
+#~ msgstr "Odśwież listę zadań co każde"
+
+#~ msgid "Automatically refresh task list"
+#~ msgstr "Automatycznie odśwież listę zadań"
+
+#~ msgid "Retrieving list of tasks"
+#~ msgstr "Pobieranie listy zadań"

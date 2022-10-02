@@ -1,0 +1,491 @@
+# giovanni <g.sora@tiscali.it>, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"PO-Revision-Date: 2020-11-21 22:37+0100\n"
+"Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
+"Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
+"Language: ia\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Qt-Contexts: true\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: src/blogger/blogfetchjob.cpp:82
+msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/commentapprovejob.cpp:79
+msgctxt "KGAPI2::Blogger::CommentApproveJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/commentdeletecontentjob.cpp:70
+msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/commentfetchjob.cpp:155
+msgctxt "KGAPI2::Blogger::CommentFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/pagecreatejob.cpp:60
+msgctxt "KGAPI2::Blogger::PageCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/pagefetchjob.cpp:110
+msgctxt "KGAPI2::Blogger::PageFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/pagemodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PageModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/postcreatejob.cpp:68
+msgctxt "KGAPI2::Blogger::PostCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/postfetchjob.cpp:187
+msgctxt "KGAPI2::Blogger::PostFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/postmodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PostModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/postpublishjob.cpp:106
+msgctxt "KGAPI2::Blogger::PostPublishJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/blogger/postsearchjob.cpp:86
+msgctxt "KGAPI2::Blogger::PostSearchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/calendar/calendarcreatejob.cpp:66
+msgctxt "KGAPI2::CalendarCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/calendar/calendarfetchjob.cpp:70
+msgctxt "KGAPI2::CalendarFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/calendar/calendarmodifyjob.cpp:65
+msgctxt "KGAPI2::CalendarModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/calendar/eventcreatejob.cpp:93
+msgctxt "KGAPI2::EventCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/calendar/eventfetchjob.cpp:196
+msgctxt "KGAPI2::EventFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/calendar/eventmodifyjob.cpp:82
+msgctxt "KGAPI2::EventModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/calendar/eventmovejob.cpp:114
+msgctxt "KGAPI2::EventMoveJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/calendar/freebusyqueryjob.cpp:97
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "FreeBusy information is not available"
+msgstr "Information de LIbereOccupate non es disponibile"
+
+#: src/calendar/freebusyqueryjob.cpp:108
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/contacts/contactcreatejob.cpp:135
+msgctxt "KGAPI2::ContactCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/contacts/contactmodifyjob.cpp:151
+msgctxt "KGAPI2::ContactModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/contacts/contactsgroupcreatejob.cpp:91
+msgctxt "KGAPI2::ContactsGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/contacts/contactsgroupfetchjob.cpp:97
+msgctxt "KGAPI2::ContactsGroupFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/contacts/contactsgroupmodifyjob.cpp:92
+msgctxt "KGAPI2::ContactsGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/core/accountinfo/accountinfofetchjob.cpp:60
+msgctxt "KGAPI2::AccountInfoFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/core/accountmanager.cpp:94
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to authenticate additional scopes"
+msgstr "Il falleva authenticar campos de application additional "
+
+#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
+#: src/core/accountmanager.cpp:273
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to open account store"
+msgstr "Il falleva aperir immagazinage de conto"
+
+#: src/core/authjob.cpp:105
+msgctxt "KGAPI2::AuthJob|"
+msgid "Account name is empty"
+msgstr "Nomine de conto es vacue"
+
+#: src/core/job.cpp:189
+msgctxt "KGAPI2::Job|"
+msgid "Bad request."
+msgstr "Mal requesta."
+
+#: src/core/job.cpp:196
+msgctxt "KGAPI2::Job|"
+msgid "Invalid authentication."
+msgstr "Authentication invalide."
+
+#: src/core/job.cpp:204
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource is forbidden.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Ressource requirite es prohibite.\n"
+"\n"
+"Google respondeva '%1'"
+
+#: src/core/job.cpp:213
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Ressource requirite non existe\n"
+"\n"
+"Google respondeva '%1'"
+
+#: src/core/job.cpp:228
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Conflict. Remote resource is newer than local.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Conflicto. Ressource remote es plus nove que lo local\n"
+"\n"
+"Google respondeva '%1'"
+
+#: src/core/job.cpp:237
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist anymore.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Ressource requirite non existe plus\n"
+"\n"
+"Google respondeva '%1'"
+
+#: src/core/job.cpp:251
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Internal server error. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Error interne de servitor. Essaya de novo plus tarde.\n"
+"\n"
+"Google respondeva '%1'"
+
+#: src/core/job.cpp:268
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Maximum quota exceeded. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Il excedeva le quota maxime. Essaya de novo plus tarde.\n"
+"\n"
+"Google respondeva '%1'"
+
+#: src/core/job.cpp:289
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Unknown error.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Error incognite.\n"
+"\n"
+"Google respondeva '%1'"
+
+#: src/core/private/fullauthenticationjob.cpp:54
+#, qt-format
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Error receiving response: %1"
+msgstr "Error recipiente responsa: %1"
+
+#: src/core/private/fullauthenticationjob.cpp:61
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Authentication successful"
+msgstr "Authentication con successo"
+
+#: src/core/private/fullauthenticationjob.cpp:62
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "You can close this tab and return to the application now."
+msgstr "Tu pote clauder iste scheda e nunc retornar al application"
+
+#: src/core/private/fullauthenticationjob.cpp:77
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Token response invalid"
+msgstr "Invalide responsa de indicio"
+
+#: src/core/private/fullauthenticationjob.cpp:92
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not extract token from HTTP answer"
+msgstr "Nonpote extraher indicio ex responsa de HTTP"
+
+#: src/core/private/fullauthenticationjob.cpp:185
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Invalid account"
+msgstr "Conto invalide"
+
+#: src/core/private/fullauthenticationjob.cpp:189
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "No scopes to authenticate for"
+msgstr "Necun campo de application per authenticar"
+
+#: src/core/private/fullauthenticationjob.cpp:202
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not start OAuth HTTP server"
+msgstr "Non pote startar servitor de OAuth HTTP"
+
+#: src/core/private/newtokensfetchjob.cpp:115
+msgctxt "KGAPI2::NewTokensFetchJob|"
+msgid "Failed to parse server response."
+msgstr "Il falleva analysar le responsa del servitor."
+
+#: src/core/private/refreshtokensjob.cpp:92
+msgctxt "KGAPI2::RefreshTokensJob|"
+msgid "Failed to parse newly fetched tokens"
+msgstr "Il falleva analysar indicios recentemente cercate"
+
+#: src/drive/aboutfetchjob.cpp:120
+msgctxt "KGAPI2::Drive::AboutFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/appfetchjob.cpp:72
+msgctxt "KGAPI2::Drive::AppFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/changefetchjob.cpp:188
+msgctxt "KGAPI2::Drive::ChangeFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/childreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/childreferencefetchjob.cpp:86
+msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/drivescreatejob.cpp:104
+msgctxt "KGAPI2::Drive::DrivesCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/drivesfetchjob.cpp:155
+msgctxt "KGAPI2::Drive::DrivesFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/driveshidejob.cpp:89
+msgctxt "KGAPI2::Drive::DrivesHideJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/drivesmodifyjob.cpp:113
+msgctxt "KGAPI2::Drive::DrivesModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/fileabstractmodifyjob.cpp:120
+msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/fileabstractresumablejob.cpp:313
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed opening upload session"
+msgstr "Il falleva a aperir session de incargar"
+
+#: src/drive/fileabstractresumablejob.cpp:342
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed uploading chunk"
+msgstr "Il falleva a incargar chunk"
+
+#: src/drive/fileabstractresumablejob.cpp:363
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed completing upload session"
+msgstr "Il falleva a completar le session de incargar"
+
+#: src/drive/fileabstractuploadjob.cpp:284
+msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/filecopyjob.cpp:122
+msgctxt "KGAPI2::Drive::FileCopyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/filefetchjob.cpp:241
+msgctxt "KGAPI2::Drive::FileFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/parentreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/parentreferencefetchjob.cpp:75
+msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/permissioncreatejob.cpp:157
+msgctxt "KGAPI2::Drive::PermissionCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/permissionfetchjob.cpp:130
+msgctxt "KGAPI2::Drive::PermissionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/permissionmodifyjob.cpp:159
+msgctxt "KGAPI2::Drive::PermissionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/revisionfetchjob.cpp:74
+msgctxt "KGAPI2::Drive::RevisionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/revisionmodifyjob.cpp:90
+msgctxt "KGAPI2::Drive::RevisionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/teamdrivecreatejob.cpp:104
+msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/teamdrivefetchjob.cpp:156
+msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/drive/teamdrivemodifyjob.cpp:84
+msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/latitude/locationcreatejob.cpp:80
+msgctxt "KGAPI2::LocationCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/latitude/locationfetchhistoryjob.cpp:130
+msgctxt "KGAPI2::LocationFetchHistoryJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/latitude/locationfetchjob.cpp:88
+msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/tasks/taskcreatejob.cpp:118
+msgctxt "KGAPI2::TaskCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/tasks/taskfetchjob.cpp:217
+msgctxt "KGAPI2::TaskFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/tasks/tasklistcreatejob.cpp:75
+msgctxt "KGAPI2::TaskListCreateJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/tasks/tasklistfetchjob.cpp:74
+msgctxt "KGAPI2::TaskListFetchJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/tasks/tasklistmodifyjob.cpp:75
+msgctxt "KGAPI2::TaskListModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#: src/tasks/taskmodifyjob.cpp:77
+msgctxt "KGAPI2::TaskModifyJob|"
+msgid "Invalid response content type"
+msgstr "Invalide typo de contento de responsa"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Authorizing token. This should take just a moment..."
+#~ msgstr ""
+#~ "Indicio (token) de authentication. Isto poteres prender a pena un "
+#~ "momento..."

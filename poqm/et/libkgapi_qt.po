@@ -1,0 +1,948 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Marek Laane <bald@smail.ee>, 2011, 2012, 2016, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-23 01:46+0000\n"
+"PO-Revision-Date: 2019-11-18 19:22+0200\n"
+"Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
+"Language-Team: Estonian <kde-et@lists.linux.ee>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 19.08.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Qt-Contexts: true\n"
+
+#: src/blogger/blogfetchjob.cpp:82
+msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/commentapprovejob.cpp:79
+msgctxt "KGAPI2::Blogger::CommentApproveJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/commentdeletecontentjob.cpp:70
+msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/commentfetchjob.cpp:155
+msgctxt "KGAPI2::Blogger::CommentFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/pagecreatejob.cpp:60
+msgctxt "KGAPI2::Blogger::PageCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/pagefetchjob.cpp:110
+msgctxt "KGAPI2::Blogger::PageFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/pagemodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PageModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/postcreatejob.cpp:68
+msgctxt "KGAPI2::Blogger::PostCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/postfetchjob.cpp:187
+msgctxt "KGAPI2::Blogger::PostFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/postmodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PostModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/postpublishjob.cpp:106
+msgctxt "KGAPI2::Blogger::PostPublishJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/blogger/postsearchjob.cpp:86
+msgctxt "KGAPI2::Blogger::PostSearchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/calendar/calendarcreatejob.cpp:66
+msgctxt "KGAPI2::CalendarCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/calendar/calendarfetchjob.cpp:70
+msgctxt "KGAPI2::CalendarFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/calendar/calendarmodifyjob.cpp:65
+msgctxt "KGAPI2::CalendarModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/calendar/eventcreatejob.cpp:93
+msgctxt "KGAPI2::EventCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/calendar/eventfetchjob.cpp:196
+msgctxt "KGAPI2::EventFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/calendar/eventmodifyjob.cpp:82
+msgctxt "KGAPI2::EventModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/calendar/eventmovejob.cpp:114
+msgctxt "KGAPI2::EventMoveJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/calendar/freebusyqueryjob.cpp:97
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "FreeBusy information is not available"
+msgstr "Vaba/hõivatud teave pole saadaval"
+
+#: src/calendar/freebusyqueryjob.cpp:108
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/contacts/contactcreatejob.cpp:135
+msgctxt "KGAPI2::ContactCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/contacts/contactmodifyjob.cpp:151
+msgctxt "KGAPI2::ContactModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/contacts/contactsgroupcreatejob.cpp:91
+msgctxt "KGAPI2::ContactsGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/contacts/contactsgroupfetchjob.cpp:97
+msgctxt "KGAPI2::ContactsGroupFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/contacts/contactsgroupmodifyjob.cpp:92
+msgctxt "KGAPI2::ContactsGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/core/accountinfo/accountinfofetchjob.cpp:60
+msgctxt "KGAPI2::AccountInfoFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/core/accountmanager.cpp:94
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to authenticate additional scopes"
+msgstr "Täiendav autentimine nurjus"
+
+#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
+#: src/core/accountmanager.cpp:273
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to open account store"
+msgstr "Kontohoidla avamine nurjus"
+
+#: src/core/authjob.cpp:105
+msgctxt "KGAPI2::AuthJob|"
+msgid "Account name is empty"
+msgstr "Konto nimi on tühi"
+
+#: src/core/job.cpp:189
+msgctxt "KGAPI2::Job|"
+msgid "Bad request."
+msgstr "Vigane päring."
+
+#: src/core/job.cpp:196
+msgctxt "KGAPI2::Job|"
+msgid "Invalid authentication."
+msgstr "Vigane autentimine."
+
+#: src/core/job.cpp:204
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource is forbidden.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Soovitud ressurss on keelatud.\n"
+"\n"
+"Google vastas \"%1\""
+
+#: src/core/job.cpp:213
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Soovitud ressurssi pole olemas.\n"
+"\n"
+"Google vastas \"%1\""
+
+#: src/core/job.cpp:228
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Conflict. Remote resource is newer than local.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Konflikt: võrguressurss on uuem kui kohalik.\n"
+"\n"
+"Google vastas \"%1\""
+
+#: src/core/job.cpp:237
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist anymore.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Soovitud ressurssi pole enam.\n"
+"\n"
+"Google vastas \"%1\""
+
+#: src/core/job.cpp:251
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Internal server error. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Serveri sisemine tõrge. Proovi hiljem uuesti.\n"
+"\n"
+"Google vastas \"%1\""
+
+#: src/core/job.cpp:268
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Maximum quota exceeded. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Maksimaalne kvoot on ületatud. Proovi hiljem uuesti.\n"
+"\n"
+"Google vastas \"%1\""
+
+#: src/core/job.cpp:289
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Unknown error.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Tundmatu tõrge.\n"
+"\n"
+"Google vastas \"%1\""
+
+#: src/core/private/fullauthenticationjob.cpp:54
+#, fuzzy, qt-format
+#| msgctxt "KGAPI2::AuthWidgetPrivate|"
+#| msgid "Error receiving response: %1"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Error receiving response: %1"
+msgstr "Tõrge vastuse vastuvõtmisel: %1"
+
+#: src/core/private/fullauthenticationjob.cpp:61
+#, fuzzy
+#| msgctxt "KGAPI2::AuthJob|"
+#| msgid "Authentication canceled"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Authentication successful"
+msgstr "Autentimisest loobuti"
+
+#: src/core/private/fullauthenticationjob.cpp:62
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "You can close this tab and return to the application now."
+msgstr ""
+
+#: src/core/private/fullauthenticationjob.cpp:77
+#, fuzzy
+#| msgctxt "KGAPI2::AuthWidgetPrivate|"
+#| msgid "Token response invalid"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Token response invalid"
+msgstr "Märgise vastus on vigane."
+
+#: src/core/private/fullauthenticationjob.cpp:92
+#, fuzzy
+#| msgctxt "KGAPI2::AuthWidgetPrivate|"
+#| msgid "Could not extract token from HTTP answer"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not extract token from HTTP answer"
+msgstr "Märgise hankimine HTTP-vastusest nurjus"
+
+#: src/core/private/fullauthenticationjob.cpp:185
+#, fuzzy
+#| msgctxt "KGAPI2::AuthWidget|"
+#| msgid "Invalid account"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Invalid account"
+msgstr "Vigane konto"
+
+#: src/core/private/fullauthenticationjob.cpp:189
+#, fuzzy
+#| msgctxt "KGAPI2::AuthWidget|"
+#| msgid "No scopes to authenticate for"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "No scopes to authenticate for"
+msgstr "Pole kuskil autentida"
+
+#: src/core/private/fullauthenticationjob.cpp:202
+#, fuzzy
+#| msgctxt "KGAPI2::AuthWidget|"
+#| msgid "Could not start oauth http server"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not start OAuth HTTP server"
+msgstr "OAuthi HTTP-serveri käivitamine nurjus"
+
+#: src/core/private/newtokensfetchjob.cpp:115
+msgctxt "KGAPI2::NewTokensFetchJob|"
+msgid "Failed to parse server response."
+msgstr "Serveri vastuse parsimine nurjus."
+
+#: src/core/private/refreshtokensjob.cpp:92
+#, fuzzy
+#| msgctxt "KGAPI2::AuthJob|"
+#| msgid "Failed to parse newly fetched tokens"
+msgctxt "KGAPI2::RefreshTokensJob|"
+msgid "Failed to parse newly fetched tokens"
+msgstr "Tõmmatud märgiste parsimine nurjus"
+
+#: src/drive/aboutfetchjob.cpp:120
+msgctxt "KGAPI2::Drive::AboutFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/appfetchjob.cpp:72
+msgctxt "KGAPI2::Drive::AppFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/changefetchjob.cpp:188
+msgctxt "KGAPI2::Drive::ChangeFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/childreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/childreferencefetchjob.cpp:86
+msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/drivescreatejob.cpp:104
+msgctxt "KGAPI2::Drive::DrivesCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/drivesfetchjob.cpp:155
+msgctxt "KGAPI2::Drive::DrivesFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/driveshidejob.cpp:89
+msgctxt "KGAPI2::Drive::DrivesHideJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/drivesmodifyjob.cpp:113
+msgctxt "KGAPI2::Drive::DrivesModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/fileabstractmodifyjob.cpp:120
+msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/fileabstractresumablejob.cpp:313
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed opening upload session"
+msgstr ""
+
+#: src/drive/fileabstractresumablejob.cpp:342
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed uploading chunk"
+msgstr ""
+
+#: src/drive/fileabstractresumablejob.cpp:363
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed completing upload session"
+msgstr ""
+
+#: src/drive/fileabstractuploadjob.cpp:284
+msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/filecopyjob.cpp:122
+msgctxt "KGAPI2::Drive::FileCopyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/filefetchjob.cpp:241
+msgctxt "KGAPI2::Drive::FileFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/parentreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/parentreferencefetchjob.cpp:75
+msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/permissioncreatejob.cpp:157
+msgctxt "KGAPI2::Drive::PermissionCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/permissionfetchjob.cpp:130
+msgctxt "KGAPI2::Drive::PermissionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/permissionmodifyjob.cpp:159
+msgctxt "KGAPI2::Drive::PermissionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/revisionfetchjob.cpp:74
+msgctxt "KGAPI2::Drive::RevisionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/revisionmodifyjob.cpp:90
+msgctxt "KGAPI2::Drive::RevisionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/teamdrivecreatejob.cpp:104
+msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/teamdrivefetchjob.cpp:156
+msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/drive/teamdrivemodifyjob.cpp:84
+msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/latitude/locationcreatejob.cpp:80
+msgctxt "KGAPI2::LocationCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/latitude/locationfetchhistoryjob.cpp:130
+msgctxt "KGAPI2::LocationFetchHistoryJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/latitude/locationfetchjob.cpp:88
+msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/tasks/taskcreatejob.cpp:118
+msgctxt "KGAPI2::TaskCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/tasks/taskfetchjob.cpp:217
+msgctxt "KGAPI2::TaskFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/tasks/tasklistcreatejob.cpp:75
+msgctxt "KGAPI2::TaskListCreateJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/tasks/tasklistfetchjob.cpp:74
+msgctxt "KGAPI2::TaskListFetchJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/tasks/tasklistmodifyjob.cpp:75
+msgctxt "KGAPI2::TaskListModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#: src/tasks/taskmodifyjob.cpp:77
+msgctxt "KGAPI2::TaskModifyJob|"
+msgid "Invalid response content type"
+msgstr "Vigane vastuse sisu tüüp"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Authorizing token. This should take just a moment..."
+#~ msgstr "Märgise autentimine. See peaks võtma vaid hetke..."
+
+#~ msgctxt "QObject|"
+#~ msgid "Google Calendar"
+#~ msgstr "Google'i kalender"
+
+#, fuzzy
+#~| msgctxt "AuthWidget::Private|"
+#~| msgid "Parsing token page failed."
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Parsing token page failed."
+#~ msgstr "Märgiste lehekülje parsimine nurjus."
+
+#, fuzzy
+#~| msgctxt "AuthWidget::Private|"
+#~| msgid "Failed to obtain token."
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Failed to obtain token."
+#~ msgstr "Märgise hankimine nurjus."
+
+#~ msgid "No valid reply received"
+#~ msgstr "Ei saadud korrektset vastust"
+
+#~ msgid "Invalid request, service %1 is not registered."
+#~ msgstr "Vigane päring, teenus %1 pole registreeritud."
+
+#~ msgid "An unknown error has occurred."
+#~ msgstr "Tekkis tundmatu viga."
+
+#~ msgid "Unknown account '%1'"
+#~ msgstr "Tundmatu konto \"%1\""
+
+#~ msgid "Unknown service '%1'"
+#~ msgstr "Tundmatu teenus \"%1\""
+
+#~ msgid "KWallet is not opened."
+#~ msgstr "KWallet pole avatud."
+
+#~ msgid ""
+#~ "Authentization failed:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Autentimine nurjus:\n"
+#~ "%1"
+
+#~ msgid "MainWindow"
+#~ msgstr "Peaaken"
+
+#~ msgid "Authenticate"
+#~ msgstr "Autendi"
+
+#~ msgid "Get contact list"
+#~ msgstr "Hangi kontaktide nimekiri"
+
+#~ msgid "Contact list"
+#~ msgstr "Kontaktide nimekiri"
+
+#~ msgid "Contact info"
+#~ msgstr "Teave kontakti kohta"
+
+#~ msgid "File"
+#~ msgstr "Fail"
+
+#~ msgid "Quit"
+#~ msgstr "Välju"
+
+#, fuzzy
+#~| msgid "Failed to fetch tokens"
+#~ msgid "Failed to fetch calendars: %1"
+#~ msgstr "Märgiste tõmbamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to fetch event"
+#~ msgid "Failed to fetch event: %1"
+#~ msgstr "Sündmuse tõmbamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to fetch event"
+#~ msgid "Failed to fetch events: %1"
+#~ msgstr "Sündmuse tõmbamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to create an event"
+#~ msgid "Failed to create a new event: %1"
+#~ msgstr "Sündmuse loomine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to update an event"
+#~ msgid "Failed to update an event: %1"
+#~ msgstr "Sündmuse uuendamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to update event"
+#~ msgid "Failed to delete event: %1"
+#~ msgstr "Sündmuse uuendamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to remove event"
+#~ msgid "Failed to move event: %1"
+#~ msgstr "Sündmuse eemaldamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to fetch tokens"
+#~ msgid "Failed to fetch task lists"
+#~ msgstr "Märgiste tõmbamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to fetch tokens"
+#~ msgid "Failed to fetch task: %1"
+#~ msgstr "Märgiste tõmbamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to fetch tokens"
+#~ msgid "Failed to fetch tasks: %1"
+#~ msgstr "Märgiste tõmbamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to create a task"
+#~ msgid "Failed to create a task: %1"
+#~ msgstr "Ülesande loomine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to update contact"
+#~ msgid "Failed to update task: %1"
+#~ msgstr "Kontakti uuendamine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to create a task"
+#~ msgid "Failed to delete task (1): %1"
+#~ msgstr "Ülesande loomine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to create a task"
+#~ msgid "Failed to delete task (2): %1"
+#~ msgstr "Ülesande loomine nurjus"
+
+#, fuzzy
+#~| msgid "Failed to create a task"
+#~ msgid "Failed to delete task (5): %1"
+#~ msgstr "Ülesande loomine nurjus"
+
+#, fuzzy
+#~| msgid "Revoke Access"
+#~ msgid "Revoke Access?"
+#~ msgstr "Tühista ligipääs"
+
+#, fuzzy
+#~| msgid "Calendar"
+#~ msgid "Remove Calendar?"
+#~ msgstr "Kalender"
+
+#, fuzzy
+#~| msgid "Removing task"
+#~ msgid "Remove tasklist?"
+#~ msgstr "Ülesande eemaldamine"
+
+#~ msgid "Aborted"
+#~ msgstr "Katkestatud"
+
+#~ msgid "Invalid Payload"
+#~ msgstr "Vigane koormus"
+
+#, fuzzy
+#~| msgid "Invalid Payload"
+#~ msgid "Invalid payload"
+#~ msgstr "Vigane koormus"
+
+#~ msgid "Failed to retrieve contacts"
+#~ msgstr "Kontaktide hankimine nurjus"
+
+#~ msgid "Failed to fetch contact"
+#~ msgstr "Kontakti tõmbamine nurjus"
+
+#~ msgid "Failed to update contact"
+#~ msgstr "Kontakti uuendamine nurjus"
+
+#~ msgid "Failed to remove contact"
+#~ msgstr "Kontakti eemaldamine nurjus"
+
+#, fuzzy
+#~| msgid "Calendar"
+#~ msgid "Calendar Editor"
+#~ msgstr "Kalender"
+
+#~ msgid "Calendar Resource Settings"
+#~ msgstr "Kalendriressursi seadistused"
+
+#, fuzzy
+#~| msgid "Removing event"
+#~ msgid "Remove"
+#~ msgstr "Sündmuse eemaldamine"
+
+#, fuzzy
+#~| msgid "Calendar"
+#~ msgid "Calendars"
+#~ msgstr "Kalender"
+
+#, fuzzy
+#~| msgid "Task list"
+#~ msgid "Tasks Lists"
+#~ msgstr "Ülesannete nimekiri"
+
+#, fuzzy
+#~| msgid "Task list"
+#~ msgid "Tasklist Editor"
+#~ msgstr "Ülesannete nimekiri"
+
+#, fuzzy
+#~| msgid "Calendar Resource Settings"
+#~ msgid "Contacts Resource Settings"
+#~ msgstr "Kalendriressursi seadistused"
+
+#~ msgid "Failed to refresh the list of calendars."
+#~ msgstr "Kalendrite nimekirja värskendamine nurjus."
+
+#~ msgid "Failed to refresh the list of calendars"
+#~ msgstr "Kalendrite nimekirja värskendamine nurjus"
+
+#~ msgid "Preparing to synchronize calendar"
+#~ msgstr "Valmistumine kalendri sünkroonimiseks"
+
+#~ msgid "Fetching event"
+#~ msgstr "Sündmuste tõmbamine"
+
+#~ msgid "Failed to fetch initial data."
+#~ msgstr "Algandmete tõmbamine nurjus."
+
+#~ msgid "Retrieving list of events"
+#~ msgstr "Sündmuste nimekirja hankimine"
+
+#~ msgid "Creating event..."
+#~ msgstr "Sündmuse loomine..."
+
+#~ msgid "Updating event..."
+#~ msgstr "Sündmuse uuendamine..."
+
+#~ msgid "Event fetched"
+#~ msgstr "Sündmus on tõmmatud"
+
+#~ msgid "Event created"
+#~ msgstr "Sündmus on loodud"
+
+#~ msgid "Event changed"
+#~ msgstr "Sündmus on muudetud"
+
+#~ msgid "Event removed"
+#~ msgstr "Sündmus on eemaldatud"
+
+#~ msgid "Preparing synchronization of contacts"
+#~ msgstr "Valmistumine kontaktide sünkroonimiseks"
+
+#~ msgid "Retrieving list of contacts"
+#~ msgstr "Kontaktide nimekirja hankimine"
+
+#~ msgid "Creating contact..."
+#~ msgstr "Kontakti loomine..."
+
+#~ msgid "Updating contact..."
+#~ msgstr "Kontakti uuendamine..."
+
+#~ msgid "Removing contact"
+#~ msgstr "Kontakti eemaldamine"
+
+#~ msgid "Contact created"
+#~ msgstr "Kontakt on loodud"
+
+#~ msgid "Contact changed"
+#~ msgstr "Kontakt on muudetud"
+
+#~ msgid "Contact removed"
+#~ msgstr "Kontakt on eemaldatud"
+
+#~ msgid "Unknown error"
+#~ msgstr "Tundmatu tõrge"
+
+#~ msgid "Failed to refresh the list of task lists."
+#~ msgstr "Ülesannete nimekirja värskendamine nurjus."
+
+#~ msgid "Preparing to synchronize tasks"
+#~ msgstr "Valmistumine ülesannete sünkroonimiseks"
+
+#~ msgid "Fetching task"
+#~ msgstr "Ülesande tõmbamine"
+
+#~ msgid "Google Tasks - %1"
+#~ msgstr "Google'i ülesanded - %1"
+
+#~ msgid "Creating task..."
+#~ msgstr "Ülesande loomine..."
+
+#~ msgid "Updating task..."
+#~ msgstr "Ülesande uuendamine..."
+
+#~ msgid "Task updated"
+#~ msgstr "Ülesanne on uuendatud"
+
+#~ msgid "Failed to retrieve tasks"
+#~ msgstr "Ülesannete hankimine nurjus"
+
+#~ msgid "Collections synchronized"
+#~ msgstr "Kogud on sünkroonitud"
+
+#~ msgid "Task fetched"
+#~ msgstr "Ülesanne on tõmmatud"
+
+#~ msgid "Task created"
+#~ msgstr "Ülesanne on loodud"
+
+#~ msgid "Failed to remove task"
+#~ msgstr "Ülesande eemaldamine nurjus"
+
+#~ msgid "Task removed"
+#~ msgstr "Ülesanne on eemaldatud"
+
+#~ msgid ""
+#~ "<html><body><p>In order to access Google services you need to "
+#~ "authenticate. Click the <i>Authenticate</i> button and follow "
+#~ "instructions in the dialog.</p></body></html>"
+#~ msgstr ""
+#~ "<html><body><p>Google'i teenuste kasutamiseks tuleb ennast autentida. "
+#~ "Klõpsa nupule <i>Autendi</i> ja järgi dialoogi juhiseid.</p></body></html>"
+
+#~ msgid "Revoke Authentication"
+#~ msgstr "Tühista autentimine"
+
+#~ msgid ""
+#~ "If you want this application to forget your authentication, click the "
+#~ "button."
+#~ msgstr "Klõpsa nupule, kui soovid, et rakendus unustaks sinu autentimise."
+
+#~ msgid "Select the calendar you want to connect to:"
+#~ msgstr "Kalender, millega soovid ühenduse luua:"
+
+#~ msgid "Refresh List"
+#~ msgstr "Värskenda nimekirja"
+
+#~ msgid "Automatically refresh calendar"
+#~ msgstr "Kalendri automaatne värskendamine"
+
+#~ msgid " minutes"
+#~ msgstr " minuti järel"
+
+#~ msgid "Refresh calendar every"
+#~ msgstr "Kalendri värskendamine iga"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">In order to access "
+#~ "Google Contacts service you need to authenticate. Click the <span style="
+#~ "\" font-style:italic;\">Authenticate</span> button and follow "
+#~ "instructions in the dialog.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Google'i teenuste "
+#~ "kasutamiseks tuleb ennast autentida. Klõpsa nupule <span style=\" font-"
+#~ "style:italic;\">Autendi</span> ja järgi dialoogi juhiseid.</p></body></"
+#~ "html>"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Use the <span style=\" "
+#~ "font-style:italic;\">Revoke Access</span> button to make Akonadi forget "
+#~ "any authentication with Google Contacts service.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Kasuta nuppu <span "
+#~ "style=\" font-style:italic;\">Tühista ligipääs</span>, et panna Akonadi "
+#~ "unustama igasugust autentimist Google'i kontaktide teenustes.</p></body></"
+#~ "html>"
+
+#~ msgid "Addressbook"
+#~ msgstr "Aadressiraamat"
+
+#~ msgid "Automatically refresh address book"
+#~ msgstr "Aadressiraamatu automaatne värskendamine"
+
+#~ msgid " minute(s)"
+#~ msgstr " minuti järel"
+
+#~ msgid "Refresh address book every"
+#~ msgstr "Aadressiraamatu värskendamine iga"
+
+#~ msgid "Select the task list you want to connect to:"
+#~ msgstr "Ülesannete nimekiri, millega soovid ühenduse luua:"
+
+#~ msgid "Refresh task list every"
+#~ msgstr "Ülesannete nimekirja värskendamine iga"
+
+#~ msgid "Automatically refresh task list"
+#~ msgstr "Ülesannete nimekirja automaatne värskendamine"
+
+#~ msgid "Retrieving list of tasks"
+#~ msgstr "Ülesannete nimekirja hankimine"
+
+#~ msgid ""
+#~ "Failed to refresh the list of calendars. The remote server replied:\n"
+#~ msgstr "Kalendrite nimekirja värskendamine nurjus. Võrguserver vastas:\n"
+
+#~ msgid ""
+#~ "<html><body><p>Use the <i>Revoke Access</i> button to make Akonadi forget "
+#~ "any authentication with Google services.</p></body></html>"
+#~ msgstr ""
+#~ "<html><body><p>Kasuta nuppu <i>Tühista ligipääs</i>, et panna Akonadi "
+#~ "unustama igasugust autentimist Google'i teenustes.</p></body></html>"

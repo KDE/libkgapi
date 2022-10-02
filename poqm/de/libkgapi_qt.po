@@ -1,0 +1,542 @@
+# Frederik Schwarzer <schwarzer@kde.org>, 2012, 2016, 2018.
+# Burkhard Lück <lueck@hube-lueck.de>, 2012, 2014, 2015, 2017, 2018, 2019, 2021.
+# Frank Steinmetzger <Warp_7@gmx.de>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-23 01:46+0000\n"
+"PO-Revision-Date: 2021-04-25 06:56+0200\n"
+"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Qt-Contexts: true\n"
+
+#: src/blogger/blogfetchjob.cpp:82
+msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/commentapprovejob.cpp:79
+msgctxt "KGAPI2::Blogger::CommentApproveJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/commentdeletecontentjob.cpp:70
+msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/commentfetchjob.cpp:155
+msgctxt "KGAPI2::Blogger::CommentFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/pagecreatejob.cpp:60
+msgctxt "KGAPI2::Blogger::PageCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/pagefetchjob.cpp:110
+msgctxt "KGAPI2::Blogger::PageFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/pagemodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PageModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/postcreatejob.cpp:68
+msgctxt "KGAPI2::Blogger::PostCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/postfetchjob.cpp:187
+msgctxt "KGAPI2::Blogger::PostFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/postmodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PostModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/postpublishjob.cpp:106
+msgctxt "KGAPI2::Blogger::PostPublishJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/blogger/postsearchjob.cpp:86
+msgctxt "KGAPI2::Blogger::PostSearchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/calendar/calendarcreatejob.cpp:66
+msgctxt "KGAPI2::CalendarCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/calendar/calendarfetchjob.cpp:70
+msgctxt "KGAPI2::CalendarFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/calendar/calendarmodifyjob.cpp:65
+msgctxt "KGAPI2::CalendarModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/calendar/eventcreatejob.cpp:93
+msgctxt "KGAPI2::EventCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/calendar/eventfetchjob.cpp:196
+msgctxt "KGAPI2::EventFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/calendar/eventmodifyjob.cpp:82
+msgctxt "KGAPI2::EventModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/calendar/eventmovejob.cpp:114
+msgctxt "KGAPI2::EventMoveJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/calendar/freebusyqueryjob.cpp:97
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "FreeBusy information is not available"
+msgstr "Frei/Belegt-Informationen sind nicht verfügbar"
+
+#: src/calendar/freebusyqueryjob.cpp:108
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/contacts/contactcreatejob.cpp:135
+msgctxt "KGAPI2::ContactCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/contacts/contactmodifyjob.cpp:151
+msgctxt "KGAPI2::ContactModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/contacts/contactsgroupcreatejob.cpp:91
+msgctxt "KGAPI2::ContactsGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/contacts/contactsgroupfetchjob.cpp:97
+msgctxt "KGAPI2::ContactsGroupFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/contacts/contactsgroupmodifyjob.cpp:92
+msgctxt "KGAPI2::ContactsGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/core/accountinfo/accountinfofetchjob.cpp:60
+msgctxt "KGAPI2::AccountInfoFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/core/accountmanager.cpp:94
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to authenticate additional scopes"
+msgstr "Authentifizierung zusätzlicher Bereiche ist fehlgeschlagen"
+
+#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
+#: src/core/accountmanager.cpp:273
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to open account store"
+msgstr "Öffnen des Zugangs fehlgeschlagen"
+
+#: src/core/authjob.cpp:105
+msgctxt "KGAPI2::AuthJob|"
+msgid "Account name is empty"
+msgstr "Zugangsname ist leer"
+
+#: src/core/job.cpp:189
+msgctxt "KGAPI2::Job|"
+msgid "Bad request."
+msgstr "Fehlerhafte Anfrage."
+
+#: src/core/job.cpp:196
+msgctxt "KGAPI2::Job|"
+msgid "Invalid authentication."
+msgstr "Ungültige Authentifizierung."
+
+#: src/core/job.cpp:204
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource is forbidden.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Angeforderte Ressource ist verboten.\n"
+"\n"
+"Die Antwort von Google lautet „%1“"
+
+#: src/core/job.cpp:213
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Angeforderte Ressource existiert nicht.\n"
+"\n"
+"Die Antwort von Google lautet „%1“"
+
+#: src/core/job.cpp:228
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Conflict. Remote resource is newer than local.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Konflikt. Fremde Ressource ist neuer als die lokale.\n"
+"\n"
+"Die Antwort von Google lautet „%1“"
+
+#: src/core/job.cpp:237
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist anymore.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Angeforderte Ressource existiert nicht mehr.\n"
+"\n"
+"Die Antwort von Google lautet „%1“"
+
+#: src/core/job.cpp:251
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Internal server error. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Interner Serverfehler. Versuchen Sie es später erneut.\n"
+"\n"
+"Die Antwort von Google lautet „%1“"
+
+#: src/core/job.cpp:268
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Maximum quota exceeded. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Speicherplatzkontingent ausgeschöpft. Versuchen Sie es später erneut.\n"
+"\n"
+"Die Antwort von Google lautet „%1“"
+
+#: src/core/job.cpp:289
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Unknown error.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Unbekannter Fehler\n"
+"\n"
+"Die Antwort von Google lautet „%1“"
+
+#: src/core/private/fullauthenticationjob.cpp:54
+#, qt-format
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Error receiving response: %1"
+msgstr "Fehler beim Empfangen der Antwort: %1"
+
+#: src/core/private/fullauthenticationjob.cpp:61
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Authentication successful"
+msgstr "Authentifizierung erfolgreich"
+
+#: src/core/private/fullauthenticationjob.cpp:62
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "You can close this tab and return to the application now."
+msgstr ""
+"Sie können diese Unterfenster jetzt schließen und zur Anwendung zurückgehen."
+
+#: src/core/private/fullauthenticationjob.cpp:77
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Token response invalid"
+msgstr "Die Schlüsselantwort ist ungültig"
+
+#: src/core/private/fullauthenticationjob.cpp:92
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not extract token from HTTP answer"
+msgstr "Schlüssel kann nicht aus der HTTP-Antwort extrahiert werden"
+
+#: src/core/private/fullauthenticationjob.cpp:185
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Invalid account"
+msgstr "Ungültiger Zugang"
+
+#: src/core/private/fullauthenticationjob.cpp:189
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "No scopes to authenticate for"
+msgstr "Kein Gültigkeitsbereich zur Authentifizierung für"
+
+#: src/core/private/fullauthenticationjob.cpp:202
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not start OAuth HTTP server"
+msgstr "OAuth-HTTP-Server kann nicht gestartet werden"
+
+#: src/core/private/newtokensfetchjob.cpp:115
+msgctxt "KGAPI2::NewTokensFetchJob|"
+msgid "Failed to parse server response."
+msgstr "Die Antwort des Servers kann nicht eingelesen werden."
+
+#: src/core/private/refreshtokensjob.cpp:92
+msgctxt "KGAPI2::RefreshTokensJob|"
+msgid "Failed to parse newly fetched tokens"
+msgstr "Neu geladene Schlüssel können nicht eingelesen werden"
+
+#: src/drive/aboutfetchjob.cpp:120
+msgctxt "KGAPI2::Drive::AboutFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/appfetchjob.cpp:72
+msgctxt "KGAPI2::Drive::AppFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/changefetchjob.cpp:188
+msgctxt "KGAPI2::Drive::ChangeFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/childreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/childreferencefetchjob.cpp:86
+msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/drivescreatejob.cpp:104
+msgctxt "KGAPI2::Drive::DrivesCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/drivesfetchjob.cpp:155
+msgctxt "KGAPI2::Drive::DrivesFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/driveshidejob.cpp:89
+msgctxt "KGAPI2::Drive::DrivesHideJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/drivesmodifyjob.cpp:113
+msgctxt "KGAPI2::Drive::DrivesModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/fileabstractmodifyjob.cpp:120
+msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/fileabstractresumablejob.cpp:313
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed opening upload session"
+msgstr "Öffnen der Sitzung zu Hochladen fehlgeschlagen"
+
+#: src/drive/fileabstractresumablejob.cpp:342
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed uploading chunk"
+msgstr "Hochladen des Segments fehlgeschlagen"
+
+#: src/drive/fileabstractresumablejob.cpp:363
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed completing upload session"
+msgstr "Fertigstellen der Sitzung zum Hochladen fehlgeschlagen"
+
+#: src/drive/fileabstractuploadjob.cpp:284
+msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/filecopyjob.cpp:122
+msgctxt "KGAPI2::Drive::FileCopyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/filefetchjob.cpp:241
+msgctxt "KGAPI2::Drive::FileFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/parentreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/parentreferencefetchjob.cpp:75
+msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/permissioncreatejob.cpp:157
+msgctxt "KGAPI2::Drive::PermissionCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/permissionfetchjob.cpp:130
+msgctxt "KGAPI2::Drive::PermissionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/permissionmodifyjob.cpp:159
+msgctxt "KGAPI2::Drive::PermissionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/revisionfetchjob.cpp:74
+msgctxt "KGAPI2::Drive::RevisionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/revisionmodifyjob.cpp:90
+msgctxt "KGAPI2::Drive::RevisionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/teamdrivecreatejob.cpp:104
+msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/teamdrivefetchjob.cpp:156
+msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/drive/teamdrivemodifyjob.cpp:84
+msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/latitude/locationcreatejob.cpp:80
+msgctxt "KGAPI2::LocationCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/latitude/locationfetchhistoryjob.cpp:130
+msgctxt "KGAPI2::LocationFetchHistoryJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/latitude/locationfetchjob.cpp:88
+msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/tasks/taskcreatejob.cpp:118
+msgctxt "KGAPI2::TaskCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/tasks/taskfetchjob.cpp:217
+msgctxt "KGAPI2::TaskFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/tasks/tasklistcreatejob.cpp:75
+msgctxt "KGAPI2::TaskListCreateJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/tasks/tasklistfetchjob.cpp:74
+msgctxt "KGAPI2::TaskListFetchJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/tasks/tasklistmodifyjob.cpp:75
+msgctxt "KGAPI2::TaskListModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#: src/tasks/taskmodifyjob.cpp:77
+msgctxt "KGAPI2::TaskModifyJob|"
+msgid "Invalid response content type"
+msgstr "Antwort mit ungültigem Inhaltstyp"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Authorizing token. This should take just a moment..."
+#~ msgstr ""
+#~ "Schlüssel wird authentifiziert. Dies sollte nur einen Moment dauern ..."
+
+#~ msgctxt "QObject|"
+#~ msgid "Google Calendar"
+#~ msgstr "Google-Kalender"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Parsing token page failed."
+#~ msgstr "Verarbeitung des Schlüssels fehlgeschlagen."
+
+#~ msgid "No valid reply received"
+#~ msgstr "Keine gültige Antwort erhalten"
+
+#~ msgid "Invalid request, service %1 is not registered."
+#~ msgstr "Ungültige Anfrage, Dienst %1 ist nicht registriert."
+
+#~ msgid "An unknown error has occurred."
+#~ msgstr "Es ist ein unbekannter Fehler aufgetreten."
+
+#~ msgid "Unknown account '%1'"
+#~ msgstr "Unbekanntes Konto „%1“"
+
+#~ msgid "Unknown service '%1'"
+#~ msgstr "Unbekannter Dienst „%1“"
+
+#~ msgid "KWallet is not opened."
+#~ msgstr "KWallet ist nicht geöffnet."
+
+#~ msgid ""
+#~ "Authentization failed:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Authentisierung fehlgeschlagen:\n"
+#~ "%1"
+
+#~ msgid "MainWindow"
+#~ msgstr "Hauptfenster"
+
+#~ msgid "Authenticate"
+#~ msgstr "Authentifizieren"
+
+#~ msgid "Contact list"
+#~ msgstr "Kontaktliste"
+
+#~ msgid "File"
+#~ msgstr "Datei"
+
+#~ msgid "Quit"
+#~ msgstr "Beenden"

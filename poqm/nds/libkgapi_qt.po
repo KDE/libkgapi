@@ -1,0 +1,822 @@
+# translation of akonadi_akonadi-google_resource.po to Low Saxon
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# Manfred Wiese <m.j.wiese@web.de>, 2011, 2014.
+# Sönke Dibbern <s_dibbern@web.de>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: akonadi_akonadi-google_resource\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-23 01:46+0000\n"
+"PO-Revision-Date: 2014-04-10 20:10+0200\n"
+"Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
+"Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
+"Language: nds\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Qt-Contexts: true\n"
+
+#: src/blogger/blogfetchjob.cpp:82
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/commentapprovejob.cpp:79
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::CommentApproveJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/commentdeletecontentjob.cpp:70
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/commentfetchjob.cpp:155
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::CommentFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/pagecreatejob.cpp:60
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::PageCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/pagefetchjob.cpp:110
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::PageFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/pagemodifyjob.cpp:59
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::PageModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/postcreatejob.cpp:68
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::PostCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/postfetchjob.cpp:187
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::PostFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/postmodifyjob.cpp:59
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::PostModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/postpublishjob.cpp:106
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::PostPublishJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/blogger/postsearchjob.cpp:86
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Blogger::PostSearchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/calendar/calendarcreatejob.cpp:66
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::CalendarCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/calendar/calendarfetchjob.cpp:70
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::CalendarFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/calendar/calendarmodifyjob.cpp:65
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::CalendarModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/calendar/eventcreatejob.cpp:93
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::EventCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/calendar/eventfetchjob.cpp:196
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::EventFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/calendar/eventmodifyjob.cpp:82
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::EventModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/calendar/eventmovejob.cpp:114
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::EventMoveJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/calendar/freebusyqueryjob.cpp:97
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "FreeBusy information is not available"
+msgstr ""
+
+#: src/calendar/freebusyqueryjob.cpp:108
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/contacts/contactcreatejob.cpp:135
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::ContactCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/contacts/contactmodifyjob.cpp:151
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::ContactModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/contacts/contactsgroupcreatejob.cpp:91
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::ContactsGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/contacts/contactsgroupfetchjob.cpp:97
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::ContactsGroupFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/contacts/contactsgroupmodifyjob.cpp:92
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::ContactsGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/core/accountinfo/accountinfofetchjob.cpp:60
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::AccountInfoFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/core/accountmanager.cpp:94
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to authenticate additional scopes"
+msgstr ""
+
+#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
+#: src/core/accountmanager.cpp:273
+#, fuzzy
+#| msgid "Removing contact"
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to open account store"
+msgstr "Kontakt warrt wegdaan"
+
+#: src/core/authjob.cpp:105
+#, fuzzy
+#| msgid "Account name is empty"
+msgctxt "KGAPI2::AuthJob|"
+msgid "Account name is empty"
+msgstr "Kontonaam fehlt"
+
+#: src/core/job.cpp:189
+#, fuzzy
+#| msgid "Bad request."
+msgctxt "KGAPI2::Job|"
+msgid "Bad request."
+msgstr "Leeg Anfraag"
+
+#: src/core/job.cpp:196
+#, fuzzy
+#| msgid "Invalid authentication."
+msgctxt "KGAPI2::Job|"
+msgid "Invalid authentication."
+msgstr "Leeg Identiteetprööv"
+
+#: src/core/job.cpp:204
+#, fuzzy, qt-format
+#| msgid ""
+#| "Requested resource is forbidden.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource is forbidden.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Anfraagt Ressource is nich tolaten.\n"
+"\n"
+"Google antert \"%1\""
+
+#: src/core/job.cpp:213
+#, fuzzy, qt-format
+#| msgid ""
+#| "Requested resource does not exist.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Anfraagt Ressource gifft dat nich.\n"
+"\n"
+"Google antert \"%1\""
+
+#: src/core/job.cpp:228
+#, fuzzy, qt-format
+#| msgid ""
+#| "Conflict. Remote resource is newer than local.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Conflict. Remote resource is newer than local.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Konflikt. Feern Ressource is nieger as lokaal.\n"
+"\n"
+"Google antert \"%1\""
+
+#: src/core/job.cpp:237
+#, fuzzy, qt-format
+#| msgid ""
+#| "Requested resource does not exist anymore.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist anymore.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Anfraagt Ressource gifft dat nich mehr.\n"
+"\n"
+"Google antert \"%1\""
+
+#: src/core/job.cpp:251
+#, fuzzy, qt-format
+#| msgid ""
+#| "Internal server error. Try again later.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Internal server error. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Intern Serverfehler. Versöök dat later nochmaal.\n"
+"\n"
+"Google antert \"%1\"."
+
+#: src/core/job.cpp:268
+#, fuzzy, qt-format
+#| msgid ""
+#| "Maximum quota exceeded. Try again later.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Maximum quota exceeded. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Bi de Hööchst-Bruukgrenz anlangt. Versöök dat later nochmaal.\n"
+"\n"
+"Google antert \"%1\"."
+
+#: src/core/job.cpp:289
+#, fuzzy, qt-format
+#| msgid ""
+#| "Unknown error.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Unknown error.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Nich begäng Fehler.\n"
+"\n"
+"Google antert \"%1\""
+
+#: src/core/private/fullauthenticationjob.cpp:54
+#, qt-format
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Error receiving response: %1"
+msgstr ""
+
+#: src/core/private/fullauthenticationjob.cpp:61
+#, fuzzy
+#| msgid "Authentication"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Authentication successful"
+msgstr "Identiteetprööv"
+
+#: src/core/private/fullauthenticationjob.cpp:62
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "You can close this tab and return to the application now."
+msgstr ""
+
+#: src/core/private/fullauthenticationjob.cpp:77
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Token response invalid"
+msgstr ""
+
+#: src/core/private/fullauthenticationjob.cpp:92
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not extract token from HTTP answer"
+msgstr ""
+
+#: src/core/private/fullauthenticationjob.cpp:185
+#, fuzzy
+#| msgid "Invalid account"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Invalid account"
+msgstr "Leeg Konto"
+
+#: src/core/private/fullauthenticationjob.cpp:189
+#, fuzzy
+#| msgid "No scopes to authenticate for"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "No scopes to authenticate for"
+msgstr "Keen Gellenrebeet för't Anmellen"
+
+#: src/core/private/fullauthenticationjob.cpp:202
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not start OAuth HTTP server"
+msgstr ""
+
+#: src/core/private/newtokensfetchjob.cpp:115
+#, fuzzy
+#| msgid "Failed to parse server response."
+msgctxt "KGAPI2::NewTokensFetchJob|"
+msgid "Failed to parse server response."
+msgstr "Serverantwoort lett sik nich inlesen"
+
+#: src/core/private/refreshtokensjob.cpp:92
+#, fuzzy
+#| msgid "Failed to parse newly fetched tokens"
+msgctxt "KGAPI2::RefreshTokensJob|"
+msgid "Failed to parse newly fetched tokens"
+msgstr "Nieg haalt Siegels laat sik nich inlesen"
+
+#: src/drive/aboutfetchjob.cpp:120
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::AboutFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/appfetchjob.cpp:72
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::AppFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/changefetchjob.cpp:188
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::ChangeFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/childreferencecreatejob.cpp:124
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/childreferencefetchjob.cpp:86
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/drivescreatejob.cpp:104
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::DrivesCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/drivesfetchjob.cpp:155
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::DrivesFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/driveshidejob.cpp:89
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::DrivesHideJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/drivesmodifyjob.cpp:113
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::DrivesModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/fileabstractmodifyjob.cpp:120
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/fileabstractresumablejob.cpp:313
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed opening upload session"
+msgstr ""
+
+#: src/drive/fileabstractresumablejob.cpp:342
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed uploading chunk"
+msgstr ""
+
+#: src/drive/fileabstractresumablejob.cpp:363
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed completing upload session"
+msgstr ""
+
+#: src/drive/fileabstractuploadjob.cpp:284
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/filecopyjob.cpp:122
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::FileCopyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/filefetchjob.cpp:241
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::FileFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/parentreferencecreatejob.cpp:124
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/parentreferencefetchjob.cpp:75
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/permissioncreatejob.cpp:157
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::PermissionCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/permissionfetchjob.cpp:130
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::PermissionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/permissionmodifyjob.cpp:159
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::PermissionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/revisionfetchjob.cpp:74
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::RevisionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/revisionmodifyjob.cpp:90
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::RevisionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/teamdrivecreatejob.cpp:104
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/teamdrivefetchjob.cpp:156
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/drive/teamdrivemodifyjob.cpp:84
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/latitude/locationcreatejob.cpp:80
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::LocationCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/latitude/locationfetchhistoryjob.cpp:130
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::LocationFetchHistoryJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/latitude/locationfetchjob.cpp:88
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/tasks/taskcreatejob.cpp:118
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::TaskCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/tasks/taskfetchjob.cpp:217
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::TaskFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/tasks/tasklistcreatejob.cpp:75
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::TaskListCreateJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/tasks/tasklistfetchjob.cpp:74
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::TaskListFetchJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/tasks/tasklistmodifyjob.cpp:75
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::TaskListModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#: src/tasks/taskmodifyjob.cpp:77
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::TaskModifyJob|"
+msgid "Invalid response content type"
+msgstr "Leeg Antwoort-Inholttyp"
+
+#, fuzzy
+#~| msgid "Authorizing token. This should take just a moment..."
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Authorizing token. This should take just a moment..."
+#~ msgstr "Siegel warrt beglöövt, dat schull nich lang bruken..."
+
+#, fuzzy
+#~| msgid "Google Calendar"
+#~ msgctxt "QObject|"
+#~ msgid "Google Calendar"
+#~ msgstr "Google-Kalenner"
+
+#, fuzzy
+#~| msgid "Parsing token page failed."
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Parsing token page failed."
+#~ msgstr "Siegelsiet lett sik nich inlesen."
+
+#, fuzzy
+#~| msgid "Failed to obtain token."
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Failed to obtain token."
+#~ msgstr "Siegel lett sik nich faatkriegen."
+
+#, fuzzy
+#~| msgid "Authentication"
+#~ msgid ""
+#~ "Authentization failed:\n"
+#~ "%1"
+#~ msgstr "Identiteetprööv"
+
+#~ msgid "Authenticate"
+#~ msgstr "Identiteet pröven"
+
+#, fuzzy
+#~| msgid "Google Contacts"
+#~ msgid "Get contact list"
+#~ msgstr "Google-Kontakten"
+
+#, fuzzy
+#~| msgid "Google Contacts"
+#~ msgid "Contact list"
+#~ msgstr "Google-Kontakten"
+
+#, fuzzy
+#~| msgid "Google Contacts"
+#~ msgid "Contact info"
+#~ msgstr "Google-Kontakten"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to fetch event: %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to fetch events: %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to create a new event: %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to update an event: %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to delete event: %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to move event: %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to fetch task lists"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to create a task: %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to update task: %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Failed to delete task (2): %1"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Remove tasklist?"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Calendar"
+#~ msgid "Calendar Editor"
+#~ msgstr "Kalenner"
+
+#~ msgid "Calendar Resource Settings"
+#~ msgstr "Kalennerressource-Instellen"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Remove"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Calendar"
+#~ msgid "Calendars"
+#~ msgstr "Kalenner"
+
+#, fuzzy
+#~| msgid "Calendar Resource Settings"
+#~ msgid "Contacts Resource Settings"
+#~ msgstr "Kalennerressource-Instellen"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Fetching event"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Creating event..."
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Creating contact..."
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Updating contact..."
+#~ msgstr "Kontakt warrt wegdaan"
+
+#~ msgid "Removing contact"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Fetching task"
+#~ msgstr "Kontakt warrt wegdaan"
+
+#, fuzzy
+#~| msgid "Removing contact"
+#~ msgid "Creating task..."
+#~ msgstr "Kontakt warrt wegdaan"
+
+#~ msgid "Refresh List"
+#~ msgstr "List opfrischen"
+
+#, fuzzy
+#~| msgid "Refresh List"
+#~ msgid "Refresh task list every"
+#~ msgstr "List opfrischen"

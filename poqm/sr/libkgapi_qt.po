@@ -1,0 +1,495 @@
+# Translation of libkgapi_qt.po into Serbian.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2017.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkgapi_qt\n"
+"PO-Revision-Date: 2017-03-12 22:21+0100\n"
+"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: qtrich\n"
+"X-Environment: kde\n"
+"X-Qt-Contexts: true\n"
+
+#: src/blogger/blogfetchjob.cpp:100
+msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/commentapprovejob.cpp:103
+msgctxt "KGAPI2::Blogger::CommentApproveJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/commentdeletecontentjob.cpp:91
+msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/commentfetchjob.cpp:188
+msgctxt "KGAPI2::Blogger::CommentFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/pagecreatejob.cpp:76
+msgctxt "KGAPI2::Blogger::PageCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/pagefetchjob.cpp:134
+msgctxt "KGAPI2::Blogger::PageFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/pagemodifyjob.cpp:76
+msgctxt "KGAPI2::Blogger::PageModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/postcreatejob.cpp:88
+msgctxt "KGAPI2::Blogger::PostCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/postfetchjob.cpp:213
+msgctxt "KGAPI2::Blogger::PostFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/postmodifyjob.cpp:75
+msgctxt "KGAPI2::Blogger::PostModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/postpublishjob.cpp:145
+msgctxt "KGAPI2::Blogger::PostPublishJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/blogger/postsearchjob.cpp:108
+msgctxt "KGAPI2::Blogger::PostSearchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/calendar/calendarcreatejob.cpp:82
+msgctxt "KGAPI2::CalendarCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/calendar/calendarfetchjob.cpp:86
+msgctxt "KGAPI2::CalendarFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/calendar/calendarmodifyjob.cpp:80
+msgctxt "KGAPI2::CalendarModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/calendar/eventcreatejob.cpp:98
+msgctxt "KGAPI2::EventCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/calendar/eventfetchjob.cpp:211
+msgctxt "KGAPI2::EventFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/calendar/eventmodifyjob.cpp:97
+msgctxt "KGAPI2::EventModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/calendar/eventmovejob.cpp:121
+msgctxt "KGAPI2::EventMoveJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/calendar/freebusyqueryjob.cpp:120
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "FreeBusy information is not available"
+msgstr "Слободно-заузето није доступно"
+
+#: src/calendar/freebusyqueryjob.cpp:133
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/contacts/contactcreatejob.cpp:149
+msgctxt "KGAPI2::ContactCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/contacts/contactmodifyjob.cpp:166
+msgctxt "KGAPI2::ContactModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/contacts/contactsgroupcreatejob.cpp:105
+msgctxt "KGAPI2::ContactsGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/contacts/contactsgroupfetchjob.cpp:114
+msgctxt "KGAPI2::ContactsGroupFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/contacts/contactsgroupmodifyjob.cpp:107
+msgctxt "KGAPI2::ContactsGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/core/accountinfo/accountinfofetchjob.cpp:75
+msgctxt "KGAPI2::AccountInfoFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/core/accountmanager.cpp:105
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to authenticate additional scopes"
+msgstr ""
+
+#: src/core/accountmanager.cpp:225 src/core/accountmanager.cpp:265
+#: src/core/accountmanager.cpp:291
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to open account store"
+msgstr ""
+
+#: src/core/authjob.cpp:182
+msgctxt "KGAPI2::AuthJob|"
+msgid "Failed to parse newly fetched tokens"
+msgstr "Не могу да рашчланим добављене токене"
+
+#: src/core/authjob.cpp:229
+msgctxt "KGAPI2::AuthJob|"
+msgid "Account name is empty"
+msgstr "Име налога је празно"
+
+#: src/core/authjob.cpp:253
+msgctxt "KGAPI2::AuthJob|"
+msgid "Authentication canceled"
+msgstr ""
+
+#: src/core/job.cpp:198
+msgctxt "KGAPI2::Job|"
+msgid "Bad request."
+msgstr "Лош захтев."
+
+#: src/core/job.cpp:205
+msgctxt "KGAPI2::Job|"
+msgid "Invalid authentication."
+msgstr "Лоша аутентификација."
+
+#: src/core/job.cpp:213
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource is forbidden.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Тражени ресурс је забрањен.\n"
+"\n"
+"Гугл одговара „%1“"
+
+#: src/core/job.cpp:222
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Тражени ресурс не постоји.\n"
+"\n"
+"Гугл одговара „%1“"
+
+#: src/core/job.cpp:237
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Conflict. Remote resource is newer than local.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Сукоб. Удаљени ресурс је новији од локалног.\n"
+"\n"
+"Гугл одговара „%1“"
+
+#: src/core/job.cpp:246
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist anymore.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Тражени ресурс више не постоји.\n"
+"\n"
+"Гугл одговара „%1“"
+
+#: src/core/job.cpp:260
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Internal server error. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Унутрашња грешка сервера. Покушајте поново касније.\n"
+"\n"
+"Гугл одговара „%1“"
+
+#: src/core/job.cpp:277
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Maximum quota exceeded. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Премашена квота. Покушајте поново касније.\n"
+"\n"
+"Гугл одговара „%1“"
+
+#: src/core/job.cpp:298
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Unknown error.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Непозната грешка.\n"
+"\n"
+"Гугл одговара „%1“"
+
+#: src/core/private/newtokensfetchjob.cpp:131
+msgctxt "KGAPI2::NewTokensFetchJob|"
+msgid "Failed to parse server response."
+msgstr "Не могу да рашчланим одговор сервера."
+
+#: src/core/ui/authwidget.cpp:99
+msgctxt "KGAPI2::AuthWidget|"
+msgid "Invalid account"
+msgstr "Лош налог"
+
+#: src/core/ui/authwidget.cpp:103
+msgctxt "KGAPI2::AuthWidget|"
+msgid "No scopes to authenticate for"
+msgstr "Нема досега за аутентификовање"
+
+#: src/core/ui/authwidget.cpp:115
+msgctxt "KGAPI2::AuthWidget|"
+msgid "Could not start oauth http server"
+msgstr ""
+
+#: src/core/ui/authwidget_p.cpp:131
+msgctxt "KGAPI2::AuthWidgetPrivate|"
+msgid "Authorizing token. This should take just a moment..."
+msgstr "Овлашћујем токен. Требало би да буде брзо готово..."
+
+#: src/core/ui/authwidget_p.cpp:288
+#, qt-format
+msgctxt "KGAPI2::AuthWidgetPrivate|"
+msgid "Error receiving response: %1"
+msgstr ""
+
+#: src/core/ui/authwidget_p.cpp:310
+msgctxt "KGAPI2::AuthWidgetPrivate|"
+msgid "Token response invalid"
+msgstr ""
+
+#: src/core/ui/authwidget_p.cpp:325
+msgctxt "KGAPI2::AuthWidgetPrivate|"
+msgid "Could not extract token from HTTP answer"
+msgstr ""
+
+#: src/drive/aboutfetchjob.cpp:139
+msgctxt "KGAPI2::Drive::AboutFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/appfetchjob.cpp:90
+msgctxt "KGAPI2::Drive::AppFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/changefetchjob.cpp:213
+msgctxt "KGAPI2::Drive::ChangeFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/childreferencecreatejob.cpp:153
+msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/childreferencefetchjob.cpp:107
+msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/drivescreatejob.cpp:125
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::DrivesCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/drivesfetchjob.cpp:174
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::DrivesFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/driveshidejob.cpp:112
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::DrivesHideJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/drivesmodifyjob.cpp:133
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::DrivesModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/fileabstractmodifyjob.cpp:145
+msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/fileabstractuploadjob.cpp:338
+msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/filecopyjob.cpp:152
+msgctxt "KGAPI2::Drive::FileCopyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/filefetchjob.cpp:272
+msgctxt "KGAPI2::Drive::FileFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/parentreferencecreatejob.cpp:153
+msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/parentreferencefetchjob.cpp:96
+msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/permissioncreatejob.cpp:179
+msgctxt "KGAPI2::Drive::PermissionCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/permissionfetchjob.cpp:154
+msgctxt "KGAPI2::Drive::PermissionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/permissionmodifyjob.cpp:181
+msgctxt "KGAPI2::Drive::PermissionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/revisionfetchjob.cpp:95
+msgctxt "KGAPI2::Drive::RevisionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/revisionmodifyjob.cpp:111
+msgctxt "KGAPI2::Drive::RevisionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/teamdrivecreatejob.cpp:125
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/teamdrivefetchjob.cpp:175
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/drive/teamdrivemodifyjob.cpp:105
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/latitude/locationcreatejob.cpp:96
+msgctxt "KGAPI2::LocationCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/latitude/locationfetchhistoryjob.cpp:150
+msgctxt "KGAPI2::LocationFetchHistoryJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/latitude/locationfetchjob.cpp:105
+msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/tasks/taskcreatejob.cpp:133
+msgctxt "KGAPI2::TaskCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/tasks/taskfetchjob.cpp:233
+msgctxt "KGAPI2::TaskFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/tasks/tasklistcreatejob.cpp:91
+msgctxt "KGAPI2::TaskListCreateJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/tasks/tasklistfetchjob.cpp:91
+msgctxt "KGAPI2::TaskListFetchJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/tasks/tasklistmodifyjob.cpp:93
+msgctxt "KGAPI2::TaskListModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"
+
+#: src/tasks/taskmodifyjob.cpp:94
+msgctxt "KGAPI2::TaskModifyJob|"
+msgid "Invalid response content type"
+msgstr "Лош тип садржаја одзива"

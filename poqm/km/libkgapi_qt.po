@@ -1,0 +1,712 @@
+# translation of libkgapi.po to Khmer
+# Khoem Sokhem <khoemsokhem@khmeros.info>, 2011, 2012.
+# Sophea <sophea@khmeros.info>, 2012.
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkgapi\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-23 01:46+0000\n"
+"PO-Revision-Date: 2012-07-09 09:46+0700\n"
+"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"Language-Team: Khmer <support@khmeros.info>\n"
+"Language: km\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.11.4\n"
+"X-Language: km-KH\n"
+"X-Qt-Contexts: true\n"
+
+#: src/blogger/blogfetchjob.cpp:82
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/commentapprovejob.cpp:79
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::CommentApproveJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/commentdeletecontentjob.cpp:70
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/commentfetchjob.cpp:155
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::CommentFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/pagecreatejob.cpp:60
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::PageCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/pagefetchjob.cpp:110
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::PageFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/pagemodifyjob.cpp:59
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::PageModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/postcreatejob.cpp:68
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::PostCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/postfetchjob.cpp:187
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::PostFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/postmodifyjob.cpp:59
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::PostModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/postpublishjob.cpp:106
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::PostPublishJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/blogger/postsearchjob.cpp:86
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Blogger::PostSearchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/calendar/calendarcreatejob.cpp:66
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::CalendarCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/calendar/calendarfetchjob.cpp:70
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::CalendarFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/calendar/calendarmodifyjob.cpp:65
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::CalendarModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/calendar/eventcreatejob.cpp:93
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::EventCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/calendar/eventfetchjob.cpp:196
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::EventFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/calendar/eventmodifyjob.cpp:82
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::EventModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/calendar/eventmovejob.cpp:114
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::EventMoveJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/calendar/freebusyqueryjob.cpp:97
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "FreeBusy information is not available"
+msgstr ""
+
+#: src/calendar/freebusyqueryjob.cpp:108
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/contacts/contactcreatejob.cpp:135
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::ContactCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/contacts/contactmodifyjob.cpp:151
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::ContactModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/contacts/contactsgroupcreatejob.cpp:91
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::ContactsGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/contacts/contactsgroupfetchjob.cpp:97
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::ContactsGroupFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/contacts/contactsgroupmodifyjob.cpp:92
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::ContactsGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/core/accountinfo/accountinfofetchjob.cpp:60
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::AccountInfoFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/core/accountmanager.cpp:94
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to authenticate additional scopes"
+msgstr ""
+
+#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
+#: src/core/accountmanager.cpp:273
+#, fuzzy
+#| msgid "Failed to obtain token."
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to open account store"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​ទទួល​ថូខឹន"
+
+#: src/core/authjob.cpp:105
+msgctxt "KGAPI2::AuthJob|"
+msgid "Account name is empty"
+msgstr ""
+
+#: src/core/job.cpp:189
+#, fuzzy
+#| msgid "Bad request."
+msgctxt "KGAPI2::Job|"
+msgid "Bad request."
+msgstr "សំណើ​មិន​ល្អ"
+
+#: src/core/job.cpp:196
+#, fuzzy
+#| msgid "Not authenticated"
+msgctxt "KGAPI2::Job|"
+msgid "Invalid authentication."
+msgstr "មិន​បានផ្ទៀងផ្ទាត់"
+
+#: src/core/job.cpp:204
+#, fuzzy, qt-format
+#| msgid ""
+#| "Requested resource is forbidden.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource is forbidden.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"បាន​ទប់ស្កាត់​ធនធាន​ដែល​បាន​ស្នើ ។\n"
+"\n"
+"Google បាន​ឆ្លើយ '%1'"
+
+#: src/core/job.cpp:213
+#, fuzzy, qt-format
+#| msgid ""
+#| "Requested resource does not exist.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"មិន​មាន​ធនធាន​ដែល​បាន​ស្នើ​ទេ ។\n"
+"\n"
+"Google បាន​ឆ្លើយ '%1'"
+
+#: src/core/job.cpp:228
+#, fuzzy, qt-format
+#| msgid ""
+#| "Conflict. Remote resource is newer then local.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Conflict. Remote resource is newer than local.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"ប៉ះទង្គិច ធនធាន​ពី​ចម្ងាយ​គឺ​ថ្មី​ជាង​ធនធាន​មូលដ្ឋាន ។\n"
+"\n"
+"Google បាន​ឆ្លើយ '%1'"
+
+#: src/core/job.cpp:237
+#, fuzzy, qt-format
+#| msgid ""
+#| "Requested resource does not exist anymore.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist anymore.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"ធនធាន​ដែល​បាន​ស្នើ​មិន​មាន​ទៀត​ទេ ។\n"
+"\n"
+"Google បាន​ឆ្លើយ '%1'"
+
+#: src/core/job.cpp:251
+#, fuzzy, qt-format
+#| msgid ""
+#| "Internal server error. Try again later.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Internal server error. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"កំហុស​ម៉ាស៊ីន​បម្រើ​ខាងក្នុង សាកល្បង​ម្ដងទៀត​នៅ​ពេល​ក្រោយ ។\n"
+"\n"
+"Google បាន​ឆ្លើយ '%1'"
+
+#: src/core/job.cpp:268
+#, fuzzy, qt-format
+#| msgid ""
+#| "User quota exceeded. Try again later.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Maximum quota exceeded. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"បាន​លើស​ពី​កូតា​អ្នកប្រើ សូម​ព្យាយាម​ម្ដងទៀត​នៅ​ពេល​ក្រោយ ។\n"
+"\n"
+"Google បាន​ឆ្លើយ '%1'"
+
+#: src/core/job.cpp:289
+#, fuzzy, qt-format
+#| msgid ""
+#| "Unknown error.\n"
+#| "\n"
+#| "Google replied '%1'"
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Unknown error.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"មិន​ស្គាល់​កំហុស ។\n"
+"\n"
+"Google បាន​ឆ្លើយ '%1'"
+
+#: src/core/private/fullauthenticationjob.cpp:54
+#, qt-format
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Error receiving response: %1"
+msgstr ""
+
+#: src/core/private/fullauthenticationjob.cpp:61
+#, fuzzy
+#| msgid "Authentication cancelled"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Authentication successful"
+msgstr "បាន​បោះបង់​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ"
+
+#: src/core/private/fullauthenticationjob.cpp:62
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "You can close this tab and return to the application now."
+msgstr ""
+
+#: src/core/private/fullauthenticationjob.cpp:77
+#, fuzzy
+#| msgid "The account is invalid."
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Token response invalid"
+msgstr "គណនី​មិន​ត្រឹមត្រូវ ។"
+
+#: src/core/private/fullauthenticationjob.cpp:92
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not extract token from HTTP answer"
+msgstr ""
+
+#: src/core/private/fullauthenticationjob.cpp:185
+#, fuzzy
+#| msgid "Not authenticated"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Invalid account"
+msgstr "មិន​បានផ្ទៀងផ្ទាត់"
+
+#: src/core/private/fullauthenticationjob.cpp:189
+#, fuzzy
+#| msgid "Not authenticated"
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "No scopes to authenticate for"
+msgstr "មិន​បានផ្ទៀងផ្ទាត់"
+
+#: src/core/private/fullauthenticationjob.cpp:202
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not start OAuth HTTP server"
+msgstr ""
+
+#: src/core/private/newtokensfetchjob.cpp:115
+#, fuzzy
+#| msgid "Failed to parse server response."
+msgctxt "KGAPI2::NewTokensFetchJob|"
+msgid "Failed to parse server response."
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​ញែក​ចម្លើយ​តប​ម៉ាស៊ីន​បម្រើ ។"
+
+#: src/core/private/refreshtokensjob.cpp:92
+#, fuzzy
+#| msgid "Failed to parse newly fetched tokens"
+msgctxt "KGAPI2::RefreshTokensJob|"
+msgid "Failed to parse newly fetched tokens"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​ញែក​ថូខឹន​ដែល​បាន​ទៅ​ប្រមូល​យក​ថ្មីៗ"
+
+#: src/drive/aboutfetchjob.cpp:120
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::AboutFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/appfetchjob.cpp:72
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::AppFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/changefetchjob.cpp:188
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::ChangeFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/childreferencecreatejob.cpp:124
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/childreferencefetchjob.cpp:86
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/drivescreatejob.cpp:104
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::DrivesCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/drivesfetchjob.cpp:155
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::DrivesFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/driveshidejob.cpp:89
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::DrivesHideJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/drivesmodifyjob.cpp:113
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::DrivesModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/fileabstractmodifyjob.cpp:120
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/fileabstractresumablejob.cpp:313
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed opening upload session"
+msgstr ""
+
+#: src/drive/fileabstractresumablejob.cpp:342
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed uploading chunk"
+msgstr ""
+
+#: src/drive/fileabstractresumablejob.cpp:363
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed completing upload session"
+msgstr ""
+
+#: src/drive/fileabstractuploadjob.cpp:284
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/filecopyjob.cpp:122
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::FileCopyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/filefetchjob.cpp:241
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::FileFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/parentreferencecreatejob.cpp:124
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/parentreferencefetchjob.cpp:75
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/permissioncreatejob.cpp:157
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::PermissionCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/permissionfetchjob.cpp:130
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::PermissionFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/permissionmodifyjob.cpp:159
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::PermissionModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/revisionfetchjob.cpp:74
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::RevisionFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/revisionmodifyjob.cpp:90
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::RevisionModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/teamdrivecreatejob.cpp:104
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/teamdrivefetchjob.cpp:156
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/drive/teamdrivemodifyjob.cpp:84
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/latitude/locationcreatejob.cpp:80
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::LocationCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/latitude/locationfetchhistoryjob.cpp:130
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::LocationFetchHistoryJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/latitude/locationfetchjob.cpp:88
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/tasks/taskcreatejob.cpp:118
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::TaskCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/tasks/taskfetchjob.cpp:217
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::TaskFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/tasks/tasklistcreatejob.cpp:75
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::TaskListCreateJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/tasks/tasklistfetchjob.cpp:74
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::TaskListFetchJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/tasks/tasklistmodifyjob.cpp:75
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::TaskListModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#: src/tasks/taskmodifyjob.cpp:77
+#, fuzzy
+#| msgid "Unknown reply content type!"
+msgctxt "KGAPI2::TaskModifyJob|"
+msgid "Invalid response content type"
+msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
+
+#, fuzzy
+#~| msgid "Authorizing token. This should take just a moment..."
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Authorizing token. This should take just a moment..."
+#~ msgstr "កំពុង​អនុញ្ញាត​ថូខិន ។ វា​ប្រើ​ពេល​បន្តិចបន្តួច​ប៉ុណ្ណោះ..."
+
+#, fuzzy
+#~| msgid "Parsing token page failed."
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Parsing token page failed."
+#~ msgstr "បាន​បរាជ័យ​ក្នុង​ការ​ញែក​ទំព័រ​ថូខឹន ។"
+
+#~ msgid "No valid reply received"
+#~ msgstr "មិន​បាន​ទទួល​ចម្លើយ​តប​ត្រឹមត្រូវ​ទេ"
+
+#~ msgid "Invalid request, service %1 is not registered."
+#~ msgstr "សំណើ​មិន​ត្រឹមត្រូវ សេវាកម្ម %1 មិន​ត្រូវ​បាន​ចុះឈ្មោះ​ទេ ។"
+
+#~ msgid "An unknown error has occurred."
+#~ msgstr "មាន​កំហុស​មិន​ស្គាល់​បាន​កើតឡើង ។"
+
+#~ msgid "Unknown account '%1'"
+#~ msgstr "មិន​ស្គាល់​គណនី '%1'"
+
+#~ msgid "Unknown service '%1'"
+#~ msgstr "មិន​ស្គាល់​សេវាកម្ម '%1'"
+
+#~ msgid "KWallet is not opened."
+#~ msgstr "KWallet មិន​បាន​បើក​ទេ ។"
+
+#~ msgid ""
+#~ "Authentization failed:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "បាន​បរាជ័យ​ក្នុង​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ ៖\n"
+#~ "%1"
+
+#~ msgid "MainWindow"
+#~ msgstr "បង្អួច​មេ"
+
+#~ msgid "Authenticate"
+#~ msgstr "​ផ្ទៀងផ្ទាត់"
+
+#~ msgid "Get contact list"
+#~ msgstr "យក​បញ្ជីទំនាក់ទំនង"
+
+#~ msgid "Contact list"
+#~ msgstr "បញ្ជី​ទំនាក់ទំនង"
+
+#~ msgid "Contact info"
+#~ msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
+
+#~ msgid "File"
+#~ msgstr "ឯកសារ"
+
+#~ msgid "Quit"
+#~ msgstr "ចេញ"

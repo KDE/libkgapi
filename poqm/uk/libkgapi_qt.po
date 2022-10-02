@@ -1,0 +1,966 @@
+# Translation of libkgapi_qt.po to Ukrainian
+# Copyright (C) 2011-2020 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
+#
+# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2014, 2015, 2017, 2018, 2019, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkgapi_qt\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-23 01:46+0000\n"
+"PO-Revision-Date: 2020-10-04 09:57+0300\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Qt-Contexts: true\n"
+"X-Generator: Lokalize 20.11.70\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Qt-Contexts: true\n"
+
+#: src/blogger/blogfetchjob.cpp:82
+msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/commentapprovejob.cpp:79
+msgctxt "KGAPI2::Blogger::CommentApproveJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/commentdeletecontentjob.cpp:70
+msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/commentfetchjob.cpp:155
+msgctxt "KGAPI2::Blogger::CommentFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/pagecreatejob.cpp:60
+msgctxt "KGAPI2::Blogger::PageCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/pagefetchjob.cpp:110
+msgctxt "KGAPI2::Blogger::PageFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/pagemodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PageModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/postcreatejob.cpp:68
+msgctxt "KGAPI2::Blogger::PostCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/postfetchjob.cpp:187
+msgctxt "KGAPI2::Blogger::PostFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/postmodifyjob.cpp:59
+msgctxt "KGAPI2::Blogger::PostModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/postpublishjob.cpp:106
+msgctxt "KGAPI2::Blogger::PostPublishJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/blogger/postsearchjob.cpp:86
+msgctxt "KGAPI2::Blogger::PostSearchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/calendar/calendarcreatejob.cpp:66
+msgctxt "KGAPI2::CalendarCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/calendar/calendarfetchjob.cpp:70
+msgctxt "KGAPI2::CalendarFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/calendar/calendarmodifyjob.cpp:65
+msgctxt "KGAPI2::CalendarModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/calendar/eventcreatejob.cpp:93
+msgctxt "KGAPI2::EventCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/calendar/eventfetchjob.cpp:196
+msgctxt "KGAPI2::EventFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/calendar/eventmodifyjob.cpp:82
+msgctxt "KGAPI2::EventModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/calendar/eventmovejob.cpp:114
+msgctxt "KGAPI2::EventMoveJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/calendar/freebusyqueryjob.cpp:97
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "FreeBusy information is not available"
+msgstr "Не вдалося отримати дані щодо вільного або зайнятого часу"
+
+#: src/calendar/freebusyqueryjob.cpp:108
+msgctxt "KGAPI2::FreeBusyQueryJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/contacts/contactcreatejob.cpp:135
+msgctxt "KGAPI2::ContactCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/contacts/contactmodifyjob.cpp:151
+msgctxt "KGAPI2::ContactModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/contacts/contactsgroupcreatejob.cpp:91
+msgctxt "KGAPI2::ContactsGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/contacts/contactsgroupfetchjob.cpp:97
+msgctxt "KGAPI2::ContactsGroupFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/contacts/contactsgroupmodifyjob.cpp:92
+msgctxt "KGAPI2::ContactsGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/core/accountinfo/accountinfofetchjob.cpp:60
+msgctxt "KGAPI2::AccountInfoFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/core/accountmanager.cpp:94
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to authenticate additional scopes"
+msgstr "Не вдалося пройти розпізнавання для доступу до додаткових областей"
+
+#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
+#: src/core/accountmanager.cpp:273
+msgctxt "KGAPI2::AccountManager|"
+msgid "Failed to open account store"
+msgstr "Не вдалося відкрити сховища облікових записів"
+
+#: src/core/authjob.cpp:105
+msgctxt "KGAPI2::AuthJob|"
+msgid "Account name is empty"
+msgstr "Порожня назва облікового запису"
+
+#: src/core/job.cpp:189
+msgctxt "KGAPI2::Job|"
+msgid "Bad request."
+msgstr "Помилковий запит."
+
+#: src/core/job.cpp:196
+msgctxt "KGAPI2::Job|"
+msgid "Invalid authentication."
+msgstr "Некоректне розпізнавання."
+
+#: src/core/job.cpp:204
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource is forbidden.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Доступ до потрібного ресурсу заборонено.\n"
+"\n"
+"Відповідь Google: «%1»"
+
+#: src/core/job.cpp:213
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Потрібного ресурсу не існує.\n"
+"\n"
+"Відповідь Google: «%1»"
+
+#: src/core/job.cpp:228
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Conflict. Remote resource is newer than local.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Конфлікт. Дані віддаленого ресурсу є новішими за локальні.\n"
+"\n"
+"Відповідь Google: «%1»"
+
+#: src/core/job.cpp:237
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Requested resource does not exist anymore.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Потрібного ресурсу більше не існує.\n"
+"\n"
+"Відповідь Google: «%1»"
+
+#: src/core/job.cpp:251
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Internal server error. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Внутрішня помилка на сервері. Повторіть спробу пізніше.\n"
+"\n"
+"Відповідь Google: «%1»"
+
+#: src/core/job.cpp:268
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Maximum quota exceeded. Try again later.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Перевищено квоту. Повторіть спробу пізніше.\n"
+"\n"
+"Відповідь Google: «%1»"
+
+#: src/core/job.cpp:289
+#, qt-format
+msgctxt "KGAPI2::Job|"
+msgid ""
+"Unknown error.\n"
+"\n"
+"Google replied '%1'"
+msgstr ""
+"Невідома помилка.\n"
+"\n"
+"Відповідь Google: «%1»"
+
+#: src/core/private/fullauthenticationjob.cpp:54
+#, qt-format
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Error receiving response: %1"
+msgstr "Помилка під час отримання відповіді: %1"
+
+#: src/core/private/fullauthenticationjob.cpp:61
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Authentication successful"
+msgstr "Успішне розпізнавання"
+
+#: src/core/private/fullauthenticationjob.cpp:62
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "You can close this tab and return to the application now."
+msgstr ""
+"Тепер ви можете закрити цю вкладку і повернутися до головного вікна програми."
+
+#: src/core/private/fullauthenticationjob.cpp:77
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Token response invalid"
+msgstr "Некоректна відповідь-ключ"
+
+#: src/core/private/fullauthenticationjob.cpp:92
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not extract token from HTTP answer"
+msgstr "Не вдалося видобути ключ з відповіді HTTP"
+
+#: src/core/private/fullauthenticationjob.cpp:185
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Invalid account"
+msgstr "Некоректний обліковий запис"
+
+#: src/core/private/fullauthenticationjob.cpp:189
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "No scopes to authenticate for"
+msgstr "Немає областей для розпізнавання"
+
+#: src/core/private/fullauthenticationjob.cpp:202
+msgctxt "KGAPI2::FullAuthenticationJob|"
+msgid "Could not start OAuth HTTP server"
+msgstr "Не вдалося запустити сервер HTTP OAuth"
+
+#: src/core/private/newtokensfetchjob.cpp:115
+msgctxt "KGAPI2::NewTokensFetchJob|"
+msgid "Failed to parse server response."
+msgstr "Не вдалося обробити відповідь сервера."
+
+#: src/core/private/refreshtokensjob.cpp:92
+msgctxt "KGAPI2::RefreshTokensJob|"
+msgid "Failed to parse newly fetched tokens"
+msgstr "Не вдалося обробити щойно отримані записи"
+
+#: src/drive/aboutfetchjob.cpp:120
+msgctxt "KGAPI2::Drive::AboutFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/appfetchjob.cpp:72
+msgctxt "KGAPI2::Drive::AppFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/changefetchjob.cpp:188
+msgctxt "KGAPI2::Drive::ChangeFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/childreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/childreferencefetchjob.cpp:86
+msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/drivescreatejob.cpp:104
+msgctxt "KGAPI2::Drive::DrivesCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/drivesfetchjob.cpp:155
+msgctxt "KGAPI2::Drive::DrivesFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/driveshidejob.cpp:89
+msgctxt "KGAPI2::Drive::DrivesHideJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/drivesmodifyjob.cpp:113
+msgctxt "KGAPI2::Drive::DrivesModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/fileabstractmodifyjob.cpp:120
+msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/fileabstractresumablejob.cpp:313
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed opening upload session"
+msgstr "Не вдалося відкрити сеанс вивантаження"
+
+#: src/drive/fileabstractresumablejob.cpp:342
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed uploading chunk"
+msgstr "Не вдалося вивантажити фрагмент"
+
+#: src/drive/fileabstractresumablejob.cpp:363
+msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
+msgid "Failed completing upload session"
+msgstr "Не вдалося завершити сеанс вивантаження"
+
+#: src/drive/fileabstractuploadjob.cpp:284
+msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/filecopyjob.cpp:122
+msgctxt "KGAPI2::Drive::FileCopyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/filefetchjob.cpp:241
+msgctxt "KGAPI2::Drive::FileFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/parentreferencecreatejob.cpp:124
+msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/parentreferencefetchjob.cpp:75
+msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/permissioncreatejob.cpp:157
+msgctxt "KGAPI2::Drive::PermissionCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/permissionfetchjob.cpp:130
+msgctxt "KGAPI2::Drive::PermissionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/permissionmodifyjob.cpp:159
+msgctxt "KGAPI2::Drive::PermissionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/revisionfetchjob.cpp:74
+msgctxt "KGAPI2::Drive::RevisionFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/revisionmodifyjob.cpp:90
+msgctxt "KGAPI2::Drive::RevisionModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/teamdrivecreatejob.cpp:104
+msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/teamdrivefetchjob.cpp:156
+msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/drive/teamdrivemodifyjob.cpp:84
+msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/latitude/locationcreatejob.cpp:80
+msgctxt "KGAPI2::LocationCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/latitude/locationfetchhistoryjob.cpp:130
+msgctxt "KGAPI2::LocationFetchHistoryJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/latitude/locationfetchjob.cpp:88
+msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/tasks/taskcreatejob.cpp:118
+msgctxt "KGAPI2::TaskCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/tasks/taskfetchjob.cpp:217
+msgctxt "KGAPI2::TaskFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/tasks/tasklistcreatejob.cpp:75
+msgctxt "KGAPI2::TaskListCreateJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/tasks/tasklistfetchjob.cpp:74
+msgctxt "KGAPI2::TaskListFetchJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/tasks/tasklistmodifyjob.cpp:75
+msgctxt "KGAPI2::TaskListModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#: src/tasks/taskmodifyjob.cpp:77
+msgctxt "KGAPI2::TaskModifyJob|"
+msgid "Invalid response content type"
+msgstr "Некоректний тип вмісту відповіді"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Authorizing token. This should take just a moment..."
+#~ msgstr "Уповноваження запису. Трохи зачекайте…"
+
+#~ msgctxt "QObject|"
+#~ msgid "Google Calendar"
+#~ msgstr "Календар Google"
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Parsing token page failed."
+#~ msgstr "Помилка під час спроби обробити сторінку записів."
+
+#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
+#~ msgid "Failed to obtain token."
+#~ msgstr "Не вдалося отримати запис."
+
+#~ msgid "No valid reply received"
+#~ msgstr "Не отримано коректної відповіді"
+
+#~ msgid "Invalid request, service %1 is not registered."
+#~ msgstr "Некоректний запит, службу %1 не зареєстровано."
+
+#~ msgid "An unknown error has occurred."
+#~ msgstr "Сталася невідома помилка."
+
+#~ msgid "Unknown account '%1'"
+#~ msgstr "Невідомий обліковий запис «%1»"
+
+#~ msgid "Unknown service '%1'"
+#~ msgstr "Невідома служба «%1»"
+
+#~ msgid "KWallet is not opened."
+#~ msgstr "KWallet не відкрито."
+
+#~ msgid ""
+#~ "Authentization failed:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Помилка під час розпізнавання:\n"
+#~ "%1"
+
+#~ msgid "MainWindow"
+#~ msgstr "Головне вікно"
+
+#~ msgid "Authenticate"
+#~ msgstr "Розпізнавання"
+
+#~ msgid "Get contact list"
+#~ msgstr "Отримати список контактів"
+
+#~ msgid "Contact list"
+#~ msgstr "Список контактів"
+
+#~ msgid "Contact info"
+#~ msgstr "Дані щодо контакту"
+
+#~ msgid "File"
+#~ msgstr "Файл"
+
+#~ msgid "Quit"
+#~ msgstr "Вийти"
+
+#~ msgid "Failed to fetch calendars: %1"
+#~ msgstr "Не вдалося отримати дані календарів: %1"
+
+#~ msgid "Failed to fetch event: %1"
+#~ msgstr "Не вдалося отримати запис події: %1"
+
+#~ msgid "Expected a single item, server sent %1 items."
+#~ msgstr "Сервером мало бути надіслано один запис, надіслано більше (%1)."
+
+#~ msgid "Failed to fetch events: %1"
+#~ msgstr "Не вдалося отримати записи подій: %1"
+
+#~ msgid "Failed to create a new event: %1"
+#~ msgstr "Не вдалося створити запис події: %1"
+
+#~ msgid "Failed to update an event: %1"
+#~ msgstr "Не вдалося оновити запис події: %1"
+
+#~ msgid "Failed to delete event: %1"
+#~ msgstr "Не вдалося вилучити запис події: %1"
+
+#~ msgid "Failed to move event: %1"
+#~ msgstr "Не вдалося пересунути запис події: %1"
+
+#~ msgid "Failed to fetch task lists"
+#~ msgstr "Не вдалося отримати списки завдань"
+
+#~ msgid "Failed to fetch task: %1"
+#~ msgstr "Не вдалося отримати запис завдання: %1"
+
+#~ msgid "Failed to fetch tasks: %1"
+#~ msgstr "Не вдалося отримати записи завдань: %1"
+
+#~ msgid "Failed to create a task: %1"
+#~ msgstr "Не вдалося створити запис завдання: %1"
+
+#~ msgid "Failed to update task: %1"
+#~ msgstr "Не вдалося оновити запис завдання: %1"
+
+#~ msgid "Failed to delete task (1): %1"
+#~ msgstr "Не вдалося вилучити завдання (1): %1"
+
+#~ msgid "Failed to delete task (2): %1"
+#~ msgstr "Не вдалося вилучити завдання (2): %1"
+
+#~ msgid "Failed to delete task (5): %1"
+#~ msgstr "Не вдалося вилучити завдання (5): %1"
+
+#~ msgid "Error while talking to Google"
+#~ msgstr "Помилка під час обміну даними з Google"
+
+#~ msgid ""
+#~ "Do you really want to revoke access to account <b>%1</b>?<br>This will "
+#~ "revoke access to all application using this account!"
+#~ msgstr ""
+#~ "Ви справді хочете відкликати права доступу до облікового запису <b>%1</b>?"
+#~ "<br>Відкликання доступу призведе до втрати доступу для всіх програм, які "
+#~ "використовують цей обліковий запис."
+
+#~ msgid "Revoke Access?"
+#~ msgstr "Відкликати доступ?"
+
+#~ msgid ""
+#~ "Do you really want to remove calendar <b>%1</b>?<br><b>This will remove "
+#~ "the calendar from Google servers as well!</b>"
+#~ msgstr ""
+#~ "Ви справді хочете вилучити календар <b>%1</b>?<br><b>Календар буде "
+#~ "вилучено і з серверів Google.</b>"
+
+#~ msgid "Remove Calendar?"
+#~ msgstr "Вилучити календар?"
+
+#~ msgid ""
+#~ "Do you really want to remove tasklist <b>%1</b>?<br><b>This will remove "
+#~ "the tasklist from Google servers as well!</b>"
+#~ msgstr ""
+#~ "Ви справді хочете вилучити список завдань <b>%1</b>?<br><b>Список буде "
+#~ "вилучено і з серверів Google.</b>"
+
+#~ msgid "Remove tasklist?"
+#~ msgstr "Вилучити список завдань?"
+
+#~ msgid "Aborted"
+#~ msgstr "Перервано"
+
+#~ msgid "The top-level collection cannot contain any tasks or events"
+#~ msgstr "Збірка верхнього рівня не може містити записів завдань або подій"
+
+#~ msgid "Received invalid reply"
+#~ msgstr "Отримано некоректну відповідь"
+
+#~ msgid "Received an invalid reply"
+#~ msgstr "Отримано некоректну відповідь"
+
+#~ msgid "Initial item fetching failed"
+#~ msgstr "Помилка під час спроби отримання першого запису"
+
+#~ msgid "Invalid Payload"
+#~ msgstr "Некоректний вміст"
+
+#~ msgid "Invalid payload"
+#~ msgstr "Некоректний вміст"
+
+#~ msgid "Invalid source or destination collection"
+#~ msgstr "Некоректне джерело або призначення збірки"
+
+#~ msgid "Failed to retrieve contacts"
+#~ msgstr "Не вдалося отримати записи контактів"
+
+#~ msgid "Failed to fetch contact"
+#~ msgstr "Не вдалося отримати дані контакту"
+
+#~ msgid "Failed to update contact"
+#~ msgstr "Не вдалося оновити запис контакту"
+
+#~ msgid "Failed to remove contact"
+#~ msgstr "Не вдалося вилучити запис контакту"
+
+#~ msgid "IDs of calendars in collection"
+#~ msgstr "Ідентифікатори календарів у збірці"
+
+#~ msgid "IDs of task lists in collection"
+#~ msgstr "Ідентифікатори списків завдань у збірці"
+
+#~ msgid "Refresh interval in minutes."
+#~ msgstr "Інтервал між оновленнями у хвилинах."
+
+#~ msgid "Calendar Editor"
+#~ msgstr "Редактор календарів"
+
+#~ msgid "Name:"
+#~ msgstr "Назва:"
+
+#~ msgid "Description:"
+#~ msgstr "Опис:"
+
+#~ msgid "Location:"
+#~ msgstr "Розташування:"
+
+#~ msgid "Timezone:"
+#~ msgstr "Часовий пояс:"
+
+#~ msgid "Calendar Resource Settings"
+#~ msgstr "Параметри ресурсу календарів"
+
+#~ msgid "Accounts"
+#~ msgstr "Облікові записи"
+
+#~ msgid "Add"
+#~ msgstr "Додати"
+
+#~ msgid "Remove"
+#~ msgstr "Вилучити"
+
+#~ msgid "Calendars"
+#~ msgstr "Календарі"
+
+#~ msgid "Reload"
+#~ msgstr "Перезавантажити"
+
+#~ msgid "Edit"
+#~ msgstr "Змінити"
+
+#~ msgid "Tasks Lists"
+#~ msgstr "Списки завдань"
+
+#~ msgid "Tasklist Editor"
+#~ msgstr "Редактор списків завдань"
+
+#~ msgid "Group Editor"
+#~ msgstr "Редактор груп"
+
+#~ msgid "Group Name:"
+#~ msgstr "Назва групи:"
+
+#~ msgid "Contacts Resource Settings"
+#~ msgstr "Параметри ресурсу контактів"
+
+#~ msgid "Account"
+#~ msgstr "Обліковий запис"
+
+#~ msgid "Received invalir reply"
+#~ msgstr "Отримано некоректну відповідь"
+
+#~ msgid "Failed to refresh the list of calendars."
+#~ msgstr "Не вдалося оновити список календарів."
+
+#~ msgid "Failed to refresh the list of calendars"
+#~ msgstr "Не вдалося оновити список календарів"
+
+#~ msgid "Preparing to synchronize calendar"
+#~ msgstr "Приготування до синхронізації календарів"
+
+#~ msgid "Fetching event"
+#~ msgstr "Отримання даних події"
+
+#~ msgid "Failed to fetch initial data."
+#~ msgstr "Не вдалося отримати початкові дані."
+
+#~ msgid "Retrieving list of events"
+#~ msgstr "Отримання списку подій"
+
+#~ msgid "Creating event..."
+#~ msgstr "Створення запису події…"
+
+#~ msgid "Updating event..."
+#~ msgstr "Оновлення даних події…"
+
+#~ msgid "Event fetched"
+#~ msgstr "Дані події отримано"
+
+#~ msgid "Event created"
+#~ msgstr "Створено запис події"
+
+#~ msgid "Event changed"
+#~ msgstr "Запис події змінено"
+
+#~ msgid "Event removed"
+#~ msgstr "Запис події вилучено"
+
+#~ msgid "Preparing synchronization of contacts"
+#~ msgstr "Приготування до синхронізації списку контактів"
+
+#~ msgid "Retrieving list of contacts"
+#~ msgstr "Отримання списку контактів"
+
+#~ msgid "Creating contact..."
+#~ msgstr "Створення запису контакту…"
+
+#~ msgid "Updating contact..."
+#~ msgstr "Оновлення запису контакту…"
+
+#~ msgid "Removing contact"
+#~ msgstr "Вилучення запису контакту"
+
+#~ msgid "Contact created"
+#~ msgstr "Створено запис контакту"
+
+#~ msgid "Contact changed"
+#~ msgstr "Змінено запис контакту"
+
+#~ msgid "Contact removed"
+#~ msgstr "Вилучено запис контакту"
+
+#~ msgid "Unknown error"
+#~ msgstr "Невідома помилка"
+
+#~ msgid "Failed to refresh the list of task lists."
+#~ msgstr "Не вдалося оновити список завдань."
+
+#~ msgid "Preparing to synchronize tasks"
+#~ msgstr "Приготування до синхронізації завдань"
+
+#~ msgid "Fetching task"
+#~ msgstr "Отримання даних завдання"
+
+#~ msgid "Google Tasks - %1"
+#~ msgstr "Завдання Google — %1"
+
+#~ msgid "Creating task..."
+#~ msgstr "Створення запису завдання…"
+
+#~ msgid "Updating task..."
+#~ msgstr "Оновлення запису завдання…"
+
+#~ msgid "Task updated"
+#~ msgstr "Запис завдання оновлено"
+
+#~ msgid "Failed to retrieve tasks"
+#~ msgstr "Не вдалося отримати записи завдань"
+
+#~ msgid "Collections synchronized"
+#~ msgstr "Збірки синхронізовано"
+
+#~ msgid "Task fetched"
+#~ msgstr "Дані завдання отримано"
+
+#~ msgid "Task created"
+#~ msgstr "Створено запис завдання"
+
+#~ msgid "Failed to remove task"
+#~ msgstr "Не вдалося вилучити запис завдання"
+
+#~ msgid "Task removed"
+#~ msgstr "Вилучено запис завдання"
+
+#~ msgid ""
+#~ "<html><body><p>In order to access Google services you need to "
+#~ "authenticate. Click the <i>Authenticate</i> button and follow "
+#~ "instructions in the dialog.</p></body></html>"
+#~ msgstr ""
+#~ "<html><body><p>Для отримання доступу до служб Google вам слід пройти "
+#~ "розпізнавання. Натисніть кнопку <i>Розпізнавання</i> і виконайте "
+#~ "настанови, наведені у діалоговому вікні.</p></body></html>"
+
+#~ msgid "Revoke Authentication"
+#~ msgstr "Відкликати розпізнавання"
+
+#~ msgid ""
+#~ "If you want this application to forget your authentication, click the "
+#~ "button."
+#~ msgstr ""
+#~ "Якщо ви бажаєте, щоб ця програма забула про ваші реєстраційні дані, "
+#~ "натисніть цю кнопку."
+
+#~ msgid "Select the calendar you want to connect to:"
+#~ msgstr "Виберіть календар, з яким слід встановити з’єднання:"
+
+#~ msgid "Refresh List"
+#~ msgstr "Оновити список"
+
+#~ msgid "Automatically refresh calendar"
+#~ msgstr "Оновлювати календар автоматично"
+
+#~ msgid " minutes"
+#~ msgstr " хвилин"
+
+#~ msgid "Refresh calendar every"
+#~ msgstr "Оновлювати календар кожні"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">In order to access "
+#~ "Google Contacts service you need to authenticate. Click the <span style="
+#~ "\" font-style:italic;\">Authenticate</span> button and follow "
+#~ "instructions in the dialog.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Для отримання доступу "
+#~ "до служб записів контактів Google вам слід пройти розпізнавання. "
+#~ "Натисніть кнопку <span style=\" font-style:italic;\">Розпізнавання</span> "
+#~ "і виконайте настанови, наведені у діалоговому вікні.</p></body></html>"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Use the <span style=\" "
+#~ "font-style:italic;\">Revoke Access</span> button to make Akonadi forget "
+#~ "any authentication with Google Contacts service.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Ubuntu'; font-size:9pt; font-"
+#~ "weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Натисніть кнопку <span "
+#~ "style=\" font-style:italic;\">Відкликати доступ</span>, щоб система "
+#~ "Akonadi забула ваші реєстраційні дані служб записів контактів Google.</"
+#~ "p></body></html>"
+
+#~ msgid "Addressbook"
+#~ msgstr "Адресна книга"
+
+#~ msgid "Automatically refresh address book"
+#~ msgstr "Оновлювати адресну книгу автоматично"
+
+#~ msgid " minute(s)"
+#~ msgstr " хвилин"
+
+#~ msgid "Refresh address book every"
+#~ msgstr "Оновлювати адресну книгу кожні"
+
+#~ msgid "Select the task list you want to connect to:"
+#~ msgstr "Виберіть список завдань, з яким слід встановити з’єднання:"
+
+#~ msgid "Refresh task list every"
+#~ msgstr "Оновлювати список завдань кожні"
+
+#~ msgid "Automatically refresh task list"
+#~ msgstr "Оновлювати список завдань автоматично"
+
+#~ msgid "Retrieving list of tasks"
+#~ msgstr "Отримання списку завдань"
+
+#~ msgid ""
+#~ "Failed to refresh the list of calendars. The remote server replied:\n"
+#~ msgstr ""
+#~ "Не вдалося оновити список календарів. Відповідь віддаленого сервера:\n"
+
+#~ msgid ""
+#~ "<html><body><p>Use the <i>Revoke Access</i> button to make Akonadi forget "
+#~ "any authentication with Google services.</p></body></html>"
+#~ msgstr ""
+#~ "<html><body><p>Натисніть кнопку <i>Відкликати доступ</i>, щоб система "
+#~ "Akonadi забула ваші реєстраційні дані служб Google.</p></body></html>"
