@@ -22,7 +22,7 @@
 
 namespace KGAPI2::People
 {
-class ContactGroup::Private : public QSharedData
+class ContactGroup::Private
 {
 public:
     explicit Private() = default;

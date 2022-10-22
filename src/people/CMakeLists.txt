@@ -10,6 +10,7 @@ target_sources(KPimGAPIPeople PRIVATE
     calendarurl.cpp
     clientdata.cpp
     contactgroup.cpp
+    contactgroupfetchjob.cpp
     contactgroupmembership.cpp
     contactgroupmetadata.cpp
     coverphoto.cpp
@@ -62,6 +63,7 @@ ecm_generate_headers(
     CalendarUrl
     ClientData
     ContactGroup
+    ContactGroupFetchJob
     ContactGroupMembership
     ContactGroupMetadata
     CoverPhoto

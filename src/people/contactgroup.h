@@ -100,7 +100,7 @@ public:
 
 private:
     class Private;
-    QSharedDataPointer<Private> d;
+    std::unique_ptr<Private> d;
 }; // ContactGroup
 
 } // namespace KGAPI2::People
