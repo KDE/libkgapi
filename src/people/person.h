@@ -10,7 +10,8 @@
 #pragma once
 
 #include "object.h"
-#include <kgapipeople_export.h>
+#include "types.h"
+#include "kgapipeople_export.h"
 
 #include <QString>
 #include <QVector>

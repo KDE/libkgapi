@@ -9,7 +9,7 @@
 #pragma once
 
 #include <QSharedDataPointer>
-#include <kgapipeople_export.h>
+#include "kgapipeople_export.h"
 
 #include <QString>
 

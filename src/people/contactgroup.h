@@ -10,7 +10,7 @@
 #pragma once
 
 #include <QSharedDataPointer>
-#include <kgapipeople_export.h>
+#include "kgapipeople_export.h"
 #include "object.h"
 #include "types.h"
 

@@ -145,7 +145,7 @@ install(FILES
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIPeople
-    LIB_NAME KPimGAPIContacts
+    LIB_NAME KPimGAPIPeople
     DEPS "KPim::GAPICore KF5::Contacts"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )

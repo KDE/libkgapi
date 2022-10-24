@@ -12,7 +12,7 @@
 #include <QSharedDataPointer>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <kgapipeople_export.h>
+#include "kgapipeople_export.h"
 
 #include <QString>
 
