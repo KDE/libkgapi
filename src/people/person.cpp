@@ -49,6 +49,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include <KContacts/Addressee>
+
 namespace KGAPI2::People
 {
 class Person::Private
@@ -60,6 +62,51 @@ public:
     Private &operator=(const Private &) = delete;
     Private &operator=(Private &&) noexcept = delete;
     ~Private() = default;
+
+    KContacts::Addressee toKContactsAddressee()
+    {
+        KContacts::Addressee addressee;
+
+        setKContactAddresseeNameFields(addressee);
+        setKContactAddresseeNicknameFields(addressee);
+        setKContactAddresseeBirthdayFields(addressee);
+        setKContactAddresseeEmailFields(addressee);
+        setKContactAddresseePhoneFields(addressee);
+        setKContactAddresseeOrganizationFields(addressee);
+        setKContactAddresseeProfessionFields(addressee);
+        setKContactAddresseePhoto(addressee);
+
+        return addressee;
+    }
+
+    void setFromKContactsAddressee(const KContacts::Addressee &addressee)
+    {
+        names = {Name::fromKContactsAddressee(addressee)};
+
+        Nickname nickname;
+        nickname.setValue(addressee.nickName());
+        nicknames = {nickname};
+
+        Birthday birthday;
+        birthday.setDate(addressee.birthday().date());
+        birthdays = {birthday};
+
+        emailAddresses = EmailAddress::fromKContactsEmailList(addressee.emailList());
+        phoneNumbers = PhoneNumber::fromKContactsPhoneNumberList(addressee.phoneNumbers());
+
+        Occupation occupation;
+        occupation.setValue(addressee.profession());
+        occupations = {occupation};
+
+        Organization organization;
+        organization.setName(addressee.organization());
+        organization.setDepartment(addressee.department());
+        organizations = {organization};
+
+        Photo photo;
+        photo.setUrl(addressee.photo().url());
+        photos = {photo};
+    }
 
     QVector<Nickname> nicknames{};
     QVector<EmailAddress> emailAddresses{};
@@ -99,10 +146,104 @@ public:
     QVector<FileAs> fileAses{};
     Person::AgeRange ageRange{};
     PersonMetadata metadata{};
+
+private:
+    void setKContactAddresseeNameFields(KContacts::Addressee &addressee)
+    {
+        const auto nameToUse = names.first();
+        nameToUse.applyToKContactsAddressee(addressee);
+    }
+
+    void setKContactAddresseeNicknameFields(KContacts::Addressee &addressee)
+    {
+        if(nicknames.isEmpty()) {
+            addressee.setNickName(QString());
+            return;
+        }
+
+        const auto nicknameToUse = nicknames.first();
+        addressee.setNickName(nicknameToUse.value());
+    }
+
+    void setKContactAddresseeBirthdayFields(KContacts::Addressee &addressee)
+    {
+        if(birthdays.isEmpty()) {
+            addressee.setBirthday(QDate());
+            return;
+        }
+
+        const auto birthdayToUse = birthdays.first();
+        addressee.setBirthday(birthdayToUse.date());
+    }
+
+    void setKContactAddresseeEmailFields(KContacts::Addressee &addressee)
+    {
+        KContacts::Email::List convertedEmails;
+
+        std::transform(emailAddresses.cbegin(),
+                       emailAddresses.cend(),
+                       std::back_inserter(convertedEmails),
+                       [](const EmailAddress emailAddress) {
+                           return emailAddress.toKContactsEmail();
+                       });
+
+        addressee.setEmailList(convertedEmails);
+    }
+
+    void setKContactAddresseePhoneFields(KContacts::Addressee &addressee)
+    {
+        KContacts::PhoneNumber::List convertedPhoneNumbers;
+
+        std::transform(phoneNumbers.cbegin(),
+                       phoneNumbers.cend(),
+                       std::back_inserter(convertedPhoneNumbers),
+                       [](const People::PhoneNumber &phoneNumber) {
+                           return phoneNumber.toKContactsPhoneNumber();
+                       });
+
+        addressee.setPhoneNumbers(convertedPhoneNumbers);
+    }
+
+    void setKContactAddresseeOrganizationFields(KContacts::Addressee &addressee)
+    {
+        if (organizations.isEmpty()) {
+            addressee.setOrganization(QString());
+            addressee.setDepartment(QString());
+            return;
+        }
+
+        const auto organizationToUse = organizations.first();
+        addressee.setOrganization(organizationToUse.name());
+        addressee.setDepartment(organizationToUse.department());
+    }
+
+    void setKContactAddresseeProfessionFields(KContacts::Addressee &addressee)
+    {
+        if (occupations.isEmpty()) {
+            addressee.setProfession(QString());
+            return;
+        }
+
+        const auto occupationToUse = occupations.first();
+        addressee.setProfession(occupationToUse.value());
+    }
+
+    void setKContactAddresseePhoto(KContacts::Addressee &addressee)
+    {
+        if (photos.isEmpty()) {
+            addressee.setPhoto({});
+            return;
+        }
+
+        const auto photoToUse = photos.first();
+        KContacts::Picture picture(photoToUse.url());
+        addressee.setPhoto(picture);
+    }
 };
 
 Person::Person()
-    : d(new Private)
+    : KGAPI2::Object()
+    , d(new Private)
 {
 }
 
@@ -964,6 +1105,18 @@ PersonPtr Person::fromJSON(const QJsonObject &obj)
     }
 
     return People::PersonPtr(person);
+}
+
+KContacts::Addressee Person::toKContactsAddressee() const
+{
+    return d->toKContactsAddressee();
+}
+
+PersonPtr Person::fromKContactsAddressee(const KContacts::Addressee &addressee)
+{
+    auto person = new Person;
+    person->d->setFromKContactsAddressee(addressee);
+    return PersonPtr(person);
 }
 
 } // namespace KGAPI2::People

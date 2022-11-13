@@ -23,6 +23,11 @@
 class QJsonObject;
 class QJsonValue;
 
+namespace KContacts
+{
+class Addressee;
+}
+
 namespace KGAPI2::People
 {
 class Person;
@@ -87,6 +92,9 @@ public:
     explicit Person();
     /** Destructor. **/
     ~Person();
+
+    static PersonPtr fromKContactsAddressee(const KContacts::Addressee &addressee);
+    KContacts::Addressee toKContactsAddressee() const;
 
     bool operator==(const Person &) const;
     bool operator!=(const Person &) const;
@@ -437,6 +445,16 @@ public:
 
     static PersonPtr fromJSON(const QJsonObject &obj);
     QJsonValue toJSON() const; // TODO
+
+private Q_SLOTS:
+    static void convertNameFieldsFromKContacts(const KContacts::Addressee &addressee);
+    static void convertNicknameFieldsFromKContacts(const KContacts::Addressee &addressee);
+    static void convertBirthdayFieldsFromKContacts(const KContacts::Addressee &addressee);
+    static void convertEmailFieldsFromKContacts(const KContacts::Addressee &addressee);
+    static void convertPhoneFieldsFromKContacts(const KContacts::Addressee &addressee);
+    static void convertOrganizationFieldsFromKContacts(const KContacts::Addressee &addressee);
+    static void convertProfessionFieldsFromKContacts(const KContacts::Addressee &addressee);
+    static void convertPhotoFromKContacts();
 
 private:
     class Private;
