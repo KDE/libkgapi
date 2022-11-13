@@ -53,6 +53,9 @@ public:
     static QVector<Name> fromJSONArray(const QJsonArray& data);
     QJsonValue toJSON() const;
 
+    static Name fromKContactsAddressee(const KContacts::Addressee &addressee);
+    void applyToKContactsAddressee(KContacts::Addressee &addressee) const;
+
     /** The free form name value. **/
     QString unstructuredName() const;
     /** Sets value of the unstructuredName property. **/

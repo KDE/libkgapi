@@ -20,6 +20,11 @@ class QJsonObject;
 class QJsonValue;
 class QJsonArray;
 
+namespace KContacts
+{
+class Email;
+}
+
 namespace KGAPI2::People
 {
 class FieldMetadata;
@@ -48,6 +53,10 @@ public:
     static EmailAddress fromJSON(const QJsonObject &obj);
     static QVector<EmailAddress> fromJSONArray(const QJsonArray &data);
     QJsonValue toJSON() const;
+
+    static EmailAddress fromKContactsEmail(const KContacts::Email &email);
+    static QVector<EmailAddress> fromKContactsEmailList(const QVector<KContacts::Email> &emailList);
+    KContacts::Email toKContactsEmail() const;
 
     /** The email address. **/
     QString value() const;

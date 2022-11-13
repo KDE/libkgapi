@@ -16,6 +16,8 @@
 #include <QJsonValue>
 #include <QSharedData>
 
+#include <KContacts/Email>
+
 #include <algorithm>
 
 namespace KGAPI2::People
@@ -151,6 +153,57 @@ QJsonValue EmailAddress::toJSON() const
     obj.insert(QStringView{u"displayName"}, d->displayName);
     obj.insert(QStringView{u"formattedType"}, d->formattedType);
     return obj;
+}
+
+KContacts::Email EmailAddress::toKContactsEmail() const
+{
+    KContacts::Email convertedEmail;
+    convertedEmail.setEmail(value());
+
+    const auto emailType = type();
+
+    if(QString::compare(emailType, QStringLiteral("home"), Qt::CaseInsensitive)) {
+        convertedEmail.setType(KContacts::Email::Home);
+    } else if(QString::compare(emailType, QStringLiteral("work"), Qt::CaseInsensitive)) {
+        convertedEmail.setType(KContacts::Email::Work);
+    } else if(QString::compare(emailType, QStringLiteral("other"), Qt::CaseInsensitive)) {
+        convertedEmail.setType(KContacts::Email::Other);
+    }
+
+    return convertedEmail;
+}
+
+EmailAddress EmailAddress::fromKContactsEmail(const KContacts::Email &email)
+{
+    EmailAddress convertedEmail;
+    convertedEmail.setValue(email.mail());
+
+    switch(email.type()) {
+    case KContacts::Email::Home:
+        convertedEmail.setType(QStringLiteral("home"));
+        break;
+    case KContacts::Email::Work:
+        convertedEmail.setType(QStringLiteral("work"));
+        break;
+    case KContacts::Email::Other:
+    default:
+        convertedEmail.setType(QStringLiteral("other"));
+        break;
+    }
+
+    return convertedEmail;
+}
+
+QVector<EmailAddress> EmailAddress::fromKContactsEmailList(const QVector<KContacts::Email> &emailList)
+{
+    QVector<EmailAddress> convertedEmails;
+    std::transform(emailList.cbegin(),
+                   emailList.cend(),
+                   std::back_inserter(convertedEmails),
+                   [](const KContacts::Email &email) {
+                       return EmailAddress::fromKContactsEmail(email);
+                   });
+    return convertedEmails;
 }
 
 } // namespace KGAPI2::People

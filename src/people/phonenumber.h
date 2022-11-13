@@ -20,6 +20,10 @@ class QJsonObject;
 class QJsonValue;
 class QJsonArray;
 
+namespace KContacts {
+class PhoneNumber;
+}
+
 namespace KGAPI2::People
 {
 class FieldMetadata;
@@ -48,6 +52,10 @@ public:
     static PhoneNumber fromJSON(const QJsonObject &);
     static QVector<PhoneNumber> fromJSONArray(const QJsonArray& data);
     QJsonValue toJSON() const;
+
+    static PhoneNumber fromKContactsPhoneNumber(const KContacts::PhoneNumber &phoneNumber);
+    static QVector<PhoneNumber> fromKContactsPhoneNumberList(const QVector<KContacts::PhoneNumber> &phoneNumberList);
+    KContacts::PhoneNumber toKContactsPhoneNumber() const;
 
     /** The phone number. **/
     QString value() const;

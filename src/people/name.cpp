@@ -16,6 +16,8 @@
 #include <QJsonValue>
 #include <QSharedData>
 
+#include <KContacts/Addressee>
+
 #include <algorithm>
 
 namespace KGAPI2::People
@@ -268,6 +270,25 @@ QJsonValue Name::toJSON() const
     obj.insert(QStringView{u"phoneticFullName"}, d->phoneticFullName);
     obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
+}
+
+Name Name::fromKContactsAddressee(const KContacts::Addressee &addressee)
+{
+    Name name;
+    name.setFamilyName(addressee.familyName());
+    name.setGivenName(addressee.givenName());
+    name.setHonorificPrefix(addressee.prefix());
+    name.setHonorificSuffix(addressee.suffix());
+    return name;
+}
+
+void Name::applyToKContactsAddressee(KContacts::Addressee &addressee) const
+{
+    addressee.setName(unstructuredName());
+    addressee.setFamilyName(familyName());
+    addressee.setGivenName(givenName());
+    addressee.setPrefix(honorificPrefix());
+    addressee.setSuffix(honorificSuffix());
 }
 
 } // namespace KGAPI2::People
