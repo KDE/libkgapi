@@ -134,7 +134,7 @@ public:
         auto promise = mPendingPromises.value(key, nullptr);
         if (!promise) {
             promise = new AccountPromise(q);
-            QObject::connect(promise, &QObject::destroyed, q, [key, this]() {
+            QObject::connect(promise, &AccountPromise::finished, q, [key, this]() {
                 mPendingPromises.remove(key);
             });
             mPendingPromises.insert(key, promise);
