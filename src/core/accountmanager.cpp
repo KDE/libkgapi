@@ -265,30 +265,28 @@ AccountPromise *AccountManager::refreshTokens(const QString &apiKey, const QStri
 
 AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString &accountName, const QList<QUrl> &scopes)
 {
-    auto promise = d->createPromise(apiKey, accountName);
-    if (!promise->d->isRunning()) {
-        QTimer::singleShot(0, this, [=]() {
-            d->ensureStore([=](bool storeOpened) {
-                if (!storeOpened) {
-                    promise->d->setError(tr("Failed to open account store"));
-                    return;
-                }
+    auto promise = new AccountPromise(this);
+    QTimer::singleShot(0, this, [=]() {
+        d->ensureStore([=](bool storeOpened) {
+            if (!storeOpened) {
+                promise->d->setError(tr("Failed to open account store"));
+                return;
+            }
 
-                const auto account = d->mStore->getAccount(apiKey, accountName);
-                if (!account) {
-                    promise->d->setAccount({});
+            const auto account = d->mStore->getAccount(apiKey, accountName);
+            if (!account) {
+                promise->d->setAccount({});
+            } else {
+                const auto currentScopes = account->scopes();
+                if (scopes.isEmpty() || d->compareScopes(currentScopes, scopes)) {
+                    promise->d->setAccount(account);
                 } else {
-                    const auto currentScopes = account->scopes();
-                    if (scopes.isEmpty() || d->compareScopes(currentScopes, scopes)) {
-                        promise->d->setAccount(account);
-                    } else {
-                        promise->d->setAccount({});
-                    }
+                    promise->d->setAccount({});
                 }
-            });
+            }
         });
-        promise->d->setRunning();
-    }
+    });
+    promise->d->setRunning();
     return promise;
 }
 
