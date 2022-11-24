@@ -491,7 +491,3 @@ msgstr "Tipus no vàlid del contingut de la resposta"
 msgctxt "KGAPI2::TaskModifyJob|"
 msgid "Invalid response content type"
 msgstr "Tipus no vàlid del contingut de la resposta"
-
-#~ msgctxt "KGAPI2::AuthWidgetPrivate|"
-#~ msgid "Authorizing token. This should take just a moment..."
-#~ msgstr "Testimoni d'autorització. Això només durarà un moment..."
