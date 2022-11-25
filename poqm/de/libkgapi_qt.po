@@ -157,7 +157,7 @@ msgid "Failed to authenticate additional scopes"
 msgstr "Authentifizierung zusätzlicher Bereiche ist fehlgeschlagen"
 
 #: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
-#: src/core/accountmanager.cpp:273
+#: src/core/accountmanager.cpp:272
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
 msgstr "Öffnen des Zugangs fehlgeschlagen"

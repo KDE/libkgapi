@@ -159,7 +159,7 @@ msgid "Failed to authenticate additional scopes"
 msgstr "추가 범위를 인증할 수 없음"
 
 #: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
-#: src/core/accountmanager.cpp:273
+#: src/core/accountmanager.cpp:272
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
 msgstr "계정 저장소를 열 수 없음"
