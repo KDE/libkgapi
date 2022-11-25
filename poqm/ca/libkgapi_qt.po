@@ -162,7 +162,7 @@ msgid "Failed to authenticate additional scopes"
 msgstr "Ha fallat en autenticar els àmbits addicionals"
 
 #: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
-#: src/core/accountmanager.cpp:273
+#: src/core/accountmanager.cpp:272
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
 msgstr "Ha fallat en obrir el compte de l'emmagatzematge"
