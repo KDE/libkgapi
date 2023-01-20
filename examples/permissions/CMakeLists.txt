@@ -2,7 +2,7 @@ add_executable(permissions-example)
 
 target_sources(permissions-example PRIVATE
     main.cpp
-    mainwindow.cpp
+    mainwindow.cpp mainwindow.h
     mainwindow.ui
 )
 

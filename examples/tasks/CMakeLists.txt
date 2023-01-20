@@ -2,7 +2,7 @@ add_executable(tasks-example)
 
 target_sources(tasks-example PRIVATE
     main.cpp
-    mainwindow.cpp
+    mainwindow.cpp mainwindow.h
     mainwindow.ui
 )
 

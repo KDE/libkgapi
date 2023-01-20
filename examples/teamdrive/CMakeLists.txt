@@ -2,7 +2,7 @@ add_executable(teamdrive-example)
 
 target_sources(teamdrive-example PRIVATE
     main.cpp
-    mainwindow.cpp
+    mainwindow.cpp mainwindow.h
     mainwindow.ui
 )
 

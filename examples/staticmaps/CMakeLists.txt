@@ -2,7 +2,7 @@ add_executable(staticmaps-example)
 
 target_sources(staticmaps-example PRIVATE
     main.cpp
-    mainwindow.cpp
+    mainwindow.cpp mainwindow.h
     mainwindow.ui
 )
 

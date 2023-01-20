@@ -2,7 +2,7 @@ add_executable(drives-example)
 
 target_sources(drives-example PRIVATE
     main.cpp
-    mainwindow.cpp
+    mainwindow.cpp mainwindow.h
     mainwindow.ui
 )
 

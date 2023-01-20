@@ -2,7 +2,7 @@ add_executable(files-example)
 
 target_sources(files-example PRIVATE
     main.cpp
-    mainwindow.cpp
+    mainwindow.cpp mainwindow.h
     mainwindow.ui
 )
 
