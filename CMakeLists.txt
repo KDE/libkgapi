@@ -10,9 +10,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 # ECM setup
-set(KF5_MIN_VERSION "5.102.0")
+set(KF_MIN_VERSION "5.102.0")
 
-find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
+find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(KDEInstallDirs)
@@ -55,12 +55,12 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT_REQUIRED_VERSION} REQUIRED COMPONENTS
     Xml
 )
 
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Wallet
 )
 
-find_package(KF5CalendarCore ${KF5_MIN_VERSION} CONFIG REQUIRED)
-find_package(KF5Contacts ${KF5_MIN_VERSION} CONFIG REQUIRED)
+find_package(KF5CalendarCore ${KF_MIN_VERSION} CONFIG REQUIRED)
+find_package(KF5Contacts ${KF_MIN_VERSION} CONFIG REQUIRED)
 
 find_package(Sasl2)
 set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
