@@ -66,7 +66,7 @@ target_include_directories(KPimGAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KDE
 target_link_libraries(KPimGAPICalendar
 PUBLIC
     KPim::GAPICore
-    KF5::CalendarCore
+    KF${KF_MAJOR_VERSION}::CalendarCore
     Qt::Gui
 PRIVATE
     Qt::Network

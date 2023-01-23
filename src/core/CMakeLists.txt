@@ -89,7 +89,7 @@ PUBLIC
     Qt::Core
 PRIVATE
     Qt::Network
-    KF5::Wallet
+    KF${KF_MAJOR_VERSION}::Wallet
 )
 
 set_target_properties(KPimGAPICore PROPERTIES

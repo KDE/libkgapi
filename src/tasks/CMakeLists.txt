@@ -62,7 +62,7 @@ target_include_directories(KPimGAPITasks
 target_link_libraries(KPimGAPITasks
 PUBLIC
     KPim::GAPICore
-    KF5::CalendarCore
+    KF${KF_MAJOR_VERSION}::CalendarCore
 PRIVATE
     Qt::Network
 )

@@ -42,7 +42,7 @@ target_include_directories(KPimGAPILatitude INTERFACE "$<INSTALL_INTERFACE:${KDE
 target_link_libraries(KPimGAPILatitude
 PUBLIC
     KPim::GAPICore
-    KF5::Contacts
+    KF${KF_MAJOR_VERSION}::Contacts
 PRIVATE
     Qt::Network
 )

@@ -2,8 +2,8 @@
 
 include(CMakeFindDependencyMacro)
 
-find_dependency(KF5CalendarCore "@KF_MIN_VERSION@")
-find_dependency(KF5Contacts "@KF_MIN_VERSION@")
+find_dependency(KF@KF_MAJOR_VERSION@CalendarCore "@KF_MIN_VERSION@")
+find_dependency(KF@KF_MAJOR_VERSION@Contacts "@KF_MIN_VERSION@")
 
 include("${CMAKE_CURRENT_LIST_DIR}/KPimGAPITargets.cmake")
 

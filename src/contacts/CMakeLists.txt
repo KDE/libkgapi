@@ -62,7 +62,7 @@ target_include_directories(KPimGAPIContacts
 target_link_libraries(KPimGAPIContacts
 PUBLIC
     KPim::GAPICore
-    KF5::Contacts
+    KF${KF_MAJOR_VERSION}::Contacts
     Qt::Gui
 PRIVATE
     Qt::Xml
@@ -95,7 +95,7 @@ install(FILES
 
 ecm_generate_pri_file(BASE_NAME KGAPIContacts
     LIB_NAME KPimGAPIContacts
-    DEPS "KPim::GAPICore KF5::Contacts Qt::Xml"
+    DEPS "KPim::GAPICore KF${KF_MAJOR_VERSION}::Contacts Qt::Xml"
     FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
 )
 

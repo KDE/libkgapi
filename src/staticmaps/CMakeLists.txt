@@ -33,7 +33,7 @@ target_include_directories(KPimGAPIMaps INTERFACE "$<INSTALL_INTERFACE:${KDE_INS
 target_link_libraries(KPimGAPIMaps
 PUBLIC
     KPim::GAPICore
-    KF5::Contacts
+    KF${KF_MAJOR_VERSION}::Contacts
     Qt::Gui
 PRIVATE
     Qt::Network
