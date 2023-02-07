@@ -93,15 +93,13 @@ static int xoauth2_client_mech_step(void *conn_context,
     }
 
     /* try to get oauth token */
-    if (token == NULL) {
-        fprintf(stderr, "[SASL-XOAUTH2] - Requesting token!\n");
-        /* We don't use _plug_get_password because we don't really care much about
-           safety of the OAuth token */
-        token_result = _plug_get_simple(utils, SASL_CB_PASS, 1, &token, prompt_need);
-        if ((token_result != SASL_OK) && (token_result != SASL_INTERACT)) {
-            fprintf(stderr, "[SASL-XOAUTH2] - _plug_get_simple FAILED!\n");
-            return token_result;
-        }
+    fprintf(stderr, "[SASL-XOAUTH2] - Requesting token!\n");
+    /* We don't use _plug_get_password because we don't really care much about
+       safety of the OAuth token */
+    token_result = _plug_get_simple(utils, SASL_CB_PASS, 1, &token, prompt_need);
+    if ((token_result != SASL_OK) && (token_result != SASL_INTERACT)) {
+        fprintf(stderr, "[SASL-XOAUTH2] - _plug_get_simple FAILED!\n");
+        return token_result;
     }
 
     /* free prompts we got */
