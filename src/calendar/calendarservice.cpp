@@ -610,7 +610,7 @@ QVariantMap serializeDt(const EventPtr &event, const QDateTime &dt, SerializeDtF
     if (flags & SerializeDtFlag::AllDay) {
         /* For Google, all-day events starts on Monday and ends on Tuesday,
          * while in KDE, it both starts and ends on Monday. */
-        const auto adjusted = dt.addDays(flags & SerializeDtFlag::IsDtEnd ? 1 : 0);
+        const auto adjusted = dt.addDays((flags & SerializeDtFlag::IsDtEnd) ? 1 : 0);
         rv.insert(dateParam, adjusted.toString(QStringLiteral("yyyy-MM-dd")));
     } else {
         rv.insert(dateTimeParam, Utils::rfc3339DateToString(dt));
