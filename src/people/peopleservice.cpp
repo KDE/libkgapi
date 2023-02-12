@@ -235,6 +235,7 @@ ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonF
     feedData.totalResults = rootObject.value(QStringLiteral("totalItems")).toInt();
 
     Private::writeNextPageDataQuery(feedData, rootObject);
+    feedData.syncToken = rootObject.value(QStringLiteral("nextSyncToken")).toString();
 
     return output;
 }

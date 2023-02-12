@@ -18,6 +18,7 @@ class KGAPIPEOPLE_EXPORT PersonFetchJob : public KGAPI2::FetchJob
 {
     Q_OBJECT
     Q_PROPERTY(QString syncToken READ syncToken WRITE setSyncToken NOTIFY syncTokenChanged)
+    Q_PROPERTY(QString receivedSyncToken READ receivedSyncToken NOTIFY receivedSyncTokenChanged)
 
 public:
     explicit PersonFetchJob(const AccountPtr &account, QObject* parent = nullptr);
@@ -28,12 +29,14 @@ public:
     ~PersonFetchJob() override;
 
     [[nodiscard]] QString syncToken() const;
+    [[nodiscard]] QString receivedSyncToken() const;
 
 public Q_SLOTS:
     void setSyncToken(const QString &syncToken);
 
 Q_SIGNALS:
     void syncTokenChanged();
+    void receivedSyncTokenChanged();
 
 protected:
     void start() override;

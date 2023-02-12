@@ -33,6 +33,7 @@ public:
     QString readMask;
     QString fetchQuery;
     QString syncToken;
+    QString receivedSyncToken;
 
 private:
     PersonFetchJob * const q;
@@ -87,6 +88,11 @@ void PersonFetchJob::setSyncToken(const QString &syncToken)
     Q_EMIT syncTokenChanged();
 }
 
+QString PersonFetchJob::receivedSyncToken() const
+{
+    return d->receivedSyncToken;
+}
+
 void PersonFetchJob::start()
 {
     QUrl url;
@@ -133,6 +139,7 @@ ObjectsList PersonFetchJob::handleReplyWithItems(const QNetworkReply *reply, con
             const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
             enqueueRequest(request);
         } else {
+            d->receivedSyncToken = feedData.syncToken;
             emitFinished();
         }
 
