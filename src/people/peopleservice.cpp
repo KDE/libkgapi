@@ -101,7 +101,7 @@ ObjectPtr JSONToPerson(const QByteArray &jsonData)
     return People::PersonPtr();
 }
 
-QUrl fetchAllContactsUrl()
+QUrl fetchAllContactsUrl(const QString &syncToken)
 {
     QUrl url(Private::GoogleApisUrl);
     const QString path = Private::PeopleBasePath % QStringLiteral("/me/connections");
@@ -109,6 +109,11 @@ QUrl fetchAllContactsUrl()
 
     QUrlQuery query(url);
     query.addQueryItem(QStringLiteral("personFields"), Private::AllPersonFields);
+    query.addQueryItem(QStringLiteral("requestSyncToken"), QStringLiteral("true"));
+
+    if (!syncToken.isEmpty()) {
+        query.addQueryItem(QStringLiteral("syncToken"), syncToken);
+    }
 
     url.setQuery(query);
     return url;
