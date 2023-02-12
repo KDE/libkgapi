@@ -32,6 +32,7 @@ public:
 
     QString readMask;
     QString fetchQuery;
+    QString syncToken;
 
 private:
     PersonFetchJob * const q;
@@ -71,11 +72,26 @@ PersonFetchJob::~PersonFetchJob()
     delete d;
 }
 
+QString PersonFetchJob::syncToken() const
+{
+    return d->syncToken;
+}
+
+void PersonFetchJob::setSyncToken(const QString &syncToken)
+{
+    if (syncToken == d->syncToken) {
+        return;
+    }
+
+    d->syncToken = syncToken;
+    Q_EMIT syncTokenChanged();
+}
+
 void PersonFetchJob::start()
 {
     QUrl url;
     if (d->fetchQuery.isEmpty()) {
-        url = PeopleService::fetchAllContactsUrl();
+        url = PeopleService::fetchAllContactsUrl(d->syncToken);
     } else {
         url = PeopleService::fetchContactUrl(d->fetchQuery, d->readMask);
     }
