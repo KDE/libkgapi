@@ -220,7 +220,7 @@ QJsonValue Address::toJSON() const
 
     obj.insert(QStringView{u"formattedType"}, d->formattedType);
     obj.insert(QStringView{u"city"}, d->city);
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     obj.insert(QStringView{u"countryCode"}, d->countryCode);
     obj.insert(QStringView{u"postalCode"}, d->postalCode);
     obj.insert(QStringView{u"poBox"}, d->poBox);

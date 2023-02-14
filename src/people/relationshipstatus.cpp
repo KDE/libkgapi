@@ -100,7 +100,7 @@ QJsonValue RelationshipStatus::toJSON() const
 
     obj.insert(QStringView{u"value"}, d->value);
     obj.insert(QStringView{u"formattedValue"}, d->formattedValue);
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
 }
 

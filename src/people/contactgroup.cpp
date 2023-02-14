@@ -205,7 +205,7 @@ QJsonValue ContactGroup::toJSON() const
         obj.insert(QStringView{u"clientData"}, std::move(arr));
     }
     obj.insert(QStringView{u"name"}, d->name);
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     obj.insert(QStringView{u"resourceName"}, d->resourceName);
     {
         QJsonArray arr;

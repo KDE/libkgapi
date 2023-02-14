@@ -126,7 +126,7 @@ QJsonValue ClientData::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     obj.insert(QStringView{u"key"}, d->key);
     obj.insert(QStringView{u"value"}, d->value);
     return obj;

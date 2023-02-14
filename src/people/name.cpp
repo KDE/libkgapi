@@ -268,7 +268,7 @@ QJsonValue Name::toJSON() const
     obj.insert(QStringView{u"honorificSuffix"}, d->honorificSuffix);
     obj.insert(QStringView{u"phoneticHonorificSuffix"}, d->phoneticHonorificSuffix);
     obj.insert(QStringView{u"phoneticFullName"}, d->phoneticFullName);
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
 }
 

@@ -135,7 +135,7 @@ QJsonValue Biography::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     switch (d->contentType) {
     case ContentType::CONTENT_TYPE_UNSPECIFIED:
         obj.insert(QStringView{u"contentType"}, QStringLiteral(u"CONTENT_TYPE_UNSPECIFIED"));

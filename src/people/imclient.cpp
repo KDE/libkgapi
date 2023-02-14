@@ -176,7 +176,7 @@ QJsonValue ImClient::toJSON() const
     obj.insert(QStringView{u"protocol"}, d->protocol);
     obj.insert(QStringView{u"username"}, d->username);
     obj.insert(QStringView{u"type"}, d->type);
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     obj.insert(QStringView{u"formattedType"}, d->formattedType);
     obj.insert(QStringView{u"formattedProtocol"}, d->formattedProtocol);
     return obj;

@@ -121,7 +121,7 @@ QJsonValue AgeRangeType::toJSON() const
         obj.insert(QStringView{u"ageRange"}, QStringLiteral(u"TWENTY_ONE_OR_OLDER"));
         break;
     }
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
 }
 

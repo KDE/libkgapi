@@ -166,7 +166,7 @@ QJsonValue Nickname::toJSON() const
         obj.insert(QStringView{u"type"}, QStringLiteral(u"SHORT_NAME"));
         break;
     }
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
 }
 

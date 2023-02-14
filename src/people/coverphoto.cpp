@@ -127,7 +127,7 @@ QJsonValue CoverPhoto::toJSON() const
     QJsonObject obj;
 
     obj.insert(QStringView{u"default"}, d->isDefault);
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     obj.insert(QStringView{u"url"}, d->url);
     return obj;
 }

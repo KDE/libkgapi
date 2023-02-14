@@ -150,7 +150,7 @@ QJsonValue Membership::toJSON() const
     } else if (d->domainMembership.inViewerDomain()) {
         obj.insert(QStringView{u"domainMembership"}, d->domainMembership.toJSON());
     }
-    obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
 }
 
