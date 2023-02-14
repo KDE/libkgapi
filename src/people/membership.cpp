@@ -145,8 +145,11 @@ QJsonValue Membership::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"domainMembership"}, d->domainMembership.toJSON());
-    obj.insert(QStringView{u"contactGroupMembership"}, d->contactGroupMembership.toJSON());
+    if (!d->contactGroupMembership.contactGroupResourceName().isEmpty()) {
+        obj.insert(QStringView{u"contactGroupMembership"}, d->contactGroupMembership.toJSON());
+    } else if (d->domainMembership.inViewerDomain()) {
+        obj.insert(QStringView{u"domainMembership"}, d->domainMembership.toJSON());
+    }
     obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
 }
