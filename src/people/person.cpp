@@ -81,31 +81,60 @@ public:
 
     void setFromKContactsAddressee(const KContacts::Addressee &addressee)
     {
-        names = {Name::fromKContactsAddressee(addressee)};
+        if (!addressee.familyName().isEmpty() ||
+            !addressee.givenName().isEmpty() ||
+            !addressee.prefix().isEmpty() ||
+            !addressee.suffix().isEmpty()) {
 
-        Nickname nickname;
-        nickname.setValue(addressee.nickName());
-        nicknames = {nickname};
+            names = {Name::fromKContactsAddressee(addressee)};
+        }
 
-        Birthday birthday;
-        birthday.setDate(addressee.birthday().date());
-        birthdays = {birthday};
+        const auto addresseeNickName = addressee.nickName();
+        if (!addresseeNickName.isEmpty()) {
+            Nickname nickname;
+            nickname.setValue(addresseeNickName);
+            nicknames = {nickname};
+        }
 
-        emailAddresses = EmailAddress::fromKContactsEmailList(addressee.emailList());
-        phoneNumbers = PhoneNumber::fromKContactsPhoneNumberList(addressee.phoneNumbers());
+        const auto addresseeBirthday = addressee.birthday();
+        if (addresseeBirthday.isValid()) {
+            Birthday birthday;
+            birthday.setDate(addresseeBirthday.date());
+            birthdays = {birthday};
+        }
 
-        Occupation occupation;
-        occupation.setValue(addressee.profession());
-        occupations = {occupation};
+        const auto addresseeEmailList = addressee.emailList();
+        if (!addresseeEmailList.isEmpty()) {
+            emailAddresses = EmailAddress::fromKContactsEmailList(addresseeEmailList);
+        }
 
-        Organization organization;
-        organization.setName(addressee.organization());
-        organization.setDepartment(addressee.department());
-        organizations = {organization};
+        const auto addresseePhoneNumbers = addressee.phoneNumbers();
+        if (!addresseePhoneNumbers.isEmpty()) {
+            phoneNumbers = PhoneNumber::fromKContactsPhoneNumberList(addressee.phoneNumbers());
+        }
 
-        Photo photo;
-        photo.setUrl(addressee.photo().url());
-        photos = {photo};
+        const auto addresseeProfession = addressee.profession();
+        if (!addresseeProfession.isEmpty()) {
+            Occupation occupation;
+            occupation.setValue(addresseeProfession);
+            occupations = {occupation};
+        }
+
+        const auto addresseeOrganization = addressee.organization();
+        const auto addresseeDepartment = addressee.department();
+        if (!addresseeOrganization.isEmpty() || !addresseeDepartment.isEmpty()) {
+            Organization organization;
+            organization.setName(addresseeOrganization);
+            organization.setDepartment(addresseeDepartment);
+            organizations = {organization};
+        }
+
+        const auto addresseePhoto = addressee.photo();
+        if (!addresseePhoto.isEmpty()) {
+            Photo photo;
+            photo.setUrl(addressee.photo().url());
+            photos = {photo};
+        }
     }
 
     QVector<Nickname> nicknames{};
