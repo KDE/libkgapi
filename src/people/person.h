@@ -444,7 +444,7 @@ public:
     PersonMetadata metadata() const;
 
     static PersonPtr fromJSON(const QJsonObject &obj);
-    QJsonValue toJSON() const; // TODO
+    QJsonValue toJSON() const;
 
 private Q_SLOTS:
     static void convertNameFieldsFromKContacts(const KContacts::Addressee &addressee);

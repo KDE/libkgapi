@@ -1107,6 +1107,189 @@ PersonPtr Person::fromJSON(const QJsonObject &obj)
     return People::PersonPtr(person);
 }
 
+QJsonValue Person::toJSON() const
+{
+    QJsonObject returnObject;
+    returnObject.insert(QStringLiteral("resourceName"), d->resourceName);
+    returnObject.insert(QStringLiteral("etag"), d->etag);
+
+    returnObject.insert(QStringLiteral("metadata"), d->metadata.toJSON());
+
+    QJsonArray addressesArray;
+    for (const auto &address : d->addresses) {
+        addressesArray.append(address.toJSON());
+    }
+    returnObject.insert(QStringLiteral("addresses"), addressesArray);
+
+    QJsonArray ageRangesArray;
+    for (const auto &ageRange : d->ageRanges) {
+        ageRangesArray.append(ageRange.toJSON());
+    }
+    returnObject.insert(QStringLiteral("ageRanges"), ageRangesArray);
+
+    QJsonArray biographiesArray;
+    for (const auto &biography : d->biographies) {
+        biographiesArray.append(biography.toJSON());
+    }
+    returnObject.insert(QStringLiteral("biographies"), biographiesArray);
+
+    QJsonArray birthdaysArray;
+    for (const auto &birthday : d->birthdays) {
+        birthdaysArray.append(birthday.toJSON());
+    }
+    returnObject.insert(QStringLiteral("birthdays"), birthdaysArray);
+
+    QJsonArray calendarUrlsArray;
+    for (const auto &calendarUrl : d->calendarUrls) {
+        calendarUrlsArray.append(calendarUrl.toJSON());
+    }
+    returnObject.insert(QStringLiteral("calendarUrls"), calendarUrlsArray);
+
+    QJsonArray clientDataArray;
+    for (const auto &clientData : d->clientData) {
+        clientDataArray.append(clientData.toJSON());
+    }
+    returnObject.insert(QStringLiteral("clientData"), clientDataArray);
+
+    QJsonArray coverPhotosArray;
+    for (const auto &coverPhoto : d->coverPhotos) {
+        coverPhotosArray.append(coverPhoto.toJSON());
+    }
+    returnObject.insert(QStringLiteral("coverPhotos"), coverPhotosArray);
+
+    QJsonArray emailAddressesArray;
+    for (const auto &emailAddress : d->emailAddresses) {
+        emailAddressesArray.append(emailAddress.toJSON());
+    }
+    returnObject.insert(QStringLiteral("emailAddresses"), emailAddressesArray);
+
+    QJsonArray eventsArray;
+    for (const auto &event : d->events) {
+        eventsArray.append(event.toJSON());
+    }
+    returnObject.insert(QStringLiteral("events"), eventsArray);
+
+    QJsonArray externalIdsArray;
+    for (const auto &externalId : d->externalIds) {
+        externalIdsArray.append(externalId.toJSON());
+    }
+    returnObject.insert(QStringLiteral("externalIds"), externalIdsArray);
+
+    QJsonArray fileAsesArray;
+    for (const auto &fileAs : d->fileAses) {
+        fileAsesArray.append(fileAs.toJSON());
+    }
+    returnObject.insert(QStringLiteral("fileAses"), fileAsesArray);
+
+    QJsonArray gendersArray;
+    for (const auto &gender : d->genders) {
+        gendersArray.append(gender.toJSON());
+    }
+    returnObject.insert(QStringLiteral("genders"), gendersArray);
+
+    QJsonArray imClientsArray;
+    for (const auto &imClient : d->imClients) {
+        imClientsArray.append(imClient.toJSON());
+    }
+    returnObject.insert(QStringLiteral("imClients"), imClientsArray);
+
+    QJsonArray interestsArray;
+    for (const auto &interest : d->interests) {
+        interestsArray.append(interest.toJSON());
+    }
+    returnObject.insert(QStringLiteral("interests"), interestsArray);
+
+    QJsonArray localesArray;
+    for (const auto &locale : d->locales) {
+        localesArray.append(locale.toJSON());
+    }
+    returnObject.insert(QStringLiteral("locales"), localesArray);
+
+    QJsonArray locationsArray;
+    for (const auto &location : d->locations) {
+        locationsArray.append(location.toJSON());
+    }
+    returnObject.insert(QStringLiteral("locations"), locationsArray);
+
+    QJsonArray membershipsArray;
+    for (const auto &membership : d->memberships) {
+        membershipsArray.append(membership.toJSON());
+    }
+    returnObject.insert(QStringLiteral("memberships"), membershipsArray);
+
+    QJsonArray miscKeywordsArray;
+    for (const auto &miscKeyword : d->miscKeywords) {
+        miscKeywordsArray.append(miscKeyword.toJSON());
+    }
+    returnObject.insert(QStringLiteral("miscKeywords"), miscKeywordsArray);
+
+    QJsonArray namesArray;
+    for (const auto &name : d->names) {
+        namesArray.append(name.toJSON());
+    }
+    returnObject.insert(QStringLiteral("names"), namesArray);
+
+    QJsonArray nicknamesArray;
+    for (const auto &nickname : d->nicknames) {
+        nicknamesArray.append(nickname.toJSON());
+    }
+    returnObject.insert(QStringLiteral("nicknames"), nicknamesArray);
+
+    QJsonArray occupationsArray;
+    for (const auto &occupation : d->occupations) {
+        occupationsArray.append(occupation.toJSON());
+    }
+    returnObject.insert(QStringLiteral("occupations"), occupationsArray);
+
+    QJsonArray organizationsArray;
+    for (const auto &organization : d->organizations) {
+        organizationsArray.append(organization.toJSON());
+    }
+    returnObject.insert(QStringLiteral("organizations"), organizationsArray);
+
+    QJsonArray phoneNumbersArray;
+    for (const auto &phoneNumber : d->phoneNumbers) {
+        phoneNumbersArray.append(phoneNumber.toJSON());
+    }
+    returnObject.insert(QStringLiteral("phoneNumbers"), phoneNumbersArray);
+
+    QJsonArray photosArray;
+    for (const auto &photo : d->photos) {
+        photosArray.append(photo.toJSON());
+    }
+    returnObject.insert(QStringLiteral("photos"), photosArray);
+
+    QJsonArray relationsArray;
+    for (const auto &relation : d->relations) {
+        relationsArray.append(relation.toJSON());
+    }
+    returnObject.insert(QStringLiteral("relations"), relationsArray);
+
+    // relationshipInterest is deprecated, provides no data
+    // relationshipStatus is also deprecated
+    // residence is also deprecated
+
+    QJsonArray sipAddressesArray;
+    for (const auto &sipAddress : d->sipAddresses) {
+        sipAddressesArray.append(sipAddress.toJSON());
+    }
+    returnObject.insert(QStringLiteral("sipAddresses"), sipAddressesArray);
+
+    QJsonArray skillsArray;
+    for (const auto &skill : d->skills) {
+        skillsArray.append(skill.toJSON());
+    }
+    returnObject.insert(QStringLiteral("skills"), skillsArray);
+
+    QJsonArray urlsArray;
+    for (const auto &url : d->urls) {
+        urlsArray.append(url.toJSON());
+    }
+    returnObject.insert(QStringLiteral("urls"), urlsArray);
+
+    return returnObject;
+}
+
 KContacts::Addressee Person::toKContactsAddressee() const
 {
     return d->toKContactsAddressee();
