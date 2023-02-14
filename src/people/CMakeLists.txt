@@ -32,6 +32,7 @@ target_sources(KPimGAPIPeople PRIVATE
     occupation.cpp
     organization.cpp
     person.cpp
+    personcreatejob.cpp
     personfetchjob.cpp
     personlocale.cpp
     personmetadata.cpp
@@ -85,6 +86,7 @@ ecm_generate_headers(
     Occupation
     Organization
     Person
+    PersonCreateJob
     PersonFetchJob
     PersonLocale
     PersonMetadata
