@@ -43,7 +43,7 @@ ContactGroupFetchJob::Private::Private(ContactGroupFetchJob *parent)
 
 ContactGroupFetchJob::ContactGroupFetchJob(const AccountPtr& account, QObject* parent)
     : FetchJob(account, parent)
-    , d(new Private(this))
+    , d(std::make_unique<Private>(this))
 {
 }
 
@@ -58,15 +58,12 @@ ContactGroupFetchJob::ContactGroupFetchJob(const QString &resourceName,
                                            const AccountPtr &account,
                                            QObject* parent)
     : FetchJob(account, parent)
-    , d(new Private(this))
+    , d(std::make_unique<Private>(this))
 {
     d->resourceName = resourceName;
 }
 
-ContactGroupFetchJob::~ContactGroupFetchJob()
-{
-    delete d;
-}
+ContactGroupFetchJob::~ContactGroupFetchJob() = default;
 
 void ContactGroupFetchJob::start()
 {

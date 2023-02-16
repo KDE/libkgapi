@@ -26,7 +26,7 @@ public:
                    const QString &readMask,
                    const AccountPtr &account,
                    QObject* parent = nullptr); // Use the resourceName as an id for the contact
-    ~PersonFetchJob() override;
+    ~PersonFetchJob();
 
     [[nodiscard]] QString syncToken() const;
     [[nodiscard]] QString receivedSyncToken() const;
@@ -45,7 +45,7 @@ protected:
 
 private:
     class Private;
-    Private * const d;
+    std::unique_ptr<Private> d;
     friend class Private;
 };
 

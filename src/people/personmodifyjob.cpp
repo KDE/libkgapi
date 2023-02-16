@@ -61,14 +61,14 @@ void PersonModifyJob::Private::processNextPerson()
 
 PersonModifyJob::PersonModifyJob(const PersonList &people, const AccountPtr &account, QObject* parent)
     : ModifyJob(account, parent)
-    , d(new Private(this))
+    , d(std::make_unique<Private>(this))
 {
     d->people = people;
 }
 
 PersonModifyJob::PersonModifyJob(const PersonPtr &person, const AccountPtr &account, QObject* parent)
     : ModifyJob(account, parent)
-    , d(new Private(this))
+    , d(std::make_unique<Private>(this))
 {
     d->people << person;
 }

@@ -23,7 +23,7 @@ public:
     ContactGroupFetchJob(const QString &resourceName,
                          const AccountPtr &account,
                          QObject* parent = nullptr); // Use the resourceName as an id for the contact group
-    ~ContactGroupFetchJob() override;
+    ~ContactGroupFetchJob();
 
 protected:
     void start() override;
@@ -32,7 +32,7 @@ protected:
 
 private:
     class Private;
-    Private * const d;
+    std::unique_ptr<Private> d;
     friend class Private;
 };
 

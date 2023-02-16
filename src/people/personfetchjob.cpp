@@ -53,7 +53,7 @@ QNetworkRequest PersonFetchJob::Private::createRequest(const QUrl& url)
 
 PersonFetchJob::PersonFetchJob(const AccountPtr& account, QObject* parent)
     : FetchJob(account, parent)
-    , d(new Private(this))
+    , d(std::make_unique<Private>(this))
 {
 }
 
@@ -62,16 +62,13 @@ PersonFetchJob::PersonFetchJob(const QString &fetchQuery,
                                const AccountPtr &account,
                                QObject* parent)
     : FetchJob(account, parent)
-    , d(new Private(this))
+    , d(std::make_unique<Private>(this))
 {
     d->fetchQuery = fetchQuery;
     d->readMask = readMask;
 }
 
-PersonFetchJob::~PersonFetchJob()
-{
-    delete d;
-}
+PersonFetchJob::~PersonFetchJob() = default;
 
 QString PersonFetchJob::syncToken() const
 {
