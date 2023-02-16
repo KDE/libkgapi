@@ -65,6 +65,31 @@ static const auto AllPersonFields = QStringLiteral("addresses,"
                                                    "urls,"
                                                    "userDefined");
 
+static const auto AllUpdatablePersonFields = QStringLiteral("addresses,"
+                                                            "biographies,"
+                                                            "birthdays,"
+                                                            "calendarUrls,"
+                                                            "clientData,"
+                                                            "emailAddresses,"
+                                                            "events,"
+                                                            "externalIds,"
+                                                            "genders,"
+                                                            "imClients,"
+                                                            "interests,"
+                                                            "locales,"
+                                                            "locations,"
+                                                            "memberships,"
+                                                            "miscKeywords,"
+                                                            "names,"
+                                                            "nicknames,"
+                                                            "occupations,"
+                                                            "organizations,"
+                                                            "phoneNumbers,"
+                                                            "relations,"
+                                                            "sipAddresses,"
+                                                            "urls,"
+                                                            "userDefined");
+
 static const auto AllGroupFields = QStringLiteral("clientData,"
                                                   "groupType,"
                                                   "memberCount,"
@@ -91,6 +116,11 @@ void writeNextPageDataQuery(FeedData &feedData, const QJsonObject &replyRootObje
 QString allPersonFields()
 {
     return Private::AllPersonFields;
+}
+
+QString allUpdatablePersonFields()
+{
+    return Private::AllUpdatablePersonFields;
 }
 
 ObjectPtr JSONToPerson(const QByteArray &jsonData)
