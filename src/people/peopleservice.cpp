@@ -88,6 +88,11 @@ void writeNextPageDataQuery(FeedData &feedData, const QJsonObject &replyRootObje
 
 } // Private
 
+QString allPersonFields()
+{
+    return Private::AllPersonFields;
+}
+
 ObjectPtr JSONToPerson(const QByteArray &jsonData)
 {
     QJsonDocument document = QJsonDocument::fromJson(jsonData);

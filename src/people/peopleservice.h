@@ -27,6 +27,8 @@ namespace PeopleService
 
     //KGAPIPEOPLE_EXPORT People::ContactGroupPtr JSONToContactGroup(const QByteArray &jsonData);
 
+    KGAPIPEOPLE_EXPORT QString allPersonFields();
+
     KGAPIPEOPLE_EXPORT QUrl fetchAllContactsUrl(const QString &syncToken = {});
     KGAPIPEOPLE_EXPORT QUrl fetchContactUrl(const QString &fetchQuery, const QString &readMask);
     KGAPIPEOPLE_EXPORT QUrl createContactUrl();
