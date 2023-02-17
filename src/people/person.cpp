@@ -179,6 +179,10 @@ public:
 private:
     void setKContactAddresseeNameFields(KContacts::Addressee &addressee)
     {
+        if (names.isEmpty()) {
+            return;
+        }
+
         const auto nameToUse = names.first();
         nameToUse.applyToKContactsAddressee(addressee);
     }
