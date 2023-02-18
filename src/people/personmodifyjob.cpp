@@ -50,8 +50,8 @@ void PersonModifyJob::Private::processNextPerson()
     }
 
     const auto person = people.current();
-    static const auto createUrl = PeopleService::updateContactUrl(person->resourceName(), PeopleService::allUpdatablePersonFields());
-    QNetworkRequest request(createUrl);
+    const auto modifyUrl = PeopleService::updateContactUrl(person->resourceName(), PeopleService::allUpdatablePersonFields());
+    QNetworkRequest request(modifyUrl);
     request.setRawHeader("Host", "people.googleapis.com");
 
     const auto personJson = QJsonDocument(person->toJSON().toObject());
