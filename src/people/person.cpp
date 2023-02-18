@@ -216,7 +216,7 @@ private:
         std::transform(emailAddresses.cbegin(),
                        emailAddresses.cend(),
                        std::back_inserter(convertedEmails),
-                       [](const EmailAddress emailAddress) {
+                       [](const EmailAddress &emailAddress) {
                            return emailAddress.toKContactsEmail();
                        });
 
