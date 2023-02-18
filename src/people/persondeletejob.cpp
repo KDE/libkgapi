@@ -32,8 +32,7 @@ public:
     Private(PersonDeleteJob *parent);
     void processNextPerson();
 
-    QueueHelper<PersonPtr> people;
-    PersonPtr lastPerson;
+    QueueHelper<QString> peopleResourceNames;
 
 private:
     PersonDeleteJob * const q;
@@ -46,33 +45,48 @@ PersonDeleteJob::Private::Private(PersonDeleteJob *parent)
 
 void PersonDeleteJob::Private::processNextPerson()
 {
-    if (people.atEnd()) {
+    if (peopleResourceNames.atEnd()) {
         q->emitFinished();
         return;
     }
 
-    const auto person = people.current();
-    const auto deleteUrl = PeopleService::deleteContactUrl(person->resourceName());
+    const auto person = peopleResourceNames.current();
+    const auto deleteUrl = PeopleService::deleteContactUrl(person);
     QNetworkRequest request(deleteUrl);
     request.setRawHeader("Host", "people.googleapis.com");
+    q->enqueueRequest(request);
+}
 
-    const auto personJson = QJsonDocument(person->toJSON().toObject());
-    const auto rawData = personJson.toJson();
-    q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
+PersonDeleteJob::PersonDeleteJob(const QString &peopleResourceName, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(std::make_unique<Private>(this))
+{
+    d->peopleResourceNames << peopleResourceName;
+}
+
+PersonDeleteJob::PersonDeleteJob(const QStringList &peopleResourceNames, const AccountPtr &account, QObject *parent)
+    : DeleteJob(account, parent)
+    , d(std::make_unique<Private>(this))
+{
+    d->peopleResourceNames = peopleResourceNames;
 }
 
 PersonDeleteJob::PersonDeleteJob(const PersonList &people, const AccountPtr &account, QObject* parent)
     : DeleteJob(account, parent)
     , d(std::make_unique<Private>(this))
 {
-    d->people = people;
+    QStringList peopleResourceNames;
+    std::transform(people.cbegin(), people.cend(), std::back_inserter(peopleResourceNames), [](const PersonPtr &person) {
+        return person->resourceName();
+    });
+    d->peopleResourceNames = peopleResourceNames;
 }
 
 PersonDeleteJob::PersonDeleteJob(const PersonPtr &person, const AccountPtr &account, QObject* parent)
     : DeleteJob(account, parent)
     , d(std::make_unique<Private>(this))
 {
-    d->people << person;
+    d->peopleResourceNames << person->resourceName();
 }
 
 PersonDeleteJob::~PersonDeleteJob() = default;
@@ -87,7 +101,7 @@ void PersonDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &
     Q_UNUSED(reply);
     Q_UNUSED(rawData);
 
-    d->people.currentProcessed();
+    d->peopleResourceNames.currentProcessed();
     d->processNextPerson();
 }
 

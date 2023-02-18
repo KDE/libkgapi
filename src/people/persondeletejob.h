@@ -19,6 +19,8 @@ class KGAPIPEOPLE_EXPORT PersonDeleteJob : public KGAPI2::DeleteJob
     Q_OBJECT
 
 public:
+    explicit PersonDeleteJob(const QString &personResourceName, const AccountPtr &account, QObject* parent = nullptr);
+    explicit PersonDeleteJob(const QStringList &peopleResourceName, const AccountPtr &account, QObject* parent = nullptr);
     explicit PersonDeleteJob(const PersonPtr &person, const AccountPtr &account, QObject* parent = nullptr);
     explicit PersonDeleteJob(const PersonList &people, const AccountPtr &account, QObject* parent = nullptr);
     ~PersonDeleteJob();
