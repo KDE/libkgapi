@@ -183,9 +183,10 @@ QJsonValue ContactGroup::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"formattedName"}, d->formattedName);
-    obj.insert(QStringView{u"memberCount"}, d->memberCount);
+    // Output only -> obj.insert(QStringView{u"formattedName"}, d->formattedName);
+    // Output only -> obj.insert(QStringView{u"memberCount"}, d->memberCount);
     obj.insert(QStringView{u"etag"}, d->etag);
+    /* Output only
     switch (d->groupType) {
     case GroupType::GROUP_TYPE_UNSPECIFIED:
         obj.insert(QStringView{u"groupType"}, QStringLiteral(u"GROUP_TYPE_UNSPECIFIED"));
@@ -196,8 +197,8 @@ QJsonValue ContactGroup::toJSON() const
     case GroupType::SYSTEM_CONTACT_GROUP:
         obj.insert(QStringView{u"groupType"}, QStringLiteral(u"SYSTEM_CONTACT_GROUP"));
         break;
-    }
-    {
+    }*/
+    if (!d->clientData.isEmpty()) {
         QJsonArray arr;
         std::transform(d->clientData.cbegin(), d->clientData.cend(), std::back_inserter(arr), [](const auto &val) {
             return val.toJSON();
@@ -205,15 +206,16 @@ QJsonValue ContactGroup::toJSON() const
         obj.insert(QStringView{u"clientData"}, std::move(arr));
     }
     obj.insert(QStringView{u"name"}, d->name);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Output only -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     obj.insert(QStringView{u"resourceName"}, d->resourceName);
-    {
+    /* Output only
+    if (!d->memberResourceNames.isEmpty()) {
         QJsonArray arr;
         std::transform(d->memberResourceNames.cbegin(), d->memberResourceNames.cend(), std::back_inserter(arr), [](const auto &val) {
             return val;
         });
         obj.insert(QStringView{u"memberResourceNames"}, std::move(arr));
-    }
+    }*/
     return obj;
 }
 
