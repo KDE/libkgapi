@@ -11,6 +11,7 @@ target_sources(KPimGAPIPeople PRIVATE
     clientdata.cpp
     contactgroup.cpp
     contactgroupcreatejob.cpp
+    contactgroupdeletejob.cpp
     contactgroupfetchjob.cpp
     contactgroupmembership.cpp
     contactgroupmetadata.cpp
@@ -69,6 +70,7 @@ ecm_generate_headers(
     ClientData
     ContactGroup
     ContactGroupCreateJob
+    ContactGroupDeleteJob
     ContactGroupFetchJob
     ContactGroupMembership
     ContactGroupMetadata
