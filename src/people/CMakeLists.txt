@@ -14,6 +14,7 @@ target_sources(KPimGAPIPeople PRIVATE
     contactgroupfetchjob.cpp
     contactgroupmembership.cpp
     contactgroupmetadata.cpp
+    contactgroupmodifyjob.cpp
     coverphoto.cpp
     domainmembership.cpp
     emailaddress.cpp
@@ -71,6 +72,7 @@ ecm_generate_headers(
     ContactGroupFetchJob
     ContactGroupMembership
     ContactGroupMetadata
+    ContactGroupModifyJob
     CoverPhoto
     DomainMembership
     EmailAddress

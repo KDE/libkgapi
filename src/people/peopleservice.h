@@ -39,7 +39,7 @@ namespace PeopleService
     KGAPIPEOPLE_EXPORT QUrl fetchAllContactGroupsUrl();
     KGAPIPEOPLE_EXPORT QUrl fetchContactGroupUrl(const QString &resourceName);
     KGAPIPEOPLE_EXPORT QUrl createContactGroupUrl();
-    KGAPIPEOPLE_EXPORT QUrl updateContactGroupUrl(const QString &resourceName, const QString &groupFields);
+    KGAPIPEOPLE_EXPORT QUrl updateContactGroupUrl(const QString &resourceName);
     KGAPIPEOPLE_EXPORT QUrl deleteContactGroupUrl(const QString &resourceName, const bool deleteContacts);
 
     KGAPIPEOPLE_EXPORT ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed);
