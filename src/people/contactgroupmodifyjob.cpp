@@ -56,8 +56,9 @@ void ContactGroupModifyJob::Private::processNextContactGroup()
     request.setRawHeader("Host", "people.googleapis.com");
 
     const auto groupJson = group->toJSON().toObject();
-    QJsonObject rootObject;
-    rootObject.insert(QStringLiteral("contactGroup"), groupJson);
+    const QJsonObject rootObject {
+        { QStringLiteral("contactGroup"), groupJson }
+    };
     const auto rawData = QJsonDocument(rootObject).toJson();
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
 }
