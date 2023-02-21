@@ -41,6 +41,7 @@ target_sources(KPimGAPIPeople PRIVATE
     personlocale.cpp
     personmetadata.cpp
     personmodifyjob.cpp
+    personphotoupdatejob.cpp
     peopleservice.cpp
     phonenumber.cpp
     photo.cpp
@@ -100,6 +101,7 @@ ecm_generate_headers(
     PersonLocale
     PersonMetadata
     PersonModifyJob
+    PersonPhotoUpdateJob
     PhoneNumber
     Photo
     ProfileMetadata
