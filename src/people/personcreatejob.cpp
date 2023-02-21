@@ -31,7 +31,6 @@ class Q_DECL_HIDDEN PersonCreateJob::Private
 public:
     Private(PersonCreateJob *parent);
     void processNextPerson();
-    void setPhoto(const KContacts::Picture &photo, const QString &uid);
 
     QueueHelper<PersonPtr> people;
 
