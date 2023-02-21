@@ -258,6 +258,18 @@ QUrl updateContactPhotoUrl(const QString &resourceName)
     return url;
 }
 
+QUrl deleteContactPhotoUrl(const QString &resourceName, const QString &personFields)
+{
+    QUrl url(Private::GoogleApisUrl);
+    url.setPath(Private::PeopleV1Path % resourceName % QStringLiteral(":deleteContactPhoto"));
+
+    QUrlQuery query(url);
+    query.addQueryItem(QStringLiteral("personFields"), personFields);
+
+    url.setQuery(query);
+    return url;
+}
+
 ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed)
 {
     const auto document = QJsonDocument::fromJson(jsonFeed);

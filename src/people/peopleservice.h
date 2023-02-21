@@ -36,6 +36,8 @@ namespace PeopleService
     KGAPIPEOPLE_EXPORT QUrl updateContactUrl(const QString &resourceName, const QString &personFields);
     KGAPIPEOPLE_EXPORT QUrl deleteContactUrl(const QString &resourceName);
     KGAPIPEOPLE_EXPORT QUrl updateContactPhotoUrl(const QString &resourceName);
+    KGAPIPEOPLE_EXPORT QUrl deleteContactPhotoUrl(const QString &resourceName, const QString &personFields);
+
 
     KGAPIPEOPLE_EXPORT QUrl fetchAllContactGroupsUrl();
     KGAPIPEOPLE_EXPORT QUrl fetchContactGroupUrl(const QString &resourceName);
