@@ -1,3 +1,7 @@
+POST https://people.googleapis.com/v1/people:createContact?prettyPrint=false
+Host: people.googleapis.com
+Content-Type: application/json
+
 {
   "resourceName": "",
   "etag": "",
