@@ -130,11 +130,14 @@ QVector<Birthday> Birthday::fromJSONArray(const QJsonArray &data)
 
 QJsonValue Birthday::toJSON() const
 {
-    QJsonObject obj;
-
-    obj.insert(QStringView{u"text"}, d->text);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    return obj;
+    // Skip field metadata as is only useful for receiving
+    return QJsonObject {
+        { QStringLiteral("date"), QJsonObject {
+            { QStringLiteral("year"), d->date.year() },
+            { QStringLiteral("month"), d->date.month() },
+            { QStringLiteral("day"), d->date.day() }
+        } }
+    };
 }
 
 } // namespace KGAPI2::People
