@@ -142,8 +142,8 @@ QJsonValue PhoneNumber::toJSON() const
     QJsonObject obj;
 
     obj.insert(QStringView{u"value"}, d->value);
-    obj.insert(QStringView{u"formattedType"}, d->formattedType);
-    obj.insert(QStringView{u"canonicalForm"}, d->canonicalForm);
+    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
+    // Output only -> obj.insert(QStringView{u"canonicalForm"}, d->canonicalForm);
     obj.insert(QStringView{u"type"}, d->type);
     // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;

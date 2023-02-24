@@ -94,7 +94,7 @@ QJsonValue ContactGroupMembership::toJSON() const
     QJsonObject obj;
 
     obj.insert(QStringView{u"contactGroupResourceName"}, d->contactGroupResourceName);
-    obj.insert(QStringView{u"contactGroupId"}, d->contactGroupId);
+    // Output only -> obj.insert(QStringView{u"contactGroupId"}, d->contactGroupId);
     return obj;
 }
 

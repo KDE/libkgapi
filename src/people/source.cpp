@@ -141,9 +141,9 @@ QJsonValue Source::toJSON() const
     QJsonObject obj;
 
     obj.insert(QStringView{u"etag"}, d->etag);
-    obj.insert(QStringView{u"profileMetadata"}, d->profileMetadata.toJSON());
+    // Output only -> obj.insert(QStringView{u"profileMetadata"}, d->profileMetadata.toJSON());
     obj.insert(QStringView{u"id"}, d->id);
-    obj.insert(QStringView{u"updateTime"}, d->updateTime);
+    // Output only -> obj.insert(QStringView{u"updateTime"}, d->updateTime);
     switch (d->type) {
     case Type::SOURCE_TYPE_UNSPECIFIED:
         obj.insert(QStringView{u"type"}, QStringLiteral(u"SOURCE_TYPE_UNSPECIFIED"));

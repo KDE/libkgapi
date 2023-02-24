@@ -134,7 +134,7 @@ QJsonValue Relation::toJSON() const
 
     obj.insert(QStringView{u"type"}, d->type);
     obj.insert(QStringView{u"person"}, d->person);
-    obj.insert(QStringView{u"formattedType"}, d->formattedType);
+    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
     // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     return obj;
 }

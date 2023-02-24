@@ -127,7 +127,9 @@ QJsonValue ProfileMetadata::toJSON() const
                 return QStringLiteral("GOOGLE_APPS_USER");
             }
         });
-        obj.insert(QStringView{u"userTypes"}, std::move(arr));
+        if (!arr.isEmpty()) {
+            obj.insert(QStringView{u"userTypes"}, std::move(arr));
+        }
     }
     switch (d->objectType) {
     case ObjectType::OBJECT_TYPE_UNSPECIFIED:

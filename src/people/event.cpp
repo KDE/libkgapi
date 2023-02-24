@@ -140,7 +140,7 @@ QJsonValue Event::toJSON() const
 
     // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     obj.insert(QStringView{u"type"}, d->type);
-    obj.insert(QStringView{u"formattedType"}, d->formattedType);
+    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
     return obj;
 }
 

@@ -139,6 +139,7 @@ QJsonValue PersonMetadata::toJSON() const
 {
     QJsonObject obj;
 
+    /* Output only
     {
         QJsonArray arr;
         std::transform(d->linkedPeopleResourceNames.cbegin(), d->linkedPeopleResourceNames.cend(), std::back_inserter(arr), [](const auto &val) {
@@ -146,6 +147,8 @@ QJsonValue PersonMetadata::toJSON() const
         });
         obj.insert(QStringView{u"linkedPeopleResourceNames"}, std::move(arr));
     }
+    */
+    /* Output only
     switch (d->objectType) {
     case ObjectType::OBJECT_TYPE_UNSPECIFIED:
         obj.insert(QStringView{u"objectType"}, QStringLiteral(u"OBJECT_TYPE_UNSPECIFIED"));
@@ -156,7 +159,8 @@ QJsonValue PersonMetadata::toJSON() const
     case ObjectType::PAGE:
         obj.insert(QStringView{u"objectType"}, QStringLiteral(u"PAGE"));
         break;
-    }
+    }*/
+    /* Output only
     {
         QJsonArray arr;
         std::transform(d->previousResourceNames.cbegin(), d->previousResourceNames.cend(), std::back_inserter(arr), [](const auto &val) {
@@ -164,13 +168,16 @@ QJsonValue PersonMetadata::toJSON() const
         });
         obj.insert(QStringView{u"previousResourceNames"}, std::move(arr));
     }
-    obj.insert(QStringView{u"deleted"}, d->deleted);
+    */
+    // Output only -> obj.insert(QStringView{u"deleted"}, d->deleted);
     {
         QJsonArray arr;
         std::transform(d->sources.cbegin(), d->sources.cend(), std::back_inserter(arr), [](const auto &val) {
             return val.toJSON();
         });
-        obj.insert(QStringView{u"sources"}, std::move(arr));
+        if (!arr.isEmpty()) {
+            obj.insert(QStringView{u"sources"}, std::move(arr));
+        }
     }
     return obj;
 }

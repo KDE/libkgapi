@@ -283,7 +283,7 @@ QJsonValue Organization::toJSON() const
     obj.insert(QStringView{u"type"}, d->type);
     // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
     obj.insert(QStringView{u"symbol"}, d->symbol);
-    obj.insert(QStringView{u"formattedType"}, d->formattedType);
+    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
     obj.insert(QStringView{u"name"}, d->name);
     obj.insert(QStringView{u"current"}, d->current);
     obj.insert(QStringView{u"costCenter"}, d->costCenter);

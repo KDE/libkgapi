@@ -262,8 +262,8 @@ QJsonValue Name::toJSON() const
     obj.insert(QStringView{u"givenName"}, d->givenName);
     obj.insert(QStringView{u"phoneticGivenName"}, d->phoneticGivenName);
     obj.insert(QStringView{u"phoneticHonorificPrefix"}, d->phoneticHonorificPrefix);
-    obj.insert(QStringView{u"displayName"}, d->displayName);
-    obj.insert(QStringView{u"displayNameLastFirst"}, d->displayNameLastFirst);
+    // Output only -> obj.insert(QStringView{u"displayName"}, d->displayName);
+    // Output only -> obj.insert(QStringView{u"displayNameLastFirst"}, d->displayNameLastFirst);
     obj.insert(QStringView{u"phoneticFamilyName"}, d->phoneticFamilyName);
     obj.insert(QStringView{u"honorificSuffix"}, d->honorificSuffix);
     obj.insert(QStringView{u"phoneticHonorificSuffix"}, d->phoneticHonorificSuffix);

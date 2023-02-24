@@ -219,7 +219,7 @@ QJsonValue MiscKeyword::toJSON() const
         obj.insert(QStringView{u"type"}, QStringLiteral(u"OTHER"));
         break;
     }
-    obj.insert(QStringView{u"formattedType"}, d->formattedType);
+    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
     return obj;
 }
 
