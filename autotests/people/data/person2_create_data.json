@@ -1,0 +1,31 @@
+{
+  "resourceName": "",
+  "etag": "",
+  "metadata": {},
+  "names": [
+    {
+      "givenName": "Konqui",
+      "unstructuredName": "Konqui"
+    }
+  ],
+  "emailAddresses": [
+    {
+      "value": "konqui@kde.test",
+      "type": "work",
+    }
+  ],
+  "organizations": [
+    {
+      "name": "KDE",
+      "department": "Promo",
+      "title": "Mascot"
+    }
+  ],
+  "memberships": [
+    {
+      "contactGroupMembership": {
+        "contactGroupResourceName": "contactGroups/myContacts"
+      }
+    }
+  ]
+}

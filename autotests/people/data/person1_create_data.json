@@ -1,0 +1,155 @@
+{
+  "resourceName": "",
+  "etag": "",
+  "metadata": {},
+  "names": [
+    {
+      "familyName": "Doe",
+      "givenName": "John",
+      "middleName": "Jay",
+      "honorificPrefix": "Dr.",
+      "honorificSuffix": "III",
+      "phoneticFamilyName": "dəʊ",
+      "phoneticGivenName": "ʤɒn",
+      "phoneticMiddleName": "ʤeɪ",
+      "unstructuredName": "Dr. John Jay Doe III"
+    }
+  ],
+  "nicknames": [
+    {
+      "value": "Johnnyboy",
+      "type": "DEFAULT"
+    }
+  ],
+  "birthdays": [
+    {
+      "date": {
+        "year": 1999,
+        "month": 11,
+        "day": 3
+      }
+    }
+  ],
+  "addresses": [
+    {
+      "formattedValue": "KDE Road 15\nInternet 1800\nPo box in internet space and time\nInternet land\nMálaga\n51000\nES",
+      "type": "home",
+      "poBox": "Po box in internet space and time",
+      "streetAddress": "KDE Road 15",
+      "extendedAddress": "Internet 1800",
+      "city": "Internet land",
+      "region": "Málaga",
+      "postalCode": "51000",
+      "country": "ES",
+      "countryCode": "ES"
+    },
+    {
+      "formattedValue": "Main way 35\nMain road 20000\nSome other PO Box\nInternet city\nHuelva\n20035\nES",
+      "type": "work",
+      "poBox": "Some other PO Box",
+      "streetAddress": "Main way 35",
+      "extendedAddress": "Main road 20000",
+      "city": "Internet city",
+      "region": "Huelva",
+      "postalCode": "20035",
+      "country": "ES",
+      "countryCode": "ES"
+    }
+  ],
+  "emailAddresses": [
+    {
+      "value": "john@kde.example",
+      "type": "work"
+    },
+    {
+      "value": "john@home.test",
+      "type": "home"
+    },
+    {
+      "value": "john@private.stuff",
+      "type": "other"
+    }
+  ],
+  "phoneNumbers": [
+    {
+      "value": "666 12 34 90",
+      "type": "mobile"
+    },
+    {
+      "value": "952 66 61 23",
+      "type": "home"
+    },
+    {
+      "value": "910 12 30 00",
+      "type": "other"
+    }
+  ],
+  "biographies": [
+    {
+      "value": "John is awesome!",
+      "contentType": "TEXT_PLAIN"
+    }
+  ],
+  "urls": [
+    {
+      "value": "kde.org",
+      "type": "work"
+    },
+    {
+      "value": "johndoe.test",
+      "type": "blog"
+    }
+  ],
+  "organizations": [
+    {
+      "name": "KDE",
+      "department": "PIM",
+      "title": "Developer"
+    }
+  ],
+  "memberships": [
+    {
+      "contactGroupMembership": {
+        "contactGroupResourceName": "contactGroups/myContacts"
+      }
+    }
+  ],
+  "events": [
+    {
+      "date": {
+        "year": 2023,
+        "month": 2,
+        "day": 24
+      },
+      "type": "other"
+    }
+  ],
+  "imClients": [
+    {
+      "username": "johndoefromkde",
+      "protocol": "googleTalk"
+    },
+    {
+      "username": "johndoefromkde",
+      "protocol": "jabber"
+    }
+  ],
+  "relations": [
+    {
+      "person": "Joanna Doe",
+      "type": "spouse"
+    }
+  ],
+  "userDefined": [
+    {
+      "key": "Custom Field Number One",
+      "value": "custom field 1"
+    }
+  ],
+  "sipAddresses": [
+    {
+      "value": "123456789",
+      "type": "home"
+    }
+  ]
+}
