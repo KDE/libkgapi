@@ -9,6 +9,8 @@
 
 #include "person.h"
 
+#include "debug.h"
+
 #include "address.h"
 #include "agerangetype.h"
 #include "biography.h"
@@ -1403,6 +1405,28 @@ PersonPtr Person::fromKContactsAddressee(const KContacts::Addressee &addressee)
     auto person = new Person;
     person->d->setFromKContactsAddressee(addressee);
     return PersonPtr(person);
+}
+
+bool Person::operator==(const Person &other) const
+{
+    if (!Object::operator==(other)) {
+        return false;
+    }
+
+    if (d->resourceName != other.d->resourceName) {
+        qCDebug(KGAPIDebug) << "Etag does not match";
+        return false;
+    }
+    if (d->etag != other.d->etag) {
+        qCDebug(KGAPIDebug) << "Etag does not match";
+        return false;
+    }
+    if (d->metadata == other.d->metadata) {
+        qCDebug(KGAPIDebug) << "Metadata does not match";
+        return false;
+    }
+
+    return true;
 }
 
 } // namespace KGAPI2::People
