@@ -29,11 +29,15 @@ public:
     Private(PersonFetchJob *parent);
 
     QNetworkRequest createRequest(const QUrl &url);
+    ObjectsList processReceivedData(const QByteArray &rawData);
 
     QString readMask;
     QString fetchQuery;
     QString syncToken;
     QString receivedSyncToken;
+
+public Q_SLOTS:
+    void startFetch();
 
 private:
     PersonFetchJob * const q;
@@ -49,6 +53,57 @@ QNetworkRequest PersonFetchJob::Private::createRequest(const QUrl& url)
     QNetworkRequest request(url);
     request.setRawHeader("Host", "people.googleapis.com");
     return request;
+}
+
+void PersonFetchJob::Private::startFetch()
+{
+    QUrl url;
+    if (fetchQuery.isEmpty()) {
+        url = PeopleService::fetchAllContactsUrl(syncToken);
+    } else {
+        url = PeopleService::fetchContactUrl(fetchQuery, readMask);
+    }
+
+    const QNetworkRequest request = createRequest(url);
+    q->enqueueRequest(request);
+}
+
+ObjectsList PersonFetchJob::Private::processReceivedData(const QByteArray &rawData)
+{
+    FeedData feedData;
+    ObjectsList items;
+
+    if (fetchQuery.isEmpty()) {
+        items = PeopleService::parseConnectionsJSONFeed(feedData, rawData);
+    } else {
+        const auto jsonDocumentFromData = QJsonDocument::fromJson(rawData);
+        if(jsonDocumentFromData.isObject()) {
+            const auto results = jsonDocumentFromData.object().value(QStringLiteral("results")).toArray();
+
+            for(const auto &result : results) {
+                if(result.isObject()) {
+                    items << People::Person::fromJSON(result.toObject());
+                } else {
+                    qDebug() << "Result was not an object... skipping.";
+                }
+            }
+
+        } else {
+            qDebug() << "JSON document does not have object";
+        }
+    }
+
+    if (feedData.nextPageUrl.isValid()) {
+        q->emitProgress(feedData.startIndex, feedData.totalResults);
+
+        const QNetworkRequest request = createRequest(feedData.nextPageUrl);
+        q->enqueueRequest(request);
+    } else {
+        receivedSyncToken = feedData.syncToken;
+        q->emitFinished();
+    }
+
+    return items;
 }
 
 PersonFetchJob::PersonFetchJob(const AccountPtr& account, QObject* parent)
@@ -92,55 +147,16 @@ QString PersonFetchJob::receivedSyncToken() const
 
 void PersonFetchJob::start()
 {
-    QUrl url;
-    if (d->fetchQuery.isEmpty()) {
-        url = PeopleService::fetchAllContactsUrl(d->syncToken);
-    } else {
-        url = PeopleService::fetchContactUrl(d->fetchQuery, d->readMask);
-    }
-
-    const QNetworkRequest request = d->createRequest(url);
-    enqueueRequest(request);
+    d->startFetch();
 }
 
 ObjectsList PersonFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
-    FeedData feedData;
-    ObjectsList items;
-    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-    ContentType ct = Utils::stringToContentType(contentType);
+    const auto contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+    const auto ct = Utils::stringToContentType(contentType);
+
     if (ct == KGAPI2::JSON) {
-        if (d->fetchQuery.isEmpty()) {
-            items = PeopleService::parseConnectionsJSONFeed(feedData, rawData);
-        } else {
-            const auto jsonDocumentFromData = QJsonDocument::fromJson(rawData);
-            if(jsonDocumentFromData.isObject()) {
-                const auto results = jsonDocumentFromData.object().value(QStringLiteral("results")).toArray();
-
-                for(const auto &result : results) {
-                    if(result.isObject()) {
-                        items << People::Person::fromJSON(result.toObject());
-                    } else {
-                        qDebug() << "Result was not an object... skipping.";
-                    }
-                }
-
-            } else {
-                qDebug() << "JSON document does not have object";
-            }
-        }
-
-        if (feedData.nextPageUrl.isValid()) {
-            emitProgress(feedData.startIndex, feedData.totalResults);
-
-            const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
-            enqueueRequest(request);
-        } else {
-            d->receivedSyncToken = feedData.syncToken;
-            emitFinished();
-        }
-
-        return items;
+        return d->processReceivedData(rawData);
     }
 
     return ObjectsList();
