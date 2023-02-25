@@ -74,7 +74,7 @@ ObjectsList PersonFetchJob::Private::processReceivedData(const QByteArray &rawDa
     ObjectsList items;
 
     if (fetchQuery.isEmpty()) {
-        items = PeopleService::parseConnectionsJSONFeed(feedData, rawData);
+        items = PeopleService::parseConnectionsJSONFeed(feedData, rawData, syncToken);
     } else {
         const auto jsonDocumentFromData = QJsonDocument::fromJson(rawData);
         if(jsonDocumentFromData.isObject()) {

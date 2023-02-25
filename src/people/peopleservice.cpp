@@ -96,13 +96,13 @@ static const auto AllGroupFields = QStringLiteral("clientData,"
                                                   "metadata,"
                                                   "name");
 
-void writeNextPageDataQuery(FeedData &feedData, const QJsonObject &replyRootObject)
+void writeNextPageDataQuery(FeedData &feedData, const QJsonObject &replyRootObject, const QString &syncToken = {})
 {
     if(!replyRootObject.contains(QStringLiteral("nextPageToken"))) {
         return;
     }
 
-    auto url = fetchAllContactsUrl();
+    auto url = fetchAllContactsUrl(syncToken);
 
     QUrlQuery query(url);
     query.addQueryItem(QStringLiteral("pageToken"), replyRootObject.value(QStringLiteral("nextPageToken")).toString());
@@ -270,7 +270,7 @@ QUrl deleteContactPhotoUrl(const QString &resourceName, const QString &personFie
     return url;
 }
 
-ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed)
+ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed, const QString &syncToken)
 {
     const auto document = QJsonDocument::fromJson(jsonFeed);
 
@@ -288,7 +288,7 @@ ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonF
 
     feedData.totalResults = rootObject.value(QStringLiteral("totalItems")).toInt();
 
-    Private::writeNextPageDataQuery(feedData, rootObject);
+    Private::writeNextPageDataQuery(feedData, rootObject, syncToken);
     feedData.syncToken = rootObject.value(QStringLiteral("nextSyncToken")).toString();
 
     return output;
