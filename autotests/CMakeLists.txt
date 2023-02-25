@@ -100,3 +100,5 @@ add_libkgapi2_test(drive teamdrivedeletejobtest)
 add_libkgapi2_test(drive teamdrivemodifyjobtest)
 add_libkgapi2_test(drive teamdrivefetchjobtest)
 add_libkgapi2_test(drive teamdrivesearchquerytest)
+
+add_libkgapi2_test(people personcreatejobtest)
