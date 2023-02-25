@@ -65,6 +65,53 @@ public:
     Private &operator=(Private &&) noexcept = delete;
     ~Private() = default;
 
+    bool operator==(const Private &other) const
+    {
+        return nicknames == other.nicknames &&
+            emailAddresses == other.emailAddresses &&
+            clientData == other.clientData &&
+            braggingRights == other.braggingRights &&
+            relationshipStatuses == other.relationshipStatuses &&
+            birthdays == other.birthdays &&
+            relations == other.relations &&
+            locales == other.locales &&
+            locations == other.locations &&
+            externalIds == other.externalIds &&
+            ageRanges == other.ageRanges &&
+            taglines == other.taglines &&
+            userDefined == other.userDefined &&
+            biographies == other.biographies &&
+            sipAddresses == other.sipAddresses &&
+            memberships == other.memberships &&
+            skills == other.skills &&
+            residences == other.residences &&
+            names == other.names &&
+            calendarUrls == other.calendarUrls &&
+            coverPhotos == other.coverPhotos &&
+            addresses == other.addresses &&
+            etag == other.etag &&
+            phoneNumbers == other.phoneNumbers &&
+            imClients == other.imClients &&
+            events == other.events &&
+            photos == other.photos &&
+            occupations == other.occupations &&
+            miscKeywords == other.miscKeywords &&
+            relationshipInterests == other.relationshipInterests &&
+            resourceName == other.resourceName &&
+            interests == other.interests &&
+            organizations == other.organizations &&
+            urls == other.urls &&
+            genders == other.genders &&
+            fileAses == other.fileAses &&
+            ageRange == other.ageRange &&
+            metadata == other.metadata;
+    }
+
+    bool operator!=(const Private &other) const
+    {
+        return !(*this == other);
+    }
+
     KContacts::Addressee toKContactsAddressee()
     {
         KContacts::Addressee addressee;
@@ -1417,19 +1464,26 @@ bool Person::operator==(const Person &other) const
     }
 
     if (d->resourceName != other.d->resourceName) {
-        qCDebug(KGAPIDebug) << "Etag does not match";
+        qCDebug(KGAPIDebug) << "Resource name does not match"
+                            << d->resourceName
+                            << other.d->resourceName;
         return false;
     }
     if (d->etag != other.d->etag) {
-        qCDebug(KGAPIDebug) << "Etag does not match";
+        qCDebug(KGAPIDebug) << "Etag does not match"
+                            << d->etag
+                            << other.d->etag;
         return false;
     }
-    if (d->metadata == other.d->metadata) {
-        qCDebug(KGAPIDebug) << "Metadata does not match";
+    if (d->metadata != other.d->metadata) {
+        qCDebug(KGAPIDebug) << "Metadata does not match"
+                            << d->metadata.deleted() << other.d->metadata.deleted()
+                            << d->metadata.linkedPeopleResourceNames() << other.d->metadata.linkedPeopleResourceNames()
+                            << d->metadata.previousResourceNames() << other.d->metadata.previousResourceNames();
         return false;
     }
 
-    return true;
+    return *d.get() == *d.get();
 }
 
 } // namespace KGAPI2::People
