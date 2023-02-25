@@ -1137,6 +1137,9 @@ PersonPtr Person::fromJSON(const QJsonObject &obj)
 
         const auto urls = obj.value(QStringLiteral("urls")).toArray();
         person->d->urls = Url::fromJSONArray(urls);
+
+        const auto userDefined = obj.value(QStringLiteral("userDefined")).toArray();
+        person->d->userDefined = UserDefined::fromJSONArray(userDefined);
     }
 
     return People::PersonPtr(person);
