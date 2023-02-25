@@ -106,7 +106,21 @@ UserDefined UserDefined::fromJSON(const QJsonObject &obj)
         userDefined.setValue(obj.value(QStringLiteral("value")).toString());
     }
 
-    return UserDefined();
+    return userDefined;
+}
+
+QVector<UserDefined> UserDefined::fromJSONArray(const QJsonArray& data)
+{
+    QVector<UserDefined> userDefineds;
+
+    for(const auto &userDefined : data) {
+        if(userDefined.isObject()) {
+            const auto objectifiedUserDefined = userDefined.toObject();
+            userDefineds.append(fromJSON(objectifiedUserDefined));
+        }
+    }
+
+    return userDefineds;
 }
 
 QJsonValue UserDefined::toJSON() const

@@ -16,6 +16,7 @@
 
 #include <optional>
 
+class QJsonArray;
 class QJsonObject;
 class QJsonValue;
 
@@ -45,6 +46,7 @@ public:
     bool operator!=(const UserDefined &) const;
 
     static UserDefined fromJSON(const QJsonObject &);
+    static QVector<UserDefined> fromJSONArray(const QJsonArray& data);
     QJsonValue toJSON() const;
 
     /** The end user specified value of the user defined data. **/
