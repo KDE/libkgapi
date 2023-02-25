@@ -131,7 +131,7 @@ target_include_directories(KPimGAPIPeople
 target_link_libraries(KPimGAPIPeople
 PUBLIC
     KPim::GAPICore
-    KF5::Contacts
+    KF${KF_MAJOR_VERSION}::Contacts
 PRIVATE
     Qt::Network
 )
