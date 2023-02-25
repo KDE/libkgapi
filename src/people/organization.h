@@ -130,6 +130,8 @@ public:
     /** Sets value of the fullTimeEquivalentMillipercent property. **/
     void setFullTimeEquivalentMillipercent(const int &value);
 
+    bool hasSetFullTimeEquivalentMillipercent() const;
+
 private:
     class Private;
     QSharedDataPointer<Private> d;

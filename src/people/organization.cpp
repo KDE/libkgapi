@@ -61,6 +61,7 @@ public:
     QDate endDate{};
     QString phoneticName{};
     int fullTimeEquivalentMillipercent{};
+    bool hasSetFullTimeEquivalentMillipercent{};
 };
 
 Organization::Organization()
@@ -229,6 +230,12 @@ int Organization::fullTimeEquivalentMillipercent() const
 void Organization::setFullTimeEquivalentMillipercent(const int &value)
 {
     d->fullTimeEquivalentMillipercent = value;
+    d->hasSetFullTimeEquivalentMillipercent = true;
+}
+
+bool Organization::hasSetFullTimeEquivalentMillipercent() const
+{
+    return d->hasSetFullTimeEquivalentMillipercent;
 }
 
 Organization Organization::fromJSON(const QJsonObject &obj)
@@ -265,6 +272,7 @@ Organization Organization::fromJSON(const QJsonObject &obj)
         organization.d->location = obj.value(QStringLiteral("location")).toString();
         organization.d->costCenter = obj.value(QStringLiteral("costCenter")).toString();
         organization.d->fullTimeEquivalentMillipercent = obj.value(QStringLiteral("fullTimeEquivalentMillipercent")).toInt();
+        organization.d->hasSetFullTimeEquivalentMillipercent = obj.contains(QStringLiteral("fullTimeEquivalentMillipercent"));
     }
 
     return organization;
@@ -299,12 +307,17 @@ QJsonValue Organization::toJSON() const
     if (d->hasSetCurrent) {
         PeopleUtils::addValueToJsonObjectIfValid(obj, "current", d->current);
     }
+
     PeopleUtils::addValueToJsonObjectIfValid(obj, "costCenter", d->costCenter);
     PeopleUtils::addValueToJsonObjectIfValid(obj, "department", d->department);
     PeopleUtils::addValueToJsonObjectIfValid(obj, "domain", d->domain);
     PeopleUtils::addValueToJsonObjectIfValid(obj, "jobDescription", d->jobDescription);
     PeopleUtils::addValueToJsonObjectIfValid(obj, "phoneticName", d->phoneticName);
-    PeopleUtils::addValueToJsonObjectIfValid(obj, "fullTimeEquivalentMillipercent", d->fullTimeEquivalentMillipercent);
+
+    if(d->hasSetFullTimeEquivalentMillipercent) {
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "fullTimeEquivalentMillipercent", d->fullTimeEquivalentMillipercent);
+    }
+
     return obj;
 }
 
