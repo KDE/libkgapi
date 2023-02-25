@@ -84,12 +84,12 @@ ObjectsList PersonFetchJob::Private::processReceivedData(const QByteArray &rawDa
                 if(result.isObject()) {
                     items << People::Person::fromJSON(result.toObject());
                 } else {
-                    qDebug() << "Result was not an object... skipping.";
+                    qCDebug(KGAPIDebug()) << "Result was not an object... skipping.";
                 }
             }
 
         } else {
-            qDebug() << "JSON document does not have object";
+            qCDebug(KGAPIDebug()) << "JSON document does not have object";
         }
     }
 
