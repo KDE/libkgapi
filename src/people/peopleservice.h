@@ -49,4 +49,12 @@ namespace PeopleService
     KGAPIPEOPLE_EXPORT ObjectsList parseContactGroupsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed);
 }
 
+namespace PeopleUtils
+{
+void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const int value);
+    void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const bool value);
+    void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const QString &value);
+    void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const QJsonValue &value);
+}
+
 }

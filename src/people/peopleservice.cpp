@@ -320,4 +320,34 @@ ObjectsList parseContactGroupsJSONFeed(FeedData &feedData, const QByteArray &jso
 
 }
 
+namespace PeopleUtils
+{
+
+void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const int value)
+{
+    object.insert(QString::fromUtf8(key), value);
+}
+
+void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const bool value)
+{
+    object.insert(QString::fromUtf8(key), value);
+}
+
+void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const QString &value)
+{
+    if (!value.isEmpty()) {
+        object.insert(QString::fromUtf8(key), value);
+    }
+}
+
+void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const QJsonValue &value)
+{
+    if (!value.isNull() || !value.isUndefined()) {
+        object.insert(QString::fromUtf8(key), value);
+    }
+}
+
+
+}
+
 }
