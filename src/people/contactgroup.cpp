@@ -12,6 +12,7 @@
 #include "contactgroupmetadata.h"
 #include "groupclientdata.h"
 #include "clientdata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -183,19 +184,19 @@ QJsonValue ContactGroup::toJSON() const
 {
     QJsonObject obj;
 
-    // Output only -> obj.insert(QStringView{u"formattedName"}, d->formattedName);
-    // Output only -> obj.insert(QStringView{u"memberCount"}, d->memberCount);
-    obj.insert(QStringView{u"etag"}, d->etag);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedName", d->formattedName);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "memberCount", d->memberCount);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "etag", d->etag);
     /* Output only
     switch (d->groupType) {
     case GroupType::GROUP_TYPE_UNSPECIFIED:
-        obj.insert(QStringView{u"groupType"}, QStringLiteral(u"GROUP_TYPE_UNSPECIFIED"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "groupType", QStringLiteral("GROUP_TYPE_UNSPECIFIED"));
         break;
     case GroupType::USER_CONTACT_GROUP:
-        obj.insert(QStringView{u"groupType"}, QStringLiteral(u"USER_CONTACT_GROUP"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "groupType", QStringLiteral("USER_CONTACT_GROUP"));
         break;
     case GroupType::SYSTEM_CONTACT_GROUP:
-        obj.insert(QStringView{u"groupType"}, QStringLiteral(u"SYSTEM_CONTACT_GROUP"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "groupType", QStringLiteral("SYSTEM_CONTACT_GROUP"));
         break;
     }*/
     if (!d->clientData.isEmpty()) {
@@ -203,18 +204,18 @@ QJsonValue ContactGroup::toJSON() const
         std::transform(d->clientData.cbegin(), d->clientData.cend(), std::back_inserter(arr), [](const auto &val) {
             return val.toJSON();
         });
-        obj.insert(QStringView{u"clientData"}, std::move(arr));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "clientData", std::move(arr));
     }
-    obj.insert(QStringView{u"name"}, d->name);
-    // Output only -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"resourceName"}, d->resourceName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "name", d->name);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "resourceName", d->resourceName);
     /* Output only
     if (!d->memberResourceNames.isEmpty()) {
         QJsonArray arr;
         std::transform(d->memberResourceNames.cbegin(), d->memberResourceNames.cend(), std::back_inserter(arr), [](const auto &val) {
             return val;
         });
-        obj.insert(QStringView{u"memberResourceNames"}, std::move(arr));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "memberResourceNames", std::move(arr));
     }*/
     return obj;
 }

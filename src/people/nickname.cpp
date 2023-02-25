@@ -10,6 +10,7 @@
 #include "nickname.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -142,31 +143,31 @@ QJsonValue Nickname::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"value"}, d->value);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
     switch (d->type) {
     case Type::DEFAULT:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"DEFAULT"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("DEFAULT"));
         break;
     case Type::MAIDEN_NAME:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"MAIDEN_NAME"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("MAIDEN_NAME"));
         break;
     case Type::INITIALS:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"INITIALS"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("INITIALS"));
         break;
     case Type::GPLUS:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"GPLUS"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("GPLUS"));
         break;
     case Type::OTHER_NAME:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OTHER_NAME"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OTHER_NAME"));
         break;
     case Type::ALTERNATE_NAME:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"ALTERNATE_NAME"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("ALTERNATE_NAME"));
         break;
     case Type::SHORT_NAME:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"SHORT_NAME"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("SHORT_NAME"));
         break;
     }
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
     return obj;
 }
 

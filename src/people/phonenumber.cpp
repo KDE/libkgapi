@@ -10,6 +10,7 @@
 #include "phonenumber.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -141,11 +142,11 @@ QJsonValue PhoneNumber::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"value"}, d->value);
-    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
-    // Output only -> obj.insert(QStringView{u"canonicalForm"}, d->canonicalForm);
-    obj.insert(QStringView{u"type"}, d->type);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedType", d->formattedType);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "canonicalForm", d->canonicalForm);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "type", d->type);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
     return obj;
 }
 

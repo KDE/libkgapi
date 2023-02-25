@@ -10,6 +10,7 @@
 #include "sipaddress.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -131,10 +132,10 @@ QJsonValue SipAddress::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"value"}, d->value);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"type"}, d->type);
-    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "type", d->type);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedType", d->formattedType);
     return obj;
 }
 

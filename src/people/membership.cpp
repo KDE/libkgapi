@@ -12,6 +12,7 @@
 #include "contactgroupmembership.h"
 #include "domainmembership.h"
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -146,11 +147,11 @@ QJsonValue Membership::toJSON() const
     QJsonObject obj;
 
     if (!d->contactGroupMembership.contactGroupResourceName().isEmpty()) {
-        obj.insert(QStringView{u"contactGroupMembership"}, d->contactGroupMembership.toJSON());
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "contactGroupMembership", d->contactGroupMembership.toJSON());
     } else if (d->domainMembership.inViewerDomain()) {
-        obj.insert(QStringView{u"domainMembership"}, d->domainMembership.toJSON());
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "domainMembership", d->domainMembership.toJSON());
     }
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
     return obj;
 }
 

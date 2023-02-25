@@ -9,6 +9,7 @@
 #include "relationshipstatus.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -98,9 +99,9 @@ QJsonValue RelationshipStatus::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"value"}, d->value);
-    obj.insert(QStringView{u"formattedValue"}, d->formattedValue);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedValue", d->formattedValue);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
     return obj;
 }
 

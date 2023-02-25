@@ -8,6 +8,7 @@
  */
 
 #include "groupclientdata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -112,8 +113,8 @@ QJsonValue GroupClientData::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"key"}, d->key);
-    obj.insert(QStringView{u"value"}, d->value);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "key", d->key);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
     return obj;
 }
 

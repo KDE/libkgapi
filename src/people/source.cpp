@@ -9,6 +9,7 @@
 
 #include "source.h"
 
+#include "peopleservice.h"
 #include "profilemetadata.h"
 
 #include <QJsonArray>
@@ -140,31 +141,31 @@ QJsonValue Source::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"etag"}, d->etag);
-    // Output only -> obj.insert(QStringView{u"profileMetadata"}, d->profileMetadata.toJSON());
-    obj.insert(QStringView{u"id"}, d->id);
-    // Output only -> obj.insert(QStringView{u"updateTime"}, d->updateTime);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "etag", d->etag);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "profileMetadata", d->profileMetadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "id", d->id);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "updateTime", d->updateTime);
     switch (d->type) {
     case Type::SOURCE_TYPE_UNSPECIFIED:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"SOURCE_TYPE_UNSPECIFIED"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("SOURCE_TYPE_UNSPECIFIED"));
         break;
     case Type::ACCOUNT:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"ACCOUNT"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("ACCOUNT"));
         break;
     case Type::PROFILE:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"PROFILE"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("PROFILE"));
         break;
     case Type::DOMAIN_PROFILE:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"DOMAIN_PROFILE"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("DOMAIN_PROFILE"));
         break;
     case Type::CONTACT:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"CONTACT"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("CONTACT"));
         break;
     case Type::OTHER_CONTACT:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OTHER_CONTACT"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OTHER_CONTACT"));
         break;
     case Type::DOMAIN_CONTACT:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"DOMAIN_CONTACT"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("DOMAIN_CONTACT"));
         break;
     }
     return obj;

@@ -10,6 +10,7 @@
 #include "agerangetype.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonValue>
 #include <QSharedData>
@@ -109,19 +110,19 @@ QJsonValue AgeRangeType::toJSON() const
 
     switch (d->ageRange) {
     case AgeRange::AGE_RANGE_UNSPECIFIED:
-        obj.insert(QStringView{u"ageRange"}, QStringLiteral(u"AGE_RANGE_UNSPECIFIED"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "ageRange", QStringLiteral("AGE_RANGE_UNSPECIFIED"));
         break;
     case AgeRange::LESS_THAN_EIGHTEEN:
-        obj.insert(QStringView{u"ageRange"}, QStringLiteral(u"LESS_THAN_EIGHTEEN"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "ageRange", QStringLiteral("LESS_THAN_EIGHTEEN"));
         break;
     case AgeRange::EIGHTEEN_TO_TWENTY:
-        obj.insert(QStringView{u"ageRange"}, QStringLiteral(u"EIGHTEEN_TO_TWENTY"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "ageRange", QStringLiteral("EIGHTEEN_TO_TWENTY"));
         break;
     case AgeRange::TWENTY_ONE_OR_OLDER:
-        obj.insert(QStringView{u"ageRange"}, QStringLiteral(u"TWENTY_ONE_OR_OLDER"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "ageRange", QStringLiteral("TWENTY_ONE_OR_OLDER"));
         break;
     }
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
     return obj;
 }
 

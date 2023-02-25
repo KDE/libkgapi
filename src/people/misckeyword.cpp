@@ -10,6 +10,7 @@
 #include "misckeyword.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -179,47 +180,47 @@ QJsonValue MiscKeyword::toJSON() const
 {
     QJsonObject obj;
 
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"value"}, d->value);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata"}, d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
     switch (d->type) {
     case Type::TYPE_UNSPECIFIED:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"TYPE_UNSPECIFIED"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("TYPE_UNSPECIFIED"));
         break;
     case Type::OUTLOOK_BILLING_INFORMATION:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OUTLOOK_BILLING_INFORMATION"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OUTLOOK_BILLING_INFORMATION"));
         break;
     case Type::OUTLOOK_DIRECTORY_SERVER:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OUTLOOK_DIRECTORY_SERVER"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OUTLOOK_DIRECTORY_SERVER"));
         break;
     case Type::OUTLOOK_KEYWORD:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OUTLOOK_KEYWORD"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OUTLOOK_KEYWORD"));
         break;
     case Type::OUTLOOK_MILEAGE:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OUTLOOK_MILEAGE"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OUTLOOK_MILEAGE"));
         break;
     case Type::OUTLOOK_PRIORITY:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OUTLOOK_PRIORITY"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OUTLOOK_PRIORITY"));
         break;
     case Type::OUTLOOK_SENSITIVITY:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OUTLOOK_SENSITIVITY"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OUTLOOK_SENSITIVITY"));
         break;
     case Type::OUTLOOK_SUBJECT:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OUTLOOK_SUBJECT"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OUTLOOK_SUBJECT"));
         break;
     case Type::OUTLOOK_USER:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OUTLOOK_USER"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OUTLOOK_USER"));
         break;
     case Type::HOME:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"HOME"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("HOME"));
         break;
     case Type::WORK:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"WORK"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("WORK"));
         break;
     case Type::OTHER:
-        obj.insert(QStringView{u"type"}, QStringLiteral(u"OTHER"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "type", QStringLiteral("OTHER"));
         break;
     }
-    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedType"}, d->formattedType);
     return obj;
 }
 

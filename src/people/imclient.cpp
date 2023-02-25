@@ -10,6 +10,7 @@
 #include "imclient.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -173,12 +174,12 @@ QJsonValue ImClient::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"protocol"}, d->protocol);
-    obj.insert(QStringView{u"username"}, d->username);
-    obj.insert(QStringView{u"type"}, d->type);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
-    obj.insert(QStringView{u"formattedProtocol"}, d->formattedProtocol);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "protocol", d->protocol);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "username", d->username);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "type", d->type);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata"}, d->metadata.toJSON());
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedType"}, d->formattedType);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedProtocol"}, d->formattedProtocol);
     return obj;
 }
 

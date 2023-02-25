@@ -10,6 +10,7 @@
 #include "event.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -136,11 +137,18 @@ QVector<Event> Event::fromJSONArray(const QJsonArray& data)
 
 QJsonValue Event::toJSON() const
 {
-    QJsonObject obj;
+    // Skip field metadata as is only useful for receiving
+    // formattedType is output only
+    QJsonObject obj {
+        { QStringLiteral("date"), QJsonObject {
+            { QStringLiteral("year"), d->date.year() },
+            { QStringLiteral("month"), d->date.month() },
+            { QStringLiteral("day"), d->date.day() }
+        } }
+    };
 
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"type"}, d->type);
-    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "type", d->type);
+
     return obj;
 }
 

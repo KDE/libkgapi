@@ -8,6 +8,7 @@
  */
 
 #include "contactgroupmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -89,8 +90,8 @@ QJsonValue ContactGroupMetadata::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"updateTime"}, d->updateTime.toString(Qt::ISODate));
-    obj.insert(QStringView{u"deleted"}, d->deleted);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "updateTime", d->updateTime.toString(Qt::ISODate));
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "deleted", d->deleted);
     return obj;
 }
 

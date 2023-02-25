@@ -8,6 +8,7 @@
  */
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -110,10 +111,10 @@ QJsonValue FieldMetadata::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"source"}, d->source.toJSON());
-    obj.insert(QStringView{u"sourcePrimary"}, d->sourcePrimary);
-    obj.insert(QStringView{u"primary"}, d->primary);
-    obj.insert(QStringView{u"verified"}, d->verified);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "source", d->source.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "sourcePrimary", d->sourcePrimary);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "primary", d->primary);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "verified", d->verified);
     return obj;
 }
 

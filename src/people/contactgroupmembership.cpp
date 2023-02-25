@@ -8,6 +8,7 @@
  */
 
 #include "contactgroupmembership.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -93,8 +94,8 @@ QJsonValue ContactGroupMembership::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"contactGroupResourceName"}, d->contactGroupResourceName);
-    // Output only -> obj.insert(QStringView{u"contactGroupId"}, d->contactGroupId);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "contactGroupResourceName", d->contactGroupResourceName);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "contactGroupId", d->contactGroupId);
     return obj;
 }
 

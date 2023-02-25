@@ -10,6 +10,7 @@
 #include "biography.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -135,19 +136,19 @@ QJsonValue Biography::toJSON() const
 {
     QJsonObject obj;
 
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata"}, d->metadata.toJSON());
     switch (d->contentType) {
     case ContentType::CONTENT_TYPE_UNSPECIFIED:
-        obj.insert(QStringView{u"contentType"}, QStringLiteral(u"CONTENT_TYPE_UNSPECIFIED"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "contentType", QStringLiteral("CONTENT_TYPE_UNSPECIFIED"));
         break;
     case ContentType::TEXT_PLAIN:
-        obj.insert(QStringView{u"contentType"}, QStringLiteral(u"TEXT_PLAIN"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "contentType", QStringLiteral("TEXT_PLAIN"));
         break;
     case ContentType::TEXT_HTML:
-        obj.insert(QStringView{u"contentType"}, QStringLiteral(u"TEXT_HTML"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "contentType", QStringLiteral("TEXT_HTML"));
         break;
     }
-    obj.insert(QStringView{u"value"}, d->value);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
     return obj;
 }
 

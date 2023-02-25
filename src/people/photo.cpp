@@ -10,6 +10,7 @@
 #include "photo.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -126,9 +127,9 @@ QJsonValue Photo::toJSON() const
 {
     QJsonObject obj;
 
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"default"}, d->isDefault);
-    obj.insert(QStringView{u"url"}, d->url);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "default", d->isDefault);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "url", d->url);
     return obj;
 }
 

@@ -10,6 +10,7 @@
 #include "name.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -254,21 +255,21 @@ QJsonValue Name::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"unstructuredName"}, d->unstructuredName);
-    obj.insert(QStringView{u"familyName"}, d->familyName);
-    obj.insert(QStringView{u"phoneticMiddleName"}, d->phoneticMiddleName);
-    obj.insert(QStringView{u"middleName"}, d->middleName);
-    obj.insert(QStringView{u"honorificPrefix"}, d->honorificPrefix);
-    obj.insert(QStringView{u"givenName"}, d->givenName);
-    obj.insert(QStringView{u"phoneticGivenName"}, d->phoneticGivenName);
-    obj.insert(QStringView{u"phoneticHonorificPrefix"}, d->phoneticHonorificPrefix);
-    // Output only -> obj.insert(QStringView{u"displayName"}, d->displayName);
-    // Output only -> obj.insert(QStringView{u"displayNameLastFirst"}, d->displayNameLastFirst);
-    obj.insert(QStringView{u"phoneticFamilyName"}, d->phoneticFamilyName);
-    obj.insert(QStringView{u"honorificSuffix"}, d->honorificSuffix);
-    obj.insert(QStringView{u"phoneticHonorificSuffix"}, d->phoneticHonorificSuffix);
-    obj.insert(QStringView{u"phoneticFullName"}, d->phoneticFullName);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "unstructuredName", d->unstructuredName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "familyName", d->familyName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "phoneticMiddleName", d->phoneticMiddleName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "middleName", d->middleName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "honorificPrefix", d->honorificPrefix);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "givenName", d->givenName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "phoneticGivenName", d->phoneticGivenName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "phoneticHonorificPrefix", d->phoneticHonorificPrefix);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "displayName", d->displayName);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "displayNameLastFirst", d->displayNameLastFirst);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "phoneticFamilyName", d->phoneticFamilyName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "honorificSuffix", d->honorificSuffix);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "phoneticHonorificSuffix", d->phoneticHonorificSuffix);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "phoneticFullName", d->phoneticFullName);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
     return obj;
 }
 

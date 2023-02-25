@@ -8,6 +8,7 @@
  */
 
 #include "profilemetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -128,18 +129,18 @@ QJsonValue ProfileMetadata::toJSON() const
             }
         });
         if (!arr.isEmpty()) {
-            obj.insert(QStringView{u"userTypes"}, std::move(arr));
+            PeopleUtils::addValueToJsonObjectIfValid(obj, "userTypes", std::move(arr));
         }
     }
     switch (d->objectType) {
     case ObjectType::OBJECT_TYPE_UNSPECIFIED:
-        obj.insert(QStringView{u"objectType"}, QStringLiteral(u"OBJECT_TYPE_UNSPECIFIED"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "objectType", QStringLiteral("OBJECT_TYPE_UNSPECIFIED"));
         break;
     case ObjectType::PERSON:
-        obj.insert(QStringView{u"objectType"}, QStringLiteral(u"PERSON"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "objectType", QStringLiteral("PERSON"));
         break;
     case ObjectType::PAGE:
-        obj.insert(QStringView{u"objectType"}, QStringLiteral(u"PAGE"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "objectType", QStringLiteral("PAGE"));
         break;
     }
     return obj;

@@ -10,6 +10,7 @@
 #include "organization.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -278,20 +279,20 @@ QJsonValue Organization::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"location"}, d->location);
-    obj.insert(QStringView{u"title"}, d->title);
-    obj.insert(QStringView{u"type"}, d->type);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"symbol"}, d->symbol);
-    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
-    obj.insert(QStringView{u"name"}, d->name);
-    obj.insert(QStringView{u"current"}, d->current);
-    obj.insert(QStringView{u"costCenter"}, d->costCenter);
-    obj.insert(QStringView{u"department"}, d->department);
-    obj.insert(QStringView{u"domain"}, d->domain);
-    obj.insert(QStringView{u"jobDescription"}, d->jobDescription);
-    obj.insert(QStringView{u"phoneticName"}, d->phoneticName);
-    obj.insert(QStringView{u"fullTimeEquivalentMillipercent"}, d->fullTimeEquivalentMillipercent);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "location", d->location);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "title", d->title);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "type", d->type);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "symbol", d->symbol);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedType", d->formattedType);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "name", d->name);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "current", d->current);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "costCenter", d->costCenter);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "department", d->department);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "domain", d->domain);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "jobDescription", d->jobDescription);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "phoneticName", d->phoneticName);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "fullTimeEquivalentMillipercent", d->fullTimeEquivalentMillipercent);
     return obj;
 }
 

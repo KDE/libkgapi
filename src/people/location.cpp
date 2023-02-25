@@ -10,6 +10,7 @@
 #include "location.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -183,14 +184,14 @@ QJsonValue Location::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"deskCode"}, d->deskCode);
-    obj.insert(QStringView{u"floor"}, d->floor);
-    obj.insert(QStringView{u"buildingId"}, d->buildingId);
-    obj.insert(QStringView{u"type"}, d->type);
-    obj.insert(QStringView{u"current"}, d->current);
-    obj.insert(QStringView{u"value"}, d->value);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"floorSection"}, d->floorSection);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "deskCode", d->deskCode);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "floor", d->floor);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "buildingId", d->buildingId);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "type", d->type);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "current", d->current);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata"}, d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "floorSection", d->floorSection);
     return obj;
 }
 

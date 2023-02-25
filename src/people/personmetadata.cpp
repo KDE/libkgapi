@@ -9,6 +9,7 @@
 
 #include "personmetadata.h"
 
+#include "peopleservice.h"
 #include "source.h"
 
 #include <QJsonArray>
@@ -145,19 +146,19 @@ QJsonValue PersonMetadata::toJSON() const
         std::transform(d->linkedPeopleResourceNames.cbegin(), d->linkedPeopleResourceNames.cend(), std::back_inserter(arr), [](const auto &val) {
             return val;
         });
-        obj.insert(QStringView{u"linkedPeopleResourceNames"}, std::move(arr));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "linkedPeopleResourceNames", std::move(arr));
     }
     */
     /* Output only
     switch (d->objectType) {
     case ObjectType::OBJECT_TYPE_UNSPECIFIED:
-        obj.insert(QStringView{u"objectType"}, QStringLiteral(u"OBJECT_TYPE_UNSPECIFIED"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "objectType", QStringLiteral("OBJECT_TYPE_UNSPECIFIED"));
         break;
     case ObjectType::PERSON:
-        obj.insert(QStringView{u"objectType"}, QStringLiteral(u"PERSON"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "objectType", QStringLiteral("PERSON"));
         break;
     case ObjectType::PAGE:
-        obj.insert(QStringView{u"objectType"}, QStringLiteral(u"PAGE"));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "objectType", QStringLiteral("PAGE"));
         break;
     }*/
     /* Output only
@@ -166,19 +167,20 @@ QJsonValue PersonMetadata::toJSON() const
         std::transform(d->previousResourceNames.cbegin(), d->previousResourceNames.cend(), std::back_inserter(arr), [](const auto &val) {
             return val;
         });
-        obj.insert(QStringView{u"previousResourceNames"}, std::move(arr));
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "previousResourceNames", std::move(arr));
     }
     */
-    // Output only -> obj.insert(QStringView{u"deleted"}, d->deleted);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "deleted", d->deleted);
     {
         QJsonArray arr;
         std::transform(d->sources.cbegin(), d->sources.cend(), std::back_inserter(arr), [](const auto &val) {
             return val.toJSON();
         });
         if (!arr.isEmpty()) {
-            obj.insert(QStringView{u"sources"}, std::move(arr));
+            PeopleUtils::addValueToJsonObjectIfValid(obj, "sources", std::move(arr));
         }
     }
+
     return obj;
 }
 

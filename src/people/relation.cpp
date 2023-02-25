@@ -10,6 +10,7 @@
 #include "relation.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -132,10 +133,10 @@ QJsonValue Relation::toJSON() const
 {
     QJsonObject obj;
 
-    obj.insert(QStringView{u"type"}, d->type);
-    obj.insert(QStringView{u"person"}, d->person);
-    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "type", d->type);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "person", d->person);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedType", d->formattedType);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
     return obj;
 }
 

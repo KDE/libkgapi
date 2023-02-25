@@ -10,6 +10,7 @@
 #include "address.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonValue>
 #include <QSharedData>
@@ -218,18 +219,18 @@ QJsonValue Address::toJSON() const
 {
     QJsonObject obj;
 
-    // Output only -> obj.insert(QStringView{u"formattedType"}, d->formattedType);
-    obj.insert(QStringView{u"city"}, d->city);
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"countryCode"}, d->countryCode);
-    obj.insert(QStringView{u"postalCode"}, d->postalCode);
-    obj.insert(QStringView{u"poBox"}, d->poBox);
-    obj.insert(QStringView{u"type"}, d->type);
-    obj.insert(QStringView{u"formattedValue"}, d->formattedValue);
-    obj.insert(QStringView{u"extendedAddress"}, d->extendedAddress);
-    obj.insert(QStringView{u"region"}, d->region);
-    obj.insert(QStringView{u"streetAddress"}, d->streetAddress);
-    obj.insert(QStringView{u"country"}, d->country);
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedType", d->formattedType);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "city", d->city);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata", d->metadata.toJSON());
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "countryCode", d->countryCode);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "postalCode", d->postalCode);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "poBox", d->poBox);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "type", d->type);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedValue", d->formattedValue);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "extendedAddress", d->extendedAddress);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "region", d->region);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "streetAddress", d->streetAddress);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "country", d->country);
     return obj;
 }
 

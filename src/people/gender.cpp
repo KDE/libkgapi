@@ -10,6 +10,7 @@
 #include "gender.h"
 
 #include "fieldmetadata.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -132,10 +133,10 @@ QJsonValue Gender::toJSON() const
 {
     QJsonObject obj;
 
-    // Skip, field metadata is only useful for receiving -> obj.insert(QStringView{u"metadata"}, d->metadata.toJSON());
-    obj.insert(QStringView{u"formattedValue"}, d->formattedValue);
-    obj.insert(QStringView{u"value"}, d->value);
-    obj.insert(QStringView{u"addressMeAs"}, d->addressMeAs);
+    // Skip, field metadata is only useful for receiving -> PeopleUtils::addValueToJsonObjectIfValid(obj, "metadata"}, d->metadata.toJSON());
+    // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedValue", d->formattedValue);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "value", d->value);
+    PeopleUtils::addValueToJsonObjectIfValid(obj, "addressMeAs", d->addressMeAs);
     return obj;
 }
 

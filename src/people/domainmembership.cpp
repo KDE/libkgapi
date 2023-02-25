@@ -8,6 +8,7 @@
  */
 
 #include "domainmembership.h"
+#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -85,10 +86,9 @@ DomainMembership DomainMembership::fromJSON(const QJsonObject &obj)
 
 QJsonValue DomainMembership::toJSON() const
 {
-    QJsonObject obj;
-
-    obj.insert(QStringView{u"inViewerDomain"}, d->inViewerDomain);
-    return obj;
+    return QJsonObject {
+        { QStringLiteral("inViewerDomain"), d->inViewerDomain }
+    };
 }
 
 } // namespace KGAPI2::People
