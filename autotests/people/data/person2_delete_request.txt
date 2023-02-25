@@ -1,0 +1,2 @@
+DELETE https://people.googleapis.com/v1/people/c2945739795208677217:deleteContact
+Host: people.googleapis.com
