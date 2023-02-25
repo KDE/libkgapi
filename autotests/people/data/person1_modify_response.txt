@@ -1,0 +1,369 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=UTF-8
+Date: Sat, 25 Feb 2023 13:17:25 GMT
+Server: ESF
+Cache-Control: private
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Accept-Ranges: none
+Vary: X-Origin, Referer, Origin,Accept-Encoding
+Transfer-Encoding: chunked
+Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+{
+  "resourceName": "people/c5170723913980391624",
+  "etag": "%EigBAgMEBQYHCAkKCwwNDg8QERITFBUWFxkfISIjJCUmJy40NTc9Pj9AGgQBAgUHIgxrcGxkendZK2NOMD0=",
+  "metadata": {
+    "sources": [
+      {
+        "type": "CONTACT",
+        "id": "47c21a010c6b30c8",
+        "etag": "#kpldzwY+cN0=",
+        "updateTime": "2023-02-25T13:11:08.251473Z"
+      }
+    ],
+    "objectType": "PERSON"
+  },
+  "names": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "displayName": "Dr. John Jay Doe III",
+      "familyName": "Doe",
+      "givenName": "John",
+      "middleName": "Jay",
+      "honorificPrefix": "Dr.",
+      "honorificSuffix": "III",
+      "phoneticFamilyName": "dəʊ",
+      "phoneticGivenName": "ʤɒn",
+      "phoneticMiddleName": "ʤeɪ",
+      "displayNameLastFirst": "Doe, Dr. John Jay, III",
+      "unstructuredName": "Dr. John Jay Doe III"
+    }
+  ],
+  "nicknames": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "Johnny"
+    }
+  ],
+  "photos": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "url": "https://lh3.googleusercontent.com/cm/AAkdduqTsfJ-EulAFCbanvhzVJKal1kBKM8ewvVEJHhDU-IbUC4_I6S3tdmWcb1b5Fhl=s100",
+      "default": true
+    }
+  ],
+  "birthdays": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "date": {
+        "year": 1996,
+        "month": 12,
+        "day": 13
+      }
+    }
+  ],
+  "addresses": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "formattedValue": "KDE Road 15\nInternet 1800\nPo box in internet space and time\nInternet land\nMálaga\n51000\nES",
+      "type": "home",
+      "formattedType": "Home",
+      "poBox": "Po box in internet space and time",
+      "streetAddress": "KDE Road 15",
+      "extendedAddress": "Internet 1800",
+      "city": "Internet land",
+      "region": "Málaga",
+      "postalCode": "51000",
+      "country": "ES",
+      "countryCode": "ES"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "formattedValue": "Main way 35\nMain road 20000\nSome other PO Box\nInternet city\nHuelva\n20035\nES",
+      "type": "work",
+      "formattedType": "Work",
+      "poBox": "Some other PO Box",
+      "streetAddress": "Main way 35",
+      "extendedAddress": "Main road 20000",
+      "city": "Internet city",
+      "region": "Huelva",
+      "postalCode": "20035",
+      "country": "ES",
+      "countryCode": "ES"
+    }
+  ],
+  "emailAddresses": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "john@kde.exampletest",
+      "type": "work",
+      "formattedType": "Work"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "john@home.testexample",
+      "type": "home",
+      "formattedType": "Home"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "john@private.stuff",
+      "type": "other",
+      "formattedType": "Other"
+    }
+  ],
+  "phoneNumbers": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "666 12 34 90",
+      "canonicalForm": "+34666123490",
+      "type": "mobile",
+      "formattedType": "Mobile"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "952 66 61 23",
+      "canonicalForm": "+34952666123",
+      "type": "home",
+      "formattedType": "Home"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "910 12 30 00",
+      "canonicalForm": "+34910123000",
+      "type": "other",
+      "formattedType": "Other"
+    }
+  ],
+  "biographies": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "John is pretty awesome!",
+      "contentType": "TEXT_PLAIN"
+    }
+  ],
+  "urls": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "kde.org",
+      "type": "work",
+      "formattedType": "Work"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "johndoe.test",
+      "type": "blog",
+      "formattedType": "Blog"
+    }
+  ],
+  "organizations": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "name": "KDE",
+      "department": "PIM",
+      "title": "Super Developer"
+    }
+  ],
+  "memberships": [
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "contactGroupMembership": {
+        "contactGroupId": "19cb37f60aed8000",
+        "contactGroupResourceName": "contactGroups/19cb37f60aed8000"
+      }
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "contactGroupMembership": {
+        "contactGroupId": "myContacts",
+        "contactGroupResourceName": "contactGroups/myContacts"
+      }
+    }
+  ],
+  "events": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "date": {
+        "year": 2024,
+        "month": 2,
+        "day": 24
+      },
+      "type": "other",
+      "formattedType": "Other"
+    }
+  ],
+  "imClients": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "username": "johndoeatkde",
+      "protocol": "googleTalk",
+      "formattedProtocol": "Google Talk"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "username": "johndoefromkde",
+      "protocol": "jabber",
+      "formattedProtocol": "Jabber"
+    }
+  ],
+  "relations": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "person": "Joanna Doe",
+      "type": "spouse",
+      "formattedType": "Spouse"
+    }
+  ],
+  "userDefined": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "key": "Custom Field Number One",
+      "value": "custom field 1"
+    }
+  ],
+  "sipAddresses": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "47c21a010c6b30c8"
+        }
+      },
+      "value": "123456789",
+      "type": "home",
+      "formattedType": "Home"
+    }
+  ]
+}

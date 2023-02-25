@@ -1,0 +1,170 @@
+PATCH https://people.googleapis.com/v1/people/c5170723913980391624:updateContact?updatePersonFields=addresses,biographies,birthdays,calendarUrls,clientData,emailAddresses,events,externalIds,genders,imClients,interests,locales,locations,memberships,miscKeywords,names,nicknames,occupations,organizations,phoneNumbers,relations,sipAddresses,urls,userDefined&prettyPrint=false
+Host: people.googleapis.com
+Content-Type: application/json
+
+{
+  "resourceName": "people/c5170723913980391624",
+  "etag": "%EigBAgMEBQYHCAkKCwwNDg8QERITFBUWFxkfISIjJCUmJy40NTc9Pj9AGgQBAgUHIgxabTRZZlRpekE3TT0=",
+  "metadata": {
+    "sources": [
+      {
+        "type": "CONTACT",
+        "id": "47c21a010c6b30c8",
+        "etag": "#Zm4YfTizA7M="
+      }
+    ]
+  },
+  "names": [
+    {
+      "familyName": "Doe",
+      "givenName": "John",
+      "middleName": "Jay",
+      "honorificPrefix": "Dr.",
+      "honorificSuffix": "III",
+      "phoneticFamilyName": "dəʊ",
+      "phoneticGivenName": "ʤɒn",
+      "phoneticMiddleName": "ʤeɪ",
+      "unstructuredName": "Dr. John Jay Doe III"
+    }
+  ],
+  "nicknames": [
+    {
+      "value": "Johnny",
+      "type": "DEFAULT"
+    }
+  ],
+  "birthdays": [
+    {
+      "date": {
+        "year": 1996,
+        "month": 12,
+        "day": 13
+      }
+    }
+  ],
+  "addresses": [
+    {
+      "formattedValue": "KDE Road 15\nInternet 1800\nPo box in internet space and time\nInternet land\nMálaga\n51000\nES",
+      "type": "home",
+      "poBox": "Po box in internet space and time",
+      "streetAddress": "KDE Road 15",
+      "extendedAddress": "Internet 1800",
+      "city": "Internet land",
+      "region": "Internet region",
+      "postalCode": "51000",
+      "country": "OS",
+      "countryCode": "OS"
+    },
+    {
+      "formattedValue": "Main way 35\nMain road 20000\nSome other PO Box\nInternet city\nHuelva\n20035\nES",
+      "type": "work",
+      "poBox": "Some other PO Box",
+      "streetAddress": "Main way 35",
+      "extendedAddress": "Main road 20000",
+      "city": "Internet city",
+      "region": "Internet region",
+      "postalCode": "20035",
+      "country": "OS",
+      "countryCode": "OS"
+    }
+  ],
+  "emailAddresses": [
+    {
+      "value": "john@kde.exampletest",
+      "type": "work"
+    },
+    {
+      "value": "john@home.testexample",
+      "type": "home"
+    },
+    {
+      "value": "john@private.stuff",
+      "type": "other"
+    }
+  ],
+  "phoneNumbers": [
+    {
+      "value": "666 12 34 90",
+      "type": "mobile"
+    },
+    {
+      "value": "952 66 61 23",
+      "type": "home"
+    },
+    {
+      "value": "910 12 30 00",
+      "type": "other"
+    }
+  ],
+  "biographies": [
+    {
+      "value": "John is pretty awesome!",
+      "contentType": "TEXT_PLAIN"
+    }
+  ],
+  "urls": [
+    {
+      "value": "kde.org",
+      "type": "work"
+    },
+    {
+      "value": "johndoe.test",
+      "type": "blog"
+    }
+  ],
+  "organizations": [
+    {
+      "name": "KDE",
+      "department": "PIM",
+      "title": "Super Developer"
+    }
+  ],
+  "memberships": [
+    {
+      "contactGroupMembership": {
+        "contactGroupResourceName": "contactGroups/myContacts"
+      },
+      "contactGroupMembership": {
+        "contactGroupResourceName": "contactGroups/19cb37f60aed8000"
+      }
+    }
+  ],
+  "events": [
+    {
+      "date": {
+        "year": 2024,
+        "month": 2,
+        "day": 24
+      },
+      "type": "other"
+    }
+  ],
+  "imClients": [
+    {
+      "username": "johndoeatkde",
+      "protocol": "googleTalk"
+    },
+    {
+      "username": "johndoefromkde",
+      "protocol": "jabber"
+    }
+  ],
+  "relations": [
+    {
+      "person": "Joanna Doe",
+      "type": "spouse"
+    }
+  ],
+  "userDefined": [
+    {
+      "key": "Custom Field Number One",
+      "value": "custom field 1"
+    }
+  ],
+  "sipAddresses": [
+    {
+      "value": "123456789",
+      "type": "home"
+    }
+  ]
+}
