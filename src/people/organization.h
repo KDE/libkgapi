@@ -88,6 +88,8 @@ public:
     /** Sets value of the current property. **/
     void setCurrent(const bool &value);
 
+    bool hasSetCurrent() const;
+
     /** The person's cost center at the organization. **/
     QString costCenter() const;
     /** Sets value of the costCenter property. **/

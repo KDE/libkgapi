@@ -52,6 +52,7 @@ public:
     QString formattedType{};
     QString name{};
     bool current{};
+    bool hasSetCurrent{};
     QString costCenter{};
     QString department{};
     QString domain{};
@@ -149,7 +150,14 @@ bool Organization::current() const
 void Organization::setCurrent(const bool &value)
 {
     d->current = value;
+    d->hasSetCurrent = true;
 }
+
+bool Organization::hasSetCurrent() const
+{
+    return d->hasSetCurrent;
+}
+
 QString Organization::costCenter() const
 {
     return d->costCenter;
@@ -246,6 +254,7 @@ Organization Organization::fromJSON(const QJsonObject &obj)
         organization.d->endDate = QDate(endYear, endMonth, endDay);
 
         organization.d->current = obj.value(QStringLiteral("current")).toBool();
+        organization.d->hasSetCurrent = obj.contains(QStringLiteral("current"));
         organization.d->name = obj.value(QStringLiteral("name")).toString();
         organization.d->phoneticName = obj.value(QStringLiteral("phoneticName")).toString();
         organization.d->department = obj.value(QStringLiteral("department")).toString();
@@ -286,7 +295,10 @@ QJsonValue Organization::toJSON() const
     PeopleUtils::addValueToJsonObjectIfValid(obj, "symbol", d->symbol);
     // Output only -> PeopleUtils::addValueToJsonObjectIfValid(obj, "formattedType", d->formattedType);
     PeopleUtils::addValueToJsonObjectIfValid(obj, "name", d->name);
-    PeopleUtils::addValueToJsonObjectIfValid(obj, "current", d->current);
+
+    if (d->hasSetCurrent) {
+        PeopleUtils::addValueToJsonObjectIfValid(obj, "current", d->current);
+    }
     PeopleUtils::addValueToJsonObjectIfValid(obj, "costCenter", d->costCenter);
     PeopleUtils::addValueToJsonObjectIfValid(obj, "department", d->department);
     PeopleUtils::addValueToJsonObjectIfValid(obj, "domain", d->domain);
