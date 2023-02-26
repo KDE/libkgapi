@@ -155,15 +155,14 @@ QUrl fetchAllContactsUrl(const QString &syncToken)
 }
 
 // https://developers.google.com/people/api/rest/v1/people/searchContacts
-QUrl fetchContactUrl(const QString &fetchQuery, const QString &readMask)
+QUrl fetchContactUrl(const QString &resourceName)
 {
     QUrl url(Private::GoogleApisUrl);
-    const QString path = Private::PeopleBasePath % QStringLiteral(":searchContacts");
+    const QString path = Private::PeopleV1Path % resourceName;
     url.setPath(path);
 
     QUrlQuery query(url);
-    query.addQueryItem(QStringLiteral("query"), fetchQuery);
-    query.addQueryItem(QStringLiteral("readMask"), readMask);
+    query.addQueryItem(QStringLiteral("personFields"), Private::AllPersonFields);
 
     url.setQuery(query);
     return url;

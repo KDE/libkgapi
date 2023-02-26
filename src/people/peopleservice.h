@@ -31,7 +31,7 @@ namespace PeopleService
     KGAPIPEOPLE_EXPORT QString allUpdatablePersonFields();
 
     KGAPIPEOPLE_EXPORT QUrl fetchAllContactsUrl(const QString &syncToken = {});
-    KGAPIPEOPLE_EXPORT QUrl fetchContactUrl(const QString &fetchQuery, const QString &readMask);
+    KGAPIPEOPLE_EXPORT QUrl fetchContactUrl(const QString &resourceName);
     KGAPIPEOPLE_EXPORT QUrl createContactUrl();
     KGAPIPEOPLE_EXPORT QUrl updateContactUrl(const QString &resourceName, const QString &personFields);
     KGAPIPEOPLE_EXPORT QUrl deleteContactUrl(const QString &resourceName);

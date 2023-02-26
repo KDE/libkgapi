@@ -22,10 +22,7 @@ class KGAPIPEOPLE_EXPORT PersonFetchJob : public KGAPI2::FetchJob
 
 public:
     explicit PersonFetchJob(const AccountPtr &account, QObject* parent = nullptr);
-    PersonFetchJob(const QString &fetchQuery,
-                   const QString &readMask,
-                   const AccountPtr &account,
-                   QObject* parent = nullptr); // Use the resourceName as an id for the contact
+    explicit PersonFetchJob(const QString &resourceName, const AccountPtr &account, QObject* parent = nullptr);
     ~PersonFetchJob();
 
     [[nodiscard]] QString syncToken() const;

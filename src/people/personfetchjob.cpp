@@ -31,8 +31,7 @@ public:
     QNetworkRequest createRequest(const QUrl &url);
     ObjectsList processReceivedData(const QByteArray &rawData);
 
-    QString readMask;
-    QString fetchQuery;
+    QString personResourceName;
     QString syncToken;
     QString receivedSyncToken;
 
@@ -58,10 +57,10 @@ QNetworkRequest PersonFetchJob::Private::createRequest(const QUrl& url)
 void PersonFetchJob::Private::startFetch()
 {
     QUrl url;
-    if (fetchQuery.isEmpty()) {
+    if (personResourceName.isEmpty()) {
         url = PeopleService::fetchAllContactsUrl(syncToken);
     } else {
-        url = PeopleService::fetchContactUrl(fetchQuery, readMask);
+        url = PeopleService::fetchContactUrl(personResourceName);
     }
 
     const QNetworkRequest request = createRequest(url);
@@ -73,21 +72,12 @@ ObjectsList PersonFetchJob::Private::processReceivedData(const QByteArray &rawDa
     FeedData feedData;
     ObjectsList items;
 
-    if (fetchQuery.isEmpty()) {
+    if (personResourceName.isEmpty()) {
         items = PeopleService::parseConnectionsJSONFeed(feedData, rawData, syncToken);
     } else {
         const auto jsonDocumentFromData = QJsonDocument::fromJson(rawData);
         if(jsonDocumentFromData.isObject()) {
-            const auto results = jsonDocumentFromData.object().value(QStringLiteral("results")).toArray();
-
-            for(const auto &result : results) {
-                if(result.isObject()) {
-                    items << People::Person::fromJSON(result.toObject());
-                } else {
-                    qCDebug(KGAPIDebug()) << "Result was not an object... skipping.";
-                }
-            }
-
+            items << People::Person::fromJSON(jsonDocumentFromData.object());
         } else {
             qCDebug(KGAPIDebug()) << "JSON document does not have object";
         }
@@ -112,15 +102,11 @@ PersonFetchJob::PersonFetchJob(const AccountPtr& account, QObject* parent)
 {
 }
 
-PersonFetchJob::PersonFetchJob(const QString &fetchQuery,
-                               const QString &readMask,
-                               const AccountPtr &account,
-                               QObject* parent)
+PersonFetchJob::PersonFetchJob(const QString &resourceName, const AccountPtr &account, QObject* parent)
     : FetchJob(account, parent)
     , d(std::make_unique<Private>(this))
 {
-    d->fetchQuery = fetchQuery;
-    d->readMask = readMask;
+    d->personResourceName = resourceName;
 }
 
 PersonFetchJob::~PersonFetchJob() = default;
