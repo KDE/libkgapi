@@ -89,6 +89,19 @@ QByteArray rawPhotoDataFromPhotoRequestData(const QString &path)
     return QByteArray::fromBase64(rawData);
 }
 
+PersonPtr personFromPhotoUpdateResponseFile(const QString &path)
+{
+    QFile f(path);
+    VERIFY_RET(f.open(QIODevice::ReadOnly), {});
+
+    const auto jsonObject = QJsonDocument::fromJson(f.readAll()).object();
+    const auto personObject = jsonObject.value(QStringLiteral("person")).toObject();
+    const auto person = Person::fromJSON(personObject);
+    VERIFY_RET(person, {});
+    return person;
+
+}
+
 } // TestUtils
 } // People
 } // KGAPI2
