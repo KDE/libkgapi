@@ -73,6 +73,22 @@ ContactGroupList contactGroupsFromFile(const QString &path)
     return convertedContactGroups;
 }
 
+QByteArray rawPhotoDataFromPhotoRequestData(const QString &path)
+{
+    QFile f(path);
+    VERIFY_RET(f.open(QIODevice::ReadOnly), {});
+
+    const auto jsonDocument = QJsonDocument::fromJson(f.readAll());
+    VERIFY_RET(jsonDocument.isObject(), {});
+
+    const auto jsonObject = jsonDocument.object();
+    VERIFY_RET(jsonObject.contains(QStringLiteral("personFields")), {});
+    VERIFY_RET(jsonObject.contains(QStringLiteral("photoBytes")), {});
+
+    const auto rawData = jsonObject.value(QStringLiteral("photoBytes")).toString().toUtf8();
+    return QByteArray::fromBase64(rawData);
+}
+
 } // TestUtils
 } // People
 } // KGAPI2
