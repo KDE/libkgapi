@@ -34,7 +34,9 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
         COMPARE_RET(scenario.requestMethod, op, new FakeNetworkReply(op, originalReq));
     } else {
         const auto verb = originalReq.attribute(QNetworkRequest::CustomVerbAttribute).toByteArray();
-        COMPARE_RET(verb, QByteArray("PUT"), new FakeNetworkReply(op, originalReq));
+        if (verb != QByteArray("PATCH") && verb != QByteArray("PUT")) {
+            FAIL_RET("Invalid verb", new FakeNetworkReply(op, originalReq));
+        }
     }
     for (const auto &requestHeader : std::as_const(scenario.requestHeaders)) {
         VERIFY2_RET(originalReq.hasRawHeader(requestHeader.first),

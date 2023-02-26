@@ -41,6 +41,9 @@ FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &requestFile, 
     } else if (http.startsWith("DELETE")) {
         scenario.requestMethod = QNetworkAccessManager::DeleteOperation;
         scenario.requestUrl = QUrl(QString::fromLatin1(http.constData() + 7));
+    } else if (http.startsWith("PATCH")) {
+        scenario.requestMethod = QNetworkAccessManager::CustomOperation;
+        scenario.requestUrl = QUrl(QString::fromLatin1(http.constData() + 6));
     } else {
         FAIL_RET("Invalid request method in test data", {});
     }
