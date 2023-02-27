@@ -30,6 +30,12 @@ namespace PeopleService
 
 namespace Private
 {
+
+enum FetchType {
+    PersonFetch,
+    ContactGroupFetch
+};
+
 static const QUrl GoogleApisUrl(QStringLiteral("https://people.googleapis.com"));
 static const auto PeopleV1Path = QStringLiteral("/v1/");
 static const auto PeopleBasePath = QString(PeopleV1Path % QStringLiteral("people"));
@@ -96,13 +102,21 @@ static const auto AllGroupFields = QStringLiteral("clientData,"
                                                   "metadata,"
                                                   "name");
 
-void writeNextPageDataQuery(FeedData &feedData, const QJsonObject &replyRootObject, const QString &syncToken = {})
+void writeNextPageDataQuery(FetchType fetchType, FeedData &feedData, const QJsonObject &replyRootObject, const QString &syncToken = {})
 {
     if(!replyRootObject.contains(QStringLiteral("nextPageToken"))) {
         return;
     }
 
-    auto url = fetchAllContactsUrl(syncToken);
+    QUrl url;
+    if (fetchType == PersonFetch) {
+        url = fetchAllContactsUrl(syncToken);
+    } else if (fetchType == ContactGroupFetch) {
+        url = fetchAllContactGroupsUrl();
+    } else {
+        qCDebug(KGAPIDebug()) << "Unknown type of fetch, cannot write next page data query";
+        return;
+    }
 
     QUrlQuery query(url);
     query.addQueryItem(QStringLiteral("pageToken"), replyRootObject.value(QStringLiteral("nextPageToken")).toString());
@@ -287,7 +301,7 @@ ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonF
 
     feedData.totalResults = rootObject.value(QStringLiteral("totalItems")).toInt();
 
-    Private::writeNextPageDataQuery(feedData, rootObject, syncToken);
+    Private::writeNextPageDataQuery(Private::PersonFetch, feedData, rootObject, syncToken);
     feedData.syncToken = rootObject.value(QStringLiteral("nextSyncToken")).toString();
 
     return output;
@@ -312,7 +326,7 @@ ObjectsList parseContactGroupsJSONFeed(FeedData &feedData, const QByteArray &jso
 
     feedData.totalResults = rootObject.value(QStringLiteral("totalItems")).toInt();
 
-    Private::writeNextPageDataQuery(feedData, rootObject);
+    Private::writeNextPageDataQuery(Private::ContactGroupFetch, feedData, rootObject);
 
     return output;
 }

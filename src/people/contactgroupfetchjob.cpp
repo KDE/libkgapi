@@ -84,7 +84,7 @@ ObjectsList ContactGroupFetchJob::handleReplyWithItems(const QNetworkReply *repl
     FeedData feedData;
     ObjectsList items;
 
-    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+    const auto contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     ContentType ct = Utils::stringToContentType(contentType);
 
     if (ct != KGAPI2::JSON) {
@@ -96,16 +96,7 @@ ObjectsList ContactGroupFetchJob::handleReplyWithItems(const QNetworkReply *repl
     } else {
         const auto jsonDocumentFromData = QJsonDocument::fromJson(rawData);
         if(jsonDocumentFromData.isObject()) {
-            const auto results = jsonDocumentFromData.object().value(QStringLiteral("results")).toArray();
-
-            for(const auto &result : results) {
-                if(result.isObject()) {
-                    items << People::ContactGroup::fromJSON(result.toObject());
-                } else {
-                    qDebug() << "Result was not an object... skipping.";
-                }
-            }
-
+            items << People::ContactGroup::fromJSON(jsonDocumentFromData.object());
         } else {
             qDebug() << "JSON document does not have object";
         }
@@ -114,7 +105,7 @@ ObjectsList ContactGroupFetchJob::handleReplyWithItems(const QNetworkReply *repl
     if (feedData.nextPageUrl.isValid()) {
         emitProgress(feedData.startIndex, feedData.totalResults);
 
-        const QNetworkRequest request = d->createRequest(feedData.nextPageUrl);
+        const auto request = d->createRequest(feedData.nextPageUrl);
         enqueueRequest(request);
     } else {
         emitFinished();
