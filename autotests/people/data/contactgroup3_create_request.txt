@@ -1,0 +1,16 @@
+POST https://people.googleapis.com/v1/contactGroups?prettyPrint=false
+Host: people.googleapis.com
+Content-Type: application/json
+
+{
+  "contactGroup": {
+    "name": "test300",
+    "clientData": [
+      {
+        "key": "Key one",
+        "value": "Value one"
+      }
+    ]
+  },
+  "readGroupFields": "clientData,groupType,metadata,name"
+}

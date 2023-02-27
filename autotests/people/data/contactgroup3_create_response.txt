@@ -1,0 +1,29 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=UTF-8
+Date: Fri, 24 Feb 2023 16:53:10 GMT
+Server: ESF
+Cache-Control: private
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Accept-Ranges: none
+Vary: X-Origin, Referer, Origin,Accept-Encoding
+Transfer-Encoding: chunked
+Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+{
+  "resourceName": "contactGroups/7ca51a518ce79592",
+  "etag": "PXZ79VVgck8=",
+  "metadata": {
+    "updateTime": "2023-02-27T00:47:46.607727Z"
+  },
+  "groupType": "USER_CONTACT_GROUP",
+  "name": "test300",
+  "formattedName": "test300",
+  "clientData": [
+    {
+      "key": "Key one",
+      "value": "Value one"
+    }
+  ]
+}

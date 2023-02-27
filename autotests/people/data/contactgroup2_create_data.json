@@ -1,0 +1,6 @@
+{
+  "contactGroup": {
+    "name": "test1"
+  },
+  "readGroupFields": "clientData,groupType,metadata,name"
+}
