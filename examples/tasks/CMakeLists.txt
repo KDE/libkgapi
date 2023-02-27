@@ -9,6 +9,6 @@ target_sources(tasks-example PRIVATE
 target_link_libraries(tasks-example
         Qt::Widgets
         Qt::Core
-        KPimGAPICore
-        KPimGAPITasks
+        KPim${KF_MAJOR_VERSION}GAPICore
+        KPim${KF_MAJOR_VERSION}GAPITasks
 )

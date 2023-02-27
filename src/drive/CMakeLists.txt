@@ -1,8 +1,8 @@
-add_library(KPimGAPIDrive)
-add_library(KPim::GAPIDrive ALIAS KPimGAPIDrive)
+add_library(KPim${KF_MAJOR_VERSION}GAPIDrive)
+add_library(KPim${KF_MAJOR_VERSION}::GAPIDrive ALIAS KPim${KF_MAJOR_VERSION}GAPIDrive)
 
 
-target_sources(KPimGAPIDrive PRIVATE
+target_sources(KPim${KF_MAJOR_VERSION}GAPIDrive PRIVATE
     ${libkgapi_debug_SRCS}
     about.cpp
     aboutfetchjob.cpp
@@ -186,49 +186,49 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
 #    set_target_properties(KPimGAPIDrive PROPERTIES UNITY_BUILD ON)
 #endif()
 
-generate_export_header(KPimGAPIDrive BASE_NAME kgapidrive)
+generate_export_header(KPim${KF_MAJOR_VERSION}GAPIDrive BASE_NAME kgapidrive)
 
-target_include_directories(KPimGAPIDrive
-    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>"
+target_include_directories(KPim${KF_MAJOR_VERSION}GAPIDrive
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI>"
     INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
 )
 
-target_link_libraries(KPimGAPIDrive
+target_link_libraries(KPim${KF_MAJOR_VERSION}GAPIDrive
 PUBLIC
-    KPim::GAPICore
+    KPim${KF_MAJOR_VERSION}::GAPICore
     Qt::Gui
 PRIVATE
     Qt::Network
 )
 
-set_target_properties(KPimGAPIDrive PROPERTIES
+set_target_properties(KPim${KF_MAJOR_VERSION}GAPIDrive PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPIDrive
 )
 
 install(TARGETS
-    KPimGAPIDrive
-    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim${KF_MAJOR_VERSION}GAPIDrive
+    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapidrive_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Drive"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI/Drive"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapidrive_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapidrive_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/drive"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi/drive"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIDrive
-    LIB_NAME KPimGAPIDrive
+    LIB_NAME KPim${KF_MAJOR_VERSION}GAPIDrive
     DEPS "GAPICore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
 )
 
 install(FILES

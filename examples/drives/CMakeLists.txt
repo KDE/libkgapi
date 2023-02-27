@@ -9,6 +9,6 @@ target_sources(drives-example PRIVATE
 target_link_libraries(drives-example
         Qt::Core
         Qt::Widgets
-        KPimGAPICore
-        KPimGAPIDrive
+        KPim${KF_MAJOR_VERSION}GAPICore
+        KPim${KF_MAJOR_VERSION}GAPIDrive
 )

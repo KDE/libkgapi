@@ -1,6 +1,6 @@
-add_library(KPimGAPIMaps)
-add_library(KPim::GAPIMaps ALIAS KPimGAPIMaps)
-target_sources(KPimGAPIMaps PRIVATE
+add_library(KPim${KF_MAJOR_VERSION}GAPIMaps)
+add_library(KPim${KF_MAJOR_VERSION}::GAPIMaps ALIAS KPim${KF_MAJOR_VERSION}GAPIMaps)
+target_sources(KPim${KF_MAJOR_VERSION}GAPIMaps PRIVATE
     ${libkgapi_debug_SRCS}
     staticmapmarker.cpp
     staticmapmarker.h
@@ -23,50 +23,50 @@ ecm_generate_headers(kgapimaps_CamelCase_HEADERS
 )
 
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPimGAPIMaps PROPERTIES UNITY_BUILD ON)
+    set_target_properties(KPim${KF_MAJOR_VERSION}GAPIMaps PROPERTIES UNITY_BUILD ON)
 endif()
 
-generate_export_header(KPimGAPIMaps BASE_NAME kgapimaps)
+generate_export_header(KPim${KF_MAJOR_VERSION}GAPIMaps BASE_NAME kgapimaps)
 
-target_include_directories(KPimGAPIMaps INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
+target_include_directories(KPim${KF_MAJOR_VERSION}GAPIMaps INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI>")
 
-target_link_libraries(KPimGAPIMaps
+target_link_libraries(KPim${KF_MAJOR_VERSION}GAPIMaps
 PUBLIC
-    KPim::GAPICore
+    KPim${KF_MAJOR_VERSION}::GAPICore
     KF${KF_MAJOR_VERSION}::Contacts
     Qt::Gui
 PRIVATE
     Qt::Network
 )
 
-set_target_properties(KPimGAPIMaps PROPERTIES
+set_target_properties(KPim${KF_MAJOR_VERSION}GAPIMaps PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPIMaps
 )
 
 install(TARGETS
-    KPimGAPIMaps
-    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim${KF_MAJOR_VERSION}GAPIMaps
+    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapimaps_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Maps"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI/Maps"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapimaps_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapimaps_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/maps"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi/maps"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIMaps
     LIB_NAME KPimGAPIMaps
     DEPS "GAPICore KContacts"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
 )
 
 install(FILES

@@ -1,8 +1,8 @@
-add_library(KPimGAPITasks)
-add_library(KPim::GAPITasks ALIAS KPimGAPITasks)
+add_library(KPim${KF_MAJOR_VERSION}GAPITasks)
+add_library(KPim${KF_MAJOR_VERSION}::GAPITasks ALIAS KPim${KF_MAJOR_VERSION}GAPITasks)
 
 
-target_sources(KPimGAPITasks PRIVATE
+target_sources(KPim${KF_MAJOR_VERSION}GAPITasks PRIVATE
     ${libkgapi_debug_SRCS}
     task.cpp
     taskcreatejob.cpp
@@ -49,52 +49,52 @@ ecm_generate_headers(kgapitasks_CamelCase_HEADERS
 
 
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPimGAPITasks PROPERTIES UNITY_BUILD ON)
+    set_target_properties(KPim${KF_MAJOR_VERSION}GAPITasks PROPERTIES UNITY_BUILD ON)
 endif()
 
-generate_export_header(KPimGAPITasks BASE_NAME kgapitasks)
+generate_export_header(KPim${KF_MAJOR_VERSION}GAPITasks BASE_NAME kgapitasks)
 
-target_include_directories(KPimGAPITasks
-    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>"
+target_include_directories(KPim${KF_MAJOR_VERSION}GAPITasks
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI>"
     INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
 )
 
-target_link_libraries(KPimGAPITasks
+target_link_libraries(KPim${KF_MAJOR_VERSION}GAPITasks
 PUBLIC
-    KPim::GAPICore
+    KPim${KF_MAJOR_VERSION}::GAPICore
     KF${KF_MAJOR_VERSION}::CalendarCore
 PRIVATE
     Qt::Network
 )
 
-set_target_properties(KPimGAPITasks PROPERTIES
+set_target_properties(KPim${KF_MAJOR_VERSION}GAPITasks PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPITasks
 )
 
 install(TARGETS
-    KPimGAPITasks
-    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim${KF_MAJOR_VERSION}GAPITasks
+    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapitasks_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Tasks"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI/Tasks"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapitasks_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapitasks_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/tasks"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi/tasks"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPITasks
-    LIB_NAME KPimGAPITasks
+    LIB_NAME KPim${KF_MAJOR_VERSION}GAPITasks
     DEPS "GAPICore CalendarCore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
 )
 
 install(FILES

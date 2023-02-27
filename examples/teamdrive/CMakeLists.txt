@@ -12,6 +12,6 @@ target_compile_options(teamdrive-example PRIVATE -Wno-deprecated-declarations)
 target_link_libraries(teamdrive-example
         Qt::Widgets
         Qt::Core
-        KPimGAPICore
-        KPimGAPIDrive
+        KPim${KF_MAJOR_VERSION}GAPICore
+        KPim${KF_MAJOR_VERSION}GAPIDrive
 )

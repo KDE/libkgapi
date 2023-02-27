@@ -1,8 +1,8 @@
-add_library(KPimGAPICalendar)
-add_library(KPim::GAPICalendar ALIAS KPimGAPICalendar)
+add_library(KPim${KF_MAJOR_VERSION}GAPICalendar)
+add_library(KPim${KF_MAJOR_VERSION}::GAPICalendar ALIAS KPim${KF_MAJOR_VERSION}GAPICalendar)
 
 
-target_sources(KPimGAPICalendar PRIVATE
+target_sources(KPim${KF_MAJOR_VERSION}GAPICalendar PRIVATE
     ${libkgapi_debug_SRCS}
     calendar.cpp
     calendarcreatejob.cpp
@@ -56,50 +56,50 @@ ecm_generate_headers(kgapicalendar_CamelCase_HEADERS
 )
 
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPimGAPICalendar PROPERTIES UNITY_BUILD ON)
+    set_target_properties(KPim${KF_MAJOR_VERSION}GAPICalendar PROPERTIES UNITY_BUILD ON)
 endif()
-generate_export_header(KPimGAPICalendar BASE_NAME kgapicalendar)
+generate_export_header(KPim${KF_MAJOR_VERSION}GAPICalendar BASE_NAME kgapicalendar)
 
 
-target_include_directories(KPimGAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
+target_include_directories(KPim${KF_MAJOR_VERSION}GAPICalendar INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI>")
 
-target_link_libraries(KPimGAPICalendar
+target_link_libraries(KPim${KF_MAJOR_VERSION}GAPICalendar
 PUBLIC
-    KPim::GAPICore
+    KPim${KF_MAJOR_VERSION}::GAPICore
     KF${KF_MAJOR_VERSION}::CalendarCore
     Qt::Gui
 PRIVATE
     Qt::Network
 )
 
-set_target_properties(KPimGAPICalendar PROPERTIES
+set_target_properties(KPim${KF_MAJOR_VERSION}GAPICalendar PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPICalendar
 )
 
 install(TARGETS
-    KPimGAPICalendar
-    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim${KF_MAJOR_VERSION}GAPICalendar
+    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapicalendar_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Calendar"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI/Calendar"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapicalendar_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicalendar_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/calendar"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi/calendar"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPICalendar
-    LIB_NAME KPimGAPICalendar
+    LIB_NAME KPim${KF_MAJOR_VERSION}GAPICalendar
     DEPS "GAPICore CalendarCore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
 )
 
 install(FILES

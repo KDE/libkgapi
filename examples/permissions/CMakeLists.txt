@@ -9,6 +9,6 @@ target_sources(permissions-example PRIVATE
 target_link_libraries(permissions-example
         Qt::Widgets
         Qt::Core
-        KPimGAPICore
-        KPimGAPIDrive
+        KPim${KF_MAJOR_VERSION}GAPICore
+        KPim${KF_MAJOR_VERSION}GAPIDrive
 )

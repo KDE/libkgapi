@@ -34,7 +34,7 @@ if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(kgapitest PROPERTIES UNITY_BUILD ON)
 endif()
 
-target_link_libraries(kgapitest Qt::Core Qt::Network Qt::Gui Qt::Test KPimGAPICore)
+target_link_libraries(kgapitest Qt::Core Qt::Network Qt::Gui Qt::Test KPim${KF_MAJOR_VERSION}GAPICore)
 
 
 
@@ -45,19 +45,19 @@ macro(add_libkgapi2_test _module _testname)
     string(SUBSTRING ${_module} 1 -1 moduleLast)
     string(TOUPPER ${moduleFirst} moduleFirst)
     string(CONCAT moduleName ${moduleFirst} ${moduleLast})
-    set(extraLibs "${_extraLibs};KPimGAPI${moduleName}")
+    set(extraLibs "${_extraLibs};KPim${KF_MAJOR_VERSION}GAPI${moduleName}")
     set(utilsFile ${CMAKE_CURRENT_SOURCE_DIR}/${_module}/${_module}testutils.cpp)
     if (EXISTS ${utilsFile})
         list(APPEND testSources ${utilsFile})
     endif()
     ecm_add_test(${testSources}
-        LINK_LIBRARIES kgapitest KPimGAPICore ${extraLibs}
+        LINK_LIBRARIES kgapitest KPim${KF_MAJOR_VERSION}GAPICore ${extraLibs}
         TEST_NAME ${_testname}
         NAME_PREFIX ${_module}-
     )
 endmacro(add_libkgapi2_test)
 
-ecm_add_test(fakenamtest.cpp LINK_LIBRARIES kgapitest KPimGAPICore TEST_NAME fakenamtest NAME_PREFIX fake-)
+ecm_add_test(fakenamtest.cpp LINK_LIBRARIES kgapitest KPim${KF_MAJOR_VERSION}GAPICore TEST_NAME fakenamtest NAME_PREFIX fake-)
 
 add_libkgapi2_test(core accountinfofetchjobtest)
 add_libkgapi2_test(core accountmanagertest)

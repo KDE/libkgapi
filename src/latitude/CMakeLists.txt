@@ -1,7 +1,7 @@
-add_library(KPimGAPILatitude)
-add_library(KPim::GAPILatitude ALIAS KPimGAPILatitude)
+add_library(KPim${KF_MAJOR_VERSION}GAPILatitude)
+add_library(KPim${KF_MAJOR_VERSION}::GAPILatitude ALIAS KPim${KF_MAJOR_VERSION}GAPILatitude)
 
-target_sources(KPimGAPILatitude PRIVATE
+target_sources(KPim${KF_MAJOR_VERSION}GAPILatitude PRIVATE
     ${libkgapi_debug_SRCS}
     latitude.h
     latitudeservice.cpp
@@ -31,50 +31,50 @@ ecm_generate_headers(kgapilatitude_CamelCase_HEADERS
 )
 
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPimGAPILatitude PROPERTIES UNITY_BUILD ON)
+    set_target_properties(KPim${KF_MAJOR_VERSION}GAPILatitude PROPERTIES UNITY_BUILD ON)
 endif()
 
-generate_export_header(KPimGAPILatitude BASE_NAME kgapilatitude)
+generate_export_header(KPim${KF_MAJOR_VERSION}GAPILatitude BASE_NAME kgapilatitude)
 
 
-target_include_directories(KPimGAPILatitude INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
+target_include_directories(KPim${KF_MAJOR_VERSION}GAPILatitude INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI>")
 
-target_link_libraries(KPimGAPILatitude
+target_link_libraries(KPim${KF_MAJOR_VERSION}GAPILatitude
 PUBLIC
-    KPim::GAPICore
+    KPim${KF_MAJOR_VERSION}::GAPICore
     KF${KF_MAJOR_VERSION}::Contacts
 PRIVATE
     Qt::Network
 )
 
-set_target_properties(KPimGAPILatitude PROPERTIES
+set_target_properties(KPim${KF_MAJOR_VERSION}GAPILatitude PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPILatitude
 )
 
 install(TARGETS
-    KPimGAPILatitude
-    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim${KF_MAJOR_VERSION}GAPILatitude
+    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapilatitude_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Latitude"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI/Latitude"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapilatitude_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapilatitude_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/latitude"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi/latitude"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPILatitude
-    LIB_NAME KPimGAPILatitude
+    LIB_NAME KPim${KF_MAJOR_VERSION}GAPILatitude
     DEPS "GAPICore KContacts"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
 )
 
 install(FILES

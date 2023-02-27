@@ -1,7 +1,7 @@
-add_library(KPimGAPIBlogger)
-add_library(KPim::GAPIBlogger ALIAS KPimGAPIBlogger)
+add_library(KPim${KF_MAJOR_VERSION}GAPIBlogger)
+add_library(KPim${KF_MAJOR_VERSION}::GAPIBlogger ALIAS KPim${KF_MAJOR_VERSION}GAPIBlogger)
 
-target_sources(KPimGAPIBlogger PRIVATE
+target_sources(KPim${KF_MAJOR_VERSION}GAPIBlogger PRIVATE
     ${libkgapi_debug_SRCS}
     blog.cpp
     blogfetchjob.cpp
@@ -71,49 +71,49 @@ ecm_generate_headers(kgapiblogger_CamelCase_HEADERS
 )
 
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPimGAPIBlogger PROPERTIES UNITY_BUILD ON)
+    set_target_properties(KPim${KF_MAJOR_VERSION}GAPIBlogger PROPERTIES UNITY_BUILD ON)
 endif()
 
-generate_export_header(KPimGAPIBlogger BASE_NAME kgapiblogger)
+generate_export_header(KPim${KF_MAJOR_VERSION}GAPIBlogger BASE_NAME kgapiblogger)
 
 
-target_include_directories(KPimGAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>")
+target_include_directories(KPim${KF_MAJOR_VERSION}GAPIBlogger INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI>")
 
-target_link_libraries(KPimGAPIBlogger
+target_link_libraries(KPim${KF_MAJOR_VERSION}GAPIBlogger
 PUBLIC
-    KPim::GAPICore
+    KPim${KF_MAJOR_VERSION}::GAPICore
 PRIVATE
     Qt::Network
 )
 
-set_target_properties(KPimGAPIBlogger PROPERTIES
+set_target_properties(KPim${KF_MAJOR_VERSION}GAPIBlogger PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPIBlogger
 )
 
 install(TARGETS
-    KPimGAPIBlogger
-    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim${KF_MAJOR_VERSION}GAPIBlogger
+    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapiblogger_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/Blogger"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI/Blogger"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapiblogger_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapiblogger_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/blogger"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi/blogger"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIBlogger
-    LIB_NAME KPimGAPIBlogger
+    LIB_NAME KPim${KF_MAJOR_VERSION}GAPIBlogger
     DEPS "GAPICore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
 )
 
 install(FILES

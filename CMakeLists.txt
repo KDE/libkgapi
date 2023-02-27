@@ -36,12 +36,6 @@ kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 
 set(CMAKE_AUTOMOC_MACRO_NAMES "Q_OBJECT" "Q_GADGET" "Q_NAMESPACE" "Q_NAMESPACE_EXPORT")
 
-ecm_setup_version(PROJECT
-    VARIABLE_PREFIX KGAPI
-    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
-    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfigVersion.cmake"
-    SOVERSION 5
-)
 
 ############## Find Packages ##############
 set(QT_REQUIRED_VERSION "5.15.2")
@@ -68,6 +62,12 @@ find_package(KF${KF_MAJOR_VERSION}Contacts ${KF_MIN_VERSION} CONFIG REQUIRED)
 
 find_package(Sasl2)
 set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
+ecm_setup_version(PROJECT
+    VARIABLE_PREFIX KGAPI
+    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
+    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}GAPIConfigVersion.cmake"
+    SOVERSION 5
+)
 
 
 ecm_set_disabled_deprecation_versions(QT 6.4  KF 5.103.0)
@@ -91,31 +91,62 @@ if (BUILD_TESTING)
 endif()
 
 ############## CMake Config Files ##############
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPimGAPI")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim${KF_MAJOR_VERSION}GAPI")
+set(KGAPI_KF5_COMPAT FALSE)
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/KPimGAPIConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}GAPIConfig.cmake"
     INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 )
 
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}GAPIConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}GAPIConfigVersion.cmake"
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
     COMPONENT Devel
 )
 
-install(EXPORT KPimGAPITargets
+install(EXPORT KPim${KF_MAJOR_VERSION}GAPITargets
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-    FILE KPimGAPITargets.cmake
-    NAMESPACE KPim::
+    FILE KPim${KF_MAJOR_VERSION}GAPITargets.cmake
+    NAMESPACE KPim${KF_MAJOR_VERSION}::
 )
 
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}"
     COMPONENT Devel
 )
+
+#if (QT_MAJOR_VERSION STREQUAL "5")
+##
+# TODO: Backwards compatiblity. Remove in next major version
+##
+set(CMAKECONFIG_INSTALL_DIR_KF5 "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPimGAPI")
+set(KGAPI_KF5_COMPAT TRUE)
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/KPimGAPIConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfig.cmake"
+    INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR_KF5}
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfig.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+    COMPONENT Devel
+)
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}GAPIConfigVersion.cmake"
+    RENAME "KPimGAPIConfigVersion.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+    COMPONENT Devel
+)
+install(EXPORT KPim${KF_MAJOR_VERSION}GAPITargets
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+    FILE KPim${KF_MAJOR_VERSION}GAPITargets.cmake
+    NAMESPACE KPim::
+)
+#endif()
 
 ecm_qt_install_logging_categories(
         EXPORT LIBKGAPI
