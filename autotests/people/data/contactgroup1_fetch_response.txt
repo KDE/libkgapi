@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=UTF-8
+Date: Fri, 24 Feb 2023 16:53:10 GMT
+Server: ESF
+Cache-Control: private
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Accept-Ranges: none
+Vary: X-Origin, Referer, Origin,Accept-Encoding
+Transfer-Encoding: chunked
+Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+{
+  "resourceName": "contactGroups/myContacts",
+  "groupType": "SYSTEM_CONTACT_GROUP",
+  "name": "myContacts",
+  "formattedName": "My Contacts",
+  "memberCount": 296
+}

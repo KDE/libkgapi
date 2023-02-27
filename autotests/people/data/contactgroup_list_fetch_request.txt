@@ -1,0 +1,2 @@
+GET https://people.googleapis.com/v1/contactGroups?groupFields=clientData,groupType,memberCount,metadata,name&prettyPrint=false
+Host: people.googleapis.com
