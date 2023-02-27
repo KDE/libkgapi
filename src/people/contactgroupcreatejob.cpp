@@ -56,7 +56,8 @@ void ContactGroupCreateJob::Private::processNextContactGroup()
 
     const auto groupJson = group->toJSON().toObject();
     const QJsonObject rootObject {
-        { QStringLiteral("contactGroup"), groupJson }
+        { QStringLiteral("contactGroup"), groupJson },
+        { QStringLiteral("readGroupFields"), PeopleService::allContactGroupRecentlyCreatedAvailableFields() }
     };
     const auto rawData = QJsonDocument(rootObject).toJson();
     q->enqueueRequest(request, rawData, QStringLiteral("application/json"));
