@@ -18,6 +18,7 @@ PersonList connectionsFromFile(const QString &path);
 ContactGroupList contactGroupsFromFile(const QString &path);
 QByteArray rawPhotoDataFromPhotoRequestData(const QString &path);
 PersonPtr personFromPhotoUpdateResponseFile(const QString &path);
+ContactGroupPtr contactGroupFromCreateDataFile(const QString &path);
 
 } // TestUtils
 } // People

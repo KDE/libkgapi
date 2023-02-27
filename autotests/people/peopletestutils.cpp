@@ -99,7 +99,18 @@ PersonPtr personFromPhotoUpdateResponseFile(const QString &path)
     const auto person = Person::fromJSON(personObject);
     VERIFY_RET(person, {});
     return person;
+}
 
+ContactGroupPtr contactGroupFromCreateDataFile(const QString &path)
+{
+    QFile f(path);
+    VERIFY_RET(f.open(QIODevice::ReadOnly), {});
+
+    const auto jsonObject = QJsonDocument::fromJson(f.readAll()).object();
+    const auto groupObject = jsonObject.value(QStringLiteral("contactGroup")).toObject();
+    auto group = ContactGroup::fromJSON(groupObject);
+    VERIFY_RET(group, {});
+    return group;
 }
 
 } // TestUtils
