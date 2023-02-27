@@ -25,10 +25,9 @@ namespace PeopleService
 
     KGAPIPEOPLE_EXPORT ObjectPtr JSONtoPerson(const QByteArray &jsonData);
 
-    //KGAPIPEOPLE_EXPORT People::ContactGroupPtr JSONToContactGroup(const QByteArray &jsonData);
-
     KGAPIPEOPLE_EXPORT QString allPersonFields();
     KGAPIPEOPLE_EXPORT QString allUpdatablePersonFields();
+    KGAPIPEOPLE_EXPORT QString allContactGroupRecentlyCreatedAvailableFields();
 
     KGAPIPEOPLE_EXPORT QUrl fetchAllContactsUrl(const QString &syncToken = {});
     KGAPIPEOPLE_EXPORT QUrl fetchContactUrl(const QString &resourceName);

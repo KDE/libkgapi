@@ -102,6 +102,11 @@ static const auto AllGroupFields = QStringLiteral("clientData,"
                                                   "metadata,"
                                                   "name");
 
+static const auto AllRecentlyCreatedAvailableGroupFields = QStringLiteral("clientData,"
+                                                                          "groupType,"
+                                                                          "metadata,"
+                                                                          "name");
+
 void writeNextPageDataQuery(FetchType fetchType, FeedData &feedData, const QJsonObject &replyRootObject, const QString &syncToken = {})
 {
     if(!replyRootObject.contains(QStringLiteral("nextPageToken"))) {
@@ -135,6 +140,11 @@ QString allPersonFields()
 QString allUpdatablePersonFields()
 {
     return Private::AllUpdatablePersonFields;
+}
+
+QString allContactGroupRecentlyCreatedAvailableFields()
+{
+    return Private::AllRecentlyCreatedAvailableGroupFields;
 }
 
 ObjectPtr JSONToPerson(const QByteArray &jsonData)
