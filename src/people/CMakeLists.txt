@@ -1,7 +1,7 @@
-add_library(KPimGAPIPeople)
-add_library(KPim::GAPIPeople ALIAS KPimGAPIPeople)
+add_library(KPim${KF_MAJOR_VERSION}GAPIPeople)
+add_library(KPim${KF_MAJOR_VERSION}::GAPIPeople ALIAS KPim${KF_MAJOR_VERSION}GAPIPeople)
 
-target_sources(KPimGAPIPeople PRIVATE
+target_sources(KPim${KF_MAJOR_VERSION}GAPIPeople PRIVATE
     address.cpp
     agerangetype.cpp
     biography.cpp
@@ -121,49 +121,49 @@ ecm_generate_headers(
     REQUIRED_HEADERS kgapipeople_HEADERS
 )
 
-generate_export_header(KPimGAPIPeople BASE_NAME kgapipeople)
+generate_export_header(KPim${KF_MAJOR_VERSION}GAPIPeople BASE_NAME kgapipeople)
 
-target_include_directories(KPimGAPIPeople
-    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI>"
+target_include_directories(KPim${KF_MAJOR_VERSION}GAPIPeople
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI>"
     INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
 )
 
-target_link_libraries(KPimGAPIPeople
+target_link_libraries(KPim${KF_MAJOR_VERSION}GAPIPeople
 PUBLIC
-    KPim::GAPICore
+    KPim${KF_MAJOR_VERSION}::GAPICore
     KF${KF_MAJOR_VERSION}::Contacts
 PRIVATE
     Qt::Network
 )
 
-set_target_properties(KPimGAPIPeople PROPERTIES
+set_target_properties(KPim${KF_MAJOR_VERSION}GAPIPeople PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPIPeople
 )
 
 install(TARGETS
-    KPimGAPIPeople
-    EXPORT KPimGAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim${KF_MAJOR_VERSION}GAPIPeople
+    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapipeople_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/KGAPI/People"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI/People"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapipeople_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapipeople_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI/kgapi/people"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi/people"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIPeople
-    LIB_NAME KPimGAPIPeople
-    DEPS "KPim::GAPICore KF5::Contacts"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim/KGAPI"
+    LIB_NAME KPim${KF_MAJOR_VERSION}GAPIPeople
+    DEPS "KPim${KF_MAJOR_VERSION}::GAPICore KF5::Contacts"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
 )
 
 install(FILES
