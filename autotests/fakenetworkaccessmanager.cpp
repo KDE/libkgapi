@@ -34,7 +34,11 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
         COMPARE_RET(scenario.requestMethod, op, new FakeNetworkReply(op, originalReq));
     } else {
         const auto verb = originalReq.attribute(QNetworkRequest::CustomVerbAttribute).toByteArray();
-        if (verb != QByteArray("PATCH") && verb != QByteArray("PUT")) {
+        // In the People API some of the requests ask for a custom verb called "PATCH", so allow this.
+        // Additionally we use a modify job for photo deletion requests, which return the modified person.
+        // This uses the "DELETE" verb but, since it acts as a modification on the person itself, we use
+        // a modify job and we should therefore accept this verb here.
+        if (verb != QByteArray("PATCH") && verb != QByteArray("PUT") && verb != QByteArray("DELETE")) {
             FAIL_RET("Invalid verb", new FakeNetworkReply(op, originalReq));
         }
     }
