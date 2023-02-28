@@ -24,7 +24,7 @@ namespace KGAPI2::People
  * A Google Workspace Domain membership.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#domainmembership
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT DomainMembership
 {

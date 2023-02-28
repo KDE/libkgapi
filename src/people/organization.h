@@ -29,7 +29,7 @@ class FieldMetadata;
  * A person's past or current organization. Overlapping date ranges are permitted.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#organization
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT Organization
 {

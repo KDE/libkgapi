@@ -76,7 +76,7 @@ class UserDefined;
  * is guaranteed to have exactly one field with `metadata.primary` set to true.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#person
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT Person : public KGAPI2::Object
 {

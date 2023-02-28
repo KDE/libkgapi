@@ -28,7 +28,7 @@ class FieldMetadata;
  * A person's location.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#location
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT Location
 {

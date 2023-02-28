@@ -29,7 +29,7 @@ struct MiscKeywordDefinition;
  * A person's miscellaneous keyword.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#misckeyword
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT MiscKeyword
 {

@@ -28,7 +28,7 @@ class Source;
  * The metadata about a person.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#personmetadata
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT PersonMetadata
 {

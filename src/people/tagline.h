@@ -27,7 +27,7 @@ class FieldMetadata;
  * person.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#tagline
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT Tagline
 {

@@ -32,7 +32,7 @@ class FieldMetadata;
  * A person's name. If the name is a mononym, the family name is empty.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#name
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT Name
 {

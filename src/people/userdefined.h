@@ -28,7 +28,7 @@ class FieldMetadata;
  * Arbitrary user data that is populated by the end users.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#userdefined
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT UserDefined
 {

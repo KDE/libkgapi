@@ -33,7 +33,7 @@ class FieldMetadata;
  * A person's email address.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#emailaddress
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT EmailAddress
 {

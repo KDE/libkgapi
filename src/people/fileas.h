@@ -28,7 +28,7 @@ class FieldMetadata;
  * The name that should be used to sort the person in a list.
  *
  * @see https://developers.google.com/people/api/rest/v1/people#fileas
- * @since 5.19.0
+ * @since 5.23.0
  **/
 class KGAPIPEOPLE_EXPORT FileAs
 {
