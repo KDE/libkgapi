@@ -1,0 +1,13 @@
+{
+  "contactGroup": {
+    "resourceName": "contactGroups/7ca51a518ce79592",
+    "etag": "PXZ79VVgck8=",
+    "name": "test300 modified",
+    "clientData": [
+      {
+        "key": "Key two",
+        "value": "Value two"
+      }
+    ]
+  }
+}
