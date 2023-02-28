@@ -45,22 +45,22 @@ public:
     bool operator==(const UserDefined &) const;
     bool operator!=(const UserDefined &) const;
 
-    static UserDefined fromJSON(const QJsonObject &);
-    static QVector<UserDefined> fromJSONArray(const QJsonArray& data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static UserDefined fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT static QVector<UserDefined> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The end user specified value of the user defined data. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** The end user specified key of the user defined data. **/
-    QString key() const;
+    Q_REQUIRED_RESULT QString key() const;
     /** Sets value of the key property. **/
     void setKey(const QString &value);
 
     /** Metadata about the user defined data. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

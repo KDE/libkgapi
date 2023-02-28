@@ -100,7 +100,7 @@ public:
     bool operator!=(const Person &) const;
 
     /** The person's nicknames. **/
-    QVector<Nickname> nicknames() const;
+    Q_REQUIRED_RESULT QVector<Nickname> nicknames() const;
     /** Sets value of the nicknames property. **/
     void setNicknames(const QVector<Nickname> &value);
     /** Appends the given @c value to the list of nicknames. **/
@@ -112,7 +112,7 @@ public:
 
     /** The person's email addresses. For `people.connections.list` and `otherContacts.list` the number of email addresses is limited to 100. If a Person has
      * more email addresses the entire set can be obtained by calling GetPeople. **/
-    QVector<EmailAddress> emailAddresses() const;
+    Q_REQUIRED_RESULT QVector<EmailAddress> emailAddresses() const;
     /** Sets value of the emailAddresses property. **/
     void setEmailAddresses(const QVector<EmailAddress> &value);
     /** Appends the given @c value to the list of emailAddresses. **/
@@ -123,7 +123,7 @@ public:
     void clearEmailAddresses();
 
     /** The person's client data. **/
-    QVector<ClientData> clientData() const;
+    Q_REQUIRED_RESULT QVector<ClientData> clientData() const;
     /** Sets value of the clientData property. **/
     void setClientData(const QVector<ClientData> &value);
     /** Appends the given @c value to the list of clientData. **/
@@ -134,7 +134,7 @@ public:
     void clearClientData();
 
     /** **DEPRECATED**: No data will be returned The person's bragging rights. **/
-    QVector<BraggingRights> braggingRights() const;
+    Q_REQUIRED_RESULT QVector<BraggingRights> braggingRights() const;
     /** Sets value of the braggingRights property. **/
     void setBraggingRights(const QVector<BraggingRights> &value);
     /** Appends the given @c value to the list of braggingRights. **/
@@ -145,10 +145,10 @@ public:
     void clearBraggingRights();
 
     /** Output only. **DEPRECATED**: No data will be returned The person's relationship statuses. **/
-    QVector<RelationshipStatus> relationshipStatuses() const;
+    Q_REQUIRED_RESULT QVector<RelationshipStatus> relationshipStatuses() const;
 
     /** The person's birthdays. This field is a singleton for contact sources. **/
-    QVector<Birthday> birthdays() const;
+    Q_REQUIRED_RESULT QVector<Birthday> birthdays() const;
     /** Sets value of the birthdays property. **/
     void setBirthdays(const QVector<Birthday> &value);
     /** Appends the given @c value to the list of birthdays. **/
@@ -159,7 +159,7 @@ public:
     void clearBirthdays();
 
     /** The person's relations. **/
-    QVector<Relation> relations() const;
+    Q_REQUIRED_RESULT QVector<Relation> relations() const;
     /** Sets value of the relations property. **/
     void setRelations(const QVector<Relation> &value);
     /** Appends the given @c value to the list of relations. **/
@@ -170,7 +170,7 @@ public:
     void clearRelations();
 
     /** The person's locale preferences. **/
-    QVector<PersonLocale> locales() const;
+    Q_REQUIRED_RESULT QVector<PersonLocale> locales() const;
     /** Sets value of the locales property. **/
     void setLocales(const QVector<PersonLocale> &value);
     /** Appends the given @c value to the list of locales. **/
@@ -181,7 +181,7 @@ public:
     void clearLocales();
 
     /** The person's locations. **/
-    QVector<Location> locations() const;
+    Q_REQUIRED_RESULT QVector<Location> locations() const;
     /** Sets value of the locations property. **/
     void setLocations(const QVector<Location> &value);
     /** Appends the given @c value to the list of locations. **/
@@ -192,7 +192,7 @@ public:
     void clearLocations();
 
     /** The person's external IDs. **/
-    QVector<ExternalId> externalIds() const;
+    Q_REQUIRED_RESULT QVector<ExternalId> externalIds() const;
     /** Sets value of the externalIds property. **/
     void setExternalIds(const QVector<ExternalId> &value);
     /** Appends the given @c value to the list of externalIds. **/
@@ -203,13 +203,13 @@ public:
     void clearExternalIds();
 
     /** Output only. The person's age ranges. **/
-    QVector<AgeRangeType> ageRanges() const;
+    Q_REQUIRED_RESULT QVector<AgeRangeType> ageRanges() const;
 
     /** Output only. **DEPRECATED**: No data will be returned The person's taglines. **/
-    QVector<Tagline> taglines() const;
+    Q_REQUIRED_RESULT QVector<Tagline> taglines() const;
 
     /** The person's user defined data. **/
-    QVector<UserDefined> userDefined() const;
+    Q_REQUIRED_RESULT QVector<UserDefined> userDefined() const;
     /** Sets value of the userDefined property. **/
     void setUserDefined(const QVector<UserDefined> &value);
     /** Appends the given @c value to the list of userDefined. **/
@@ -220,7 +220,7 @@ public:
     void clearUserDefined();
 
     /** The person's biographies. This field is a singleton for contact sources. **/
-    QVector<Biography> biographies() const;
+    Q_REQUIRED_RESULT QVector<Biography> biographies() const;
     /** Sets value of the biographies property. **/
     void setBiographies(const QVector<Biography> &value);
     /** Appends the given @c value to the list of biographies. **/
@@ -231,7 +231,7 @@ public:
     void clearBiographies();
 
     /** The person's SIP addresses. **/
-    QVector<SipAddress> sipAddresses() const;
+    Q_REQUIRED_RESULT QVector<SipAddress> sipAddresses() const;
     /** Sets value of the sipAddresses property. **/
     void setSipAddresses(const QVector<SipAddress> &value);
     /** Appends the given @c value to the list of sipAddresses. **/
@@ -242,7 +242,7 @@ public:
     void clearSipAddresses();
 
     /** The person's group memberships. **/
-    QVector<Membership> memberships() const;
+    Q_REQUIRED_RESULT QVector<Membership> memberships() const;
     /** Sets value of the memberships property. **/
     void setMemberships(const QVector<Membership> &value);
     /** Appends the given @c value to the list of memberships. **/
@@ -253,7 +253,7 @@ public:
     void clearMemberships();
 
     /** The person's skills. **/
-    QVector<Skill> skills() const;
+    Q_REQUIRED_RESULT QVector<Skill> skills() const;
     /** Sets value of the skills property. **/
     void setSkills(const QVector<Skill> &value);
     /** Appends the given @c value to the list of skills. **/
@@ -264,7 +264,7 @@ public:
     void clearSkills();
 
     /** **DEPRECATED**: (Please use `person.locations` instead) The person's residences. **/
-    QVector<Residence> residences() const;
+    Q_REQUIRED_RESULT QVector<Residence> residences() const;
     /** Sets value of the residences property. **/
     void setResidences(const QVector<Residence> &value);
     /** Appends the given @c value to the list of residences. **/
@@ -275,7 +275,7 @@ public:
     void clearResidences();
 
     /** The person's names. This field is a singleton for contact sources. **/
-    QVector<Name> names() const;
+    Q_REQUIRED_RESULT QVector<Name> names() const;
     /** Sets value of the names property. **/
     void setNames(const QVector<Name> &value);
     /** Appends the given @c value to the list of names. **/
@@ -286,7 +286,7 @@ public:
     void clearNames();
 
     /** The person's calendar URLs. **/
-    QVector<CalendarUrl> calendarUrls() const;
+    Q_REQUIRED_RESULT QVector<CalendarUrl> calendarUrls() const;
     /** Sets value of the calendarUrls property. **/
     void setCalendarUrls(const QVector<CalendarUrl> &value);
     /** Appends the given @c value to the list of calendarUrls. **/
@@ -297,10 +297,10 @@ public:
     void clearCalendarUrls();
 
     /** Output only. The person's cover photos. **/
-    QVector<CoverPhoto> coverPhotos() const;
+    Q_REQUIRED_RESULT QVector<CoverPhoto> coverPhotos() const;
 
     /** The person's street addresses. **/
-    QVector<Address> addresses() const;
+    Q_REQUIRED_RESULT QVector<Address> addresses() const;
     /** Sets value of the addresses property. **/
     void setAddresses(const QVector<Address> &value);
     /** Appends the given @c value to the list of addresses. **/
@@ -311,13 +311,13 @@ public:
     void clearAddresses();
 
     /** The [HTTP entity tag](https://en.wikipedia.org/wiki/HTTP_ETag) of the resource. Used for web cache validation. **/
-    QString etag() const;
+    Q_REQUIRED_RESULT QString etag() const;
     /** Sets value of the etag property. **/
     void setEtag(const QString &value);
 
     /** The person's phone numbers. For `people.connections.list` and `otherContacts.list` the number of phone numbers is limited to 100. If a Person has more
      * phone numbers the entire set can be obtained by calling GetPeople. **/
-    QVector<PhoneNumber> phoneNumbers() const;
+    Q_REQUIRED_RESULT QVector<PhoneNumber> phoneNumbers() const;
     /** Sets value of the phoneNumbers property. **/
     void setPhoneNumbers(const QVector<PhoneNumber> &value);
     /** Appends the given @c value to the list of phoneNumbers. **/
@@ -328,7 +328,7 @@ public:
     void clearPhoneNumbers();
 
     /** The person's instant messaging clients. **/
-    QVector<ImClient> imClients() const;
+    Q_REQUIRED_RESULT QVector<ImClient> imClients() const;
     /** Sets value of the imClients property. **/
     void setImClients(const QVector<ImClient> &value);
     /** Appends the given @c value to the list of imClients. **/
@@ -339,7 +339,7 @@ public:
     void clearImClients();
 
     /** The person's events. **/
-    QVector<Event> events() const;
+    Q_REQUIRED_RESULT QVector<Event> events() const;
     /** Sets value of the events property. **/
     void setEvents(const QVector<Event> &value);
     /** Appends the given @c value to the list of events. **/
@@ -350,10 +350,10 @@ public:
     void clearEvents();
 
     /** Output only. The person's photos. **/
-    QVector<Photo> photos() const;
+    Q_REQUIRED_RESULT QVector<Photo> photos() const;
 
     /** The person's occupations. **/
-    QVector<Occupation> occupations() const;
+    Q_REQUIRED_RESULT QVector<Occupation> occupations() const;
     /** Sets value of the occupations property. **/
     void setOccupations(const QVector<Occupation> &value);
     /** Appends the given @c value to the list of occupations. **/
@@ -364,7 +364,7 @@ public:
     void clearOccupations();
 
     /** The person's miscellaneous keywords. **/
-    QVector<MiscKeyword> miscKeywords() const;
+    Q_REQUIRED_RESULT QVector<MiscKeyword> miscKeywords() const;
     /** Sets value of the miscKeywords property. **/
     void setMiscKeywords(const QVector<MiscKeyword> &value);
     /** Appends the given @c value to the list of miscKeywords. **/
@@ -375,15 +375,15 @@ public:
     void clearMiscKeywords();
 
     /** Output only. **DEPRECATED**: No data will be returned The person's relationship interests. **/
-    QVector<RelationshipInterest> relationshipInterests() const;
+    Q_REQUIRED_RESULT QVector<RelationshipInterest> relationshipInterests() const;
 
     /** The resource name for the person, assigned by the server. An ASCII string with a max length of 27 characters, in the form of `people/{person_id}`. **/
-    QString resourceName() const;
+    Q_REQUIRED_RESULT QString resourceName() const;
     /** Sets value of the resourceName property. **/
     void setResourceName(const QString &value);
 
     /** The person's interests. **/
-    QVector<Interest> interests() const;
+    Q_REQUIRED_RESULT QVector<Interest> interests() const;
     /** Sets value of the interests property. **/
     void setInterests(const QVector<Interest> &value);
     /** Appends the given @c value to the list of interests. **/
@@ -394,7 +394,7 @@ public:
     void clearInterests();
 
     /** The person's past or current organizations. **/
-    QVector<Organization> organizations() const;
+    Q_REQUIRED_RESULT QVector<Organization> organizations() const;
     /** Sets value of the organizations property. **/
     void setOrganizations(const QVector<Organization> &value);
     /** Appends the given @c value to the list of organizations. **/
@@ -405,7 +405,7 @@ public:
     void clearOrganizations();
 
     /** The person's associated URLs. **/
-    QVector<Url> urls() const;
+    Q_REQUIRED_RESULT QVector<Url> urls() const;
     /** Sets value of the urls property. **/
     void setUrls(const QVector<Url> &value);
     /** Appends the given @c value to the list of urls. **/
@@ -416,7 +416,7 @@ public:
     void clearUrls();
 
     /** The person's genders. This field is a singleton for contact sources. **/
-    QVector<Gender> genders() const;
+    Q_REQUIRED_RESULT QVector<Gender> genders() const;
     /** Sets value of the genders property. **/
     void setGenders(const QVector<Gender> &value);
     /** Appends the given @c value to the list of genders. **/
@@ -427,7 +427,7 @@ public:
     void clearGenders();
 
     /** The person's file-ases. **/
-    QVector<FileAs> fileAses() const;
+    Q_REQUIRED_RESULT QVector<FileAs> fileAses() const;
     /** Sets value of the fileAses property. **/
     void setFileAses(const QVector<FileAs> &value);
     /** Appends the given @c value to the list of fileAses. **/
@@ -438,13 +438,13 @@ public:
     void clearFileAses();
 
     /** Output only. **DEPRECATED** (Please use `person.ageRanges` instead) The person's age range. **/
-    Person::AgeRange ageRange() const;
+    Q_REQUIRED_RESULT Person::AgeRange ageRange() const;
 
     /** Output only. Metadata about the person. **/
-    PersonMetadata metadata() const;
+    Q_REQUIRED_RESULT PersonMetadata metadata() const;
 
-    static PersonPtr fromJSON(const QJsonObject &obj);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static PersonPtr fromJSON(const QJsonObject &obj);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
 private Q_SLOTS:
     static void convertNameFieldsFromKContacts(const KContacts::Addressee &addressee);

@@ -25,8 +25,8 @@ public:
     explicit PersonFetchJob(const QString &resourceName, const AccountPtr &account, QObject* parent = nullptr);
     ~PersonFetchJob();
 
-    [[nodiscard]] QString syncToken() const;
-    [[nodiscard]] QString receivedSyncToken() const;
+    Q_REQUIRED_RESULT QString syncToken() const;
+    Q_REQUIRED_RESULT QString receivedSyncToken() const;
 
 public Q_SLOTS:
     void setSyncToken(const QString &syncToken);

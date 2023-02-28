@@ -41,11 +41,11 @@ public:
     bool operator==(const DomainMembership &) const;
     bool operator!=(const DomainMembership &) const;
 
-    static DomainMembership fromJSON(const QJsonObject &);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static DomainMembership fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** True if the person is in the viewer's Google Workspace domain. **/
-    bool inViewerDomain() const;
+    Q_REQUIRED_RESULT bool inViewerDomain() const;
     /** Sets value of the inViewerDomain property. **/
     void setInViewerDomain(const bool &value);
 

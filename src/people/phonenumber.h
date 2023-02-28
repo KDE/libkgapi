@@ -49,33 +49,33 @@ public:
     bool operator==(const PhoneNumber &) const;
     bool operator!=(const PhoneNumber &) const;
 
-    static PhoneNumber fromJSON(const QJsonObject &);
-    static QVector<PhoneNumber> fromJSONArray(const QJsonArray& data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static PhoneNumber fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT static QVector<PhoneNumber> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
-    static PhoneNumber fromKContactsPhoneNumber(const KContacts::PhoneNumber &phoneNumber);
-    static QVector<PhoneNumber> fromKContactsPhoneNumberList(const QVector<KContacts::PhoneNumber> &phoneNumberList);
-    KContacts::PhoneNumber toKContactsPhoneNumber() const;
+    Q_REQUIRED_RESULT static PhoneNumber fromKContactsPhoneNumber(const KContacts::PhoneNumber &phoneNumber);
+    Q_REQUIRED_RESULT static QVector<PhoneNumber> fromKContactsPhoneNumberList(const QVector<KContacts::PhoneNumber> &phoneNumberList);
+    Q_REQUIRED_RESULT KContacts::PhoneNumber toKContactsPhoneNumber() const;
 
     /** The phone number. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Output only. The type of the phone number translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    QString formattedType() const;
+    Q_REQUIRED_RESULT QString formattedType() const;
 
     /** Output only. The canonicalized [ITU-T E.164](https://law.resource.org/pub/us/cfr/ibr/004/itu-t.E.164.1.2008.pdf) form of the phone number. **/
-    QString canonicalForm() const;
+    Q_REQUIRED_RESULT QString canonicalForm() const;
 
     /** The type of the phone number. The type can be custom or one of these predefined values: * `home` * `work` * `mobile` * `homeFax` * `workFax` *
      * `otherFax` * `pager` * `workMobile` * `workPager` * `main` * `googleVoice` * `other` **/
-    QString type() const;
+    Q_REQUIRED_RESULT QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Metadata about the phone number. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

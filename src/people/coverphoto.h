@@ -46,22 +46,22 @@ public:
     bool operator==(const CoverPhoto &) const;
     bool operator!=(const CoverPhoto &) const;
 
-    static CoverPhoto fromJSON(const QJsonObject &obj);
-    static QVector<CoverPhoto> fromJSONArray(const QJsonArray &data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static CoverPhoto fromJSON(const QJsonObject &obj);
+    Q_REQUIRED_RESULT static QVector<CoverPhoto> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** True if the cover photo is the default cover photo; false if the cover photo is a user-provided cover photo. **/
-    bool isDefault() const;
+    Q_REQUIRED_RESULT bool isDefault() const;
     /** Sets value of the isDefault property. **/
     void setIsDefault(const bool &value);
 
     /** Metadata about the cover photo. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The URL of the cover photo. **/
-    QString url() const;
+    Q_REQUIRED_RESULT QString url() const;
     /** Sets value of the url property. **/
     void setUrl(const QString &value);
 

@@ -54,14 +54,14 @@ public:
     bool operator==(const ProfileMetadata &) const;
     bool operator!=(const ProfileMetadata &) const;
 
-    static ProfileMetadata fromJSON(const QJsonObject &);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static ProfileMetadata fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Output only. The user types. **/
-    QVector<ProfileMetadata::UserTypes> userTypes() const;
+    Q_REQUIRED_RESULT QVector<ProfileMetadata::UserTypes> userTypes() const;
 
     /** Output only. The profile object type. **/
-    ProfileMetadata::ObjectType objectType() const;
+    Q_REQUIRED_RESULT ProfileMetadata::ObjectType objectType() const;
 
 private:
     class Private;

@@ -23,34 +23,34 @@ namespace KGAPI2::People
 namespace PeopleService
 {
 
-    KGAPIPEOPLE_EXPORT ObjectPtr JSONtoPerson(const QByteArray &jsonData);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT ObjectPtr JSONtoPerson(const QByteArray &jsonData);
 
-    KGAPIPEOPLE_EXPORT QString allPersonFields();
-    KGAPIPEOPLE_EXPORT QString allUpdatablePersonFields();
-    KGAPIPEOPLE_EXPORT QString allContactGroupRecentlyCreatedAvailableFields();
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QString allPersonFields();
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QString allUpdatablePersonFields();
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QString allContactGroupRecentlyCreatedAvailableFields();
 
-    KGAPIPEOPLE_EXPORT QUrl fetchAllContactsUrl(const QString &syncToken = {});
-    KGAPIPEOPLE_EXPORT QUrl fetchContactUrl(const QString &resourceName);
-    KGAPIPEOPLE_EXPORT QUrl createContactUrl();
-    KGAPIPEOPLE_EXPORT QUrl updateContactUrl(const QString &resourceName, const QString &personFields);
-    KGAPIPEOPLE_EXPORT QUrl deleteContactUrl(const QString &resourceName);
-    KGAPIPEOPLE_EXPORT QUrl updateContactPhotoUrl(const QString &resourceName);
-    KGAPIPEOPLE_EXPORT QUrl deleteContactPhotoUrl(const QString &resourceName, const QString &personFields);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl fetchAllContactsUrl(const QString &syncToken = {});
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl fetchContactUrl(const QString &resourceName);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl createContactUrl();
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl updateContactUrl(const QString &resourceName, const QString &personFields);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl deleteContactUrl(const QString &resourceName);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl updateContactPhotoUrl(const QString &resourceName);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl deleteContactPhotoUrl(const QString &resourceName, const QString &personFields);
 
 
-    KGAPIPEOPLE_EXPORT QUrl fetchAllContactGroupsUrl();
-    KGAPIPEOPLE_EXPORT QUrl fetchContactGroupUrl(const QString &resourceName);
-    KGAPIPEOPLE_EXPORT QUrl createContactGroupUrl();
-    KGAPIPEOPLE_EXPORT QUrl updateContactGroupUrl(const QString &resourceName);
-    KGAPIPEOPLE_EXPORT QUrl deleteContactGroupUrl(const QString &resourceName, const bool deleteContacts);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl fetchAllContactGroupsUrl();
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl fetchContactGroupUrl(const QString &resourceName);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl createContactGroupUrl();
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl updateContactGroupUrl(const QString &resourceName);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QUrl deleteContactGroupUrl(const QString &resourceName, const bool deleteContacts);
 
-    KGAPIPEOPLE_EXPORT ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed, const QString &syncToken = {});
-    KGAPIPEOPLE_EXPORT ObjectsList parseContactGroupsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed);
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed, const QString &syncToken = {});
+    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT ObjectsList parseContactGroupsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed);
 }
 
 namespace PeopleUtils
 {
-void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const int value);
+    void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const int value);
     void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const bool value);
     void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const QString &value);
     void addValueToJsonObjectIfValid(QJsonObject &object, const QByteArray &key, const QJsonValue &value);

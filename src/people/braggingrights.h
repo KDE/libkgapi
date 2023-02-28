@@ -43,16 +43,16 @@ public:
     bool operator==(const BraggingRights &) const;
     bool operator!=(const BraggingRights &) const;
 
-    static BraggingRights fromJSON(const QJsonObject &);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static BraggingRights fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the bragging rights. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The bragging rights; for example, `climbed mount everest`. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 

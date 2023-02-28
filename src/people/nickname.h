@@ -55,22 +55,22 @@ public:
     bool operator==(const Nickname &) const;
     bool operator!=(const Nickname &) const;
 
-    static Nickname fromJSON(const QJsonObject &);
-    static QVector<Nickname> fromJSONArray(const QJsonArray& data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Nickname fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT static QVector<Nickname> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The nickname. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** The type of the nickname. **/
-    Nickname::Type type() const;
+    Q_REQUIRED_RESULT Nickname::Type type() const;
     /** Sets value of the type property. **/
     void setType(const Nickname::Type &value);
 
     /** Metadata about the nickname. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

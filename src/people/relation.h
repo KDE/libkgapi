@@ -45,27 +45,27 @@ public:
     bool operator==(const Relation &) const;
     bool operator!=(const Relation &) const;
 
-    static Relation fromJSON(const QJsonObject &);
-    static QVector<Relation> fromJSONArray(const QJsonArray& data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Relation fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT static QVector<Relation> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The person's relation to the other person. The type can be custom or one of these predefined values: * `spouse` * `child` * `mother` * `father` *
      * `parent` * `brother` * `sister` * `friend` * `relative` * `domesticPartner` * `manager` * `assistant` * `referredBy` * `partner` **/
-    QString type() const;
+    Q_REQUIRED_RESULT QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** The name of the other person this relation refers to. **/
-    QString person() const;
+    Q_REQUIRED_RESULT QString person() const;
     /** Sets value of the person property. **/
     void setPerson(const QString &value);
 
     /** Output only. The type of the relation translated and formatted in the viewer's account locale or the locale specified in the Accept-Language HTTP
      * header. **/
-    QString formattedType() const;
+    Q_REQUIRED_RESULT QString formattedType() const;
 
     /** Metadata about the relation. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

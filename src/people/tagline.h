@@ -44,16 +44,16 @@ public:
     bool operator==(const Tagline &) const;
     bool operator!=(const Tagline &) const;
 
-    static Tagline fromJSON(const QJsonObject &);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Tagline fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The tagline. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Metadata about the tagline. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

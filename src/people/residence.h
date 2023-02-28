@@ -44,21 +44,21 @@ public:
     bool operator==(const Residence &) const;
     bool operator!=(const Residence &) const;
 
-    static Residence fromJSON(const QJsonObject &);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Residence fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The address of the residence. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Metadata about the residence. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** True if the residence is the person's current residence; false if the residence is a past residence. **/
-    bool current() const;
+    Q_REQUIRED_RESULT bool current() const;
     /** Sets value of the current property. **/
     void setCurrent(const bool &value);
 

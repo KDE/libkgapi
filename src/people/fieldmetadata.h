@@ -41,26 +41,26 @@ public:
     bool operator==(const FieldMetadata &) const;
     bool operator!=(const FieldMetadata &) const;
 
-    static FieldMetadata fromJSON(const QJsonObject &);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static FieldMetadata fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The source of the field. **/
-    Source source() const;
+    Q_REQUIRED_RESULT Source source() const;
     /** Sets value of the source property. **/
     void setSource(const Source &value);
 
     /** True if the field is the primary field for the source. Each source must have at most one field with `source_primary` set to true. **/
-    bool sourcePrimary() const;
+    Q_REQUIRED_RESULT bool sourcePrimary() const;
     /** Sets value of the sourcePrimary property. **/
     void setSourcePrimary(const bool &value);
 
     /** Output only. True if the field is the primary field for all sources in the person. Each person will have at most one field with `primary` set to true.
      * **/
-    bool primary() const;
+    Q_REQUIRED_RESULT bool primary() const;
 
     /** Output only. True if the field is verified; false if the field is unverified. A verified field is typically a name, email address, phone number, or
      * website that has been confirmed to be owned by the person. **/
-    bool verified() const;
+    Q_REQUIRED_RESULT bool verified() const;
 
 private:
     class Private;

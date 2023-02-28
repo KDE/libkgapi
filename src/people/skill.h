@@ -45,17 +45,17 @@ public:
     bool operator==(const Skill &) const;
     bool operator!=(const Skill &) const;
 
-    static Skill fromJSON(const QJsonObject &);
-    static QVector<Skill> fromJSONArray(const QJsonArray& data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Skill fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT static QVector<Skill> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the skill. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The skill; for example, `underwater basket weaving`. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 

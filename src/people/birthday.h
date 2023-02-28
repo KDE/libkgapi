@@ -48,22 +48,22 @@ public:
     bool operator==(const Birthday &) const;
     bool operator!=(const Birthday &) const;
 
-    static Birthday fromJSON(const QJsonObject &obj);
-    static QVector<Birthday> fromJSONArray(const QJsonArray &data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Birthday fromJSON(const QJsonObject &obj);
+    Q_REQUIRED_RESULT static QVector<Birthday> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** A free-form string representing the user's birthday. **/
-    QString text() const;
+    Q_REQUIRED_RESULT QString text() const;
     /** Sets value of the text property. **/
     void setText(const QString &value);
 
     /** Metadata about the birthday. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The date of the birthday. **/
-    QDate date() const;
+    Q_REQUIRED_RESULT QDate date() const;
     /** Sets value of the date property. **/
     void setDate(const QDate &value);
 

@@ -51,22 +51,22 @@ public:
     bool operator==(const Biography &) const;
     bool operator!=(const Biography &) const;
 
-    static Biography fromJSON(const QJsonObject &obj);
-    static QVector<Biography> fromJSONArray(const QJsonArray &data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Biography fromJSON(const QJsonObject &obj);
+    Q_REQUIRED_RESULT static QVector<Biography> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the biography. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The content type of the biography. **/
-    Biography::ContentType contentType() const;
+    Q_REQUIRED_RESULT Biography::ContentType contentType() const;
     /** Sets value of the contentType property. **/
     void setContentType(const Biography::ContentType &value);
 
     /** The short biography. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 

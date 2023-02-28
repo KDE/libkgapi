@@ -45,17 +45,17 @@ public:
     bool operator==(const Interest &) const;
     bool operator!=(const Interest &) const;
 
-    static Interest fromJSON(const QJsonObject &);
-    static QVector<Interest> fromJSONArray(const QJsonArray& data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Interest fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT static QVector<Interest> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The interest; for example, `stargazing`. **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Metadata about the interest. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

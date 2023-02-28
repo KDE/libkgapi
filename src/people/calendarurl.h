@@ -45,27 +45,27 @@ public:
     bool operator==(const CalendarUrl &) const;
     bool operator!=(const CalendarUrl &) const;
 
-    static CalendarUrl fromJSON(const QJsonObject &obj);
-    static QVector<CalendarUrl> fromJSONArray(const QJsonArray &data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static CalendarUrl fromJSON(const QJsonObject &obj);
+    Q_REQUIRED_RESULT static QVector<CalendarUrl> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The calendar URL. **/
-    QString url() const;
+    Q_REQUIRED_RESULT QString url() const;
     /** Sets value of the url property. **/
     void setUrl(const QString &value);
 
     /** Metadata about the calendar URL. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The type of the calendar URL. The type can be custom or one of these predefined values: * `home` * `freeBusy` * `work` **/
-    QString type() const;
+    Q_REQUIRED_RESULT QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Output only. The type of the calendar URL translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    QString formattedType() const;
+    Q_REQUIRED_RESULT QString formattedType() const;
 
 private:
     class Private;

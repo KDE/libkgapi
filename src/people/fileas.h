@@ -45,17 +45,17 @@ public:
     bool operator==(const FileAs &) const;
     bool operator!=(const FileAs &) const;
 
-    static FileAs fromJSON(const QJsonObject &obj);
-    static QVector<FileAs> fromJSONArray(const QJsonArray& data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static FileAs fromJSON(const QJsonObject &obj);
+    Q_REQUIRED_RESULT static QVector<FileAs> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the file-as. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The file-as value **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 

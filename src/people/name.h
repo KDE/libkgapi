@@ -49,82 +49,82 @@ public:
     bool operator==(const Name &) const;
     bool operator!=(const Name &) const;
 
-    static Name fromJSON(const QJsonObject &);
-    static QVector<Name> fromJSONArray(const QJsonArray& data);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static Name fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT static QVector<Name> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
-    static Name fromKContactsAddressee(const KContacts::Addressee &addressee);
+    Q_REQUIRED_RESULT static Name fromKContactsAddressee(const KContacts::Addressee &addressee);
     void applyToKContactsAddressee(KContacts::Addressee &addressee) const;
 
     /** The free form name value. **/
-    QString unstructuredName() const;
+    Q_REQUIRED_RESULT QString unstructuredName() const;
     /** Sets value of the unstructuredName property. **/
     void setUnstructuredName(const QString &value);
 
     /** The family name. **/
-    QString familyName() const;
+    Q_REQUIRED_RESULT QString familyName() const;
     /** Sets value of the familyName property. **/
     void setFamilyName(const QString &value);
 
     /** The middle name(s) spelled as they sound. **/
-    QString phoneticMiddleName() const;
+    Q_REQUIRED_RESULT QString phoneticMiddleName() const;
     /** Sets value of the phoneticMiddleName property. **/
     void setPhoneticMiddleName(const QString &value);
 
     /** The middle name(s). **/
-    QString middleName() const;
+    Q_REQUIRED_RESULT QString middleName() const;
     /** Sets value of the middleName property. **/
     void setMiddleName(const QString &value);
 
     /** The honorific prefixes, such as `Mrs.` or `Dr.` **/
-    QString honorificPrefix() const;
+    Q_REQUIRED_RESULT QString honorificPrefix() const;
     /** Sets value of the honorificPrefix property. **/
     void setHonorificPrefix(const QString &value);
 
     /** The given name. **/
-    QString givenName() const;
+    Q_REQUIRED_RESULT QString givenName() const;
     /** Sets value of the givenName property. **/
     void setGivenName(const QString &value);
 
     /** The given name spelled as it sounds. **/
-    QString phoneticGivenName() const;
+    Q_REQUIRED_RESULT QString phoneticGivenName() const;
     /** Sets value of the phoneticGivenName property. **/
     void setPhoneticGivenName(const QString &value);
 
     /** The honorific prefixes spelled as they sound. **/
-    QString phoneticHonorificPrefix() const;
+    Q_REQUIRED_RESULT QString phoneticHonorificPrefix() const;
     /** Sets value of the phoneticHonorificPrefix property. **/
     void setPhoneticHonorificPrefix(const QString &value);
 
     /** Output only. The display name formatted according to the locale specified by the viewer's account or the `Accept-Language` HTTP header. **/
-    QString displayName() const;
+    Q_REQUIRED_RESULT QString displayName() const;
 
     /** Output only. The display name with the last name first formatted according to the locale specified by the viewer's account or the `Accept-Language` HTTP
      * header. **/
-    QString displayNameLastFirst() const;
+    Q_REQUIRED_RESULT QString displayNameLastFirst() const;
 
     /** The family name spelled as it sounds. **/
-    QString phoneticFamilyName() const;
+    Q_REQUIRED_RESULT QString phoneticFamilyName() const;
     /** Sets value of the phoneticFamilyName property. **/
     void setPhoneticFamilyName(const QString &value);
 
     /** The honorific suffixes, such as `Jr.` **/
-    QString honorificSuffix() const;
+    Q_REQUIRED_RESULT QString honorificSuffix() const;
     /** Sets value of the honorificSuffix property. **/
     void setHonorificSuffix(const QString &value);
 
     /** The honorific suffixes spelled as they sound. **/
-    QString phoneticHonorificSuffix() const;
+    Q_REQUIRED_RESULT QString phoneticHonorificSuffix() const;
     /** Sets value of the phoneticHonorificSuffix property. **/
     void setPhoneticHonorificSuffix(const QString &value);
 
     /** The full name spelled as it sounds. **/
-    QString phoneticFullName() const;
+    Q_REQUIRED_RESULT QString phoneticFullName() const;
     /** Sets value of the phoneticFullName property. **/
     void setPhoneticFullName(const QString &value);
 
     /** Metadata about the name. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

@@ -43,21 +43,21 @@ public:
     bool operator==(const RelationshipStatus &) const;
     bool operator!=(const RelationshipStatus &) const;
 
-    static RelationshipStatus fromJSON(const QJsonObject &);
-    QJsonValue toJSON() const;
+    Q_REQUIRED_RESULT static RelationshipStatus fromJSON(const QJsonObject &);
+    Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The relationship status. The value can be custom or one of these predefined values: * `single` * `inARelationship` * `engaged` * `married` *
      * `itsComplicated` * `openRelationship` * `widowed` * `inDomesticPartnership` * `inCivilUnion` **/
-    QString value() const;
+    Q_REQUIRED_RESULT QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Output only. The value of the relationship status translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale.
      * **/
-    QString formattedValue() const;
+    Q_REQUIRED_RESULT QString formattedValue() const;
 
     /** Metadata about the relationship status. **/
-    FieldMetadata metadata() const;
+    Q_REQUIRED_RESULT FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
