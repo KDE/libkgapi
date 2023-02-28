@@ -1,0 +1,2 @@
+DELETE https://people.googleapis.com/v1/contactGroups/7ca51a518ce79592?deleteContacts=false
+Host: people.googleapis.com
