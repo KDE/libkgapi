@@ -101,7 +101,7 @@ PersonPtr personFromPhotoUpdateResponseFile(const QString &path)
     return person;
 }
 
-ContactGroupPtr contactGroupFromCreateDataFile(const QString &path)
+ContactGroupPtr contactGroupFromRequestDataFile(const QString &path)
 {
     QFile f(path);
     VERIFY_RET(f.open(QIODevice::ReadOnly), {});

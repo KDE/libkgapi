@@ -40,8 +40,8 @@ private Q_SLOTS:
         QTest::addColumn<ContactGroupList>("contactGroupCreateData");
         QTest::addColumn<ContactGroupList>("contactGroupCreated");
 
-        const auto contactGroup2CreateData = TestUtils::contactGroupFromCreateDataFile(QFINDTESTDATA("data/contactgroup2_create_data.json"));
-        const auto contactGroup3CreateData = TestUtils::contactGroupFromCreateDataFile(QFINDTESTDATA("data/contactgroup3_create_data.json"));
+        const auto contactGroup2CreateData = TestUtils::contactGroupFromRequestDataFile(QFINDTESTDATA("data/contactgroup2_create_data.json"));
+        const auto contactGroup3CreateData = TestUtils::contactGroupFromRequestDataFile(QFINDTESTDATA("data/contactgroup3_create_data.json"));
         const auto contactGroup2CreateRequest = scenarioFromFile(QFINDTESTDATA("data/contactgroup2_create_request.txt"), QFINDTESTDATA("data/contactgroup2_create_response.txt"));
         const auto contactGroup3CreateRequest = scenarioFromFile(QFINDTESTDATA("data/contactgroup3_create_request.txt"), QFINDTESTDATA("data/contactgroup3_create_response.txt"));
         const auto contactGroup2Created = TestUtils::contactGroupFromFile(QFINDTESTDATA("data/contactgroup2.json"));
