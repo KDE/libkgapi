@@ -1,0 +1,177 @@
+{
+  "person": {
+    "birthdays": [
+      {
+        "date": {
+          "day": 13,
+          "month": 12,
+          "year": 1996
+        },
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        }
+      }
+    ],
+    "emailAddresses": [
+      {
+        "formattedType": "Home",
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "type": "home",
+        "value": "john@kde.exampletest"
+      },
+      {
+        "formattedType": "Work",
+        "metadata": {
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "type": "work",
+        "value": "john@home.testexample"
+      },
+      {
+        "formattedType": "Home",
+        "metadata": {
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "type": "home",
+        "value": "john@private.stuff"
+      }
+    ],
+    "etag": "%EiMBAgMFBgcICQoLDA0ODxATFBUWGSEiIyQlJicuNDU3PT4/QBoEAQIFByIMUWdVbmZ2M01JbjQ9",
+    "memberships": [
+      {
+        "contactGroupMembership": {
+          "contactGroupId": "19cb37f60aed8000",
+          "contactGroupResourceName": "contactGroups/19cb37f60aed8000"
+        },
+        "metadata": {
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        }
+      },
+      {
+        "contactGroupMembership": {
+          "contactGroupId": "myContacts",
+          "contactGroupResourceName": "contactGroups/myContacts"
+        },
+        "metadata": {
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        }
+      }
+    ],
+    "metadata": {
+      "objectType": "PERSON",
+      "sources": [
+        {
+          "etag": "#QgUnfv3MIn4=",
+          "id": "47c21a010c6b30c8",
+          "type": "CONTACT",
+          "updateTime": "2023-02-26T22:34:44.322155Z"
+        }
+      ]
+    },
+    "names": [
+      {
+        "displayName": "Dr. John Doe III",
+        "displayNameLastFirst": "Doe, Dr. John, III",
+        "familyName": "Doe",
+        "givenName": "John",
+        "honorificPrefix": "Dr.",
+        "honorificSuffix": "III",
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "unstructuredName": "Dr. John Doe III"
+      }
+    ],
+    "nicknames": [
+      {
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "value": "Johnny"
+      }
+    ],
+    "organizations": [
+      {
+        "department": "PIM",
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "name": "KDE"
+      }
+    ],
+    "phoneNumbers": [
+      {
+        "canonicalForm": "+34666123490",
+        "formattedType": "Home",
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "type": "home",
+        "value": "666 12 34 90"
+      },
+      {
+        "canonicalForm": "+34952666123",
+        "formattedType": "Work",
+        "metadata": {
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "type": "work",
+        "value": "952 66 61 23"
+      },
+      {
+        "canonicalForm": "+34910123000",
+        "formattedType": "Home",
+        "metadata": {
+          "source": {
+            "id": "47c21a010c6b30c8",
+            "type": "CONTACT"
+          }
+        },
+        "type": "home",
+        "value": "910 12 30 00"
+      }
+    ],
+    "resourceName": "people/c5170723913980391624"
+  }
+}

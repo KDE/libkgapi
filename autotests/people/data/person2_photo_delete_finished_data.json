@@ -1,0 +1,73 @@
+{
+  "person": {
+    "emailAddresses": [
+      {
+        "formattedType": "Home",
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "37a0e68988c4b9c0",
+            "type": "CONTACT"
+          }
+        },
+        "type": "home",
+        "value": "konqui@kde.test"
+      }
+    ],
+    "etag": "%EiMBAgMFBgcICQoLDA0ODxATFBUWGSEiIyQlJicuNDU3PT4/QBoEAQIFByIMcHdMc2tKUnJsUEk9",
+    "memberships": [
+      {
+        "contactGroupMembership": {
+          "contactGroupId": "myContacts",
+          "contactGroupResourceName": "contactGroups/myContacts"
+        },
+        "metadata": {
+          "source": {
+            "id": "37a0e68988c4b9c0",
+            "type": "CONTACT"
+          }
+        }
+      }
+    ],
+    "metadata": {
+      "objectType": "PERSON",
+      "sources": [
+        {
+          "etag": "#pwLskJRrlPI=",
+          "id": "37a0e68988c4b9c0",
+          "type": "CONTACT",
+          "updateTime": "2023-02-26T22:28:10.851525Z"
+        }
+      ]
+    },
+    "names": [
+      {
+        "displayName": "Konqui",
+        "displayNameLastFirst": "Konqui",
+        "givenName": "Konqui",
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "37a0e68988c4b9c0",
+            "type": "CONTACT"
+          }
+        },
+        "unstructuredName": "Konqui"
+      }
+    ],
+    "organizations": [
+      {
+        "department": "Promo",
+        "metadata": {
+          "primary": true,
+          "source": {
+            "id": "37a0e68988c4b9c0",
+            "type": "CONTACT"
+          }
+        },
+        "name": "KDE"
+      }
+    ],
+    "resourceName": "people/c2945739795208677217"
+  }
+}
