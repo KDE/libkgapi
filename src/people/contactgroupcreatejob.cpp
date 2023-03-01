@@ -27,7 +27,7 @@ namespace KGAPI2::People
 class Q_DECL_HIDDEN ContactGroupCreateJob::Private
 {
 public:
-    Private(ContactGroupCreateJob *parent);
+    explicit Private(ContactGroupCreateJob *parent);
     void processNextContactGroup();
 
     QueueHelper<ContactGroupPtr> groups;

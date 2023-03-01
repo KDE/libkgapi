@@ -28,7 +28,7 @@ namespace KGAPI2::People
 class Q_DECL_HIDDEN PersonPhotoUpdateJob::Private
 {
 public:
-    Private(PersonPhotoUpdateJob *parent);
+    explicit Private(PersonPhotoUpdateJob *parent);
     void processPersonPhoto();
 
     QString personResourceName;

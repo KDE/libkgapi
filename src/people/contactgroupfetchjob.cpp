@@ -26,7 +26,7 @@ namespace KGAPI2::People
 class Q_DECL_HIDDEN ContactGroupFetchJob::Private
 {
 public:
-    Private(ContactGroupFetchJob *parent);
+    explicit Private(ContactGroupFetchJob *parent);
 
     QNetworkRequest createRequest(const QUrl &url);
 

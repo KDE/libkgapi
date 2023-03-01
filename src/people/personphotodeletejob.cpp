@@ -28,7 +28,7 @@ namespace KGAPI2::People
 class Q_DECL_HIDDEN PersonPhotoDeleteJob::Private
 {
 public:
-    Private(PersonPhotoDeleteJob *parent);
+    explicit Private(PersonPhotoDeleteJob *parent);
     void processPersonPhoto();
 
     QString personResourceName;

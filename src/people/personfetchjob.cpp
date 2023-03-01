@@ -26,7 +26,7 @@ namespace KGAPI2::People
 class Q_DECL_HIDDEN PersonFetchJob::Private
 {
 public:
-    Private(PersonFetchJob *parent);
+    explicit Private(PersonFetchJob *parent);
 
     QNetworkRequest createRequest(const QUrl &url);
     ObjectsList processReceivedData(const QByteArray &rawData);

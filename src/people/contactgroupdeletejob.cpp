@@ -27,7 +27,7 @@ namespace KGAPI2::People
 class Q_DECL_HIDDEN ContactGroupDeleteJob::Private
 {
 public:
-    Private(ContactGroupDeleteJob *parent);
+    explicit Private(ContactGroupDeleteJob *parent);
     void processNextContactGroup();
 
     QueueHelper<QString> groupResourceNames;

@@ -29,7 +29,7 @@ namespace KGAPI2::People
 class Q_DECL_HIDDEN PersonCreateJob::Private
 {
 public:
-    Private(PersonCreateJob *parent);
+    explicit Private(PersonCreateJob *parent);
     void processNextPerson();
 
     QueueHelper<PersonPtr> people;

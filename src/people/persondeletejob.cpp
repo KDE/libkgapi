@@ -29,7 +29,7 @@ namespace KGAPI2::People
 class Q_DECL_HIDDEN PersonDeleteJob::Private
 {
 public:
-    Private(PersonDeleteJob *parent);
+    explicit Private(PersonDeleteJob *parent);
     void processNextPerson();
 
     QueueHelper<QString> peopleResourceNames;
