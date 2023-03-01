@@ -119,7 +119,7 @@ void writeNextPageDataQuery(FetchType fetchType, FeedData &feedData, const QJson
     } else if (fetchType == ContactGroupFetch) {
         url = fetchAllContactGroupsUrl();
     } else {
-        qCDebug(KGAPIDebug()) << "Unknown type of fetch, cannot write next page data query";
+        qCDebug(KGAPIDebug) << "Unknown type of fetch, cannot write next page data query";
         return;
     }
 

@@ -79,7 +79,7 @@ ObjectsList PersonFetchJob::Private::processReceivedData(const QByteArray &rawDa
         if(jsonDocumentFromData.isObject()) {
             items << People::Person::fromJSON(jsonDocumentFromData.object());
         } else {
-            qCDebug(KGAPIDebug()) << "JSON document does not have object";
+            qCDebug(KGAPIDebug) << "JSON document does not have object";
         }
     }
 
