@@ -8,10 +8,6 @@
 
 #include "contactgroupdeletejob.h"
 #include "peopleservice.h"
-#include "contactgroup.h"
-#include "../debug.h"
-#include "utils.h"
-#include "account.h"
 #include "private/queuehelper_p.h"
 
 #include <QNetworkRequest>

@@ -9,9 +9,6 @@
 #include "persondeletejob.h"
 #include "peopleservice.h"
 #include "person.h"
-#include "../debug.h"
-#include "utils.h"
-#include "account.h"
 #include "private/queuehelper_p.h"
 
 #include <QNetworkRequest>

@@ -11,7 +11,6 @@
 
 #include "contactgroupmetadata.h"
 #include "groupclientdata.h"
-#include "clientdata.h"
 #include "peopleservice.h"
 
 #include <QJsonArray>

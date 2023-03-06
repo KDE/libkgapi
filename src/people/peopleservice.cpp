@@ -5,15 +5,10 @@
 */
 
 #include "peopleservice.h"
-#include "person.h"
 #include "contactgroup.h"
-#include "address.h"
-#include "agerangetype.h"
-#include "utils.h"
 #include "debug.h"
+#include "person.h"
 
-//#include <QDomDocument>
-//#include <QDomElement>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>

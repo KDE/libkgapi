@@ -7,13 +7,10 @@
  */
 
 #include "contactgroupmodifyjob.h"
-#include "peopleservice.h"
 #include "contactgroup.h"
-#include "../debug.h"
-#include "qbuffer.h"
-#include "utils.h"
-#include "account.h"
+#include "peopleservice.h"
 #include "private/queuehelper_p.h"
+#include "utils.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
