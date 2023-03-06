@@ -90,7 +90,7 @@ ProfileMetadata ProfileMetadata::fromJSON(const QJsonObject &obj)
         if(obj.value(QStringLiteral("userTypes")).isArray()) {
             const auto userTypesJsonArray = obj.value(QStringLiteral("userTypes")).toArray();
 
-            for(const auto userType : userTypesJsonArray) {
+            for (const auto &userType : userTypesJsonArray) {
                 if(userType == obj.value(QStringLiteral("GOOGLE_USER"))) {
                     profileMetadata.d->userTypes.append(UserTypes::GOOGLE_USER);
                 } else if(userType == obj.value(QStringLiteral("GPLUS_USER"))) {

@@ -102,7 +102,7 @@ QVector<PersonLocale> PersonLocale::fromJSONArray(const QJsonArray& data)
 {
     QVector<PersonLocale> locales;
 
-    for(const auto locale : data) {
+    for (const auto &locale : data) {
         if(locale.isObject()) {
             const auto objectifiedLocale = locale.toObject();
             locales.append(fromJSON(objectifiedLocale));
