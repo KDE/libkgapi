@@ -148,7 +148,7 @@ bool Organization::current() const
     return d->current;
 }
 
-void Organization::setCurrent(const bool &value)
+void Organization::setCurrent(bool value)
 {
     d->current = value;
     d->hasSetCurrent = true;
@@ -227,7 +227,7 @@ int Organization::fullTimeEquivalentMillipercent() const
     return d->fullTimeEquivalentMillipercent;
 }
 
-void Organization::setFullTimeEquivalentMillipercent(const int &value)
+void Organization::setFullTimeEquivalentMillipercent(int value)
 {
     d->fullTimeEquivalentMillipercent = value;
     d->hasSetFullTimeEquivalentMillipercent = true;

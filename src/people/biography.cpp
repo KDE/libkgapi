@@ -81,7 +81,7 @@ Biography::Biography::ContentType Biography::contentType() const
     return d->contentType;
 }
 
-void Biography::setContentType(const Biography::ContentType &value)
+void Biography::setContentType(Biography::ContentType value)
 {
     d->contentType = value;
 }

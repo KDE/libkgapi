@@ -86,7 +86,7 @@ public:
     /** True if the organization is the person's current organization; false if the organization is a past organization. **/
     Q_REQUIRED_RESULT bool current() const;
     /** Sets value of the current property. **/
-    void setCurrent(const bool &value);
+    void setCurrent(bool value);
 
     Q_REQUIRED_RESULT bool hasSetCurrent() const;
 
@@ -128,7 +128,7 @@ public:
     /** The person's full-time equivalent millipercent within the organization (100000 = 100%). **/
     Q_REQUIRED_RESULT int fullTimeEquivalentMillipercent() const;
     /** Sets value of the fullTimeEquivalentMillipercent property. **/
-    void setFullTimeEquivalentMillipercent(const int &value);
+    void setFullTimeEquivalentMillipercent(int value);
 
     Q_REQUIRED_RESULT bool hasSetFullTimeEquivalentMillipercent() const;
 

@@ -53,7 +53,7 @@ public:
     /** True if the cover photo is the default cover photo; false if the cover photo is a user-provided cover photo. **/
     Q_REQUIRED_RESULT bool isDefault() const;
     /** Sets value of the isDefault property. **/
-    void setIsDefault(const bool &value);
+    void setIsDefault(bool value);
 
     /** Metadata about the cover photo. **/
     Q_REQUIRED_RESULT FieldMetadata metadata() const;

@@ -81,7 +81,7 @@ Nickname::Nickname::Type Nickname::type() const
     return d->type;
 }
 
-void Nickname::setType(const Nickname::Type &value)
+void Nickname::setType(Nickname::Type value)
 {
     d->type = value;
 }

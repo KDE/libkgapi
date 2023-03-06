@@ -67,7 +67,7 @@ public:
     /** The type of the nickname. **/
     Q_REQUIRED_RESULT Nickname::Type type() const;
     /** Sets value of the type property. **/
-    void setType(const Nickname::Type &value);
+    void setType(Nickname::Type value);
 
     /** Metadata about the nickname. **/
     Q_REQUIRED_RESULT FieldMetadata metadata() const;

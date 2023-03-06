@@ -72,7 +72,7 @@ public:
     /** Whether the location is the current location. **/
     Q_REQUIRED_RESULT bool current() const;
     /** Sets value of the current property. **/
-    void setCurrent(const bool &value);
+    void setCurrent(bool value);
 
     /** The free-form value of the location. **/
     Q_REQUIRED_RESULT QString value() const;

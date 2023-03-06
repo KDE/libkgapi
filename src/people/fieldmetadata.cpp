@@ -80,7 +80,7 @@ bool FieldMetadata::sourcePrimary() const
     return d->sourcePrimary;
 }
 
-void FieldMetadata::setSourcePrimary(const bool &value)
+void FieldMetadata::setSourcePrimary(bool value)
 {
     d->sourcePrimary = value;
 }

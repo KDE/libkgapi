@@ -79,7 +79,7 @@ public:
     /** The miscellaneous keyword type. **/
     Q_REQUIRED_RESULT MiscKeyword::Type type() const;
     /** Sets value of the type property. **/
-    void setType(const MiscKeyword::Type &value);
+    void setType(MiscKeyword::Type value);
 
     /** Output only. The type of the miscellaneous keyword translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale.
      * **/

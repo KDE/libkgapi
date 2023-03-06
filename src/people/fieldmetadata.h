@@ -52,7 +52,7 @@ public:
     /** True if the field is the primary field for the source. Each source must have at most one field with `source_primary` set to true. **/
     Q_REQUIRED_RESULT bool sourcePrimary() const;
     /** Sets value of the sourcePrimary property. **/
-    void setSourcePrimary(const bool &value);
+    void setSourcePrimary(bool value);
 
     /** Output only. True if the field is the primary field for all sources in the person. Each person will have at most one field with `primary` set to true.
      * **/

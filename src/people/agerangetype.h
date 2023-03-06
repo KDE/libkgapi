@@ -58,7 +58,7 @@ public:
     /** The age range. **/
     Q_REQUIRED_RESULT AgeRangeType::AgeRange ageRange() const;
     /** Sets value of the ageRange property. **/
-    void setAgeRange(const AgeRangeType::AgeRange &value);
+    void setAgeRange(AgeRangeType::AgeRange value);
 
     /** Metadata about the age range. **/
     Q_REQUIRED_RESULT FieldMetadata metadata() const;

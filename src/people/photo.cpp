@@ -81,7 +81,7 @@ bool Photo::isDefault() const
     return d->isDefault;
 }
 
-void Photo::setIsDefault(const bool &value)
+void Photo::setIsDefault(bool value)
 {
     d->isDefault = value;
 }

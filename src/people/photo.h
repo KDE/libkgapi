@@ -58,7 +58,7 @@ public:
     /** True if the photo is a default photo; false if the photo is a user-provided photo. **/
     Q_REQUIRED_RESULT bool isDefault() const;
     /** Sets value of the isDefault property. **/
-    void setIsDefault(const bool &value);
+    void setIsDefault(bool value);
 
     /** The URL of the photo. You can change the desired size by appending a query parameter `sz={size}` at the end of the url, where {size} is the size in
      * pixels. Example: https://lh3.googleusercontent.com/-T_wVWLlmg7w/AAAAAAAAAAI/AAAAAAAABa8/00gzXvDBYqw/s100/photo.jpg?sz=50 **/

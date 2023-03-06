@@ -63,7 +63,7 @@ public:
     /** The content type of the biography. **/
     Q_REQUIRED_RESULT Biography::ContentType contentType() const;
     /** Sets value of the contentType property. **/
-    void setContentType(const Biography::ContentType &value);
+    void setContentType(Biography::ContentType value);
 
     /** The short biography. **/
     Q_REQUIRED_RESULT QString value() const;

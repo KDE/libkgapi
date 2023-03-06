@@ -115,7 +115,7 @@ bool Location::current() const
     return d->current;
 }
 
-void Location::setCurrent(const bool &value)
+void Location::setCurrent(bool value)
 {
     d->current = value;
 }

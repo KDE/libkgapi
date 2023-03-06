@@ -69,7 +69,7 @@ AgeRangeType::AgeRangeType::AgeRange AgeRangeType::ageRange() const
     return d->ageRange;
 }
 
-void AgeRangeType::setAgeRange(const AgeRangeType::AgeRange &value)
+void AgeRangeType::setAgeRange(AgeRangeType::AgeRange value)
 {
     d->ageRange = value;
 }

@@ -72,7 +72,7 @@ bool CoverPhoto::isDefault() const
     return d->isDefault;
 }
 
-void CoverPhoto::setIsDefault(const bool &value)
+void CoverPhoto::setIsDefault(bool value)
 {
     d->isDefault = value;
 }

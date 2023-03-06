@@ -47,7 +47,7 @@ public:
     /** True if the person is in the viewer's Google Workspace domain. **/
     Q_REQUIRED_RESULT bool inViewerDomain() const;
     /** Sets value of the inViewerDomain property. **/
-    void setInViewerDomain(const bool &value);
+    void setInViewerDomain(bool value);
 
 private:
     class Private;

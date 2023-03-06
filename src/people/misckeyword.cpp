@@ -109,7 +109,7 @@ MiscKeyword::MiscKeyword::Type MiscKeyword::type() const
     return d->type;
 }
 
-void MiscKeyword::setType(const MiscKeyword::Type &value)
+void MiscKeyword::setType(MiscKeyword::Type value)
 {
     d->type = value;
 }

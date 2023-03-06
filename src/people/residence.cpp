@@ -89,7 +89,7 @@ bool Residence::current() const
     return d->current;
 }
 
-void Residence::setCurrent(const bool &value)
+void Residence::setCurrent(bool value)
 {
     d->current = value;
 }

@@ -68,7 +68,7 @@ bool DomainMembership::inViewerDomain() const
     return d->inViewerDomain;
 }
 
-void DomainMembership::setInViewerDomain(const bool &value)
+void DomainMembership::setInViewerDomain(bool value)
 {
     d->inViewerDomain = value;
 }

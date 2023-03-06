@@ -60,7 +60,7 @@ public:
     /** True if the residence is the person's current residence; false if the residence is a past residence. **/
     Q_REQUIRED_RESULT bool current() const;
     /** Sets value of the current property. **/
-    void setCurrent(const bool &value);
+    void setCurrent(bool value);
 
 private:
     class Private;
