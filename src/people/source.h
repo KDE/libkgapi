@@ -79,7 +79,7 @@ public:
     /** The source type. **/
     Q_REQUIRED_RESULT Source::Type type() const;
     /** Sets value of the type property. **/
-    void setType(const Source::Type &value);
+    void setType(Source::Type value);
 
 private:
     class Private;

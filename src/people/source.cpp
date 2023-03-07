@@ -100,7 +100,7 @@ Source::Source::Type Source::type() const
     return d->type;
 }
 
-void Source::setType(const Source::Type &value)
+void Source::setType(Source::Type value)
 {
     d->type = value;
 }
