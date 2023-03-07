@@ -300,7 +300,7 @@ ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonF
 
     const auto rootObject = document.object();
     const auto connections = rootObject.value(QStringLiteral("connections")).toArray();
-    for(const auto connection : connections) {
+    for(const auto &connection : connections) {
         output.append(People::Person::fromJSON(connection.toObject()));
     }
 
@@ -325,7 +325,7 @@ ObjectsList parseContactGroupsJSONFeed(FeedData &feedData, const QByteArray &jso
 
     const auto rootObject = document.object();
     const auto contactGroups = rootObject.value(QStringLiteral("contactGroups")).toArray();
-    for(const auto contactGroup : contactGroups) {
+    for(const auto &contactGroup : contactGroups) {
         output.append(People::ContactGroup::fromJSON(contactGroup.toObject()));
     }
 

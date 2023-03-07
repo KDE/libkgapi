@@ -1201,7 +1201,7 @@ QJsonValue Person::toJSON() const
     returnObject.insert(QStringLiteral("metadata"), d->metadata.toJSON());
 
     QJsonArray addressesArray;
-    for (const auto &address : d->addresses) {
+    for (const auto &address : std::as_const(d->addresses)) {
         addressesArray.append(address.toJSON());
     }
     if (!addressesArray.isEmpty()) {

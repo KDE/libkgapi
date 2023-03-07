@@ -114,11 +114,11 @@ SipAddress SipAddress::fromJSON(const QJsonObject &obj)
     return sipAddress;
 }
 
-QVector<SipAddress> SipAddress::fromJSONArray(const QJsonArray& data)
+QVector<SipAddress> SipAddress::fromJSONArray(const QJsonArray &data)
 {
     QVector<SipAddress> sipAddresses;
 
-    for(const auto sipAddress : data) {
+    for(const auto &sipAddress : data) {
         if(sipAddress.isObject()) {
             const auto objectifiedSipAddress = sipAddress.toObject();
             sipAddresses.append(fromJSON(objectifiedSipAddress));
