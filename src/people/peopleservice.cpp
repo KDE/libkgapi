@@ -314,7 +314,7 @@ ObjectsList parseConnectionsJSONFeed(FeedData &feedData, const QByteArray &jsonF
 
 ObjectsList parseContactGroupsJSONFeed(FeedData &feedData, const QByteArray &jsonFeed)
 {
-    qDebug() << jsonFeed;
+    // qDebug() << jsonFeed;
     const auto document = QJsonDocument::fromJson(jsonFeed);
 
     if (!document.isObject()) {
