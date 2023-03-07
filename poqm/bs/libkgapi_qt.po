@@ -166,41 +166,6 @@ msgctxt "KGAPI2::FreeBusyQueryJob|"
 msgid "Invalid response content type"
 msgstr "Neispravan tip sadržaja odgovor a"
 
-#: src/contacts/contactcreatejob.cpp:135
-#, fuzzy
-#| msgid "Invalid response content type"
-msgctxt "KGAPI2::ContactCreateJob|"
-msgid "Invalid response content type"
-msgstr "Neispravan tip sadržaja odgovor a"
-
-#: src/contacts/contactmodifyjob.cpp:151
-#, fuzzy
-#| msgid "Invalid response content type"
-msgctxt "KGAPI2::ContactModifyJob|"
-msgid "Invalid response content type"
-msgstr "Neispravan tip sadržaja odgovor a"
-
-#: src/contacts/contactsgroupcreatejob.cpp:91
-#, fuzzy
-#| msgid "Invalid response content type"
-msgctxt "KGAPI2::ContactsGroupCreateJob|"
-msgid "Invalid response content type"
-msgstr "Neispravan tip sadržaja odgovor a"
-
-#: src/contacts/contactsgroupfetchjob.cpp:97
-#, fuzzy
-#| msgid "Invalid response content type"
-msgctxt "KGAPI2::ContactsGroupFetchJob|"
-msgid "Invalid response content type"
-msgstr "Neispravan tip sadržaja odgovor a"
-
-#: src/contacts/contactsgroupmodifyjob.cpp:92
-#, fuzzy
-#| msgid "Invalid response content type"
-msgctxt "KGAPI2::ContactsGroupModifyJob|"
-msgid "Invalid response content type"
-msgstr "Neispravan tip sadržaja odgovor a"
-
 #: src/core/accountinfo/accountinfofetchjob.cpp:60
 #, fuzzy
 #| msgid "Invalid response content type"
@@ -610,6 +575,48 @@ msgctxt "KGAPI2::LocationFetchJob|"
 msgid "Invalid response content type"
 msgstr "Neispravan tip sadržaja odgovor a"
 
+#: src/people/contactgroupcreatejob.cpp:93
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::ContactGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "Neispravan tip sadržaja odgovor a"
+
+#: src/people/contactgroupmodifyjob.cpp:91
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::ContactGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "Neispravan tip sadržaja odgovor a"
+
+#: src/people/personcreatejob.cpp:89
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::PersonCreateJob|"
+msgid "Invalid response content type"
+msgstr "Neispravan tip sadržaja odgovor a"
+
+#: src/people/personmodifyjob.cpp:104
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::PersonModifyJob|"
+msgid "Invalid response content type"
+msgstr "Neispravan tip sadržaja odgovor a"
+
+#: src/people/personphotodeletejob.cpp:91
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
+msgid "Invalid response content type"
+msgstr "Neispravan tip sadržaja odgovor a"
+
+#: src/people/personphotoupdatejob.cpp:101
+#, fuzzy
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
+msgid "Invalid response content type"
+msgstr "Neispravan tip sadržaja odgovor a"
+
 #: src/tasks/taskcreatejob.cpp:118
 #, fuzzy
 #| msgid "Invalid response content type"
@@ -651,6 +658,36 @@ msgstr "Neispravan tip sadržaja odgovor a"
 msgctxt "KGAPI2::TaskModifyJob|"
 msgid "Invalid response content type"
 msgstr "Neispravan tip sadržaja odgovor a"
+
+#, fuzzy
+#~| msgid "Invalid response content type"
+#~ msgctxt "KGAPI2::ContactCreateJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "Neispravan tip sadržaja odgovor a"
+
+#, fuzzy
+#~| msgid "Invalid response content type"
+#~ msgctxt "KGAPI2::ContactModifyJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "Neispravan tip sadržaja odgovor a"
+
+#, fuzzy
+#~| msgid "Invalid response content type"
+#~ msgctxt "KGAPI2::ContactsGroupCreateJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "Neispravan tip sadržaja odgovor a"
+
+#, fuzzy
+#~| msgid "Invalid response content type"
+#~ msgctxt "KGAPI2::ContactsGroupFetchJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "Neispravan tip sadržaja odgovor a"
+
+#, fuzzy
+#~| msgid "Invalid response content type"
+#~ msgctxt "KGAPI2::ContactsGroupModifyJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "Neispravan tip sadržaja odgovor a"
 
 #, fuzzy
 #~| msgid "Authorizing token. This should take just a moment..."

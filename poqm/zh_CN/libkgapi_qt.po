@@ -120,31 +120,6 @@ msgctxt "KGAPI2::FreeBusyQueryJob|"
 msgid "Invalid response content type"
 msgstr "非法的响应内容类型"
 
-#: src/contacts/contactcreatejob.cpp:135
-msgctxt "KGAPI2::ContactCreateJob|"
-msgid "Invalid response content type"
-msgstr "非法的响应内容类型"
-
-#: src/contacts/contactmodifyjob.cpp:151
-msgctxt "KGAPI2::ContactModifyJob|"
-msgid "Invalid response content type"
-msgstr "非法的响应内容类型"
-
-#: src/contacts/contactsgroupcreatejob.cpp:91
-msgctxt "KGAPI2::ContactsGroupCreateJob|"
-msgid "Invalid response content type"
-msgstr "非法的响应内容类型"
-
-#: src/contacts/contactsgroupfetchjob.cpp:97
-msgctxt "KGAPI2::ContactsGroupFetchJob|"
-msgid "Invalid response content type"
-msgstr "非法的响应内容类型"
-
-#: src/contacts/contactsgroupmodifyjob.cpp:92
-msgctxt "KGAPI2::ContactsGroupModifyJob|"
-msgid "Invalid response content type"
-msgstr "非法的响应内容类型"
-
 #: src/core/accountinfo/accountinfofetchjob.cpp:60
 msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
@@ -456,6 +431,54 @@ msgctxt "KGAPI2::LocationFetchJob|"
 msgid "Invalid response content type"
 msgstr "非法的响应内容类型"
 
+#: src/people/contactgroupcreatejob.cpp:93
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::ContactGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr "非法的响应内容类型"
+
+#: src/people/contactgroupmodifyjob.cpp:91
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::ContactGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr "非法的响应内容类型"
+
+#: src/people/personcreatejob.cpp:89
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::PersonCreateJob|"
+msgid "Invalid response content type"
+msgstr "非法的响应内容类型"
+
+#: src/people/personmodifyjob.cpp:104
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::PersonModifyJob|"
+msgid "Invalid response content type"
+msgstr "非法的响应内容类型"
+
+#: src/people/personphotodeletejob.cpp:91
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
+msgid "Invalid response content type"
+msgstr "非法的响应内容类型"
+
+#: src/people/personphotoupdatejob.cpp:101
+#, fuzzy
+#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
+#| msgid "Invalid response content type"
+msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
+msgid "Invalid response content type"
+msgstr "非法的响应内容类型"
+
 #: src/tasks/taskcreatejob.cpp:118
 msgctxt "KGAPI2::TaskCreateJob|"
 msgid "Invalid response content type"
@@ -485,3 +508,23 @@ msgstr "非法的响应内容类型"
 msgctxt "KGAPI2::TaskModifyJob|"
 msgid "Invalid response content type"
 msgstr "非法的响应内容类型"
+
+#~ msgctxt "KGAPI2::ContactCreateJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "非法的响应内容类型"
+
+#~ msgctxt "KGAPI2::ContactModifyJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "非法的响应内容类型"
+
+#~ msgctxt "KGAPI2::ContactsGroupCreateJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "非法的响应内容类型"
+
+#~ msgctxt "KGAPI2::ContactsGroupFetchJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "非法的响应内容类型"
+
+#~ msgctxt "KGAPI2::ContactsGroupModifyJob|"
+#~ msgid "Invalid response content type"
+#~ msgstr "非法的响应内容类型"

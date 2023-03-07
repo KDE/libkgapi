@@ -123,31 +123,6 @@ msgctxt "KGAPI2::FreeBusyQueryJob|"
 msgid "Invalid response content type"
 msgstr ""
 
-#: src/contacts/contactcreatejob.cpp:135
-msgctxt "KGAPI2::ContactCreateJob|"
-msgid "Invalid response content type"
-msgstr ""
-
-#: src/contacts/contactmodifyjob.cpp:151
-msgctxt "KGAPI2::ContactModifyJob|"
-msgid "Invalid response content type"
-msgstr ""
-
-#: src/contacts/contactsgroupcreatejob.cpp:91
-msgctxt "KGAPI2::ContactsGroupCreateJob|"
-msgid "Invalid response content type"
-msgstr ""
-
-#: src/contacts/contactsgroupfetchjob.cpp:97
-msgctxt "KGAPI2::ContactsGroupFetchJob|"
-msgid "Invalid response content type"
-msgstr ""
-
-#: src/contacts/contactsgroupmodifyjob.cpp:92
-msgctxt "KGAPI2::ContactsGroupModifyJob|"
-msgid "Invalid response content type"
-msgstr ""
-
 #: src/core/accountinfo/accountinfofetchjob.cpp:60
 msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
@@ -442,6 +417,36 @@ msgstr ""
 
 #: src/latitude/locationfetchjob.cpp:88
 msgctxt "KGAPI2::LocationFetchJob|"
+msgid "Invalid response content type"
+msgstr ""
+
+#: src/people/contactgroupcreatejob.cpp:93
+msgctxt "KGAPI2::People::ContactGroupCreateJob|"
+msgid "Invalid response content type"
+msgstr ""
+
+#: src/people/contactgroupmodifyjob.cpp:91
+msgctxt "KGAPI2::People::ContactGroupModifyJob|"
+msgid "Invalid response content type"
+msgstr ""
+
+#: src/people/personcreatejob.cpp:89
+msgctxt "KGAPI2::People::PersonCreateJob|"
+msgid "Invalid response content type"
+msgstr ""
+
+#: src/people/personmodifyjob.cpp:104
+msgctxt "KGAPI2::People::PersonModifyJob|"
+msgid "Invalid response content type"
+msgstr ""
+
+#: src/people/personphotodeletejob.cpp:91
+msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
+msgid "Invalid response content type"
+msgstr ""
+
+#: src/people/personphotoupdatejob.cpp:101
+msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
 msgstr ""
 
