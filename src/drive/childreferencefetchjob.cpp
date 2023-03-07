@@ -7,7 +7,6 @@
  */
 
 #include "childreferencefetchjob.h"
-#include "account.h"
 #include "childreference.h"
 #include "driveservice.h"
 #include "utils.h"

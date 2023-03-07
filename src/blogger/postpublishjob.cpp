@@ -5,7 +5,6 @@
  */
 
 #include "postpublishjob.h"
-#include "account.h"
 #include "bloggerservice.h"
 #include "post.h"
 #include "utils.h"

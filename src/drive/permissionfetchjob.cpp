@@ -7,7 +7,6 @@
  */
 
 #include "permissionfetchjob.h"
-#include "account.h"
 #include "driveservice.h"
 #include "file.h"
 #include "permission.h"

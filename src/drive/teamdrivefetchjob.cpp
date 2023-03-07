@@ -7,7 +7,6 @@
  */
 
 #include "teamdrivefetchjob.h"
-#include "account.h"
 #include "debug.h"
 #include "driveservice.h"
 #include "teamdrive.h"

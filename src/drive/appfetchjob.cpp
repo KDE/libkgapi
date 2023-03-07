@@ -7,7 +7,6 @@
  */
 
 #include "appfetchjob.h"
-#include "account.h"
 #include "app.h"
 #include "driveservice.h"
 #include "utils.h"

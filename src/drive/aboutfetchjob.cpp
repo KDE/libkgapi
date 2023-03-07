@@ -8,7 +8,6 @@
 
 #include "aboutfetchjob.h"
 #include "about.h"
-#include "account.h"
 #include "debug.h"
 #include "driveservice.h"
 #include "utils.h"

@@ -7,7 +7,6 @@
  */
 
 #include "childreferencedeletejob.h"
-#include "account.h"
 #include "childreference.h"
 #include "driveservice.h"
 

@@ -7,7 +7,6 @@
  */
 
 #include "taskfetchjob.h"
-#include "account.h"
 #include "debug.h"
 #include "task.h"
 #include "tasksservice.h"

@@ -7,7 +7,6 @@
  */
 
 #include "revisiondeletejob.h"
-#include "account.h"
 #include "driveservice.h"
 #include "revision.h"
 

@@ -7,10 +7,8 @@
  */
 
 #include "parentreferencedeletejob.h"
-#include "account.h"
 #include "driveservice.h"
 #include "parentreference.h"
-#include "utils.h"
 
 #include <QNetworkRequest>
 

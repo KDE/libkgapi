@@ -7,10 +7,8 @@
  */
 
 #include "locationfetchhistoryjob.h"
-#include "account.h"
 #include "debug.h"
 #include "latitudeservice.h"
-#include "location.h"
 #include "utils.h"
 
 #include <QNetworkReply>

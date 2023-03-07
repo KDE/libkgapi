@@ -7,8 +7,6 @@
  */
 
 #include "fileabstractmodifyjob.h"
-#include "account.h"
-#include "driveservice.h"
 #include "file.h"
 #include "utils.h"
 

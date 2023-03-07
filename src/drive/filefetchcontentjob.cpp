@@ -7,7 +7,6 @@
  */
 
 #include "filefetchcontentjob.h"
-#include "account.h"
 #include "file.h"
 
 #include <QNetworkReply>

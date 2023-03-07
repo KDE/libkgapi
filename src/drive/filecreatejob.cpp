@@ -7,9 +7,7 @@
  */
 
 #include "filecreatejob.h"
-#include "debug.h"
 #include "driveservice.h"
-#include "utils.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>

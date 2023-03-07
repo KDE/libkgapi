@@ -7,8 +7,6 @@
  */
 
 #include "tasklistmodifyjob.h"
-#include "account.h"
-#include "debug.h"
 #include "private/queuehelper_p.h"
 #include "tasklist.h"
 #include "tasksservice.h"

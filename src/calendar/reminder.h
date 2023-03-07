@@ -40,7 +40,7 @@ public:
      * @param type Type of the reminder (email, notification, etc.)
      * @param startOffset How long before the event should the reminder be shown
      */
-    explicit Reminder(const KCalendarCore::Alarm::Type &type, const KCalendarCore::Duration &startOffset = KCalendarCore::Duration(0));
+    explicit Reminder(KCalendarCore::Alarm::Type type, const KCalendarCore::Duration &startOffset = KCalendarCore::Duration(0));
 
     /**
      * @brief Copy constructor

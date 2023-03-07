@@ -7,9 +7,7 @@
  */
 
 #include "eventdeletejob.h"
-#include "account.h"
 #include "calendarservice.h"
-#include "debug.h"
 #include "event.h"
 #include "private/queuehelper_p.h"
 

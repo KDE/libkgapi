@@ -5,7 +5,6 @@
  */
 
 #include "postdeletejob.h"
-#include "account.h"
 #include "bloggerservice.h"
 #include "post.h"
 

@@ -24,7 +24,7 @@ Reminder::Reminder()
 {
 }
 
-Reminder::Reminder(const Alarm::Type &type, const Duration &startOffset)
+Reminder::Reminder(Alarm::Type type, const Duration &startOffset)
     : d(new Private)
 {
     d->type = type;

@@ -7,7 +7,6 @@
  */
 
 #include "drivesdeletejob.h"
-#include "account.h"
 #include "drives.h"
 #include "driveservice.h"
 

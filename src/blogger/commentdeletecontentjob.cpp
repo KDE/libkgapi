@@ -5,7 +5,6 @@
  */
 
 #include "commentdeletecontentjob.h"
-#include "account.h"
 #include "bloggerservice.h"
 #include "comment.h"
 #include "utils.h"

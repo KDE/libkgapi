@@ -7,10 +7,8 @@
  */
 
 #include "calendardeletejob.h"
-#include "account.h"
 #include "calendar.h"
 #include "calendarservice.h"
-#include "debug.h"
 #include "private/queuehelper_p.h"
 
 #include <QNetworkRequest>

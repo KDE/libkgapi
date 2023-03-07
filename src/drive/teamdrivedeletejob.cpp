@@ -7,7 +7,6 @@
  */
 
 #include "teamdrivedeletejob.h"
-#include "account.h"
 #include "driveservice.h"
 #include "teamdrive.h"
 

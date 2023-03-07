@@ -7,7 +7,6 @@
  */
 
 #include "drivesfetchjob.h"
-#include "account.h"
 #include "debug.h"
 #include "drives.h"
 #include "driveservice.h"

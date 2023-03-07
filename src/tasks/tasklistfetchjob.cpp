@@ -6,9 +6,6 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 #include "tasklistfetchjob.h"
-#include "account.h"
-#include "debug.h"
-#include "tasklist.h"
 #include "tasksservice.h"
 #include "utils.h"
 

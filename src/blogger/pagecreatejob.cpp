@@ -5,7 +5,6 @@
  */
 
 #include "pagecreatejob.h"
-#include "account.h"
 #include "bloggerservice.h"
 #include "page.h"
 #include "utils.h"

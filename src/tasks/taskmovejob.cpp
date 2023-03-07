@@ -7,12 +7,9 @@
  */
 
 #include "taskmovejob.h"
-#include "account.h"
-#include "debug.h"
 #include "private/queuehelper_p.h"
 #include "task.h"
 #include "tasksservice.h"
-#include "utils.h"
 
 #include <QNetworkReply>
 #include <QNetworkRequest>

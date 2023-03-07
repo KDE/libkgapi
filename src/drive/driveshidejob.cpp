@@ -7,7 +7,6 @@
  */
 
 #include "driveshidejob.h"
-#include "account.h"
 #include "drives.h"
 #include "driveservice.h"
 #include "utils.h"

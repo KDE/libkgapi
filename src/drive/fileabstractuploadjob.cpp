@@ -7,9 +7,7 @@
  */
 
 #include "fileabstractuploadjob.h"
-#include "account.h"
 #include "debug.h"
-#include "driveservice.h"
 #include "utils.h"
 
 #include <QNetworkReply>

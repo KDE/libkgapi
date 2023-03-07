@@ -5,7 +5,6 @@
  */
 
 #include "freebusyqueryjob.h"
-#include "account.h"
 #include "calendarservice.h"
 #include "utils.h"
 
