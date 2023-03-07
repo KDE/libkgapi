@@ -1219,7 +1219,7 @@ QJsonValue Person::toJSON() const
     */
 
     QJsonArray biographiesArray;
-    for (const auto &biography : d->biographies) {
+    for (const auto &biography : std::as_const(d->biographies)) {
         biographiesArray.append(biography.toJSON());
     }
     if (!biographiesArray.isEmpty()) {
@@ -1227,7 +1227,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray birthdaysArray;
-    for (const auto &birthday : d->birthdays) {
+    for (const auto &birthday : std::as_const(d->birthdays)) {
         birthdaysArray.append(birthday.toJSON());
     }
     if (!birthdaysArray.isEmpty()) {
@@ -1235,7 +1235,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray calendarUrlsArray;
-    for (const auto &calendarUrl : d->calendarUrls) {
+    for (const auto &calendarUrl : std::as_const(d->calendarUrls)) {
         calendarUrlsArray.append(calendarUrl.toJSON());
     }
     if (!calendarUrlsArray.isEmpty()) {
@@ -1243,7 +1243,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray clientDataArray;
-    for (const auto &clientData : d->clientData) {
+    for (const auto &clientData : std::as_const(d->clientData)) {
         clientDataArray.append(clientData.toJSON());
     }
     if (!clientDataArray.isEmpty()) {
@@ -1261,7 +1261,7 @@ QJsonValue Person::toJSON() const
     */
 
     QJsonArray emailAddressesArray;
-    for (const auto &emailAddress : d->emailAddresses) {
+    for (const auto &emailAddress : std::as_const(d->emailAddresses)) {
         emailAddressesArray.append(emailAddress.toJSON());
     }
     if (!emailAddressesArray.isEmpty()) {
@@ -1269,7 +1269,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray eventsArray;
-    for (const auto &event : d->events) {
+    for (const auto &event : std::as_const(d->events)) {
         eventsArray.append(event.toJSON());
     }
     if (!eventsArray.isEmpty()) {
@@ -1277,7 +1277,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray externalIdsArray;
-    for (const auto &externalId : d->externalIds) {
+    for (const auto &externalId : std::as_const(d->externalIds)) {
         externalIdsArray.append(externalId.toJSON());
     }
     if (!externalIdsArray.isEmpty()) {
@@ -1285,7 +1285,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray fileAsesArray;
-    for (const auto &fileAs : d->fileAses) {
+    for (const auto &fileAs : std::as_const(d->fileAses)) {
         fileAsesArray.append(fileAs.toJSON());
     }
     if (!fileAsesArray.isEmpty()) {
@@ -1293,7 +1293,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray gendersArray;
-    for (const auto &gender : d->genders) {
+    for (const auto &gender : std::as_const(d->genders)) {
         gendersArray.append(gender.toJSON());
     }
     if (!gendersArray.isEmpty()) {
@@ -1301,7 +1301,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray imClientsArray;
-    for (const auto &imClient : d->imClients) {
+    for (const auto &imClient : std::as_const(d->imClients)) {
         imClientsArray.append(imClient.toJSON());
     }
     if (!imClientsArray.isEmpty()) {
@@ -1309,7 +1309,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray interestsArray;
-    for (const auto &interest : d->interests) {
+    for (const auto &interest : std::as_const(d->interests)) {
         interestsArray.append(interest.toJSON());
     }
     if (!interestsArray.isEmpty()) {
@@ -1317,7 +1317,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray localesArray;
-    for (const auto &locale : d->locales) {
+    for (const auto &locale : std::as_const(d->locales)) {
         localesArray.append(locale.toJSON());
     }
     if (!localesArray.isEmpty()) {
@@ -1325,7 +1325,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray locationsArray;
-    for (const auto &location : d->locations) {
+    for (const auto &location : std::as_const(d->locations)) {
         locationsArray.append(location.toJSON());
     }
     if (!locationsArray.isEmpty()) {
@@ -1333,7 +1333,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray membershipsArray;
-    for (const auto &membership : d->memberships) {
+    for (const auto &membership : std::as_const(d->memberships)) {
         membershipsArray.append(membership.toJSON());
     }
     if (!membershipsArray.isEmpty()) {
@@ -1341,7 +1341,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray miscKeywordsArray;
-    for (const auto &miscKeyword : d->miscKeywords) {
+    for (const auto &miscKeyword : std::as_const(d->miscKeywords)) {
         miscKeywordsArray.append(miscKeyword.toJSON());
     }
     if (!miscKeywordsArray.isEmpty()) {
@@ -1349,7 +1349,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray namesArray;
-    for (const auto &name : d->names) {
+    for (const auto &name : std::as_const(d->names)) {
         namesArray.append(name.toJSON());
     }
     if (!namesArray.isEmpty()) {
@@ -1357,7 +1357,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray nicknamesArray;
-    for (const auto &nickname : d->nicknames) {
+    for (const auto &nickname : std::as_const(d->nicknames)) {
         nicknamesArray.append(nickname.toJSON());
     }
     if (!nicknamesArray.isEmpty()) {
@@ -1365,7 +1365,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray occupationsArray;
-    for (const auto &occupation : d->occupations) {
+    for (const auto &occupation : std::as_const(d->occupations)) {
         occupationsArray.append(occupation.toJSON());
     }
     if (!occupationsArray.isEmpty()) {
@@ -1373,7 +1373,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray organizationsArray;
-    for (const auto &organization : d->organizations) {
+    for (const auto &organization : std::as_const(d->organizations)) {
         organizationsArray.append(organization.toJSON());
     }
     if (!organizationsArray.isEmpty()) {
@@ -1381,7 +1381,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray phoneNumbersArray;
-    for (const auto &phoneNumber : d->phoneNumbers) {
+    for (const auto &phoneNumber : std::as_const(d->phoneNumbers)) {
         phoneNumbersArray.append(phoneNumber.toJSON());
     }
     if (!phoneNumbersArray.isEmpty()) {
@@ -1399,7 +1399,7 @@ QJsonValue Person::toJSON() const
     */
 
     QJsonArray relationsArray;
-    for (const auto &relation : d->relations) {
+    for (const auto &relation : std::as_const(d->relations)) {
         relationsArray.append(relation.toJSON());
     }
     if (!relationsArray.isEmpty()) {
@@ -1411,7 +1411,7 @@ QJsonValue Person::toJSON() const
     // residence is also deprecated
 
     QJsonArray sipAddressesArray;
-    for (const auto &sipAddress : d->sipAddresses) {
+    for (const auto &sipAddress : std::as_const(d->sipAddresses)) {
         sipAddressesArray.append(sipAddress.toJSON());
     }
     if (!sipAddressesArray.isEmpty()) {
@@ -1419,7 +1419,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray skillsArray;
-    for (const auto &skill : d->skills) {
+    for (const auto &skill : std::as_const(d->skills)) {
         skillsArray.append(skill.toJSON());
     }
     if (!skillsArray.isEmpty()) {
@@ -1427,7 +1427,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray urlsArray;
-    for (const auto &url : d->urls) {
+    for (const auto &url : std::as_const(d->urls)) {
         urlsArray.append(url.toJSON());
     }
     if (!urlsArray.isEmpty()) {
@@ -1435,7 +1435,7 @@ QJsonValue Person::toJSON() const
     }
 
     QJsonArray userDefinedArray;
-    for (const auto &userDefined : d->userDefined) {
+    for (const auto &userDefined : std::as_const(d->userDefined)) {
         userDefinedArray.append(userDefined.toJSON());
     }
     if (!userDefinedArray.isEmpty()) {
