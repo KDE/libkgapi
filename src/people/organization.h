@@ -47,7 +47,7 @@ public:
     bool operator!=(const Organization &) const;
 
     Q_REQUIRED_RESULT static Organization fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Organization> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<Organization> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The location of the organization office the person works at. **/

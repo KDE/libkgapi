@@ -201,7 +201,7 @@ Address Address::fromJSON(const QJsonObject &obj)
     return address;
 }
 
-QVector<Address> Address::fromJSONArray(const QJsonArray& data)
+QVector<Address> Address::fromJSONArray(const QJsonArray &data)
 {
     QVector<People::Address> addresses;
 

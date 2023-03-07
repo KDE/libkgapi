@@ -48,7 +48,7 @@ public:
     bool operator!=(const ImClient &) const;
 
     Q_REQUIRED_RESULT static ImClient fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<ImClient> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<ImClient> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The protocol of the IM client. The protocol can be custom or one of these predefined values: * `aim` * `msn` * `yahoo` * `skype` * `qq` * `googleTalk` *

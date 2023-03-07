@@ -114,7 +114,7 @@ CalendarUrl CalendarUrl::fromJSON(const QJsonObject &obj)
     return calendarUrl;
 }
 
-QVector<CalendarUrl> CalendarUrl::fromJSONArray(const QJsonArray& data)
+QVector<CalendarUrl> CalendarUrl::fromJSONArray(const QJsonArray &data)
 {
     QVector<CalendarUrl> calendarUrls;
 

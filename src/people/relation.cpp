@@ -115,7 +115,7 @@ Relation Relation::fromJSON(const QJsonObject &obj)
     return relation;
 }
 
-QVector<Relation> Relation::fromJSONArray(const QJsonArray& data)
+QVector<Relation> Relation::fromJSONArray(const QJsonArray &data)
 {
     QVector<Relation> relations;
 

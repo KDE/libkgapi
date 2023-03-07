@@ -98,7 +98,7 @@ Occupation Occupation::fromJSON(const QJsonObject &obj)
     return occupation;
 }
 
-QVector<Occupation> Occupation::fromJSONArray(const QJsonArray& data)
+QVector<Occupation> Occupation::fromJSONArray(const QJsonArray &data)
 {
     QVector<Occupation> occupations;
 

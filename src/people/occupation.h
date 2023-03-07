@@ -46,7 +46,7 @@ public:
     bool operator!=(const Occupation &) const;
 
     Q_REQUIRED_RESULT static Occupation fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Occupation> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<Occupation> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The occupation; for example, `carpenter`. **/

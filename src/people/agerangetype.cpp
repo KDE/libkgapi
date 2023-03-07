@@ -126,7 +126,7 @@ QJsonValue AgeRangeType::toJSON() const
     return obj;
 }
 
-QVector<AgeRangeType> AgeRangeType::fromJSONArray(const QJsonArray& data)
+QVector<AgeRangeType> AgeRangeType::fromJSONArray(const QJsonArray &data)
 {
     QVector<People::AgeRangeType> ageRanges;
 

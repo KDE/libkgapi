@@ -237,7 +237,7 @@ Name Name::fromJSON(const QJsonObject &obj)
     return name;
 }
 
-QVector<Name> Name::fromJSONArray(const QJsonArray& data)
+QVector<Name> Name::fromJSONArray(const QJsonArray &data)
 {
     QVector<Name> names;
 

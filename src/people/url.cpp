@@ -115,7 +115,7 @@ Url Url::fromJSON(const QJsonObject &obj)
     return url;
 }
 
-QVector<Url> Url::fromJSONArray(const QJsonArray& data)
+QVector<Url> Url::fromJSONArray(const QJsonArray &data)
 {
     QVector<Url> urls;
 

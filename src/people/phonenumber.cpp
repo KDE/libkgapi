@@ -124,7 +124,7 @@ PhoneNumber PhoneNumber::fromJSON(const QJsonObject &obj)
     return phoneNumber;
 }
 
-QVector<PhoneNumber> PhoneNumber::fromJSONArray(const QJsonArray& data)
+QVector<PhoneNumber> PhoneNumber::fromJSONArray(const QJsonArray &data)
 {
     QVector<PhoneNumber> phoneNumbers;
 

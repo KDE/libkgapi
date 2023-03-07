@@ -115,7 +115,7 @@ ExternalId ExternalId::fromJSON(const QJsonObject &obj)
     return externalId;
 }
 
-QVector<ExternalId> ExternalId::fromJSONArray(const QJsonArray& data)
+QVector<ExternalId> ExternalId::fromJSONArray(const QJsonArray &data)
 {
     QVector<ExternalId> externalIds;
 

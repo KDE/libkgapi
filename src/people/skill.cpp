@@ -98,7 +98,7 @@ Skill Skill::fromJSON(const QJsonObject &obj)
     return skill;
 }
 
-QVector<Skill> Skill::fromJSONArray(const QJsonArray& data)
+QVector<Skill> Skill::fromJSONArray(const QJsonArray &data)
 {
     QVector<Skill> skills;
 

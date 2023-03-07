@@ -47,7 +47,7 @@ public:
     bool operator!=(const SipAddress &) const;
 
     Q_REQUIRED_RESULT static SipAddress fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<SipAddress> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<SipAddress> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The SIP address in the [RFC 3261 19.1](https://tools.ietf.org/html/rfc3261#section-19.1) SIP URI format. **/

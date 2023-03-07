@@ -121,7 +121,7 @@ Event Event::fromJSON(const QJsonObject &obj)
     return event;
 }
 
-QVector<Event> Event::fromJSONArray(const QJsonArray& data)
+QVector<Event> Event::fromJSONArray(const QJsonArray &data)
 {
     QVector<Event> events;
 

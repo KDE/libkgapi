@@ -46,7 +46,7 @@ public:
     bool operator!=(const Location &) const;
 
     Q_REQUIRED_RESULT static Location fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Location> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<Location> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The individual desk location. **/

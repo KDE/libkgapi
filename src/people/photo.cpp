@@ -109,7 +109,7 @@ Photo Photo::fromJSON(const QJsonObject &obj)
     return photo;
 }
 
-QVector<Photo> Photo::fromJSONArray(const QJsonArray& data)
+QVector<Photo> Photo::fromJSONArray(const QJsonArray &data)
 {
     QVector<Photo> photos;
 

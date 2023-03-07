@@ -46,7 +46,7 @@ public:
     bool operator!=(const Url &) const;
 
     Q_REQUIRED_RESULT static Url fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Url> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<Url> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The URL. **/

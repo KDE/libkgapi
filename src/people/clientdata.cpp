@@ -109,7 +109,7 @@ ClientData ClientData::fromJSON(const QJsonObject &obj)
     return clientData;
 }
 
-QVector<ClientData> ClientData::fromJSONArray(const QJsonArray& data)
+QVector<ClientData> ClientData::fromJSONArray(const QJsonArray &data)
 {
     QVector<ClientData> clientData;
 

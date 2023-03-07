@@ -129,7 +129,7 @@ EmailAddress EmailAddress::fromJSON(const QJsonObject &obj)
     return emailAddress;
 }
 
-QVector<EmailAddress> EmailAddress::fromJSONArray(const QJsonArray& data)
+QVector<EmailAddress> EmailAddress::fromJSONArray(const QJsonArray &data)
 {
     QVector<EmailAddress> emailAddresses;
 

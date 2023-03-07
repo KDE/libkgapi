@@ -109,7 +109,7 @@ CoverPhoto CoverPhoto::fromJSON(const QJsonObject &obj)
     return coverPhoto;
 }
 
-QVector<CoverPhoto> CoverPhoto::fromJSONArray(const QJsonArray& data)
+QVector<CoverPhoto> CoverPhoto::fromJSONArray(const QJsonArray &data)
 {
     QVector<CoverPhoto> coverPhotos;
 

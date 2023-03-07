@@ -46,7 +46,7 @@ public:
     bool operator!=(const FileAs &) const;
 
     Q_REQUIRED_RESULT static FileAs fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<FileAs> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<FileAs> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the file-as. **/

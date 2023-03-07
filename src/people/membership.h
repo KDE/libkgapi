@@ -49,7 +49,7 @@ public:
     bool operator!=(const Membership &) const;
 
     Q_REQUIRED_RESULT static Membership fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<Membership> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<Membership> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Output only. The domain membership. **/

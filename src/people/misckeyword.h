@@ -63,7 +63,7 @@ public:
     bool operator!=(const MiscKeyword &) const;
 
     Q_REQUIRED_RESULT static MiscKeyword fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<MiscKeyword> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<MiscKeyword> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the miscellaneous keyword. **/

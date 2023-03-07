@@ -50,7 +50,7 @@ public:
     bool operator!=(const PhoneNumber &) const;
 
     Q_REQUIRED_RESULT static PhoneNumber fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<PhoneNumber> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<PhoneNumber> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     Q_REQUIRED_RESULT static PhoneNumber fromKContactsPhoneNumber(const KContacts::PhoneNumber &phoneNumber);

@@ -46,7 +46,7 @@ public:
     bool operator!=(const Skill &) const;
 
     Q_REQUIRED_RESULT static Skill fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Skill> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<Skill> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the skill. **/

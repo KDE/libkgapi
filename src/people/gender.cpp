@@ -115,7 +115,7 @@ Gender Gender::fromJSON(const QJsonObject &obj)
     return gender;
 }
 
-QVector<Gender> Gender::fromJSONArray(const QJsonArray& data)
+QVector<Gender> Gender::fromJSONArray(const QJsonArray &data)
 {
     QVector<Gender> genders;
 

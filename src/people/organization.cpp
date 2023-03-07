@@ -278,7 +278,7 @@ Organization Organization::fromJSON(const QJsonObject &obj)
     return organization;
 }
 
-QVector<Organization> Organization::fromJSONArray(const QJsonArray& data)
+QVector<Organization> Organization::fromJSONArray(const QJsonArray &data)
 {
     QVector<Organization> organizations;
 

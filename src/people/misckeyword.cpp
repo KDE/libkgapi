@@ -162,7 +162,7 @@ MiscKeyword MiscKeyword::fromJSON(const QJsonObject &obj)
     return MiscKeyword(definition);
 }
 
-QVector<MiscKeyword> MiscKeyword::fromJSONArray(const QJsonArray& data)
+QVector<MiscKeyword> MiscKeyword::fromJSONArray(const QJsonArray &data)
 {
     QVector<MiscKeyword> miscKeywords;
 

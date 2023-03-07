@@ -95,7 +95,7 @@ GroupClientData GroupClientData::fromJSON(const QJsonObject &obj)
     return groupClientData;
 }
 
-QVector<GroupClientData> GroupClientData::fromJSONArray(const QJsonArray& data)
+QVector<GroupClientData> GroupClientData::fromJSONArray(const QJsonArray &data)
 {
     QVector<GroupClientData> returnGroupClientData;
 

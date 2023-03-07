@@ -156,7 +156,7 @@ ImClient ImClient::fromJSON(const QJsonObject &obj)
     return ImClient(definition);
 }
 
-QVector<ImClient> ImClient::fromJSONArray(const QJsonArray& data)
+QVector<ImClient> ImClient::fromJSONArray(const QJsonArray &data)
 {
     QVector<ImClient> imClients;
 

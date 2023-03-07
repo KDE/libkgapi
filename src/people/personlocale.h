@@ -46,7 +46,7 @@ public:
     bool operator!=(const PersonLocale &) const;
 
     Q_REQUIRED_RESULT static PersonLocale fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<PersonLocale> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<PersonLocale> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the locale. **/

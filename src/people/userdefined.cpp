@@ -109,7 +109,7 @@ UserDefined UserDefined::fromJSON(const QJsonObject &obj)
     return userDefined;
 }
 
-QVector<UserDefined> UserDefined::fromJSONArray(const QJsonArray& data)
+QVector<UserDefined> UserDefined::fromJSONArray(const QJsonArray &data)
 {
     QVector<UserDefined> userDefineds;
 

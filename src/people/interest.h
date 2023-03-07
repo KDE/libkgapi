@@ -46,7 +46,7 @@ public:
     bool operator!=(const Interest &) const;
 
     Q_REQUIRED_RESULT static Interest fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Interest> fromJSONArray(const QJsonArray& data);
+    Q_REQUIRED_RESULT static QVector<Interest> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The interest; for example, `stargazing`. **/

@@ -166,7 +166,7 @@ Location Location::fromJSON(const QJsonObject &obj)
     return location;
 }
 
-QVector<Location> Location::fromJSONArray(const QJsonArray& data)
+QVector<Location> Location::fromJSONArray(const QJsonArray &data)
 {
     QVector<Location> locations;
 
