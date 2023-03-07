@@ -9,11 +9,7 @@
 #include "personphotoupdatejob.h"
 #include "peopleservice.h"
 #include "person.h"
-#include "../debug.h"
-#include "qbuffer.h"
 #include "utils.h"
-#include "account.h"
-#include "private/queuehelper_p.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>

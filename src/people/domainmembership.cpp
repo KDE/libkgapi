@@ -8,7 +8,6 @@
  */
 
 #include "domainmembership.h"
-#include "peopleservice.h"
 
 #include <QJsonArray>
 #include <QJsonObject>

@@ -9,9 +9,7 @@
 #include "contactgroupfetchjob.h"
 #include "peopleservice.h"
 #include "contactgroup.h"
-#include "../debug.h"
 #include "utils.h"
-#include "account.h"
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
