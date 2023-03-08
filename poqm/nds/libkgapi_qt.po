@@ -34,70 +34,70 @@ msgctxt "KGAPI2::Blogger::CommentApproveJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/commentdeletecontentjob.cpp:70
+#: src/blogger/commentdeletecontentjob.cpp:69
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/commentfetchjob.cpp:155
+#: src/blogger/commentfetchjob.cpp:154
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::CommentFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/pagecreatejob.cpp:60
+#: src/blogger/pagecreatejob.cpp:59
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::PageCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/pagefetchjob.cpp:110
+#: src/blogger/pagefetchjob.cpp:109
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::PageFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/pagemodifyjob.cpp:59
+#: src/blogger/pagemodifyjob.cpp:58
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::PageModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/postcreatejob.cpp:68
+#: src/blogger/postcreatejob.cpp:67
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::PostCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/postfetchjob.cpp:187
+#: src/blogger/postfetchjob.cpp:186
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::PostFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/postmodifyjob.cpp:59
+#: src/blogger/postmodifyjob.cpp:58
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::PostModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/postpublishjob.cpp:106
+#: src/blogger/postpublishjob.cpp:105
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::PostPublishJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/blogger/postsearchjob.cpp:86
+#: src/blogger/postsearchjob.cpp:85
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Blogger::PostSearchJob|"
@@ -118,14 +118,14 @@ msgctxt "KGAPI2::CalendarFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/calendar/calendarmodifyjob.cpp:65
+#: src/calendar/calendarmodifyjob.cpp:63
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::CalendarModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/calendar/eventcreatejob.cpp:93
+#: src/calendar/eventcreatejob.cpp:92
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::EventCreateJob|"
@@ -139,26 +139,26 @@ msgctxt "KGAPI2::EventFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/calendar/eventmodifyjob.cpp:82
+#: src/calendar/eventmodifyjob.cpp:80
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::EventModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/calendar/eventmovejob.cpp:114
+#: src/calendar/eventmovejob.cpp:112
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::EventMoveJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/calendar/freebusyqueryjob.cpp:97
+#: src/calendar/freebusyqueryjob.cpp:96
 msgctxt "KGAPI2::FreeBusyQueryJob|"
 msgid "FreeBusy information is not available"
 msgstr ""
 
-#: src/calendar/freebusyqueryjob.cpp:108
+#: src/calendar/freebusyqueryjob.cpp:107
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::FreeBusyQueryJob|"
@@ -379,70 +379,70 @@ msgctxt "KGAPI2::RefreshTokensJob|"
 msgid "Failed to parse newly fetched tokens"
 msgstr "Nieg haalt Siegels laat sik nich inlesen"
 
-#: src/drive/aboutfetchjob.cpp:120
+#: src/drive/aboutfetchjob.cpp:119
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::AboutFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/appfetchjob.cpp:72
+#: src/drive/appfetchjob.cpp:71
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::AppFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/changefetchjob.cpp:188
+#: src/drive/changefetchjob.cpp:187
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::ChangeFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/childreferencecreatejob.cpp:124
+#: src/drive/childreferencecreatejob.cpp:123
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/childreferencefetchjob.cpp:86
+#: src/drive/childreferencefetchjob.cpp:85
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/drivescreatejob.cpp:104
+#: src/drive/drivescreatejob.cpp:103
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::DrivesCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/drivesfetchjob.cpp:155
+#: src/drive/drivesfetchjob.cpp:154
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::DrivesFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/driveshidejob.cpp:89
+#: src/drive/driveshidejob.cpp:88
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::DrivesHideJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/drivesmodifyjob.cpp:113
+#: src/drive/drivesmodifyjob.cpp:112
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::DrivesModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/fileabstractmodifyjob.cpp:120
+#: src/drive/fileabstractmodifyjob.cpp:118
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
@@ -464,91 +464,91 @@ msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed completing upload session"
 msgstr ""
 
-#: src/drive/fileabstractuploadjob.cpp:284
+#: src/drive/fileabstractuploadjob.cpp:282
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/filecopyjob.cpp:122
+#: src/drive/filecopyjob.cpp:121
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::FileCopyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/filefetchjob.cpp:241
+#: src/drive/filefetchjob.cpp:240
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::FileFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/parentreferencecreatejob.cpp:124
+#: src/drive/parentreferencecreatejob.cpp:123
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/parentreferencefetchjob.cpp:75
+#: src/drive/parentreferencefetchjob.cpp:74
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/permissioncreatejob.cpp:157
+#: src/drive/permissioncreatejob.cpp:156
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::PermissionCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/permissionfetchjob.cpp:130
+#: src/drive/permissionfetchjob.cpp:129
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::PermissionFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/permissionmodifyjob.cpp:159
+#: src/drive/permissionmodifyjob.cpp:158
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::PermissionModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/revisionfetchjob.cpp:74
+#: src/drive/revisionfetchjob.cpp:73
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::RevisionFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/revisionmodifyjob.cpp:90
+#: src/drive/revisionmodifyjob.cpp:89
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::RevisionModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/teamdrivecreatejob.cpp:104
+#: src/drive/teamdrivecreatejob.cpp:103
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/teamdrivefetchjob.cpp:156
+#: src/drive/teamdrivefetchjob.cpp:155
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/teamdrivemodifyjob.cpp:84
+#: src/drive/teamdrivemodifyjob.cpp:83
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
@@ -562,7 +562,7 @@ msgctxt "KGAPI2::LocationCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/latitude/locationfetchhistoryjob.cpp:130
+#: src/latitude/locationfetchhistoryjob.cpp:128
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::LocationFetchHistoryJob|"
@@ -604,14 +604,14 @@ msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/people/personphotodeletejob.cpp:91
+#: src/people/personphotodeletejob.cpp:87
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/people/personphotoupdatejob.cpp:101
+#: src/people/personphotoupdatejob.cpp:97
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
@@ -625,35 +625,35 @@ msgctxt "KGAPI2::TaskCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/tasks/taskfetchjob.cpp:217
+#: src/tasks/taskfetchjob.cpp:216
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::TaskFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/tasks/tasklistcreatejob.cpp:75
+#: src/tasks/tasklistcreatejob.cpp:73
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::TaskListCreateJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/tasks/tasklistfetchjob.cpp:74
+#: src/tasks/tasklistfetchjob.cpp:71
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::TaskListFetchJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/tasks/tasklistmodifyjob.cpp:75
+#: src/tasks/tasklistmodifyjob.cpp:73
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::TaskListModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/tasks/taskmodifyjob.cpp:77
+#: src/tasks/taskmodifyjob.cpp:75
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::TaskModifyJob|"
