@@ -18,7 +18,6 @@
 
 #include <optional>
 
-class QJsonObject;
 class QJsonValue;
 
 namespace KGAPI2::People
