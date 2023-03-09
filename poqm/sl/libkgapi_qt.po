@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Andrej Mernik <andrejm@ubuntu.si>, 2012, 2013, 2014, 2015, 2017.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2019, 2020.
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2019, 2020, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2020-10-05 08:49+0200\n"
+"PO-Revision-Date: 2023-03-08 08:42+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
 "%100<=4 ? 2 : 3);\n"
-"X-Generator: Lokalize 19.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Qt-Contexts: true\n"
 
 #: src/blogger/blogfetchjob.cpp:82
@@ -439,49 +439,31 @@ msgid "Invalid response content type"
 msgstr "Neveljavna vrsta vsebine odgovora"
 
 #: src/people/contactgroupcreatejob.cpp:93
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupCreateJob|"
 msgid "Invalid response content type"
 msgstr "Neveljavna vrsta vsebine odgovora"
 
 #: src/people/contactgroupmodifyjob.cpp:91
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupModifyJob|"
 msgid "Invalid response content type"
 msgstr "Neveljavna vrsta vsebine odgovora"
 
 #: src/people/personcreatejob.cpp:89
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonCreateJob|"
 msgid "Invalid response content type"
 msgstr "Neveljavna vrsta vsebine odgovora"
 
 #: src/people/personmodifyjob.cpp:104
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
 msgstr "Neveljavna vrsta vsebine odgovora"
 
 #: src/people/personphotodeletejob.cpp:87
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
 msgstr "Neveljavna vrsta vsebine odgovora"
 
 #: src/people/personphotoupdatejob.cpp:97
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
 msgstr "Neveljavna vrsta vsebine odgovora"

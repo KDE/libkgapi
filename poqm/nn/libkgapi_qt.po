@@ -28,52 +28,52 @@ msgctxt "KGAPI2::Blogger::CommentApproveJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/commentdeletecontentjob.cpp:70
+#: src/blogger/commentdeletecontentjob.cpp:69
 msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/commentfetchjob.cpp:155
+#: src/blogger/commentfetchjob.cpp:154
 msgctxt "KGAPI2::Blogger::CommentFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/pagecreatejob.cpp:60
+#: src/blogger/pagecreatejob.cpp:59
 msgctxt "KGAPI2::Blogger::PageCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/pagefetchjob.cpp:110
+#: src/blogger/pagefetchjob.cpp:109
 msgctxt "KGAPI2::Blogger::PageFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/pagemodifyjob.cpp:59
+#: src/blogger/pagemodifyjob.cpp:58
 msgctxt "KGAPI2::Blogger::PageModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/postcreatejob.cpp:68
+#: src/blogger/postcreatejob.cpp:67
 msgctxt "KGAPI2::Blogger::PostCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/postfetchjob.cpp:187
+#: src/blogger/postfetchjob.cpp:186
 msgctxt "KGAPI2::Blogger::PostFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/postmodifyjob.cpp:59
+#: src/blogger/postmodifyjob.cpp:58
 msgctxt "KGAPI2::Blogger::PostModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/postpublishjob.cpp:106
+#: src/blogger/postpublishjob.cpp:105
 msgctxt "KGAPI2::Blogger::PostPublishJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/blogger/postsearchjob.cpp:86
+#: src/blogger/postsearchjob.cpp:85
 msgctxt "KGAPI2::Blogger::PostSearchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
@@ -88,12 +88,12 @@ msgctxt "KGAPI2::CalendarFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/calendar/calendarmodifyjob.cpp:65
+#: src/calendar/calendarmodifyjob.cpp:63
 msgctxt "KGAPI2::CalendarModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/calendar/eventcreatejob.cpp:93
+#: src/calendar/eventcreatejob.cpp:92
 msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
@@ -103,22 +103,22 @@ msgctxt "KGAPI2::EventFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/calendar/eventmodifyjob.cpp:82
+#: src/calendar/eventmodifyjob.cpp:80
 msgctxt "KGAPI2::EventModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/calendar/eventmovejob.cpp:114
+#: src/calendar/eventmovejob.cpp:112
 msgctxt "KGAPI2::EventMoveJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/calendar/freebusyqueryjob.cpp:97
+#: src/calendar/freebusyqueryjob.cpp:96
 msgctxt "KGAPI2::FreeBusyQueryJob|"
 msgid "FreeBusy information is not available"
 msgstr "Informasjon om ledig/oppteken er ikkje tilgjengeleg"
 
-#: src/calendar/freebusyqueryjob.cpp:108
+#: src/calendar/freebusyqueryjob.cpp:107
 msgctxt "KGAPI2::FreeBusyQueryJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
@@ -290,52 +290,52 @@ msgctxt "KGAPI2::RefreshTokensJob|"
 msgid "Failed to parse newly fetched tokens"
 msgstr "Klarte ikkje tolka nyleg henta tilgangspollettar"
 
-#: src/drive/aboutfetchjob.cpp:120
+#: src/drive/aboutfetchjob.cpp:119
 msgctxt "KGAPI2::Drive::AboutFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/appfetchjob.cpp:72
+#: src/drive/appfetchjob.cpp:71
 msgctxt "KGAPI2::Drive::AppFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/changefetchjob.cpp:188
+#: src/drive/changefetchjob.cpp:187
 msgctxt "KGAPI2::Drive::ChangeFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/childreferencecreatejob.cpp:124
+#: src/drive/childreferencecreatejob.cpp:123
 msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/childreferencefetchjob.cpp:86
+#: src/drive/childreferencefetchjob.cpp:85
 msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/drivescreatejob.cpp:104
+#: src/drive/drivescreatejob.cpp:103
 msgctxt "KGAPI2::Drive::DrivesCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/drivesfetchjob.cpp:155
+#: src/drive/drivesfetchjob.cpp:154
 msgctxt "KGAPI2::Drive::DrivesFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/driveshidejob.cpp:89
+#: src/drive/driveshidejob.cpp:88
 msgctxt "KGAPI2::Drive::DrivesHideJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/drivesmodifyjob.cpp:113
+#: src/drive/drivesmodifyjob.cpp:112
 msgctxt "KGAPI2::Drive::DrivesModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/fileabstractmodifyjob.cpp:120
+#: src/drive/fileabstractmodifyjob.cpp:118
 msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
@@ -355,67 +355,67 @@ msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed completing upload session"
 msgstr "Feil ved fullføring av opplastingsøkt"
 
-#: src/drive/fileabstractuploadjob.cpp:284
+#: src/drive/fileabstractuploadjob.cpp:282
 msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/filecopyjob.cpp:122
+#: src/drive/filecopyjob.cpp:121
 msgctxt "KGAPI2::Drive::FileCopyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/filefetchjob.cpp:241
+#: src/drive/filefetchjob.cpp:240
 msgctxt "KGAPI2::Drive::FileFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/parentreferencecreatejob.cpp:124
+#: src/drive/parentreferencecreatejob.cpp:123
 msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/parentreferencefetchjob.cpp:75
+#: src/drive/parentreferencefetchjob.cpp:74
 msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/permissioncreatejob.cpp:157
+#: src/drive/permissioncreatejob.cpp:156
 msgctxt "KGAPI2::Drive::PermissionCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/permissionfetchjob.cpp:130
+#: src/drive/permissionfetchjob.cpp:129
 msgctxt "KGAPI2::Drive::PermissionFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/permissionmodifyjob.cpp:159
+#: src/drive/permissionmodifyjob.cpp:158
 msgctxt "KGAPI2::Drive::PermissionModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/revisionfetchjob.cpp:74
+#: src/drive/revisionfetchjob.cpp:73
 msgctxt "KGAPI2::Drive::RevisionFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/revisionmodifyjob.cpp:90
+#: src/drive/revisionmodifyjob.cpp:89
 msgctxt "KGAPI2::Drive::RevisionModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/teamdrivecreatejob.cpp:104
+#: src/drive/teamdrivecreatejob.cpp:103
 msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/teamdrivefetchjob.cpp:156
+#: src/drive/teamdrivefetchjob.cpp:155
 msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/drive/teamdrivemodifyjob.cpp:84
+#: src/drive/teamdrivemodifyjob.cpp:83
 msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
@@ -425,7 +425,7 @@ msgctxt "KGAPI2::LocationCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/latitude/locationfetchhistoryjob.cpp:130
+#: src/latitude/locationfetchhistoryjob.cpp:128
 msgctxt "KGAPI2::LocationFetchHistoryJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
@@ -455,12 +455,12 @@ msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
 msgstr ""
 
-#: src/people/personphotodeletejob.cpp:91
+#: src/people/personphotodeletejob.cpp:87
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
 msgstr ""
 
-#: src/people/personphotoupdatejob.cpp:101
+#: src/people/personphotoupdatejob.cpp:97
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
 msgstr ""
@@ -470,27 +470,27 @@ msgctxt "KGAPI2::TaskCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/tasks/taskfetchjob.cpp:217
+#: src/tasks/taskfetchjob.cpp:216
 msgctxt "KGAPI2::TaskFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/tasks/tasklistcreatejob.cpp:75
+#: src/tasks/tasklistcreatejob.cpp:73
 msgctxt "KGAPI2::TaskListCreateJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/tasks/tasklistfetchjob.cpp:74
+#: src/tasks/tasklistfetchjob.cpp:71
 msgctxt "KGAPI2::TaskListFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/tasks/tasklistmodifyjob.cpp:75
+#: src/tasks/tasklistmodifyjob.cpp:73
 msgctxt "KGAPI2::TaskListModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
 
-#: src/tasks/taskmodifyjob.cpp:77
+#: src/tasks/taskmodifyjob.cpp:75
 msgctxt "KGAPI2::TaskModifyJob|"
 msgid "Invalid response content type"
 msgstr "Ugyldig innhaldstype på svar"
