@@ -23,8 +23,6 @@ namespace KGAPI2::People
 namespace PeopleService
 {
 
-    Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT ObjectPtr JSONtoPerson(const QByteArray &jsonData);
-
     Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QString allPersonFields();
     Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QString allUpdatablePersonFields();
     Q_REQUIRED_RESULT KGAPIPEOPLE_EXPORT QString allContactGroupRecentlyCreatedAvailableFields();

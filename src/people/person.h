@@ -446,16 +446,6 @@ public:
     Q_REQUIRED_RESULT static PersonPtr fromJSON(const QJsonObject &obj);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
-private Q_SLOTS:
-    static void convertNameFieldsFromKContacts(const KContacts::Addressee &addressee);
-    static void convertNicknameFieldsFromKContacts(const KContacts::Addressee &addressee);
-    static void convertBirthdayFieldsFromKContacts(const KContacts::Addressee &addressee);
-    static void convertEmailFieldsFromKContacts(const KContacts::Addressee &addressee);
-    static void convertPhoneFieldsFromKContacts(const KContacts::Addressee &addressee);
-    static void convertOrganizationFieldsFromKContacts(const KContacts::Addressee &addressee);
-    static void convertProfessionFieldsFromKContacts(const KContacts::Addressee &addressee);
-    static void convertPhotoFromKContacts();
-
 private:
     class Private;
     std::unique_ptr<Private> d;
