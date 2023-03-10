@@ -7,7 +7,6 @@
 #include "about.h"
 #include "change.h"
 #include "drives.h"
-#include "driveservice.h"
 #include "file.h"
 #include "teamdrive.h"
 #include "testutils.h"

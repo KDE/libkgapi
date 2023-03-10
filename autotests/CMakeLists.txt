@@ -25,6 +25,8 @@ set_source_files_properties(
     drive/teamdrivedeletejobtest.cpp
     drive/teamdrivefetchjobtest.cpp
     drive/teamdrivemodifyjobtest.cpp
+    drive/drivetestutils.h
+
     PROPERTIES COMPILE_FLAGS -Wno-deprecated-declarations
 )
 endif()
