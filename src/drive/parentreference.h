@@ -45,22 +45,22 @@ public:
     /**
      * @brief Returns the id of the parent.
      */
-    QString id() const;
+    Q_REQUIRED_RESULT QString id() const;
 
     /**
      * @brief Returns a link back to this reference.
      */
-    QUrl selfLink() const;
+    Q_REQUIRED_RESULT QUrl selfLink() const;
 
     /**
      * @brief Returns a link to the parent.
      */
-    QUrl parentLink() const;
+    Q_REQUIRED_RESULT QUrl parentLink() const;
 
     /**
      * @brief Returns whether or not the parent is the root folder.
      */
-    bool isRoot() const;
+    Q_REQUIRED_RESULT bool isRoot() const;
 
     static ParentReferencePtr fromJSON(const QByteArray &jsonData);
     static ParentReferencesList fromJSONFeed(const QByteArray &jsonData);

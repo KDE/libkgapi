@@ -59,13 +59,13 @@ public:
     explicit FileResumableModifyJob(QIODevice *device, const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);
     ~FileResumableModifyJob() override;
 
-    bool createNewRevision() const;
+    Q_REQUIRED_RESULT bool createNewRevision() const;
     void setCreateNewRevision(bool createNewRevision);
 
-    bool updateModifiedDate() const;
+    Q_REQUIRED_RESULT bool updateModifiedDate() const;
     void setUpdateModifiedDate(bool updateModifiedDate);
 
-    bool updateViewedDate() const;
+    Q_REQUIRED_RESULT bool updateViewedDate() const;
     void setUpdateViewedDate(bool updateViewedDate);
 
 protected:

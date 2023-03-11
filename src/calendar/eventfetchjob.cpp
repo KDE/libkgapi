@@ -74,7 +74,7 @@ void EventFetchJob::setFetchOnlyUpdated(quint64 timestamp)
     d->updatedTimestamp = timestamp;
 }
 
-quint64 EventFetchJob::fetchOnlyUpdated()
+quint64 EventFetchJob::fetchOnlyUpdated() const
 {
     return d->updatedTimestamp;
 }
@@ -99,7 +99,7 @@ void EventFetchJob::setSyncToken(const QString &syncToken)
     d->syncToken = syncToken;
 }
 
-QString EventFetchJob::syncToken()
+QString EventFetchJob::syncToken() const
 {
     return d->syncToken;
 }

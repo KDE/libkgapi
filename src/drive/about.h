@@ -127,12 +127,12 @@ public:
         /**
          * @brief Returns the content type that this additional role info applies to.
          */
-        QString type() const;
+        Q_REQUIRED_RESULT QString type() const;
 
         /**
          * @brief Returns the supported additional roles per primary role.
          */
-        RoleSetsList roleSets() const;
+        Q_REQUIRED_RESULT RoleSetsList roleSets() const;
 
     private:
         explicit AdditionalRoleInfo();

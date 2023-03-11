@@ -21,6 +21,7 @@ add_library(kdexoauth2 SHARED
     xoauth2plugin.c
     xoauth2plugin_init.c
     plugin_common.c
+    plugin_common.h
 )
 target_include_directories(kdexoauth2 PRIVATE ${Sasl2_INCLUDE_DIRS})
 set_target_properties(kdexoauth2 PROPERTIES

@@ -116,22 +116,22 @@ public:
     explicit FileAbstractDataJob(const AccountPtr &account, QObject *parent = nullptr);
     ~FileAbstractDataJob() override;
 
-    bool convert() const;
+    Q_REQUIRED_RESULT bool convert() const;
     void setConvert(bool convert);
 
-    bool enforceSingleParent() const;
+    Q_REQUIRED_RESULT bool enforceSingleParent() const;
     void setEnforceSingleParent(bool enforceSingleParent);
 
-    QString includePermissionsForView() const;
+    Q_REQUIRED_RESULT QString includePermissionsForView() const;
     void setIncludePermissionsForView(const QString &includePermissionsForView);
 
-    bool ocr() const;
+    Q_REQUIRED_RESULT bool ocr() const;
     void setOcr(bool ocr);
 
-    QString ocrLanguage() const;
+    Q_REQUIRED_RESULT QString ocrLanguage() const;
     void setOcrLanguage(const QString &ocrLanguage);
 
-    bool pinned() const;
+    Q_REQUIRED_RESULT bool pinned() const;
     void setPinned(bool pinned);
 
     /**
@@ -154,13 +154,13 @@ public:
      */
     KGAPIDRIVE_DEPRECATED void setSupportsAllDrives(bool supportsAllDrives);
 
-    QString timedTextLanguage() const;
+    Q_REQUIRED_RESULT QString timedTextLanguage() const;
     void setTimedTextLanguage(const QString &timedTextLanguage);
 
-    QString timedTextTrackName() const;
+    Q_REQUIRED_RESULT QString timedTextTrackName() const;
     void setTimedTextTrackName(const QString &timedTextTrackName);
 
-    bool useContentAsIndexableText() const;
+    Q_REQUIRED_RESULT bool useContentAsIndexableText() const;
     void setUseContentAsIndexableText(bool useContentAsIndexableText);
 
 protected:

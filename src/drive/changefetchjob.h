@@ -68,16 +68,16 @@ public:
     explicit ChangeFetchJob(const QString &changeId, const AccountPtr &account, QObject *parent = nullptr);
     ~ChangeFetchJob() override;
 
-    bool includeSubscribed() const;
+    Q_REQUIRED_RESULT bool includeSubscribed() const;
     void setIncludeSubscribed(bool includeSubscribed);
 
-    bool includeDeleted() const;
+    Q_REQUIRED_RESULT bool includeDeleted() const;
     void setIncludeDeleted(bool includeDeleted);
 
-    int maxResults() const;
+    Q_REQUIRED_RESULT int maxResults() const;
     void setMaxResults(int maxResults);
 
-    qlonglong startChangeId() const;
+    Q_REQUIRED_RESULT qlonglong startChangeId() const;
     void setStartChangeId(qlonglong startChangeId);
 
     /**

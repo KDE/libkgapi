@@ -56,7 +56,7 @@ public:
      *
      * This method can only be called after the job has emitted Job::finished.
      */
-    QPixmap tilePixmap() const;
+    Q_REQUIRED_RESULT QPixmap tilePixmap() const;
 
 protected:
     /**

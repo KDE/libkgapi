@@ -40,9 +40,9 @@ public:
             return !operator==(other);
         }
 
-        Category category() const;
-        int size() const;
-        QUrl iconUrl() const;
+        Q_REQUIRED_RESULT Category category() const;
+        Q_REQUIRED_RESULT int size() const;
+        Q_REQUIRED_RESULT QUrl iconUrl() const;
 
     private:
         class Private;
@@ -63,20 +63,20 @@ public:
         return !operator==(other);
     }
 
-    QString id() const;
-    QString name() const;
-    QString objectType() const;
-    bool supportsCreate() const;
-    bool supportsImport() const;
-    bool installed() const;
-    bool authorized() const;
-    bool useByDefault() const;
-    QUrl productUrl() const;
-    QStringList primaryMimeTypes() const;
-    QStringList secondaryMimeTypes() const;
-    QStringList primaryFileExtensions() const;
-    QStringList secondaryFileExtensions() const;
-    IconsList icons() const;
+    Q_REQUIRED_RESULT QString id() const;
+    Q_REQUIRED_RESULT QString name() const;
+    Q_REQUIRED_RESULT QString objectType() const;
+    Q_REQUIRED_RESULT bool supportsCreate() const;
+    Q_REQUIRED_RESULT bool supportsImport() const;
+    Q_REQUIRED_RESULT bool installed() const;
+    Q_REQUIRED_RESULT bool authorized() const;
+    Q_REQUIRED_RESULT bool useByDefault() const;
+    Q_REQUIRED_RESULT QUrl productUrl() const;
+    Q_REQUIRED_RESULT QStringList primaryMimeTypes() const;
+    Q_REQUIRED_RESULT QStringList secondaryMimeTypes() const;
+    Q_REQUIRED_RESULT QStringList primaryFileExtensions() const;
+    Q_REQUIRED_RESULT QStringList secondaryFileExtensions() const;
+    Q_REQUIRED_RESULT IconsList icons() const;
 
     static AppsList fromJSONFeed(const QByteArray &jsonData);
     static AppPtr fromJSON(const QByteArray &jsonData);

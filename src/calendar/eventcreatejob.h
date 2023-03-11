@@ -56,7 +56,7 @@ public:
      */
     ~EventCreateJob() override;
 
-    KGAPI2::SendUpdatesPolicy sendUpdates() const;
+    Q_REQUIRED_RESULT KGAPI2::SendUpdatesPolicy sendUpdates() const;
     void setSendUpdates(KGAPI2::SendUpdatesPolicy updatePolicy);
 
 Q_SIGNALS:

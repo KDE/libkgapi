@@ -29,7 +29,7 @@ public:
     ~FileResumableCreateJob() override;
 
 protected:
-    QUrl createUrl() override;
+    Q_REQUIRED_RESULT QUrl createUrl() override;
 
 private:
     class Private;

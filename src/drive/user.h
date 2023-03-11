@@ -37,23 +37,23 @@ public:
     /**
      * @brief Returns a plain text displayable name for this user.
      */
-    QString displayName() const;
+    Q_REQUIRED_RESULT QString displayName() const;
 
     /**
      * @brief Returns a URL that points to a profile picture of this user.
      */
-    QUrl pictureUrl() const;
+    Q_REQUIRED_RESULT QUrl pictureUrl() const;
 
     /**
      * @brief Returns whether this user is the same as the authenticated
      *        user for whom the request was made.
      */
-    bool isAuthenticatedUser() const;
+    Q_REQUIRED_RESULT bool isAuthenticatedUser() const;
 
     /**
      * @brief Returns the user's ID as visible in the permissions collection.
      */
-    QString permissionId() const;
+    Q_REQUIRED_RESULT QString permissionId() const;
 
     static UserPtr fromJSON(const QVariantMap &jsonMap);
 

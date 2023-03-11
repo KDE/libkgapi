@@ -60,7 +60,7 @@ public:
     /**
      * @brief Returns whether the event was removed
      */
-    bool deleted() const;
+    Q_REQUIRED_RESULT bool deleted() const;
 
     /**
      * @brief Sets whether the event should use calendar's default reminders.
@@ -72,14 +72,14 @@ public:
     /**
      * @brief Returns whether the event should use calendar's default reminders.
      */
-    bool useDefaultReminders() const;
+    Q_REQUIRED_RESULT bool useDefaultReminders() const;
 
     /**
      * @brief Returns ID used by Google to identify the event in calendar.
      *
      * This is not the same as UID.
      */
-    QString id() const;
+    Q_REQUIRED_RESULT QString id() const;
 
     /**
      * @brief Sets event ID used by Google to identify the event in calendar.
@@ -89,7 +89,7 @@ public:
     /**
      * @brief Returns the hangout link for Google Meet.
      */
-    QString hangoutLink() const;
+    Q_REQUIRED_RESULT QString hangoutLink() const;
 
     /**
      * @brief Sets the hangout link for Google Meet.

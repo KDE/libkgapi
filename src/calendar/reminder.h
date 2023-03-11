@@ -57,7 +57,7 @@ public:
     /**
      * @brief Returns type of the reminder
      */
-    KCalendarCore::Alarm::Type type() const;
+    Q_REQUIRED_RESULT KCalendarCore::Alarm::Type type() const;
 
     /**
      * @brief Sets type of the reminder
@@ -69,7 +69,7 @@ public:
     /**
      * @brief Returns how long before the event should reminder be shown
      */
-    KCalendarCore::Duration startOffset() const;
+    Q_REQUIRED_RESULT KCalendarCore::Duration startOffset() const;
 
     /**
      * @brief Sets how long before the event should reminder be shown
@@ -82,7 +82,7 @@ public:
      * @param incidence An incidence on which the reminder should be applied
      * @return Returns a new KCalendarCore::Alarm
      */
-    KCalendarCore::Alarm *toAlarm(KCalendarCore::Incidence *incidence) const;
+    Q_REQUIRED_RESULT KCalendarCore::Alarm *toAlarm(KCalendarCore::Incidence *incidence) const;
 
 private:
     class Private;

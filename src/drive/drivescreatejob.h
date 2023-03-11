@@ -29,7 +29,7 @@ public:
     /**
      * @brief Returns the requestId used in this create request.
      */
-    QString requestId() const;
+    Q_REQUIRED_RESULT QString requestId() const;
 
 protected:
     void start() override;

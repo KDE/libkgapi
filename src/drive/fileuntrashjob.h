@@ -32,7 +32,7 @@ public:
     ~FileUntrashJob() override;
 
 protected:
-    QUrl url(const QString &fileId) override;
+    Q_REQUIRED_RESULT QUrl url(const QString &fileId) override;
     void dispatchRequest(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data, const QString &contentType) override;
 
 private:

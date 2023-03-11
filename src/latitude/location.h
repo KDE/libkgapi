@@ -67,7 +67,7 @@ public:
      *
      * @return Returns -1 when accuracy is not defined.
      */
-    qint32 accuracy() const;
+    Q_REQUIRED_RESULT qint32 accuracy() const;
 
     /**
      * @brief Sets accuracy of this location.
@@ -80,7 +80,7 @@ public:
      *
      * @return Returns -1 when speed is not defined.
      */
-    qint32 speed() const;
+    Q_REQUIRED_RESULT qint32 speed() const;
 
     /**
      * @brief Sets speed of this location.
@@ -93,7 +93,7 @@ public:
      *
      * @return Returns -1 when heading is not defined.
      */
-    qint32 heading() const;
+    Q_REQUIRED_RESULT qint32 heading() const;
 
     /**
      * @brief Sets heading of this location.
@@ -105,7 +105,7 @@ public:
      *
      * @return Returns 0 when altitude is not defined.
      */
-    qint32 altitude() const;
+    Q_REQUIRED_RESULT qint32 altitude() const;
 
     /**
      * @brief Sets altitude of this location.
@@ -117,7 +117,7 @@ public:
      *
      * @return Returns -1 when altitude accuracy is not defined.
      */
-    qint32 altitudeAccuracy() const;
+    Q_REQUIRED_RESULT qint32 altitudeAccuracy() const;
 
     /**
      * @brief Sets altitude accuracy of this location.

@@ -53,8 +53,8 @@ public:
     void addQuery(Field field, CompareOperator op, const QVariant &value);
 
 private:
-    QString fieldToString(Field field);
-    QString valueToString(FileSearchQuery::Field field, const QVariant &var);
+    Q_REQUIRED_RESULT QString fieldToString(Field field);
+    Q_REQUIRED_RESULT QString valueToString(FileSearchQuery::Field field, const QVariant &var);
 };
 }
 }

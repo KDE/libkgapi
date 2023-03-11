@@ -75,7 +75,7 @@ public:
          * When this restriction is set to true, it will override the similarly
          * named field to true for any file inside this Team Drive.
          */
-        bool copyRequiresWriterPermission() const;
+        Q_REQUIRED_RESULT bool copyRequiresWriterPermission() const;
 
         /**
          * @brief Sets whether the options to copy, print, or download files
@@ -93,7 +93,7 @@ public:
          * Drive belongs. This restriction may be overridden by other sharing
          * policies controlled outside of this Team Drive.
          */
-        bool domainUsersOnly() const;
+        Q_REQUIRED_RESULT bool domainUsersOnly() const;
 
         /**
          * @brief Sets whether access to this Team Drive and items inside this
@@ -109,7 +109,7 @@ public:
          * @brief Returns whether access to items inside this Team Drive is
          * restricted to members of this Team Drive.
          */
-        bool teamMembersOnly() const;
+        Q_REQUIRED_RESULT bool teamMembersOnly() const;
 
         /**
          * @brief Sets whether access to items inside this Team Drive is
@@ -168,48 +168,48 @@ public:
          * @brief Returns whether the current user can add children to folders
          * in this Team Drive.
          */
-        bool canAddChildren() const;
+        Q_REQUIRED_RESULT bool canAddChildren() const;
 
         /**
          * @brief Returns whether the current user can change the
          * copyRequiresWriterPermission restriction of this Team Drive.
          */
-        bool canChangeCopyRequiresWriterPermissionRestriction() const;
+        Q_REQUIRED_RESULT bool canChangeCopyRequiresWriterPermissionRestriction() const;
 
         /**
          * @brief Returns whether the current user can change the domainUsersOnly
          * restriction of this Team Drive.
          */
-        bool canChangeDomainUsersOnlyRestriction() const;
+        Q_REQUIRED_RESULT bool canChangeDomainUsersOnlyRestriction() const;
 
         /**
          * @brief Returns whether the current user can change the background of
          * this Team Drive.
          */
-        bool canChangeTeamDriveBackground() const;
+        Q_REQUIRED_RESULT bool canChangeTeamDriveBackground() const;
 
         /**
          * @brief Returns whether the current user can change the teamMembersOnly
          * restriction of this Team Drive.
          */
-        bool canChangeTeamMembersOnlyRestriction() const;
+        Q_REQUIRED_RESULT bool canChangeTeamMembersOnlyRestriction() const;
 
         /**
          * @brief Returns Whether the current user can comment on files in
          * this Team Drive.
          */
-        bool canComment() const;
+        Q_REQUIRED_RESULT bool canComment() const;
 
         /**
          * @brief Returns Whether the current user can copy files in this Team Drive.
          */
-        bool canCopy() const;
+        Q_REQUIRED_RESULT bool canCopy() const;
 
         /**
          * @brief Returns Whether the current user can delete children from
          * folders in this Team Drive.
          */
-        bool canDeleteChildren() const;
+        Q_REQUIRED_RESULT bool canDeleteChildren() const;
 
         /**
          * @brief Returns Whether the current user can delete this Team Drive.
@@ -217,60 +217,60 @@ public:
          * Attempting to delete the Team Drive may still fail if there are
          * untrashed items inside the Team Drive.
          */
-        bool canDeleteTeamDrive() const;
+        Q_REQUIRED_RESULT bool canDeleteTeamDrive() const;
 
         /**
          * @brief Returns Whether the current user can download files in this
          * Team Drive.
          */
-        bool canDownload() const;
+        Q_REQUIRED_RESULT bool canDownload() const;
 
         /**
          * @brief Returns Whether the current user can edit files in this
          * Team Drive
          */
-        bool canEdit() const;
+        Q_REQUIRED_RESULT bool canEdit() const;
 
         /**
          * @brief Returns Whether the current user can list the children of
          * folders in this Team Drive.
          */
-        bool canListChildren() const;
+        Q_REQUIRED_RESULT bool canListChildren() const;
 
         /**
          * @brief Returns Whether the current user can add members to this Team Drive
          * or remove them or change their role.
          */
-        bool canManageMembers() const;
+        Q_REQUIRED_RESULT bool canManageMembers() const;
 
         /**
          * @brief Returns Whether the current user can read the revisions
          * resource of files in this Team Drive.
          */
-        bool canReadRevisions() const;
+        Q_REQUIRED_RESULT bool canReadRevisions() const;
 
         /**
          * @brief Returns Whether the current user can rename files or folders
          * in this Team Drive.
          */
-        bool canRename() const;
+        Q_REQUIRED_RESULT bool canRename() const;
 
         /**
          * @brief Returns Whether the current user can rename this Team Drive.
          */
-        bool canRenameTeamDrive() const;
+        Q_REQUIRED_RESULT bool canRenameTeamDrive() const;
 
         /**
          * @brief Returns Whether the current user can share files or folders
          * in this Team Drive.
          */
-        bool canShare() const;
+        Q_REQUIRED_RESULT bool canShare() const;
 
         /**
          * @brief Returns Whether the current user can trash children from
          * folders in this Team Drive.
          */
-        bool canTrashChildren() const;
+        Q_REQUIRED_RESULT bool canTrashChildren() const;
 
     private:
         class Private;
@@ -307,7 +307,7 @@ public:
         /**
          * @brief Returns the id of the background image file.
          */
-        QString id() const;
+        Q_REQUIRED_RESULT QString id() const;
 
         /**
          * @brief Sets the id of the background image file.
@@ -319,7 +319,7 @@ public:
         /**
          * @brief Returns the x coordinate for this background image file.
          */
-        float xCoordinate() const;
+        Q_REQUIRED_RESULT float xCoordinate() const;
 
         /**
          * @brief Sets the x coordinate for this background image file.
@@ -331,7 +331,7 @@ public:
         /**
          * @brief Returns the y coordinate for this background image file.
          */
-        float yCoordinate() const;
+        Q_REQUIRED_RESULT float yCoordinate() const;
 
         /**
          * @brief Sets the y coordinate for this background image file.
@@ -343,7 +343,7 @@ public:
         /**
          * @brief Returns the width for this background image file.
          */
-        float width() const;
+        Q_REQUIRED_RESULT float width() const;
 
         /**
          * @brief Sets the width for this background image file.
@@ -390,7 +390,7 @@ public:
     /**
      * @brief Returns the id of the teamdrive.
      */
-    QString id() const;
+    Q_REQUIRED_RESULT QString id() const;
 
     /**
      * @brief Sets the id of the teamdrive.
@@ -402,7 +402,7 @@ public:
     /**
      * @brief Returns the name of the teamdrive.
      */
-    QString name() const;
+    Q_REQUIRED_RESULT QString name() const;
 
     /**
      * @brief Sets the name of the teamdrive.
@@ -414,7 +414,7 @@ public:
     /**
      * @brief Returns the themeId of the teamdrive.
      */
-    QString themeId() const;
+    Q_REQUIRED_RESULT QString themeId() const;
 
     /**
      * @brief Sets the themeId of the teamdrive.
@@ -426,7 +426,7 @@ public:
     /**
      * @brief Returns the colorRgb of the teamdrive.
      */
-    QString colorRgb() const;
+    Q_REQUIRED_RESULT QString colorRgb() const;
 
     /**
      * @brief Sets the colorRgb of the teamdrive.
@@ -450,7 +450,7 @@ public:
     /**
      * @brief Returns the backgroundImageLink of the teamdrive.
      */
-    QString backgroundImageLink() const;
+    Q_REQUIRED_RESULT QString backgroundImageLink() const;
 
     /**
      * @brief Returns the capabilities the current user has on this Team Drive.
@@ -460,7 +460,7 @@ public:
     /**
      * @brief Returns the time at which the Team Drive was created.
      */
-    QDateTime createdDate() const;
+    Q_REQUIRED_RESULT QDateTime createdDate() const;
 
     /**
      * @brief Returns the set of restrictions that apply to this Team Drive or

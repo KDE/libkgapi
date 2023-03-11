@@ -153,7 +153,7 @@ public:
     /**
      * @brief Returns fulltext filter string
      */
-    QString filter() const;
+    Q_REQUIRED_RESULT QString filter() const;
 
     /**
      * @brief Sets whether to fetch deleted events
@@ -165,7 +165,7 @@ public:
     /**
      * @brief Returns whether deleted events are fetched.
      */
-    bool fetchDeleted();
+    Q_REQUIRED_RESULT bool fetchDeleted();
 
     /**
      * @brief Sets the job to fetch only events modified since @p timestamp
@@ -180,7 +180,7 @@ public:
      * @return 0 when all events will be fetched, a timestamp of since when the
      *         modified events will be fetched.
      */
-    quint64 fetchOnlyUpdated();
+    Q_REQUIRED_RESULT quint64 fetchOnlyUpdated() const;
 
     /**
      * @brief Sets timestamp of newest event that can be fetched.
@@ -192,7 +192,7 @@ public:
     /**
      * @brief Returns upper limit for event occurrence
      */
-    quint64 timeMax() const;
+    Q_REQUIRED_RESULT quint64 timeMax() const;
 
     /**
      * @brief Sets timestamp of older events that can be fetched.
@@ -204,7 +204,7 @@ public:
     /**
      * @brief Returns lower boundary for events occurrence
      */
-    quint64 timeMin() const;
+    Q_REQUIRED_RESULT quint64 timeMin() const;
 
     /**
      * @brief Sets token for incremental updates
@@ -216,7 +216,7 @@ public:
     /**
      * @brief Token for next incremental update
      */
-    QString syncToken();
+    Q_REQUIRED_RESULT QString syncToken() const;
 
 protected:
     /**

@@ -113,12 +113,12 @@ public:
     /**
      * @brief Returns in which format is location saved.
      */
-    LocationType locationType() const;
+    Q_REQUIRED_RESULT LocationType locationType() const;
 
     /**
      * @brief Returns color of marker
      */
-    QColor color() const;
+    Q_REQUIRED_RESULT QColor color() const;
 
     /**
      * @brief Sets color of marker
@@ -130,12 +130,12 @@ public:
     /**
      * @brief Returns if marker is valid. It means that marker needs defined location
      */
-    bool isValid() const;
+    Q_REQUIRED_RESULT bool isValid() const;
 
     /**
      * @brief Returns label of marker
      */
-    QChar label() const;
+    Q_REQUIRED_RESULT QChar label() const;
 
     /**
      * @brief Sets label of marker
@@ -148,7 +148,7 @@ public:
     /**
      * @brief Returns locations in QString
      */
-    QStringList locationsString() const;
+    Q_REQUIRED_RESULT QStringList locationsString() const;
 
     /**
      * @brief Sets one location for marker
@@ -167,7 +167,7 @@ public:
     /**
      * @brief Returns locations in KContacts::Address
      */
-    KContacts::Address::List locationsAddress() const;
+    Q_REQUIRED_RESULT KContacts::Address::List locationsAddress() const;
 
     /**
      * @brief Sets one location for marker
@@ -186,7 +186,7 @@ public:
     /**
      * @brief Returns locations in KContacts::Geo
      */
-    QList<KContacts::Geo> locationsGeo() const;
+    Q_REQUIRED_RESULT QList<KContacts::Geo> locationsGeo() const;
 
     /**
      * @brief Sets one location for marker
@@ -205,12 +205,12 @@ public:
     /**
      * @brief Returns all locations and markers preferences in format to URL query.
      */
-    QString toString() const;
+    Q_REQUIRED_RESULT QString toString() const;
 
     /**
      * @brief Returns size of marker
      */
-    MarkerSize size() const;
+    Q_REQUIRED_RESULT MarkerSize size() const;
 
     /**
      * @brief Sets size of marker

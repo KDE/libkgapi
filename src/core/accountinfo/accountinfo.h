@@ -62,7 +62,7 @@ public:
     /**
      * @brief Returns account ID.
      */
-    QString id() const;
+    Q_REQUIRED_RESULT QString id() const;
 
     /**
      * @brief Sets account email.
@@ -76,7 +76,7 @@ public:
      *
      * Note that address does not have to be \@gmail.com.
      */
-    QString email() const;
+    Q_REQUIRED_RESULT QString email() const;
 
     /**
      * @brief Sets user's real full name.
@@ -88,7 +88,7 @@ public:
     /**
      * @brief Returns user's real full name.
      */
-    QString name() const;
+    Q_REQUIRED_RESULT QString name() const;
 
     /**
      * @brief Sets user's given name.
@@ -100,7 +100,7 @@ public:
     /**
      * @brief Returns user's given name.
      */
-    QString givenName() const;
+    Q_REQUIRED_RESULT QString givenName() const;
 
     /**
      * @brief Sets user's family name (surname).
@@ -112,7 +112,7 @@ public:
     /**
      * @brief Returns user's surname.
      */
-    QString familyName() const;
+    Q_REQUIRED_RESULT QString familyName() const;
 
     /**
      * @brief Sets user's birthday
@@ -124,7 +124,7 @@ public:
     /**
      * @brief Returns user's birthday.
      */
-    QString birthday() const;
+    Q_REQUIRED_RESULT QString birthday() const;
 
     /**
      * @brief Sets user's gender.
@@ -136,7 +136,7 @@ public:
     /**
      * @brief Returns user's gender.
      */
-    QString gender() const;
+    Q_REQUIRED_RESULT QString gender() const;
 
     /**
      * @brief Sets link to user's profile.
@@ -148,7 +148,7 @@ public:
     /**
      * @brief Returns link to user's profile.
      */
-    QString link() const;
+    Q_REQUIRED_RESULT QString link() const;
 
     /**
      * @brief Sets users locale settings.
@@ -160,7 +160,7 @@ public:
     /**
      * @brief Returns user's preferred locales.
      */
-    QString locale() const;
+    Q_REQUIRED_RESULT QString locale() const;
 
     /**
      * @brief Sets user's timezone name.
@@ -172,7 +172,7 @@ public:
     /**
      * @brief Returns name of user's timezone.
      */
-    QString timezone() const;
+    Q_REQUIRED_RESULT QString timezone() const;
 
     /**
      * @brief Sets whether the email address is verified.
@@ -184,7 +184,7 @@ public:
     /**
      * @brief Returns whether the email is verified.
      */
-    bool verifiedEmail() const;
+    Q_REQUIRED_RESULT bool verifiedEmail() const;
 
     /**
      * @brief Sets URL of user's photo.
@@ -196,7 +196,7 @@ public:
     /**
      * @brief Returns URL of user's photo.
      */
-    QString photoUrl() const;
+    Q_REQUIRED_RESULT QString photoUrl() const;
 
     /**
      * @brief Parses raw JSON data into AccountInfo object.

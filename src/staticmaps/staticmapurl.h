@@ -88,12 +88,12 @@ public:
     /**
      * @brief Returns in which format the location is stored.
      */
-    LocationType locationType() const;
+    Q_REQUIRED_RESULT LocationType locationType() const;
 
     /**
      * @brief Returns map image format
      */
-    ImageFormat format() const;
+    Q_REQUIRED_RESULT ImageFormat format() const;
 
     /**
      * @brief Sets map image format (default is PNG)
@@ -112,7 +112,7 @@ public:
      *
      * Returns empty QString if location is not defined in QString
      */
-    QString locationString() const;
+    Q_REQUIRED_RESULT QString locationString() const;
 
     /**
      * @brief Defines center of the map
@@ -127,7 +127,7 @@ public:
      *
      * Returns empty KContacts::Address if location is not defined in KContacts::Address
      */
-    KContacts::Address locationAddress() const;
+    Q_REQUIRED_RESULT KContacts::Address locationAddress() const;
 
     /**
      * @brief Defines center of the map
@@ -142,7 +142,7 @@ public:
      *
      * Returns invalid KContacts::Geo if location is not defined in KContacts::Geo
      */
-    KContacts::Geo locationGeo() const;
+    Q_REQUIRED_RESULT KContacts::Geo locationGeo() const;
 
     /**
      * @brief Defines center of the map
@@ -155,7 +155,7 @@ public:
     /**
      * @brief Returns type of map
      */
-    MapType mapType() const;
+    Q_REQUIRED_RESULT MapType mapType() const;
 
     /**
      * @brief Sets type of map (roadmap by default)
@@ -169,7 +169,7 @@ public:
      *
      * Returns empty QList if no marker were added
      */
-    QList<StaticMapMarker> markers() const;
+    Q_REQUIRED_RESULT QList<StaticMapMarker> markers() const;
 
     /**
      * @brief Adds marker to map
@@ -190,7 +190,7 @@ public:
      *
      * Returns empty QList if no path were added
      */
-    QList<StaticMapPath> paths() const;
+    Q_REQUIRED_RESULT QList<StaticMapPath> paths() const;
 
     /**
      * @brief Adds path to map
@@ -209,7 +209,7 @@ public:
     /**
      * @brief Returns size of map tile
      */
-    QSize size() const;
+    Q_REQUIRED_RESULT QSize size() const;
 
     /**
      * @brief Sets size of requested map tile.
@@ -221,7 +221,7 @@ public:
     /**
      * @brief Returns scale of map
      */
-    Scale scale() const;
+    Q_REQUIRED_RESULT Scale scale() const;
 
     /**
      * @brief Sets scale of map (default is 1)
@@ -234,7 +234,7 @@ public:
      * @brief Returns whether the application uses a sensor to determine user's
      *        location.
      */
-    bool sensorUsed() const;
+    Q_REQUIRED_RESULT bool sensorUsed() const;
 
     /**
      * @brief Sets whether the application uses a sensor to determine the user's
@@ -249,7 +249,7 @@ public:
      *
      * Returns empty QString if visible area is not defined in QString
      */
-    QString visibleLocationString() const;
+    Q_REQUIRED_RESULT QString visibleLocationString() const;
 
     /**
      * @brief Sets visible location.
@@ -269,7 +269,7 @@ public:
      *
      * Returns empty KContacts::Address if visible area is not defined in KContacts::Address
      */
-    KContacts::Address visibleLocationAddress() const;
+    Q_REQUIRED_RESULT KContacts::Address visibleLocationAddress() const;
 
     /**
      * @brief Sets visible location.
@@ -289,7 +289,7 @@ public:
      *
      * Returns empty KContacts::Geo if visible area is not defined in KContacts::Geo
      */
-    KContacts::Geo visibleLocationGeo() const;
+    Q_REQUIRED_RESULT KContacts::Geo visibleLocationGeo() const;
 
     /**
      * @brief Sets visible location.
@@ -307,14 +307,14 @@ public:
     /**
      * @brief Returns type of visible location
      */
-    LocationType visibleLocationType() const;
+    Q_REQUIRED_RESULT LocationType visibleLocationType() const;
 
     /**
      * @brief Returns zoom level of map
      *
      * Returns -1 if zoom level is not defined
      */
-    qint8 zoomLevel() const;
+    Q_REQUIRED_RESULT qint8 zoomLevel() const;
 
     /**
      * @brief Sets zoom level of the map
@@ -327,7 +327,7 @@ public:
     /**
      * @brief Returns constructed url from all defined parameters
      */
-    QUrl url() const;
+    Q_REQUIRED_RESULT QUrl url() const;
 
     /**
      * @brief Assignment operator

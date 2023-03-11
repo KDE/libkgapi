@@ -33,7 +33,7 @@ public:
 protected:
     QNetworkReply *dispatch(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data) override;
 
-    QUrl createUrl(const QString &filePath, const FilePtr &metaData) override;
+    Q_REQUIRED_RESULT QUrl createUrl(const QString &filePath, const FilePtr &metaData) override;
 
 private:
     class Private;

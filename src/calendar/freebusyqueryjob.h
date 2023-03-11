@@ -41,11 +41,11 @@ public:
     explicit FreeBusyQueryJob(const QString &id, const QDateTime &timeMin, const QDateTime &timeMax, const AccountPtr &account, QObject *parent = nullptr);
     ~FreeBusyQueryJob() override;
 
-    QString id() const;
-    QDateTime timeMin() const;
-    QDateTime timeMax() const;
+    Q_REQUIRED_RESULT QString id() const;
+    Q_REQUIRED_RESULT QDateTime timeMin() const;
+    Q_REQUIRED_RESULT QDateTime timeMax() const;
 
-    BusyRangeList busy() const;
+    Q_REQUIRED_RESULT BusyRangeList busy() const;
 
 protected:
     void start() override;

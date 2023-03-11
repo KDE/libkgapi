@@ -44,17 +44,17 @@ public:
     /**
      * @brief Returns the id of the child.
      */
-    QString id() const;
+    Q_REQUIRED_RESULT QString id() const;
 
     /**
      * @brief Returns a link back to this reference.
      */
-    QUrl selfLink() const;
+    Q_REQUIRED_RESULT QUrl selfLink() const;
 
     /**
      * @brief Returns a link to the child.
      */
-    QUrl childLink() const;
+    Q_REQUIRED_RESULT QUrl childLink() const;
 
     static ChildReferencePtr fromJSON(const QByteArray &jsonData);
     static ChildReferencesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);

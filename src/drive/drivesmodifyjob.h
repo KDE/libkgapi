@@ -39,7 +39,7 @@ public:
     ~DrivesModifyJob() override;
 
     void setUseDomainAdminAccess(bool useDomainAdminAccess);
-    bool useDomainAdminAccess() const;
+    Q_REQUIRED_RESULT bool useDomainAdminAccess() const;
 
 protected:
     void start() override;

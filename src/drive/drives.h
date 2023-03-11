@@ -76,7 +76,7 @@ public:
          * When this restriction is set to true, it will override the similarly
          * named field to true for any file inside this shared drive.
          */
-        bool copyRequiresWriterPermission() const;
+        Q_REQUIRED_RESULT bool copyRequiresWriterPermission() const;
 
         /**
          * @brief Sets whether the options to copy, print, or download files
@@ -94,7 +94,7 @@ public:
          * shared drive belongs. This restriction may be overridden by other
          * sharing policies controlled outside of this shared drive.
          */
-        bool domainUsersOnly() const;
+        Q_REQUIRED_RESULT bool domainUsersOnly() const;
 
         /**
          * @brief Sets whether access to this shared drive and items inside this
@@ -110,7 +110,7 @@ public:
          * @brief Returns whether access to items inside this shared drive is
          * restricted to its members.
          */
-        bool driveMembersOnly() const;
+        Q_REQUIRED_RESULT bool driveMembersOnly() const;
 
         /**
          * @brief Sets whether access to items inside this shared drive is
