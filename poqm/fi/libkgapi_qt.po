@@ -5,13 +5,13 @@
 # Author: Artnay
 # Author: Lliehu
 # Lasse Liehu <lasse.liehu@gmail.com>, 2012, 2014, 2015.
-# Tommi Nieminen <translator@legisign.org>, 2017, 2018, 2019, 2020.
+# Tommi Nieminen <translator@legisign.org>, 2017, 2018, 2019, 2020, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: libkgapi\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2020-12-31 16:42+0200\n"
+"PO-Revision-Date: 2023-03-08 23:02+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-POT-Import-Date: 2012-12-01 22:20:34+0000\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Qt-Contexts: true\n"
 
@@ -491,54 +491,36 @@ msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
 #: src/people/contactgroupcreatejob.cpp:93
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupCreateJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
 #: src/people/contactgroupmodifyjob.cpp:91
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupModifyJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
 #: src/people/personcreatejob.cpp:89
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonCreateJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
 #: src/people/personmodifyjob.cpp:104
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
 #: src/people/personphotodeletejob.cpp:87
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
 #: src/people/personphotoupdatejob.cpp:97
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
