@@ -1,10 +1,10 @@
 # Translation of libkgapi_qt to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2016, 2020.
+# Karl Ove Hufthammer <karl@huftis.org>, 2016, 2020, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2020-10-23 20:57+0200\n"
+"PO-Revision-Date: 2023-03-11 14:51+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.08.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: qtrich\n"
@@ -438,32 +438,32 @@ msgstr "Ugyldig innhaldstype på svar"
 #: src/people/contactgroupcreatejob.cpp:93
 msgctxt "KGAPI2::People::ContactGroupCreateJob|"
 msgid "Invalid response content type"
-msgstr ""
+msgstr "Ugyldig innhaldstype på svar"
 
 #: src/people/contactgroupmodifyjob.cpp:91
 msgctxt "KGAPI2::People::ContactGroupModifyJob|"
 msgid "Invalid response content type"
-msgstr ""
+msgstr "Ugyldig innhaldstype på svar"
 
 #: src/people/personcreatejob.cpp:89
 msgctxt "KGAPI2::People::PersonCreateJob|"
 msgid "Invalid response content type"
-msgstr ""
+msgstr "Ugyldig innhaldstype på svar"
 
 #: src/people/personmodifyjob.cpp:104
 msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
-msgstr ""
+msgstr "Ugyldig innhaldstype på svar"
 
 #: src/people/personphotodeletejob.cpp:87
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
-msgstr ""
+msgstr "Ugyldig innhaldstype på svar"
 
 #: src/people/personphotoupdatejob.cpp:97
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
-msgstr ""
+msgstr "Ugyldig innhaldstype på svar"
 
 #: src/tasks/taskcreatejob.cpp:118
 msgctxt "KGAPI2::TaskCreateJob|"
