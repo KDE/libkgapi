@@ -30,8 +30,11 @@ include(ECMSetupVersion)
 include(FeatureSummary)
 include(KDEGitCommitHooks)
 include(KDEClangFormat)
+include(ECMAddQch)
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h *.c)
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
+add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
 
 set(CMAKE_AUTOMOC_MACRO_NAMES "Q_OBJECT" "Q_GADGET" "Q_NAMESPACE" "Q_NAMESPACE_EXPORT")
@@ -93,6 +96,20 @@ endif()
 ############## CMake Config Files ##############
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim${KF_MAJOR_VERSION}GAPI")
 set(KGAPI_KF5_COMPAT FALSE)
+
+if (BUILD_QCH)
+    ecm_install_qch_export(
+        TARGETS KPim${KF_MAJOR_VERSION}GAPIBlogger_QCH KPim${KF_MAJOR_VERSION}GAPICalendar_QCH
+        KPim${KF_MAJOR_VERSION}GAPICore_QCH KPim${KF_MAJOR_VERSION}GAPIDrive_QCH
+        KPim${KF_MAJOR_VERSION}GAPILatitude_QCH KPim${KF_MAJOR_VERSION}GAPIPeople_QCH
+        KPim${KF_MAJOR_VERSION}GAPIMaps_QCH KPim${KF_MAJOR_VERSION}GAPITasks_QCH
+        FILE KPim${KF_MAJOR_VERSION}GAPIQchTargets.cmake
+        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+        COMPONENT Devel
+    )
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim${KF_MAJOR_VERSION}GAPIQchTargets.cmake\")")
+endif()
+
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/KPimGAPIConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}GAPIConfig.cmake"
@@ -117,6 +134,8 @@ install(FILES
     DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
     COMPONENT Devel
 )
+
+
 
 #if (QT_MAJOR_VERSION STREQUAL "5")
 ##
@@ -146,6 +165,14 @@ install(EXPORT KPim${KF_MAJOR_VERSION}GAPITargets
     FILE KPim${KF_MAJOR_VERSION}GAPITargets.cmake
     NAMESPACE KPim::
 )
+
+if (BUILD_QCH)
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}GAPIQchTargets.cmake"
+        DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+        COMPONENT Devel
+    )
+endif()
 #endif()
 
 ecm_qt_install_logging_categories(
@@ -153,6 +180,7 @@ ecm_qt_install_logging_categories(
         FILE libkgapi.categories
         DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
         )
+
 
 ecm_install_po_files_as_qm(poqm)
 
