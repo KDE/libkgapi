@@ -2,19 +2,19 @@
 
 include(CMakeFindDependencyMacro)
 
-find_dependency(KF@KF_MAJOR_VERSION@CalendarCore "@KF_MIN_VERSION@")
-find_dependency(KF@KF_MAJOR_VERSION@Contacts "@KF_MIN_VERSION@")
+find_dependency(KF6CalendarCore "@KF_MIN_VERSION@")
+find_dependency(KF6Contacts "@KF_MIN_VERSION@")
 
 
 if (@KGAPI_KF5_COMPAT@)
     message(WARNING "\n"
                     "************* DEPRECATION WARNING *************\n"
                     "Using find_package(KPimGapi)is deprecated. "
-                    "Please use find_package(KPim@KF_MAJOR_VERSION@Gapi) instead. This backwards "
+                    "Please use find_package(KPim6Gapi) instead. This backwards "
                     "compatibility will be removed in the next major version.\n"
                     "***********************************************\n")
 endif()
 
 
-include("${CMAKE_CURRENT_LIST_DIR}/KPim@KF_MAJOR_VERSION@GAPITargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/KPim6GAPITargets.cmake")
 @PACKAGE_INCLUDE_QCHTARGETS@

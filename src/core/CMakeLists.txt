@@ -1,8 +1,8 @@
 ecm_create_qm_loader(QM_LOADER libkgapi_qt)
-add_library(KPim${KF_MAJOR_VERSION}GAPICore)
-add_library(KPim${KF_MAJOR_VERSION}::GAPICore ALIAS KPim${KF_MAJOR_VERSION}GAPICore)
+add_library(KPim6GAPICore)
+add_library(KPim6::GAPICore ALIAS KPim6GAPICore)
 
-target_sources(KPim${KF_MAJOR_VERSION}GAPICore PRIVATE
+target_sources(KPim6GAPICore PRIVATE
     ${libkgapi_debug_SRCS}
     account.cpp
     account.h
@@ -73,41 +73,41 @@ ecm_generate_headers(kgapicore_accountinfo_CamelCase_HEADERS
 )
 
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPim${KF_MAJOR_VERSION}GAPICore PROPERTIES UNITY_BUILD ON)
+    set_target_properties(KPim6GAPICore PROPERTIES UNITY_BUILD ON)
 endif()
 
-generate_export_header(KPim${KF_MAJOR_VERSION}GAPICore BASE_NAME kgapicore)
+generate_export_header(KPim6GAPICore BASE_NAME kgapicore)
 
 
-target_include_directories(KPim${KF_MAJOR_VERSION}GAPICore
-    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi>"
+target_include_directories(KPim6GAPICore
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI;${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI/kgapi>"
     INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
 )
 
-target_link_libraries(KPim${KF_MAJOR_VERSION}GAPICore
+target_link_libraries(KPim6GAPICore
 PUBLIC
     Qt::Core
 PRIVATE
     Qt::Network
-    KF${KF_MAJOR_VERSION}::Wallet
+    KF6::Wallet
 )
 
-set_target_properties(KPim${KF_MAJOR_VERSION}GAPICore PROPERTIES
+set_target_properties(KPim6GAPICore PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPICore
 )
 
 install(TARGETS
-    KPim${KF_MAJOR_VERSION}GAPICore
-    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim6GAPICore
+    EXPORT KPim6GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapicore_base_CamelCase_HEADERS}
     ${kgapicore_accountinfo_CamelCase_HEADERS}
     ${kgapicore_ui_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI/KGAPI"
     COMPONENT Devel
 )
 
@@ -116,14 +116,14 @@ install(FILES
     ${kgapicore_accountinfo_HEADERS}
     ${kgapicore_ui_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicore_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI/kgapi"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPICore
-    LIB_NAME KPim${KF_MAJOR_VERSION}GAPICore
+    LIB_NAME KPim6GAPICore
     DEPS "core network"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI"
 )
 
 install(FILES
@@ -133,9 +133,9 @@ install(FILES
 
 if (BUILD_QCH)
     ecm_add_qch(
-        KPim${KF_MAJOR_VERSION}GAPICore_QCH
-        NAME KPim${KF_MAJOR_VERSION}GAPICore
-        BASE_NAME KPim${KF_MAJOR_VERSION}GAPICore
+        KPim6GAPICore_QCH
+        NAME KPim6GAPICore
+        BASE_NAME KPim6GAPICore
         VERSION ${PIM_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
@@ -143,9 +143,9 @@ if (BUILD_QCH)
         #MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         #IMAGE_DIRS "${CMAKE_SOURCE_DIR}/docs/pics"
         LINK_QCHS
-            Qt${QT_MAJOR_VERSION}Core_QCH
-            Qt${QT_MAJOR_VERSION}Gui_QCH
-            Qt${QT_MAJOR_VERSION}Widgets_QCH
+            Qt6Core_QCH
+            Qt6Gui_QCH
+            Qt6Widgets_QCH
         INCLUDE_DIRS
             ${CMAKE_CURRENT_BINARY_DIR}
         BLANK_MACROS

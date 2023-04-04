@@ -8,7 +8,7 @@ target_sources(staticmaps-example PRIVATE
 
 target_link_libraries(staticmaps-example
         Qt::Widgets
-        KF${KF_MAJOR_VERSION}::Contacts
-        KPim${KF_MAJOR_VERSION}::GapiStaticMaps
+        KF6::Contacts
+        KPim6::GapiStaticMaps
 )
 

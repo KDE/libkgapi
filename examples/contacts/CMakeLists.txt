@@ -7,8 +7,8 @@ target_sources(contacts-example PRIVATE
 )
 
 target_link_libraries(contacts-example
-        KF${KF_MAJOR_VERSION}::Contacts
+        KF6::Contacts
         Qt::Widgets
-        KPim${KF_MAJOR_VERSION}GAPICore
-        KPim${KF_MAJOR_VERSION}GAPIContacts
+        KPim6GAPICore
+        KPim6GAPIContacts
 )

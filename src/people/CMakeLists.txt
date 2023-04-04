@@ -1,7 +1,7 @@
-add_library(KPim${KF_MAJOR_VERSION}GAPIPeople)
-add_library(KPim${KF_MAJOR_VERSION}::GAPIPeople ALIAS KPim${KF_MAJOR_VERSION}GAPIPeople)
+add_library(KPim6GAPIPeople)
+add_library(KPim6::GAPIPeople ALIAS KPim6GAPIPeople)
 
-target_sources(KPim${KF_MAJOR_VERSION}GAPIPeople PRIVATE
+target_sources(KPim6GAPIPeople PRIVATE
     address.cpp
     address.h
     agerangetype.cpp
@@ -176,49 +176,49 @@ ecm_generate_headers(
     REQUIRED_HEADERS kgapipeople_HEADERS
 )
 
-generate_export_header(KPim${KF_MAJOR_VERSION}GAPIPeople BASE_NAME kgapipeople)
+generate_export_header(KPim6GAPIPeople BASE_NAME kgapipeople)
 
-target_include_directories(KPim${KF_MAJOR_VERSION}GAPIPeople
-    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI>"
+target_include_directories(KPim6GAPIPeople
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI>"
     INTERFACE "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>"
 )
 
-target_link_libraries(KPim${KF_MAJOR_VERSION}GAPIPeople
+target_link_libraries(KPim6GAPIPeople
 PUBLIC
-    KPim${KF_MAJOR_VERSION}::GAPICore
-    KF${KF_MAJOR_VERSION}::Contacts
+    KPim6::GAPICore
+    KF6::Contacts
 PRIVATE
     Qt::Network
 )
 
-set_target_properties(KPim${KF_MAJOR_VERSION}GAPIPeople PROPERTIES
+set_target_properties(KPim6GAPIPeople PROPERTIES
     VERSION ${KGAPI_VERSION}
     SOVERSION ${KGAPI_SOVERSION}
     EXPORT_NAME GAPIPeople
 )
 
 install(TARGETS
-    KPim${KF_MAJOR_VERSION}GAPIPeople
-    EXPORT KPim${KF_MAJOR_VERSION}GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+    KPim6GAPIPeople
+    EXPORT KPim6GAPITargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
     ${kgapipeople_CamelCase_HEADERS}
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/KGAPI/People"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI/KGAPI/People"
     COMPONENT Devel
 )
 
 install(FILES
     ${kgapipeople_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapipeople_export.h"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI/kgapi/people"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI/kgapi/people"
     COMPONENT Devel
 )
 
 ecm_generate_pri_file(BASE_NAME KGAPIPeople
-    LIB_NAME KPim${KF_MAJOR_VERSION}GAPIPeople
-    DEPS "KPim${KF_MAJOR_VERSION}::GAPICore KF${KF_MAJOR_VERSION}::Contacts"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KGAPI"
+    LIB_NAME KPim6GAPIPeople
+    DEPS "KPim6::GAPICore KF6::Contacts"
+    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI"
 )
 
 install(FILES
@@ -228,9 +228,9 @@ install(FILES
 
 if (BUILD_QCH)
     ecm_add_qch(
-        KPim${KF_MAJOR_VERSION}GAPIPeople_QCH
-        NAME KPim${KF_MAJOR_VERSION}GAPIPeople
-        BASE_NAME KPim${KF_MAJOR_VERSION}GAPIPeople
+        KPim6GAPIPeople_QCH
+        NAME KPim6GAPIPeople
+        BASE_NAME KPim6GAPIPeople
         VERSION ${PIM_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
@@ -238,9 +238,9 @@ if (BUILD_QCH)
         #MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         #IMAGE_DIRS "${CMAKE_SOURCE_DIR}/docs/pics"
         LINK_QCHS
-            Qt${QT_MAJOR_VERSION}Core_QCH
-            Qt${QT_MAJOR_VERSION}Gui_QCH
-            Qt${QT_MAJOR_VERSION}Widgets_QCH
+            Qt6Core_QCH
+            Qt6Gui_QCH
+            Qt6Widgets_QCH
         INCLUDE_DIRS
             ${CMAKE_CURRENT_BINARY_DIR}
         BLANK_MACROS
