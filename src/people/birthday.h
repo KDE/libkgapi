@@ -49,7 +49,7 @@ public:
     bool operator!=(const Birthday &) const;
 
     Q_REQUIRED_RESULT static Birthday fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<Birthday> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Birthday> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** A free-form string representing the user's birthday. **/

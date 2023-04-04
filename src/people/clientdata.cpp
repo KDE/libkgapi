@@ -109,9 +109,9 @@ ClientData ClientData::fromJSON(const QJsonObject &obj)
     return clientData;
 }
 
-QVector<ClientData> ClientData::fromJSONArray(const QJsonArray &data)
+QList<ClientData> ClientData::fromJSONArray(const QJsonArray &data)
 {
-    QVector<ClientData> clientData;
+    QList<ClientData> clientData;
 
     for(const auto &jsonClientData : data) {
         if(jsonClientData.isObject()) {

@@ -47,7 +47,7 @@ public:
     bool operator!=(const CoverPhoto &) const;
 
     Q_REQUIRED_RESULT static CoverPhoto fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<CoverPhoto> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<CoverPhoto> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** True if the cover photo is the default cover photo; false if the cover photo is a user-provided cover photo. **/

@@ -42,11 +42,11 @@ public:
         return !(*this == other);
     }
 
-    QVector<QString> linkedPeopleResourceNames{};
+    QList<QString> linkedPeopleResourceNames{};
     PersonMetadata::ObjectType objectType{};
-    QVector<QString> previousResourceNames{};
+    QList<QString> previousResourceNames{};
     bool deleted{};
-    QVector<Source> sources{};
+    QList<Source> sources{};
 };
 
 PersonMetadata::PersonMetadata()
@@ -70,7 +70,7 @@ bool PersonMetadata::operator!=(const PersonMetadata &other) const
     return !(*this == other);
 }
 
-QVector<QString> PersonMetadata::linkedPeopleResourceNames() const
+QList<QString> PersonMetadata::linkedPeopleResourceNames() const
 {
     return d->linkedPeopleResourceNames;
 }
@@ -78,7 +78,7 @@ PersonMetadata::PersonMetadata::ObjectType PersonMetadata::objectType() const
 {
     return d->objectType;
 }
-QVector<QString> PersonMetadata::previousResourceNames() const
+QList<QString> PersonMetadata::previousResourceNames() const
 {
     return d->previousResourceNames;
 }
@@ -86,12 +86,12 @@ bool PersonMetadata::deleted() const
 {
     return d->deleted;
 }
-QVector<Source> PersonMetadata::sources() const
+QList<Source> PersonMetadata::sources() const
 {
     return d->sources;
 }
 
-void PersonMetadata::setSources(const QVector<Source> &value)
+void PersonMetadata::setSources(const QList<Source> &value)
 {
     d->sources = value;
 }

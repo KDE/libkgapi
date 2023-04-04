@@ -113,9 +113,9 @@ Birthday Birthday::fromJSON(const QJsonObject &obj)
     return birthday;
 }
 
-QVector<Birthday> Birthday::fromJSONArray(const QJsonArray &data)
+QList<Birthday> Birthday::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Birthday> birthdays;
+    QList<Birthday> birthdays;
 
     for(const auto &birthday : data) {
         if(birthday.isObject()) {

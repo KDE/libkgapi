@@ -46,7 +46,7 @@ public:
     bool operator!=(const ExternalId &) const;
 
     Q_REQUIRED_RESULT static ExternalId fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<ExternalId> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<ExternalId> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The type of the external ID. The type can be custom or one of these predefined values: * `account` * `customer` * `loginId` * `network` * `organization`

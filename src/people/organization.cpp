@@ -278,9 +278,9 @@ Organization Organization::fromJSON(const QJsonObject &obj)
     return organization;
 }
 
-QVector<Organization> Organization::fromJSONArray(const QJsonArray &data)
+QList<Organization> Organization::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Organization> organizations;
+    QList<Organization> organizations;
 
     for(const auto &organization : data) {
         if(organization.isObject()) {

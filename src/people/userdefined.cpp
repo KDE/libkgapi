@@ -109,9 +109,9 @@ UserDefined UserDefined::fromJSON(const QJsonObject &obj)
     return userDefined;
 }
 
-QVector<UserDefined> UserDefined::fromJSONArray(const QJsonArray &data)
+QList<UserDefined> UserDefined::fromJSONArray(const QJsonArray &data)
 {
-    QVector<UserDefined> userDefineds;
+    QList<UserDefined> userDefineds;
 
     for(const auto &userDefined : data) {
         if(userDefined.isObject()) {

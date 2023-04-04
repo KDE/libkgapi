@@ -39,7 +39,7 @@ public:
         return !(*this == other);
     }
 
-    QVector<ProfileMetadata::UserTypes> userTypes{};
+    QList<ProfileMetadata::UserTypes> userTypes{};
     ProfileMetadata::ObjectType objectType{};
 };
 
@@ -64,7 +64,7 @@ bool ProfileMetadata::operator!=(const ProfileMetadata &other) const
     return !(*this == other);
 }
 
-QVector<ProfileMetadata::UserTypes> ProfileMetadata::userTypes() const
+QList<ProfileMetadata::UserTypes> ProfileMetadata::userTypes() const
 {
     return d->userTypes;
 }

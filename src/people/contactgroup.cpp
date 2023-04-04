@@ -48,11 +48,11 @@ public:
     int memberCount{};
     QString etag{};
     ContactGroup::GroupType groupType{};
-    QVector<GroupClientData> clientData{};
+    QList<GroupClientData> clientData{};
     QString name{};
     ContactGroupMetadata metadata{};
     QString resourceName{};
-    QVector<QString> memberResourceNames{};
+    QList<QString> memberResourceNames{};
 };
 
 ContactGroup::ContactGroup()
@@ -93,12 +93,12 @@ ContactGroup::ContactGroup::GroupType ContactGroup::groupType() const
 {
     return d->groupType;
 }
-QVector<GroupClientData> ContactGroup::clientData() const
+QList<GroupClientData> ContactGroup::clientData() const
 {
     return d->clientData;
 }
 
-void ContactGroup::setClientData(const QVector<GroupClientData> &value)
+void ContactGroup::setClientData(const QList<GroupClientData> &value)
 {
     d->clientData = value;
 }
@@ -140,7 +140,7 @@ void ContactGroup::setResourceName(const QString &value)
 {
     d->resourceName = value;
 }
-QVector<QString> ContactGroup::memberResourceNames() const
+QList<QString> ContactGroup::memberResourceNames() const
 {
     return d->memberResourceNames;
 }

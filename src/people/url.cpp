@@ -115,9 +115,9 @@ Url Url::fromJSON(const QJsonObject &obj)
     return url;
 }
 
-QVector<Url> Url::fromJSONArray(const QJsonArray &data)
+QList<Url> Url::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Url> urls;
+    QList<Url> urls;
 
     for(const auto &url : data) {
         if(url.isObject()) {

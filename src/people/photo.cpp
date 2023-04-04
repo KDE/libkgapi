@@ -109,9 +109,9 @@ Photo Photo::fromJSON(const QJsonObject &obj)
     return photo;
 }
 
-QVector<Photo> Photo::fromJSONArray(const QJsonArray &data)
+QList<Photo> Photo::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Photo> photos;
+    QList<Photo> photos;
 
     for(const auto &photo : data) {
         if(photo.isObject()) {

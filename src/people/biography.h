@@ -52,7 +52,7 @@ public:
     bool operator!=(const Biography &) const;
 
     Q_REQUIRED_RESULT static Biography fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<Biography> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Biography> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the biography. **/

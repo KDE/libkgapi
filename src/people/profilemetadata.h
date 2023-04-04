@@ -12,7 +12,7 @@
 #include <QSharedDataPointer>
 #include "kgapipeople_export.h"
 
-#include <QVector>
+#include <QList>
 
 #include <optional>
 
@@ -58,7 +58,7 @@ public:
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Output only. The user types. **/
-    Q_REQUIRED_RESULT QVector<ProfileMetadata::UserTypes> userTypes() const;
+    Q_REQUIRED_RESULT QList<ProfileMetadata::UserTypes> userTypes() const;
 
     /** Output only. The profile object type. **/
     Q_REQUIRED_RESULT ProfileMetadata::ObjectType objectType() const;

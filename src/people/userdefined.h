@@ -46,7 +46,7 @@ public:
     bool operator!=(const UserDefined &) const;
 
     Q_REQUIRED_RESULT static UserDefined fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<UserDefined> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<UserDefined> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The end user specified value of the user defined data. **/

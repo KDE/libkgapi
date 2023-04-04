@@ -47,7 +47,7 @@ public:
     bool operator!=(const Photo &) const;
 
     Q_REQUIRED_RESULT static Photo fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Photo> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Photo> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the photo. **/

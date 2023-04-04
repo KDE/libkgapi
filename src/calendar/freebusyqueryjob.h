@@ -10,8 +10,8 @@
 #include "kgapicalendar_export.h"
 
 #include <QDateTime>
+#include <QList>
 #include <QScopedPointer>
-#include <QVector>
 
 namespace KGAPI2
 {
@@ -36,7 +36,7 @@ public:
         QDateTime busyStart;
         QDateTime busyEnd;
     };
-    using BusyRangeList = QVector<BusyRange>;
+    using BusyRangeList = QList<BusyRange>;
 
     explicit FreeBusyQueryJob(const QString &id, const QDateTime &timeMin, const QDateTime &timeMax, const AccountPtr &account, QObject *parent = nullptr);
     ~FreeBusyQueryJob() override;

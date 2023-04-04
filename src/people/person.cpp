@@ -186,42 +186,42 @@ public:
         }
     }
 
-    QVector<Nickname> nicknames{};
-    QVector<EmailAddress> emailAddresses{};
-    QVector<ClientData> clientData{};
-    QVector<BraggingRights> braggingRights{};
-    QVector<RelationshipStatus> relationshipStatuses{};
-    QVector<Birthday> birthdays{};
-    QVector<Relation> relations{};
-    QVector<PersonLocale> locales{};
-    QVector<Location> locations{};
-    QVector<ExternalId> externalIds{};
-    QVector<AgeRangeType> ageRanges{};
-    QVector<Tagline> taglines{};
-    QVector<UserDefined> userDefined{};
-    QVector<Biography> biographies{};
-    QVector<SipAddress> sipAddresses{};
-    QVector<Membership> memberships{};
-    QVector<Skill> skills{};
-    QVector<Residence> residences{};
-    QVector<Name> names{};
-    QVector<CalendarUrl> calendarUrls{};
-    QVector<CoverPhoto> coverPhotos{};
-    QVector<Address> addresses{};
+    QList<Nickname> nicknames{};
+    QList<EmailAddress> emailAddresses{};
+    QList<ClientData> clientData{};
+    QList<BraggingRights> braggingRights{};
+    QList<RelationshipStatus> relationshipStatuses{};
+    QList<Birthday> birthdays{};
+    QList<Relation> relations{};
+    QList<PersonLocale> locales{};
+    QList<Location> locations{};
+    QList<ExternalId> externalIds{};
+    QList<AgeRangeType> ageRanges{};
+    QList<Tagline> taglines{};
+    QList<UserDefined> userDefined{};
+    QList<Biography> biographies{};
+    QList<SipAddress> sipAddresses{};
+    QList<Membership> memberships{};
+    QList<Skill> skills{};
+    QList<Residence> residences{};
+    QList<Name> names{};
+    QList<CalendarUrl> calendarUrls{};
+    QList<CoverPhoto> coverPhotos{};
+    QList<Address> addresses{};
     QString etag{};
-    QVector<PhoneNumber> phoneNumbers{};
-    QVector<ImClient> imClients{};
-    QVector<Event> events{};
-    QVector<Photo> photos{};
-    QVector<Occupation> occupations{};
-    QVector<MiscKeyword> miscKeywords{};
-    QVector<RelationshipInterest> relationshipInterests{};
+    QList<PhoneNumber> phoneNumbers{};
+    QList<ImClient> imClients{};
+    QList<Event> events{};
+    QList<Photo> photos{};
+    QList<Occupation> occupations{};
+    QList<MiscKeyword> miscKeywords{};
+    QList<RelationshipInterest> relationshipInterests{};
     QString resourceName{};
-    QVector<Interest> interests{};
-    QVector<Organization> organizations{};
-    QVector<Url> urls{};
-    QVector<Gender> genders{};
-    QVector<FileAs> fileAses{};
+    QList<Interest> interests{};
+    QList<Organization> organizations{};
+    QList<Url> urls{};
+    QList<Gender> genders{};
+    QList<FileAs> fileAses{};
     Person::AgeRange ageRange{};
     PersonMetadata metadata{};
 
@@ -331,12 +331,12 @@ Person::Person()
 
 Person::~Person() = default;
 
-QVector<Nickname> Person::nicknames() const
+QList<Nickname> Person::nicknames() const
 {
     return d->nicknames;
 }
 
-void Person::setNicknames(const QVector<Nickname> &value)
+void Person::setNicknames(const QList<Nickname> &value)
 {
     d->nicknames = value;
 }
@@ -356,12 +356,12 @@ void Person::clearNicknames()
     d->nicknames.clear();
 }
 
-QVector<EmailAddress> Person::emailAddresses() const
+QList<EmailAddress> Person::emailAddresses() const
 {
     return d->emailAddresses;
 }
 
-void Person::setEmailAddresses(const QVector<EmailAddress> &value)
+void Person::setEmailAddresses(const QList<EmailAddress> &value)
 {
     d->emailAddresses = value;
 }
@@ -381,12 +381,12 @@ void Person::clearEmailAddresses()
     d->emailAddresses.clear();
 }
 
-QVector<ClientData> Person::clientData() const
+QList<ClientData> Person::clientData() const
 {
     return d->clientData;
 }
 
-void Person::setClientData(const QVector<ClientData> &value)
+void Person::setClientData(const QList<ClientData> &value)
 {
     d->clientData = value;
 }
@@ -406,12 +406,12 @@ void Person::clearClientData()
     d->clientData.clear();
 }
 
-QVector<BraggingRights> Person::braggingRights() const
+QList<BraggingRights> Person::braggingRights() const
 {
     return d->braggingRights;
 }
 
-void Person::setBraggingRights(const QVector<BraggingRights> &value)
+void Person::setBraggingRights(const QList<BraggingRights> &value)
 {
     d->braggingRights = value;
 }
@@ -431,16 +431,16 @@ void Person::clearBraggingRights()
     d->braggingRights.clear();
 }
 
-QVector<RelationshipStatus> Person::relationshipStatuses() const
+QList<RelationshipStatus> Person::relationshipStatuses() const
 {
     return d->relationshipStatuses;
 }
-QVector<Birthday> Person::birthdays() const
+QList<Birthday> Person::birthdays() const
 {
     return d->birthdays;
 }
 
-void Person::setBirthdays(const QVector<Birthday> &value)
+void Person::setBirthdays(const QList<Birthday> &value)
 {
     d->birthdays = value;
 }
@@ -460,12 +460,12 @@ void Person::clearBirthdays()
     d->birthdays.clear();
 }
 
-QVector<Relation> Person::relations() const
+QList<Relation> Person::relations() const
 {
     return d->relations;
 }
 
-void Person::setRelations(const QVector<Relation> &value)
+void Person::setRelations(const QList<Relation> &value)
 {
     d->relations = value;
 }
@@ -485,12 +485,12 @@ void Person::clearRelations()
     d->relations.clear();
 }
 
-QVector<PersonLocale> Person::locales() const
+QList<PersonLocale> Person::locales() const
 {
     return d->locales;
 }
 
-void Person::setLocales(const QVector<PersonLocale> &value)
+void Person::setLocales(const QList<PersonLocale> &value)
 {
     d->locales = value;
 }
@@ -510,12 +510,12 @@ void Person::clearLocales()
     d->locales.clear();
 }
 
-QVector<Location> Person::locations() const
+QList<Location> Person::locations() const
 {
     return d->locations;
 }
 
-void Person::setLocations(const QVector<Location> &value)
+void Person::setLocations(const QList<Location> &value)
 {
     d->locations = value;
 }
@@ -535,12 +535,12 @@ void Person::clearLocations()
     d->locations.clear();
 }
 
-QVector<ExternalId> Person::externalIds() const
+QList<ExternalId> Person::externalIds() const
 {
     return d->externalIds;
 }
 
-void Person::setExternalIds(const QVector<ExternalId> &value)
+void Person::setExternalIds(const QList<ExternalId> &value)
 {
     d->externalIds = value;
 }
@@ -560,20 +560,20 @@ void Person::clearExternalIds()
     d->externalIds.clear();
 }
 
-QVector<AgeRangeType> Person::ageRanges() const
+QList<AgeRangeType> Person::ageRanges() const
 {
     return d->ageRanges;
 }
-QVector<Tagline> Person::taglines() const
+QList<Tagline> Person::taglines() const
 {
     return d->taglines;
 }
-QVector<UserDefined> Person::userDefined() const
+QList<UserDefined> Person::userDefined() const
 {
     return d->userDefined;
 }
 
-void Person::setUserDefined(const QVector<UserDefined> &value)
+void Person::setUserDefined(const QList<UserDefined> &value)
 {
     d->userDefined = value;
 }
@@ -593,12 +593,12 @@ void Person::clearUserDefined()
     d->userDefined.clear();
 }
 
-QVector<Biography> Person::biographies() const
+QList<Biography> Person::biographies() const
 {
     return d->biographies;
 }
 
-void Person::setBiographies(const QVector<Biography> &value)
+void Person::setBiographies(const QList<Biography> &value)
 {
     d->biographies = value;
 }
@@ -618,12 +618,12 @@ void Person::clearBiographies()
     d->biographies.clear();
 }
 
-QVector<SipAddress> Person::sipAddresses() const
+QList<SipAddress> Person::sipAddresses() const
 {
     return d->sipAddresses;
 }
 
-void Person::setSipAddresses(const QVector<SipAddress> &value)
+void Person::setSipAddresses(const QList<SipAddress> &value)
 {
     d->sipAddresses = value;
 }
@@ -643,12 +643,12 @@ void Person::clearSipAddresses()
     d->sipAddresses.clear();
 }
 
-QVector<Membership> Person::memberships() const
+QList<Membership> Person::memberships() const
 {
     return d->memberships;
 }
 
-void Person::setMemberships(const QVector<Membership> &value)
+void Person::setMemberships(const QList<Membership> &value)
 {
     d->memberships = value;
 }
@@ -668,12 +668,12 @@ void Person::clearMemberships()
     d->memberships.clear();
 }
 
-QVector<Skill> Person::skills() const
+QList<Skill> Person::skills() const
 {
     return d->skills;
 }
 
-void Person::setSkills(const QVector<Skill> &value)
+void Person::setSkills(const QList<Skill> &value)
 {
     d->skills = value;
 }
@@ -693,12 +693,12 @@ void Person::clearSkills()
     d->skills.clear();
 }
 
-QVector<Residence> Person::residences() const
+QList<Residence> Person::residences() const
 {
     return d->residences;
 }
 
-void Person::setResidences(const QVector<Residence> &value)
+void Person::setResidences(const QList<Residence> &value)
 {
     d->residences = value;
 }
@@ -718,12 +718,12 @@ void Person::clearResidences()
     d->residences.clear();
 }
 
-QVector<Name> Person::names() const
+QList<Name> Person::names() const
 {
     return d->names;
 }
 
-void Person::setNames(const QVector<Name> &value)
+void Person::setNames(const QList<Name> &value)
 {
     d->names = value;
 }
@@ -743,12 +743,12 @@ void Person::clearNames()
     d->names.clear();
 }
 
-QVector<CalendarUrl> Person::calendarUrls() const
+QList<CalendarUrl> Person::calendarUrls() const
 {
     return d->calendarUrls;
 }
 
-void Person::setCalendarUrls(const QVector<CalendarUrl> &value)
+void Person::setCalendarUrls(const QList<CalendarUrl> &value)
 {
     d->calendarUrls = value;
 }
@@ -768,16 +768,16 @@ void Person::clearCalendarUrls()
     d->calendarUrls.clear();
 }
 
-QVector<CoverPhoto> Person::coverPhotos() const
+QList<CoverPhoto> Person::coverPhotos() const
 {
     return d->coverPhotos;
 }
-QVector<Address> Person::addresses() const
+QList<Address> Person::addresses() const
 {
     return d->addresses;
 }
 
-void Person::setAddresses(const QVector<Address> &value)
+void Person::setAddresses(const QList<Address> &value)
 {
     d->addresses = value;
 }
@@ -806,12 +806,12 @@ void Person::setEtag(const QString &value)
 {
     d->etag = value;
 }
-QVector<PhoneNumber> Person::phoneNumbers() const
+QList<PhoneNumber> Person::phoneNumbers() const
 {
     return d->phoneNumbers;
 }
 
-void Person::setPhoneNumbers(const QVector<PhoneNumber> &value)
+void Person::setPhoneNumbers(const QList<PhoneNumber> &value)
 {
     d->phoneNumbers = value;
 }
@@ -831,12 +831,12 @@ void Person::clearPhoneNumbers()
     d->phoneNumbers.clear();
 }
 
-QVector<ImClient> Person::imClients() const
+QList<ImClient> Person::imClients() const
 {
     return d->imClients;
 }
 
-void Person::setImClients(const QVector<ImClient> &value)
+void Person::setImClients(const QList<ImClient> &value)
 {
     d->imClients = value;
 }
@@ -856,12 +856,12 @@ void Person::clearImClients()
     d->imClients.clear();
 }
 
-QVector<Event> Person::events() const
+QList<Event> Person::events() const
 {
     return d->events;
 }
 
-void Person::setEvents(const QVector<Event> &value)
+void Person::setEvents(const QList<Event> &value)
 {
     d->events = value;
 }
@@ -881,16 +881,16 @@ void Person::clearEvents()
     d->events.clear();
 }
 
-QVector<Photo> Person::photos() const
+QList<Photo> Person::photos() const
 {
     return d->photos;
 }
-QVector<Occupation> Person::occupations() const
+QList<Occupation> Person::occupations() const
 {
     return d->occupations;
 }
 
-void Person::setOccupations(const QVector<Occupation> &value)
+void Person::setOccupations(const QList<Occupation> &value)
 {
     d->occupations = value;
 }
@@ -910,12 +910,12 @@ void Person::clearOccupations()
     d->occupations.clear();
 }
 
-QVector<MiscKeyword> Person::miscKeywords() const
+QList<MiscKeyword> Person::miscKeywords() const
 {
     return d->miscKeywords;
 }
 
-void Person::setMiscKeywords(const QVector<MiscKeyword> &value)
+void Person::setMiscKeywords(const QList<MiscKeyword> &value)
 {
     d->miscKeywords = value;
 }
@@ -935,7 +935,7 @@ void Person::clearMiscKeywords()
     d->miscKeywords.clear();
 }
 
-QVector<RelationshipInterest> Person::relationshipInterests() const
+QList<RelationshipInterest> Person::relationshipInterests() const
 {
     return d->relationshipInterests;
 }
@@ -948,12 +948,12 @@ void Person::setResourceName(const QString &value)
 {
     d->resourceName = value;
 }
-QVector<Interest> Person::interests() const
+QList<Interest> Person::interests() const
 {
     return d->interests;
 }
 
-void Person::setInterests(const QVector<Interest> &value)
+void Person::setInterests(const QList<Interest> &value)
 {
     d->interests = value;
 }
@@ -973,12 +973,12 @@ void Person::clearInterests()
     d->interests.clear();
 }
 
-QVector<Organization> Person::organizations() const
+QList<Organization> Person::organizations() const
 {
     return d->organizations;
 }
 
-void Person::setOrganizations(const QVector<Organization> &value)
+void Person::setOrganizations(const QList<Organization> &value)
 {
     d->organizations = value;
 }
@@ -998,12 +998,12 @@ void Person::clearOrganizations()
     d->organizations.clear();
 }
 
-QVector<Url> Person::urls() const
+QList<Url> Person::urls() const
 {
     return d->urls;
 }
 
-void Person::setUrls(const QVector<Url> &value)
+void Person::setUrls(const QList<Url> &value)
 {
     d->urls = value;
 }
@@ -1023,12 +1023,12 @@ void Person::clearUrls()
     d->urls.clear();
 }
 
-QVector<Gender> Person::genders() const
+QList<Gender> Person::genders() const
 {
     return d->genders;
 }
 
-void Person::setGenders(const QVector<Gender> &value)
+void Person::setGenders(const QList<Gender> &value)
 {
     d->genders = value;
 }
@@ -1048,12 +1048,12 @@ void Person::clearGenders()
     d->genders.clear();
 }
 
-QVector<FileAs> Person::fileAses() const
+QList<FileAs> Person::fileAses() const
 {
     return d->fileAses;
 }
 
-void Person::setFileAses(const QVector<FileAs> &value)
+void Person::setFileAses(const QList<FileAs> &value)
 {
     d->fileAses = value;
 }

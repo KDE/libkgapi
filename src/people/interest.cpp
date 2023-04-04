@@ -98,9 +98,9 @@ Interest Interest::fromJSON(const QJsonObject &obj)
     return interest;
 }
 
-QVector<Interest> Interest::fromJSONArray(const QJsonArray &data)
+QList<Interest> Interest::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Interest> interests;
+    QList<Interest> interests;
 
     for(const auto &interest : data) {
         if(interest.isObject()) {

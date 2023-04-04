@@ -121,9 +121,9 @@ Event Event::fromJSON(const QJsonObject &obj)
     return event;
 }
 
-QVector<Event> Event::fromJSONArray(const QJsonArray &data)
+QList<Event> Event::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Event> events;
+    QList<Event> events;
 
     for(const auto &event : data) {
         if(event.isObject()) {

@@ -46,7 +46,7 @@ public:
     bool operator!=(const CalendarUrl &) const;
 
     Q_REQUIRED_RESULT static CalendarUrl fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<CalendarUrl> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<CalendarUrl> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The calendar URL. **/

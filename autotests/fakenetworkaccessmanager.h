@@ -10,7 +10,6 @@
 #include <QList>
 #include <QNetworkAccessManager>
 #include <QUrl>
-#include <QVector>
 
 class FakeNetworkAccessManager : public QNetworkAccessManager
 {
@@ -40,10 +39,10 @@ public:
 
         QUrl requestUrl;
         QNetworkAccessManager::Operation requestMethod;
-        QVector<QPair<QByteArray, QByteArray>> requestHeaders;
+        QList<QPair<QByteArray, QByteArray>> requestHeaders;
         QByteArray requestData;
         int responseCode = -1;
-        QVector<QPair<QByteArray, QByteArray>> responseHeaders;
+        QList<QPair<QByteArray, QByteArray>> responseHeaders;
         QByteArray responseData;
         bool needsAuth = true;
     };

@@ -46,7 +46,7 @@ public:
     bool operator!=(const Relation &) const;
 
     Q_REQUIRED_RESULT static Relation fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Relation> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Relation> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The person's relation to the other person. The type can be custom or one of these predefined values: * `spouse` * `child` * `mother` * `father` *

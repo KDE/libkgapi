@@ -1,5 +1,5 @@
 from .type import Type
-from .builtins import QVector, QString, Integer, Boolean
+from .builtins import QList, QString, Integer, Boolean
 from .enum import Enum
 from .ref import Ref
 
@@ -38,7 +38,7 @@ class Property:
         elif 'type' in self._prop:
             prop_type = self._prop['type']
             if prop_type == 'array':
-                self._type = QVector(self._prop['items'])
+                self._type = QList(self._prop['items'])
             elif prop_type == 'boolean':
                 self._type = Boolean()
             elif prop_type == 'integer':

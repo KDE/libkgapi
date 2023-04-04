@@ -51,7 +51,7 @@ public:
     bool operator!=(const AgeRangeType &) const;
 
     Q_REQUIRED_RESULT static AgeRangeType fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<AgeRangeType> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<AgeRangeType> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The age range. **/

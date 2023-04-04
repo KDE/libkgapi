@@ -124,9 +124,9 @@ PhoneNumber PhoneNumber::fromJSON(const QJsonObject &obj)
     return phoneNumber;
 }
 
-QVector<PhoneNumber> PhoneNumber::fromJSONArray(const QJsonArray &data)
+QList<PhoneNumber> PhoneNumber::fromJSONArray(const QJsonArray &data)
 {
-    QVector<PhoneNumber> phoneNumbers;
+    QList<PhoneNumber> phoneNumbers;
 
     for(const auto &phoneNumber : data) {
         if(phoneNumber.isObject()) {
@@ -182,9 +182,9 @@ PhoneNumber PhoneNumber::fromKContactsPhoneNumber(const KContacts::PhoneNumber &
     return convertedPhoneNumber;
 }
 
-QVector<PhoneNumber> PhoneNumber::fromKContactsPhoneNumberList(const QVector<KContacts::PhoneNumber> &phoneNumberList)
+QList<PhoneNumber> PhoneNumber::fromKContactsPhoneNumberList(const QList<KContacts::PhoneNumber> &phoneNumberList)
 {
-    QVector<PhoneNumber> convertedPhoneNumbers;
+    QList<PhoneNumber> convertedPhoneNumbers;
     std::transform(phoneNumberList.cbegin(),
                    phoneNumberList.cend(),
                    std::back_inserter(convertedPhoneNumbers),

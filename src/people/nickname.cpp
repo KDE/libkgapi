@@ -125,9 +125,9 @@ Nickname Nickname::fromJSON(const QJsonObject &obj)
     return nickname;
 }
 
-QVector<Nickname> Nickname::fromJSONArray(const QJsonArray &data)
+QList<Nickname> Nickname::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Nickname> nicknames;
+    QList<Nickname> nicknames;
 
     for(const auto &nickname : data) {
         if(nickname.isObject()) {

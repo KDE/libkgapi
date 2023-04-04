@@ -47,7 +47,7 @@ public:
     bool operator!=(const Event &) const;
 
     Q_REQUIRED_RESULT static Event fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<Event> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Event> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the event. **/

@@ -166,9 +166,9 @@ Location Location::fromJSON(const QJsonObject &obj)
     return location;
 }
 
-QVector<Location> Location::fromJSONArray(const QJsonArray &data)
+QList<Location> Location::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Location> locations;
+    QList<Location> locations;
 
     for(const auto &location : data) {
         if(location.isObject()) {

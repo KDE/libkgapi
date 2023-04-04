@@ -45,7 +45,7 @@ public:
     bool operator!=(const GroupClientData &) const;
 
     Q_REQUIRED_RESULT static GroupClientData fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<GroupClientData> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<GroupClientData> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The client specified key of the client data. **/

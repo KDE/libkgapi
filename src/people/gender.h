@@ -46,7 +46,7 @@ public:
     bool operator!=(const Gender &) const;
 
     Q_REQUIRED_RESULT static Gender fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Gender> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Gender> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the gender. **/

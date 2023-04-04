@@ -98,9 +98,9 @@ FileAs FileAs::fromJSON(const QJsonObject &obj)
     return fileAs;
 }
 
-QVector<FileAs> FileAs::fromJSONArray(const QJsonArray &data)
+QList<FileAs> FileAs::fromJSONArray(const QJsonArray &data)
 {
-    QVector<FileAs> fileAses;
+    QList<FileAs> fileAses;
 
     for(const auto &fileAs : data) {
         if(fileAs.isObject()) {

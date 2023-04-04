@@ -128,9 +128,9 @@ Membership Membership::fromJSON(const QJsonObject &obj)
     return Membership(definition);
 }
 
-QVector<Membership> Membership::fromJSONArray(const QJsonArray &data)
+QList<Membership> Membership::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Membership> memberships;
+    QList<Membership> memberships;
 
     for(const auto &membership : data) {
         if(membership.isObject()) {

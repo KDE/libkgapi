@@ -51,11 +51,11 @@ public:
     bool operator!=(const EmailAddress &) const;
 
     Q_REQUIRED_RESULT static EmailAddress fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<EmailAddress> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<EmailAddress> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     Q_REQUIRED_RESULT static EmailAddress fromKContactsEmail(const KContacts::Email &email);
-    Q_REQUIRED_RESULT static QVector<EmailAddress> fromKContactsEmailList(const QVector<KContacts::Email> &emailList);
+    Q_REQUIRED_RESULT static QList<EmailAddress> fromKContactsEmailList(const QList<KContacts::Email> &emailList);
     Q_REQUIRED_RESULT KContacts::Email toKContactsEmail() const;
 
     /** The email address. **/

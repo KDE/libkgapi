@@ -47,7 +47,7 @@ public:
     bool operator!=(const Address &) const;
 
     Q_REQUIRED_RESULT static Address fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<Address> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Address> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Output only. The type of the address translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/

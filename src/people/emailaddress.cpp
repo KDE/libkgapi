@@ -129,9 +129,9 @@ EmailAddress EmailAddress::fromJSON(const QJsonObject &obj)
     return emailAddress;
 }
 
-QVector<EmailAddress> EmailAddress::fromJSONArray(const QJsonArray &data)
+QList<EmailAddress> EmailAddress::fromJSONArray(const QJsonArray &data)
 {
-    QVector<EmailAddress> emailAddresses;
+    QList<EmailAddress> emailAddresses;
 
     for(const auto &emailAddress : data) {
         if(emailAddress.isObject()) {
@@ -195,9 +195,9 @@ EmailAddress EmailAddress::fromKContactsEmail(const KContacts::Email &email)
     return convertedEmail;
 }
 
-QVector<EmailAddress> EmailAddress::fromKContactsEmailList(const QVector<KContacts::Email> &emailList)
+QList<EmailAddress> EmailAddress::fromKContactsEmailList(const QList<KContacts::Email> &emailList)
 {
-    QVector<EmailAddress> convertedEmails;
+    QList<EmailAddress> convertedEmails;
     std::transform(emailList.cbegin(),
                    emailList.cend(),
                    std::back_inserter(convertedEmails),

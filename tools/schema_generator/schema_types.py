@@ -75,7 +75,7 @@ class Type:
         if "type" in type_schema:
             prop_type = type_schema["type"]
             if prop_type == "array":
-                return QVector(type_schema["items"], name, schema_name, ref_visitor)
+                return QList(type_schema["items"], name, schema_name, ref_visitor)
             if prop_type == "boolean":
                 return Boolean()
             if prop_type == "integer":
@@ -340,14 +340,14 @@ class Integer(BuiltinType):
         super().__init__("int")
 
 
-class QVector(BuiltinType):
+class QList(BuiltinType):
     """
-    Represents a QVector class.
+    Represents a QList class.
 
     The element_type property holds the type of the elements in the array.
     """
 
-    _include_name = "QVector"
+    _include_name = "QList"
     _is_qt_type = True
     _is_array = True
 
@@ -358,7 +358,7 @@ class QVector(BuiltinType):
         schema_name: str,
         ref_visitor: "RefVisitor",
     ):
-        super().__init__("QVector")
+        super().__init__("QList")
         self._element_type = Type.parse(
             element_type, name_hint, schema_name, ref_visitor
         )
@@ -369,7 +369,7 @@ class QVector(BuiltinType):
 
     @property
     def full_name(self) -> str:
-        return f"QVector<{self._element_type.full_name}>"
+        return f"QList<{self._element_type.full_name}>"
 
 
 class QVariantMap(BuiltinType):

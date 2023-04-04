@@ -98,9 +98,9 @@ PersonLocale PersonLocale::fromJSON(const QJsonObject &obj)
     return locale;
 }
 
-QVector<PersonLocale> PersonLocale::fromJSONArray(const QJsonArray &data)
+QList<PersonLocale> PersonLocale::fromJSONArray(const QJsonArray &data)
 {
-    QVector<PersonLocale> locales;
+    QList<PersonLocale> locales;
 
     for (const auto &locale : data) {
         if(locale.isObject()) {

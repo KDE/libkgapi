@@ -50,7 +50,7 @@ public:
     bool operator!=(const Name &) const;
 
     Q_REQUIRED_RESULT static Name fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Name> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Name> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     Q_REQUIRED_RESULT static Name fromKContactsAddressee(const KContacts::Addressee &addressee);

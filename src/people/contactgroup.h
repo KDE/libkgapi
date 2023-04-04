@@ -14,8 +14,8 @@
 #include "object.h"
 #include "types.h"
 
+#include <QList>
 #include <QString>
-#include <QVector>
 
 #include <optional>
 
@@ -69,9 +69,9 @@ public:
     Q_REQUIRED_RESULT ContactGroup::GroupType groupType() const;
 
     /** The group's client data. **/
-    Q_REQUIRED_RESULT QVector<GroupClientData> clientData() const;
+    Q_REQUIRED_RESULT QList<GroupClientData> clientData() const;
     /** Sets value of the clientData property. **/
-    void setClientData(const QVector<GroupClientData> &value);
+    void setClientData(const QList<GroupClientData> &value);
     /** Appends the given @c value to the list of clientData. **/
     void addGroupClientData(const GroupClientData &value);
     /** Removes the given @c value from the list of clientData if it exists. **/
@@ -96,7 +96,7 @@ public:
 
     /** Output only. The list of contact person resource names that are members of the contact group. The field is only populated for GET requests and will only
      * return as many members as `maxMembers` in the get request. **/
-    Q_REQUIRED_RESULT QVector<QString> memberResourceNames() const;
+    Q_REQUIRED_RESULT QList<QString> memberResourceNames() const;
 
 private:
     class Private;

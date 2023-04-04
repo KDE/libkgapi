@@ -47,7 +47,7 @@ public:
     bool operator!=(const ClientData &) const;
 
     Q_REQUIRED_RESULT static ClientData fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QVector<ClientData> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<ClientData> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** Metadata about the client data. **/

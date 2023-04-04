@@ -29,9 +29,9 @@ class Integer(BuiltinType):
     _name = "int"
     _include_name = None
 
-class QVector(BuiltinType):
-    _name = "QVector"
-    _include_name = "QVector"
+class QList(BuiltinType):
+    _name = "QList"
+    _include_name = "QList"
     _is_qt_type = True
     _is_array = True
 

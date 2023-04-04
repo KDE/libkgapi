@@ -56,7 +56,7 @@ public:
     bool operator!=(const Nickname &) const;
 
     Q_REQUIRED_RESULT static Nickname fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QVector<Nickname> fromJSONArray(const QJsonArray &data);
+    Q_REQUIRED_RESULT static QList<Nickname> fromJSONArray(const QJsonArray &data);
     Q_REQUIRED_RESULT QJsonValue toJSON() const;
 
     /** The nickname. **/

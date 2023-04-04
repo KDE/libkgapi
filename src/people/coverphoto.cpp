@@ -109,9 +109,9 @@ CoverPhoto CoverPhoto::fromJSON(const QJsonObject &obj)
     return coverPhoto;
 }
 
-QVector<CoverPhoto> CoverPhoto::fromJSONArray(const QJsonArray &data)
+QList<CoverPhoto> CoverPhoto::fromJSONArray(const QJsonArray &data)
 {
-    QVector<CoverPhoto> coverPhotos;
+    QList<CoverPhoto> coverPhotos;
 
     for(const auto &coverPhoto : data) {
         if(coverPhoto.isObject()) {

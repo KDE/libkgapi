@@ -118,9 +118,9 @@ Biography Biography::fromJSON(const QJsonObject &obj)
     return biography;
 }
 
-QVector<Biography> Biography::fromJSONArray(const QJsonArray &data)
+QList<Biography> Biography::fromJSONArray(const QJsonArray &data)
 {
-    QVector<Biography> biographies;
+    QList<Biography> biographies;
 
     for(const auto &biography : data) {
         if(biography.isObject()) {
