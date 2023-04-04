@@ -821,13 +821,8 @@ KCalendarCore::DateList Private::parseRDate(const QString &rule)
 {
     KCalendarCore::DateList list;
     QTimeZone tz;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QStringRef value;
-    const auto left = rule.leftRef(rule.indexOf(QLatin1Char(':')));
-#else
     QStringView value;
     const auto left = QStringView(rule).left(rule.indexOf(QLatin1Char(':')));
-#endif
 
     const auto params = left.split(QLatin1Char(';'));
     for (const auto &param : params) {
@@ -838,11 +833,7 @@ KCalendarCore::DateList Private::parseRDate(const QString &rule)
             tz = QTimeZone(_name.toUtf8());
         }
     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    const auto datesStr = rule.midRef(rule.lastIndexOf(QLatin1Char(':')) + 1);
-#else
     const auto datesStr = QStringView(rule).mid(rule.lastIndexOf(QLatin1Char(':')) + 1);
-#endif
     const auto dates = datesStr.split(QLatin1Char(','));
     for (const auto &date : dates) {
         QDate dt;
