@@ -129,44 +129,6 @@ install(FILES
 
 
 
-#if (QT_MAJOR_VERSION STREQUAL "5")
-##
-# TODO: Backwards compatiblity. Remove in next major version
-##
-set(CMAKECONFIG_INSTALL_DIR_KF6 "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPimGAPI")
-set(KGAPI_KF6_COMPAT TRUE)
-configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/KPimGAPIConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfig.cmake"
-    INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR_KF6}
-)
-
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/KPimGAPIConfig.cmake"
-    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF6}"
-    COMPONENT Devel
-)
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/KPim6GAPIConfigVersion.cmake"
-    RENAME "KPimGAPIConfigVersion.cmake"
-    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF6}"
-    COMPONENT Devel
-)
-install(EXPORT KPim6GAPITargets
-    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF6}"
-    FILE KPim6GAPITargets.cmake
-    NAMESPACE KPim::
-)
-
-if (BUILD_QCH)
-    install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/KPim6GAPIQchTargets.cmake"
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF6}"
-        COMPONENT Devel
-    )
-endif()
-#endif()
-
 ecm_qt_install_logging_categories(
         EXPORT LIBKGAPI
         FILE libkgapi.categories
