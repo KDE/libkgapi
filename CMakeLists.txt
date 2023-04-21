@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
-set(PIM_VERSION "5.23.40")
+set(PIM_VERSION "5.240.40")
 
 set(KGAPI_LIB_VERSION ${PIM_VERSION})
 
