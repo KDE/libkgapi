@@ -280,6 +280,7 @@ Name Name::fromKContactsAddressee(const KContacts::Addressee &addressee)
     name.setGivenName(addressee.givenName());
     name.setHonorificPrefix(addressee.prefix());
     name.setHonorificSuffix(addressee.suffix());
+    name.setUnstructuredName(addressee.formattedName());
     return name;
 }
 
@@ -290,6 +291,7 @@ void Name::applyToKContactsAddressee(KContacts::Addressee &addressee) const
     addressee.setGivenName(givenName());
     addressee.setPrefix(honorificPrefix());
     addressee.setSuffix(honorificSuffix());
+    addressee.setFormattedName(displayName());
 }
 
 } // namespace KGAPI2::People
