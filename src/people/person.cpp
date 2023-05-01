@@ -121,6 +121,7 @@ public:
         setKContactAddresseeBirthdayFields(addressee);
         setKContactAddresseeEmailFields(addressee);
         setKContactAddresseePhoneFields(addressee);
+        setKContactAddresseeUrlFields(addressee);
         setKContactAddresseeOrganizationFields(addressee);
         setKContactAddresseeProfessionFields(addressee);
         setKContactAddresseePhoto(addressee);
@@ -183,6 +184,63 @@ public:
             Photo photo;
             photo.setUrl(addressee.photo().url());
             photos = {photo};
+        }
+
+        const auto blogFeed = addressee.blogFeed();
+        if (!blogFeed.isEmpty()) {
+            Url url;
+            url.setValue(blogFeed.toString());
+            url.setType(QStringLiteral("blog"));
+            urls.append(url);
+        }
+
+        const auto addresseeUrls = addressee.extraUrlList();
+        for (const auto &addresseeUrl : addresseeUrls) {
+            Url url;
+            url.setValue(addresseeUrl.toString());
+
+            switch (addresseeUrl.type()) {
+            case KContacts::ResourceLocatorUrl::Home:
+                url.setType(QStringLiteral("home"));
+                break;
+            case KContacts::ResourceLocatorUrl::Profile:
+                url.setType(QStringLiteral("profile"));
+                break;
+            case KContacts::ResourceLocatorUrl::Work:
+                url.setType(QStringLiteral("work"));
+                break;
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+            case KContacts::ResourceLocatorUrl::Ftp:
+                url.setType("ftp");
+                break;
+            case KContacts::ResourceLocatorUrl::AppInstallPage:
+                url.setType("appInstallPage");
+                break;
+            case KContacts::ResourceLocatorUrl::Reservations:
+                url.setType("reservations");
+                break;
+#endif
+            default:
+                url.setType(QStringLiteral("other"));
+            }
+
+            urls.append(url);
+        }
+
+        const auto addressessCalendarUrls = addressee.calendarUrlList();
+        for (const auto &calendarUrl : addressessCalendarUrls) {
+            CalendarUrl gCalendarUrl;
+            if (calendarUrl.type() == KContacts::CalendarUrl::FBUrl) {
+                gCalendarUrl.setType(QStringLiteral("freeBusy"));
+            } else if (calendarUrl.type() == KContacts::CalendarUrl::CALUri) {
+                gCalendarUrl.setType(QStringLiteral("CALUri"));
+            } else if (calendarUrl.type() == KContacts::CalendarUrl::CALADRUri) {
+                gCalendarUrl.setType(QStringLiteral("CALADRUri"));
+            } else {
+                gCalendarUrl.setType(QStringLiteral("other"));
+            }
+            gCalendarUrl.setUrl(calendarUrl.url().toString());
+            calendarUrls.append(gCalendarUrl);
         }
     }
 
@@ -320,6 +378,63 @@ private:
         const auto photoToUse = photos.first();
         KContacts::Picture picture(photoToUse.url());
         addressee.setPhoto(picture);
+    }
+
+    void setKContactAddresseeUrlFields(KContacts::Addressee &addressee)
+    {
+        if (urls.isEmpty()) {
+            addressee.setBlogFeed({});
+            addressee.setUrl(QUrl{});
+            addressee.setExtraUrlList({});
+        } else {
+            for (const auto &url : std::as_const(urls)) {
+                if (url.type() == QStringLiteral("blog")) {
+                    addressee.setBlogFeed(QUrl(url.value()));
+                } else {
+                    KContacts::ResourceLocatorUrl::Type type;
+
+                    if (url.type() == QStringLiteral("home")
+                        || url.type() == QStringLiteral("homePage")) {
+                        type = KContacts::ResourceLocatorUrl::Home;
+                    } else if (url.type() == QStringLiteral("profile")) {
+                        type = KContacts::ResourceLocatorUrl::Profile;
+                    } else if (url.type() == QStringLiteral("work")) {
+                        type = KContacts::ResourceLocatorUrl::Work;
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+                    } else if (url.type() == QStringLiteral("ftp")) {
+                        type = KContacts::ResourceLocatorUrl::Ftp;
+                    } else if (url.type() == QStringLiteral("appInstallPage")) {
+                        type = KContacts::ResourceLocatorUrl::AppInstallPage;
+                    } else if (url.type() == QStringLiteral("reservations")) {
+                        type = KContacts::ResourceLocatorUrl::Reservations;
+#endif
+                    } else {
+                        type = KContacts::ResourceLocatorUrl::Other;
+                    }
+
+                    KContacts::ResourceLocatorUrl resourceUrl;
+                    resourceUrl.setUrl(QUrl(url.value()));
+                    resourceUrl.setType(type);
+                    addressee.insertExtraUrl(resourceUrl);
+                }
+            }
+        }
+
+
+        for (const auto &calendarUrl : std::as_const(calendarUrls)) {
+            KContacts::CalendarUrl kCalendarUrl;
+            if (calendarUrl.type() == QStringLiteral("freeBusy")) {
+                kCalendarUrl.setType(KContacts::CalendarUrl::FBUrl);
+            } else if (calendarUrl.type() == QStringLiteral("CALUri")) {
+                kCalendarUrl.setType(KContacts::CalendarUrl::CALUri);
+            } else if (calendarUrl.type() == QStringLiteral("CALADRUri")) {
+                kCalendarUrl.setType(KContacts::CalendarUrl::CALADRUri);
+            } else {
+                kCalendarUrl.setType(KContacts::CalendarUrl::Unknown);
+            }
+            kCalendarUrl.setUrl(QUrl(calendarUrl.url()));
+            addressee.insertCalendarUrl(kCalendarUrl);
+        }
     }
 };
 
