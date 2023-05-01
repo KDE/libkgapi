@@ -1,16 +1,16 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
 # Xosé <xosecalvo@gmail.com>, 2012.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2014.
 # Adrián Chaves Fernández (Gallaecio) <adriyetichaves@gmail.com>, 2015.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2023.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2019-08-11 17:02+0200\n"
+"PO-Revision-Date: 2023-04-30 15:00+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.04.1\n"
+"X-Generator: Lokalize 23.04.0\n"
 "X-Qt-Contexts: true\n"
 
 #: src/blogger/blogfetchjob.cpp:82
@@ -242,62 +242,42 @@ msgstr ""
 "Google respondeu «%1»"
 
 #: src/core/private/fullauthenticationjob.cpp:54
-#, fuzzy, qt-format
-#| msgctxt "KGAPI2::AuthWidgetPrivate|"
-#| msgid "Error receiving response: %1"
+#, qt-format
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Error receiving response: %1"
 msgstr "Erro ao recibir a resposta: %1"
 
 #: src/core/private/fullauthenticationjob.cpp:61
-#, fuzzy
-#| msgctxt "KGAPI2::AuthJob|"
-#| msgid "Authentication canceled"
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Authentication successful"
-msgstr "Cancelouse a autenticación"
+msgstr "A autenticación é correcta"
 
 #: src/core/private/fullauthenticationjob.cpp:62
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "You can close this tab and return to the application now."
-msgstr ""
+msgstr "Xa pode pechar este separador e volver á aplicación."
 
 #: src/core/private/fullauthenticationjob.cpp:77
-#, fuzzy
-#| msgctxt "KGAPI2::AuthWidgetPrivate|"
-#| msgid "Token response invalid"
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Token response invalid"
 msgstr "A resposta de código é incorrecta."
 
 #: src/core/private/fullauthenticationjob.cpp:92
-#, fuzzy
-#| msgctxt "KGAPI2::AuthWidgetPrivate|"
-#| msgid "Could not extract token from HTTP answer"
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Could not extract token from HTTP answer"
 msgstr "Non se puido extraer o código da resposta HTTP."
 
 #: src/core/private/fullauthenticationjob.cpp:185
-#, fuzzy
-#| msgctxt "KGAPI2::AuthWidget|"
-#| msgid "Invalid account"
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Invalid account"
 msgstr "Conta incorrecta"
 
 #: src/core/private/fullauthenticationjob.cpp:189
-#, fuzzy
-#| msgctxt "KGAPI2::AuthWidget|"
-#| msgid "No scopes to authenticate for"
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "No scopes to authenticate for"
 msgstr "Non hai ámbitos nos que autenticarse"
 
 #: src/core/private/fullauthenticationjob.cpp:202
-#, fuzzy
-#| msgctxt "KGAPI2::AuthWidget|"
-#| msgid "Could not start oauth http server"
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Could not start OAuth HTTP server"
 msgstr "Non se puido iniciar o servidor HTTP de OAuth."
@@ -308,9 +288,6 @@ msgid "Failed to parse server response."
 msgstr "Non se puido analizar a resposta do servidor."
 
 #: src/core/private/refreshtokensjob.cpp:92
-#, fuzzy
-#| msgctxt "KGAPI2::AuthJob|"
-#| msgid "Failed to parse newly fetched tokens"
 msgctxt "KGAPI2::RefreshTokensJob|"
 msgid "Failed to parse newly fetched tokens"
 msgstr "Non se puideron analizar os elementos obtidos recentemente"
@@ -368,17 +345,17 @@ msgstr "Tipo de contido da resposta incorrecto"
 #: src/drive/fileabstractresumablejob.cpp:313
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed opening upload session"
-msgstr ""
+msgstr "Non se puido abrir a sesión de envío"
 
 #: src/drive/fileabstractresumablejob.cpp:342
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed uploading chunk"
-msgstr ""
+msgstr "Non se puido enviar o anaco"
 
 #: src/drive/fileabstractresumablejob.cpp:363
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed completing upload session"
-msgstr ""
+msgstr "Non se puido completar a sesión de envío"
 
 #: src/drive/fileabstractuploadjob.cpp:282
 msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
@@ -461,49 +438,31 @@ msgid "Invalid response content type"
 msgstr "Tipo de contido da resposta incorrecto"
 
 #: src/people/contactgroupcreatejob.cpp:93
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupCreateJob|"
 msgid "Invalid response content type"
 msgstr "Tipo de contido da resposta incorrecto"
 
 #: src/people/contactgroupmodifyjob.cpp:91
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupModifyJob|"
 msgid "Invalid response content type"
 msgstr "Tipo de contido da resposta incorrecto"
 
 #: src/people/personcreatejob.cpp:89
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonCreateJob|"
 msgid "Invalid response content type"
 msgstr "Tipo de contido da resposta incorrecto"
 
 #: src/people/personmodifyjob.cpp:104
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
 msgstr "Tipo de contido da resposta incorrecto"
 
 #: src/people/personphotodeletejob.cpp:87
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
 msgstr "Tipo de contido da resposta incorrecto"
 
 #: src/people/personphotoupdatejob.cpp:97
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
 msgstr "Tipo de contido da resposta incorrecto"
