@@ -209,17 +209,15 @@ public:
             case KContacts::ResourceLocatorUrl::Work:
                 url.setType(QStringLiteral("work"));
                 break;
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
             case KContacts::ResourceLocatorUrl::Ftp:
-                url.setType("ftp");
+                url.setType(QStringLiteral("ftp"));
                 break;
             case KContacts::ResourceLocatorUrl::AppInstallPage:
-                url.setType("appInstallPage");
+                url.setType(QStringLiteral("appInstallPage"));
                 break;
             case KContacts::ResourceLocatorUrl::Reservations:
-                url.setType("reservations");
+                url.setType(QStringLiteral("reservations"));
                 break;
-#endif
             default:
                 url.setType(QStringLiteral("other"));
             }
