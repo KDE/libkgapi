@@ -215,7 +215,7 @@ public:
             case KContacts::ResourceLocatorUrl::AppInstallPage:
                 url.setType(QStringLiteral("appInstallPage"));
                 break;
-            case KContacts::ResourceLocatorUrl::Reservations:
+            case KContacts::ResourceLocatorUrl::Reservation:
                 url.setType(QStringLiteral("reservations"));
                 break;
             default:
@@ -398,14 +398,12 @@ private:
                         type = KContacts::ResourceLocatorUrl::Profile;
                     } else if (url.type() == QStringLiteral("work")) {
                         type = KContacts::ResourceLocatorUrl::Work;
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
                     } else if (url.type() == QStringLiteral("ftp")) {
                         type = KContacts::ResourceLocatorUrl::Ftp;
                     } else if (url.type() == QStringLiteral("appInstallPage")) {
                         type = KContacts::ResourceLocatorUrl::AppInstallPage;
                     } else if (url.type() == QStringLiteral("reservations")) {
-                        type = KContacts::ResourceLocatorUrl::Reservations;
-#endif
+                        type = KContacts::ResourceLocatorUrl::Reservation;
                     } else {
                         type = KContacts::ResourceLocatorUrl::Other;
                     }
