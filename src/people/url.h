@@ -54,8 +54,18 @@ public:
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
-    /** The type of the URL. The type can be custom or one of these predefined values: * `home` * `work` * `blog` * `profile` * `homePage` * `ftp` *
-     * `reservations` * `appInstallPage`: website for a Currents application. * `other` **/
+    /**
+     * The type of the URL. The type can be custom or one of these predefined values:
+     * * `home`
+     * * `work`
+     * * `blog`
+     * * `profile`
+     * * `homePage`
+     * * `ftp`
+     * * `reservations`
+     * * `appInstallPage`: website for a Currents application.
+     * * `other`
+     **/
     Q_REQUIRED_RESULT QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
