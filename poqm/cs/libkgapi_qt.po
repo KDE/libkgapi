@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2023-03-08 14:12+0100\n"
+"PO-Revision-Date: 2023-06-28 15:44+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.2\n"
 "X-Qt-Contexts: true\n"
 
 #: src/blogger/blogfetchjob.cpp:82
@@ -118,7 +118,7 @@ msgstr "Neplatný typ obsahu odpovědi"
 #: src/calendar/freebusyqueryjob.cpp:96
 msgctxt "KGAPI2::FreeBusyQueryJob|"
 msgid "FreeBusy information is not available"
-msgstr "Informace o FreeBusy není dostupná"
+msgstr "Informace o zaneprázdněnosti není dostupná"
 
 #: src/calendar/freebusyqueryjob.cpp:107
 msgctxt "KGAPI2::FreeBusyQueryJob|"
