@@ -269,3 +269,5 @@ void MainWindow::teamdriveItemSelected()
         ui.statusbar->showMessage(msg);
     });
 }
+
+#include "moc_mainwindow.cpp"

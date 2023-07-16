@@ -122,3 +122,5 @@ KGAPI2::ObjectsList AboutFetchJob::handleReplyWithItems(const QNetworkReply *rep
     emitFinished();
     return items;
 }
+
+#include "moc_aboutfetchjob.cpp"

@@ -113,3 +113,5 @@ ObjectsList ContactGroupFetchJob::handleReplyWithItems(const QNetworkReply *repl
 }
 
 }
+
+#include "moc_contactgroupfetchjob.cpp"

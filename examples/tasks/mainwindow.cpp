@@ -154,3 +154,5 @@ void MainWindow::enableCreateTask(bool enabled)
     ui.taskNameEdit->setEnabled(enabled);
     ui.createTaskButton->setEnabled(enabled);
 }
+
+#include "moc_mainwindow.cpp"

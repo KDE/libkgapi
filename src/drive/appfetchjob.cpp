@@ -74,3 +74,5 @@ ObjectsList AppFetchJob::handleReplyWithItems(const QNetworkReply *reply, const 
     emitFinished();
     return items;
 }
+
+#include "moc_appfetchjob.cpp"

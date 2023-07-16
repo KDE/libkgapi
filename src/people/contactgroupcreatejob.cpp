@@ -109,3 +109,5 @@ ObjectsList ContactGroupCreateJob::handleReplyWithItems(const QNetworkReply *rep
 }
 
 }
+
+#include "moc_contactgroupcreatejob.cpp"

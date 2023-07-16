@@ -244,3 +244,5 @@ ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
 
     return items;
 }
+
+#include "moc_filefetchjob.cpp"

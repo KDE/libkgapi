@@ -109,3 +109,5 @@ void PostPublishJob::handleReply(const QNetworkReply *reply, const QByteArray &r
     d->response = Post::fromJSON(rawData);
     emitFinished();
 }
+
+#include "moc_postpublishjob.cpp"

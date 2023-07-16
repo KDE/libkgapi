@@ -82,3 +82,5 @@ void MainWindow::slotTileFetched(KGAPI2::Job *job)
     const QPixmap pixmap = fetchJob->tilePixmap();
     m_ui->label->setPixmap(pixmap);
 }
+
+#include "moc_mainwindow.cpp"

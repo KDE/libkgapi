@@ -92,3 +92,5 @@ ObjectsList ModifyJob::handleReplyWithItems(const QNetworkReply *reply, const QB
 
     return ObjectsList();
 }
+
+#include "moc_modifyjob.cpp"

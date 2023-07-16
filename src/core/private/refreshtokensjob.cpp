@@ -116,3 +116,5 @@ void RefreshTokensJob::dispatchRequest(QNetworkAccessManager *accessManager, con
     accessManager->setCookieJar(new QNetworkCookieJar);
     accessManager->post(request, data);
 }
+
+#include "moc_refreshtokensjob_p.cpp"

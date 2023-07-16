@@ -105,3 +105,5 @@ ObjectsList PersonCreateJob::handleReplyWithItems(const QNetworkReply *reply, co
 }
 
 }
+
+#include "moc_personcreatejob.cpp"

@@ -69,3 +69,5 @@ void FileDeleteJob::start()
     QNetworkRequest request(url);
     enqueueRequest(request);
 }
+
+#include "moc_filedeletejob.cpp"

@@ -60,3 +60,5 @@ void FileTrashJob::dispatchRequest(QNetworkAccessManager *accessManager, const Q
     r.setHeader(QNetworkRequest::ContentLengthHeader, data.size());
     accessManager->post(r, data);
 }
+
+#include "moc_filetrashjob.cpp"

@@ -165,3 +165,5 @@ ObjectsList CommentFetchJob::handleReplyWithItems(const QNetworkReply *reply, co
 
     return items;
 }
+
+#include "moc_commentfetchjob.cpp"

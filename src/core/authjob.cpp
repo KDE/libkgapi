@@ -113,3 +113,5 @@ void AuthJob::start()
         });
     }
 }
+
+#include "moc_authjob.cpp"

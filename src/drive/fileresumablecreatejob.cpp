@@ -46,3 +46,5 @@ QUrl FileResumableCreateJob::createUrl()
 {
     return DriveService::uploadMediaFileUrl();
 }
+
+#include "moc_fileresumablecreatejob.cpp"

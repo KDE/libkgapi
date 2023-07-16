@@ -97,3 +97,5 @@ void TaskListDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray
 
     KGAPI2::DeleteJob::handleReply(reply, rawData);
 }
+
+#include "moc_tasklistdeletejob.cpp"

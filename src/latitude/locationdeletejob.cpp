@@ -79,3 +79,5 @@ void LocationDeleteJob::start()
     enqueueRequest(request);
     d->finished = true;
 }
+
+#include "moc_locationdeletejob.cpp"

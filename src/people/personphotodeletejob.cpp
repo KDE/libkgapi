@@ -103,3 +103,5 @@ ObjectsList PersonPhotoDeleteJob::handleReplyWithItems(const QNetworkReply *repl
 }
 
 }
+
+#include "moc_personphotodeletejob.cpp"

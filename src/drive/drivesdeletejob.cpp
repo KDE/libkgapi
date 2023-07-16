@@ -66,3 +66,5 @@ void DrivesDeleteJob::start()
     QNetworkRequest request(url);
     enqueueRequest(request);
 }
+
+#include "moc_drivesdeletejob.cpp"

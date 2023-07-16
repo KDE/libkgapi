@@ -103,3 +103,5 @@ void PersonDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &
 }
 
 }
+
+#include "moc_persondeletejob.cpp"

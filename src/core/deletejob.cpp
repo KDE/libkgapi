@@ -62,3 +62,5 @@ void DeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &rawDat
 
     start();
 }
+
+#include "moc_deletejob.cpp"

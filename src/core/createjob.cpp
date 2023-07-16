@@ -71,3 +71,5 @@ ObjectsList CreateJob::handleReplyWithItems(const QNetworkReply *reply, const QB
 
     return ObjectsList();
 }
+
+#include "moc_createjob.cpp"

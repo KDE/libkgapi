@@ -66,3 +66,5 @@ void TeamdriveDeleteJob::start()
     QNetworkRequest request(url);
     enqueueRequest(request);
 }
+
+#include "moc_teamdrivedeletejob.cpp"

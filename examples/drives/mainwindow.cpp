@@ -319,3 +319,5 @@ void MainWindow::drivesItemSelected()
         ui.statusbar->showMessage(msg);
     });
 }
+
+#include "moc_mainwindow.cpp"

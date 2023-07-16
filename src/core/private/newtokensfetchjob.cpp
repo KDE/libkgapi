@@ -123,3 +123,5 @@ void NewTokensFetchJob::handleReply(const QNetworkReply *reply, const QByteArray
     d->refreshToken = parsed_data.value(QStringLiteral("refresh_token")).toString();
     d->expiresIn = parsed_data.value(QStringLiteral("expires_in")).toULongLong();
 }
+
+#include "moc_newtokensfetchjob_p.cpp"

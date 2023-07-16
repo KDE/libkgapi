@@ -60,3 +60,5 @@ void PageDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &ra
 
     emitFinished();
 }
+
+#include "moc_pagedeletejob.cpp"

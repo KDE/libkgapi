@@ -196,3 +196,5 @@ ObjectsList ChangeFetchJob::handleReplyWithItems(const QNetworkReply *reply, con
 
     return items;
 }
+
+#include "moc_changefetchjob.cpp"

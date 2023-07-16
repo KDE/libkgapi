@@ -197,3 +197,5 @@ ObjectsList PostFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
 
     return items;
 }
+
+#include "moc_postfetchjob.cpp"

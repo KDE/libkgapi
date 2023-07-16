@@ -75,3 +75,5 @@ ObjectsList FetchJob::handleReplyWithItems(const QNetworkReply *reply, const QBy
 
     return ObjectsList();
 }
+
+#include "moc_fetchjob.cpp"

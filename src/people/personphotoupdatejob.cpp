@@ -113,3 +113,5 @@ ObjectsList PersonPhotoUpdateJob::handleReplyWithItems(const QNetworkReply *repl
 }
 
 }
+
+#include "moc_personphotoupdatejob.cpp"

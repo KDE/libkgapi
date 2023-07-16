@@ -75,3 +75,5 @@ QUrl FileCreateJob::createUrl(const QString &filePath, const FilePtr &metaData)
         return DriveService::uploadMultipartFileUrl();
     }
 }
+
+#include "moc_filecreatejob.cpp"

@@ -49,3 +49,5 @@ QUrl FileTouchJob::url(const QString &fileId)
 {
     return DriveService::touchFileUrl(fileId);
 }
+
+#include "moc_filetouchjob.cpp"

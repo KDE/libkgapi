@@ -95,3 +95,5 @@ ObjectsList DrivesHideJob::handleReplyWithItems(const QNetworkReply *reply, cons
 
     return items;
 }
+
+#include "moc_driveshidejob.cpp"

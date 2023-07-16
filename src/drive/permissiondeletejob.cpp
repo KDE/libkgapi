@@ -114,3 +114,5 @@ void PermissionDeleteJob::start()
 
     enqueueRequest(request);
 }
+
+#include "moc_permissiondeletejob.cpp"

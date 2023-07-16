@@ -110,3 +110,5 @@ ObjectsList TeamdriveCreateJob::handleReplyWithItems(const QNetworkReply *reply,
 
     return items;
 }
+
+#include "moc_teamdrivecreatejob.cpp"

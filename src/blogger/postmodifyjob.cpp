@@ -64,3 +64,5 @@ ObjectsList PostModifyJob::handleReplyWithItems(const QNetworkReply *reply, cons
     emitFinished();
     return items;
 }
+
+#include "moc_postmodifyjob.cpp"

@@ -119,3 +119,5 @@ ObjectsList DrivesModifyJob::handleReplyWithItems(const QNetworkReply *reply, co
 
     return items;
 }
+
+#include "moc_drivesmodifyjob.cpp"

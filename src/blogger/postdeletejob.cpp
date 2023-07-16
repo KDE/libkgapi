@@ -60,3 +60,5 @@ void PostDeleteJob::handleReply(const QNetworkReply *reply, const QByteArray &ra
 
     emitFinished();
 }
+
+#include "moc_postdeletejob.cpp"

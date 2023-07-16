@@ -73,3 +73,5 @@ ObjectsList PostCreateJob::handleReplyWithItems(const QNetworkReply *reply, cons
     emitFinished();
     return items;
 }
+
+#include "moc_postcreatejob.cpp"

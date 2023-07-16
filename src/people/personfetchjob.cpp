@@ -149,3 +149,5 @@ ObjectsList PersonFetchJob::handleReplyWithItems(const QNetworkReply *reply, con
 }
 
 }
+
+#include "moc_personfetchjob.cpp"

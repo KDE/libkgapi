@@ -188,3 +188,5 @@ void DrivesFetchJob::applyRequestParameters(QUrl &url)
     }
     url.setQuery(query);
 }
+
+#include "moc_drivesfetchjob.cpp"

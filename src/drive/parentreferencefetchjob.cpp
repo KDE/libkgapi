@@ -77,3 +77,5 @@ ObjectsList ParentReferenceFetchJob::handleReplyWithItems(const QNetworkReply *r
     emitFinished();
     return items;
 }
+
+#include "moc_parentreferencefetchjob.cpp"

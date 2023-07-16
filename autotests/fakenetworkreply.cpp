@@ -94,3 +94,5 @@ qint64 FakeNetworkReply::writeData(const char *data, qint64 len)
 {
     return mBuffer.write(data, len);
 }
+
+#include "moc_fakenetworkreply.cpp"

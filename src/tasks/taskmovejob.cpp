@@ -118,3 +118,5 @@ void TaskMoveJob::handleReply(const QNetworkReply *reply, const QByteArray &rawD
     d->tasksIds.currentProcessed();
     d->processNextTask();
 }
+
+#include "moc_taskmovejob.cpp"

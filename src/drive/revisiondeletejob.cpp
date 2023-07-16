@@ -74,3 +74,5 @@ void RevisionDeleteJob::start()
     QNetworkRequest request(url);
     enqueueRequest(request);
 }
+
+#include "moc_revisiondeletejob.cpp"

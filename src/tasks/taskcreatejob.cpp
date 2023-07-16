@@ -128,3 +128,5 @@ ObjectsList TaskCreateJob::handleReplyWithItems(const QNetworkReply *reply, cons
 
     return items;
 }
+
+#include "moc_taskcreatejob.cpp"

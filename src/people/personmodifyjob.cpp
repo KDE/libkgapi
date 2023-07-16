@@ -120,3 +120,5 @@ ObjectsList PersonModifyJob::handleReplyWithItems(const QNetworkReply *reply, co
 }
 
 }
+
+#include "moc_personmodifyjob.cpp"

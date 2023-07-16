@@ -189,3 +189,5 @@ void TeamdriveFetchJob::applyRequestParameters(QUrl &url)
     }
     url.setQuery(query);
 }
+
+#include "moc_teamdrivefetchjob.cpp"

@@ -75,3 +75,5 @@ void ParentReferenceDeleteJob::start()
 
     enqueueRequest(request);
 }
+
+#include "moc_parentreferencedeletejob.cpp"

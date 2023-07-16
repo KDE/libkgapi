@@ -83,3 +83,5 @@ ObjectsList LocationCreateJob::handleReplyWithItems(const QNetworkReply *reply, 
 
     return items;
 }
+
+#include "moc_locationcreatejob.cpp"

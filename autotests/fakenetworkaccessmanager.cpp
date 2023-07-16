@@ -72,3 +72,5 @@ QNetworkReply *FakeNetworkAccessManager::createRequest(Operation op, const QNetw
 
     return new FakeNetworkReply(scenario);
 }
+
+#include "moc_fakenetworkaccessmanager.cpp"

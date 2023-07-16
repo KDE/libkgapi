@@ -132,3 +132,5 @@ ObjectsList PermissionFetchJob::handleReplyWithItems(const QNetworkReply *reply,
     emitFinished();
     return items;
 }
+
+#include "moc_permissionfetchjob.cpp"

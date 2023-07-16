@@ -152,3 +152,5 @@ QNetworkReply *FileModifyJob::dispatch(QNetworkAccessManager *accessManager, con
 {
     return accessManager->put(request, data);
 }
+
+#include "moc_filemodifyjob.cpp"

@@ -76,3 +76,5 @@ ObjectsList RevisionFetchJob::handleReplyWithItems(const QNetworkReply *reply, c
     emitFinished();
     return items;
 }
+
+#include "moc_revisionfetchjob.cpp"

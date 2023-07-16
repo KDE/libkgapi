@@ -149,3 +149,5 @@ void MainWindow::setInputsEnabled(bool enabled)
     ui.passFileToJobRadioButton->setEnabled(enabled);
     ui.uploadButton->setEnabled(enabled);
 }
+
+#include "moc_mainwindow.cpp"

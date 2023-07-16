@@ -114,3 +114,5 @@ ObjectsList PageFetchJob::handleReplyWithItems(const QNetworkReply *reply, const
     emitFinished();
     return items;
 }
+
+#include "moc_pagefetchjob.cpp"

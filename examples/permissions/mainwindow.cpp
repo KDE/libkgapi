@@ -186,3 +186,5 @@ QString MainWindow::permissionTypeToName(KGAPI2::Drive::Permission::PermissionDe
         return QString();
     }
 }
+
+#include "moc_mainwindow.cpp"

@@ -60,3 +60,5 @@ void FileUntrashJob::dispatchRequest(QNetworkAccessManager *accessManager, const
     r.setHeader(QNetworkRequest::ContentLengthHeader, data.size());
     accessManager->post(r, data);
 }
+
+#include "moc_fileuntrashjob.cpp"

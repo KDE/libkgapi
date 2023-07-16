@@ -94,3 +94,5 @@ ObjectsList ChildReferenceFetchJob::handleReplyWithItems(const QNetworkReply *re
 
     return items;
 }
+
+#include "moc_childreferencefetchjob.cpp"

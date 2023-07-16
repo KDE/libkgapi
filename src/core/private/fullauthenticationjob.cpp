@@ -249,3 +249,5 @@ void FullAuthenticationJob::dispatchRequest(QNetworkAccessManager * /*accessMana
     // This is never supposed to be called.
     Q_UNREACHABLE();
 }
+
+#include "moc_fullauthenticationjob_p.cpp"

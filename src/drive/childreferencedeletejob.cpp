@@ -75,3 +75,5 @@ void ChildReferenceDeleteJob::start()
 
     enqueueRequest(request);
 }
+
+#include "moc_childreferencedeletejob.cpp"

@@ -112,3 +112,5 @@ QUrl FileResumableModifyJob::createUrl()
 
     return url;
 }
+
+#include "moc_fileresumablemodifyjob.cpp"

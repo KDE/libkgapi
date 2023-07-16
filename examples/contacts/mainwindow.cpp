@@ -130,3 +130,5 @@ void MainWindow::contactSelected()
         ui.contactInfo->setText(text);
     });
 }
+
+#include "moc_mainwindow.cpp"

@@ -126,3 +126,5 @@ void FileCopyJob::handleReply(const QNetworkReply *reply, const QByteArray &rawD
     // Enqueue next item or finish
     d->processNext();
 }
+
+#include "moc_filecopyjob.cpp"

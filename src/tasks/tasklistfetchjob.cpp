@@ -80,3 +80,5 @@ ObjectsList TaskListFetchJob::handleReplyWithItems(const QNetworkReply *reply, c
 
     return items;
 }
+
+#include "moc_tasklistfetchjob.cpp"

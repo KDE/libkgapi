@@ -318,3 +318,5 @@ void AccountManager::removeScopes(const QString &apiKey, const QString &accountN
         }
     });
 }
+
+#include "moc_accountmanager.cpp"
