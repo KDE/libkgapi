@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-01-20 11:20+0100\n"
+"PO-Revision-Date: 2023-07-22 16:16+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: src/blogger/blogfetchjob.cpp:82
 msgctxt "KGAPI2::Blogger::BlogFetchJob|"
@@ -436,49 +436,31 @@ msgid "Invalid response content type"
 msgstr "Erantzunaren eduki-mota baliogabea"
 
 #: src/people/contactgroupcreatejob.cpp:93
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupCreateJob|"
 msgid "Invalid response content type"
 msgstr "Erantzunaren eduki-mota baliogabea"
 
 #: src/people/contactgroupmodifyjob.cpp:91
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupModifyJob|"
 msgid "Invalid response content type"
 msgstr "Erantzunaren eduki-mota baliogabea"
 
 #: src/people/personcreatejob.cpp:89
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonCreateJob|"
 msgid "Invalid response content type"
 msgstr "Erantzunaren eduki-mota baliogabea"
 
 #: src/people/personmodifyjob.cpp:104
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
 msgstr "Erantzunaren eduki-mota baliogabea"
 
 #: src/people/personphotodeletejob.cpp:87
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
 msgstr "Erantzunaren eduki-mota baliogabea"
 
 #: src/people/personphotoupdatejob.cpp:97
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
 msgstr "Erantzunaren eduki-mota baliogabea"
