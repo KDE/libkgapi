@@ -131,27 +131,27 @@ MiscKeyword MiscKeyword::fromJSON(const QJsonObject &obj)
     definition.value = obj.value(QStringLiteral("value")).toString();
 
     const auto type = obj.value(QStringLiteral("type")).toString();
-    if(type == QStringLiteral("OUTLOOK_BILLING_INFORMATION")) {
+    if(type == QLatin1String("OUTLOOK_BILLING_INFORMATION")) {
         definition.type = Type::OUTLOOK_BILLING_INFORMATION;
-    } else if(type == QStringLiteral("OUTLOOK_DIRECTORY_SERVER")) {
+    } else if(type == QLatin1String("OUTLOOK_DIRECTORY_SERVER")) {
         definition.type = Type::OUTLOOK_DIRECTORY_SERVER;
-    } else if(type == QStringLiteral("OUTLOOK_KEYWORD")) {
+    } else if(type == QLatin1String("OUTLOOK_KEYWORD")) {
         definition.type = Type::OUTLOOK_KEYWORD;
-    } else if(type == QStringLiteral("OUTLOOK_MILEAGE")) {
+    } else if(type == QLatin1String("OUTLOOK_MILEAGE")) {
         definition.type = Type::OUTLOOK_MILEAGE;
-    } else if(type == QStringLiteral("OUTLOOK_PRIORITY")) {
+    } else if(type == QLatin1String("OUTLOOK_PRIORITY")) {
         definition.type = Type::OUTLOOK_PRIORITY;
-    } else if(type == QStringLiteral("OUTLOOK_SENSITIVITY")) {
+    } else if(type == QLatin1String("OUTLOOK_SENSITIVITY")) {
         definition.type = Type::OUTLOOK_SENSITIVITY;
-    } else if(type == QStringLiteral("OUTLOOK_SUBJECT")) {
+    } else if(type == QLatin1String("OUTLOOK_SUBJECT")) {
         definition.type = Type::OUTLOOK_SUBJECT;
-    } else if(type == QStringLiteral("OUTLOOK_USER")) {
+    } else if(type == QLatin1String("OUTLOOK_USER")) {
         definition.type = Type::OUTLOOK_USER;
-    } else if(type == QStringLiteral("HOME")) {
+    } else if(type == QLatin1String("HOME")) {
         definition.type = Type::HOME;
-    } else if(type == QStringLiteral("WORK")) {
+    } else if(type == QLatin1String("WORK")) {
         definition.type = Type::WORK;
-    } else if(type == QStringLiteral("OTHER")) {
+    } else if(type == QLatin1String("OTHER")) {
         definition.type = Type::OTHER;
     } else {
         definition.type = Type::TYPE_UNSPECIFIED;

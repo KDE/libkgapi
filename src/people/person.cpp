@@ -386,23 +386,23 @@ private:
             addressee.setExtraUrlList({});
         } else {
             for (const auto &url : std::as_const(urls)) {
-                if (url.type() == QStringLiteral("blog")) {
+                if (url.type() == QLatin1String("blog")) {
                     addressee.setBlogFeed(QUrl(url.value()));
                 } else {
                     KContacts::ResourceLocatorUrl::Type type;
 
-                    if (url.type() == QStringLiteral("home")
-                        || url.type() == QStringLiteral("homePage")) {
+                    if (url.type() == QLatin1String("home")
+                        || url.type() == QLatin1String("homePage")) {
                         type = KContacts::ResourceLocatorUrl::Home;
-                    } else if (url.type() == QStringLiteral("profile")) {
+                    } else if (url.type() == QLatin1String("profile")) {
                         type = KContacts::ResourceLocatorUrl::Profile;
-                    } else if (url.type() == QStringLiteral("work")) {
+                    } else if (url.type() == QLatin1String("work")) {
                         type = KContacts::ResourceLocatorUrl::Work;
-                    } else if (url.type() == QStringLiteral("ftp")) {
+                    } else if (url.type() == QLatin1String("ftp")) {
                         type = KContacts::ResourceLocatorUrl::Ftp;
-                    } else if (url.type() == QStringLiteral("appInstallPage")) {
+                    } else if (url.type() == QLatin1String("appInstallPage")) {
                         type = KContacts::ResourceLocatorUrl::AppInstallPage;
-                    } else if (url.type() == QStringLiteral("reservations")) {
+                    } else if (url.type() == QLatin1String("reservations")) {
                         type = KContacts::ResourceLocatorUrl::Reservation;
                     } else {
                         type = KContacts::ResourceLocatorUrl::Other;
@@ -419,11 +419,11 @@ private:
 
         for (const auto &calendarUrl : std::as_const(calendarUrls)) {
             KContacts::CalendarUrl kCalendarUrl;
-            if (calendarUrl.type() == QStringLiteral("freeBusy")) {
+            if (calendarUrl.type() == QLatin1String("freeBusy")) {
                 kCalendarUrl.setType(KContacts::CalendarUrl::FBUrl);
-            } else if (calendarUrl.type() == QStringLiteral("CALUri")) {
+            } else if (calendarUrl.type() == QLatin1String("CALUri")) {
                 kCalendarUrl.setType(KContacts::CalendarUrl::CALUri);
-            } else if (calendarUrl.type() == QStringLiteral("CALADRUri")) {
+            } else if (calendarUrl.type() == QLatin1String("CALADRUri")) {
                 kCalendarUrl.setType(KContacts::CalendarUrl::CALADRUri);
             } else {
                 kCalendarUrl.setType(KContacts::CalendarUrl::Unknown);

@@ -105,17 +105,17 @@ Nickname Nickname::fromJSON(const QJsonObject &obj)
         nickname.setValue(obj.value(QStringLiteral("value")).toString());
 
         const auto type = obj.value(QStringLiteral("type")).toString();
-        if(type == QStringLiteral("MAIDEN_NAME")) {
+        if(type == QLatin1String("MAIDEN_NAME")) {
             nickname.setType(Nickname::Type::MAIDEN_NAME);
-        } else if (type == QStringLiteral("INITIALS")) {
+        } else if (type == QLatin1String("INITIALS")) {
             nickname.setType(Nickname::Type::INITIALS);
-        } else if (type == QStringLiteral("GPLUS")) {
+        } else if (type == QLatin1String("GPLUS")) {
             nickname.setType(Nickname::Type::GPLUS);
-        } else if (type == QStringLiteral("OTHER_NAME")) {
+        } else if (type == QLatin1String("OTHER_NAME")) {
             nickname.setType(Nickname::Type::OTHER_NAME);
-        } else if (type == QStringLiteral("ALTERNATE_NAME")) {
+        } else if (type == QLatin1String("ALTERNATE_NAME")) {
             nickname.setType(Nickname::Type::ALTERNATE_NAME);
-        } else if (type == QStringLiteral("SHORT_NAME")) {
+        } else if (type == QLatin1String("SHORT_NAME")) {
             nickname.setType(Nickname::Type::SHORT_NAME);
         } else {
             nickname.setType(Nickname::Type::DEFAULT);
