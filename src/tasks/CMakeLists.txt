@@ -91,17 +91,6 @@ install(FILES
     COMPONENT Devel
 )
 
-ecm_generate_pri_file(BASE_NAME KGAPITasks
-    LIB_NAME KPim6GAPITasks
-    DEPS "GAPICore CalendarCore"
-    FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI"
-)
-
-install(FILES
-    "${PRI_FILENAME}"
-    DESTINATION "${ECM_MKSPECS_INSTALL_DIR}"
-)
-
 if (BUILD_QCH)
     ecm_add_qch(
         KPim6GAPITasks_QCH
