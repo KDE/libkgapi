@@ -7,22 +7,14 @@ portingAid: false
 deprecated: false
 release: false
 libraries:
- - qmake: PimGAPICore
-   cmake: "KPim::GAPICore"
- - qmake: PimGAPIBlogger
-   cmake: "KPim::GAPIBlogger"
- - qmake: PimGAPICalendar
-   cmake: "KPim::GAPICalendar"
- - qmake: PimGapiContacts
-   cmake: "KPim::GAPIContacts"
- - qmake: PimGAPIDrive
-   cmake: "KPim::GAPIDrive"
- - qmake: PimGAPILatitude
-   cmake: "KPim::GAPILatitude"
- - qmake: PimGAPIStaticMaps
-   cmake: "KPim::GAPIStaticMaps"
- - qmake: PimGAPITasks
-   cmake: "KPim::GAPITasks"
+ - cmake: "KPim::GAPICore"
+ - cmake: "KPim::GAPIBlogger"
+ - cmake: "KPim::GAPICalendar"
+ - cmake: "KPim::GAPIContacts"
+ - cmake: "KPim::GAPIDrive"
+ - cmake: "KPim::GAPILatitude"
+ - cmake: "KPim::GAPIStaticMaps"
+ - cmake: "KPim::GAPITasks"
 cmakename: KPimGAPI
 
 public_lib: true
