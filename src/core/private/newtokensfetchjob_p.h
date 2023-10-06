@@ -27,9 +27,9 @@ public:
     explicit NewTokensFetchJob(const QString &tmpToken, const QString &apiKey, const QString &secretKey, int localPort, QObject *parent = nullptr);
     ~NewTokensFetchJob() override;
 
-    Q_REQUIRED_RESULT QString accessToken() const;
-    Q_REQUIRED_RESULT QString refreshToken() const;
-    Q_REQUIRED_RESULT qulonglong expiresIn() const;
+    [[nodiscard]] QString accessToken() const;
+    [[nodiscard]] QString refreshToken() const;
+    [[nodiscard]] qulonglong expiresIn() const;
 
 protected:
     void start() override;

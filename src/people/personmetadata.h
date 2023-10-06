@@ -51,25 +51,25 @@ public:
     bool operator==(const PersonMetadata &) const;
     bool operator!=(const PersonMetadata &) const;
 
-    Q_REQUIRED_RESULT static PersonMetadata fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static PersonMetadata fromJSON(const QJsonObject &);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Output only. Resource names of people linked to this resource. **/
-    Q_REQUIRED_RESULT QList<QString> linkedPeopleResourceNames() const;
+    [[nodiscard]] QList<QString> linkedPeopleResourceNames() const;
 
     /** Output only. **DEPRECATED** (Please use `person.metadata.sources.profileMetadata.objectType` instead) The type of the person object. **/
-    Q_REQUIRED_RESULT PersonMetadata::ObjectType objectType() const;
+    [[nodiscard]] PersonMetadata::ObjectType objectType() const;
 
     /** Output only. Any former resource names this person has had. Populated only for `people.connections.list` requests that include a sync token. The
      * resource name may change when adding or removing fields that link a contact and profile such as a verified email, verified phone number, or profile URL.
      * **/
-    Q_REQUIRED_RESULT QList<QString> previousResourceNames() const;
+    [[nodiscard]] QList<QString> previousResourceNames() const;
 
     /** Output only. True if the person resource has been deleted. Populated only for `people.connections.list` and `otherContacts.list` sync requests. **/
-    Q_REQUIRED_RESULT bool deleted() const;
+    [[nodiscard]] bool deleted() const;
 
     /** The sources of data for the person. **/
-    Q_REQUIRED_RESULT QList<Source> sources() const;
+    [[nodiscard]] QList<Source> sources() const;
     /** Sets value of the sources property. **/
     void setSources(const QList<Source> &value);
     /** Appends the given @c value to the list of sources. **/

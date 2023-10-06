@@ -46,27 +46,27 @@ public:
     bool operator==(const Event &) const;
     bool operator!=(const Event &) const;
 
-    Q_REQUIRED_RESULT static Event fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QList<Event> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static Event fromJSON(const QJsonObject &obj);
+    [[nodiscard]] static QList<Event> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Metadata about the event. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The date of the event. **/
-    Q_REQUIRED_RESULT QDate date() const;
+    [[nodiscard]] QDate date() const;
     /** Sets value of the date property. **/
     void setDate(const QDate &value);
 
     /** The type of the event. The type can be custom or one of these predefined values: * `anniversary` * `other` **/
-    Q_REQUIRED_RESULT QString type() const;
+    [[nodiscard]] QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Output only. The type of the event translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    Q_REQUIRED_RESULT QString formattedType() const;
+    [[nodiscard]] QString formattedType() const;
 
 private:
     class Private;

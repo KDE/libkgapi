@@ -88,12 +88,12 @@ public:
     /**
      * @brief Returns in which format the location is stored.
      */
-    Q_REQUIRED_RESULT LocationType locationType() const;
+    [[nodiscard]] LocationType locationType() const;
 
     /**
      * @brief Returns map image format
      */
-    Q_REQUIRED_RESULT ImageFormat format() const;
+    [[nodiscard]] ImageFormat format() const;
 
     /**
      * @brief Sets map image format (default is PNG)
@@ -112,7 +112,7 @@ public:
      *
      * Returns empty QString if location is not defined in QString
      */
-    Q_REQUIRED_RESULT QString locationString() const;
+    [[nodiscard]] QString locationString() const;
 
     /**
      * @brief Defines center of the map
@@ -127,7 +127,7 @@ public:
      *
      * Returns empty KContacts::Address if location is not defined in KContacts::Address
      */
-    Q_REQUIRED_RESULT KContacts::Address locationAddress() const;
+    [[nodiscard]] KContacts::Address locationAddress() const;
 
     /**
      * @brief Defines center of the map
@@ -142,7 +142,7 @@ public:
      *
      * Returns invalid KContacts::Geo if location is not defined in KContacts::Geo
      */
-    Q_REQUIRED_RESULT KContacts::Geo locationGeo() const;
+    [[nodiscard]] KContacts::Geo locationGeo() const;
 
     /**
      * @brief Defines center of the map
@@ -155,7 +155,7 @@ public:
     /**
      * @brief Returns type of map
      */
-    Q_REQUIRED_RESULT MapType mapType() const;
+    [[nodiscard]] MapType mapType() const;
 
     /**
      * @brief Sets type of map (roadmap by default)
@@ -169,7 +169,7 @@ public:
      *
      * Returns empty QList if no marker were added
      */
-    Q_REQUIRED_RESULT QList<StaticMapMarker> markers() const;
+    [[nodiscard]] QList<StaticMapMarker> markers() const;
 
     /**
      * @brief Adds marker to map
@@ -190,7 +190,7 @@ public:
      *
      * Returns empty QList if no path were added
      */
-    Q_REQUIRED_RESULT QList<StaticMapPath> paths() const;
+    [[nodiscard]] QList<StaticMapPath> paths() const;
 
     /**
      * @brief Adds path to map
@@ -209,7 +209,7 @@ public:
     /**
      * @brief Returns size of map tile
      */
-    Q_REQUIRED_RESULT QSize size() const;
+    [[nodiscard]] QSize size() const;
 
     /**
      * @brief Sets size of requested map tile.
@@ -221,7 +221,7 @@ public:
     /**
      * @brief Returns scale of map
      */
-    Q_REQUIRED_RESULT Scale scale() const;
+    [[nodiscard]] Scale scale() const;
 
     /**
      * @brief Sets scale of map (default is 1)
@@ -234,7 +234,7 @@ public:
      * @brief Returns whether the application uses a sensor to determine user's
      *        location.
      */
-    Q_REQUIRED_RESULT bool sensorUsed() const;
+    [[nodiscard]] bool sensorUsed() const;
 
     /**
      * @brief Sets whether the application uses a sensor to determine the user's
@@ -249,7 +249,7 @@ public:
      *
      * Returns empty QString if visible area is not defined in QString
      */
-    Q_REQUIRED_RESULT QString visibleLocationString() const;
+    [[nodiscard]] QString visibleLocationString() const;
 
     /**
      * @brief Sets visible location.
@@ -269,7 +269,7 @@ public:
      *
      * Returns empty KContacts::Address if visible area is not defined in KContacts::Address
      */
-    Q_REQUIRED_RESULT KContacts::Address visibleLocationAddress() const;
+    [[nodiscard]] KContacts::Address visibleLocationAddress() const;
 
     /**
      * @brief Sets visible location.
@@ -289,7 +289,7 @@ public:
      *
      * Returns empty KContacts::Geo if visible area is not defined in KContacts::Geo
      */
-    Q_REQUIRED_RESULT KContacts::Geo visibleLocationGeo() const;
+    [[nodiscard]] KContacts::Geo visibleLocationGeo() const;
 
     /**
      * @brief Sets visible location.
@@ -307,14 +307,14 @@ public:
     /**
      * @brief Returns type of visible location
      */
-    Q_REQUIRED_RESULT LocationType visibleLocationType() const;
+    [[nodiscard]] LocationType visibleLocationType() const;
 
     /**
      * @brief Returns zoom level of map
      *
      * Returns -1 if zoom level is not defined
      */
-    Q_REQUIRED_RESULT qint8 zoomLevel() const;
+    [[nodiscard]] qint8 zoomLevel() const;
 
     /**
      * @brief Sets zoom level of the map
@@ -327,7 +327,7 @@ public:
     /**
      * @brief Returns constructed url from all defined parameters
      */
-    Q_REQUIRED_RESULT QUrl url() const;
+    [[nodiscard]] QUrl url() const;
 
     /**
      * @brief Assignment operator

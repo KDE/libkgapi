@@ -79,7 +79,7 @@ public:
     /**
      * @brief Returns whether to include shared and public files to change IDs count.
      */
-    Q_REQUIRED_RESULT bool includeSubscribed() const;
+    [[nodiscard]] bool includeSubscribed() const;
 
     /**
      * @brief Sets whether to include shared and public files to change IDs count.
@@ -91,7 +91,7 @@ public:
     /**
      * @brief Returns maximum number of remaining change IDs to count.
      */
-    Q_REQUIRED_RESULT qlonglong maxChangeIdCount() const;
+    [[nodiscard]] qlonglong maxChangeIdCount() const;
 
     /**
      * @brief Sets maximum number of remaining change IDs to count.
@@ -104,7 +104,7 @@ public:
      * @brief Returns change ID to start counting from when calculating number of
      *        remaining change IDs.
      */
-    Q_REQUIRED_RESULT qlonglong startChangeId() const;
+    [[nodiscard]] qlonglong startChangeId() const;
 
     /**
      * @brief Sets change ID to start counting from when calculating number of
@@ -119,7 +119,7 @@ public:
      *
      * This method can only be called after the job has emitted finished()
      */
-    Q_REQUIRED_RESULT AboutPtr aboutData() const;
+    [[nodiscard]] AboutPtr aboutData() const;
 
 protected:
     /**

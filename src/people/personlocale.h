@@ -45,17 +45,17 @@ public:
     bool operator==(const PersonLocale &) const;
     bool operator!=(const PersonLocale &) const;
 
-    Q_REQUIRED_RESULT static PersonLocale fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<PersonLocale> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static PersonLocale fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<PersonLocale> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Metadata about the locale. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The well-formed [IETF BCP 47](https://tools.ietf.org/html/bcp47) language tag representing the locale. **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 

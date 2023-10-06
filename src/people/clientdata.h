@@ -46,22 +46,22 @@ public:
     bool operator==(const ClientData &) const;
     bool operator!=(const ClientData &) const;
 
-    Q_REQUIRED_RESULT static ClientData fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QList<ClientData> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static ClientData fromJSON(const QJsonObject &obj);
+    [[nodiscard]] static QList<ClientData> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Metadata about the client data. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The client specified key of the client data. **/
-    Q_REQUIRED_RESULT QString key() const;
+    [[nodiscard]] QString key() const;
     /** Sets value of the key property. **/
     void setKey(const QString &value);
 
     /** The client specified value of the client data. **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 

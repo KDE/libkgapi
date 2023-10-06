@@ -47,7 +47,7 @@ public:
     /**
      * @brief Returns uID of the calendar.
      */
-    Q_REQUIRED_RESULT QString uid() const;
+    [[nodiscard]] QString uid() const;
 
     /**
      * @brief Sets UID of the calendar.
@@ -59,7 +59,7 @@ public:
     /**
      * @brief Returns calendar title (name).
      */
-    Q_REQUIRED_RESULT QString title() const;
+    [[nodiscard]] QString title() const;
 
     /**
      * @brief Sets a calendar title (name).
@@ -71,7 +71,7 @@ public:
     /**
      * @brief Returns detailed description of the calendar.
      */
-    Q_REQUIRED_RESULT QString details() const;
+    [[nodiscard]] QString details() const;
 
     /**
      * @brief Sets detailed description of a calendar.
@@ -83,7 +83,7 @@ public:
     /**
      * @brief Returns geographic location of the calendar.
      */
-    Q_REQUIRED_RESULT QString location() const;
+    [[nodiscard]] QString location() const;
 
     /**
      * @brief Sets geographic location of the calendar.
@@ -95,7 +95,7 @@ public:
     /**
      * @brief Returns timezone of the calendar.
      */
-    Q_REQUIRED_RESULT QString timezone() const;
+    [[nodiscard]] QString timezone() const;
 
     /**
      * @brief Sets timezone of the calendar.
@@ -107,7 +107,7 @@ public:
     /**
      * @brief Returns whether calendar is editable or read-only.
      */
-    Q_REQUIRED_RESULT bool editable() const;
+    [[nodiscard]] bool editable() const;
 
     /**
      * @brief Sets calendar to read-only or editable.
@@ -140,7 +140,7 @@ public:
      *
      * @since 2.1
      */
-    Q_REQUIRED_RESULT QColor backgroundColor() const;
+    [[nodiscard]] QColor backgroundColor() const;
 
     /**
      * @brief Sets calendar background color.
@@ -156,7 +156,7 @@ public:
      *
      * @since 2.1
      */
-    Q_REQUIRED_RESULT QColor foregroundColor() const;
+    [[nodiscard]] QColor foregroundColor() const;
 
     /**
      * @brief Sets calendar foreground color

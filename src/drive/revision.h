@@ -46,22 +46,22 @@ public:
     /**
      * @brief Returns the id of the revision.
      */
-    Q_REQUIRED_RESULT QString id() const;
+    [[nodiscard]] QString id() const;
 
     /**
      * @brief Returns a link back to this revision.
      */
-    Q_REQUIRED_RESULT QUrl selfLink() const;
+    [[nodiscard]] QUrl selfLink() const;
 
     /**
      * @brief Returns the MIME type of the revision.
      */
-    Q_REQUIRED_RESULT QString mimeType() const;
+    [[nodiscard]] QString mimeType() const;
 
     /**
      * @brief Returns the last time this revision was modified.
      */
-    Q_REQUIRED_RESULT QDateTime modifiedDate() const;
+    [[nodiscard]] QDateTime modifiedDate() const;
 
     /**
      * @brief Returns whether this revision is pinned to prevent automatic purging.
@@ -72,7 +72,7 @@ public:
      * Revisions can also be pinned when they are created through the
      * drive.files.insert/update/copy by using the pinned query parameter.
      */
-    Q_REQUIRED_RESULT bool pinned() const;
+    [[nodiscard]] bool pinned() const;
 
     /**
      * @brief Sets whether this revision is pinned to prevent automatic purging.
@@ -92,7 +92,7 @@ public:
      *
      * This is only populated and can only be modified for Google Docs.
      */
-    Q_REQUIRED_RESULT bool published() const;
+    [[nodiscard]] bool published() const;
 
     /**
      * @brief Sets whether this revision is published.
@@ -104,14 +104,14 @@ public:
     /**
      * @brief Returns a link to the published revision.
      */
-    Q_REQUIRED_RESULT QUrl publishedLink() const;
+    [[nodiscard]] QUrl publishedLink() const;
 
     /**
      * @brief Returns whether subsequent revisions will be automatically republished.
      *
      * This is only populated and can only be modified for Google Docs.
      */
-    Q_REQUIRED_RESULT bool publishAuto() const;
+    [[nodiscard]] bool publishAuto() const;
 
     /**
      * @brief Sets whether subsequent revisions will be automatically republished.
@@ -127,7 +127,7 @@ public:
      *
      * This is only populated and can only be modified for Google Docs.
      */
-    Q_REQUIRED_RESULT bool publishedOutsideDomain() const;
+    [[nodiscard]] bool publishedOutsideDomain() const;
 
     /**
      * @brief Sets whether this revision is published outside the domain.
@@ -143,7 +143,7 @@ public:
      *
      * This will only be populated on files with content stored in Drive.
      */
-    Q_REQUIRED_RESULT QUrl downloadUrl() const;
+    [[nodiscard]] QUrl downloadUrl() const;
 
     /**
      * @brief Returns the links for exporting Google Docs to specific formats.
@@ -155,33 +155,33 @@ public:
     /**
      * @brief Returns the name of the last user to modify this revision.
      */
-    Q_REQUIRED_RESULT QString lastModifyingUserName() const;
+    [[nodiscard]] QString lastModifyingUserName() const;
 
     /**
      * @brief Returns object representing the last user to modify this revision
      */
-    Q_REQUIRED_RESULT UserPtr lastModifyingUser() const;
+    [[nodiscard]] UserPtr lastModifyingUser() const;
 
     /**
      * @brief Returns the original filename when this revision was created.
      *
      * This will only be populated on files with content stored in Drive.
      */
-    Q_REQUIRED_RESULT QString originalFilename() const;
+    [[nodiscard]] QString originalFilename() const;
 
     /**
      * @brief Returns an MD5 checksum for the content of this revision.
      *
      * This will only be populated on files with content stored in Drive
      */
-    Q_REQUIRED_RESULT QString md5Checksum() const;
+    [[nodiscard]] QString md5Checksum() const;
 
     /**
      * @brief Returns the size of the revision in bytes.
      *
      * This will only be populated on files with content stored in Drive.
      */
-    Q_REQUIRED_RESULT qlonglong fileSize() const;
+    [[nodiscard]] qlonglong fileSize() const;
 
     static RevisionPtr fromJSON(const QByteArray &jsonData);
     static RevisionsList fromJSONFeed(const QByteArray &jsonData);

@@ -61,7 +61,7 @@ class KGAPICALENDAR_EXPORT EventModifyJob : public KGAPI2::ModifyJob
      */
     ~EventModifyJob() override;
 
-    Q_REQUIRED_RESULT KGAPI2::SendUpdatesPolicy sendUpdates() const;
+    [[nodiscard]] KGAPI2::SendUpdatesPolicy sendUpdates() const;
     void setSendUpdates(KGAPI2::SendUpdatesPolicy updatesPolicy);
 
   Q_SIGNALS:

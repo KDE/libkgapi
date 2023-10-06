@@ -44,17 +44,17 @@ public:
     bool operator==(const GroupClientData &) const;
     bool operator!=(const GroupClientData &) const;
 
-    Q_REQUIRED_RESULT static GroupClientData fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<GroupClientData> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static GroupClientData fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<GroupClientData> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** The client specified key of the client data. **/
-    Q_REQUIRED_RESULT QString key() const;
+    [[nodiscard]] QString key() const;
     /** Sets value of the key property. **/
     void setKey(const QString &value);
 
     /** The client specified value of the client data. **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 

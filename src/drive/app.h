@@ -40,9 +40,9 @@ public:
             return !operator==(other);
         }
 
-        Q_REQUIRED_RESULT Category category() const;
-        Q_REQUIRED_RESULT int size() const;
-        Q_REQUIRED_RESULT QUrl iconUrl() const;
+        [[nodiscard]] Category category() const;
+        [[nodiscard]] int size() const;
+        [[nodiscard]] QUrl iconUrl() const;
 
     private:
         class Private;
@@ -63,20 +63,20 @@ public:
         return !operator==(other);
     }
 
-    Q_REQUIRED_RESULT QString id() const;
-    Q_REQUIRED_RESULT QString name() const;
-    Q_REQUIRED_RESULT QString objectType() const;
-    Q_REQUIRED_RESULT bool supportsCreate() const;
-    Q_REQUIRED_RESULT bool supportsImport() const;
-    Q_REQUIRED_RESULT bool installed() const;
-    Q_REQUIRED_RESULT bool authorized() const;
-    Q_REQUIRED_RESULT bool useByDefault() const;
-    Q_REQUIRED_RESULT QUrl productUrl() const;
-    Q_REQUIRED_RESULT QStringList primaryMimeTypes() const;
-    Q_REQUIRED_RESULT QStringList secondaryMimeTypes() const;
-    Q_REQUIRED_RESULT QStringList primaryFileExtensions() const;
-    Q_REQUIRED_RESULT QStringList secondaryFileExtensions() const;
-    Q_REQUIRED_RESULT IconsList icons() const;
+    [[nodiscard]] QString id() const;
+    [[nodiscard]] QString name() const;
+    [[nodiscard]] QString objectType() const;
+    [[nodiscard]] bool supportsCreate() const;
+    [[nodiscard]] bool supportsImport() const;
+    [[nodiscard]] bool installed() const;
+    [[nodiscard]] bool authorized() const;
+    [[nodiscard]] bool useByDefault() const;
+    [[nodiscard]] QUrl productUrl() const;
+    [[nodiscard]] QStringList primaryMimeTypes() const;
+    [[nodiscard]] QStringList secondaryMimeTypes() const;
+    [[nodiscard]] QStringList primaryFileExtensions() const;
+    [[nodiscard]] QStringList secondaryFileExtensions() const;
+    [[nodiscard]] IconsList icons() const;
 
     static AppsList fromJSONFeed(const QByteArray &jsonData);
     static AppPtr fromJSON(const QByteArray &jsonData);

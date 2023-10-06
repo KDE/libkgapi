@@ -48,20 +48,20 @@ public:
     bool operator==(const Membership &) const;
     bool operator!=(const Membership &) const;
 
-    Q_REQUIRED_RESULT static Membership fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QList<Membership> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static Membership fromJSON(const QJsonObject &obj);
+    [[nodiscard]] static QList<Membership> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Output only. The domain membership. **/
-    Q_REQUIRED_RESULT DomainMembership domainMembership() const;
+    [[nodiscard]] DomainMembership domainMembership() const;
 
     /** The contact group membership. **/
-    Q_REQUIRED_RESULT ContactGroupMembership contactGroupMembership() const;
+    [[nodiscard]] ContactGroupMembership contactGroupMembership() const;
     /** Sets value of the contactGroupMembership property. **/
     void setContactGroupMembership(const ContactGroupMembership &value);
 
     /** Metadata about the membership. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

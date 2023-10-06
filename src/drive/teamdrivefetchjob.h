@@ -51,14 +51,14 @@ public:
     TeamdriveFetchJob(const QString &teamdriveId, const AccountPtr &account, QObject *parent = nullptr);
     ~TeamdriveFetchJob() override;
 
-    Q_REQUIRED_RESULT int maxResults() const;
+    [[nodiscard]] int maxResults() const;
     void setMaxResults(int maxResults);
 
     void setUseDomainAdminAccess(bool useDomainAdminAccess);
-    Q_REQUIRED_RESULT bool useDomainAdminAccess() const;
+    [[nodiscard]] bool useDomainAdminAccess() const;
 
     void setFields(const QStringList &fields);
-    Q_REQUIRED_RESULT QStringList fields() const;
+    [[nodiscard]] QStringList fields() const;
 
 protected:
     void start() override;

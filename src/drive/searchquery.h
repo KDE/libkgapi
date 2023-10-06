@@ -36,9 +36,9 @@ public:
     void addQuery(const QString &field, CompareOperator op, const QString &value);
     void addQuery(const SearchQuery &query);
 
-    Q_REQUIRED_RESULT bool isEmpty() const;
+    [[nodiscard]] bool isEmpty() const;
 
-    Q_REQUIRED_RESULT QString serialize() const;
+    [[nodiscard]] QString serialize() const;
 
 private:
     class Private;

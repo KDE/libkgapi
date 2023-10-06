@@ -46,23 +46,23 @@ public:
     bool operator==(const Photo &) const;
     bool operator!=(const Photo &) const;
 
-    Q_REQUIRED_RESULT static Photo fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<Photo> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static Photo fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<Photo> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Metadata about the photo. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** True if the photo is a default photo; false if the photo is a user-provided photo. **/
-    Q_REQUIRED_RESULT bool isDefault() const;
+    [[nodiscard]] bool isDefault() const;
     /** Sets value of the isDefault property. **/
     void setIsDefault(bool value);
 
     /** The URL of the photo. You can change the desired size by appending a query parameter `sz={size}` at the end of the url, where {size} is the size in
      * pixels. Example: https://lh3.googleusercontent.com/-T_wVWLlmg7w/AAAAAAAAAAI/AAAAAAAABa8/00gzXvDBYqw/s100/photo.jpg?sz=50 **/
-    Q_REQUIRED_RESULT QString url() const;
+    [[nodiscard]] QString url() const;
     /** Sets value of the url property. **/
     void setUrl(const QString &value);
 

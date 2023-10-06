@@ -46,91 +46,91 @@ public:
     bool operator==(const Organization &) const;
     bool operator!=(const Organization &) const;
 
-    Q_REQUIRED_RESULT static Organization fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<Organization> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static Organization fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<Organization> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** The location of the organization office the person works at. **/
-    Q_REQUIRED_RESULT QString location() const;
+    [[nodiscard]] QString location() const;
     /** Sets value of the location property. **/
     void setLocation(const QString &value);
 
     /** The person's job title at the organization. **/
-    Q_REQUIRED_RESULT QString title() const;
+    [[nodiscard]] QString title() const;
     /** Sets value of the title property. **/
     void setTitle(const QString &value);
 
     /** The type of the organization. The type can be custom or one of these predefined values: * `work` * `school` **/
-    Q_REQUIRED_RESULT QString type() const;
+    [[nodiscard]] QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Metadata about the organization. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The symbol associated with the organization; for example, a stock ticker symbol, abbreviation, or acronym. **/
-    Q_REQUIRED_RESULT QString symbol() const;
+    [[nodiscard]] QString symbol() const;
     /** Sets value of the symbol property. **/
     void setSymbol(const QString &value);
 
     /** Output only. The type of the organization translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    Q_REQUIRED_RESULT QString formattedType() const;
+    [[nodiscard]] QString formattedType() const;
 
     /** The name of the organization. **/
-    Q_REQUIRED_RESULT QString name() const;
+    [[nodiscard]] QString name() const;
     /** Sets value of the name property. **/
     void setName(const QString &value);
 
     /** True if the organization is the person's current organization; false if the organization is a past organization. **/
-    Q_REQUIRED_RESULT bool current() const;
+    [[nodiscard]] bool current() const;
     /** Sets value of the current property. **/
     void setCurrent(bool value);
 
-    Q_REQUIRED_RESULT bool hasSetCurrent() const;
+    [[nodiscard]] bool hasSetCurrent() const;
 
     /** The person's cost center at the organization. **/
-    Q_REQUIRED_RESULT QString costCenter() const;
+    [[nodiscard]] QString costCenter() const;
     /** Sets value of the costCenter property. **/
     void setCostCenter(const QString &value);
 
     /** The person's department at the organization. **/
-    Q_REQUIRED_RESULT QString department() const;
+    [[nodiscard]] QString department() const;
     /** Sets value of the department property. **/
     void setDepartment(const QString &value);
 
     /** The domain name associated with the organization; for example, `google.com`. **/
-    Q_REQUIRED_RESULT QString domain() const;
+    [[nodiscard]] QString domain() const;
     /** Sets value of the domain property. **/
     void setDomain(const QString &value);
 
     /** The start date when the person joined the organization. **/
-    Q_REQUIRED_RESULT QDate startDate() const;
+    [[nodiscard]] QDate startDate() const;
     /** Sets value of the startDate property. **/
     void setStartDate(const QDate &value);
 
     /** The person's job description at the organization. **/
-    Q_REQUIRED_RESULT QString jobDescription() const;
+    [[nodiscard]] QString jobDescription() const;
     /** Sets value of the jobDescription property. **/
     void setJobDescription(const QString &value);
 
     /** The end date when the person left the organization. **/
-    Q_REQUIRED_RESULT QDate endDate() const;
+    [[nodiscard]] QDate endDate() const;
     /** Sets value of the endDate property. **/
     void setEndDate(const QDate &value);
 
     /** The phonetic name of the organization. **/
-    Q_REQUIRED_RESULT QString phoneticName() const;
+    [[nodiscard]] QString phoneticName() const;
     /** Sets value of the phoneticName property. **/
     void setPhoneticName(const QString &value);
 
     /** The person's full-time equivalent millipercent within the organization (100000 = 100%). **/
-    Q_REQUIRED_RESULT int fullTimeEquivalentMillipercent() const;
+    [[nodiscard]] int fullTimeEquivalentMillipercent() const;
     /** Sets value of the fullTimeEquivalentMillipercent property. **/
     void setFullTimeEquivalentMillipercent(int value);
 
-    Q_REQUIRED_RESULT bool hasSetFullTimeEquivalentMillipercent() const;
+    [[nodiscard]] bool hasSetFullTimeEquivalentMillipercent() const;
 
 private:
     class Private;

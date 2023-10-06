@@ -113,12 +113,12 @@ public:
     /**
      * @brief Returns in which format is location saved.
      */
-    Q_REQUIRED_RESULT LocationType locationType() const;
+    [[nodiscard]] LocationType locationType() const;
 
     /**
      * @brief Returns color of marker
      */
-    Q_REQUIRED_RESULT QColor color() const;
+    [[nodiscard]] QColor color() const;
 
     /**
      * @brief Sets color of marker
@@ -130,12 +130,12 @@ public:
     /**
      * @brief Returns if marker is valid. It means that marker needs defined location
      */
-    Q_REQUIRED_RESULT bool isValid() const;
+    [[nodiscard]] bool isValid() const;
 
     /**
      * @brief Returns label of marker
      */
-    Q_REQUIRED_RESULT QChar label() const;
+    [[nodiscard]] QChar label() const;
 
     /**
      * @brief Sets label of marker
@@ -148,7 +148,7 @@ public:
     /**
      * @brief Returns locations in QString
      */
-    Q_REQUIRED_RESULT QStringList locationsString() const;
+    [[nodiscard]] QStringList locationsString() const;
 
     /**
      * @brief Sets one location for marker
@@ -167,7 +167,7 @@ public:
     /**
      * @brief Returns locations in KContacts::Address
      */
-    Q_REQUIRED_RESULT KContacts::Address::List locationsAddress() const;
+    [[nodiscard]] KContacts::Address::List locationsAddress() const;
 
     /**
      * @brief Sets one location for marker
@@ -186,7 +186,7 @@ public:
     /**
      * @brief Returns locations in KContacts::Geo
      */
-    Q_REQUIRED_RESULT QList<KContacts::Geo> locationsGeo() const;
+    [[nodiscard]] QList<KContacts::Geo> locationsGeo() const;
 
     /**
      * @brief Sets one location for marker
@@ -205,12 +205,12 @@ public:
     /**
      * @brief Returns all locations and markers preferences in format to URL query.
      */
-    Q_REQUIRED_RESULT QString toString() const;
+    [[nodiscard]] QString toString() const;
 
     /**
      * @brief Returns size of marker
      */
-    Q_REQUIRED_RESULT MarkerSize size() const;
+    [[nodiscard]] MarkerSize size() const;
 
     /**
      * @brief Sets size of marker

@@ -45,47 +45,47 @@ public:
     bool operator==(const Location &) const;
     bool operator!=(const Location &) const;
 
-    Q_REQUIRED_RESULT static Location fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<Location> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static Location fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<Location> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** The individual desk location. **/
-    Q_REQUIRED_RESULT QString deskCode() const;
+    [[nodiscard]] QString deskCode() const;
     /** Sets value of the deskCode property. **/
     void setDeskCode(const QString &value);
 
     /** The floor name or number. **/
-    Q_REQUIRED_RESULT QString floor() const;
+    [[nodiscard]] QString floor() const;
     /** Sets value of the floor property. **/
     void setFloor(const QString &value);
 
     /** The building identifier. **/
-    Q_REQUIRED_RESULT QString buildingId() const;
+    [[nodiscard]] QString buildingId() const;
     /** Sets value of the buildingId property. **/
     void setBuildingId(const QString &value);
 
     /** The type of the location. The type can be custom or one of these predefined values: * `desk` * `grewUp` **/
-    Q_REQUIRED_RESULT QString type() const;
+    [[nodiscard]] QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Whether the location is the current location. **/
-    Q_REQUIRED_RESULT bool current() const;
+    [[nodiscard]] bool current() const;
     /** Sets value of the current property. **/
     void setCurrent(bool value);
 
     /** The free-form value of the location. **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Metadata about the location. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The floor section in `floor_name`. **/
-    Q_REQUIRED_RESULT QString floorSection() const;
+    [[nodiscard]] QString floorSection() const;
     /** Sets value of the floorSection property. **/
     void setFloorSection(const QString &value);
 

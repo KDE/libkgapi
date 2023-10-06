@@ -62,28 +62,28 @@ public:
     bool operator==(const MiscKeyword &) const;
     bool operator!=(const MiscKeyword &) const;
 
-    Q_REQUIRED_RESULT static MiscKeyword fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<MiscKeyword> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static MiscKeyword fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<MiscKeyword> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Metadata about the miscellaneous keyword. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The value of the miscellaneous keyword. **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** The miscellaneous keyword type. **/
-    Q_REQUIRED_RESULT MiscKeyword::Type type() const;
+    [[nodiscard]] MiscKeyword::Type type() const;
     /** Sets value of the type property. **/
     void setType(MiscKeyword::Type value);
 
     /** Output only. The type of the miscellaneous keyword translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale.
      * **/
-    Q_REQUIRED_RESULT QString formattedType() const;
+    [[nodiscard]] QString formattedType() const;
 
 private:
     class Private;

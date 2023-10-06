@@ -100,7 +100,7 @@ public:
     bool operator!=(const Person &) const;
 
     /** The person's nicknames. **/
-    Q_REQUIRED_RESULT QList<Nickname> nicknames() const;
+    [[nodiscard]] QList<Nickname> nicknames() const;
     /** Sets value of the nicknames property. **/
     void setNicknames(const QList<Nickname> &value);
     /** Appends the given @c value to the list of nicknames. **/
@@ -112,7 +112,7 @@ public:
 
     /** The person's email addresses. For `people.connections.list` and `otherContacts.list` the number of email addresses is limited to 100. If a Person has
      * more email addresses the entire set can be obtained by calling GetPeople. **/
-    Q_REQUIRED_RESULT QList<EmailAddress> emailAddresses() const;
+    [[nodiscard]] QList<EmailAddress> emailAddresses() const;
     /** Sets value of the emailAddresses property. **/
     void setEmailAddresses(const QList<EmailAddress> &value);
     /** Appends the given @c value to the list of emailAddresses. **/
@@ -123,7 +123,7 @@ public:
     void clearEmailAddresses();
 
     /** The person's client data. **/
-    Q_REQUIRED_RESULT QList<ClientData> clientData() const;
+    [[nodiscard]] QList<ClientData> clientData() const;
     /** Sets value of the clientData property. **/
     void setClientData(const QList<ClientData> &value);
     /** Appends the given @c value to the list of clientData. **/
@@ -134,7 +134,7 @@ public:
     void clearClientData();
 
     /** **DEPRECATED**: No data will be returned The person's bragging rights. **/
-    Q_REQUIRED_RESULT QList<BraggingRights> braggingRights() const;
+    [[nodiscard]] QList<BraggingRights> braggingRights() const;
     /** Sets value of the braggingRights property. **/
     void setBraggingRights(const QList<BraggingRights> &value);
     /** Appends the given @c value to the list of braggingRights. **/
@@ -145,10 +145,10 @@ public:
     void clearBraggingRights();
 
     /** Output only. **DEPRECATED**: No data will be returned The person's relationship statuses. **/
-    Q_REQUIRED_RESULT QList<RelationshipStatus> relationshipStatuses() const;
+    [[nodiscard]] QList<RelationshipStatus> relationshipStatuses() const;
 
     /** The person's birthdays. This field is a singleton for contact sources. **/
-    Q_REQUIRED_RESULT QList<Birthday> birthdays() const;
+    [[nodiscard]] QList<Birthday> birthdays() const;
     /** Sets value of the birthdays property. **/
     void setBirthdays(const QList<Birthday> &value);
     /** Appends the given @c value to the list of birthdays. **/
@@ -159,7 +159,7 @@ public:
     void clearBirthdays();
 
     /** The person's relations. **/
-    Q_REQUIRED_RESULT QList<Relation> relations() const;
+    [[nodiscard]] QList<Relation> relations() const;
     /** Sets value of the relations property. **/
     void setRelations(const QList<Relation> &value);
     /** Appends the given @c value to the list of relations. **/
@@ -170,7 +170,7 @@ public:
     void clearRelations();
 
     /** The person's locale preferences. **/
-    Q_REQUIRED_RESULT QList<PersonLocale> locales() const;
+    [[nodiscard]] QList<PersonLocale> locales() const;
     /** Sets value of the locales property. **/
     void setLocales(const QList<PersonLocale> &value);
     /** Appends the given @c value to the list of locales. **/
@@ -181,7 +181,7 @@ public:
     void clearLocales();
 
     /** The person's locations. **/
-    Q_REQUIRED_RESULT QList<Location> locations() const;
+    [[nodiscard]] QList<Location> locations() const;
     /** Sets value of the locations property. **/
     void setLocations(const QList<Location> &value);
     /** Appends the given @c value to the list of locations. **/
@@ -192,7 +192,7 @@ public:
     void clearLocations();
 
     /** The person's external IDs. **/
-    Q_REQUIRED_RESULT QList<ExternalId> externalIds() const;
+    [[nodiscard]] QList<ExternalId> externalIds() const;
     /** Sets value of the externalIds property. **/
     void setExternalIds(const QList<ExternalId> &value);
     /** Appends the given @c value to the list of externalIds. **/
@@ -203,13 +203,13 @@ public:
     void clearExternalIds();
 
     /** Output only. The person's age ranges. **/
-    Q_REQUIRED_RESULT QList<AgeRangeType> ageRanges() const;
+    [[nodiscard]] QList<AgeRangeType> ageRanges() const;
 
     /** Output only. **DEPRECATED**: No data will be returned The person's taglines. **/
-    Q_REQUIRED_RESULT QList<Tagline> taglines() const;
+    [[nodiscard]] QList<Tagline> taglines() const;
 
     /** The person's user defined data. **/
-    Q_REQUIRED_RESULT QList<UserDefined> userDefined() const;
+    [[nodiscard]] QList<UserDefined> userDefined() const;
     /** Sets value of the userDefined property. **/
     void setUserDefined(const QList<UserDefined> &value);
     /** Appends the given @c value to the list of userDefined. **/
@@ -220,7 +220,7 @@ public:
     void clearUserDefined();
 
     /** The person's biographies. This field is a singleton for contact sources. **/
-    Q_REQUIRED_RESULT QList<Biography> biographies() const;
+    [[nodiscard]] QList<Biography> biographies() const;
     /** Sets value of the biographies property. **/
     void setBiographies(const QList<Biography> &value);
     /** Appends the given @c value to the list of biographies. **/
@@ -231,7 +231,7 @@ public:
     void clearBiographies();
 
     /** The person's SIP addresses. **/
-    Q_REQUIRED_RESULT QList<SipAddress> sipAddresses() const;
+    [[nodiscard]] QList<SipAddress> sipAddresses() const;
     /** Sets value of the sipAddresses property. **/
     void setSipAddresses(const QList<SipAddress> &value);
     /** Appends the given @c value to the list of sipAddresses. **/
@@ -242,7 +242,7 @@ public:
     void clearSipAddresses();
 
     /** The person's group memberships. **/
-    Q_REQUIRED_RESULT QList<Membership> memberships() const;
+    [[nodiscard]] QList<Membership> memberships() const;
     /** Sets value of the memberships property. **/
     void setMemberships(const QList<Membership> &value);
     /** Appends the given @c value to the list of memberships. **/
@@ -253,7 +253,7 @@ public:
     void clearMemberships();
 
     /** The person's skills. **/
-    Q_REQUIRED_RESULT QList<Skill> skills() const;
+    [[nodiscard]] QList<Skill> skills() const;
     /** Sets value of the skills property. **/
     void setSkills(const QList<Skill> &value);
     /** Appends the given @c value to the list of skills. **/
@@ -264,7 +264,7 @@ public:
     void clearSkills();
 
     /** **DEPRECATED**: (Please use `person.locations` instead) The person's residences. **/
-    Q_REQUIRED_RESULT QList<Residence> residences() const;
+    [[nodiscard]] QList<Residence> residences() const;
     /** Sets value of the residences property. **/
     void setResidences(const QList<Residence> &value);
     /** Appends the given @c value to the list of residences. **/
@@ -275,7 +275,7 @@ public:
     void clearResidences();
 
     /** The person's names. This field is a singleton for contact sources. **/
-    Q_REQUIRED_RESULT QList<Name> names() const;
+    [[nodiscard]] QList<Name> names() const;
     /** Sets value of the names property. **/
     void setNames(const QList<Name> &value);
     /** Appends the given @c value to the list of names. **/
@@ -286,7 +286,7 @@ public:
     void clearNames();
 
     /** The person's calendar URLs. **/
-    Q_REQUIRED_RESULT QList<CalendarUrl> calendarUrls() const;
+    [[nodiscard]] QList<CalendarUrl> calendarUrls() const;
     /** Sets value of the calendarUrls property. **/
     void setCalendarUrls(const QList<CalendarUrl> &value);
     /** Appends the given @c value to the list of calendarUrls. **/
@@ -297,10 +297,10 @@ public:
     void clearCalendarUrls();
 
     /** Output only. The person's cover photos. **/
-    Q_REQUIRED_RESULT QList<CoverPhoto> coverPhotos() const;
+    [[nodiscard]] QList<CoverPhoto> coverPhotos() const;
 
     /** The person's street addresses. **/
-    Q_REQUIRED_RESULT QList<Address> addresses() const;
+    [[nodiscard]] QList<Address> addresses() const;
     /** Sets value of the addresses property. **/
     void setAddresses(const QList<Address> &value);
     /** Appends the given @c value to the list of addresses. **/
@@ -311,13 +311,13 @@ public:
     void clearAddresses();
 
     /** The [HTTP entity tag](https://en.wikipedia.org/wiki/HTTP_ETag) of the resource. Used for web cache validation. **/
-    Q_REQUIRED_RESULT QString etag() const;
+    [[nodiscard]] QString etag() const;
     /** Sets value of the etag property. **/
     void setEtag(const QString &value);
 
     /** The person's phone numbers. For `people.connections.list` and `otherContacts.list` the number of phone numbers is limited to 100. If a Person has more
      * phone numbers the entire set can be obtained by calling GetPeople. **/
-    Q_REQUIRED_RESULT QList<PhoneNumber> phoneNumbers() const;
+    [[nodiscard]] QList<PhoneNumber> phoneNumbers() const;
     /** Sets value of the phoneNumbers property. **/
     void setPhoneNumbers(const QList<PhoneNumber> &value);
     /** Appends the given @c value to the list of phoneNumbers. **/
@@ -328,7 +328,7 @@ public:
     void clearPhoneNumbers();
 
     /** The person's instant messaging clients. **/
-    Q_REQUIRED_RESULT QList<ImClient> imClients() const;
+    [[nodiscard]] QList<ImClient> imClients() const;
     /** Sets value of the imClients property. **/
     void setImClients(const QList<ImClient> &value);
     /** Appends the given @c value to the list of imClients. **/
@@ -339,7 +339,7 @@ public:
     void clearImClients();
 
     /** The person's events. **/
-    Q_REQUIRED_RESULT QList<Event> events() const;
+    [[nodiscard]] QList<Event> events() const;
     /** Sets value of the events property. **/
     void setEvents(const QList<Event> &value);
     /** Appends the given @c value to the list of events. **/
@@ -350,10 +350,10 @@ public:
     void clearEvents();
 
     /** Output only. The person's photos. **/
-    Q_REQUIRED_RESULT QList<Photo> photos() const;
+    [[nodiscard]] QList<Photo> photos() const;
 
     /** The person's occupations. **/
-    Q_REQUIRED_RESULT QList<Occupation> occupations() const;
+    [[nodiscard]] QList<Occupation> occupations() const;
     /** Sets value of the occupations property. **/
     void setOccupations(const QList<Occupation> &value);
     /** Appends the given @c value to the list of occupations. **/
@@ -364,7 +364,7 @@ public:
     void clearOccupations();
 
     /** The person's miscellaneous keywords. **/
-    Q_REQUIRED_RESULT QList<MiscKeyword> miscKeywords() const;
+    [[nodiscard]] QList<MiscKeyword> miscKeywords() const;
     /** Sets value of the miscKeywords property. **/
     void setMiscKeywords(const QList<MiscKeyword> &value);
     /** Appends the given @c value to the list of miscKeywords. **/
@@ -375,15 +375,15 @@ public:
     void clearMiscKeywords();
 
     /** Output only. **DEPRECATED**: No data will be returned The person's relationship interests. **/
-    Q_REQUIRED_RESULT QList<RelationshipInterest> relationshipInterests() const;
+    [[nodiscard]] QList<RelationshipInterest> relationshipInterests() const;
 
     /** The resource name for the person, assigned by the server. An ASCII string with a max length of 27 characters, in the form of `people/{person_id}`. **/
-    Q_REQUIRED_RESULT QString resourceName() const;
+    [[nodiscard]] QString resourceName() const;
     /** Sets value of the resourceName property. **/
     void setResourceName(const QString &value);
 
     /** The person's interests. **/
-    Q_REQUIRED_RESULT QList<Interest> interests() const;
+    [[nodiscard]] QList<Interest> interests() const;
     /** Sets value of the interests property. **/
     void setInterests(const QList<Interest> &value);
     /** Appends the given @c value to the list of interests. **/
@@ -394,7 +394,7 @@ public:
     void clearInterests();
 
     /** The person's past or current organizations. **/
-    Q_REQUIRED_RESULT QList<Organization> organizations() const;
+    [[nodiscard]] QList<Organization> organizations() const;
     /** Sets value of the organizations property. **/
     void setOrganizations(const QList<Organization> &value);
     /** Appends the given @c value to the list of organizations. **/
@@ -405,7 +405,7 @@ public:
     void clearOrganizations();
 
     /** The person's associated URLs. **/
-    Q_REQUIRED_RESULT QList<Url> urls() const;
+    [[nodiscard]] QList<Url> urls() const;
     /** Sets value of the urls property. **/
     void setUrls(const QList<Url> &value);
     /** Appends the given @c value to the list of urls. **/
@@ -416,7 +416,7 @@ public:
     void clearUrls();
 
     /** The person's genders. This field is a singleton for contact sources. **/
-    Q_REQUIRED_RESULT QList<Gender> genders() const;
+    [[nodiscard]] QList<Gender> genders() const;
     /** Sets value of the genders property. **/
     void setGenders(const QList<Gender> &value);
     /** Appends the given @c value to the list of genders. **/
@@ -427,7 +427,7 @@ public:
     void clearGenders();
 
     /** The person's file-ases. **/
-    Q_REQUIRED_RESULT QList<FileAs> fileAses() const;
+    [[nodiscard]] QList<FileAs> fileAses() const;
     /** Sets value of the fileAses property. **/
     void setFileAses(const QList<FileAs> &value);
     /** Appends the given @c value to the list of fileAses. **/
@@ -438,13 +438,13 @@ public:
     void clearFileAses();
 
     /** Output only. **DEPRECATED** (Please use `person.ageRanges` instead) The person's age range. **/
-    Q_REQUIRED_RESULT Person::AgeRange ageRange() const;
+    [[nodiscard]] Person::AgeRange ageRange() const;
 
     /** Output only. Metadata about the person. **/
-    Q_REQUIRED_RESULT PersonMetadata metadata() const;
+    [[nodiscard]] PersonMetadata metadata() const;
 
-    Q_REQUIRED_RESULT static PersonPtr fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static PersonPtr fromJSON(const QJsonObject &obj);
+    [[nodiscard]] QJsonValue toJSON() const;
 
 private:
     class Private;

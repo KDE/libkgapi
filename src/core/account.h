@@ -72,7 +72,7 @@ public:
     /**
      * @returns Returns unique account identifier
      */
-    Q_REQUIRED_RESULT QString accountName() const;
+    [[nodiscard]] QString accountName() const;
 
     /**
      * Sets account name.
@@ -84,7 +84,7 @@ public:
     /**
      * @return Returns access token.
      */
-    Q_REQUIRED_RESULT QString accessToken() const;
+    [[nodiscard]] QString accessToken() const;
 
     /**
      * Sets a new access token.
@@ -96,7 +96,7 @@ public:
     /**
      * @return Returns refresh token.
      */
-    Q_REQUIRED_RESULT QString refreshToken() const;
+    [[nodiscard]] QString refreshToken() const;
 
     /**
      * Sets a new refresh token for the access token.
@@ -108,7 +108,7 @@ public:
     /**
      * @return Returns list of scopes the account is authenticated against.
      */
-    Q_REQUIRED_RESULT QList<QUrl> scopes() const;
+    [[nodiscard]] QList<QUrl> scopes() const;
 
     /**
      * \brief Sets new scopes.
@@ -142,7 +142,7 @@ public:
      * @since 2.0.82
      * Returns expire date time token
      */
-    Q_REQUIRED_RESULT QDateTime expireDateTime() const;
+    [[nodiscard]] QDateTime expireDateTime() const;
 
     /**
      * @since 2.0.82

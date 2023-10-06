@@ -45,27 +45,27 @@ public:
     bool operator==(const CalendarUrl &) const;
     bool operator!=(const CalendarUrl &) const;
 
-    Q_REQUIRED_RESULT static CalendarUrl fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QList<CalendarUrl> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static CalendarUrl fromJSON(const QJsonObject &obj);
+    [[nodiscard]] static QList<CalendarUrl> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** The calendar URL. **/
-    Q_REQUIRED_RESULT QString url() const;
+    [[nodiscard]] QString url() const;
     /** Sets value of the url property. **/
     void setUrl(const QString &value);
 
     /** Metadata about the calendar URL. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The type of the calendar URL. The type can be custom or one of these predefined values: * `home` * `freeBusy` * `work` **/
-    Q_REQUIRED_RESULT QString type() const;
+    [[nodiscard]] QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Output only. The type of the calendar URL translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    Q_REQUIRED_RESULT QString formattedType() const;
+    [[nodiscard]] QString formattedType() const;
 
 private:
     class Private;

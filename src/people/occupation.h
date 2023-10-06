@@ -45,17 +45,17 @@ public:
     bool operator==(const Occupation &) const;
     bool operator!=(const Occupation &) const;
 
-    Q_REQUIRED_RESULT static Occupation fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<Occupation> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static Occupation fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<Occupation> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** The occupation; for example, `carpenter`. **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Metadata about the occupation. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

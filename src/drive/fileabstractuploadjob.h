@@ -44,7 +44,7 @@ protected:
     virtual QUrl createUrl(const QString &filePath, const FilePtr &metaData) = 0;
     virtual QNetworkReply *dispatch(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data) = 0;
     void setSerializationOptions(File::SerializationOptions options);
-    Q_REQUIRED_RESULT File::SerializationOptions serializationOptions() const;
+    [[nodiscard]] File::SerializationOptions serializationOptions() const;
 
 private:
     class Private;

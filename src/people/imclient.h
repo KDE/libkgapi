@@ -47,36 +47,36 @@ public:
     bool operator==(const ImClient &) const;
     bool operator!=(const ImClient &) const;
 
-    Q_REQUIRED_RESULT static ImClient fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<ImClient> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static ImClient fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<ImClient> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** The protocol of the IM client. The protocol can be custom or one of these predefined values: * `aim` * `msn` * `yahoo` * `skype` * `qq` * `googleTalk` *
      * `icq` * `jabber` * `netMeeting` **/
-    Q_REQUIRED_RESULT QString protocol() const;
+    [[nodiscard]] QString protocol() const;
     /** Sets value of the protocol property. **/
     void setProtocol(const QString &value);
 
     /** The user name used in the IM client. **/
-    Q_REQUIRED_RESULT QString username() const;
+    [[nodiscard]] QString username() const;
     /** Sets value of the username property. **/
     void setUsername(const QString &value);
 
     /** The type of the IM client. The type can be custom or one of these predefined values: * `home` * `work` * `other` **/
-    Q_REQUIRED_RESULT QString type() const;
+    [[nodiscard]] QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Metadata about the IM client. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** Output only. The type of the IM client translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    Q_REQUIRED_RESULT QString formattedType() const;
+    [[nodiscard]] QString formattedType() const;
 
     /** Output only. The protocol of the IM client formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    Q_REQUIRED_RESULT QString formattedProtocol() const;
+    [[nodiscard]] QString formattedProtocol() const;
 
 private:
     class Private;

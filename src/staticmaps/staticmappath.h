@@ -84,12 +84,12 @@ public:
     /**
      * @brief Location type
      */
-    Q_REQUIRED_RESULT LocationType locationType() const;
+    [[nodiscard]] LocationType locationType() const;
 
     /**
      * @brief Returns the color of path
      */
-    Q_REQUIRED_RESULT QColor color() const;
+    [[nodiscard]] QColor color() const;
 
     /**
      * @brief Sets color of the path
@@ -101,7 +101,7 @@ public:
     /**
      * @brief Returns the color of filled area
      */
-    Q_REQUIRED_RESULT QColor fillColor() const;
+    [[nodiscard]] QColor fillColor() const;
 
     /**
      * @brief Sets color for filled area in path
@@ -122,7 +122,7 @@ public:
      *
      * Returns empty list if is not defined
      */
-    Q_REQUIRED_RESULT QStringList locationsString() const;
+    [[nodiscard]] QStringList locationsString() const;
 
     /**
      * @brief Sets locations for path
@@ -136,7 +136,7 @@ public:
      *
      * Returns empty list if is not defined
      */
-    Q_REQUIRED_RESULT KContacts::Address::List locationsAddress() const;
+    [[nodiscard]] KContacts::Address::List locationsAddress() const;
 
     /**
      * @brief  Sets locations for path
@@ -150,7 +150,7 @@ public:
      *
      * Returns empty list if is not defined
      */
-    Q_REQUIRED_RESULT QList<KContacts::Geo> locationsGeo() const;
+    [[nodiscard]] QList<KContacts::Geo> locationsGeo() const;
 
     /**
      * @brief Sets locations for path
@@ -162,12 +162,12 @@ public:
     /**
      * @brief Returns all locations and path preferences in format to URL query.
      */
-    Q_REQUIRED_RESULT QString toString() const;
+    [[nodiscard]] QString toString() const;
 
     /**
      * @brief Returns weight of the path
      */
-    Q_REQUIRED_RESULT quint8 weight() const;
+    [[nodiscard]] quint8 weight() const;
 
     /**
      * @brief Sets weight of the path

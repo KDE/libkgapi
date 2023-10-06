@@ -50,17 +50,17 @@ public:
     bool operator==(const AgeRangeType &) const;
     bool operator!=(const AgeRangeType &) const;
 
-    Q_REQUIRED_RESULT static AgeRangeType fromJSON(const QJsonObject &obj);
-    Q_REQUIRED_RESULT static QList<AgeRangeType> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static AgeRangeType fromJSON(const QJsonObject &obj);
+    [[nodiscard]] static QList<AgeRangeType> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** The age range. **/
-    Q_REQUIRED_RESULT AgeRangeType::AgeRange ageRange() const;
+    [[nodiscard]] AgeRangeType::AgeRange ageRange() const;
     /** Sets value of the ageRange property. **/
     void setAgeRange(AgeRangeType::AgeRange value);
 
     /** Metadata about the age range. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

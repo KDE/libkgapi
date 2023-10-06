@@ -57,7 +57,7 @@ public:
         /**
          * @brief Returns whether this file is starred by the user.
          */
-        Q_REQUIRED_RESULT bool starred() const;
+        [[nodiscard]] bool starred() const;
 
         /**
          * @brief Sets whether this file is starred by the user.
@@ -110,7 +110,7 @@ public:
         /**
          * @brief Returns whether this file has been viewed by this user.
          */
-        Q_REQUIRED_RESULT bool viewed() const;
+        [[nodiscard]] bool viewed() const;
 
         /**
          * @brief Sets whether this file has been viewed by this user.
@@ -146,7 +146,7 @@ public:
         /**
          * @brief Returns the text to be indexed for this file.
          */
-        Q_REQUIRED_RESULT QString text() const;
+        [[nodiscard]] QString text() const;
 
         /**
          * @brief Sets the text to be indexed for this file.
@@ -191,17 +191,17 @@ public:
             /**
              * @brief Returns the latitude stored in the image.
              */
-            Q_REQUIRED_RESULT qreal latitude() const;
+            [[nodiscard]] qreal latitude() const;
 
             /**
              * @brief Returns the longitude stored in the image.
              */
-            Q_REQUIRED_RESULT qreal longitude() const;
+            [[nodiscard]] qreal longitude() const;
 
             /**
              * @brief Returns the altitude stored in the image.
              */
-            Q_REQUIRED_RESULT qreal altitude() const;
+            [[nodiscard]] qreal altitude() const;
 
         private:
             explicit Location();
@@ -225,56 +225,56 @@ public:
         /**
          * @brief Returns the width of the image in pixels.
          */
-        Q_REQUIRED_RESULT int width() const;
+        [[nodiscard]] int width() const;
 
         /**
          * @brief Returns the height of the image in pixels.
          */
-        Q_REQUIRED_RESULT int height() const;
+        [[nodiscard]] int height() const;
 
         /**
          * @brief Returns the rotation in clockwise degrees from the image's original orientation.
          */
-        Q_REQUIRED_RESULT int rotation() const;
+        [[nodiscard]] int rotation() const;
 
         /**
          * @brief Returns the geographic location information stored in the image.
          */
-        Q_REQUIRED_RESULT LocationPtr location() const;
+        [[nodiscard]] LocationPtr location() const;
 
-        Q_REQUIRED_RESULT QString date() const;
+        [[nodiscard]] QString date() const;
 
-        Q_REQUIRED_RESULT QString cameraMake() const;
+        [[nodiscard]] QString cameraMake() const;
 
-        Q_REQUIRED_RESULT QString cameraModel() const;
+        [[nodiscard]] QString cameraModel() const;
 
-        Q_REQUIRED_RESULT float exposureTime() const;
+        [[nodiscard]] float exposureTime() const;
 
-        Q_REQUIRED_RESULT float aperture() const;
+        [[nodiscard]] float aperture() const;
 
-        Q_REQUIRED_RESULT bool flashUsed() const;
+        [[nodiscard]] bool flashUsed() const;
 
-        Q_REQUIRED_RESULT float focalLength() const;
+        [[nodiscard]] float focalLength() const;
 
-        Q_REQUIRED_RESULT int isoSpeed() const;
+        [[nodiscard]] int isoSpeed() const;
 
-        Q_REQUIRED_RESULT QString meteringMode() const;
+        [[nodiscard]] QString meteringMode() const;
 
-        Q_REQUIRED_RESULT QString sensor() const;
+        [[nodiscard]] QString sensor() const;
 
-        Q_REQUIRED_RESULT QString exposureMode() const;
+        [[nodiscard]] QString exposureMode() const;
 
-        Q_REQUIRED_RESULT QString colorSpace() const;
+        [[nodiscard]] QString colorSpace() const;
 
-        Q_REQUIRED_RESULT QString whiteBalance() const;
+        [[nodiscard]] QString whiteBalance() const;
 
-        Q_REQUIRED_RESULT float exposureBias() const;
+        [[nodiscard]] float exposureBias() const;
 
-        Q_REQUIRED_RESULT float maxApertureValue() const;
+        [[nodiscard]] float maxApertureValue() const;
 
-        Q_REQUIRED_RESULT int subjectDistance() const;
+        [[nodiscard]] int subjectDistance() const;
 
-        Q_REQUIRED_RESULT QString lens() const;
+        [[nodiscard]] QString lens() const;
 
     private:
         explicit ImageMediaMetadata(const QVariantMap &jsonMap);
@@ -298,9 +298,9 @@ public:
             return !operator==(other);
         }
 
-        Q_REQUIRED_RESULT QImage image() const;
+        [[nodiscard]] QImage image() const;
 
-        Q_REQUIRED_RESULT QString mimeType() const;
+        [[nodiscard]] QString mimeType() const;
 
     private:
         explicit Thumbnail(const QVariantMap &jsonMap);
@@ -340,19 +340,19 @@ public:
     /**
      * @brief Returns the id of the file.
      */
-    Q_REQUIRED_RESULT QString id() const;
+    [[nodiscard]] QString id() const;
 
     /**
      * @brief Returns a link back to this file.
      */
-    Q_REQUIRED_RESULT QUrl selfLink() const;
+    [[nodiscard]] QUrl selfLink() const;
 
     /**
      * @brief Returns the title of this file.
      *
      * Used to identify file or folder name.
      */
-    Q_REQUIRED_RESULT QString title() const;
+    [[nodiscard]] QString title() const;
 
     /**
      * @brief Sets the title of this file.
@@ -366,7 +366,7 @@ public:
     /**
      * @brief Returns the MIME type of the file.
      */
-    Q_REQUIRED_RESULT QString mimeType() const;
+    [[nodiscard]] QString mimeType() const;
 
     /**
      * @brief Sets the MIME type of the file.
@@ -378,7 +378,7 @@ public:
     /**
      * @brief Returns a short description of the file.
      */
-    Q_REQUIRED_RESULT QString description() const;
+    [[nodiscard]] QString description() const;
 
     /**
      * @brief Sets a short description of the file.
@@ -402,14 +402,14 @@ public:
     /**
      * @brief Returns the create time for this file.
      */
-    Q_REQUIRED_RESULT QDateTime createdDate() const;
+    [[nodiscard]] QDateTime createdDate() const;
 
     /**
      * @brief Returns the last time this file was modified by anyone.
      *
      * This is only mutable on update when the setModifiedDate parameter is set.
      */
-    Q_REQUIRED_RESULT QDateTime modifiedDate() const;
+    [[nodiscard]] QDateTime modifiedDate() const;
 
     /**
      * @brief Sets the last time this file was modified by anyone.
@@ -424,14 +424,14 @@ public:
      * @brief Returns the last time this file was modified by the currently
      *        authenticated user.
      */
-    Q_REQUIRED_RESULT QDateTime modifiedByMeDate() const;
+    [[nodiscard]] QDateTime modifiedByMeDate() const;
 
     /**
      * @brief Returns a short lived download URL for the file.
      *
      * This is only populated for files with content stored in Drive.
      */
-    Q_REQUIRED_RESULT QUrl downloadUrl() const;
+    [[nodiscard]] QUrl downloadUrl() const;
 
     /**
      * @brief Returns the indexable text attributes for the file.
@@ -451,42 +451,42 @@ public:
      * This field is read only. To set the extension, include it on title when creating the file.
      * This is populated only for files with content stored in Drive.
      */
-    Q_REQUIRED_RESULT QString fileExtension() const;
+    [[nodiscard]] QString fileExtension() const;
 
     /**
      * @brief Returns an MD5 checksum for the content of this file.
      *
      * This is populated only for files with content stored in Drive.
      */
-    Q_REQUIRED_RESULT QString md5Checksum() const;
+    [[nodiscard]] QString md5Checksum() const;
 
     /**
      * @brief Returns the size of the file in bytes.
      *
      * This is populated only for files with content stored in Drive.
      */
-    Q_REQUIRED_RESULT qlonglong fileSize() const;
+    [[nodiscard]] qlonglong fileSize() const;
 
     /**
      * @brief Returns a link for opening the file in using a relevant
      *        Google editor or viewer.
      */
-    Q_REQUIRED_RESULT QUrl alternateLink() const;
+    [[nodiscard]] QUrl alternateLink() const;
 
     /**
      * @brief Returns a link for embedding the file.
      */
-    Q_REQUIRED_RESULT QUrl embedLink() const;
+    [[nodiscard]] QUrl embedLink() const;
 
     /**
      * @brief Returns the version of the file;
      */
-    Q_REQUIRED_RESULT qlonglong version() const;
+    [[nodiscard]] qlonglong version() const;
 
     /**
      * @brief Returns the time at which this file was shared with the user.
      */
-    Q_REQUIRED_RESULT QDateTime sharedWithMeDate() const;
+    [[nodiscard]] QDateTime sharedWithMeDate() const;
 
     /**
      * @brief Returns the collection of parent folders which contain this file.
@@ -522,44 +522,44 @@ public:
      * Note that renames of the title will not change the original filename.
      * This will only be populated on files with content stored in Drive.
      */
-    Q_REQUIRED_RESULT QString originalFileName() const;
+    [[nodiscard]] QString originalFileName() const;
 
     /**
      * @brief Returns the number of quota bytes used by this file.
      */
-    Q_REQUIRED_RESULT qlonglong quotaBytesUsed() const;
+    [[nodiscard]] qlonglong quotaBytesUsed() const;
 
     /**
      * @brief Return the name(s) of the owner(s) of this file.
      */
-    Q_REQUIRED_RESULT QStringList ownerNames() const;
+    [[nodiscard]] QStringList ownerNames() const;
 
     /**
      * @brief Returns the name of the last user to modify this file.
      *
      * This will only be populated if a user has edited this file.
      */
-    Q_REQUIRED_RESULT QString lastModifyingUserName() const;
+    [[nodiscard]] QString lastModifyingUserName() const;
 
     /**
      * @brief Returns whether the file can be edited by the current user.
      */
-    Q_REQUIRED_RESULT bool editable() const;
+    [[nodiscard]] bool editable() const;
 
     /**
      * @brief Returns whether writers can share the document with other users.
      */
-    Q_REQUIRED_RESULT bool writersCanShare() const;
+    [[nodiscard]] bool writersCanShare() const;
 
     /**
      * @brief Returns a link to the file's thumbnail.
      */
-    Q_REQUIRED_RESULT QUrl thumbnailLink() const;
+    [[nodiscard]] QUrl thumbnailLink() const;
 
     /**
      * @brief Returns the last time this file was viewed by the user.
      */
-    Q_REQUIRED_RESULT QDateTime lastViewedByMeDate() const;
+    [[nodiscard]] QDateTime lastViewedByMeDate() const;
 
     /**
      * @brief Sets the last time this file was viewed by the user.
@@ -575,7 +575,7 @@ public:
      * In cases where the content is shared publicly, the content can be
      * downloaded without any credentials.
      */
-    Q_REQUIRED_RESULT QUrl webContentLink() const;
+    [[nodiscard]] QUrl webContentLink() const;
 
     /**
      * @brief Returns whether this file has been explicitly trashed, as opposed
@@ -583,7 +583,7 @@ public:
      *
      * This will only be populated if the file is trashed.
      */
-    Q_REQUIRED_RESULT bool explicitlyTrashed() const;
+    [[nodiscard]] bool explicitlyTrashed() const;
 
     /**
      * @brief Returns metadata about image media.
@@ -598,17 +598,17 @@ public:
      */
     ThumbnailPtr thumbnail() const;
 
-    Q_REQUIRED_RESULT QUrl webViewLink() const;
+    [[nodiscard]] QUrl webViewLink() const;
 
-    Q_REQUIRED_RESULT QUrl iconLink() const;
+    [[nodiscard]] QUrl iconLink() const;
 
-    Q_REQUIRED_RESULT bool shared() const;
+    [[nodiscard]] bool shared() const;
 
-    Q_REQUIRED_RESULT UsersList owners() const;
+    [[nodiscard]] UsersList owners() const;
 
-    Q_REQUIRED_RESULT UserPtr lastModifyingUser() const;
+    [[nodiscard]] UserPtr lastModifyingUser() const;
 
-    Q_REQUIRED_RESULT bool isFolder() const;
+    [[nodiscard]] bool isFolder() const;
 
     struct Fields {
         static const QString Items;

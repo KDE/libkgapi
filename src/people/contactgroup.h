@@ -50,26 +50,26 @@ public:
     bool operator==(const ContactGroup &) const;
     bool operator!=(const ContactGroup &) const;
 
-    Q_REQUIRED_RESULT static ContactGroupPtr fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static ContactGroupPtr fromJSON(const QJsonObject &);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Output only. The name translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale for system groups names. Group
      * names set by the owner are the same as name. **/
-    Q_REQUIRED_RESULT QString formattedName() const;
+    [[nodiscard]] QString formattedName() const;
 
     /** Output only. The total number of contacts in the group irrespective of max members in specified in the request. **/
-    Q_REQUIRED_RESULT int memberCount() const;
+    [[nodiscard]] int memberCount() const;
 
     /** The [HTTP entity tag](https://en.wikipedia.org/wiki/HTTP_ETag) of the resource. Used for web cache validation. **/
-    Q_REQUIRED_RESULT QString etag() const;
+    [[nodiscard]] QString etag() const;
     /** Sets value of the etag property. **/
     void setEtag(const QString &value);
 
     /** Output only. The contact group type. **/
-    Q_REQUIRED_RESULT ContactGroup::GroupType groupType() const;
+    [[nodiscard]] ContactGroup::GroupType groupType() const;
 
     /** The group's client data. **/
-    Q_REQUIRED_RESULT QList<GroupClientData> clientData() const;
+    [[nodiscard]] QList<GroupClientData> clientData() const;
     /** Sets value of the clientData property. **/
     void setClientData(const QList<GroupClientData> &value);
     /** Appends the given @c value to the list of clientData. **/
@@ -82,21 +82,21 @@ public:
     /** The contact group name set by the group owner or a system provided name for system groups. For
      * [`contactGroups.create`](/people/api/rest/v1/contactGroups/create) or [`contactGroups.update`](/people/api/rest/v1/contactGroups/update) the name must be
      * unique to the users contact groups. Attempting to create a group with a duplicate name will return a HTTP 409 error. **/
-    Q_REQUIRED_RESULT QString name() const;
+    [[nodiscard]] QString name() const;
     /** Sets value of the name property. **/
     void setName(const QString &value);
 
     /** Output only. Metadata about the contact group. **/
-    Q_REQUIRED_RESULT ContactGroupMetadata metadata() const;
+    [[nodiscard]] ContactGroupMetadata metadata() const;
 
     /** The resource name for the contact group, assigned by the server. An ASCII string, in the form of `contactGroups/{contact_group_id}`. **/
-    Q_REQUIRED_RESULT QString resourceName() const;
+    [[nodiscard]] QString resourceName() const;
     /** Sets value of the resourceName property. **/
     void setResourceName(const QString &value);
 
     /** Output only. The list of contact person resource names that are members of the contact group. The field is only populated for GET requests and will only
      * return as many members as `maxMembers` in the get request. **/
-    Q_REQUIRED_RESULT QList<QString> memberResourceNames() const;
+    [[nodiscard]] QList<QString> memberResourceNames() const;
 
 private:
     class Private;

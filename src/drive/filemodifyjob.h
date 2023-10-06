@@ -59,18 +59,18 @@ public:
     explicit FileModifyJob(const QMap<QString /* file path */, FilePtr /* metadata */> &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileModifyJob() override;
 
-    Q_REQUIRED_RESULT bool createNewRevision() const;
+    [[nodiscard]] bool createNewRevision() const;
     void setCreateNewRevision(bool createNewRevision);
 
-    Q_REQUIRED_RESULT bool updateModifiedDate() const;
+    [[nodiscard]] bool updateModifiedDate() const;
     void setUpdateModifiedDate(bool updateModifiedDate);
 
-    Q_REQUIRED_RESULT bool updateViewedDate() const;
+    [[nodiscard]] bool updateViewedDate() const;
     void setUpdateViewedDate(bool updateViewedDate);
 
 protected:
     QNetworkReply *dispatch(QNetworkAccessManager *accessManager, const QNetworkRequest &request, const QByteArray &data) override;
-    Q_REQUIRED_RESULT QUrl createUrl(const QString &filePath, const FilePtr &metaData) override;
+    [[nodiscard]] QUrl createUrl(const QString &filePath, const FilePtr &metaData) override;
 
 private:
     class Private;

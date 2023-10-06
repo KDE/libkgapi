@@ -29,7 +29,7 @@ public:
     /**
      * @brief The plain text custom message to include in notification emails.
      */
-    Q_REQUIRED_RESULT QString emailMessage() const;
+    [[nodiscard]] QString emailMessage() const;
 
     /**
      * @brief Sets the plain text custom message to include in notification emails.
@@ -41,7 +41,7 @@ public:
      * or groups. This parameter is ignored and an email is sent if the role
      * is owner. (Default: true)
      */
-    Q_REQUIRED_RESULT bool sendNotificationEmails() const;
+    [[nodiscard]] bool sendNotificationEmails() const;
 
     /**
      * @brief Whether to send notification emails when sharing to users or
@@ -76,7 +76,7 @@ public:
      * to a shared drive and the requester is an administrator of the domain to
      * which the shared drive belongs. (Default: false)
      */
-    Q_REQUIRED_RESULT bool useDomainAdminAccess() const;
+    [[nodiscard]] bool useDomainAdminAccess() const;
 
     /**
      * @brief Sets to issue the request as a domain administrator; if set to true,

@@ -89,7 +89,7 @@ public:
     /**
      * @brief Returns granularity of the requested locations.
      */
-    Q_REQUIRED_RESULT Latitude::Granularity granularity() const;
+    [[nodiscard]] Latitude::Granularity granularity() const;
 
     /**
      * @brief Sets granularity of the requested results. By default it's City.
@@ -113,7 +113,7 @@ public:
     /**
      * @brief Returns lower date limit for fetched locations.
      */
-    Q_REQUIRED_RESULT qlonglong minTimestamp() const;
+    [[nodiscard]] qlonglong minTimestamp() const;
 
     /**
      * @brief Sets lower date limit for locations to fetch.
@@ -125,7 +125,7 @@ public:
     /**
      * @brief Returns upper date limit for fetched locations.
      */
-    Q_REQUIRED_RESULT qlonglong maxTimestamp() const;
+    [[nodiscard]] qlonglong maxTimestamp() const;
 
     /**
      * @brief Sets upper date limit for locations to fetch.

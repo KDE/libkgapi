@@ -43,21 +43,21 @@ public:
     bool operator==(const RelationshipInterest &) const;
     bool operator!=(const RelationshipInterest &) const;
 
-    Q_REQUIRED_RESULT static RelationshipInterest fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static RelationshipInterest fromJSON(const QJsonObject &);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Output only. The value of the relationship interest translated and formatted in the viewer's account locale or the locale specified in the
      * Accept-Language HTTP header. **/
-    Q_REQUIRED_RESULT QString formattedValue() const;
+    [[nodiscard]] QString formattedValue() const;
 
     /** Metadata about the relationship interest. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** The kind of relationship the person is looking for. The value can be custom or one of these predefined values: * `friend` * `date` * `relationship` *
      * `networking` **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 

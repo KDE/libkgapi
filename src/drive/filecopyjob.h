@@ -30,7 +30,7 @@ public:
     explicit FileCopyJob(const QMap<FilePtr /* source file */, FilePtr /* destination file */> &files, const AccountPtr &account, QObject *parent = nullptr);
     ~FileCopyJob() override;
 
-    Q_REQUIRED_RESULT FilesList files() const;
+    [[nodiscard]] FilesList files() const;
 
 protected:
     void handleReply(const QNetworkReply *reply, const QByteArray &rawData) override;

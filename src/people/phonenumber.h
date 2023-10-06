@@ -49,33 +49,33 @@ public:
     bool operator==(const PhoneNumber &) const;
     bool operator!=(const PhoneNumber &) const;
 
-    Q_REQUIRED_RESULT static PhoneNumber fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<PhoneNumber> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static PhoneNumber fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<PhoneNumber> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
-    Q_REQUIRED_RESULT static PhoneNumber fromKContactsPhoneNumber(const KContacts::PhoneNumber &phoneNumber);
-    Q_REQUIRED_RESULT static QList<PhoneNumber> fromKContactsPhoneNumberList(const QList<KContacts::PhoneNumber> &phoneNumberList);
-    Q_REQUIRED_RESULT KContacts::PhoneNumber toKContactsPhoneNumber() const;
+    [[nodiscard]] static PhoneNumber fromKContactsPhoneNumber(const KContacts::PhoneNumber &phoneNumber);
+    [[nodiscard]] static QList<PhoneNumber> fromKContactsPhoneNumberList(const QList<KContacts::PhoneNumber> &phoneNumberList);
+    [[nodiscard]] KContacts::PhoneNumber toKContactsPhoneNumber() const;
 
     /** The phone number. **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Output only. The type of the phone number translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    Q_REQUIRED_RESULT QString formattedType() const;
+    [[nodiscard]] QString formattedType() const;
 
     /** Output only. The canonicalized [ITU-T E.164](https://law.resource.org/pub/us/cfr/ibr/004/itu-t.E.164.1.2008.pdf) form of the phone number. **/
-    Q_REQUIRED_RESULT QString canonicalForm() const;
+    [[nodiscard]] QString canonicalForm() const;
 
     /** The type of the phone number. The type can be custom or one of these predefined values: * `home` * `work` * `mobile` * `homeFax` * `workFax` *
      * `otherFax` * `pager` * `workMobile` * `workPager` * `main` * `googleVoice` * `other` **/
-    Q_REQUIRED_RESULT QString type() const;
+    [[nodiscard]] QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Metadata about the phone number. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 

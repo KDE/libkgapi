@@ -44,29 +44,29 @@ public:
     /**
      * @brief Returns the id of the change.
      */
-    Q_REQUIRED_RESULT qlonglong id() const;
+    [[nodiscard]] qlonglong id() const;
 
     /**
      * @brief Returns the id of the file associated with this change.
      */
-    Q_REQUIRED_RESULT QString fileId() const;
+    [[nodiscard]] QString fileId() const;
 
     /**
      * @brief Returns a link back to this change.
      */
-    Q_REQUIRED_RESULT QUrl selfLink() const;
+    [[nodiscard]] QUrl selfLink() const;
 
     /**
      * Returns whether this file has been deleted.
      */
-    Q_REQUIRED_RESULT bool deleted() const;
+    [[nodiscard]] bool deleted() const;
 
     /**
      * @brief Returns the updated state of the file.
      *
      * Present if the file has not been deleted.
      */
-    Q_REQUIRED_RESULT FilePtr file() const;
+    [[nodiscard]] FilePtr file() const;
 
     static ChangePtr fromJSON(const QByteArray &jsonData);
     static ChangesList fromJSONFeed(const QByteArray &jsonData, FeedData &feedData);

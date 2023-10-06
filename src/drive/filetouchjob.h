@@ -29,7 +29,7 @@ public:
     ~FileTouchJob() override;
 
 protected:
-    Q_REQUIRED_RESULT QUrl url(const QString &fileId) override;
+    [[nodiscard]] QUrl url(const QString &fileId) override;
 
 private:
     class Private;

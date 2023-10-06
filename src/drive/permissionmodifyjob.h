@@ -76,7 +76,7 @@ public:
      * to a shared drive and the requester is an administrator of the domain to
      * which the shared drive belongs. (Default: false)
      */
-    Q_REQUIRED_RESULT bool useDomainAdminAccess() const;
+    [[nodiscard]] bool useDomainAdminAccess() const;
 
     /**
      * @brief Sets to issue the request as a domain administrator; if set to true,

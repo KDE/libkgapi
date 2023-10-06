@@ -76,25 +76,25 @@ public:
         /**
          * @brief The primary role for this user.
          */
-        Q_REQUIRED_RESULT Permission::Role role() const;
+        [[nodiscard]] Permission::Role role() const;
 
         /**
          * @brief Additional roles for this user. Only commenter is currently possible,
          * though more may be supported in the future.
          */
-        Q_REQUIRED_RESULT QList<Permission::Role> additionalRoles() const;
+        [[nodiscard]] QList<Permission::Role> additionalRoles() const;
 
         /**
          * @brief The ID of the item from which this permission is inherited.
          * This is an output-only field and is only populated for members of
          * the shared drive.
          */
-        Q_REQUIRED_RESULT QString inheritedFrom() const;
+        [[nodiscard]] QString inheritedFrom() const;
 
         /**
          * @brief Whether this permission is inherited. This field is always populated. This is an output-only field.
          */
-        Q_REQUIRED_RESULT bool inherited() const;
+        [[nodiscard]] bool inherited() const;
 
     private:
         class Private;

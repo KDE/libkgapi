@@ -62,7 +62,7 @@ public:
      *
      * @return Etag string
      */
-    Q_REQUIRED_RESULT QString etag() const;
+    [[nodiscard]] QString etag() const;
 
 private:
     class Private;

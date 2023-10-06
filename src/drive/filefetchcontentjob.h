@@ -25,7 +25,7 @@ public:
     explicit FileFetchContentJob(const QUrl &url, const AccountPtr &account, QObject *parent = nullptr);
     ~FileFetchContentJob() override;
 
-    Q_REQUIRED_RESULT QByteArray data() const;
+    [[nodiscard]] QByteArray data() const;
 
 protected:
     void start() override;

@@ -45,12 +45,12 @@ public:
     bool operator==(const Url &) const;
     bool operator!=(const Url &) const;
 
-    Q_REQUIRED_RESULT static Url fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<Url> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static Url fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<Url> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** The URL. **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
@@ -66,17 +66,17 @@ public:
      * * `appInstallPage`: website for a Currents application.
      * * `other`
      **/
-    Q_REQUIRED_RESULT QString type() const;
+    [[nodiscard]] QString type() const;
     /** Sets value of the type property. **/
     void setType(const QString &value);
 
     /** Metadata about the URL. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** Output only. The type of the URL translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. **/
-    Q_REQUIRED_RESULT QString formattedType() const;
+    [[nodiscard]] QString formattedType() const;
 
 private:
     class Private;

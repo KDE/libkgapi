@@ -62,7 +62,7 @@ public:
     /**
      * @brief Returns account ID.
      */
-    Q_REQUIRED_RESULT QString id() const;
+    [[nodiscard]] QString id() const;
 
     /**
      * @brief Sets account email.
@@ -76,7 +76,7 @@ public:
      *
      * Note that address does not have to be \@gmail.com.
      */
-    Q_REQUIRED_RESULT QString email() const;
+    [[nodiscard]] QString email() const;
 
     /**
      * @brief Sets user's real full name.
@@ -88,7 +88,7 @@ public:
     /**
      * @brief Returns user's real full name.
      */
-    Q_REQUIRED_RESULT QString name() const;
+    [[nodiscard]] QString name() const;
 
     /**
      * @brief Sets user's given name.
@@ -100,7 +100,7 @@ public:
     /**
      * @brief Returns user's given name.
      */
-    Q_REQUIRED_RESULT QString givenName() const;
+    [[nodiscard]] QString givenName() const;
 
     /**
      * @brief Sets user's family name (surname).
@@ -112,7 +112,7 @@ public:
     /**
      * @brief Returns user's surname.
      */
-    Q_REQUIRED_RESULT QString familyName() const;
+    [[nodiscard]] QString familyName() const;
 
     /**
      * @brief Sets user's birthday
@@ -124,7 +124,7 @@ public:
     /**
      * @brief Returns user's birthday.
      */
-    Q_REQUIRED_RESULT QString birthday() const;
+    [[nodiscard]] QString birthday() const;
 
     /**
      * @brief Sets user's gender.
@@ -136,7 +136,7 @@ public:
     /**
      * @brief Returns user's gender.
      */
-    Q_REQUIRED_RESULT QString gender() const;
+    [[nodiscard]] QString gender() const;
 
     /**
      * @brief Sets link to user's profile.
@@ -148,7 +148,7 @@ public:
     /**
      * @brief Returns link to user's profile.
      */
-    Q_REQUIRED_RESULT QString link() const;
+    [[nodiscard]] QString link() const;
 
     /**
      * @brief Sets users locale settings.
@@ -160,7 +160,7 @@ public:
     /**
      * @brief Returns user's preferred locales.
      */
-    Q_REQUIRED_RESULT QString locale() const;
+    [[nodiscard]] QString locale() const;
 
     /**
      * @brief Sets user's timezone name.
@@ -172,7 +172,7 @@ public:
     /**
      * @brief Returns name of user's timezone.
      */
-    Q_REQUIRED_RESULT QString timezone() const;
+    [[nodiscard]] QString timezone() const;
 
     /**
      * @brief Sets whether the email address is verified.
@@ -184,7 +184,7 @@ public:
     /**
      * @brief Returns whether the email is verified.
      */
-    Q_REQUIRED_RESULT bool verifiedEmail() const;
+    [[nodiscard]] bool verifiedEmail() const;
 
     /**
      * @brief Sets URL of user's photo.
@@ -196,7 +196,7 @@ public:
     /**
      * @brief Returns URL of user's photo.
      */
-    Q_REQUIRED_RESULT QString photoUrl() const;
+    [[nodiscard]] QString photoUrl() const;
 
     /**
      * @brief Parses raw JSON data into AccountInfo object.

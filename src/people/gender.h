@@ -45,26 +45,26 @@ public:
     bool operator==(const Gender &) const;
     bool operator!=(const Gender &) const;
 
-    Q_REQUIRED_RESULT static Gender fromJSON(const QJsonObject &);
-    Q_REQUIRED_RESULT static QList<Gender> fromJSONArray(const QJsonArray &data);
-    Q_REQUIRED_RESULT QJsonValue toJSON() const;
+    [[nodiscard]] static Gender fromJSON(const QJsonObject &);
+    [[nodiscard]] static QList<Gender> fromJSONArray(const QJsonArray &data);
+    [[nodiscard]] QJsonValue toJSON() const;
 
     /** Metadata about the gender. **/
-    Q_REQUIRED_RESULT FieldMetadata metadata() const;
+    [[nodiscard]] FieldMetadata metadata() const;
     /** Sets value of the metadata property. **/
     void setMetadata(const FieldMetadata &value);
 
     /** Output only. The value of the gender translated and formatted in the viewer's account locale or the `Accept-Language` HTTP header locale. Unspecified or
      * custom value are not localized. **/
-    Q_REQUIRED_RESULT QString formattedValue() const;
+    [[nodiscard]] QString formattedValue() const;
 
     /** The gender for the person. The gender can be custom or one of these predefined values: * `male` * `female` * `unspecified` **/
-    Q_REQUIRED_RESULT QString value() const;
+    [[nodiscard]] QString value() const;
     /** Sets value of the value property. **/
     void setValue(const QString &value);
 
     /** Free form text field for pronouns that should be used to address the person. Common values are: * `he`/`him` * `she`/`her` * `they`/`them` **/
-    Q_REQUIRED_RESULT QString addressMeAs() const;
+    [[nodiscard]] QString addressMeAs() const;
     /** Sets value of the addressMeAs property. **/
     void setAddressMeAs(const QString &value);
 
