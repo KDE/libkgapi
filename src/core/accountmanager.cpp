@@ -89,7 +89,7 @@ public:
         }
         auto job = new AuthJob(account, apiKey, apiSecret);
         job->setUsername(account->accountName());
-        connect(job, &AuthJob::finished, [=]() {
+        connect(job, &AuthJob::finished, q, [=]() {
             if (job->error() != KGAPI2::NoError) {
                 promise->d->setError(tr("Failed to authenticate additional scopes"));
                 return;

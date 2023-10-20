@@ -83,7 +83,7 @@ void KWalletStorage::open(const std::function<void(bool)> &callback)
         }
 
         if (mWalletOpening) {
-            QObject::connect(mWallet, &KWallet::Wallet::walletOpened, openedCallback);
+            QObject::connect(mWallet, &KWallet::Wallet::walletOpened, mWallet, openedCallback);
             return;
         }
 
@@ -96,10 +96,10 @@ void KWalletStorage::open(const std::function<void(bool)> &callback)
         qCWarning(KGAPIDebug, "KWallet: failed to open wallet (maybe it's disabled?");
         callback(false);
     } else {
-        QObject::connect(mWallet, &KWallet::Wallet::walletOpened, [this]() {
+        QObject::connect(mWallet, &KWallet::Wallet::walletOpened, mWallet, [this]() {
             mWalletOpening = false;
         });
-        QObject::connect(mWallet, &KWallet::Wallet::walletOpened, openedCallback);
+        QObject::connect(mWallet, &KWallet::Wallet::walletOpened, mWallet, openedCallback);
     }
 }
 
