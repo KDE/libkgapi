@@ -1,19 +1,19 @@
 # translation of libkgapi.po to Slovak
-# Roman Paholík <wizzardsk@gmail.com>, 2013, 2014, 2015, 2017, 2022.
+# SPDX-FileCopyrightText: 2013, 2014, 2015, 2017, 2022, 2023 Roman Paholík <wizzardsk@gmail.com>
 # Matej Mrenica <matejm98mthw@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: libkgapi\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2022-04-15 19:17+0200\n"
+"PO-Revision-Date: 2023-12-07 17:39+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Qt-Contexts: true\n"
 
@@ -451,49 +451,31 @@ msgid "Invalid response content type"
 msgstr "Neznámy typ obsahu odpovede"
 
 #: src/people/contactgroupcreatejob.cpp:93
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupCreateJob|"
 msgid "Invalid response content type"
 msgstr "Neznámy typ obsahu odpovede"
 
 #: src/people/contactgroupmodifyjob.cpp:91
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::ContactGroupModifyJob|"
 msgid "Invalid response content type"
 msgstr "Neznámy typ obsahu odpovede"
 
 #: src/people/personcreatejob.cpp:89
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonCreateJob|"
 msgid "Invalid response content type"
 msgstr "Neznámy typ obsahu odpovede"
 
 #: src/people/personmodifyjob.cpp:104
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
 msgstr "Neznámy typ obsahu odpovede"
 
 #: src/people/personphotodeletejob.cpp:87
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
 msgstr "Neznámy typ obsahu odpovede"
 
 #: src/people/personphotoupdatejob.cpp:97
-#, fuzzy
-#| msgctxt "KGAPI2::Blogger::BlogFetchJob|"
-#| msgid "Invalid response content type"
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
 msgstr "Neznámy typ obsahu odpovede"
