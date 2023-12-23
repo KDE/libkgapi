@@ -1,4 +1,4 @@
-ecm_create_qm_loader(QM_LOADER libkgapi_qt)
+ecm_create_qm_loader(QM_LOADER libkgapi_qt6)
 add_library(KPim6GAPICore)
 add_library(KPim6::GAPICore ALIAS KPim6GAPICore)
 
