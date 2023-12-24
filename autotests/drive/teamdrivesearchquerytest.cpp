@@ -34,7 +34,7 @@ private Q_SLOTS:
 
         {
             TeamdriveSearchQuery query;
-            query.addQuery(TeamdriveSearchQuery::CreatedTime, TeamdriveSearchQuery::Equals, QDateTime(QDate(2019, 3, 5), QTime(6, 36, 0), Qt::UTC));
+            query.addQuery(TeamdriveSearchQuery::CreatedTime, TeamdriveSearchQuery::Equals, QDateTime(QDate(2019, 3, 5), QTime(6, 36, 0), QTimeZone::UTC));
             QTest::newRow("serialize time") << query << "((createdTime = '2019-03-05T06:36:00'))";
         }
 
@@ -60,7 +60,7 @@ private Q_SLOTS:
 
         {
             TeamdriveSearchQuery query(TeamdriveSearchQuery::Or);
-            query.addQuery(TeamdriveSearchQuery::CreatedTime, TeamdriveSearchQuery::Equals, QDateTime(QDate(2019, 3, 5), QTime(6, 36, 0), Qt::UTC));
+            query.addQuery(TeamdriveSearchQuery::CreatedTime, TeamdriveSearchQuery::Equals, QDateTime(QDate(2019, 3, 5), QTime(6, 36, 0), QTimeZone::UTC));
             TeamdriveSearchQuery subquery;
             subquery.addQuery(TeamdriveSearchQuery::Name, TeamdriveSearchQuery::Equals, QLatin1String("Test"));
             subquery.addQuery(TeamdriveSearchQuery::MemberCount, TeamdriveSearchQuery::LessOrEqual, 10);

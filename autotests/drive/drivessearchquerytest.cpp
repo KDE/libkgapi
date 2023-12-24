@@ -34,7 +34,7 @@ private Q_SLOTS:
 
         {
             DrivesSearchQuery query;
-            query.addQuery(DrivesSearchQuery::CreatedDate, DrivesSearchQuery::Equals, QDateTime(QDate(2019, 6, 16), QTime(6, 36, 0), Qt::UTC));
+            query.addQuery(DrivesSearchQuery::CreatedDate, DrivesSearchQuery::Equals, QDateTime(QDate(2019, 6, 16), QTime(6, 36, 0), QTimeZone::UTC));
             QTest::newRow("serialize time") << query << "((createdDate = '2019-06-16T06:36:00'))";
         }
 
@@ -66,7 +66,7 @@ private Q_SLOTS:
 
         {
             DrivesSearchQuery query(DrivesSearchQuery::Or);
-            query.addQuery(DrivesSearchQuery::CreatedDate, DrivesSearchQuery::Equals, QDateTime(QDate(2019, 3, 5), QTime(6, 36, 0), Qt::UTC));
+            query.addQuery(DrivesSearchQuery::CreatedDate, DrivesSearchQuery::Equals, QDateTime(QDate(2019, 3, 5), QTime(6, 36, 0), QTimeZone::UTC));
             DrivesSearchQuery subquery;
             subquery.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Equals, QLatin1String("Test"));
             subquery.addQuery(DrivesSearchQuery::MemberCount, DrivesSearchQuery::LessOrEqual, 10);

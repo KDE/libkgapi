@@ -54,7 +54,7 @@ private Q_SLOTS:
 
         {
             FileSearchQuery query(FileSearchQuery::Or);
-            query.addQuery(FileSearchQuery::ModifiedDate, FileSearchQuery::Equals, QDateTime(QDate(2014, 07, 28), QTime(17, 05, 30), Qt::UTC));
+            query.addQuery(FileSearchQuery::ModifiedDate, FileSearchQuery::Equals, QDateTime(QDate(2014, 07, 28), QTime(17, 05, 30), QTimeZone::UTC));
             FileSearchQuery subquery;
             subquery.addQuery(FileSearchQuery::Title, FileSearchQuery::Equals, QLatin1String("Test"));
             subquery.addQuery(FileSearchQuery::Title, FileSearchQuery::NotEquals, QLatin1String("File"));
