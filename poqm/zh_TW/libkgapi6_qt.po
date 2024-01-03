@@ -3,20 +3,20 @@
 #
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2012, 2014, 2015.
 # pan93412 <pan93412@gmail.com>, 2019.
-# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2023.
+# SPDX-FileCopyrightText: 2023, 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2023-12-26 21:48+0900\n"
+"PO-Revision-Date: 2024-01-02 20:04+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.01.85\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Qt-Contexts: true\n"
 
@@ -254,7 +254,7 @@ msgstr "認證成功"
 #: src/core/private/fullauthenticationjob.cpp:62
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "You can close this tab and return to the application now."
-msgstr ""
+msgstr "您現在可以關閉分頁並回到應用程式。"
 
 #: src/core/private/fullauthenticationjob.cpp:77
 msgctxt "KGAPI2::FullAuthenticationJob|"
@@ -344,17 +344,17 @@ msgstr "回覆內容型態無效"
 #: src/drive/fileabstractresumablejob.cpp:313
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed opening upload session"
-msgstr ""
+msgstr "開啟上傳工作階段時失敗"
 
 #: src/drive/fileabstractresumablejob.cpp:342
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed uploading chunk"
-msgstr ""
+msgstr "上傳區塊時失敗"
 
 #: src/drive/fileabstractresumablejob.cpp:363
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed completing upload session"
-msgstr ""
+msgstr "完成上傳工作階段時失敗"
 
 #: src/drive/fileabstractuploadjob.cpp:282
 msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
