@@ -138,7 +138,7 @@ BlogPtr Blog::fromJSON(const QByteArray &rawData)
 
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#blog")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1StringView("blogger#blog")) {
         return BlogPtr();
     }
 
@@ -154,7 +154,7 @@ BlogsList Blog::fromJSONFeed(const QByteArray &rawData)
 
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#blogList")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1StringView("blogger#blogList")) {
         return BlogsList();
     }
 

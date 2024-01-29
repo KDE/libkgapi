@@ -315,7 +315,7 @@ void MainWindow::drivesItemSelected()
         QStringList msgBuilder;
         msgBuilder << file->title();
         msgBuilder << QString::number(file->fileSize()) + QStringLiteral(" bytes");
-        QString msg = msgBuilder.join(QLatin1String(", "));
+        QString msg = msgBuilder.join(QLatin1StringView(", "));
         ui.statusbar->showMessage(msg);
     });
 }

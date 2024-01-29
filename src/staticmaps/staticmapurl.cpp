@@ -353,15 +353,15 @@ QUrl StaticMapUrl::url() const
         case Undefined:
         case String:
             param = d->locationString;
-            param.replace(QLatin1String(", "), QLatin1String(","));
-            param.replace(QLatin1String(". "), QLatin1String("."));
+            param.replace(QLatin1StringView(", "), QLatin1String(","));
+            param.replace(QLatin1StringView(". "), QLatin1String("."));
             param.replace(QLatin1Char(' '), QLatin1Char('+'));
             query.addQueryItem(QStringLiteral("center"), param);
             break;
         case KABCAddress:
             param = d->locationAddress.formatted(KContacts::AddressFormatStyle::Postal);
-            param.replace(QLatin1String(", "), QLatin1String(","));
-            param.replace(QLatin1String(". "), QLatin1String("."));
+            param.replace(QLatin1StringView(", "), QLatin1String(","));
+            param.replace(QLatin1StringView(". "), QLatin1String("."));
             param.replace(QLatin1Char(' '), QLatin1Char('+'));
             param.replace(QLatin1Char('\n'), QLatin1Char(','));
             query.addQueryItem(QStringLiteral("center"), param);
@@ -445,15 +445,15 @@ QUrl StaticMapUrl::url() const
         case Undefined:
         case String:
             param = d->visibleString;
-            param.replace(QLatin1String(", "), QLatin1String(","));
-            param.replace(QLatin1String(". "), QLatin1String("."));
+            param.replace(QLatin1StringView(", "), QLatin1String(","));
+            param.replace(QLatin1StringView(". "), QLatin1String("."));
             param.replace(QLatin1Char(' '), QLatin1Char('+'));
             query.addQueryItem(QStringLiteral("visible"), param);
             break;
         case KABCAddress:
             param = d->visibleAddress.formatted(KContacts::AddressFormatStyle::Postal);
-            param.replace(QLatin1String(", "), QLatin1String(","));
-            param.replace(QLatin1String(". "), QLatin1String("."));
+            param.replace(QLatin1StringView(", "), QLatin1String(","));
+            param.replace(QLatin1StringView(". "), QLatin1String("."));
             param.replace(QLatin1Char(' '), QLatin1Char('+'));
             param.replace(QLatin1Char('\n'), QLatin1Char(','));
             query.addQueryItem(QStringLiteral("visible"), param);

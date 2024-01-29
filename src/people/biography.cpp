@@ -106,9 +106,9 @@ Biography Biography::fromJSON(const QJsonObject &obj)
         biography.setValue(obj.value(QStringLiteral("value")).toString());
 
         const auto jsonContentType = obj.value(QStringLiteral("contentType"));
-        if(jsonContentType == QLatin1String("TEXT_PLAIN")) {
+        if (jsonContentType == QLatin1StringView("TEXT_PLAIN")) {
             biography.setContentType(ContentType::TEXT_PLAIN);
-        } else if (jsonContentType == QLatin1String("TEXT_HTML")) {
+        } else if (jsonContentType == QLatin1StringView("TEXT_HTML")) {
             biography.setContentType(ContentType::TEXT_HTML);
         } else {
             biography.setContentType(ContentType::CONTENT_TYPE_UNSPECIFIED);

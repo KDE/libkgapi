@@ -39,11 +39,11 @@ App::Icon::Private::Private(const Private &other)
 
 App::Icon::Category App::Icon::Private::categoryFromName(const QString &categoryName)
 {
-    if (categoryName == QLatin1String("application")) {
+    if (categoryName == QLatin1StringView("application")) {
         return App::Icon::ApplicationCategory;
-    } else if (categoryName == QLatin1String("document")) {
+    } else if (categoryName == QLatin1StringView("document")) {
         return App::Icon::DocumentCategory;
-    } else if (categoryName == QLatin1String("documentShared")) {
+    } else if (categoryName == QLatin1StringView("documentShared")) {
         return App::Icon::DocumentSharedCategory;
     } else {
         return App::Icon::UndefinedCategory;
@@ -143,7 +143,7 @@ App::Private::Private(const App::Private &other)
 
 AppPtr App::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#app")) {
+    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#app")) {
         return AppPtr();
     }
 
@@ -306,7 +306,7 @@ AppsList App::fromJSONFeed(const QByteArray &jsonData)
     }
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#appList")) {
+    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#appList")) {
         return AppsList();
     }
 

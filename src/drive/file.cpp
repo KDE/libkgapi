@@ -639,7 +639,7 @@ bool File::operator==(const File &other) const
 
 FilePtr File::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(File::Fields::Kind) || map[File::Fields::Kind].toString() != QLatin1String("drive#file")) {
+    if (!map.contains(File::Fields::Kind) || map[File::Fields::Kind].toString() != QLatin1StringView("drive#file")) {
         return FilePtr();
     }
 
@@ -1056,7 +1056,7 @@ FilesList File::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
     }
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(File::Fields::Kind) || map[Fields::Kind].toString() != QLatin1String("drive#fileList")) {
+    if (!map.contains(File::Fields::Kind) || map[Fields::Kind].toString() != QLatin1StringView("drive#fileList")) {
         return FilesList();
     }
 
@@ -1081,7 +1081,7 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
 {
     QVariantMap map;
 
-    map[File::Fields::Kind] = QLatin1String("drive#file");
+    map[File::Fields::Kind] = QLatin1StringView("drive#file");
     if (!file->description().isEmpty()) {
         map[Fields::Description] = file->description();
     }
@@ -1208,37 +1208,37 @@ QByteArray File::toJSON(const FilePtr &file, SerializationOptions options)
     }
 
 #if 0
-    const QVariantMap userPermissionData = map[QLatin1String("userPermission")].toMap();
+    const QVariantMap userPermissionData = map[QLatin1StringView("userPermission")].toMap();
     file->d->userPermission = Permission::Private::fromJSON(userPermissionData);
 
-    const QVariantList parents = map[QLatin1String("parents")].toList();
+    const QVariantList parents = map[QLatin1StringView("parents")].toList();
     for (const QVariant &parent : parents)
     {
         file->d->parents << ParentReference::Private::fromJSON(parent.toMap());
     }
 
-    const QVariantMap exportLinksData = map[QLatin1String("exportLinks")].toMap();
+    const QVariantMap exportLinksData = map[QLatin1StringView("exportLinks")].toMap();
     QVariantMap::ConstIterator iter = exportLinksData.constBegin();
     for ( ; iter != exportLinksData.constEnd(); ++iter) {
         file->d->exportLinks.insert(iter.key(), iter.value().toUrl());
     }
 
 
-    const QVariantMap imageMetaData = map[QLatin1String("imageMediaMetadata")].toMap();
+    const QVariantMap imageMetaData = map[QLatin1StringView("imageMediaMetadata")].toMap();
     file->d->imageMediaMetadata =
         File::ImageMediaMetadataPtr(new File::ImageMediaMetadata(imageMetaData));
 
-    const QVariantMap thumbnailData = map[QLatin1String("thumbnail")].toMap();
+    const QVariantMap thumbnailData = map[QLatin1StringView("thumbnail")].toMap();
     File::ThumbnailPtr thumbnail(new File::Thumbnail(thumbnailData));
     file->d->thumbnail = thumbnail;
 
 
-    const QVariantList ownersList = map[QLatin1String("owners")].toList();
+    const QVariantList ownersList = map[QLatin1StringView("owners")].toList();
     for (const QVariant &owner : ownersList) {
         file->d->owners << User::fromJSON(owner.toMap());
     }
 
-    const QVariantMap lastModifyingUser = map[QLatin1String("lastModifyingUser")].toMap();
+    const QVariantMap lastModifyingUser = map[QLatin1StringView("lastModifyingUser")].toMap();
     file->d->lastModifyingUser = User::fromJSON(lastModifyingUser);
 
 #endif

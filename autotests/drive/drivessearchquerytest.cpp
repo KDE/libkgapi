@@ -40,7 +40,7 @@ private Q_SLOTS:
 
         {
             DrivesSearchQuery query;
-            query.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Contains, QLatin1String("Some String"));
+            query.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Contains, QLatin1StringView("Some String"));
             QTest::newRow("contains") << query << "((name contains 'Some String'))";
         }
 
@@ -52,14 +52,14 @@ private Q_SLOTS:
 
         {
             DrivesSearchQuery query;
-            query.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Contains, QLatin1String("Name"));
+            query.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Contains, QLatin1StringView("Name"));
             query.addQuery(DrivesSearchQuery::MemberCount, DrivesSearchQuery::Equals, 5);
             QTest::newRow("A and B") << query << "((name contains 'Name') and (memberCount = 5))";
         }
 
         {
             DrivesSearchQuery query(DrivesSearchQuery::Or);
-            query.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Contains, QLatin1String("Name"));
+            query.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Contains, QLatin1StringView("Name"));
             query.addQuery(DrivesSearchQuery::OrganizerCount, DrivesSearchQuery::Equals, 5);
             QTest::newRow("A or B") << query << "((name contains 'Name') or (organizerCount = 5))";
         }
@@ -68,7 +68,7 @@ private Q_SLOTS:
             DrivesSearchQuery query(DrivesSearchQuery::Or);
             query.addQuery(DrivesSearchQuery::CreatedDate, DrivesSearchQuery::Equals, QDateTime(QDate(2019, 3, 5), QTime(6, 36, 0), QTimeZone::UTC));
             DrivesSearchQuery subquery;
-            subquery.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Equals, QLatin1String("Test"));
+            subquery.addQuery(DrivesSearchQuery::Name, DrivesSearchQuery::Equals, QLatin1StringView("Test"));
             subquery.addQuery(DrivesSearchQuery::MemberCount, DrivesSearchQuery::LessOrEqual, 10);
             query.addQuery(subquery);
             QTest::newRow("A or (B and C)") << query << "((createdDate = '2019-03-05T06:36:00') or ((name = 'Test') and (memberCount <= 10)))";

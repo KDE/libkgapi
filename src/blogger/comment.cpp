@@ -199,7 +199,7 @@ CommentPtr Comment::fromJSON(const QByteArray &rawData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#comment")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1StringView("blogger#comment")) {
         return CommentPtr();
     }
 
@@ -214,7 +214,7 @@ ObjectsList Comment::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#commentList")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1StringView("blogger#commentList")) {
         return ObjectsList();
     }
 

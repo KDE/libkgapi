@@ -240,24 +240,24 @@ QString StaticMapMarker::toString() const
 
     switch (d->size) {
     case Tiny:
-        ret += QLatin1String("size:tiny|");
+        ret += QLatin1StringView("size:tiny|");
         break;
     case Small:
-        ret += QLatin1String("size:small|");
+        ret += QLatin1StringView("size:small|");
         break;
     case Middle:
-        ret += QLatin1String("size:mid|");
+        ret += QLatin1StringView("size:mid|");
         break;
     case Normal:
         break;
     }
 
     if (d->color != Qt::red) {
-        ret += QLatin1String("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
+        ret += QLatin1StringView("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
     }
 
     if (d->label.isLetterOrNumber() && d->size > 1) {
-        ret += QLatin1String("label:") + d->label.toUpper() + QLatin1Char('|');
+        ret += QLatin1StringView("label:") + d->label.toUpper() + QLatin1Char('|');
     }
 
     if (d->locationType == String) {
@@ -276,8 +276,8 @@ QString StaticMapMarker::toString() const
         }
     }
 
-    ret.replace(QLatin1String(", "), QLatin1String(","));
-    ret.replace(QLatin1String(". "), QLatin1String("."));
+    ret.replace(QLatin1StringView(", "), QLatin1String(","));
+    ret.replace(QLatin1StringView(". "), QLatin1String("."));
     ret.replace(QLatin1Char(' '), QLatin1Char('+'));
     ret.replace(QLatin1Char('\n'), QLatin1Char(','));
     ret.remove(ret.lastIndexOf(QLatin1Char('|')), 1);

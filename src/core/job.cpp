@@ -123,13 +123,13 @@ QString Job::Private::parseErrorMessage(const QByteArray &json)
         if (map.contains(QStringLiteral("message"))) {
             message.append(map.value(QStringLiteral("message")).toString());
         } else {
-            message = QLatin1String(json);
+            message = QLatin1StringView(json);
         }
 
         return message;
 
     } else {
-        return QLatin1String(json);
+        return QLatin1StringView(json);
     }
 }
 
@@ -152,8 +152,8 @@ void Job::Private::_k_replyReceived(QNetworkReply *reply)
         /* Workaround for a bug (??), when QNetworkReply does not report HTTP/1.1 401 Unauthorized
          * as an error. */
         if (!reply->rawHeaderList().isEmpty()) {
-            QString status = QLatin1String(reply->rawHeaderList().first());
-            if (status.startsWith(QLatin1String("HTTP/1.1 401"))) {
+            QString status = QLatin1StringView(reply->rawHeaderList().first());
+            if (status.startsWith(QLatin1StringView("HTTP/1.1 401"))) {
                 replyCode = KGAPI2::Unauthorized;
             }
         }

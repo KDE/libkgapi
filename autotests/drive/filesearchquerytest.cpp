@@ -34,21 +34,21 @@ private Q_SLOTS:
 
         {
             FileSearchQuery query;
-            query.addQuery(FileSearchQuery::Title, FileSearchQuery::Contains, QLatin1String("Some String"));
+            query.addQuery(FileSearchQuery::Title, FileSearchQuery::Contains, QLatin1StringView("Some String"));
             QTest::newRow("simple") << query << "((title contains 'Some String'))";
         }
 
         {
             FileSearchQuery query;
-            query.addQuery(FileSearchQuery::Title, FileSearchQuery::Equals, QLatin1String("Title"));
-            query.addQuery(FileSearchQuery::MimeType, FileSearchQuery::Contains, QLatin1String("text/plain"));
+            query.addQuery(FileSearchQuery::Title, FileSearchQuery::Equals, QLatin1StringView("Title"));
+            query.addQuery(FileSearchQuery::MimeType, FileSearchQuery::Contains, QLatin1StringView("text/plain"));
             QTest::newRow("A and B") << query << "((title = 'Title') and (mimeType contains 'text/plain'))";
         }
 
         {
             FileSearchQuery query(FileSearchQuery::Or);
             query.addQuery(FileSearchQuery::Trashed, FileSearchQuery::Equals, true);
-            query.addQuery(FileSearchQuery::Writers, FileSearchQuery::In, QLatin1String("user@gmail.com"));
+            query.addQuery(FileSearchQuery::Writers, FileSearchQuery::In, QLatin1StringView("user@gmail.com"));
             QTest::newRow("A or B") << query << "((trashed = true) or ('user@gmail.com' in writers))";
         }
 
@@ -56,8 +56,8 @@ private Q_SLOTS:
             FileSearchQuery query(FileSearchQuery::Or);
             query.addQuery(FileSearchQuery::ModifiedDate, FileSearchQuery::Equals, QDateTime(QDate(2014, 07, 28), QTime(17, 05, 30), QTimeZone::UTC));
             FileSearchQuery subquery;
-            subquery.addQuery(FileSearchQuery::Title, FileSearchQuery::Equals, QLatin1String("Test"));
-            subquery.addQuery(FileSearchQuery::Title, FileSearchQuery::NotEquals, QLatin1String("File"));
+            subquery.addQuery(FileSearchQuery::Title, FileSearchQuery::Equals, QLatin1StringView("Test"));
+            subquery.addQuery(FileSearchQuery::Title, FileSearchQuery::NotEquals, QLatin1StringView("File"));
             query.addQuery(subquery);
             QTest::newRow("A or (B and C)") << query << "((modifiedDate = '2014-07-28T17:05:30') or ((title = 'Test') and (title != 'File')))";
         }

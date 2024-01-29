@@ -80,7 +80,7 @@ void NewTokensFetchJob::start()
     QNetworkRequest request;
 
     request.setUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/token")));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1StringView("application/x-www-form-urlencoded"));
 
     QUrlQuery params;
     params.addQueryItem(QStringLiteral("client_id"), d->apiKey);

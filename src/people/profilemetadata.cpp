@@ -79,9 +79,9 @@ ProfileMetadata ProfileMetadata::fromJSON(const QJsonObject &obj)
 
     if(!obj.isEmpty()) {
         const auto objectTypeEnumString = obj.value(QStringLiteral("objectType"));
-        if(objectTypeEnumString == QLatin1String("PERSON")) {
+        if (objectTypeEnumString == QLatin1StringView("PERSON")) {
             profileMetadata.d->objectType = ObjectType::PERSON;
-        } else if (objectTypeEnumString == QLatin1String("PAGE")) {
+        } else if (objectTypeEnumString == QLatin1StringView("PAGE")) {
             profileMetadata.d->objectType = ObjectType::PAGE;
         } else {
             profileMetadata.d->objectType = ObjectType::OBJECT_TYPE_UNSPECIFIED;

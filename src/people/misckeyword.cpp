@@ -131,27 +131,27 @@ MiscKeyword MiscKeyword::fromJSON(const QJsonObject &obj)
     definition.value = obj.value(QStringLiteral("value")).toString();
 
     const auto type = obj.value(QStringLiteral("type")).toString();
-    if(type == QLatin1String("OUTLOOK_BILLING_INFORMATION")) {
+    if (type == QLatin1StringView("OUTLOOK_BILLING_INFORMATION")) {
         definition.type = Type::OUTLOOK_BILLING_INFORMATION;
-    } else if(type == QLatin1String("OUTLOOK_DIRECTORY_SERVER")) {
+    } else if (type == QLatin1StringView("OUTLOOK_DIRECTORY_SERVER")) {
         definition.type = Type::OUTLOOK_DIRECTORY_SERVER;
-    } else if(type == QLatin1String("OUTLOOK_KEYWORD")) {
+    } else if (type == QLatin1StringView("OUTLOOK_KEYWORD")) {
         definition.type = Type::OUTLOOK_KEYWORD;
-    } else if(type == QLatin1String("OUTLOOK_MILEAGE")) {
+    } else if (type == QLatin1StringView("OUTLOOK_MILEAGE")) {
         definition.type = Type::OUTLOOK_MILEAGE;
-    } else if(type == QLatin1String("OUTLOOK_PRIORITY")) {
+    } else if (type == QLatin1StringView("OUTLOOK_PRIORITY")) {
         definition.type = Type::OUTLOOK_PRIORITY;
-    } else if(type == QLatin1String("OUTLOOK_SENSITIVITY")) {
+    } else if (type == QLatin1StringView("OUTLOOK_SENSITIVITY")) {
         definition.type = Type::OUTLOOK_SENSITIVITY;
-    } else if(type == QLatin1String("OUTLOOK_SUBJECT")) {
+    } else if (type == QLatin1StringView("OUTLOOK_SUBJECT")) {
         definition.type = Type::OUTLOOK_SUBJECT;
-    } else if(type == QLatin1String("OUTLOOK_USER")) {
+    } else if (type == QLatin1StringView("OUTLOOK_USER")) {
         definition.type = Type::OUTLOOK_USER;
-    } else if(type == QLatin1String("HOME")) {
+    } else if (type == QLatin1StringView("HOME")) {
         definition.type = Type::HOME;
-    } else if(type == QLatin1String("WORK")) {
+    } else if (type == QLatin1StringView("WORK")) {
         definition.type = Type::WORK;
-    } else if(type == QLatin1String("OTHER")) {
+    } else if (type == QLatin1StringView("OTHER")) {
         definition.type = Type::OTHER;
     } else {
         definition.type = Type::TYPE_UNSPECIFIED;

@@ -33,7 +33,7 @@ QString TeamdriveSearchQuery::valueToString(TeamdriveSearchQuery::Field field, c
 {
     switch (field) {
     case Name:
-        return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1String("\\\'")));
+        return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1StringView("\\\'")));
     case MemberCount:
     case OrganizerCount:
         return var.toString();

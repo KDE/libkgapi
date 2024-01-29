@@ -306,7 +306,7 @@ PostPtr Post::fromJSON(const QByteArray &rawData)
 
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#post")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1StringView("blogger#post")) {
         return PostPtr();
     }
 
@@ -322,7 +322,7 @@ ObjectsList Post::fromJSONFeed(const QByteArray &rawData, FeedData &feedData)
 
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#postList")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1StringView("blogger#postList")) {
         return ObjectsList();
     }
 

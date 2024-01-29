@@ -174,11 +174,11 @@ PagePtr Page::Private::fromJSON(const QVariant &json)
     page->d->authorImageUrl = author[QStringLiteral("image")].toMap()[QStringLiteral("url")].toUrl();
 
     const QString status = map[QStringLiteral("status")].toString();
-    if (status == QLatin1String("LIVE")) {
+    if (status == QLatin1StringView("LIVE")) {
         page->d->status = Live;
-    } else if (status == QLatin1String("DRAFT")) {
+    } else if (status == QLatin1StringView("DRAFT")) {
         page->d->status = Draft;
-    } else if (status == QLatin1String("IMPORTED")) {
+    } else if (status == QLatin1StringView("IMPORTED")) {
         page->d->status = Imported;
     } else {
         page->d->status = UnknownStatus;
@@ -190,7 +190,7 @@ PagePtr Page::Private::fromJSON(const QVariant &json)
 QVariant Page::Private::toJSON(const PagePtr &page)
 {
     QVariantMap map;
-    map[QStringLiteral("kind")] = QLatin1String("blogger#page");
+    map[QStringLiteral("kind")] = QLatin1StringView("blogger#page");
 
     if (!page->d->id.isEmpty()) {
         map[QStringLiteral("id")] = page->d->id;
@@ -207,10 +207,10 @@ QVariant Page::Private::toJSON(const PagePtr &page)
     map[QStringLiteral("content")] = page->d->content;
     switch (page->d->status) {
     case Blogger::Page::Draft:
-        map[QStringLiteral("status")] = QLatin1String("DRAFT");
+        map[QStringLiteral("status")] = QLatin1StringView("DRAFT");
         break;
     case Blogger::Page::Live:
-        map[QStringLiteral("status")] = QLatin1String("LIVE");
+        map[QStringLiteral("status")] = QLatin1StringView("LIVE");
         break;
     default:
         break; // not supported for writing
@@ -228,7 +228,7 @@ PagePtr Page::fromJSON(const QByteArray &rawData)
 
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#page")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1StringView("blogger#page")) {
         return PagePtr();
     }
 
@@ -243,7 +243,7 @@ ObjectsList Page::fromJSONFeed(const QByteArray &rawData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (map[QStringLiteral("kind")].toString() != QLatin1String("blogger#pageList")) {
+    if (map[QStringLiteral("kind")].toString() != QLatin1StringView("blogger#pageList")) {
         return ObjectsList();
     }
 

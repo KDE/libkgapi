@@ -65,9 +65,9 @@ QString Permission::PermissionDetails::Private::permissionTypeToName(Permission:
 
 Permission::PermissionDetails::PermissionType Permission::PermissionDetails::Private::permissionTypeFromName(const QString &typeName)
 {
-    if (typeName == QLatin1String("file")) {
+    if (typeName == QLatin1StringView("file")) {
         return Permission::PermissionDetails::TypeFile;
-    } else if (typeName == QLatin1String("member")) {
+    } else if (typeName == QLatin1StringView("member")) {
         return Permission::PermissionDetails::TypeMember;
     } else {
         return Permission::PermissionDetails::UndefinedType;
@@ -101,17 +101,17 @@ bool Permission::PermissionDetails::inherited() const
 
 Permission::Role Permission::Private::roleFromName(const QString &roleName)
 {
-    if (roleName == QLatin1String("owner")) {
+    if (roleName == QLatin1StringView("owner")) {
         return Permission::OwnerRole;
-    } else if (roleName == QLatin1String("reader")) {
+    } else if (roleName == QLatin1StringView("reader")) {
         return Permission::ReaderRole;
-    } else if (roleName == QLatin1String("writer")) {
+    } else if (roleName == QLatin1StringView("writer")) {
         return Permission::WriterRole;
-    } else if (roleName == QLatin1String("commenter")) {
+    } else if (roleName == QLatin1StringView("commenter")) {
         return Permission::CommenterRole;
-    } else if (roleName == QLatin1String("organizer")) {
+    } else if (roleName == QLatin1StringView("organizer")) {
         return Permission::OrganizerRole;
-    } else if (roleName == QLatin1String("fileOrganizer")) {
+    } else if (roleName == QLatin1StringView("fileOrganizer")) {
         return Permission::FileOrganizerRole;
     } else {
         return Permission::UndefinedRole;
@@ -120,13 +120,13 @@ Permission::Role Permission::Private::roleFromName(const QString &roleName)
 
 Permission::Type Permission::Private::typeFromName(const QString &typeName)
 {
-    if (typeName == QLatin1String("user")) {
+    if (typeName == QLatin1StringView("user")) {
         return Permission::TypeUser;
-    } else if (typeName == QLatin1String("group")) {
+    } else if (typeName == QLatin1StringView("group")) {
         return Permission::TypeGroup;
-    } else if (typeName == QLatin1String("domain")) {
+    } else if (typeName == QLatin1StringView("domain")) {
         return Permission::TypeDomain;
-    } else if (typeName == QLatin1String("anyone")) {
+    } else if (typeName == QLatin1StringView("anyone")) {
         return Permission::TypeAnyone;
     } else {
         return Permission::UndefinedType;
@@ -171,7 +171,7 @@ QString Permission::Private::typeToName(Permission::Type type)
 
 PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#permission")) {
+    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#permission")) {
         return PermissionPtr();
     }
 
@@ -394,7 +394,7 @@ PermissionsList Permission::fromJSONFeed(const QByteArray &jsonData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#permissionList")) {
+    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#permissionList")) {
         return PermissionsList();
     }
 

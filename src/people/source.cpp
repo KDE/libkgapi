@@ -112,17 +112,17 @@ Source Source::fromJSON(const QJsonObject &obj)
     if(!obj.isEmpty()) {
         const auto typeEnumString = obj.value(QStringLiteral("type"));
 
-        if(typeEnumString == QLatin1String("ACCOUNT")) {
+        if (typeEnumString == QLatin1StringView("ACCOUNT")) {
             source.d->type = Type::ACCOUNT;
-        } else if(typeEnumString == QLatin1String("PROFILE")) {
+        } else if (typeEnumString == QLatin1StringView("PROFILE")) {
             source.d->type = Type::PROFILE;
-        } else if(typeEnumString == QLatin1String("DOMAIN_PROFILE")) {
+        } else if (typeEnumString == QLatin1StringView("DOMAIN_PROFILE")) {
             source.d->type = Type::DOMAIN_PROFILE;
-        } else if(typeEnumString == QLatin1String("CONTACT")) {
+        } else if (typeEnumString == QLatin1StringView("CONTACT")) {
             source.d->type = Type::CONTACT;
-        } else if(typeEnumString == QLatin1String("OTHER_CONTACT")) {
+        } else if (typeEnumString == QLatin1StringView("OTHER_CONTACT")) {
             source.d->type = Type::OTHER_CONTACT;
-        } else if(typeEnumString == QLatin1String("DOMAIN_CONTACT")) {
+        } else if (typeEnumString == QLatin1StringView("DOMAIN_CONTACT")) {
             source.d->type = Type::DOMAIN_CONTACT;
         } else {
             source.d->type = Type::SOURCE_TYPE_UNSPECIFIED;

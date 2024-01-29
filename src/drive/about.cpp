@@ -548,7 +548,7 @@ AboutPtr About::fromJSON(const QByteArray &jsonData)
     }
     const QVariantMap map = document.toVariant().toMap();
 
-    if (!map.contains(QLatin1String("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#about")) {
+    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1String("drive#about")) {
         return AboutPtr();
     }
 

@@ -90,11 +90,11 @@ AgeRangeType AgeRangeType::fromJSON(const QJsonObject &obj)
     if(!obj.isEmpty()) {
         const auto val = obj.value(QStringLiteral("ageRange")).toString();
 
-        if(val == QLatin1String("LESS_THAN_EIGHTEEN")) {
+        if (val == QLatin1StringView("LESS_THAN_EIGHTEEN")) {
             ageRangeType.setAgeRange(AgeRange::LESS_THAN_EIGHTEEN);
-        } else if(val == QLatin1String("EIGHTEEN_TO_TWENTY")) {
+        } else if (val == QLatin1StringView("EIGHTEEN_TO_TWENTY")) {
             ageRangeType.setAgeRange(AgeRange::EIGHTEEN_TO_TWENTY);
-        } else if(val == QLatin1String("TWENTY_ONE_OR_OLDER")) {
+        } else if (val == QLatin1StringView("TWENTY_ONE_OR_OLDER")) {
             ageRangeType.setAgeRange(AgeRange::TWENTY_ONE_OR_OLDER);
         } else {
             ageRangeType.setAgeRange(AgeRange::AGE_RANGE_UNSPECIFIED);

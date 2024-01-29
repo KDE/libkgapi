@@ -25,7 +25,7 @@ namespace
 /* Google accepts only UTC time strictly in this format :( */
 static const auto DatetimeFormat = QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ");
 
-static const auto TasksUrlPart = QLatin1String("/tasks");
+static const auto TasksUrlPart = QLatin1StringView("/tasks");
 
 static const auto PageTokenParam = QStringLiteral("pageToken");
 static const auto MaxResultsParam = QStringLiteral("maxResults");
@@ -45,8 +45,8 @@ static const auto StatusAttr = QStringLiteral("status");
 static const auto DueAttr = QStringLiteral("due");
 static const auto DeletedAttr = QStringLiteral("deleted");
 
-static const auto CompletedAttrVal = QLatin1String("completed");
-static const auto NeedsActionAttrVal = QLatin1String("needsAction");
+static const auto CompletedAttrVal = QLatin1StringView("completed");
+static const auto NeedsActionAttrVal = QLatin1StringView("needsAction");
 }
 
 namespace Private
@@ -72,7 +72,7 @@ ObjectsList parseJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
     ObjectsList list;
     const QVariantMap feed = document.toVariant().toMap();
 
-    if (feed.value(KindAttr).toString() == QLatin1String("tasks#taskLists")) {
+    if (feed.value(KindAttr).toString() == QLatin1StringView("tasks#taskLists")) {
         list = Private::parseTaskListJSONFeed(feed.value(ItemsAttr).toList());
 
         if (feed.contains(NextPageTokenAttr)) {
@@ -85,7 +85,7 @@ ObjectsList parseJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
             feedData.nextPageUrl.setQuery(query);
         }
 
-    } else if (feed.value(KindAttr).toString() == QLatin1String("tasks#tasks")) {
+    } else if (feed.value(KindAttr).toString() == QLatin1StringView("tasks#tasks")) {
         list = Private::parseTasksJSONFeed(feed.value(ItemsAttr).toList());
 
         if (feed.contains(NextPageTokenAttr)) {
@@ -143,7 +143,7 @@ QUrl removeTaskUrl(const QString &tasklistID, const QString &taskID)
 QUrl moveTaskUrl(const QString &tasklistID, const QString &taskID, const QString &newParent)
 {
     QUrl url(Private::GoogleApisUrl);
-    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID % QLatin1String("/move"));
+    url.setPath(Private::TasksBasePath % QLatin1Char('/') % tasklistID % TasksUrlPart % QLatin1Char('/') % taskID % QLatin1StringView("/move"));
     if (!newParent.isEmpty()) {
         QUrlQuery query(url);
         query.addQueryItem(ParentAttr, newParent);
@@ -201,7 +201,7 @@ TaskListPtr JSONToTaskList(const QByteArray &jsonData)
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     const QVariantMap data = document.toVariant().toMap();
 
-    if (data.value(KindAttr).toString() == QLatin1String("tasks#taskList")) {
+    if (data.value(KindAttr).toString() == QLatin1StringView("tasks#taskList")) {
         return Private::JSONToTaskList(data).staticCast<TaskList>();
     }
 
@@ -248,7 +248,7 @@ TaskPtr JSONToTask(const QByteArray &jsonData)
     QJsonDocument document = QJsonDocument::fromJson(jsonData);
     const QVariantMap data = document.toVariant().toMap();
 
-    if (data.value(KindAttr).toString() == QLatin1String("tasks#task")) {
+    if (data.value(KindAttr).toString() == QLatin1StringView("tasks#task")) {
         return Private::JSONToTask(data).staticCast<Task>();
     }
 

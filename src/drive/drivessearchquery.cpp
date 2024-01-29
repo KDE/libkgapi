@@ -36,7 +36,7 @@ QString DrivesSearchQuery::valueToString(DrivesSearchQuery::Field field, const Q
 {
     switch (field) {
     case Name:
-        return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1String("\\\'")));
+        return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1StringView("\\\'")));
     case Hidden:
         return Utils::bool2Str(var.toBool());
     case MemberCount:

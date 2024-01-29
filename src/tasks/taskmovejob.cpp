@@ -50,7 +50,7 @@ void TaskMoveJob::Private::processNextTask()
     const auto rawHeaderList = request.rawHeaderList();
     headers.reserve(rawHeaderList.size());
     for (const QByteArray &str : std::as_const(rawHeaderList)) {
-        headers << QLatin1String(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
+        headers << QLatin1StringView(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
     }
 
     q->enqueueRequest(request);

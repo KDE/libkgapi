@@ -265,7 +265,7 @@ void MainWindow::teamdriveItemSelected()
         QStringList msgBuilder;
         msgBuilder << file->title();
         msgBuilder << QString::number(file->fileSize()) + QStringLiteral(" bytes");
-        const auto msg = msgBuilder.join(QLatin1String(", "));
+        const auto msg = msgBuilder.join(QLatin1StringView(", "));
         ui.statusbar->showMessage(msg);
     });
 }

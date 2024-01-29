@@ -57,7 +57,7 @@ QString FileSearchQuery::valueToString(FileSearchQuery::Field field, const QVari
     case Owners:
     case Writers:
     case Readers:
-        return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1String("\\\'")));
+        return QStringLiteral("'%1'").arg(var.toString().replace(QLatin1Char('\''), QLatin1StringView("\\\'")));
     case ModifiedDate:
     case LastViewedByMeDate:
         return QStringLiteral("'%1'").arg(var.toDateTime().toUTC().toString(QStringLiteral("yyyy-MM-ddThh:mm:ss")));

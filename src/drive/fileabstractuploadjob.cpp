@@ -114,7 +114,7 @@ void FileAbstractUploadJob::Private::processNext()
     }
 
     const QString filePath = files.cbegin().key();
-    if (!filePath.startsWith(QLatin1String("?=")) && !QFile::exists(filePath)) {
+    if (!filePath.startsWith(QLatin1StringView("?=")) && !QFile::exists(filePath)) {
         qCWarning(KGAPIDebug) << filePath << "is not a valid file path";
         processNext();
         return;
@@ -123,7 +123,7 @@ void FileAbstractUploadJob::Private::processNext()
     const FilePtr metaData = files.take(filePath);
 
     QUrl url;
-    if (filePath.startsWith(QLatin1String("?="))) {
+    if (filePath.startsWith(QLatin1StringView("?="))) {
         url = q->createUrl(QString(), metaData);
     } else {
         url = q->createUrl(filePath, metaData);
@@ -146,7 +146,7 @@ void FileAbstractUploadJob::Private::processNext()
             return;
         }
 
-    } else if (!filePath.startsWith(QLatin1String("?="))) {
+    } else if (!filePath.startsWith(QLatin1StringView("?="))) {
         query.addQueryItem(QStringLiteral("uploadType"), QStringLiteral("multipart"));
 
         QString boundary;
