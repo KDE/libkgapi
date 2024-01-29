@@ -8,8 +8,8 @@
 
 #include <QMainWindow>
 
-#include <libkgapi2/staticmaps/staticmapmarker.h>
-#include <libkgapi2/staticmaps/staticmaptilefetchjob.h>
+#include "libkgapi2/staticmaps/staticmapmarker.h"
+#include "libkgapi2/staticmaps/staticmaptilefetchjob.h"
 
 namespace Ui
 {
