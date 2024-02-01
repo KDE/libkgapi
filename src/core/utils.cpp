@@ -12,10 +12,10 @@
 
 KGAPI2::ContentType Utils::stringToContentType(const QString &contentType)
 {
-    if (contentType.contains(QLatin1StringView("application/json")) || contentType.contains(QLatin1String("text/plain"))
+    if (contentType.contains(QLatin1StringView("application/json")) || contentType.contains(QLatin1StringView("text/plain"))
         || contentType.contains(QLatin1StringView("text/javascript"))) {
         return KGAPI2::JSON;
-    } else if (contentType.contains(QLatin1StringView("application/atom+xml")) || contentType.contains(QLatin1String("text/xml"))) {
+    } else if (contentType.contains(QLatin1StringView("application/atom+xml")) || contentType.contains(QLatin1StringView("text/xml"))) {
         return KGAPI2::XML;
     }
 

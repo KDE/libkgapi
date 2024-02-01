@@ -62,7 +62,7 @@ void LocationCreateJob::start()
     const auto rawHeaderList = request.rawHeaderList();
     headers.reserve(rawHeaderList.size());
     for (const QByteArray &str : std::as_const(rawHeaderList)) {
-        headers << QLatin1StringView(str) + QLatin1String(": ") + QLatin1String(request.rawHeader(str));
+        headers << QLatin1StringView(str) + QLatin1StringView(": ") + QLatin1StringView(request.rawHeader(str));
     }
 
     enqueueRequest(request, rawData, QStringLiteral("application/json"));

@@ -166,13 +166,13 @@ QString StaticMapPath::toString() const
     QString ret;
 
     if (d->color != Qt::blue) {
-        ret += QLatin1StringView("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
+        ret += QLatin1StringView("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1StringView("0x")) + QLatin1Char('|');
     }
     if (d->weight != 5) {
         ret += QLatin1StringView("weight:") + QString::number(d->weight) + QLatin1Char('|');
     }
     if (d->fillColor.isValid()) {
-        ret += QLatin1StringView("fillcolor:") + d->fillColor.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
+        ret += QLatin1StringView("fillcolor:") + d->fillColor.name().replace(QLatin1Char('#'), QLatin1StringView("0x")) + QLatin1Char('|');
     }
 
     if (locationType() == String) {
@@ -191,8 +191,8 @@ QString StaticMapPath::toString() const
         }
     }
 
-    ret.replace(QLatin1StringView(", "), QLatin1String(","));
-    ret.replace(QLatin1StringView(". "), QLatin1String("."));
+    ret.replace(QLatin1StringView(", "), QLatin1StringView(","));
+    ret.replace(QLatin1StringView(". "), QLatin1StringView("."));
     ret.replace(QLatin1Char(' '), QLatin1Char('+'));
     ret.replace(QLatin1Char('\n'), QLatin1Char(','));
     ret.remove(ret.lastIndexOf(QLatin1Char('|')), 1);

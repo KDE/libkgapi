@@ -253,7 +253,7 @@ QString StaticMapMarker::toString() const
     }
 
     if (d->color != Qt::red) {
-        ret += QLatin1StringView("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1String("0x")) + QLatin1Char('|');
+        ret += QLatin1StringView("color:") + d->color.name().replace(QLatin1Char('#'), QLatin1StringView("0x")) + QLatin1Char('|');
     }
 
     if (d->label.isLetterOrNumber() && d->size > 1) {
@@ -276,8 +276,8 @@ QString StaticMapMarker::toString() const
         }
     }
 
-    ret.replace(QLatin1StringView(", "), QLatin1String(","));
-    ret.replace(QLatin1StringView(". "), QLatin1String("."));
+    ret.replace(QLatin1StringView(", "), QLatin1StringView(","));
+    ret.replace(QLatin1StringView(". "), QLatin1StringView("."));
     ret.replace(QLatin1Char(' '), QLatin1Char('+'));
     ret.replace(QLatin1Char('\n'), QLatin1Char(','));
     ret.remove(ret.lastIndexOf(QLatin1Char('|')), 1);

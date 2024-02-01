@@ -284,7 +284,7 @@ QUrl fetchDrivesUrl(const QString &drivesId)
 QUrl hideDrivesUrl(const QString &drivesId, bool hide)
 {
     QUrl url(Private::GoogleApisUrl);
-    url.setPath(Private::DrivesBasePath % QLatin1Char('/') % drivesId % (hide ? QLatin1StringView("/hide") : QLatin1String("/unhide")));
+    url.setPath(Private::DrivesBasePath % QLatin1Char('/') % drivesId % (hide ? QLatin1StringView("/hide") : QLatin1StringView("/unhide")));
     return url;
 }
 

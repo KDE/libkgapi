@@ -25,21 +25,21 @@ auto commentBasePath(const QString &blogId, const QString &postId = QString(), c
 {
     const auto post = !postId.isEmpty() ? (QLatin1StringView("/posts/") % postId) : QString();
     const auto comment = !commentId.isEmpty() ? (QLatin1Char('/') % commentId) : QString();
-    const QString path = QLatin1StringView("blogger/v3/blogs/") % blogId % post % QLatin1String("/comments") % comment;
+    const QString path = QLatin1StringView("blogger/v3/blogs/") % blogId % post % QLatin1StringView("/comments") % comment;
     return path;
 }
 
 auto pageBasePath(const QString &blogId, const QString &pageId = QString()) -> QString
 {
     const auto page = !pageId.isEmpty() ? (QLatin1Char('/') % pageId) : QString();
-    const QString path = QLatin1StringView("blogger/v3/blogs/") % blogId % QLatin1String("/pages") % page;
+    const QString path = QLatin1StringView("blogger/v3/blogs/") % blogId % QLatin1StringView("/pages") % page;
     return path;
 }
 
 auto postBasePath(const QString &blogId, const QString &postId = QString()) -> QString
 {
     const auto post = !postId.isEmpty() ? (QLatin1Char('/') % postId) : QString();
-    const QString path = QLatin1StringView("blogger/v3/blogs/") % blogId % QLatin1String("/posts") % post;
+    const QString path = QLatin1StringView("blogger/v3/blogs/") % blogId % QLatin1StringView("/posts") % post;
     return path;
 }
 
