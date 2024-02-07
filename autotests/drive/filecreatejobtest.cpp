@@ -88,6 +88,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_MAIN(FileCreateJobTest)
+QTEST_GUILESS_MAIN(FileCreateJobTest)
 
 #include "filecreatejobtest.moc"
