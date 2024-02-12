@@ -334,6 +334,21 @@ protected:
     virtual void handleReply(const QNetworkReply *reply, const QByteArray &rawData) = 0;
 
     /**
+     * @brief Called when an error occurs.
+     *
+     * This allows subclasses to handle error cases that might be specific for their
+     * particular API they are implementing. The re-implementation should return @c true
+     * if the error was handled and KGAPI should not perform any more error handling.
+     * If the error was not handled, the re-implementation should return @c false,
+     * which is also what the default implementation returns.
+     *
+     * @param statusCode The status code of the respons.
+     * @param rawData  Raw data of the server response.
+     * @return Returns true when the error was handled by the subclass, false otherwise.
+     */
+    virtual bool handleError(int statusCode, const QByteArray &rawData);
+
+    /**
      * @brief Enqueues @p request in dispatcher queue
      *
      * Subclasses should call this method to enqueue the @p request in main job

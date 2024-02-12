@@ -171,20 +171,21 @@ void EventFetchJob::start()
     enqueueRequest(request);
 }
 
-ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
+bool EventFetchJob::handleError(int errorCode, const QByteArray &rawData)
 {
-    if (reply->error() == QNetworkReply::ContentGoneError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == Gone) {
+    if (errorCode == KGAPI2::Gone) {
         // Full sync required by server, redo request with no updatedMin and no syncToken
         d->updatedTimestamp = 0;
         d->syncToken.clear();
         start();
-        // Errors are not cleared on success
-        // Do it here or else the job will fail
-        setError(KGAPI2::NoError);
-        setErrorString(QString());
-        return ObjectsList();
+        return true;
     }
 
+    return FetchJob::handleError(errorCode, rawData);
+}
+
+ObjectsList EventFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
+{
     FeedData feedData;
     feedData.requestUrl = reply->url();
     ObjectsList items;

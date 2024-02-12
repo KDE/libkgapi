@@ -171,128 +171,137 @@ void Job::Private::_k_replyReceived(QNetworkReply *reply)
     case KGAPI2::Created: /** << OK status (created) */
     case KGAPI2::NoContent: /** << OK status (removed task using Tasks API) */
     case KGAPI2::ResumeIncomplete: /** << OK status (partially uploaded a file via resumable upload) */
+        q->handleReply(reply, rawData);
         break;
 
     case KGAPI2::TemporarilyMovedUseSameMethod: /** << Temporarily moved - Google provides a new URL where to send the request which must use the original
-                                                   method */
+                                                method */
     case KGAPI2::TemporarilyMoved: { /** << Temporarily moved - Google provides a new URL where to send the request */
         qCDebug(KGAPIDebug) << "Google says: Temporarily moved to " << reply->header(QNetworkRequest::LocationHeader).toUrl();
         QNetworkRequest request = currentRequest.request;
         request.setUrl(reply->header(QNetworkRequest::LocationHeader).toUrl());
         q->enqueueRequest(request, currentRequest.rawData, currentRequest.contentType);
-        return;
+        break;
     }
 
     case KGAPI2::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
-        qCWarning(KGAPIDebug) << "Bad request, Google replied '" << rawData << "'";
-        q->setError(KGAPI2::BadRequest);
-        q->setErrorString(tr("Bad request."));
-        q->emitFinished();
-        return;
-
-    case KGAPI2::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
-        qCWarning(KGAPIDebug) << "Unauthorized. Access token has expired or is invalid.";
-        q->setError(KGAPI2::Unauthorized);
-        q->setErrorString(tr("Invalid authentication."));
-        q->emitFinished();
-        return;
-
-    case KGAPI2::Forbidden: {
-        qCWarning(KGAPIDebug) << "Requested resource is forbidden.";
-        const QString msg = parseErrorMessage(rawData);
-        q->setError(KGAPI2::Forbidden);
-        q->setErrorString(tr("Requested resource is forbidden.\n\nGoogle replied '%1'").arg(msg));
-        q->emitFinished();
-        return;
-    }
-
-    case KGAPI2::NotFound: {
-        qCWarning(KGAPIDebug) << "Requested resource does not exist";
-        const QString msg = parseErrorMessage(rawData);
-        q->setError(KGAPI2::NotFound);
-        q->setErrorString(tr("Requested resource does not exist.\n\nGoogle replied '%1'").arg(msg));
-        // don't emit finished() here, we can get 404 when fetching contact photos or so,
-        // in that case 404 is not fatal. Let subclass decide whether to terminate or not.
-        q->handleReply(reply, rawData);
-
-        if (requestQueue.isEmpty()) {
-            q->emitFinished();
-        }
-        return;
-    }
-
-    case KGAPI2::Conflict: {
-        qCWarning(KGAPIDebug) << "Conflict. Remote resource is newer then local.";
-        const QString msg = parseErrorMessage(rawData);
-        q->setError(KGAPI2::Conflict);
-        q->setErrorString(tr("Conflict. Remote resource is newer than local.\n\nGoogle replied '%1'").arg(msg));
-        q->emitFinished();
-        return;
-    }
-
-    case KGAPI2::Gone: {
-        qCWarning(KGAPIDebug) << "Requested resource does not exist anymore.";
-        const QString msg = parseErrorMessage(rawData);
-        q->setError(KGAPI2::Gone);
-        q->setErrorString(tr("Requested resource does not exist anymore.\n\nGoogle replied '%1'").arg(msg));
-        // don't emit finished() here, 410 means full sync at least for calendar api, let subclass decide.
-        q->handleReply(reply, rawData);
-
-        if (requestQueue.isEmpty()) {
-            q->emitFinished();
-        }
-        return;
-    }
-
-    case KGAPI2::InternalError: {
-        qCWarning(KGAPIDebug) << "Internal server error.";
-        const QString msg = parseErrorMessage(rawData);
-        q->setError(KGAPI2::InternalError);
-        q->setErrorString(tr("Internal server error. Try again later.\n\nGoogle replied '%1'").arg(msg));
-        q->emitFinished();
-        return;
-    }
-
-    case KGAPI2::QuotaExceeded: {
-        qCWarning(KGAPIDebug) << "User quota exceeded.";
-
-        // Extend the interval (if possible) and enqueue the request again
-        int interval = dispatchTimer->interval() / 1000;
-        if (interval == 0) {
-            interval = 1;
-        } else if (interval == 1) {
-            interval = 2;
-        } else if ((interval > maxTimeout) && (maxTimeout > 0)) {
-            const QString msg = parseErrorMessage(rawData);
-            q->setError(KGAPI2::QuotaExceeded);
-            q->setErrorString(tr("Maximum quota exceeded. Try again later.\n\nGoogle replied '%1'").arg(msg));
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "Bad request, Google replied '" << rawData << "'";
+            q->setError(KGAPI2::BadRequest);
+            q->setErrorString(tr("Bad request."));
             q->emitFinished();
             return;
-        } else {
-            interval = interval ^ 2;
         }
-        qCDebug(KGAPIDebug) << "Increasing dispatch interval to" << interval * 1000 << "msecs";
-        dispatchTimer->setInterval(interval * 1000);
+        break;
 
-        const QNetworkRequest request = reply->request();
-        q->enqueueRequest(request);
-        if (!dispatchTimer->isActive()) {
-            dispatchTimer->start();
+    case KGAPI2::Unauthorized: /** << Unauthorized - Access token has expired, request a new token */
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "Unauthorized. Access token has expired or is invalid.";
+            q->setError(KGAPI2::Unauthorized);
+            q->setErrorString(tr("Invalid authentication."));
+            q->emitFinished();
+            return;
         }
-        return;
+        break;
+
+    case KGAPI2::Forbidden:
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "Requested resource is forbidden.";
+            const QString msg = parseErrorMessage(rawData);
+            q->setError(KGAPI2::Forbidden);
+            q->setErrorString(tr("Requested resource is forbidden.\n\nGoogle replied '%1'").arg(msg));
+            q->emitFinished();
+            return;
+        }
+        break;
+
+    case KGAPI2::NotFound:
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "Requested resource does not exist";
+            const QString msg = parseErrorMessage(rawData);
+            q->setError(KGAPI2::NotFound);
+            q->setErrorString(tr("Requested resource does not exist.\n\nGoogle replied '%1'").arg(msg));
+            q->emitFinished();
+            return;
+        }
+        break;
+
+    case KGAPI2::Conflict:
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "Conflict. Remote resource is newer then local.";
+            const QString msg = parseErrorMessage(rawData);
+            q->setError(KGAPI2::Conflict);
+            q->setErrorString(tr("Conflict. Remote resource is newer than local.\n\nGoogle replied '%1'").arg(msg));
+            q->emitFinished();
+            return;
+        }
+        break;
+
+    case KGAPI2::Gone:
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "Requested resource does not exist anymore.";
+            const QString msg = parseErrorMessage(rawData);
+            q->setError(KGAPI2::Gone);
+            q->setErrorString(tr("Requested resource does not exist anymore.\n\nGoogle replied '%1'").arg(msg));
+            q->emitFinished();
+            return;
+        }
+        break;
+
+    case KGAPI2::InternalError:
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "Internal server error.";
+            const QString msg = parseErrorMessage(rawData);
+            q->setError(KGAPI2::InternalError);
+            q->setErrorString(tr("Internal server error. Try again later.\n\nGoogle replied '%1'").arg(msg));
+            q->emitFinished();
+            return;
+        }
+        break;
+
+    case KGAPI2::QuotaExceeded: {
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "User quota exceeded.";
+
+            // Extend the interval (if possible) and enqueue the request again
+            int interval = dispatchTimer->interval() / 1000;
+            if (interval == 0) {
+                interval = 1;
+            } else if (interval == 1) {
+                interval = 2;
+            } else if ((interval > maxTimeout) && (maxTimeout > 0)) {
+                const QString msg = parseErrorMessage(rawData);
+                q->setError(KGAPI2::QuotaExceeded);
+                q->setErrorString(tr("Maximum quota exceeded. Try again later.\n\nGoogle replied '%1'").arg(msg));
+                q->emitFinished();
+                return;
+            } else {
+                interval = interval ^ 2;
+            }
+            qCDebug(KGAPIDebug) << "Increasing dispatch interval to" << interval * 1000 << "msecs";
+            dispatchTimer->setInterval(interval * 1000);
+
+            const QNetworkRequest request = reply->request();
+            q->enqueueRequest(request);
+            if (!dispatchTimer->isActive()) {
+                dispatchTimer->start();
+            }
+            return;
+        }
+        break;
     }
 
-    default: { /** Something went wrong, there's nothing we can do about it */
-        qCWarning(KGAPIDebug) << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        const QString msg = parseErrorMessage(rawData);
-        q->setError(KGAPI2::UnknownError);
-        q->setErrorString(tr("Unknown error.\n\nGoogle replied '%1'").arg(msg));
-        q->emitFinished();
-        return;
+    default: /** Something went wrong, there's nothing we can do about it */
+        if (!q->handleError(replyCode, rawData)) {
+            qCWarning(KGAPIDebug) << "Unknown error" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+            const QString msg = parseErrorMessage(rawData);
+            q->setError(KGAPI2::UnknownError);
+            q->setErrorString(tr("Unknown error.\n\nGoogle replied '%1'").arg(msg));
+            q->emitFinished();
+            return;
+        }
+        break;
     }
-    }
-
-    q->handleReply(reply, rawData);
 
     // handleReply has terminated the job, don't continue
     if (!q->isRunning()) {
@@ -535,6 +544,14 @@ void Job::aboutToStart()
     d->currentRequest.rawData.clear();
     d->currentRequest.request = QNetworkRequest();
     d->dispatchTimer->setInterval(0);
+}
+
+bool Job::handleError(int errorCode, const QByteArray &rawData)
+{
+    Q_UNUSED(errorCode)
+    Q_UNUSED(rawData)
+
+    return false;
 }
 
 #include "moc_job.cpp"
