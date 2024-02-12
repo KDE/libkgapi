@@ -279,6 +279,8 @@ static const auto categoriesProperty = QLatin1StringView("categories");
 
 static const auto hangoutLinkParam = QStringLiteral("hangoutLink");
 
+static const auto eventTypeParam = QStringLiteral("eventType");
+
 }
 
 QString APIVersion()
@@ -595,6 +597,12 @@ ObjectPtr Private::JSONToEvent(const QVariantMap &data, const QString &timezone)
     setEventCategories(event, extendedProperties.value(propertyPrivateParam).toMap());
     setEventCategories(event, extendedProperties.value(propertySharedParam).toMap());
 
+    if (const auto eventType = data.value(eventTypeParam).toString(); !eventType.isEmpty()) {
+        event->setEventType(eventTypeFromString(eventType));
+    } else {
+        event->setEventType(Event::EventType::Default);
+    }
+
     return event.dynamicCast<Object>();
 }
 
@@ -769,8 +777,13 @@ QByteArray eventToJSON(const EventPtr &event, EventSerializeFlags flags)
         data.insert(eventExtendedPropertiesParam, QVariantMap{{propertySharedParam, QVariantMap{{categoriesProperty, event->categoriesStr()}}}});
     }
 
+    // eventType not allowed in update, only in create
+    if (!data.contains(idParam)) {
+        data.insert(eventTypeParam, eventTypeToString(event->eventType()));
+    }
+
     /* TODO: Implement support for additional features:
-     * https://developers.google.com/gdata/docs/2.0/elements?csw=1
+     * https://developers.google.com/calendar/api/v3/reference/events/insert
      */
 
     const auto document = QJsonDocument::fromVariant(data);
@@ -813,6 +826,42 @@ ObjectsList parseEventJSONFeed(const QByteArray &jsonFeed, FeedData &feedData)
     }
 
     return list;
+}
+
+QString eventTypeToString(Event::EventType eventType)
+{
+    switch (eventType) {
+    case Event::EventType::Default:
+        return QStringLiteral("default");
+    case Event::EventType::FocusTime:
+        return QStringLiteral("focusTime");
+    case Event::EventType::OutOfOffice:
+        return QStringLiteral("outOfOffice");
+    case Event::EventType::WorkingLocation:
+        return QStringLiteral("workingLocation");
+    }
+
+    Q_UNREACHABLE();
+    return {};
+}
+
+Event::EventType eventTypeFromString(const QString &eventType)
+{
+    const auto eventTypeLc = eventType.toLower();
+    if (eventTypeLc == u"default") {
+        return Event::EventType::Default;
+    }
+    if (eventTypeLc == u"outofoffice") {
+        return Event::EventType::OutOfOffice;
+    }
+    if (eventTypeLc == u"focustime") {
+        return Event::EventType::FocusTime;
+    }
+    if (eventTypeLc == u"workinglocation") {
+        return Event::EventType::WorkingLocation;
+    }
+
+    return Event::EventType::Default;
 }
 
 /******************************** PRIVATE ***************************************/

@@ -52,5 +52,6 @@
     "displayName": "KDE Hacker 2",
     "email": "hacker2@kde.test"
   },
-  "id": "_60o3iopicdhjib9g6ss32b9k70p68b9ocdhm8b9ocphjioj6clh36c9j70"
+  "id": "_60o3iopicdhjib9g6ss32b9k70p68b9ocdhm8b9ocphjioj6clh36c9j70",
+  "eventType": "default"
 }

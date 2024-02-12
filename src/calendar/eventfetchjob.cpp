@@ -11,6 +11,8 @@
 #include "calendarservice.h"
 #include "debug.h"
 #include "event.h"
+#include "fetchjob.h"
+#include "types.h"
 #include "utils.h"
 
 #include <QNetworkReply>
@@ -26,6 +28,7 @@ public:
     QString eventId;
     QString filter;
     QString syncToken;
+    QList<Event::EventType> eventTypes = { Event::EventType::Default, Event::EventType::FocusTime, Event::EventType::OutOfOffice };
     bool fetchDeleted = true;
     quint64 updatedTimestamp = 0;
     quint64 timeMin = 0;
@@ -156,6 +159,9 @@ void EventFetchJob::start()
             }
         } else {
             query.addQueryItem(QStringLiteral("syncToken"), d->syncToken);
+        }
+        for (auto eventType : d->eventTypes) {
+            query.addQueryItem(QStringLiteral("eventTypes"), CalendarService::eventTypeToString(eventType));
         }
         url.setQuery(query);
     } else {

@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/calendar/v3/calendars/MockAccount/events?showDeleted=true&prettyPrint=false&pageToken=ClEKQ182a3MzaWRoazZvcWpnYzlsNnNyM2NjcGc2OHBqMmUyMGRsbm00cWJjY2xwbmlyajM1cGptdXJyN2RoaWlzb3JmZGsYASCAgIDqg5PLwhIaDQgAEgAY-KP05dmb2gI%3D
+GET https://www.googleapis.com/calendar/v3/calendars/MockAccount/events?showDeleted=true&eventTypes=default&eventTypes=focusTime&eventTypes=outOfOffice&prettyPrint=false&pageToken=ClEKQ182a3MzaWRoazZvcWpnYzlsNnNyM2NjcGc2OHBqMmUyMGRsbm00cWJjY2xwbmlyajM1cGptdXJyN2RoaWlzb3JmZGsYASCAgIDqg5PLwhIaDQgAEgAY-KP05dmb2gI%3D

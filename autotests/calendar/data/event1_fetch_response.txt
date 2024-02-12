@@ -45,5 +45,6 @@ Content-type: application/json; charset=UTF-8
     "displayName": "John Doe",
     "email": "johnnyboy@example.test"
   },
-  "id": "3if6lf59tove1e037baa75l54t"
+  "id": "3if6lf59tove1e037baa75l54t",
+  "eventType": "default"
 }

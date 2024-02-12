@@ -7,6 +7,7 @@
  */
 
 #include "event.h"
+#include "calendarservice.h"
 #include "debug.h"
 
 using namespace KGAPI2;
@@ -15,12 +16,12 @@ namespace
 {
 static constexpr const char *EventIdProperty = "EventId";
 static constexpr const char *EventHangoutLinkProperty = "EventHangoutLink";
+static constexpr const char *EventTypeProperty = "EventType";
 }
 
 class Q_DECL_HIDDEN Event::Private
 {
 public:
-    QString id;
     bool deleted = false;
     bool useDefaultReminders = false;
 };
@@ -112,4 +113,14 @@ QString Event::hangoutLink() const
 void Event::setHangoutLink(const QString &hangoutLink)
 {
     setCustomProperty("LIBKGAPI", EventHangoutLinkProperty, hangoutLink);
+}
+
+Event::EventType Event::eventType() const
+{
+    return CalendarService::eventTypeFromString(customProperty("LIBKGAPI", EventTypeProperty));
+}
+
+void Event::setEventType(EventType type)
+{
+    setCustomProperty("LIBKGAPI", EventTypeProperty, CalendarService::eventTypeToString(type));
 }

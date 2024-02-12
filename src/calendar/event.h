@@ -28,6 +28,14 @@ namespace KGAPI2
 class KGAPICALENDAR_EXPORT Event : public KGAPI2::Object, public KCalendarCore::Event
 {
 public:
+    enum class EventType {
+        Default,        //< Regular event
+        FocusTime,      //< Focus time event
+        OutOfOffice,    //< Out of office event
+        WorkingLocation //< Working location event
+    };
+    Q_ENUM(EventType);
+
     /**
      * @brief Constructor
      */
@@ -95,6 +103,16 @@ public:
      * @brief Sets the hangout link for Google Meet.
      */
     void setHangoutLink(const QString &id);
+
+    /**
+     * @brief Returns the type of the event
+     */
+    EventType eventType() const;
+
+    /**
+     * @brief Sets the type of the event.
+     */
+    void setEventType(EventType eventType);
 
 private:
     class Private;

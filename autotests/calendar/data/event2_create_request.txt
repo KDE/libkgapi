@@ -42,5 +42,6 @@ Content-Type: application/json
   },
   "status": "confirmed",
   "summary": "KDE PIM Sprint",
-  "transparency": "opaque"
+  "transparency": "opaque",
+  "eventType": "default"
 }
