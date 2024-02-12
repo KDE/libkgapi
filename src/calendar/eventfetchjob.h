@@ -245,6 +245,14 @@ protected:
      */
     ObjectsList handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData) override;
 
+    /**
+     * @brief KGAPI2::Job::handleError implementation
+     *
+     * @param errorCode
+     * @param rawData
+     */
+    bool handleError(int errorCode, const QByteArray &rawData) override;
+
 private:
     class Private;
     QScopedPointer<Private> const d;

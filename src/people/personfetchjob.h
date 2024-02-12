@@ -39,6 +39,7 @@ protected:
     void start() override;
     ObjectsList handleReplyWithItems(const QNetworkReply *reply,
                                      const QByteArray &rawData) override;
+    bool handleError(int statusCode, const QByteArray &rawData) override;
 
 private:
     class Private;

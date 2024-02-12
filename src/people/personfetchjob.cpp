@@ -10,6 +10,7 @@
 #include "peopleservice.h"
 #include "person.h"
 #include "../debug.h"
+#include "types.h"
 #include "utils.h"
 #include "account.h"
 
@@ -134,6 +135,29 @@ QString PersonFetchJob::receivedSyncToken() const
 void PersonFetchJob::start()
 {
     d->startFetch();
+}
+
+bool PersonFetchJob::handleError(int statusCode, const QByteArray &rawData)
+{
+    if (statusCode == KGAPI2::BadRequest) {
+        const auto error = QJsonDocument::fromJson(rawData);
+        if (error[u"error"][u"status"].toString() == u"INVALID_ARGUMENT") {
+            qCDebug(KGAPIDebug) << "Sync token is invalid, redoing request with no syncToken";
+            d->syncToken.clear();
+            d->startFetch();
+            return true;
+        }
+        for (const auto detail : error[u"error"][u"details"].toArray()) {
+            if (detail[u"reason"].toString() == u"EXPIRED_SYNC_TOKEN") {
+                qCDebug(KGAPIDebug) << "Sync token expired, redoing request with no syncToken";
+                d->syncToken.clear();
+                d->startFetch();
+                return true;
+            }
+        }
+    }
+
+    return FetchJob::handleError(statusCode, rawData);
 }
 
 ObjectsList PersonFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
