@@ -10,6 +10,7 @@
 
 #include "types.h"
 #include "enums.h"
+#include "event.h"
 #include "kgapicalendar_export.h"
 
 #include <QFlags>
@@ -86,6 +87,16 @@ namespace CalendarService
     KGAPICALENDAR_EXPORT ObjectsList parseEventJSONFeed(const QByteArray& jsonFeed, FeedData& feedData);
 
     /**
+     * @brief Converts event type enum value to string
+     */
+    KGAPICALENDAR_EXPORT QString eventTypeToString(Event::EventType eventType);
+
+    /**
+     * @brief Converts event type string to enum value
+     */
+    KGAPICALENDAR_EXPORT Event::EventType eventTypeFromString(const QString &eventType);
+
+    /**
      * @brief Supported API version
      */
     KGAPICALENDAR_EXPORT QString APIVersion();
@@ -153,7 +164,7 @@ namespace CalendarService
      * @param updatesPolicy Whether to send notification to participants
      */
     KGAPICALENDAR_EXPORT QUrl createEventUrl(const QString &calendarID, SendUpdatesPolicy updatesPolicy);
-    
+
     /**
      * @brief Returns URL importing private copies of existing events.
      *

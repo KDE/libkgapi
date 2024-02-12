@@ -4,49 +4,50 @@ Content-type: application/json; charset=UTF-8
 {
   "attendees": [
     {
-      "displayName": "", 
-      "email": "attendee1@kde.test", 
+      "displayName": "",
+      "email": "attendee1@kde.test",
       "id": "1234567890",
       "responseStatus": "needsAction"
     },
     {
-      "displayName": "", 
-      "email": "attendee2@kde.test", 
+      "displayName": "",
+      "email": "attendee2@kde.test",
       "id": "0987654321",
       "responseStatus": "needsAction"
     }
-  ], 
-  "created": "2018-03-30T22:28:48.000Z", 
+  ],
+  "created": "2018-03-30T22:28:48.000Z",
   "creator": {
-    "self": true, 
-    "displayName": "Dan Vr\u00e1til", 
+    "self": true,
+    "displayName": "Dan Vr\u00e1til",
     "email": "dan.vratil@gmail.com"
-  }, 
-  "description": "We shall meet and we shall discuss.", 
+  },
+  "description": "We shall meet and we shall discuss.",
   "end": {
-    "timeZone": "Europe/Prague", 
+    "timeZone": "Europe/Prague",
     "dateTime": "2018-04-01T11:30:00+02:00"
-  }, 
-  "etag": "\"3044897856406000\"", 
-  "htmlLink": "https://www.google.com/calendar/event?eid=dW00anI0YmZqc2kwNm5ycGg0cDlyYjY1bXMgZGFuLnZyYXRpbEBt", 
-  "iCalUID": "3if6lf59tove1e037baa75l54t@google.com", 
+  },
+  "etag": "\"3044897856406000\"",
+  "eventType": "default",
+  "htmlLink": "https://www.google.com/calendar/event?eid=dW00anI0YmZqc2kwNm5ycGg0cDlyYjY1bXMgZGFuLnZyYXRpbEBt",
+  "iCalUID": "3if6lf59tove1e037baa75l54t@google.com",
   "id": "3if6lf59tove1e037baa75l54t",
-  "kind": "calendar#event", 
-  "location": "Meeting Room", 
+  "kind": "calendar#event",
+  "location": "Meeting Room",
   "organizer": {
-    "self": true, 
-    "displayName": "Konqui", 
+    "self": true,
+    "displayName": "Konqui",
     "email": "konqui@kde.test"
-  }, 
+  },
   "reminders": {
     "useDefault": false
-  }, 
-  "sequence": 0, 
+  },
+  "sequence": 0,
   "start": {
-    "timeZone": "Europe/Prague", 
+    "timeZone": "Europe/Prague",
     "dateTime": "2018-04-01T10:30:00+02:00"
-  }, 
-  "status": "confirmed", 
-  "summary": "Cool Meeting about stuff", 
+  },
+  "status": "confirmed",
+  "summary": "Cool Meeting about stuff",
   "updated": "2018-03-30T22:28:48.203Z"
 }

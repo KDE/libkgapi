@@ -1,1 +1,1 @@
-GET https://www.googleapis.com/calendar/v3/calendars/MockAccount/events?showDeleted=true&prettyPrint=false
+GET https://www.googleapis.com/calendar/v3/calendars/MockAccount/events?showDeleted=true&eventTypes=default&eventTypes=focusTime&eventTypes=outOfOffice&prettyPrint=false

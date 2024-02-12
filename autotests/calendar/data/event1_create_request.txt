@@ -40,5 +40,6 @@ Content-Type: application/json
   },
   "status": "confirmed",
   "summary": "Cool Meeting about stuff",
-  "transparency": "opaque"
+  "transparency": "opaque",
+  "eventType": "default"
 }
