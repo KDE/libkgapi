@@ -5,40 +5,40 @@ Content-Type: application/json
   "attendees": [
     {
       "displayName": "",
-      "email": "attendee1@kde.test", 
+      "email": "attendee1@kde.test",
       "id": "1234567890",
       "responseStatus": "needsAction"
-    }, 
+    },
     {
       "displayName": "",
-      "email": "attendee2@kde.test", 
+      "email": "attendee2@kde.test",
       "id": "0987654321",
       "responseStatus": "needsAction"
     }
-  ], 
-  "description": "We shall meet and we shall discuss.", 
+  ],
+  "description": "We shall meet and we shall discuss.",
   "end": {
     "dateTime": "2018-04-01T09:30:00Z",
-    "timeZone": "UTC+02:00"
-  }, 
+    "timeZone": "Europe/Prague"
+  },
   "iCalUID": "3if6lf59tove1e037baa75l54t@google.com",
   "kind": "calendar#event",
-  "location": "Meeting Room", 
+  "location": "Meeting Room",
   "organizer": {
-    "displayName": "Konqui <konqui@kde.test>", 
+    "displayName": "Konqui <konqui@kde.test>",
     "email": "konqui@kde.test"
-  }, 
+  },
   "reminders": {
     "overrides": [
 
     ],
     "useDefault": false
-  }, 
+  },
   "start": {
     "dateTime": "2018-04-01T08:30:00Z",
-    "timeZone": "UTC+02:00"
-  }, 
-  "status": "confirmed", 
-  "summary": "Cool Meeting about stuff", 
+    "timeZone": "Europe/Prague"
+  },
+  "status": "confirmed",
+  "summary": "Cool Meeting about stuff",
   "transparency": "opaque"
 }
