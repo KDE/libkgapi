@@ -130,7 +130,7 @@ msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "Жауап мазмұнын түрі беймәлім."
 
-#: src/calendar/eventfetchjob.cpp:196
+#: src/calendar/eventfetchjob.cpp:203
 #, fuzzy
 #| msgid "Unknown reply content type."
 msgctxt "KGAPI2::EventFetchJob|"
@@ -188,19 +188,19 @@ msgctxt "KGAPI2::AuthJob|"
 msgid "Account name is empty"
 msgstr ""
 
-#: src/core/job.cpp:189
+#: src/core/job.cpp:191
 #, fuzzy
 #| msgid "Bad request."
 msgctxt "KGAPI2::Job|"
 msgid "Bad request."
 msgstr "Жарамсыз талап"
 
-#: src/core/job.cpp:196
+#: src/core/job.cpp:201
 msgctxt "KGAPI2::Job|"
 msgid "Invalid authentication."
 msgstr ""
 
-#: src/core/job.cpp:204
+#: src/core/job.cpp:212
 #, fuzzy, qt-format
 #| msgid ""
 #| "Requested resource is forbidden.\n"
@@ -216,7 +216,7 @@ msgstr ""
 "\n"
 "Google жауабы '%1'"
 
-#: src/core/job.cpp:213
+#: src/core/job.cpp:223
 #, fuzzy, qt-format
 #| msgid ""
 #| "Requested resource does not exist.\n"
@@ -232,7 +232,7 @@ msgstr ""
 "\n"
 "Google жауабы '%1'"
 
-#: src/core/job.cpp:228
+#: src/core/job.cpp:234
 #, fuzzy, qt-format
 #| msgid ""
 #| "Conflict. Remote resource is newer than local.\n"
@@ -248,7 +248,7 @@ msgstr ""
 "\n"
 "Google жауабы '%1'"
 
-#: src/core/job.cpp:237
+#: src/core/job.cpp:245
 #, fuzzy, qt-format
 #| msgid ""
 #| "Requested resource does not exist anymore.\n"
@@ -264,7 +264,7 @@ msgstr ""
 "\n"
 "Google жауабы '%1'"
 
-#: src/core/job.cpp:251
+#: src/core/job.cpp:256
 #, fuzzy, qt-format
 #| msgid ""
 #| "Internal server error. Try again later.\n"
@@ -280,7 +280,7 @@ msgstr ""
 "\n"
 "Google жауабы '%1'"
 
-#: src/core/job.cpp:268
+#: src/core/job.cpp:275
 #, fuzzy, qt-format
 #| msgid ""
 #| "User quota exceeded. Try again later.\n"
@@ -296,7 +296,7 @@ msgstr ""
 "\n"
 "Google жауабы '%1'"
 
-#: src/core/job.cpp:289
+#: src/core/job.cpp:299
 #, fuzzy, qt-format
 #| msgid ""
 #| "Unknown error.\n"

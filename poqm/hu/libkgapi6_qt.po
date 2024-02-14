@@ -100,7 +100,7 @@ msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "Érvénytelen tartalomtípus a válaszban"
 
-#: src/calendar/eventfetchjob.cpp:196
+#: src/calendar/eventfetchjob.cpp:203
 msgctxt "KGAPI2::EventFetchJob|"
 msgid "Invalid response content type"
 msgstr "Érvénytelen tartalomtípus a válaszban"
@@ -146,17 +146,17 @@ msgctxt "KGAPI2::AuthJob|"
 msgid "Account name is empty"
 msgstr "A fióknév üres"
 
-#: src/core/job.cpp:189
+#: src/core/job.cpp:191
 msgctxt "KGAPI2::Job|"
 msgid "Bad request."
 msgstr "Hibás kérés."
 
-#: src/core/job.cpp:196
+#: src/core/job.cpp:201
 msgctxt "KGAPI2::Job|"
 msgid "Invalid authentication."
 msgstr "Érvénytelen azonosítás."
 
-#: src/core/job.cpp:204
+#: src/core/job.cpp:212
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -168,7 +168,7 @@ msgstr ""
 "\n"
 "A Google válasza: „%1”"
 
-#: src/core/job.cpp:213
+#: src/core/job.cpp:223
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -180,7 +180,7 @@ msgstr ""
 "\n"
 "A Google válasza: „%1”"
 
-#: src/core/job.cpp:228
+#: src/core/job.cpp:234
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -192,7 +192,7 @@ msgstr ""
 "\n"
 "A Google válasza: „%1”"
 
-#: src/core/job.cpp:237
+#: src/core/job.cpp:245
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -204,7 +204,7 @@ msgstr ""
 "\n"
 "A Google válasza: „%1”"
 
-#: src/core/job.cpp:251
+#: src/core/job.cpp:256
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -216,7 +216,7 @@ msgstr ""
 "\n"
 "A Google válasza: „%1”"
 
-#: src/core/job.cpp:268
+#: src/core/job.cpp:275
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -228,7 +228,7 @@ msgstr ""
 "\n"
 "A Google válasza: „%1”"
 
-#: src/core/job.cpp:289
+#: src/core/job.cpp:299
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
