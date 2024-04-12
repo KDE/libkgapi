@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-04-09 23:22+0300\n"
+"PO-Revision-Date: 2024-04-10 07:28+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -127,7 +127,7 @@ msgstr "סוג תוכן תגובה שגוי"
 #: src/core/accountmanager.cpp:94
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
-msgstr ""
+msgstr "אימות טווחים נוספים נכשל"
 
 #: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
 #: src/core/accountmanager.cpp:272
@@ -158,6 +158,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
+"הגישה למשאב המבוקש אסורה.\n"
+"\n"
+"התגובה של Google היא ‚%1’"
 
 #: src/core/job.cpp:223
 #, qt-format
@@ -167,6 +170,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
+"המשאב המבוקש לא קיים.\n"
+"\n"
+"התגובה של Google היא ‚%1’"
 
 #: src/core/job.cpp:234
 #, qt-format
@@ -176,6 +182,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
+"סתירה. המשאב המרוחק חדש מהמקומי.\n"
+"\n"
+"התגובה של Google היא ‚%1’"
 
 #: src/core/job.cpp:245
 #, qt-format
@@ -185,6 +194,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
+"המשאב המבוקש לא קיים עוד.\n"
+"\n"
+"התגובה של Google היא ‚%1’"
 
 #: src/core/job.cpp:256
 #, qt-format
@@ -194,6 +206,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
+"שגיאת שרת פנימית.\n"
+"\n"
+"התגובה של Google היא ‚%1’"
 
 #: src/core/job.cpp:275
 #, qt-format
@@ -203,6 +218,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
+"הגעת לתקורת המכסה. נא לנסות שוב מאוחר יותר.\n"
+"\n"
+"התגובה של Google היא ‚%1’"
 
 #: src/core/job.cpp:299
 #, qt-format
@@ -212,57 +230,60 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
+"שגיאה לא ידועה.\n"
+"\n"
+"התגובה של Google היא ‚%1’"
 
 #: src/core/private/fullauthenticationjob.cpp:54
 #, qt-format
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Error receiving response: %1"
-msgstr ""
+msgstr "שגיאה בקבלת תגובה: %1"
 
 #: src/core/private/fullauthenticationjob.cpp:61
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Authentication successful"
-msgstr ""
+msgstr "האימות נכשל"
 
 #: src/core/private/fullauthenticationjob.cpp:62
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "You can close this tab and return to the application now."
-msgstr ""
+msgstr "אפשר לסגור את הלשונית הזאת ולחזור ליישום כעת."
 
 #: src/core/private/fullauthenticationjob.cpp:77
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Token response invalid"
-msgstr ""
+msgstr "תגובת האסימון שגויה"
 
 #: src/core/private/fullauthenticationjob.cpp:92
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Could not extract token from HTTP answer"
-msgstr ""
+msgstr "לא ניתן לחלץ את האסימון מתגובת ה־HTTP"
 
 #: src/core/private/fullauthenticationjob.cpp:185
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Invalid account"
-msgstr ""
+msgstr "חשבון שגוי"
 
 #: src/core/private/fullauthenticationjob.cpp:189
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "No scopes to authenticate for"
-msgstr ""
+msgstr "אין טווחים לאימות מולם"
 
 #: src/core/private/fullauthenticationjob.cpp:202
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Could not start OAuth HTTP server"
-msgstr ""
+msgstr "לא ניתן להפעיל שרת OAuth HTTP"
 
 #: src/core/private/newtokensfetchjob.cpp:115
 msgctxt "KGAPI2::NewTokensFetchJob|"
 msgid "Failed to parse server response."
-msgstr ""
+msgstr "פענוח תגובת השרת נכשל."
 
 #: src/core/private/refreshtokensjob.cpp:92
 msgctxt "KGAPI2::RefreshTokensJob|"
 msgid "Failed to parse newly fetched tokens"
-msgstr ""
+msgstr "פענוח אסימונים חדשים שנמשכו נכשל"
 
 #: src/drive/aboutfetchjob.cpp:119
 msgctxt "KGAPI2::Drive::AboutFetchJob|"
@@ -317,17 +338,17 @@ msgstr "סוג תוכן תגובה שגוי"
 #: src/drive/fileabstractresumablejob.cpp:313
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed opening upload session"
-msgstr ""
+msgstr "פתיחת הפעלת העלאה נכשלה"
 
 #: src/drive/fileabstractresumablejob.cpp:342
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed uploading chunk"
-msgstr ""
+msgstr "העלאת חלק נכשלה"
 
 #: src/drive/fileabstractresumablejob.cpp:363
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed completing upload session"
-msgstr ""
+msgstr "השלמת הפעלת העלאה נכשלה"
 
 #: src/drive/fileabstractuploadjob.cpp:282
 msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
