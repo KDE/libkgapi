@@ -66,7 +66,7 @@ ecm_setup_version(PROJECT
 
 
 add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
-ecm_set_disabled_deprecation_versions(QT 6.7.0 KF 6.1.0)
+ecm_set_disabled_deprecation_versions(QT 6.7.0 KF 6.2.0)
 
 
 option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
