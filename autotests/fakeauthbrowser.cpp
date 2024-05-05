@@ -32,7 +32,7 @@ public Q_SLOTS:
         // pretend the user have already authenticated and we've reached the
         // part where Google sends us the auth code
 
-        QTimer::singleShot(0, this, [=]() {
+        QTimer::singleShot(0, this, []() {
             QTcpSocket socket;
             socket.connectToHost(QHostAddress::LocalHost, kgapiTcpAuthServerPort);
             if (!socket.waitForConnected()) {

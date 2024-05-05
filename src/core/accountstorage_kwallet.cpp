@@ -45,7 +45,7 @@ KWalletStorage::~KWalletStorage()
 
 void KWalletStorage::open(const std::function<void(bool)> &callback)
 {
-    const auto openedCallback = [=](bool opened) {
+    const auto openedCallback = [this, callback](bool opened) {
         mWalletOpening = false;
         if (!opened) {
             qCWarning(KGAPIDebug, "KWallet: failed to open");

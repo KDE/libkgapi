@@ -89,7 +89,7 @@ public:
         }
         auto job = new AuthJob(account, apiKey, apiSecret);
         job->setUsername(account->accountName());
-        connect(job, &AuthJob::finished, q, [=]() {
+        connect(job, &AuthJob::finished, q, [this, job, apiKey, promise]() {
             if (job->error() != KGAPI2::NoError) {
                 promise->d->setError(tr("Failed to authenticate additional scopes"));
                 return;
@@ -204,8 +204,8 @@ AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString 
     if (!promise->d->isRunning()) {
         // Start the process asynchronously so that caller has a chance to connect
         // to AccountPromise signals.
-        QTimer::singleShot(0, this, [=]() {
-            d->ensureStore([=](bool storeOpened) {
+        QTimer::singleShot(0, this, [this, promise, apiKey, apiSecret, accountName, scopes]() {
+            d->ensureStore([this, promise, apiKey, apiSecret, accountName, scopes](bool storeOpened) {
                 if (!storeOpened) {
                     promise->d->setError(tr("Failed to open account store"));
                     return;
@@ -243,8 +243,8 @@ AccountPromise *AccountManager::refreshTokens(const QString &apiKey, const QStri
 {
     auto promise = d->createPromise(apiKey, accountName);
     if (!promise->d->isRunning()) {
-        QTimer::singleShot(0, this, [=]() {
-            d->ensureStore([=](bool storeOpened) {
+        QTimer::singleShot(0, this, [this, promise, apiKey, apiSecret, accountName]() {
+            d->ensureStore([this, apiKey, promise, apiSecret, accountName](bool storeOpened) {
                 if (!storeOpened) {
                     promise->d->setError(tr("Failed to open account store"));
                     return;
@@ -266,8 +266,8 @@ AccountPromise *AccountManager::refreshTokens(const QString &apiKey, const QStri
 AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString &accountName, const QList<QUrl> &scopes)
 {
     auto promise = new AccountPromise(this);
-    QTimer::singleShot(0, this, [=]() {
-        d->ensureStore([=](bool storeOpened) {
+    QTimer::singleShot(0, this, [this, promise, apiKey, accountName, scopes]() {
+        d->ensureStore([this, promise, apiKey, accountName, scopes](bool storeOpened) {
             if (!storeOpened) {
                 promise->d->setError(tr("Failed to open account store"));
                 return;
@@ -292,7 +292,7 @@ AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString
 
 void AccountManager::removeScopes(const QString &apiKey, const QString &accountName, const QList<QUrl> &removedScopes)
 {
-    d->ensureStore([=](bool storeOpened) {
+    d->ensureStore([this, apiKey, accountName, removedScopes](bool storeOpened) {
         if (!storeOpened) {
             return;
         }
