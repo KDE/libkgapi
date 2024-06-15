@@ -162,6 +162,11 @@ QUrl Account::calendarScopeUrl()
     return QUrl(QStringLiteral("https://www.googleapis.com/auth/calendar"));
 }
 
+QUrl Account::calendarEventsScopeUrl()
+{
+    return QUrl(QStringLiteral("https://www.googleapis.com/auth/calendar.events"));
+}
+
 QUrl Account::peopleScopeUrl()
 {
     return QUrl(QStringLiteral("https://www.googleapis.com/auth/contacts"));

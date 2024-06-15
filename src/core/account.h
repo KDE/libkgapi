@@ -161,9 +161,15 @@ public:
     static QUrl accountInfoEmailScopeUrl();
 
     /**
-     * Returns scope URL for Google Calendar service.
+     * Returns scope URL for accessing calendars in Google Calendar.
      */
     static QUrl calendarScopeUrl();
+
+
+    /**
+     * Returns scope URL for accessing Google Calendar events.
+     */
+    static QUrl calendarEventsScopeUrl();
 
     /**
      * Returns scope URL for Google Tasks service.
