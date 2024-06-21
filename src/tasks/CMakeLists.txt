@@ -48,7 +48,7 @@ ecm_generate_headers(kgapitasks_CamelCase_HEADERS
 )
 
 
-if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6GAPITasks PROPERTIES UNITY_BUILD ON)
 endif()
 
@@ -91,7 +91,7 @@ install(FILES
     COMPONENT Devel
 )
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_add_qch(
         KPim6GAPITasks_QCH
         NAME KPim6GAPITasks
@@ -113,6 +113,6 @@ if (BUILD_QCH)
         TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         COMPONENT Devel
-    )
+   )
 endif()
 

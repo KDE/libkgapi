@@ -55,7 +55,7 @@ ecm_generate_headers(kgapicalendar_CamelCase_HEADERS
     REQUIRED_HEADERS kgapicalendar_HEADERS
 )
 
-if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6GAPICalendar PROPERTIES UNITY_BUILD ON)
 endif()
 generate_export_header(KPim6GAPICalendar BASE_NAME kgapicalendar)
@@ -96,7 +96,7 @@ install(FILES
     COMPONENT Devel
 )
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_add_qch(
         KPim6GAPICalendar_QCH
         NAME KPim6GAPICalendar
@@ -118,5 +118,5 @@ if (BUILD_QCH)
         TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         COMPONENT Devel
-    )
+   )
 endif()

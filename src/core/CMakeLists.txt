@@ -72,7 +72,7 @@ ecm_generate_headers(kgapicore_accountinfo_CamelCase_HEADERS
     RELATIVE accountinfo
 )
 
-if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6GAPICore PROPERTIES UNITY_BUILD ON)
 endif()
 
@@ -120,7 +120,7 @@ install(FILES
     COMPONENT Devel
 )
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_add_qch(
         KPim6GAPICore_QCH
         NAME KPim6GAPICore
@@ -142,6 +142,6 @@ if (BUILD_QCH)
         TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         COMPONENT Devel
-    )
+   )
 endif()
 

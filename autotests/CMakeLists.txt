@@ -18,7 +18,7 @@ set(kgapitest_SRCS
 )
 
 
-if (NOT WIN32)
+if(NOT WIN32)
 # Silence deprecation warnings for deprecated APIs tests.
 set_source_files_properties(
     drive/teamdrivecreatejobtest.cpp
@@ -32,7 +32,7 @@ set_source_files_properties(
 endif()
 
 add_library(kgapitest STATIC ${kgapitest_SRCS})
-if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(kgapitest PROPERTIES UNITY_BUILD ON)
 endif()
 
@@ -49,14 +49,14 @@ macro(add_libkgapi2_test _module _testname)
     string(CONCAT moduleName ${moduleFirst} ${moduleLast})
     set(extraLibs "${_extraLibs};KPim6GAPI${moduleName}")
     set(utilsFile ${CMAKE_CURRENT_SOURCE_DIR}/${_module}/${_module}testutils.cpp)
-    if (EXISTS ${utilsFile})
+    if(EXISTS ${utilsFile})
         list(APPEND testSources ${utilsFile})
     endif()
     ecm_add_test(${testSources}
         LINK_LIBRARIES kgapitest KPim6GAPICore ${extraLibs}
         TEST_NAME ${_testname}
         NAME_PREFIX ${_module}-
-    )
+   )
 endmacro(add_libkgapi2_test)
 
 ecm_add_test(fakenamtest.cpp LINK_LIBRARIES kgapitest KPim6GAPICore TEST_NAME fakenamtest NAME_PREFIX fake-)

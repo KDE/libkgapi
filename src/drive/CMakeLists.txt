@@ -182,7 +182,7 @@ ecm_generate_headers(kgapidrive_CamelCase_HEADERS
     REQUIRED_HEADERS kgapidrive_HEADERS
 )
 #Disable for the moment
-#if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+#if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
 #    set_target_properties(KPimGAPIDrive PROPERTIES UNITY_BUILD ON)
 #endif()
 
@@ -225,7 +225,7 @@ install(FILES
     COMPONENT Devel
 )
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_add_qch(
         KPim6GAPIDrive_QCH
         NAME KPim6GAPIDrive
@@ -247,6 +247,6 @@ if (BUILD_QCH)
         TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         COMPONENT Devel
-    )
+   )
 endif()
 

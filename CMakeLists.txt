@@ -72,17 +72,17 @@ ecm_set_disabled_deprecation_versions(QT 6.7.0 KF 6.4.0)
 option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
 
 set(COMPILE_WITH_UNITY_CMAKE_SUPPORT OFF)
-if (USE_UNITY_CMAKE_SUPPORT)
+if(USE_UNITY_CMAKE_SUPPORT)
     set(COMPILE_WITH_UNITY_CMAKE_SUPPORT ON)
 endif()
 
 
 ############## Targets ##############
 add_subdirectory(src)
-if (KGAPI_BUILD_EXAMPLES)
+if(KGAPI_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
-if (BUILD_TESTING)
+if(BUILD_TESTING)
     add_subdirectory(autotests)
 endif()
 
@@ -90,7 +90,7 @@ endif()
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim6GAPI")
 set(KGAPI_KF6_COMPAT FALSE)
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_install_qch_export(
         TARGETS KPim6GAPIBlogger_QCH KPim6GAPICalendar_QCH
         KPim6GAPICore_QCH KPim6GAPIDrive_QCH
@@ -99,7 +99,7 @@ if (BUILD_QCH)
         FILE KPim6GAPIQchTargets.cmake
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
-    )
+   )
     set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim6GAPIQchTargets.cmake\")")
 endif()
 
@@ -134,7 +134,7 @@ ecm_qt_install_logging_categories(
         EXPORT LIBKGAPI
         FILE libkgapi.categories
         DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
-        )
+       )
 
 
 ecm_install_po_files_as_qm(poqm)

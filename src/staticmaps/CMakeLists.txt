@@ -22,7 +22,7 @@ ecm_generate_headers(kgapimaps_CamelCase_HEADERS
     REQUIRED_HEADERS kgapimaps_HEADERS
 )
 
-if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6GAPIMaps PROPERTIES UNITY_BUILD ON)
 endif()
 
@@ -63,7 +63,7 @@ install(FILES
     COMPONENT Devel
 )
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_add_qch(
         KPim6GAPIMaps_QCH
         NAME KPim6GAPIMaps
@@ -85,5 +85,5 @@ if (BUILD_QCH)
         TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         COMPONENT Devel
-    )
+   )
 endif()

@@ -70,7 +70,7 @@ ecm_generate_headers(kgapiblogger_CamelCase_HEADERS
     REQUIRED_HEADERS kgapiblogger_HEADERS
 )
 
-if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6GAPIBlogger PROPERTIES UNITY_BUILD ON)
 endif()
 
@@ -110,7 +110,7 @@ install(FILES
     COMPONENT Devel
 )
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_add_qch(
         KPim6GAPIBlogger_QCH
         NAME KPim6GAPIBlogger
@@ -132,5 +132,5 @@ if (BUILD_QCH)
         TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         COMPONENT Devel
-    )
+   )
 endif()

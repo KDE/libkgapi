@@ -1,13 +1,13 @@
 include(CheckIncludeFile)
 include(CheckStructHasMember)
 
-if (NOT CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+if(NOT CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
     add_definitions(-D_GNU_SOURCE)
 endif()
 
-if (WIN32)
+if(WIN32)
     add_definitions(-DWIN32)
-elseif (APPLE)
+elseif(APPLE)
     add_definitions(-Dmacintosh)
 endif()
 
