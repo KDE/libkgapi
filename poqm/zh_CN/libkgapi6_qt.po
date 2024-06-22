@@ -264,7 +264,7 @@ msgstr "无法从 HTTP 应答中提取令牌"
 #: src/core/private/fullauthenticationjob.cpp:185
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Invalid account"
-msgstr "非法账号"
+msgstr "无效账户"
 
 #: src/core/private/fullauthenticationjob.cpp:189
 msgctxt "KGAPI2::FullAuthenticationJob|"
