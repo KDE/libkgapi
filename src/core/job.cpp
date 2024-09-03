@@ -186,7 +186,7 @@ void Job::Private::_k_replyReceived(QNetworkReply *reply)
 
     case KGAPI2::BadRequest: /** << Bad request - malformed data, API changed, something went wrong... */
         if (!q->handleError(replyCode, rawData)) {
-            qCWarning(KGAPIDebug) << "Bad request, Google replied '" << rawData << "'";
+            qCWarning(KGAPIDebug) << "Bad request" << reply->url() << ", Google replied '" << rawData << "'";
             q->setError(KGAPI2::BadRequest);
             q->setErrorString(tr("Bad request."));
             q->emitFinished();
