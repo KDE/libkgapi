@@ -3,13 +3,13 @@
 #
 # Translators:
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
-# SPDX-FileCopyrightText: 2022, 2023 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: extragear-libs-kde4\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2023-10-05 12:56+0300\n"
+"PO-Revision-Date: 2024-09-23 15:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Qt-Contexts: true\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 24.11.70\n"
 
 #: src/blogger/blogfetchjob.cpp:82
 msgctxt "KGAPI2::Blogger::BlogFetchJob|"
@@ -166,7 +166,7 @@ msgid ""
 msgstr ""
 "İstenen kaynak yasaklanmıştır.\n"
 "\n"
-"Google şu şekilde yanıtladı: '%1'"
+"Google şu şekilde yanıtladı: “%1”"
 
 #: src/core/job.cpp:223
 #, qt-format
@@ -176,9 +176,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
-"İstenen kaynak mevcut değil.\n"
+"İstenen kaynak yok.\n"
 "\n"
-"Google şu şekilde yanıtladı: '%1'"
+"Google şu şekilde yanıtladı: “%1”"
 
 #: src/core/job.cpp:234
 #, qt-format
@@ -188,9 +188,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
-"Çatışma. Uzaktaki kaynak yereldekinden daha yeni.\n"
+"Çakışma. Uzaktaki kaynak yereldekinden daha yeni.\n"
 "\n"
-"Google şu şekilde yanıtladı: '%1'"
+"Google şu şekilde yanıtladı: “%1”"
 
 #: src/core/job.cpp:245
 #, qt-format
@@ -202,7 +202,7 @@ msgid ""
 msgstr ""
 "İstenen kaynak artık yok.\n"
 "\n"
-"Google şu şekilde yanıtladı: '%1'"
+"Google şu şekilde yanıtladı: “%1”"
 
 #: src/core/job.cpp:256
 #, qt-format
@@ -214,7 +214,7 @@ msgid ""
 msgstr ""
 "İçsel sunucu hatası. Daha sonra yeniden deneyin.\n"
 "\n"
-"Google şu şekilde yanıtladı: '%1'"
+"Google şu şekilde yanıtladı: “%1”"
 
 #: src/core/job.cpp:275
 #, qt-format
@@ -226,7 +226,7 @@ msgid ""
 msgstr ""
 "Azami kullanıcı kotası aşıldı. Daha sonra yeniden deneyin.\n"
 "\n"
-"Google şu şekilde yanıtladı: '%1'"
+"Google şu şekilde yanıtladı: “%1”"
 
 #: src/core/job.cpp:299
 #, qt-format
@@ -238,7 +238,7 @@ msgid ""
 msgstr ""
 "Bilinmeyen hata.\n"
 "\n"
-"Google şu şekilde yanıtladı: '%1'"
+"Google şu şekilde yanıtladı: “%1”"
 
 #: src/core/private/fullauthenticationjob.cpp:54
 #, qt-format
