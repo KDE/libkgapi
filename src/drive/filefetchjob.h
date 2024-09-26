@@ -35,9 +35,18 @@ class KGAPIDRIVE_EXPORT FileFetchJob : public KGAPI2::FetchJob
 
 public:
     struct FieldShorthands {
-        static const QStringList BasicFields;
-        static const QStringList AccessFields;
-        static const QStringList SharingFields;
+        /**
+         * @since 6.3.0
+         */
+        static const QStringList &basicFields();
+        /**
+         * @since 6.3.0
+         */
+        static const QStringList &accessFields();
+        /**
+         * @since 6.3.0
+         */
+        static const QStringList &sharingFields();
     };
 
     explicit FileFetchJob(const QString &fileId, const AccountPtr &account, QObject *parent = nullptr);

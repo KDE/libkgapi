@@ -190,28 +190,40 @@ void FileFetchJob::setSupportsAllDrives(bool supportsAllDrives)
     d->supportsAllDrives = supportsAllDrives;
 }
 
-const QStringList FileFetchJob::FieldShorthands::BasicFields = {File::Fields::Id,
-                                                                File::Fields::Title,
-                                                                File::Fields::MimeType,
-                                                                File::Fields::CreatedDate,
-                                                                File::Fields::ModifiedDate,
-                                                                File::Fields::FileSize,
-                                                                File::Fields::DownloadUrl,
-                                                                File::Fields::Permissions};
+const QStringList &FileFetchJob::FieldShorthands::basicFields()
+{
+    static const QStringList basicFields = {File::Fields::Id,
+                                            File::Fields::Title,
+                                            File::Fields::MimeType,
+                                            File::Fields::CreatedDate,
+                                            File::Fields::ModifiedDate,
+                                            File::Fields::FileSize,
+                                            File::Fields::DownloadUrl,
+                                            File::Fields::Permissions};
+    return basicFields;
+}
 
-const QStringList FileFetchJob::FieldShorthands::AccessFields = {File::Fields::CreatedDate,
-                                                                 File::Fields::ModifiedDate,
-                                                                 File::Fields::ModifiedByMeDate,
-                                                                 File::Fields::LastModifiedByMeDate,
-                                                                 File::Fields::LastViewedByMeDate,
-                                                                 File::Fields::MarkedViewedByMeDate};
+const QStringList &FileFetchJob::FieldShorthands::accessFields()
+{
+    static const QStringList accessFields = {File::Fields::CreatedDate,
+                                             File::Fields::ModifiedDate,
+                                             File::Fields::ModifiedByMeDate,
+                                             File::Fields::LastModifiedByMeDate,
+                                             File::Fields::LastViewedByMeDate,
+                                             File::Fields::MarkedViewedByMeDate};
+    return accessFields;
+}
 
-const QStringList FileFetchJob::FieldShorthands::SharingFields = {File::Fields::SharedWithMeDate,
-                                                                  File::Fields::WritersCanShare,
-                                                                  File::Fields::Shared,
-                                                                  File::Fields::Owners,
-                                                                  File::Fields::SharingUser,
-                                                                  File::Fields::OwnerNames};
+const QStringList &FileFetchJob::FieldShorthands::sharingFields()
+{
+    static const QStringList sharingFields = {File::Fields::SharedWithMeDate,
+                                              File::Fields::WritersCanShare,
+                                              File::Fields::Shared,
+                                              File::Fields::Owners,
+                                              File::Fields::SharingUser,
+                                              File::Fields::OwnerNames};
+    return sharingFields;
+}
 
 ObjectsList FileFetchJob::handleReplyWithItems(const QNetworkReply *reply, const QByteArray &rawData)
 {
