@@ -374,7 +374,7 @@ msgctxt "KGAPI2::Drive::FileCopyJob|"
 msgid "Invalid response content type"
 msgstr "Type de contenu non valable pour la réponse."
 
-#: src/drive/filefetchjob.cpp:240
+#: src/drive/filefetchjob.cpp:252
 msgctxt "KGAPI2::Drive::FileFetchJob|"
 msgid "Invalid response content type"
 msgstr "Type de contenu non valable pour la réponse."

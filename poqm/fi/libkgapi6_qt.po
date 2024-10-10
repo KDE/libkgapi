@@ -406,7 +406,7 @@ msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
-#: src/drive/filefetchjob.cpp:240
+#: src/drive/filefetchjob.cpp:252
 msgctxt "KGAPI2::Drive::FileFetchJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"

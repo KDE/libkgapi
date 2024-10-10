@@ -364,7 +364,7 @@ msgctxt "KGAPI2::Drive::FileCopyJob|"
 msgid "Invalid response content type"
 msgstr "잘못된 응답 내용 형식"
 
-#: src/drive/filefetchjob.cpp:240
+#: src/drive/filefetchjob.cpp:252
 msgctxt "KGAPI2::Drive::FileFetchJob|"
 msgid "Invalid response content type"
 msgstr "잘못된 응답 내용 형식"

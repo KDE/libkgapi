@@ -478,7 +478,7 @@ msgctxt "KGAPI2::Drive::FileCopyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/drive/filefetchjob.cpp:240
+#: src/drive/filefetchjob.cpp:252
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::Drive::FileFetchJob|"
