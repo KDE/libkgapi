@@ -34,7 +34,7 @@ class KGAPIBLOGGER_EXPORT PostFetchJob : public KGAPI2::FetchJob
 
     Q_PROPERTY(QDateTime endDate READ endDate WRITE setEndDate)
 
-    Q_PROPERTY(StatusFilter statusFilter READ statusFilter WRITE setStatusFilter)
+    Q_PROPERTY(StatusFilters statusFilter READ statusFilter WRITE setStatusFilter)
 
     Q_FLAGS(StatusFilter)
 public:
