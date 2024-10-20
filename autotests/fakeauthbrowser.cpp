@@ -14,11 +14,11 @@
 
 extern Q_DECL_IMPORT uint16_t kgapiTcpAuthServerPort; // defined in authjob.cpp
 
-class FakeAuthBrowser::Private : public QObject
+class FakeAuthBrowserPrivate : public QObject
 {
     Q_OBJECT
 public:
-    explicit Private()
+    explicit FakeAuthBrowserPrivate()
     {
         kgapiTcpAuthServerPort = 42413;
     }
@@ -47,7 +47,7 @@ public Q_SLOTS:
 };
 
 FakeAuthBrowser::FakeAuthBrowser()
-    : d(new FakeAuthBrowser::Private)
+    : d(std::make_unique<FakeAuthBrowserPrivate>())
 {
     QDesktopServices::setUrlHandler(QStringLiteral("https"), d.get(), "openUrl");
 }

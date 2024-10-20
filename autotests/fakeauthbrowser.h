@@ -6,7 +6,9 @@
 
 #pragma once
 
-#include <QScopedPointer>
+#include <memory>
+
+class FakeAuthBrowserPrivate;
 
 class FakeAuthBrowser
 {
@@ -15,7 +17,5 @@ public:
     ~FakeAuthBrowser();
 
 private:
-    class Private;
-    QScopedPointer<Private> const d;
-    friend class Private;
+    std::unique_ptr<FakeAuthBrowserPrivate> const d;
 };
