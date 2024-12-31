@@ -23,7 +23,6 @@ include(ECMFeatureSummary)
 
 include(ECMPoQmTools)
 include(ECMSetupVersion)
-include(FeatureSummary)
 include(KDEGitCommitHooks)
 include(KDEClangFormat)
 include(ECMAddQch)
