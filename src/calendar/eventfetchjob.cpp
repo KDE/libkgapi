@@ -10,8 +10,6 @@
 #include "account.h"
 #include "calendarservice.h"
 #include "debug.h"
-#include "event.h"
-#include "fetchjob.h"
 #include "types.h"
 #include "utils.h"
 

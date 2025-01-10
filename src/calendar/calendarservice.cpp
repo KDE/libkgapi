@@ -9,7 +9,6 @@
 #include "calendarservice.h"
 #include "calendar.h"
 #include "debug.h"
-#include "event.h"
 #include "reminder.h"
 #include "utils.h"
 
