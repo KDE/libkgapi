@@ -133,7 +133,7 @@ msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "Neispravan tip sadržaja odgovor a"
 
-#: src/calendar/eventfetchjob.cpp:203
+#: src/calendar/eventfetchjob.cpp:201
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::EventFetchJob|"

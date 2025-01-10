@@ -91,7 +91,7 @@ msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "अमान्य प्रतिक्रिया सामग्री प्रकार"
 
-#: src/calendar/eventfetchjob.cpp:203
+#: src/calendar/eventfetchjob.cpp:201
 msgctxt "KGAPI2::EventFetchJob|"
 msgid "Invalid response content type"
 msgstr "अमान्य प्रतिक्रिया सामग्री प्रकार"

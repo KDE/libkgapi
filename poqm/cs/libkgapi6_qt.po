@@ -100,7 +100,7 @@ msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "Neplatný typ obsahu odpovědi"
 
-#: src/calendar/eventfetchjob.cpp:203
+#: src/calendar/eventfetchjob.cpp:201
 msgctxt "KGAPI2::EventFetchJob|"
 msgid "Invalid response content type"
 msgstr "Neplatný typ obsahu odpovědi"

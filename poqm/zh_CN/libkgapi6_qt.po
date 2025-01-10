@@ -95,7 +95,7 @@ msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "无效的响应内容类型"
 
-#: src/calendar/eventfetchjob.cpp:203
+#: src/calendar/eventfetchjob.cpp:201
 msgctxt "KGAPI2::EventFetchJob|"
 msgid "Invalid response content type"
 msgstr "无效的响应内容类型"

@@ -118,7 +118,7 @@ msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
-#: src/calendar/eventfetchjob.cpp:203
+#: src/calendar/eventfetchjob.cpp:201
 msgctxt "KGAPI2::EventFetchJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
