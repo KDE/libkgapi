@@ -95,7 +95,7 @@ public:
                 return;
             }
 
-            mStore->storeAccount(apiKey, job->account());
+            mStore->storeAccount(apiKey, job->account(), [](bool) {});
             promise->d->setAccount(job->account());
         });
     }
@@ -114,18 +114,6 @@ public:
             }
         }
         return true;
-    }
-
-    void ensureStore(const std::function<void(bool)> &callback)
-    {
-        if (!mStore) {
-            mStore = AccountStorageFactory::instance()->create();
-        }
-        if (!mStore->opened()) {
-            mStore->open(callback);
-        } else {
-            callback(true);
-        }
     }
 
     AccountPromise *createPromise(const QString &apiKey, const QString &accountName)
@@ -205,13 +193,7 @@ AccountPromise *AccountManager::getAccount(const QString &apiKey, const QString 
         // Start the process asynchronously so that caller has a chance to connect
         // to AccountPromise signals.
         QTimer::singleShot(0, this, [this, promise, apiKey, apiSecret, accountName, scopes]() {
-            d->ensureStore([this, promise, apiKey, apiSecret, accountName, scopes](bool storeOpened) {
-                if (!storeOpened) {
-                    promise->d->setError(tr("Failed to open account store"));
-                    return;
-                }
-
-                const auto account = d->mStore->getAccount(apiKey, accountName);
+            d->mStore->getAccount(apiKey, accountName, [this, promise, apiKey, apiSecret, accountName, scopes](const AccountPtr &account) {
                 if (!account) {
                     d->createAccount(promise, apiKey, apiSecret, accountName, scopes);
                 } else {
@@ -244,13 +226,7 @@ AccountPromise *AccountManager::refreshTokens(const QString &apiKey, const QStri
     auto promise = d->createPromise(apiKey, accountName);
     if (!promise->d->isRunning()) {
         QTimer::singleShot(0, this, [this, promise, apiKey, apiSecret, accountName]() {
-            d->ensureStore([this, apiKey, promise, apiSecret, accountName](bool storeOpened) {
-                if (!storeOpened) {
-                    promise->d->setError(tr("Failed to open account store"));
-                    return;
-                }
-
-                const auto account = d->mStore->getAccount(apiKey, accountName);
+            d->mStore->getAccount(apiKey, accountName, [this, promise, apiKey, apiSecret, accountName](const AccountPtr &account) {
                 if (!account) {
                     promise->d->setAccount({});
                 } else {
@@ -267,13 +243,7 @@ AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString
 {
     auto promise = new AccountPromise(this);
     QTimer::singleShot(0, this, [this, promise, apiKey, accountName, scopes]() {
-        d->ensureStore([this, promise, apiKey, accountName, scopes](bool storeOpened) {
-            if (!storeOpened) {
-                promise->d->setError(tr("Failed to open account store"));
-                return;
-            }
-
-            const auto account = d->mStore->getAccount(apiKey, accountName);
+        d->mStore->getAccount(apiKey, accountName, [this, promise, apiKey, accountName, scopes](const AccountPtr &account) {
             if (!account) {
                 promise->d->setAccount({});
             } else {
@@ -292,12 +262,7 @@ AccountPromise *AccountManager::findAccount(const QString &apiKey, const QString
 
 void AccountManager::removeScopes(const QString &apiKey, const QString &accountName, const QList<QUrl> &removedScopes)
 {
-    d->ensureStore([this, apiKey, accountName, removedScopes](bool storeOpened) {
-        if (!storeOpened) {
-            return;
-        }
-
-        const auto account = d->mStore->getAccount(apiKey, accountName);
+    d->mStore->getAccount(apiKey, accountName, [this, apiKey, accountName, removedScopes](const AccountPtr &account) {
         if (!account) {
             return;
         }
@@ -314,7 +279,7 @@ void AccountManager::removeScopes(const QString &apiKey, const QString &accountN
             account->setAccessToken({});
             account->setRefreshToken({});
             account->setExpireDateTime({});
-            d->mStore->storeAccount(apiKey, account);
+            d->mStore->storeAccount(apiKey, account, {});
         }
     });
 }

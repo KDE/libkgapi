@@ -13,8 +13,8 @@ target_sources(KPim6GAPICore PRIVATE
     accountmanager.cpp
     accountmanager.h
     accountstorage.cpp
-    accountstorage_kwallet.cpp
-    accountstorage_kwallet_p.h
+    accountstorage_keychain.cpp
+    accountstorage_keychain_p.h
     accountstorage_p.h
     authjob.cpp
     authjob.h
@@ -88,8 +88,9 @@ target_link_libraries(KPim6GAPICore
 PUBLIC
     Qt::Core
 PRIVATE
+    Qt::Gui
     Qt::Network
-    KF6::Wallet
+    qt6keychain
 )
 
 set_target_properties(KPim6GAPICore PROPERTIES

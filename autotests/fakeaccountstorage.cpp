@@ -16,25 +16,15 @@ FakeAccountStorage::FakeAccountStorage()
 {
 }
 
-void FakeAccountStorage::open(const std::function<void(bool)> &callback)
+void FakeAccountStorage::getAccount(const QString &apiKey, const QString &accountName, const std::function<void(KGAPI2::AccountPtr)> &callback)
 {
-    callback(true);
+    callback(mStore.value(apiKey + accountName, {}));
 }
 
-bool FakeAccountStorage::opened() const
-{
-    return true;
-}
-
-AccountPtr FakeAccountStorage::getAccount(const QString &apiKey, const QString &accountName)
-{
-    return mStore.value(apiKey + accountName, {});
-}
-
-bool FakeAccountStorage::storeAccount(const QString &apiKey, const KGAPI2::AccountPtr &account)
+void FakeAccountStorage::storeAccount(const QString &apiKey, const KGAPI2::AccountPtr &account, const std::function<void(bool)> &callback)
 {
     mStore[apiKey + account->accountName()] = account;
-    return true;
+    callback(true);
 }
 
 void FakeAccountStorage::removeAccount(const QString &apiKey, const QString &accountName)
@@ -46,7 +36,7 @@ AccountPtr FakeAccountStorage::generateAccount(const QString &apiKey, const QStr
 {
     const auto acc = AccountPtr::create(accountName, QUuid::createUuid().toString(), QUuid::createUuid().toString(), scopes);
     acc->setExpireDateTime(QDateTime::currentDateTime().addDays(1));
-    storeAccount(apiKey, acc);
+    storeAccount(apiKey, acc, {});
     return acc;
 }
 

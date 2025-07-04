@@ -8,6 +8,8 @@ project(kgapi VERSION ${KGAPI_LIB_VERSION})
 # ECM setup
 set(KF_MIN_VERSION "6.13.0")
 set(QT_REQUIRED_VERSION "6.8.0")
+set(QT6KEYCHAIN_LIB_VERSION "0.14.2")
+
 find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
@@ -44,8 +46,11 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} REQUIRED COMPONENTS
     Xml
 )
 
-find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
-    Wallet
+find_package(Qt6Keychain ${QT6KEYCHAIN_LIB_VERSION} CONFIG)
+set_package_properties(Qt6Keychain PROPERTIES
+    DESCRIPTION "Provides support for secure credentials storage"
+    URL "https://github.com/frankosterfeld/qtkeychain"
+    TYPE REQUIRED
 )
 
 find_package(KF6CalendarCore ${KF_MIN_VERSION} CONFIG REQUIRED)

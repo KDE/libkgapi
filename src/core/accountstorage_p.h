@@ -37,11 +37,8 @@ class AccountStorage
 {
 public:
     virtual ~AccountStorage(){};
-    virtual void open(const std::function<void(bool)> &callback) = 0;
-    virtual bool opened() const = 0;
-
-    virtual AccountPtr getAccount(const QString &apiKey, const QString &accountName) = 0;
-    virtual bool storeAccount(const QString &apiKey, const AccountPtr &account) = 0;
+    virtual void getAccount(const QString &apiKey, const QString &accountName, const std::function<void(AccountPtr)> &callback) = 0;
+    virtual void storeAccount(const QString &apiKey, const AccountPtr &account, const std::function<void(bool)> &callback) = 0;
     virtual void removeAccount(const QString &apiKey, const QString &accountName) = 0;
 };
 
