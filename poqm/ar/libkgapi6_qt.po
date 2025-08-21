@@ -1,15 +1,15 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
 # Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>, 2014.
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2016, 2018.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2023.
+# SPDX-FileCopyrightText: 2021, 2023, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2023-03-16 09:53+0400\n"
+"PO-Revision-Date: 2025-08-20 20:50+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Lokalize 23.08.5\n"
 "X-Qt-Contexts: true\n"
 
 #: src/blogger/blogfetchjob.cpp:82
@@ -212,7 +213,7 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
-"خطأ داخليّ في الخادوم. أعِد المحاولة لاحقًا.\n"
+"خطأ داخليّ في الخادم. أعِد المحاولة لاحقًا.\n"
 "\n"
 "ردّ «غوغل» بِ‍’%1‘"
 
@@ -249,7 +250,7 @@ msgstr "خطأ في جلب الرّدّ: %1"
 #: src/core/private/fullauthenticationjob.cpp:61
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Authentication successful"
-msgstr "نجحت المصادقة"
+msgstr "نجح استيثاق"
 
 #: src/core/private/fullauthenticationjob.cpp:62
 msgctxt "KGAPI2::FullAuthenticationJob|"
@@ -279,12 +280,12 @@ msgstr "لا نطاقات لاستيثاقها"
 #: src/core/private/fullauthenticationjob.cpp:202
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Could not start OAuth HTTP server"
-msgstr "تعذّر بدء خادوم HTTP لِ‍ OAuth"
+msgstr "تعذّر بدء خادم HTTP لِ‍ OAuth"
 
 #: src/core/private/newtokensfetchjob.cpp:115
 msgctxt "KGAPI2::NewTokensFetchJob|"
 msgid "Failed to parse server response."
-msgstr "فشل تحليل ردّ الخادوم."
+msgstr "فشل تحليل ردّ الخادم."
 
 #: src/core/private/refreshtokensjob.cpp:92
 msgctxt "KGAPI2::RefreshTokensJob|"
