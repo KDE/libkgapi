@@ -11,4 +11,3 @@ target_link_libraries(staticmaps-example
         KF6::Contacts
         KPim6::GapiStaticMaps
 )
-

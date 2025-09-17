@@ -90,4 +90,3 @@ class KGAPICALENDAR_EXPORT EventModifyJob : public KGAPI2::ModifyJob
 };
 
 } // namespace KGAPI
-

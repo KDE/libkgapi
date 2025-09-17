@@ -200,4 +200,3 @@ namespace CalendarService
 } // namespace KGAPI
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KGAPI2::CalendarService::EventSerializeFlags)
-

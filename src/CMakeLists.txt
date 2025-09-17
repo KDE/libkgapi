@@ -14,4 +14,3 @@ add_subdirectory(tasks)
 if(NOT WIN32 AND BUILD_SASL_PLUGIN)
     add_subdirectory(saslplugin)
 endif()
-

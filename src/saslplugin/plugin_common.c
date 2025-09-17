@@ -54,7 +54,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/utsname.h>
-#endif /* WIN32 */ 
+#endif /* WIN32 */
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif

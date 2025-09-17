@@ -28,4 +28,3 @@ enum class SendUpdatesPolicy
 Q_ENUM_NS(KGAPI2::SendUpdatesPolicy)
 
 } // namespace KGAPI
-
