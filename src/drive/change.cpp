@@ -44,7 +44,7 @@ Change::Private::Private(const Private &other)
 
 ChangePtr Change::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#change")) {
+    if (!map.contains(QStringLiteral("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#change")) {
         return ChangePtr();
     }
 
@@ -134,11 +134,11 @@ ChangesList Change::fromJSONFeed(const QByteArray &jsonData, FeedData &feedData)
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#changeList")) {
+    if (!map.contains(QStringLiteral("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#changeList")) {
         return ChangesList();
     }
 
-    if (map.contains(QLatin1StringView("nextLink"))) {
+    if (map.contains(QStringLiteral("nextLink"))) {
         feedData.nextPageUrl = map[QStringLiteral("nextLink")].toUrl();
     }
 

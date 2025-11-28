@@ -83,7 +83,7 @@ QString User::permissionId() const
 
 UserPtr User::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#user")) {
+    if (!map.contains(QStringLiteral("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#user")) {
         return UserPtr();
     }
 

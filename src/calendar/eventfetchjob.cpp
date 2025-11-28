@@ -158,7 +158,7 @@ void EventFetchJob::start()
         } else {
             query.addQueryItem(QStringLiteral("syncToken"), d->syncToken);
         }
-        for (auto eventType : d->eventTypes) {
+        for (const auto eventType : std::as_const(d->eventTypes)) {
             query.addQueryItem(QStringLiteral("eventTypes"), CalendarService::eventTypeToString(eventType));
         }
         url.setQuery(query);

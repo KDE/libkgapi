@@ -29,7 +29,7 @@ ParentReference::Private::Private(const Private &other)
 
 ParentReferencePtr ParentReference::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#parentReference")) {
+    if (!map.contains(QStringLiteral("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#parentReference")) {
         return ParentReferencePtr();
     }
 
@@ -130,7 +130,7 @@ ParentReferencesList ParentReference::fromJSONFeed(const QByteArray &jsonData)
 
     const QVariant data = document.toVariant();
     const QVariantMap map = data.toMap();
-    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#parentList")) {
+    if (!map.contains(QStringLiteral("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#parentList")) {
         return ParentReferencesList();
     }
 

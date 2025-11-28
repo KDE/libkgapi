@@ -288,7 +288,7 @@ private:
             return;
         }
 
-        const auto nameToUse = names.first();
+        const auto nameToUse = names.constFirst();
         nameToUse.applyToKContactsAddressee(addressee);
     }
 
@@ -299,7 +299,7 @@ private:
             return;
         }
 
-        const auto nicknameToUse = nicknames.first();
+        const auto nicknameToUse = nicknames.constFirst();
         addressee.setNickName(nicknameToUse.value());
     }
 
@@ -310,7 +310,7 @@ private:
             return;
         }
 
-        const auto birthdayToUse = birthdays.first();
+        const auto birthdayToUse = birthdays.constFirst();
         addressee.setBirthday(birthdayToUse.date());
     }
 
@@ -350,7 +350,7 @@ private:
             return;
         }
 
-        const auto organizationToUse = organizations.first();
+        const auto organizationToUse = organizations.constFirst();
         addressee.setOrganization(organizationToUse.name());
         addressee.setDepartment(organizationToUse.department());
     }
@@ -362,7 +362,7 @@ private:
             return;
         }
 
-        const auto occupationToUse = occupations.first();
+        const auto occupationToUse = occupations.constFirst();
         addressee.setProfession(occupationToUse.value());
     }
 
@@ -373,7 +373,7 @@ private:
             return;
         }
 
-        const auto photoToUse = photos.first();
+        const auto photoToUse = photos.constFirst();
         KContacts::Picture picture(photoToUse.url());
         addressee.setPhoto(picture);
     }

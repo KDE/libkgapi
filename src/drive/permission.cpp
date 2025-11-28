@@ -171,7 +171,7 @@ QString Permission::Private::typeToName(Permission::Type type)
 
 PermissionPtr Permission::Private::fromJSON(const QVariantMap &map)
 {
-    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#permission")) {
+    if (!map.contains(QStringLiteral("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#permission")) {
         return PermissionPtr();
     }
 
@@ -394,7 +394,7 @@ PermissionsList Permission::fromJSONFeed(const QByteArray &jsonData)
     }
     const QVariant json = document.toVariant();
     const QVariantMap map = json.toMap();
-    if (!map.contains(QLatin1StringView("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#permissionList")) {
+    if (!map.contains(QStringLiteral("kind")) || map[QStringLiteral("kind")].toString() != QLatin1StringView("drive#permissionList")) {
         return PermissionsList();
     }
 

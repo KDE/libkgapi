@@ -75,7 +75,7 @@ void FileAbstractResumableJob::Private::startUploadSession()
         if (metaData->mimeType().isEmpty() && !chunks.isEmpty()) {
             // No mimeType set, determine from title and first chunk
             const QMimeDatabase db;
-            const QMimeType mime = db.mimeTypeForFileNameAndData(metaData->title(), chunks.first());
+            const QMimeType mime = db.mimeTypeForFileNameAndData(metaData->title(), chunks.constFirst());
             const QString contentType = mime.name();
             metaData->setMimeType(contentType);
             qCDebug(KGAPIDebug) << "Metadata mimeType was missing, determined" << contentType;
@@ -135,7 +135,7 @@ void FileAbstractResumableJob::Private::processNext()
         startUploadSession();
         return;
     case Started: {
-        if (chunks.isEmpty() || chunks.first().size() < ChunkSize) {
+        if (chunks.isEmpty() || chunks.constFirst().size() < ChunkSize) {
             qCDebug(KGAPIDebug) << "Chunks empty or not big enough to process, asking for more";
 
             if (device) {
