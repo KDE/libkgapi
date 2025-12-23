@@ -34,7 +34,7 @@ public:
         OutOfOffice,    //< Out of office event
         WorkingLocation //< Working location event
     };
-    Q_ENUM(EventType);
+    Q_ENUM(EventType)
 
     /**
      * @brief Constructor
