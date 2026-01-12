@@ -134,13 +134,13 @@ msgstr "Tipus no vàlid del contingut de la resposta"
 #: src/core/accountmanager.cpp:94
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
-msgstr "No s'han pogut autenticar els àmbits addicionals"
+msgstr "Ha fallat mentre s'autenticaven els àmbits addicionals"
 
 #: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
 #: src/core/accountmanager.cpp:272
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
-msgstr "No s'ha pogut obrir el compte de l'emmagatzematge"
+msgstr "Ha fallat mentre s'obria el compte de l'emmagatzematge"
 
 #: src/core/authjob.cpp:105
 msgctxt "KGAPI2::AuthJob|"
@@ -245,7 +245,7 @@ msgstr ""
 #, qt-format
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Error receiving response: %1"
-msgstr "S'ha produït un error en rebre la resposta: %1"
+msgstr "S'ha produït un error mentre es rebia la resposta: %1"
 
 #: src/core/private/fullauthenticationjob.cpp:61
 msgctxt "KGAPI2::FullAuthenticationJob|"
@@ -285,12 +285,12 @@ msgstr "No s'ha pogut iniciar el servidor HTTP de l'OAuth"
 #: src/core/private/newtokensfetchjob.cpp:115
 msgctxt "KGAPI2::NewTokensFetchJob|"
 msgid "Failed to parse server response."
-msgstr "No s'ha pogut analitzar la resposta del servidor."
+msgstr "Ha fallat durant l'anàlisi de la resposta del servidor."
 
 #: src/core/private/refreshtokensjob.cpp:92
 msgctxt "KGAPI2::RefreshTokensJob|"
 msgid "Failed to parse newly fetched tokens"
-msgstr "No s'han pogut analitzar els testimonis recuperats novament"
+msgstr "Ha fallat durant l'anàlisi dels testimonis recuperats novament"
 
 #: src/drive/aboutfetchjob.cpp:119
 msgctxt "KGAPI2::Drive::AboutFetchJob|"
@@ -345,12 +345,12 @@ msgstr "Tipus no vàlid del contingut de la resposta"
 #: src/drive/fileabstractresumablejob.cpp:313
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed opening upload session"
-msgstr "No s'ha pogut obrir la sessió de pujada"
+msgstr "Ha fallat mentre s'obria la sessió de pujada"
 
 #: src/drive/fileabstractresumablejob.cpp:342
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed uploading chunk"
-msgstr "No s'ha pogut pujar el fragment"
+msgstr "Ha fallat mentre es pujava el fragment"
 
 #: src/drive/fileabstractresumablejob.cpp:363
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
