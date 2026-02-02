@@ -30,3 +30,4 @@ __pycache__
 Testing/
 /.vscode/
 .qtcreator/
+.sentry-native/
