@@ -106,7 +106,6 @@ install(TARGETS
 install(FILES
     ${kgapicore_base_CamelCase_HEADERS}
     ${kgapicore_accountinfo_CamelCase_HEADERS}
-    ${kgapicore_ui_CamelCase_HEADERS}
     DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI/KGAPI"
     COMPONENT Devel
 )
@@ -114,7 +113,6 @@ install(FILES
 install(FILES
     ${kgapicore_base_HEADERS}
     ${kgapicore_accountinfo_HEADERS}
-    ${kgapicore_ui_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/kgapicore_export.h"
     DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KPim6/KGAPI/kgapi"
     COMPONENT Devel
