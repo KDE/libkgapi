@@ -147,6 +147,7 @@ void Job::Private::_k_doEmitFinished()
 
 void Job::Private::_k_replyReceived(QNetworkReply *reply)
 {
+    reply->deleteLater();
     int replyCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (replyCode == 0) {
         /* Workaround for a bug (??), when QNetworkReply does not report HTTP/1.1 401 Unauthorized
