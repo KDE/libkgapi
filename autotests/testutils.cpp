@@ -19,7 +19,9 @@ bool execJob(KGAPI2::Job *job)
 {
     QEventLoop loop;
     QObject::connect(job, &KGAPI2::Job::finished, &loop, &QEventLoop::quit);
-    return loop.exec() == 0;
+    const auto res = loop.exec() == 0;
+    job->deleteLater();
+    return res;
 }
 
 FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &requestFile, const QString &responseFile, bool needsAuth)
