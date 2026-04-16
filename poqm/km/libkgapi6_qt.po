@@ -172,13 +172,13 @@ msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
 msgstr "មិន​ស្គាល់​ប្រភេទ​មាតិកា​ឆ្លើយតប !"
 
-#: src/core/accountmanager.cpp:94
+#: src/core/accountmanager.cpp:95
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
 msgstr ""
 
-#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
-#: src/core/accountmanager.cpp:272
+#: src/core/accountmanager.cpp:211 src/core/accountmanager.cpp:250
+#: src/core/accountmanager.cpp:273
 #, fuzzy
 #| msgid "Failed to obtain token."
 msgctxt "KGAPI2::AccountManager|"
@@ -190,21 +190,21 @@ msgctxt "KGAPI2::AuthJob|"
 msgid "Account name is empty"
 msgstr ""
 
-#: src/core/job.cpp:191
+#: src/core/job.cpp:192
 #, fuzzy
 #| msgid "Bad request."
 msgctxt "KGAPI2::Job|"
 msgid "Bad request."
 msgstr "សំណើ​មិន​ល្អ"
 
-#: src/core/job.cpp:201
+#: src/core/job.cpp:202
 #, fuzzy
 #| msgid "Not authenticated"
 msgctxt "KGAPI2::Job|"
 msgid "Invalid authentication."
 msgstr "មិន​បានផ្ទៀងផ្ទាត់"
 
-#: src/core/job.cpp:212
+#: src/core/job.cpp:213
 #, fuzzy, qt-format
 #| msgid ""
 #| "Requested resource is forbidden.\n"
@@ -220,7 +220,7 @@ msgstr ""
 "\n"
 "Google បាន​ឆ្លើយ '%1'"
 
-#: src/core/job.cpp:223
+#: src/core/job.cpp:224
 #, fuzzy, qt-format
 #| msgid ""
 #| "Requested resource does not exist.\n"
@@ -236,7 +236,7 @@ msgstr ""
 "\n"
 "Google បាន​ឆ្លើយ '%1'"
 
-#: src/core/job.cpp:234
+#: src/core/job.cpp:235
 #, fuzzy, qt-format
 #| msgid ""
 #| "Conflict. Remote resource is newer then local.\n"
@@ -252,7 +252,7 @@ msgstr ""
 "\n"
 "Google បាន​ឆ្លើយ '%1'"
 
-#: src/core/job.cpp:245
+#: src/core/job.cpp:246
 #, fuzzy, qt-format
 #| msgid ""
 #| "Requested resource does not exist anymore.\n"
@@ -268,7 +268,7 @@ msgstr ""
 "\n"
 "Google បាន​ឆ្លើយ '%1'"
 
-#: src/core/job.cpp:256
+#: src/core/job.cpp:257
 #, fuzzy, qt-format
 #| msgid ""
 #| "Internal server error. Try again later.\n"
@@ -284,7 +284,7 @@ msgstr ""
 "\n"
 "Google បាន​ឆ្លើយ '%1'"
 
-#: src/core/job.cpp:275
+#: src/core/job.cpp:276
 #, fuzzy, qt-format
 #| msgid ""
 #| "User quota exceeded. Try again later.\n"
@@ -300,7 +300,7 @@ msgstr ""
 "\n"
 "Google បាន​ឆ្លើយ '%1'"
 
-#: src/core/job.cpp:299
+#: src/core/job.cpp:300
 #, fuzzy, qt-format
 #| msgid ""
 #| "Unknown error.\n"

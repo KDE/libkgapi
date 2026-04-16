@@ -129,13 +129,13 @@ msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
 msgstr "Tipo de conteúdo da resposta inválido"
 
-#: src/core/accountmanager.cpp:94
+#: src/core/accountmanager.cpp:95
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
 msgstr "Não foi possível autenticar os âmbitos adicionais"
 
-#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
-#: src/core/accountmanager.cpp:272
+#: src/core/accountmanager.cpp:211 src/core/accountmanager.cpp:250
+#: src/core/accountmanager.cpp:273
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
 msgstr "Não foi possível abrir a loja da conta"
@@ -145,17 +145,17 @@ msgctxt "KGAPI2::AuthJob|"
 msgid "Account name is empty"
 msgstr "O nome da conta está em branco"
 
-#: src/core/job.cpp:191
+#: src/core/job.cpp:192
 msgctxt "KGAPI2::Job|"
 msgid "Bad request."
 msgstr "O pedido é inválido."
 
-#: src/core/job.cpp:201
+#: src/core/job.cpp:202
 msgctxt "KGAPI2::Job|"
 msgid "Invalid authentication."
 msgstr "A autenticação é inválida."
 
-#: src/core/job.cpp:212
+#: src/core/job.cpp:213
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -167,7 +167,7 @@ msgstr ""
 "\n"
 "O Google respondeu '%1'"
 
-#: src/core/job.cpp:223
+#: src/core/job.cpp:224
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -179,7 +179,7 @@ msgstr ""
 "\n"
 "O Google respondeu '%1'"
 
-#: src/core/job.cpp:234
+#: src/core/job.cpp:235
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -191,7 +191,7 @@ msgstr ""
 "\n"
 "O Google respondeu '%1'"
 
-#: src/core/job.cpp:245
+#: src/core/job.cpp:246
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -203,7 +203,7 @@ msgstr ""
 "\n"
 "O Google respondeu '%1'"
 
-#: src/core/job.cpp:256
+#: src/core/job.cpp:257
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -215,7 +215,7 @@ msgstr ""
 "\n"
 "O Google respondeu '%1'"
 
-#: src/core/job.cpp:275
+#: src/core/job.cpp:276
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -227,7 +227,7 @@ msgstr ""
 "\n"
 "O Google respondeu '%1'"
 
-#: src/core/job.cpp:299
+#: src/core/job.cpp:300
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""

@@ -123,13 +123,13 @@ msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
 msgstr "Ongeldig type inhoud van antwoord"
 
-#: src/core/accountmanager.cpp:94
+#: src/core/accountmanager.cpp:95
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
 msgstr "Authenticatie van extra scopes is mislukt"
 
-#: src/core/accountmanager.cpp:210 src/core/accountmanager.cpp:249
-#: src/core/accountmanager.cpp:272
+#: src/core/accountmanager.cpp:211 src/core/accountmanager.cpp:250
+#: src/core/accountmanager.cpp:273
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
 msgstr "Opslag van accounts openen is mislukt"
@@ -139,17 +139,17 @@ msgctxt "KGAPI2::AuthJob|"
 msgid "Account name is empty"
 msgstr "Accountnaam is leeg"
 
-#: src/core/job.cpp:191
+#: src/core/job.cpp:192
 msgctxt "KGAPI2::Job|"
 msgid "Bad request."
 msgstr "Fout verzoek."
 
-#: src/core/job.cpp:201
+#: src/core/job.cpp:202
 msgctxt "KGAPI2::Job|"
 msgid "Invalid authentication."
 msgstr "Ongeldige authenticatie."
 
-#: src/core/job.cpp:212
+#: src/core/job.cpp:213
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -161,7 +161,7 @@ msgstr ""
 "\n"
 "Google antwoordde '%1'"
 
-#: src/core/job.cpp:223
+#: src/core/job.cpp:224
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -173,7 +173,7 @@ msgstr ""
 "\n"
 "Google antwoordde '%1'"
 
-#: src/core/job.cpp:234
+#: src/core/job.cpp:235
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -185,7 +185,7 @@ msgstr ""
 "\n"
 "Google antwoordde '%1'"
 
-#: src/core/job.cpp:245
+#: src/core/job.cpp:246
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -197,7 +197,7 @@ msgstr ""
 "\n"
 "Google antwoordde '%1'"
 
-#: src/core/job.cpp:256
+#: src/core/job.cpp:257
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -209,7 +209,7 @@ msgstr ""
 "\n"
 "Google antwoordde '%1'"
 
-#: src/core/job.cpp:275
+#: src/core/job.cpp:276
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
@@ -221,7 +221,7 @@ msgstr ""
 "\n"
 "Google gaf als antwoord '%1'"
 
-#: src/core/job.cpp:299
+#: src/core/job.cpp:300
 #, qt-format
 msgctxt "KGAPI2::Job|"
 msgid ""
