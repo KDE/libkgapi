@@ -709,8 +709,7 @@ QByteArray eventToJSON(const EventPtr &event, EventSerializeFlags flags)
     data.insert(eventEndParam, serializeDt(event, event->dtEnd(), dtFlags | SerializeDtFlag::IsDtEnd));
 
     if (event->hasRecurrenceId()) {
-        data.insert(eventOrganizerParam, serializeDt(event, event->recurrenceId(), dtFlags));
-        data.insert(eventRecurringEventIdParam, event->id());
+        data.insert(eventOriginalStartTimeParam, serializeDt(event, event->recurrenceId(), dtFlags));
     }
 
     if (event->transparency() == Event::Transparent) {
