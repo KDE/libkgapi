@@ -1,8 +1,8 @@
-# SPDX-FileCopyrightText: 2024 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2024, 2026 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-04-10 07:28+0300\n"
+"PO-Revision-Date: 2026-04-21 14:10+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -12,7 +12,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #: src/blogger/blogfetchjob.cpp:82
 msgctxt "KGAPI2::Blogger::BlogFetchJob|"
@@ -278,12 +278,12 @@ msgstr "לא ניתן להפעיל שרת OAuth HTTP"
 #: src/core/private/newtokensfetchjob.cpp:115
 msgctxt "KGAPI2::NewTokensFetchJob|"
 msgid "Failed to parse server response."
-msgstr "פענוח תגובת השרת נכשל."
+msgstr "פיענוח תגובת השרת נכשל."
 
 #: src/core/private/refreshtokensjob.cpp:92
 msgctxt "KGAPI2::RefreshTokensJob|"
 msgid "Failed to parse newly fetched tokens"
-msgstr "פענוח אסימונים חדשים שנמשכו נכשל"
+msgstr "פיענוח אסימונים חדשים שנמשכו נכשל"
 
 #: src/drive/aboutfetchjob.cpp:119
 msgctxt "KGAPI2::Drive::AboutFetchJob|"
