@@ -234,4 +234,56 @@ QJsonValue Address::toJSON() const
     return obj;
 }
 
+Address Address::fromKContactsAddress(const KContacts::Address &address)
+{
+    Address convertedAddress;
+    convertedAddress.setCity(address.locality());
+    convertedAddress.setCountry(address.country());
+    convertedAddress.setExtendedAddress(address.extended());
+    convertedAddress.setPoBox(address.postOfficeBox());
+    convertedAddress.setPostalCode(address.postalCode());
+    convertedAddress.setRegion(address.region());
+    convertedAddress.setStreetAddress(address.street());
+
+    if (address.type() & KContacts::Address::Home) {
+        convertedAddress.setType(QStringLiteral("home"));
+    } else if (address.type() & KContacts::Address::Work) {
+        convertedAddress.setType(QStringLiteral("work"));
+    } else {
+        convertedAddress.setType(QStringLiteral("other"));
+    }
+
+    return convertedAddress;
+}
+
+QList<Address> Address::fromKContactsAddressList(const QList<KContacts::Address> &addressList)
+{
+    QList<Address> convertedAddresses;
+    std::transform(addressList.cbegin(), addressList.cend(), std::back_inserter(convertedAddresses), [](const KContacts::Address &address) {
+        return Address::fromKContactsAddress(address);
+    });
+    return convertedAddresses;
+}
+
+KContacts::Address Address::toKContactsAddress() const
+{
+    KContacts::Address convertedAddress;
+    convertedAddress.setLocality(city());
+    convertedAddress.setCountry(country());
+    convertedAddress.setExtended(extendedAddress());
+    convertedAddress.setPostOfficeBox(poBox());
+    convertedAddress.setPostalCode(postalCode());
+    convertedAddress.setRegion(region());
+    convertedAddress.setStreet(streetAddress());
+
+    const auto addressType = type();
+    if (addressType.compare(QStringLiteral("home"), Qt::CaseInsensitive) == 0) {
+        convertedAddress.setType(KContacts::Address::Home);
+    } else if (addressType.compare(QStringLiteral("work"), Qt::CaseInsensitive) == 0) {
+        convertedAddress.setType(KContacts::Address::Work);
+    }
+
+    return convertedAddress;
+}
+
 } // namespace KGAPI2::People

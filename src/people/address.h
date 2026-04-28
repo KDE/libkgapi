@@ -18,6 +18,8 @@
 
 #include <optional>
 
+#include <KContacts/Address>
+
 class QJsonValue;
 
 namespace KGAPI2::People
@@ -42,6 +44,10 @@ public:
     Address &operator=(Address &&) noexcept;
     /** Destructor. **/
     ~Address();
+
+    static Address fromKContactsAddress(const KContacts::Address &address);
+    static QList<Address> fromKContactsAddressList(const KContacts::Address::List &addressList);
+    [[nodiscard]] KContacts::Address toKContactsAddress() const;
 
     bool operator==(const Address &) const;
     bool operator!=(const Address &) const;
