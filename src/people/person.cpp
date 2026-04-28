@@ -125,46 +125,48 @@ public:
         setKContactAddresseeOrganizationFields(addressee);
         setKContactAddresseeProfessionFields(addressee);
         setKContactAddresseePhoto(addressee);
+        setKContactAddresseeAddressFields(addressee);
 
         return addressee;
     }
 
     void setFromKContactsAddressee(const KContacts::Addressee &addressee)
     {
-        if (!addressee.familyName().isEmpty() ||
-            !addressee.givenName().isEmpty() ||
-            !addressee.prefix().isEmpty() ||
-            !addressee.suffix().isEmpty()) {
-
+        if (addressee.familyName().isEmpty() &&
+            addressee.givenName().isEmpty() &&
+            addressee.prefix().isEmpty() &&
+            addressee.suffix().isEmpty()) {
+            names.clear();
+        } else {
             names = {Name::fromKContactsAddressee(addressee)};
         }
 
         const auto addresseeNickName = addressee.nickName();
-        if (!addresseeNickName.isEmpty()) {
+        if (addresseeNickName.isEmpty()) {
+            nicknames.clear();
+        } else {
             Nickname nickname;
             nickname.setValue(addresseeNickName);
             nicknames = {nickname};
         }
 
         const auto addresseeBirthday = addressee.birthday();
-        if (addresseeBirthday.isValid()) {
+        if (!addresseeBirthday.isValid()) {
+            birthdays.clear();
+        } else {
             Birthday birthday;
             birthday.setDate(addresseeBirthday.date());
             birthdays = {birthday};
         }
 
-        const auto addresseeEmailList = addressee.emailList();
-        if (!addresseeEmailList.isEmpty()) {
-            emailAddresses = EmailAddress::fromKContactsEmailList(addresseeEmailList);
-        }
-
-        const auto addresseePhoneNumbers = addressee.phoneNumbers();
-        if (!addresseePhoneNumbers.isEmpty()) {
-            phoneNumbers = PhoneNumber::fromKContactsPhoneNumberList(addressee.phoneNumbers());
-        }
+        emailAddresses = EmailAddress::fromKContactsEmailList(addressee.emailList());
+        phoneNumbers = PhoneNumber::fromKContactsPhoneNumberList(addressee.phoneNumbers());
+        addresses = Address::fromKContactsAddressList(addressee.addresses());
 
         const auto addresseeProfession = addressee.profession();
-        if (!addresseeProfession.isEmpty()) {
+        if (addresseeProfession.isEmpty()) {
+            occupations.clear();
+        } else {
             Occupation occupation;
             occupation.setValue(addresseeProfession);
             occupations = {occupation};
@@ -172,7 +174,9 @@ public:
 
         const auto addresseeOrganization = addressee.organization();
         const auto addresseeDepartment = addressee.department();
-        if (!addresseeOrganization.isEmpty() || !addresseeDepartment.isEmpty()) {
+        if (addresseeOrganization.isEmpty() && addresseeDepartment.isEmpty()) {
+            organizations.clear();
+        } else {
             Organization organization;
             organization.setName(addresseeOrganization);
             organization.setDepartment(addresseeDepartment);
@@ -180,12 +184,15 @@ public:
         }
 
         const auto addresseePhoto = addressee.photo();
-        if (!addresseePhoto.isEmpty()) {
+        if (addresseePhoto.isEmpty()) {
+            photos.clear();
+        } else {
             Photo photo;
             photo.setUrl(addressee.photo().url());
             photos = {photo};
         }
 
+        urls.clear();
         const auto blogFeed = addressee.blogFeed();
         if (!blogFeed.isEmpty()) {
             Url url;
@@ -225,6 +232,7 @@ public:
             urls.append(url);
         }
 
+        calendarUrls.clear();
         const auto addressessCalendarUrls = addressee.calendarUrlList();
         for (const auto &calendarUrl : addressessCalendarUrls) {
             CalendarUrl gCalendarUrl;
