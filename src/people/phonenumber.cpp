@@ -199,23 +199,24 @@ KContacts::PhoneNumber PhoneNumber::toKContactsPhoneNumber() const
     KContacts::PhoneNumber convertedPhoneNumber;
     convertedPhoneNumber.setNumber(value());
 
-    if(QString::compare(type(), QStringLiteral("home"), Qt::CaseInsensitive)) {
+    const auto phoneType = type();
+    if (phoneType.compare(QStringLiteral("home"), Qt::CaseInsensitive) == 0) {
         convertedPhoneNumber.setType(KContacts::PhoneNumber::Home);
-    } else if(QString::compare(type(), QStringLiteral("work"), Qt::CaseInsensitive) ||
-               QString::compare(type(), QStringLiteral("workMobile"), Qt::CaseInsensitive) ||
-               QString::compare(type(), QStringLiteral("workPager"), Qt::CaseInsensitive)) {
+    } else if (phoneType.compare(QStringLiteral("work"), Qt::CaseInsensitive) == 0 ||
+               phoneType.compare(QStringLiteral("workMobile"), Qt::CaseInsensitive) == 0 ||
+               phoneType.compare(QStringLiteral("workPager"), Qt::CaseInsensitive) == 0) {
         convertedPhoneNumber.setType(KContacts::PhoneNumber::Work);
-    } else if(QString::compare(type(), QStringLiteral("mobile"), Qt::CaseInsensitive)) {
+    } else if (phoneType.compare(QStringLiteral("mobile"), Qt::CaseInsensitive) == 0) {
         convertedPhoneNumber.setType(KContacts::PhoneNumber::Cell);
-    } else if(QString::compare(type(), QStringLiteral("homeFax"), Qt::CaseInsensitive) ||
-               QString::compare(type(), QStringLiteral("workFax"), Qt::CaseInsensitive) ||
-               QString::compare(type(), QStringLiteral("otherFax"), Qt::CaseInsensitive)) {
+    } else if (phoneType.compare(QStringLiteral("homeFax"), Qt::CaseInsensitive) == 0 ||
+               phoneType.compare(QStringLiteral("workFax"), Qt::CaseInsensitive) == 0 ||
+               phoneType.compare(QStringLiteral("otherFax"), Qt::CaseInsensitive) == 0) {
         convertedPhoneNumber.setType(KContacts::PhoneNumber::Fax);
-    } else if(QString::compare(type(), QStringLiteral("pager"), Qt::CaseInsensitive)) {
+    } else if (phoneType.compare(QStringLiteral("pager"), Qt::CaseInsensitive) == 0) {
         convertedPhoneNumber.setType(KContacts::PhoneNumber::Pager);
-    } else if(QString::compare(type(), QStringLiteral("main"), Qt::CaseInsensitive)) {
+    } else if (phoneType.compare(QStringLiteral("main"), Qt::CaseInsensitive) == 0) {
         convertedPhoneNumber.setType(KContacts::PhoneNumber::Pref);
-    } else if(QString::compare(type(), QStringLiteral("googleVoice"), Qt::CaseInsensitive)) {
+    } else if (phoneType.compare(QStringLiteral("googleVoice"), Qt::CaseInsensitive) == 0) {
         convertedPhoneNumber.setType(KContacts::PhoneNumber::Voice);
     }
 
