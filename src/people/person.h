@@ -94,6 +94,7 @@ public:
     ~Person();
 
     static PersonPtr fromKContactsAddressee(const KContacts::Addressee &addressee);
+    void setFromKContactsAddressee(const KContacts::Addressee &addressee);
     KContacts::Addressee toKContactsAddressee() const;
 
     bool operator==(const Person &) const;
