@@ -378,6 +378,17 @@ private:
         addressee.setPhoto(picture);
     }
 
+    void setKContactAddresseeAddressFields(KContacts::Addressee &addressee)
+    {
+        KContacts::Address::List convertedAddresses;
+
+        std::transform(addresses.cbegin(), addresses.cend(), std::back_inserter(convertedAddresses), [](const Address &address) {
+            return address.toKContactsAddress();
+        });
+
+        addressee.setAddresses(convertedAddresses);
+    }
+
     void setKContactAddresseeUrlFields(KContacts::Addressee &addressee)
     {
         if (urls.isEmpty()) {
@@ -1565,6 +1576,11 @@ PersonPtr Person::fromKContactsAddressee(const KContacts::Addressee &addressee)
     auto person = new Person;
     person->d->setFromKContactsAddressee(addressee);
     return PersonPtr(person);
+}
+
+void Person::setFromKContactsAddressee(const KContacts::Addressee &addressee)
+{
+    d->setFromKContactsAddressee(addressee);
 }
 
 bool Person::operator==(const Person &other) const
