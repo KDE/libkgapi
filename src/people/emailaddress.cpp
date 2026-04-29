@@ -163,11 +163,11 @@ KContacts::Email EmailAddress::toKContactsEmail() const
 
     const auto emailType = type();
 
-    if(QString::compare(emailType, QStringLiteral("home"), Qt::CaseInsensitive)) {
+    if (emailType.compare(QStringLiteral("home"), Qt::CaseInsensitive) == 0) {
         convertedEmail.setType(KContacts::Email::Home);
-    } else if(QString::compare(emailType, QStringLiteral("work"), Qt::CaseInsensitive)) {
+    } else if (emailType.compare(QStringLiteral("work"), Qt::CaseInsensitive) == 0) {
         convertedEmail.setType(KContacts::Email::Work);
-    } else if(QString::compare(emailType, QStringLiteral("other"), Qt::CaseInsensitive)) {
+    } else if (emailType.compare(QStringLiteral("other"), Qt::CaseInsensitive) == 0) {
         convertedEmail.setType(KContacts::Email::Other);
     }
 
