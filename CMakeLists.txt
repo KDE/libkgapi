@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
-set(PIM_VERSION "6.7.90")
+set(PIM_VERSION "6.8.0")
 
 set(KGAPI_LIB_VERSION ${PIM_VERSION})
 
