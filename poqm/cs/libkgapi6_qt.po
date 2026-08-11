@@ -3,21 +3,22 @@
 # Vit Pelcak <vit@pelcak.org>, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2023.
 # Lukáš Tinkl <lukas@kde.org>, 2012.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
+# SPDX-FileCopyrightText: 2026 Libor Filípek <libor.filipek@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2023-06-28 15:44+0200\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2026-08-10 21:46+0200\n"
+"Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 26.04.3\n"
 "X-Qt-Contexts: true\n"
 
 #: src/blogger/blogfetchjob.cpp:82
@@ -133,13 +134,13 @@ msgstr "Neplatný typ obsahu odpovědi"
 #: src/core/accountmanager.cpp:95
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
-msgstr ""
+msgstr "Nepodařilo se ověřit další rozsahy"
 
 #: src/core/accountmanager.cpp:211 src/core/accountmanager.cpp:250
 #: src/core/accountmanager.cpp:273
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
-msgstr ""
+msgstr "Nepodařilo se otevřít úložiště účtů"
 
 #: src/core/authjob.cpp:105
 msgctxt "KGAPI2::AuthJob|"
@@ -254,7 +255,7 @@ msgstr "Ověření bylo úspěšné"
 #: src/core/private/fullauthenticationjob.cpp:62
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "You can close this tab and return to the application now."
-msgstr ""
+msgstr "Nyní můžete tuto kartu zavřít a vrátit se do aplikace."
 
 #: src/core/private/fullauthenticationjob.cpp:77
 msgctxt "KGAPI2::FullAuthenticationJob|"
@@ -274,12 +275,12 @@ msgstr "Neplatný účet"
 #: src/core/private/fullauthenticationjob.cpp:189
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "No scopes to authenticate for"
-msgstr ""
+msgstr "Neexistují žádné rozsahy, u nichž by bylo třeba provést ověření"
 
 #: src/core/private/fullauthenticationjob.cpp:202
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Could not start OAuth HTTP server"
-msgstr ""
+msgstr "Nepodařilo se spustit HTTP server OAuth"
 
 #: src/core/private/newtokensfetchjob.cpp:115
 msgctxt "KGAPI2::NewTokensFetchJob|"
@@ -349,7 +350,7 @@ msgstr "Selhalo otevření sezení pro odeslání"
 #: src/drive/fileabstractresumablejob.cpp:342
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
 msgid "Failed uploading chunk"
-msgstr ""
+msgstr "Nahrávání bloku se nezdařilo"
 
 #: src/drive/fileabstractresumablejob.cpp:363
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
