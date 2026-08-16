@@ -36,4 +36,4 @@ https://bugs.kde.org/enter_bug.cgi?product=libkgapi
 
 ## API Documentation:
 
-https://api.kde.org/kdepim/libkgapi/html/index.html
+https://api.kde.org/legacy/kdepim/libkgapi/html/index.html
