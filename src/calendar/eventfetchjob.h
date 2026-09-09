@@ -145,18 +145,6 @@ public:
     ~EventFetchJob() override;
 
     /**
-     * @brief Sets the types of events to retrieve.
-     *
-     * Default set is EventType::Default, EventType::FocusTime and EventType::OutOfOffice.
-     */
-    void setEventTypes(const QList<Event::EventType> eventTypes);
-
-    /**
-     * @brief Returns the types of events to retrieve.
-     */
-    QList<Event::EventType> eventTypes() const;
-
-    /**
      * @brief Sets fulltext filter.
      *
      * @param query
