@@ -138,7 +138,7 @@ QString sendUpdatesPolicyToString(SendUpdatesPolicy policy)
     Q_UNREACHABLE();
 }
 
-static const QString sendUpatesQueryParam = QStringLiteral("sendUpdates");
+static const QString sendUpdatesQueryParam = QStringLiteral("sendUpdates");
 static const QString destinationQueryParam = QStringLiteral("destination");
 }
 
@@ -147,7 +147,7 @@ QUrl updateEventUrl(const QString &calendarID, const QString &eventID, SendUpdat
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1StringView("/events/") % eventID);
     QUrlQuery query(url);
-    query.addQueryItem(sendUpatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
+    query.addQueryItem(sendUpdatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
     url.setQuery(query);
     return url;
 }
@@ -157,7 +157,7 @@ QUrl createEventUrl(const QString &calendarID, SendUpdatesPolicy updatePolicy)
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1StringView("/events"));
     QUrlQuery query(url);
-    query.addQueryItem(sendUpatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
+    query.addQueryItem(sendUpdatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
     url.setQuery(query);
     return url;
 }
@@ -167,7 +167,7 @@ QUrl importEventUrl(const QString &calendarID, SendUpdatesPolicy updatePolicy)
     QUrl url(Private::GoogleApisUrl);
     url.setPath(Private::CalendarBasePath % QLatin1Char('/') % calendarID % QLatin1StringView("/events") % QLatin1StringView("/import"));
     QUrlQuery query(url);
-    query.addQueryItem(sendUpatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
+    query.addQueryItem(sendUpdatesQueryParam, sendUpdatesPolicyToString(updatePolicy));
     url.setQuery(query);
     return url;
 }
