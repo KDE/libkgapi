@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: libkgapi\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-23 01:46+0000\n"
-"PO-Revision-Date: 2026-05-31 20:16-0400\n"
+"PO-Revision-Date: 2026-09-22 18:03+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
@@ -217,6 +217,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
+"نامەلۇم خاتالىق.\n"
+"\n"
+"Google replied '%1'"
 
 #: src/core/private/fullauthenticationjob.cpp:54
 #, qt-format
