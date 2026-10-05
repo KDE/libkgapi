@@ -28,97 +28,97 @@ msgstr ""
 #: src/blogger/blogfetchjob.cpp:82
 msgctxt "KGAPI2::Blogger::BlogFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/commentapprovejob.cpp:79
 msgctxt "KGAPI2::Blogger::CommentApproveJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/commentdeletecontentjob.cpp:69
 msgctxt "KGAPI2::Blogger::CommentDeleteContentJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/commentfetchjob.cpp:154
 msgctxt "KGAPI2::Blogger::CommentFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/pagecreatejob.cpp:59
 msgctxt "KGAPI2::Blogger::PageCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/pagefetchjob.cpp:109
 msgctxt "KGAPI2::Blogger::PageFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/pagemodifyjob.cpp:58
 msgctxt "KGAPI2::Blogger::PageModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/postcreatejob.cpp:67
 msgctxt "KGAPI2::Blogger::PostCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/postfetchjob.cpp:186
 msgctxt "KGAPI2::Blogger::PostFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/postmodifyjob.cpp:58
 msgctxt "KGAPI2::Blogger::PostModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/postpublishjob.cpp:105
 msgctxt "KGAPI2::Blogger::PostPublishJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/blogger/postsearchjob.cpp:85
 msgctxt "KGAPI2::Blogger::PostSearchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/calendar/calendarcreatejob.cpp:66
 msgctxt "KGAPI2::CalendarCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/calendar/calendarfetchjob.cpp:70
 msgctxt "KGAPI2::CalendarFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/calendar/calendarmodifyjob.cpp:63
 msgctxt "KGAPI2::CalendarModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/calendar/eventcreatejob.cpp:92
 msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/calendar/eventfetchjob.cpp:201
 msgctxt "KGAPI2::EventFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/calendar/eventmodifyjob.cpp:80
 msgctxt "KGAPI2::EventModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/calendar/eventmovejob.cpp:112
 msgctxt "KGAPI2::EventMoveJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/calendar/freebusyqueryjob.cpp:96
 msgctxt "KGAPI2::FreeBusyQueryJob|"
@@ -128,12 +128,12 @@ msgstr "Недоступна информация о занятом времен
 #: src/calendar/freebusyqueryjob.cpp:107
 msgctxt "KGAPI2::FreeBusyQueryJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/core/accountinfo/accountinfofetchjob.cpp:60
 msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/core/accountmanager.cpp:95
 msgctxt "KGAPI2::AccountManager|"
@@ -149,7 +149,7 @@ msgstr "Не удалось открыть хранилище учётных з�
 #: src/core/authjob.cpp:105
 msgctxt "KGAPI2::AuthJob|"
 msgid "Account name is empty"
-msgstr "Название учётной записи пусто"
+msgstr "Не указано имя учётной записи"
 
 #: src/core/job.cpp:192
 msgctxt "KGAPI2::Job|"
@@ -229,9 +229,9 @@ msgid ""
 "\n"
 "Google replied '%1'"
 msgstr ""
-"Превышен доступный объём хранилища. Повторите попытку позже.\n"
+"Превышена квота. Повторите попытку позже.\n"
 "\n"
-"Google ответил: %1"
+"Ответ сервера Google: %1"
 
 #: src/core/job.cpp:300
 #, qt-format
@@ -259,17 +259,17 @@ msgstr "Подлинность успешно подтверждена"
 #: src/core/private/fullauthenticationjob.cpp:62
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "You can close this tab and return to the application now."
-msgstr "Теперь возможно закрыть эту вкладку и вернуться к приложению."
+msgstr "Теперь можно закрыть эту вкладку и вернуться к приложению."
 
 #: src/core/private/fullauthenticationjob.cpp:77
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Token response invalid"
-msgstr "Недопустимый ключ в ответе"
+msgstr "Недопустимый токен в ответе"
 
 #: src/core/private/fullauthenticationjob.cpp:92
 msgctxt "KGAPI2::FullAuthenticationJob|"
 msgid "Could not extract token from HTTP answer"
-msgstr "Не удалось получить ключ из ответа HTTP"
+msgstr "Не удалось получить токен из ответа HTTP"
 
 #: src/core/private/fullauthenticationjob.cpp:185
 msgctxt "KGAPI2::FullAuthenticationJob|"
@@ -294,57 +294,57 @@ msgstr "Не удалось разобрать ответ сервера."
 #: src/core/private/refreshtokensjob.cpp:92
 msgctxt "KGAPI2::RefreshTokensJob|"
 msgid "Failed to parse newly fetched tokens"
-msgstr "Не удалось разобрать только что полученные ключи"
+msgstr "Не удалось разобрать только что полученные токены"
 
 #: src/drive/aboutfetchjob.cpp:119
 msgctxt "KGAPI2::Drive::AboutFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/appfetchjob.cpp:71
 msgctxt "KGAPI2::Drive::AppFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/changefetchjob.cpp:187
 msgctxt "KGAPI2::Drive::ChangeFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/childreferencecreatejob.cpp:123
 msgctxt "KGAPI2::Drive::ChildReferenceCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/childreferencefetchjob.cpp:85
 msgctxt "KGAPI2::Drive::ChildReferenceFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/drivescreatejob.cpp:103
 msgctxt "KGAPI2::Drive::DrivesCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/drivesfetchjob.cpp:154
 msgctxt "KGAPI2::Drive::DrivesFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/driveshidejob.cpp:88
 msgctxt "KGAPI2::Drive::DrivesHideJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/drivesmodifyjob.cpp:112
 msgctxt "KGAPI2::Drive::DrivesModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/fileabstractmodifyjob.cpp:118
 msgctxt "KGAPI2::Drive::FileAbstractModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/fileabstractresumablejob.cpp:313
 msgctxt "KGAPI2::Drive::FileAbstractResumableJob|"
@@ -364,142 +364,142 @@ msgstr "Не удалось завершить сеанс загрузки"
 #: src/drive/fileabstractuploadjob.cpp:282
 msgctxt "KGAPI2::Drive::FileAbstractUploadJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/filecopyjob.cpp:121
 msgctxt "KGAPI2::Drive::FileCopyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/filefetchjob.cpp:252
 msgctxt "KGAPI2::Drive::FileFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/parentreferencecreatejob.cpp:123
 msgctxt "KGAPI2::Drive::ParentReferenceCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/parentreferencefetchjob.cpp:74
 msgctxt "KGAPI2::Drive::ParentReferenceFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/permissioncreatejob.cpp:156
 msgctxt "KGAPI2::Drive::PermissionCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/permissionfetchjob.cpp:129
 msgctxt "KGAPI2::Drive::PermissionFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/permissionmodifyjob.cpp:158
 msgctxt "KGAPI2::Drive::PermissionModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/revisionfetchjob.cpp:73
 msgctxt "KGAPI2::Drive::RevisionFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/revisionmodifyjob.cpp:89
 msgctxt "KGAPI2::Drive::RevisionModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/teamdrivecreatejob.cpp:103
 msgctxt "KGAPI2::Drive::TeamdriveCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/teamdrivefetchjob.cpp:155
 msgctxt "KGAPI2::Drive::TeamdriveFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/drive/teamdrivemodifyjob.cpp:83
 msgctxt "KGAPI2::Drive::TeamdriveModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/latitude/locationcreatejob.cpp:80
 msgctxt "KGAPI2::LocationCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/latitude/locationfetchhistoryjob.cpp:128
 msgctxt "KGAPI2::LocationFetchHistoryJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/latitude/locationfetchjob.cpp:88
 msgctxt "KGAPI2::LocationFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/people/contactgroupcreatejob.cpp:93
 msgctxt "KGAPI2::People::ContactGroupCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/people/contactgroupmodifyjob.cpp:91
 msgctxt "KGAPI2::People::ContactGroupModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/people/personcreatejob.cpp:89
 msgctxt "KGAPI2::People::PersonCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/people/personmodifyjob.cpp:104
 msgctxt "KGAPI2::People::PersonModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/people/personphotodeletejob.cpp:87
 msgctxt "KGAPI2::People::PersonPhotoDeleteJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/people/personphotoupdatejob.cpp:97
 msgctxt "KGAPI2::People::PersonPhotoUpdateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/tasks/taskcreatejob.cpp:118
 msgctxt "KGAPI2::TaskCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/tasks/taskfetchjob.cpp:216
 msgctxt "KGAPI2::TaskFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/tasks/tasklistcreatejob.cpp:73
 msgctxt "KGAPI2::TaskListCreateJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/tasks/tasklistfetchjob.cpp:71
 msgctxt "KGAPI2::TaskListFetchJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/tasks/tasklistmodifyjob.cpp:73
 msgctxt "KGAPI2::TaskListModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #: src/tasks/taskmodifyjob.cpp:75
 msgctxt "KGAPI2::TaskModifyJob|"
 msgid "Invalid response content type"
-msgstr "Неизвестный тип содержимого ответа"
+msgstr "Недопустимый тип содержимого ответа"
 
 #~ msgctxt "KGAPI2::ContactCreateJob|"
 #~ msgid "Invalid response content type"
