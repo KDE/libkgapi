@@ -14,8 +14,8 @@
 
 namespace
 {
-static const QString ApiKind = QStringLiteral("drive#teamDrive");
-static const QString ApiKindList = QStringLiteral("drive#teamDriveList");
+const QString ApiKind = QStringLiteral("drive#teamDrive");
+const QString ApiKindList = QStringLiteral("drive#teamDriveList");
 }
 
 using namespace KGAPI2;

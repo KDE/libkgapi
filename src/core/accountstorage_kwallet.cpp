@@ -20,12 +20,12 @@ using namespace KGAPI2;
 namespace
 {
 
-static const QString FolderName = QStringLiteral("LibKGAPI");
-static const QString AccountNameKey = QStringLiteral("name");
-static const QString ScopesKey = QStringLiteral("scopes");
-static const QString AccessTokenKey = QStringLiteral("accessToken");
-static const QString RefreshTokenKey = QStringLiteral("refreshToken");
-static const QString ExpiresKey = QStringLiteral("expires");
+const QString FolderName = QStringLiteral("LibKGAPI");
+const QString AccountNameKey = QStringLiteral("name");
+const QString ScopesKey = QStringLiteral("scopes");
+const QString AccessTokenKey = QStringLiteral("accessToken");
+const QString RefreshTokenKey = QStringLiteral("refreshToken");
+const QString ExpiresKey = QStringLiteral("expires");
 
 }
 

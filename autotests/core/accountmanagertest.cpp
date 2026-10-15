@@ -24,9 +24,9 @@ using namespace KGAPI2;
 namespace
 {
 
-const static auto ApiKey1 = QStringLiteral("Key1");
-const static auto SecretKey1 = QStringLiteral("Secret1");
-const static auto Account1 = QStringLiteral("jonh.doe@fakegmail.invalid");
+const auto ApiKey1 = QStringLiteral("Key1");
+const auto SecretKey1 = QStringLiteral("Secret1");
+const auto Account1 = QStringLiteral("jonh.doe@fakegmail.invalid");
 
 }
 

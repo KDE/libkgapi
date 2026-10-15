@@ -23,30 +23,30 @@ namespace TasksService
 namespace
 {
 /* Google accepts only UTC time strictly in this format :( */
-static const auto DatetimeFormat = QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ");
+const auto DatetimeFormat = QStringLiteral("yyyy-MM-ddThh:mm:ss.zzzZ");
 
-static const auto TasksUrlPart = QLatin1StringView("/tasks");
+const auto TasksUrlPart = QLatin1StringView("/tasks");
 
-static const auto PageTokenParam = QStringLiteral("pageToken");
-static const auto MaxResultsParam = QStringLiteral("maxResults");
-static const auto MaxResultsParamValueDefault = QStringLiteral("20");
+const auto PageTokenParam = QStringLiteral("pageToken");
+const auto MaxResultsParam = QStringLiteral("maxResults");
+const auto MaxResultsParamValueDefault = QStringLiteral("20");
 
-static const auto KindAttr = QStringLiteral("kind");
-static const auto IdAttr = QStringLiteral("id");
-static const auto EtagAttr = QStringLiteral("etag");
-static const auto TitleAttr = QStringLiteral("title");
-static const auto NotesAttr = QStringLiteral("notes");
-static const auto ItemsAttr = QStringLiteral("items");
-static const auto NextPageTokenAttr = QStringLiteral("nextPageToken");
-static const auto ParentAttr = QStringLiteral("parent");
-static const auto SelfLinkAttr = QStringLiteral("selfLink");
-static const auto UpdatedAttr = QStringLiteral("updated");
-static const auto StatusAttr = QStringLiteral("status");
-static const auto DueAttr = QStringLiteral("due");
-static const auto DeletedAttr = QStringLiteral("deleted");
+const auto KindAttr = QStringLiteral("kind");
+const auto IdAttr = QStringLiteral("id");
+const auto EtagAttr = QStringLiteral("etag");
+const auto TitleAttr = QStringLiteral("title");
+const auto NotesAttr = QStringLiteral("notes");
+const auto ItemsAttr = QStringLiteral("items");
+const auto NextPageTokenAttr = QStringLiteral("nextPageToken");
+const auto ParentAttr = QStringLiteral("parent");
+const auto SelfLinkAttr = QStringLiteral("selfLink");
+const auto UpdatedAttr = QStringLiteral("updated");
+const auto StatusAttr = QStringLiteral("status");
+const auto DueAttr = QStringLiteral("due");
+const auto DeletedAttr = QStringLiteral("deleted");
 
-static const auto CompletedAttrVal = QLatin1StringView("completed");
-static const auto NeedsActionAttrVal = QLatin1StringView("needsAction");
+const auto CompletedAttrVal = QLatin1StringView("completed");
+const auto NeedsActionAttrVal = QLatin1StringView("needsAction");
 }
 
 namespace Private

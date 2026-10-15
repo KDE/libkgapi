@@ -14,9 +14,9 @@ using namespace KGAPI2;
 
 namespace
 {
-static constexpr const char *EventIdProperty = "EventId";
-static constexpr const char *EventHangoutLinkProperty = "EventHangoutLink";
-static constexpr const char *EventTypeProperty = "EventType";
+constexpr const char *EventIdProperty = "EventId";
+constexpr const char *EventHangoutLinkProperty = "EventHangoutLink";
+constexpr const char *EventTypeProperty = "EventType";
 }
 
 class Q_DECL_HIDDEN Event::Private

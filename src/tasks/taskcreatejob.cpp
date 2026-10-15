@@ -22,8 +22,8 @@ using namespace KGAPI2;
 
 namespace
 {
-static const auto ParentParam = QStringLiteral("parent");
-static const auto PreviousParam = QStringLiteral("previous");
+const auto ParentParam = QStringLiteral("parent");
+const auto PreviousParam = QStringLiteral("previous");
 }
 
 class Q_DECL_HIDDEN TaskCreateJob::Private

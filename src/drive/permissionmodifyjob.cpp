@@ -20,9 +20,9 @@ using namespace KGAPI2::Drive;
 
 namespace
 {
-static constexpr bool removeExpirationDefault = false;
-static constexpr bool transferOwnershipDefault = false;
-static constexpr bool useDomainAdminAccessDefault = false;
+constexpr bool removeExpirationDefault = false;
+constexpr bool transferOwnershipDefault = false;
+constexpr bool useDomainAdminAccessDefault = false;
 }
 
 class Q_DECL_HIDDEN PermissionModifyJob::Private

@@ -138,8 +138,8 @@ QString sendUpdatesPolicyToString(SendUpdatesPolicy policy)
     Q_UNREACHABLE();
 }
 
-static const QString sendUpdatesQueryParam = QStringLiteral("sendUpdates");
-static const QString destinationQueryParam = QStringLiteral("destination");
+const QString sendUpdatesQueryParam = QStringLiteral("sendUpdates");
+const QString destinationQueryParam = QStringLiteral("destination");
 }
 
 QUrl updateEventUrl(const QString &calendarID, const QString &eventID, SendUpdatesPolicy updatePolicy)
@@ -199,86 +199,86 @@ QUrl freeBusyQueryUrl()
 namespace
 {
 
-static const auto kindParam = QStringLiteral("kind");
-static const auto idParam = QStringLiteral("id");
-static const auto etagParam = QStringLiteral("etag");
+const auto kindParam = QStringLiteral("kind");
+const auto idParam = QStringLiteral("id");
+const auto etagParam = QStringLiteral("etag");
 
-static const auto nextSyncTokenParam = QStringLiteral("nextSyncToken");
-static const auto nextPageTokenParam = QStringLiteral("nextPageToken");
-static const auto pageTokenParam = QStringLiteral("pageToken");
-static const auto itemsParam = QStringLiteral("items");
+const auto nextSyncTokenParam = QStringLiteral("nextSyncToken");
+const auto nextPageTokenParam = QStringLiteral("nextPageToken");
+const auto pageTokenParam = QStringLiteral("pageToken");
+const auto itemsParam = QStringLiteral("items");
 
-static const auto calendarSummaryParam = QStringLiteral("summary");
-static const auto calendarDescriptionParam = QStringLiteral("description");
-static const auto calendarLocationParam = QStringLiteral("location");
-static const auto calendarTimezoneParam = QStringLiteral("timeZone");
-static const auto calendarBackgroundColorParam = QStringLiteral("backgroundColor");
-static const auto calendarForegroundColorParam = QStringLiteral("foregroundColor");
-static const auto calendarAccessRoleParam = QStringLiteral("accessRole");
-static const auto calendarDefaultRemindersParam = QStringLiteral("defaultReminders");
-static const auto reminderMethodParam = QStringLiteral("method");
-static const auto reminderMinutesParam = QStringLiteral("minutes");
+const auto calendarSummaryParam = QStringLiteral("summary");
+const auto calendarDescriptionParam = QStringLiteral("description");
+const auto calendarLocationParam = QStringLiteral("location");
+const auto calendarTimezoneParam = QStringLiteral("timeZone");
+const auto calendarBackgroundColorParam = QStringLiteral("backgroundColor");
+const auto calendarForegroundColorParam = QStringLiteral("foregroundColor");
+const auto calendarAccessRoleParam = QStringLiteral("accessRole");
+const auto calendarDefaultRemindersParam = QStringLiteral("defaultReminders");
+const auto reminderMethodParam = QStringLiteral("method");
+const auto reminderMinutesParam = QStringLiteral("minutes");
 
-static const auto eventiCalUIDParam = QStringLiteral("iCalUID");
-static const auto eventStatusParam = QStringLiteral("status");
-static const auto eventCreatedParam = QStringLiteral("created");
-static const auto eventUpdatedParam = QStringLiteral("updated");
-static const auto eventSummaryParam = QStringLiteral("summary");
-static const auto eventDescriptionParam = QStringLiteral("description");
-static const auto eventLocationParam = QStringLiteral("location");
-static const auto eventStartPram = QStringLiteral("start");
-static const auto eventEndParam = QStringLiteral("end");
-static const auto eventOriginalStartTimeParam = QStringLiteral("originalStartTime");
-static const auto eventTransparencyParam = QStringLiteral("transparency");
-static const auto eventOrganizerParam = QStringLiteral("organizer");
-static const auto eventAttendeesParam = QStringLiteral("attendees");
-static const auto eventRecurrenceParam = QStringLiteral("recurrence");
-static const auto eventRemindersParam = QStringLiteral("reminders");
-static const auto eventExtendedPropertiesParam = QStringLiteral("extendedProperties");
-static const auto eventRecurringEventIdParam = QStringLiteral("recurringEventId");
+const auto eventiCalUIDParam = QStringLiteral("iCalUID");
+const auto eventStatusParam = QStringLiteral("status");
+const auto eventCreatedParam = QStringLiteral("created");
+const auto eventUpdatedParam = QStringLiteral("updated");
+const auto eventSummaryParam = QStringLiteral("summary");
+const auto eventDescriptionParam = QStringLiteral("description");
+const auto eventLocationParam = QStringLiteral("location");
+const auto eventStartPram = QStringLiteral("start");
+const auto eventEndParam = QStringLiteral("end");
+const auto eventOriginalStartTimeParam = QStringLiteral("originalStartTime");
+const auto eventTransparencyParam = QStringLiteral("transparency");
+const auto eventOrganizerParam = QStringLiteral("organizer");
+const auto eventAttendeesParam = QStringLiteral("attendees");
+const auto eventRecurrenceParam = QStringLiteral("recurrence");
+const auto eventRemindersParam = QStringLiteral("reminders");
+const auto eventExtendedPropertiesParam = QStringLiteral("extendedProperties");
+const auto eventRecurringEventIdParam = QStringLiteral("recurringEventId");
 
-static const auto attendeeDisplayNameParam = QStringLiteral("displayName");
-static const auto attendeeEmailParam = QStringLiteral("email");
-static const auto attendeeResponseStatusParam = QStringLiteral("responseStatus");
-static const auto attendeeOptionalParam = QStringLiteral("optional");
+const auto attendeeDisplayNameParam = QStringLiteral("displayName");
+const auto attendeeEmailParam = QStringLiteral("email");
+const auto attendeeResponseStatusParam = QStringLiteral("responseStatus");
+const auto attendeeOptionalParam = QStringLiteral("optional");
 
-static const auto organizerDisplayNameParam = QStringLiteral("displayName");
-static const auto organizerEmailParam = QStringLiteral("email");
+const auto organizerDisplayNameParam = QStringLiteral("displayName");
+const auto organizerEmailParam = QStringLiteral("email");
 
-static const auto reminderUseDefaultParam = QStringLiteral("useDefault");
-static const auto reminderOverridesParam = QStringLiteral("overrides");
+const auto reminderUseDefaultParam = QStringLiteral("useDefault");
+const auto reminderOverridesParam = QStringLiteral("overrides");
 
-static const auto propertyPrivateParam = QStringLiteral("private");
-static const auto propertySharedParam = QStringLiteral("shared");
+const auto propertyPrivateParam = QStringLiteral("private");
+const auto propertySharedParam = QStringLiteral("shared");
 
-static const auto dateParam = QStringLiteral("date");
-static const auto dateTimeParam = QStringLiteral("dateTime");
-static const auto timeZoneParam = QStringLiteral("timeZone");
+const auto dateParam = QStringLiteral("date");
+const auto dateTimeParam = QStringLiteral("dateTime");
+const auto timeZoneParam = QStringLiteral("timeZone");
 
-static const auto calendarListKind = QLatin1StringView("calendar#calendarList");
-static const auto calendarListEntryKind = QLatin1StringView("calendar#calendarListEntry");
-static const auto calendarKind = QLatin1StringView("calendar#calendar");
-static const auto eventKind = QLatin1StringView("calendar#event");
-static const auto eventsKind = QLatin1StringView("calendar#events");
+const auto calendarListKind = QLatin1StringView("calendar#calendarList");
+const auto calendarListEntryKind = QLatin1StringView("calendar#calendarListEntry");
+const auto calendarKind = QLatin1StringView("calendar#calendar");
+const auto eventKind = QLatin1StringView("calendar#event");
+const auto eventsKind = QLatin1StringView("calendar#events");
 
-static const auto writerAccessRole = QLatin1StringView("writer");
-static const auto ownerAccessRole = QLatin1StringView("owner");
-static const auto emailMethod = QLatin1StringView("email");
-static const auto popupMethod = QLatin1StringView("popup");
+const auto writerAccessRole = QLatin1StringView("writer");
+const auto ownerAccessRole = QLatin1StringView("owner");
+const auto emailMethod = QLatin1StringView("email");
+const auto popupMethod = QLatin1StringView("popup");
 
-static const auto confirmedStatus = QLatin1StringView("confirmed");
-static const auto canceledStatus = QLatin1StringView("cancelled");
-static const auto tentativeStatus = QLatin1StringView("tentative");
-static const auto acceptedStatus = QLatin1StringView("accepted");
-static const auto needsActionStatus = QLatin1StringView("needsAction");
-static const auto transparentTransparency = QLatin1StringView("transparent");
-static const auto opaqueTransparency = QLatin1StringView("opaque");
-static const auto declinedStatus = QLatin1StringView("declined");
-static const auto categoriesProperty = QLatin1StringView("categories");
+const auto confirmedStatus = QLatin1StringView("confirmed");
+const auto canceledStatus = QLatin1StringView("cancelled");
+const auto tentativeStatus = QLatin1StringView("tentative");
+const auto acceptedStatus = QLatin1StringView("accepted");
+const auto needsActionStatus = QLatin1StringView("needsAction");
+const auto transparentTransparency = QLatin1StringView("transparent");
+const auto opaqueTransparency = QLatin1StringView("opaque");
+const auto declinedStatus = QLatin1StringView("declined");
+const auto categoriesProperty = QLatin1StringView("categories");
 
-static const auto hangoutLinkParam = QStringLiteral("hangoutLink");
+const auto hangoutLinkParam = QStringLiteral("hangoutLink");
 
-static const auto eventTypeParam = QStringLiteral("eventType");
+const auto eventTypeParam = QStringLiteral("eventType");
 
 }
 
@@ -920,7 +920,7 @@ namespace
  * region of multiple countries, so I always picked one of the countries
  * in the specified region and used it's TZID.
  */
-static const std::map<int, QLatin1StringView> MSCDOTZIDTable = {
+const std::map<int, QLatin1StringView> MSCDOTZIDTable = {
     {0, QLatin1StringView("UTC")},
     {1, QLatin1StringView("Europe/London")}, /* GMT Greenwich Mean Time; Dublin, Edinburgh, London */
     /* Seriously? *sigh* Let's handle these two in checkAndConvertCDOTZID() */
@@ -1012,7 +1012,7 @@ static const std::map<int, QLatin1StringView> MSCDOTZIDTable = {
  * Note: using std::map, because it allows heterogeneous lookup, i.e. I can lookup the QLatin1StringView
  * keys by using QString value, which is not possible with Qt containers.
  */
-static const std::map<QLatin1StringView, QLatin1StringView, std::less<>> MSSTTZTable = {
+const std::map<QLatin1StringView, QLatin1StringView, std::less<>> MSSTTZTable = {
     {QLatin1StringView("Dateline Standard Time"), QLatin1StringView("Pacific/Kwajalein")}, /* (GMT-12:00) International Date Line West */
     {QLatin1StringView("Samoa Standard Time"), QLatin1StringView("Pacific/Apia")}, /* (GMT-11:00) Midway Island, Samoa */
     {QLatin1StringView("Hawaiian Standard Time"), QLatin1StringView("Pacific/Honolulu")}, /* (GMT-10:00) Hawaii */

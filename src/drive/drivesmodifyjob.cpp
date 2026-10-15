@@ -18,7 +18,7 @@
 
 namespace
 {
-static const QString UseDomainAdminAccessAttr = QStringLiteral("useDomainAdminAccess");
+const QString UseDomainAdminAccessAttr = QStringLiteral("useDomainAdminAccess");
 }
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;

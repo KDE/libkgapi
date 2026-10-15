@@ -20,8 +20,8 @@ using namespace KGAPI2::Drive;
 
 namespace
 {
-static constexpr bool sendNotificationEmailsDefault = true;
-static constexpr bool useDomainAdminAccessDefault = false;
+constexpr bool sendNotificationEmailsDefault = true;
+constexpr bool useDomainAdminAccessDefault = false;
 }
 
 class Q_DECL_HIDDEN PermissionCreateJob::Private

@@ -20,16 +20,16 @@ using namespace KGAPI2;
 
 namespace
 {
-static const auto ShowDeletedParam = QStringLiteral("showDeleted");
-static const auto ShowCompletedParam = QStringLiteral("showCompleted");
-static const auto UpdatedMinParam = QStringLiteral("updatedMin");
-static const auto CompletedMinParam = QStringLiteral("completedMin");
-static const auto CompletedMaxParam = QStringLiteral("completedMax");
-static const auto DueMinParam = QStringLiteral("dueMin");
-static const auto DueMaxParam = QStringLiteral("dueMax");
+const auto ShowDeletedParam = QStringLiteral("showDeleted");
+const auto ShowCompletedParam = QStringLiteral("showCompleted");
+const auto UpdatedMinParam = QStringLiteral("updatedMin");
+const auto CompletedMinParam = QStringLiteral("completedMin");
+const auto CompletedMaxParam = QStringLiteral("completedMax");
+const auto DueMinParam = QStringLiteral("dueMin");
+const auto DueMaxParam = QStringLiteral("dueMax");
 
-static constexpr bool FetchDeletedDefault = false;
-static constexpr bool FetchCompletedDefault = false;
+constexpr bool FetchDeletedDefault = false;
+constexpr bool FetchCompletedDefault = false;
 }
 
 class Q_DECL_HIDDEN TaskFetchJob::Private

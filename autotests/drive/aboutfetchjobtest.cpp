@@ -20,7 +20,7 @@ using namespace KGAPI2;
 
 namespace
 {
-static const char *LimitedFieldTag = "limited fields";
+const char *LimitedFieldTag = "limited fields";
 }
 
 Q_DECLARE_METATYPE(QList<FakeNetworkAccessManager::Scenario>)

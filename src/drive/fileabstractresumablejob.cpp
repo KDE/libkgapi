@@ -20,7 +20,7 @@ using namespace KGAPI2::Drive;
 
 namespace
 {
-static const int ChunkSize = 262144;
+const int ChunkSize = 262144;
 }
 
 class Q_DECL_HIDDEN FileAbstractResumableJob::Private

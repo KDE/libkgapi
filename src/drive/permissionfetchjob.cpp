@@ -21,7 +21,7 @@ using namespace KGAPI2::Drive;
 
 namespace
 {
-static constexpr bool useDomainAdminAccessDefault = false;
+constexpr bool useDomainAdminAccessDefault = false;
 }
 
 class Q_DECL_HIDDEN PermissionFetchJob::Private

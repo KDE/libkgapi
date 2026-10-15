@@ -18,7 +18,7 @@
 
 namespace
 {
-static const QString MockValue = QStringLiteral("MockValue");
+const QString MockValue = QStringLiteral("MockValue");
 }
 
 using namespace KGAPI2;

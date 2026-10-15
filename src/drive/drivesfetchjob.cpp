@@ -18,8 +18,8 @@
 
 namespace
 {
-static const QString MaxResultsAttr = QStringLiteral("maxResults");
-static const QString UseDomainAdminAccessAttr = QStringLiteral("useDomainAdminAccess");
+const QString MaxResultsAttr = QStringLiteral("maxResults");
+const QString UseDomainAdminAccessAttr = QStringLiteral("useDomainAdminAccess");
 }
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;

@@ -17,7 +17,7 @@
 
 namespace
 {
-static const QString RequestIdParam = QStringLiteral("requestId");
+const QString RequestIdParam = QStringLiteral("requestId");
 }
 using namespace KGAPI2;
 using namespace KGAPI2::Drive;
