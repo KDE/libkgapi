@@ -98,7 +98,6 @@ public:
     KContacts::Addressee toKContactsAddressee() const;
 
     bool operator==(const Person &) const;
-    bool operator!=(const Person &) const;
 
     /** The person's nicknames. **/
     [[nodiscard]] QList<Nickname> nicknames() const;
