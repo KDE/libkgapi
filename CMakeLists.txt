@@ -4,6 +4,14 @@ set(PIM_VERSION "6.8.40")
 set(KGAPI_LIB_VERSION ${PIM_VERSION})
 
 project(kgapi VERSION ${KGAPI_LIB_VERSION})
+# use a different SOVERSION for each minor release because we don't guarantee any ABI stability;
+# bump the SOVERSION with the first development version, i.e. major.minor.40
+if(PROJECT_VERSION_PATCH VERSION_GREATER_EQUAL "40")
+    math(EXPR minorPlus1 "${PROJECT_VERSION_MINOR} + 1")
+    set(PROJECT_SOVERSION ${PROJECT_VERSION_MAJOR}.${minorPlus1})
+else()
+    set(PROJECT_SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+endif()
 
 # ECM setup
 set(KF_MIN_VERSION "6.30.0")
@@ -59,7 +67,7 @@ ecm_setup_version(PROJECT
     VARIABLE_PREFIX KGAPI
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kgapi_version.h"
     PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPim6GAPIConfigVersion.cmake"
-    SOVERSION 6
+    SOVERSION ${PROJECT_SOVERSION}
 )
 
 
