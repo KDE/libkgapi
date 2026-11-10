@@ -39,10 +39,10 @@ public:
 
         QUrl requestUrl;
         QNetworkAccessManager::Operation requestMethod;
-        QList<QPair<QByteArray, QByteArray>> requestHeaders;
+        QList<std::pair<QByteArray, QByteArray>> requestHeaders;
         QByteArray requestData;
         int responseCode = -1;
-        QList<QPair<QByteArray, QByteArray>> responseHeaders;
+        QList<std::pair<QByteArray, QByteArray>> responseHeaders;
         QByteArray responseData;
         bool needsAuth = true;
     };

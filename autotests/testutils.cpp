@@ -53,7 +53,7 @@ FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &requestFile, 
     auto line = request.readLine().trimmed();
     while (!line.isEmpty()) {
         const int idx = line.indexOf(':');
-        scenario.requestHeaders.push_back(qMakePair(line.left(idx), line.mid(idx + 1).trimmed()));
+        scenario.requestHeaders.push_back(std::make_pair(line.left(idx), line.mid(idx + 1).trimmed()));
 
         line = request.readLine().trimmed();
     }
@@ -68,7 +68,7 @@ FakeNetworkAccessManager::Scenario scenarioFromFile(const QString &requestFile, 
     line = response.readLine().trimmed();
     while (!line.isEmpty()) {
         const int idx = line.indexOf(':');
-        scenario.responseHeaders.push_back(qMakePair(line.left(idx), line.mid(idx + 1).trimmed()));
+        scenario.responseHeaders.push_back(std::make_pair(line.left(idx), line.mid(idx + 1).trimmed()));
 
         line = response.readLine().trimmed();
     }
