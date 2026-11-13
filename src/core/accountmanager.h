@@ -48,7 +48,6 @@ Q_SIGNALS:
 
 private:
     AccountPromise(QObject *parent = nullptr);
-    Q_DISABLE_COPY(AccountPromise)
 
     friend class AccountManager;
     class Private;
@@ -122,7 +121,6 @@ public:
 
 protected:
     explicit AccountManager(QObject *parent = nullptr);
-    Q_DISABLE_COPY(AccountManager)
 
     static AccountManager *sInstance;
     class Private;
