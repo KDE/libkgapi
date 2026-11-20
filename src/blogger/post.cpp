@@ -7,6 +7,7 @@
 #include "post.h"
 
 #include <QJsonDocument>
+#include <QMap>
 #include <QUrlQuery>
 
 using namespace KGAPI2;

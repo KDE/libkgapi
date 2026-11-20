@@ -7,6 +7,7 @@
 #include "blog.h"
 
 #include <QJsonDocument>
+#include <QMap>
 
 using namespace KGAPI2::Blogger;
 

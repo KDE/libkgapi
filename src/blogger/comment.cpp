@@ -7,6 +7,7 @@
 #include "comment.h"
 
 #include <QJsonDocument>
+#include <QMap>
 #include <QUrlQuery>
 #include <QVariant>
 

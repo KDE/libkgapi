@@ -9,6 +9,7 @@
 #include "utils_p.h"
 
 #include <QJsonDocument>
+#include <QMap>
 #include <QUrlQuery>
 #include <QVariant>
 

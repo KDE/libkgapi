@@ -8,6 +8,7 @@
 #include "searchquery.h"
 
 #include <QDateTime>
+#include <QList>
 #include <QString>
 
 using namespace KGAPI2;

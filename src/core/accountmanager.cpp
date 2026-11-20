@@ -10,6 +10,7 @@
 #include "debug.h"
 
 #include <QDateTime>
+#include <QHash>
 #include <QTimer>
 
 #include <functional>

@@ -7,6 +7,7 @@
 #include "page.h"
 
 #include <QJsonDocument>
+#include <QMap>
 #include <QVariant>
 
 using namespace KGAPI2;
