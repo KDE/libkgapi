@@ -152,14 +152,14 @@ msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
-#: src/core/accountmanager.cpp:95
+#: src/core/accountmanager.cpp:96
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
 msgstr "Lisäalueiden todentaminen epäonnistui"
 
 # TARKISTA
-#: src/core/accountmanager.cpp:211 src/core/accountmanager.cpp:250
-#: src/core/accountmanager.cpp:273
+#: src/core/accountmanager.cpp:212 src/core/accountmanager.cpp:251
+#: src/core/accountmanager.cpp:274
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
 msgstr "Tilivaraston avaaminen epäonnistui"

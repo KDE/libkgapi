@@ -131,13 +131,13 @@ msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
 msgstr "Tipo de contido da resposta incorrecto"
 
-#: src/core/accountmanager.cpp:95
+#: src/core/accountmanager.cpp:96
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
 msgstr "Non foi posíbel autenticar ámbitos adicionais"
 
-#: src/core/accountmanager.cpp:211 src/core/accountmanager.cpp:250
-#: src/core/accountmanager.cpp:273
+#: src/core/accountmanager.cpp:212 src/core/accountmanager.cpp:251
+#: src/core/accountmanager.cpp:274
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
 msgstr "Non foi posíbel abrir a tenda da conta"

@@ -121,13 +121,13 @@ msgctxt "KGAPI2::AccountInfoFetchJob|"
 msgid "Invalid response content type"
 msgstr "अमान्य प्रतिक्रिया सामग्री प्रकार"
 
-#: src/core/accountmanager.cpp:95
+#: src/core/accountmanager.cpp:96
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to authenticate additional scopes"
 msgstr "अतिरिक्त स्कोप प्रमाणित करने में विफल"
 
-#: src/core/accountmanager.cpp:211 src/core/accountmanager.cpp:250
-#: src/core/accountmanager.cpp:273
+#: src/core/accountmanager.cpp:212 src/core/accountmanager.cpp:251
+#: src/core/accountmanager.cpp:274
 msgctxt "KGAPI2::AccountManager|"
 msgid "Failed to open account store"
 msgstr "खाता स्टोर खोलने में विफल"
