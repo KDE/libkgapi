@@ -14,6 +14,12 @@ Content-Type: application/json
       "email": "attendee2@kde.test",
       "id": "0987654321",
       "responseStatus": "needsAction"
+    },
+    {
+      "displayName": "",
+      "email": "MockAccount",
+      "id": "MockAccount",
+      "responseStatus": "accepted"
     }
   ],
   "description": "We shall meet and we shall discuss.",

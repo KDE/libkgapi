@@ -35,12 +35,19 @@ private Q_SLOTS:
         QTest::addColumn<QList<FakeNetworkAccessManager::Scenario>>("scenarios");
         QTest::addColumn<EventsList>("events");
         QTest::addColumn<EventsList>("responses");
+        QTest::addColumn<QString>("calendarId");
 
         auto event1 = eventFromFile(QFINDTESTDATA("data/event1.json"));
         auto response1 = EventPtr::create(*event1);
         QTest::newRow("simple event") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(QFINDTESTDATA("data/event1_create_request.txt"),
                                                                                                     QFINDTESTDATA("data/event1_create_response.txt"))}
-                                      << EventsList{event1} << EventsList{response1};
+                                      << EventsList{event1} << EventsList{response1} << QStringLiteral("MockAccount");
+
+        // The calendar owner is already an attendee of the imported event, so no attendee must be added
+        QTest::newRow("import, owner is attendee") << QList<FakeNetworkAccessManager::Scenario>{scenarioFromFile(
+            QFINDTESTDATA("data/event1_import_owner_attendee_request.txt"),
+            QFINDTESTDATA("data/event1_create_response.txt"))}
+                                                   << EventsList{event1} << EventsList{response1} << QStringLiteral("attendee1@kde.test");
 
         auto event2 = eventFromFile(QFINDTESTDATA("data/event2.json"));
         auto response2 = EventPtr::create(*event2);
@@ -52,7 +59,8 @@ private Q_SLOTS:
                                      QFINDTESTDATA("data/event2_create_response.txt")),
                 }
             << EventsList{ event1, event2 }
-            << EventsList{ response1, response2 };
+            << EventsList{ response1, response2 }
+            << QStringLiteral("MockAccount");
     }
 
     void testCreate()
@@ -60,15 +68,16 @@ private Q_SLOTS:
         QFETCH(QList<FakeNetworkAccessManager::Scenario>, scenarios);
         QFETCH(EventsList, events);
         QFETCH(EventsList, responses);
+        QFETCH(QString, calendarId);
 
         FakeNetworkAccessManagerFactory::get()->setScenarios(scenarios);
 
         auto account = AccountPtr::create(QStringLiteral("MockAccount"), QStringLiteral("MockToken"));
         EventCreateJob *job = nullptr;
         if (events.count() == 1) {
-            job = new EventCreateJob(events.at(0), QStringLiteral("MockAccount"), account);
+            job = new EventCreateJob(events.at(0), calendarId, account);
         } else {
-            job = new EventCreateJob(events, QStringLiteral("MockAccount"), account);
+            job = new EventCreateJob(events, calendarId, account);
         }
         QVERIFY(execJob(job));
         const auto items = job->items();

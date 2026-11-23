@@ -16,6 +16,10 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+#include <KCalendarCore/Attendee>
+
+#include <algorithm>
+
 using namespace KGAPI2;
 
 class Q_DECL_HIDDEN EventCreateJob::Private
@@ -64,7 +68,7 @@ void EventCreateJob::start()
         return;
     }
 
-    const EventPtr event = d->events.current();
+    EventPtr event = d->events.current();
     QUrl requestUrl;
 
     // If the organizer is different from the account name, import a private copy of the event in the user's calendar,
@@ -72,6 +76,22 @@ void EventCreateJob::start()
     // to events created by others.
     if (!event->attendees().isEmpty() && !event->organizer().isEmpty() && event->organizer().email() != this->account()->accountName()) {
         requestUrl = CalendarService::importEventUrl(d->calendarId, d->updatesPolicy);
+
+        // Google only allows importing an event if the owner of the target calendar is the organizer or one of
+        // the attendees ("participantIsNeitherOrganizerNorAttendee"). The invitation may have been addressed to
+        // a different email address of the user, so make sure the calendar owner is listed as an attendee.
+        const auto attendees = event->attendees();
+        const bool ownerIsAttendee = std::any_of(attendees.cbegin(), attendees.cend(), [this](const KCalendarCore::Attendee &a) {
+            return a.email().compare(d->calendarId, Qt::CaseInsensitive) == 0;
+        });
+        if (!ownerIsAttendee && event->organizer().email().compare(d->calendarId, Qt::CaseInsensitive) != 0) {
+            event = EventPtr(new Event(*event));
+            KCalendarCore::Attendee owner(QString(), d->calendarId);
+            // Without an explicit UID, KCalendarCore generates a random one which would be sent as the attendee ID
+            owner.setUid(d->calendarId);
+            owner.setStatus(KCalendarCore::Attendee::Accepted);
+            event->addAttendee(owner, false);
+        }
     } else {
         requestUrl = CalendarService::createEventUrl(d->calendarId, d->updatesPolicy);
     }
