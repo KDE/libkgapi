@@ -95,7 +95,7 @@ msgctxt "KGAPI2::CalendarModifyJob|"
 msgid "Invalid response content type"
 msgstr "回覆內容型態無效"
 
-#: src/calendar/eventcreatejob.cpp:92
+#: src/calendar/eventcreatejob.cpp:112
 msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "回覆內容型態無效"

@@ -93,7 +93,7 @@ msgctxt "KGAPI2::CalendarModifyJob|"
 msgid "Invalid response content type"
 msgstr "잘못된 응답 내용 형식"
 
-#: src/calendar/eventcreatejob.cpp:92
+#: src/calendar/eventcreatejob.cpp:112
 msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "잘못된 응답 내용 형식"

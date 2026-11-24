@@ -125,7 +125,7 @@ msgctxt "KGAPI2::CalendarModifyJob|"
 msgid "Invalid response content type"
 msgstr "Leeg Antwoort-Inholttyp"
 
-#: src/calendar/eventcreatejob.cpp:92
+#: src/calendar/eventcreatejob.cpp:112
 #, fuzzy
 #| msgid "Invalid response content type"
 msgctxt "KGAPI2::EventCreateJob|"
