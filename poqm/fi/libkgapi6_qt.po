@@ -112,7 +112,7 @@ msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
 
 # TARKISTA onko toi yhdyssana hankala?
-#: src/calendar/eventcreatejob.cpp:92
+#: src/calendar/eventcreatejob.cpp:112
 msgctxt "KGAPI2::EventCreateJob|"
 msgid "Invalid response content type"
 msgstr "Virheellinen vastaussisältötyyppi"
